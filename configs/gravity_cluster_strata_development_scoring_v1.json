@@ -1,0 +1,128 @@
+{
+  "schema_version": "invariant-gravity-cluster-strata-development-scoring-config-1.0",
+  "status": "frozen_before_append_only_development_scoring",
+  "purpose": "Append-only exploratory scoring of the fixed Item59 candidate and strongest frozen GR+NFW comparator across response-blind predictor strata using only retained per-cluster development pressure-score summaries.",
+  "implementation_source": "src/sigma_theory_compiler/gravity_cluster_strata_development_scoring.py",
+  "implementation_source_normalized_sha256": "f15a87d5e92b39d10fa24afbe82691a18bce62bd73e80b63b094d3f1dc957824",
+  "chronology": {
+    "predictor_strata_commit": "b6c13fd24007f1ad92a6bd46456834092b55f20b",
+    "predictor_strata_frozen_before_response_join": true,
+    "candidate_and_comparator_frozen_by_predecessor": true,
+    "scoring_metrics_gates_and_partitions_frozen_before_first_execution": true,
+    "post_freeze_changes_limited_to_mechanical_validation_fixes_and_seals": true,
+    "post_score_formula_nuisance_threshold_or_partition_changes_allowed": false
+  },
+  "inputs": {
+    "predictor_preflight_receipt": {
+      "path": "runs/gravity/publication-readiness/cluster-predictor-strata-preflight-v1.json",
+      "file_sha256": "8cafbd3fb5a042d125a7667420967a7343b3934e0862121b4359fca0de6d9cc1",
+      "content_sha256": "c64a0a0dc86c4bb7518c7634821b8f87e8265d79d405a16f8f72bc3ac4fc5acb"
+    },
+    "predictor_strata": {
+      "path": "runs/gravity/publication-readiness/cluster-predictor-strata-preflight-v1/predictor-only-strata.json",
+      "file_sha256": "5e657a3fc5f9ab1179fcc18b1577b18cb3457b8acc364ec0151952740205f1cd",
+      "content_sha256": "f30957f7a3a34c2309815ba95d60fde213abc190e09c9d9ea9d587e8317f045f"
+    },
+    "item59_receipt": {
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json",
+      "file_sha256": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051",
+      "content_sha256": "b8d824c89779c741d4d8bccebe61fe0b378554219424d4637835ef0519696df7"
+    },
+    "covariance_pilot": {
+      "path": "runs/gravity/publication-readiness/pressure-covariance-scoring-pilot-v1.json",
+      "file_sha256": "da5a61f29ff9366c431ba07503a998603e592b9d465a6eaf37c2faac3c8bd748",
+      "content_sha256": "a84730f92449a7b78ce9b4bd522a602a88db83662bc714a8fbe240984f401193"
+    }
+  },
+  "population": {
+    "role": "historically_exposed_development_only",
+    "cluster_ids": ["A1644", "A1795", "A2142", "A2255", "A2319", "A3266", "A85", "ZW1215"],
+    "count": 8,
+    "replacement_or_dropping_allowed": false
+  },
+  "model_freeze": {
+    "candidate": {
+      "family_id": "cross_scale_boundary",
+      "model_id": "ITEM59_CROSS_SCALE_BOUNDARY",
+      "nuisances": {
+        "missing_stellar_to_gas_mass_ratio": 0.2,
+        "outer_nonthermal_fraction": 0.3,
+        "published_stellar_mass_scale": 1.3,
+        "xray_temperature_cross_calibration": 1
+      },
+      "parameters": {"beta": 1.5},
+      "refit": false,
+      "variant_id": "cross_scale_boundary:5e945be899287b75"
+    },
+    "strongest_frozen_comparator": {
+      "model_id": "GR_PLUS_NFW",
+      "nuisances": {
+        "missing_stellar_to_gas_mass_ratio": 0.05,
+        "outer_nonthermal_fraction": 0,
+        "published_stellar_mass_scale": 1.3,
+        "xray_temperature_cross_calibration": 1
+      },
+      "parameters": {"c500": 3.5, "log10_halo_m500_solar_mass": 14.6},
+      "refit": false,
+      "selection_source": "frozen_development_comparator_suite_strongest_conventional"
+    }
+  },
+  "scoring_freeze": {
+    "observable": "pressure",
+    "space": "log_pressure",
+    "primary_split": "development_holdout",
+    "sensitivity_split": "development_train",
+    "covariance_metrics": ["diagonal", "full_covariance"],
+    "candidate_absolute_metric": "full_covariance_candidate_score",
+    "candidate_advantage_metric": "full_covariance_nfw_score_minus_candidate_score",
+    "aggregation": "equal_cluster_mean_never_equal_row",
+    "partitions": ["relaxation_proxy", "cool_core", "stellar_profile_availability", "positive_assembly_vs_unclassified", "boundary_method"],
+    "assembly_absence_semantics": "explicitly_unclassified_not_a_negative_nonmerger_or_nonsloshing_class",
+    "boundary_singleton_policy": "A3266_descriptive_only_no_inferential_test",
+    "exact_permutation": {
+      "statistic": "group_a_minus_group_b_equal_cluster_mean",
+      "two_sided": true,
+      "enumerate_all_fixed_group_size_assignments": true,
+      "minimum_clusters_per_group": 2
+    },
+    "small_sample_uncertainty": "exact_permutation_p_plus_leave_one_cluster_out_mean_range",
+    "multiplicity": {
+      "method": "holm",
+      "families": ["candidate_advantage", "candidate_absolute_score", "covariance_flip_enrichment"],
+      "number_of_inferential_partitions_per_family": 4
+    },
+    "covariance_flip_definition": "candidate_advantage_strictly_positive_diagonal_and_strictly_negative_full_covariance",
+    "all_objects_and_all_frozen_partitions_must_be_reported": true,
+    "single_counterexample_is_universal_veto": false,
+    "selection_or_repair_after_scoring": false
+  },
+  "gates": {
+    "candidate_absolute_primary_max_score": 1.0,
+    "candidate_advantage_primary_must_be_positive": true,
+    "candidate_advantage_primary_minimum_cluster_wins": 5,
+    "association_familywise_alpha": 0.05,
+    "flip_explanation_requires_holm_advantage_and_flip_p": true,
+    "flip_explanation_requires_train_holdout_advantage_direction_concordance": true,
+    "single_counterexample_is_universal_veto": false
+  },
+  "data_boundary": {
+    "sealed_json_artifacts_allowed": 4,
+    "retained_per_object_split_score_records_expected": 16,
+    "new_raw_target_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "group_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "formula_refits": 0,
+    "nuisance_refits": 0,
+    "threshold_changes_after_scoring": 0,
+    "network_calls": 0,
+    "paid_or_model_calls": 0
+  },
+  "claim_boundary": {
+    "eight_object_results_are_exploratory": true,
+    "causal_explanation_requires_new_independent_direct_predictors": true,
+    "CP5_13_must_remain_false_because_all_seven_cause_families_are_not_compared": true,
+    "scientific_claim_allowed": false
+  }
+}
