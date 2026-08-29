@@ -538,10 +538,37 @@ def _arrays(feature_doc: Mapping[str, Any]) -> dict[str, Any]:
         "sigma": np.asarray([float(row["log10_uncertainty"]) for row in rows]),
         "u": np.asarray([float(row["u"]) for row in rows]),
         "hierarchy": np.asarray([row["hierarchy"] for row in rows], dtype=np.float64).T,
+        "raw_ratios": np.asarray(
+            [row["raw_scale_ratios"] for row in rows], dtype=np.float64
+        ).T,
         "radius": np.asarray([float(row["radius_kpc"]) for row in rows]),
         "size": np.asarray([float(row["baryonic_size_kpc"]) for row in rows]),
         "redshift": np.asarray([float(row["redshift"]) for row in rows]),
     }
+
+
+def _mass_scale_variant(
+    arrays: Mapping[str, Any], population: str, shift_dex: float
+) -> dict[str, Any]:
+    varied = {
+        key: np.asarray(value).copy() if isinstance(value, np.ndarray) else value
+        for key, value in arrays.items()
+    }
+    mask = varied["population"] == population
+    factor = 10.0**shift_dex
+    varied["base"][mask] += shift_dex
+    varied["u"][mask] *= factor
+    ratio_factors = np.asarray(
+        [factor**-0.5, factor**-0.5, factor**-0.5, factor**-1.0]
+    )
+    varied["raw_ratios"][:, mask] *= ratio_factors[:, None]
+    varied["hierarchy"][:, mask] = 1.0 / (
+        1.0
+        + np.abs(
+            np.log10(np.maximum(varied["raw_ratios"][:, mask], 1e-300))
+        )
+    )
+    return varied
 
 
 def _object_weights(arrays: Mapping[str, Any], train: np.ndarray) -> np.ndarray:
@@ -706,6 +733,8 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
     candidate_oof = np.empty(len(arrays["target"]), dtype=np.float64)
     control_oof = np.empty(len(arrays["target"]), dtype=np.float64)
     ledger: list[dict[str, Any]] = []
+    fold_candidate: dict[int, int] = {}
+    fold_control: dict[int, int] = {}
     backends: set[str] = set()
     evaluations = 0
     for fold in range(int(config["evaluation"]["outer_folds"])):
@@ -721,6 +750,8 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
         control_oof[test] = _predict(control_id, arrays, config, scale_free=True)[test]
         evaluations += count + control_count
         backends.update((backend, control_backend))
+        fold_candidate[fold] = candidate_id
+        fold_control[fold] = control_id
         ledger.append(
             {
                 "fold": fold,
@@ -765,6 +796,36 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
     object_keys = sorted(candidate_objects)
     diff = np.asarray([control_objects[key] - candidate_objects[key] for key in object_keys])
     raw = diff < 0.0
+    stable = raw.copy()
+    systematic_scores: dict[str, Any] = {}
+    for variant_name, population, shift in (
+        ("s4tm_stellar_mass_minus_0.25_dex", "S4TM", -0.25),
+        ("s4tm_stellar_mass_plus_0.25_dex", "S4TM", 0.25),
+        ("clash_baryonic_scale_minus_0.10_dex", "CLASH", -0.10),
+        ("clash_baryonic_scale_plus_0.10_dex", "CLASH", 0.10),
+    ):
+        varied = _mass_scale_variant(arrays, population, shift)
+        candidate_variant = np.empty(len(varied["target"]), dtype=np.float64)
+        control_variant = np.empty(len(varied["target"]), dtype=np.float64)
+        for fold in range(int(config["evaluation"]["outer_folds"])):
+            test = varied["fold"] == fold
+            candidate_variant[test] = _predict(
+                fold_candidate[fold], varied, config
+            )[test]
+            control_variant[test] = _predict(
+                fold_control[fold], varied, config, scale_free=True
+            )[test]
+        candidate_variant_score = _score(varied, candidate_variant)
+        control_variant_score = _score(varied, control_variant)
+        systematic_scores[variant_name] = {
+            "scale_hierarchy": candidate_variant_score,
+            "matched_scale_free": control_variant_score,
+        }
+        for index, key in enumerate(object_keys):
+            stable[index] &= (
+                candidate_variant_score["object_losses"][key]
+                > control_variant_score["object_losses"][key]
+            )
     leave_one = [float(np.mean(np.delete(diff, index))) for index in range(len(diff))]
     trim_count = max(1, int(len(diff) * float(config["evaluation"]["robust_trim_fraction"])))
     trimmed = np.sort(diff)[trim_count:-trim_count]
@@ -776,7 +837,7 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
         "evaluable_objects": len(object_keys),
         "raw_counterexample_count": int(np.sum(raw)),
         "quality_verified_counterexample_count": int(np.sum(raw)),
-        "uncertainty_resolved_counterexample_count": 0,
+        "uncertainty_resolved_counterexample_count": int(np.sum(stable)),
         "independent_failure_strata": 0,
         "unchanged_independent_replication_failures": 0,
         "aggregate_improvement_percent": improvement,
@@ -811,9 +872,14 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
                 "trimmed_mean_control_minus_candidate_loss": float(np.mean(trimmed)),
             },
             "counterexamples": [
-                {"object": key, "raw_counterexample": bool(raw[index])}
+                {
+                    "object": key,
+                    "raw_counterexample": bool(raw[index]),
+                    "uncertainty_resolved_counterexample": bool(stable[index]),
+                }
                 for index, key in enumerate(object_keys)
             ],
+            "systematic_scores": systematic_scores,
             "counterexample_policy_report": policy_report,
             "counterexample_policy_assessment": policy,
             "compute": {
@@ -821,6 +887,14 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
                 "candidate_point_fold_evaluations": evaluations,
                 "cpu_gpu_selected_loss_absolute_difference": cpu_gpu_difference,
                 "admission": admission,
+            },
+            "implementation_audit": {
+                "timing": "after the first retrospective nominal evaluation",
+                "repair": "The first evaluator omitted the required mass-scale uncertainty audit; fixed-fold candidates were replayed under the frozen S4TM plus/minus 0.25 dex and CLASH plus/minus 0.10 dex mass-scale variants.",
+                "formula_space_changed": False,
+                "fold_selection_changed": False,
+                "nominal_candidate_or_score_changed": False,
+                "post_evaluation_candidate_cells_added": 0,
             },
             "counts": {
                 "s4tm_lenses": 28,
@@ -834,7 +908,7 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
                 "Both empirical datasets were exposed before Item 44, so cross-validation limits target leakage but cannot create fresh confirmation.",
                 "S4TM and CLASH lens quantities are model-derived summaries rather than raw image likelihoods.",
                 "The cluster baryonic size is a spherical-equivalent half-enclosed-mass radius inferred from the published gbar profile.",
-                "No uncertainty-resolved counterexample count is claimed until the fixed law is tested unchanged on independent data with raw mass systematics.",
+                "Uncertainty-resolved counts cover only four frozen global mass-scale shifts; they do not replace independent raw-data systematics or fresh replication.",
             ],
         }
     )
@@ -861,6 +935,11 @@ def build_aggregate_result(root: Path) -> dict[str, Any]:
         "paired_p_passes": float(evaluation["paired_sign_flip_p"]) <= float(config["gates"]["paired_p_maximum"]),
         "leave_one_stable": float(evaluation["robustness"]["leave_one_min_mean_control_minus_candidate_loss"]) > 0.0,
         "trim_stable": float(evaluation["robustness"]["trimmed_mean_control_minus_candidate_loss"]) > 0.0,
+        "mass_scale_audits_all_improve": all(
+            audit["scale_hierarchy"]["balanced_loss"]
+            < audit["matched_scale_free"]["balanced_loss"]
+            for audit in evaluation["systematic_scores"].values()
+        ),
         "confirmation_rows_zero": int(evaluation["counts"]["sealed_confirmation_rows"]) == 0,
         "post_evaluation_candidates_zero": int(evaluation["counts"]["post_evaluation_candidate_cells"]) == 0,
         "fresh_confirmation_available": False,
@@ -870,6 +949,7 @@ def build_aggregate_result(root: Path) -> dict[str, Any]:
         for key in (
             "beats_scale_free_s4tm", "beats_scale_free_clash", "beats_ordinary_ridge_balanced",
             "paired_p_passes", "leave_one_stable", "trim_stable",
+            "mass_scale_audits_all_improve",
         )
     )
     decision = (
