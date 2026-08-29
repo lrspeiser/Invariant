@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 
 import numpy as np
@@ -10,6 +9,7 @@ from sigma_theory_compiler.gravity_item40_discrete_network import (
     build_candidate_manifest,
     build_exposure_manifest,
     build_predictor_receipt,
+    build_sample_manifest,
     decode_candidate,
     graph_coordinates,
     load_config,
@@ -86,12 +86,10 @@ def test_freeze_manifests_are_response_blind() -> None:
     assert exposure["counts"]["response_values_read_while_building"] == 0
 
 
-def test_predictor_stage_requires_commit_bound_scientific_freeze() -> None:
-    config = json.loads(
-        (ROOT / "configs/gravity_item40_discrete_network_v1.json").read_text(
-            encoding="utf-8"
-        )
-    )
-    assert str(config["scientific_freeze_commit"]).startswith("PENDING_")
-    with pytest.raises(GravityItem40Error, match="scientific freeze"):
-        build_predictor_receipt(ROOT)
+def test_predictor_receipt_is_response_blind_and_sample_waits_for_binding() -> None:
+    receipt = build_predictor_receipt(ROOT)
+    assert receipt["counts"]["unused_response_blind_predictors"] == 60
+    assert receipt["counts"]["quality_eligible"] == 14
+    assert receipt["counts"]["response_rows_read"] == 0
+    with pytest.raises(GravityItem40Error, match="predictor freeze"):
+        build_sample_manifest(ROOT)
