@@ -756,6 +756,10 @@ def _score_predictions(
         "cluster_observable_groups": len(group_scores),
         "by_observable": by_observable,
         "by_cluster": by_cluster,
+        "by_cluster_observable": {
+            f"{cluster}:{observable}": value
+            for (cluster, observable), value in sorted(group_scores.items())
+        },
         "median_absolute_log_residual": float(np.median(np.abs(residuals))),
         "root_mean_square_log_residual": float(np.sqrt(np.mean(np.square(residuals)))),
         "per_row": per_row,
@@ -1103,22 +1107,32 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
             for values in baseline_cluster_scores.values()
         )
     ]
-    counterexamples = [
-        cluster for cluster in sorted(candidate_cluster_scores) if cluster not in cluster_wins
+    cluster_observable_failures = [
+        key
+        for key, score in confirmation["candidate"]["by_cluster_observable"].items()
+        if float(score)
+        >= min(
+            float(row["by_cluster_observable"][key])
+            for row in confirmation["baselines"].values()
+        )
     ]
-    stable_counterexamples = []
-    for cluster in counterexamples:
+    counterexamples = sorted({key.split(":", 1)[0] for key in cluster_observable_failures})
+    stable_cluster_observable_failures = []
+    for key in cluster_observable_failures:
         stable = True
         for systematic in systematic_results.values():
-            candidate_score = float(systematic["candidate"]["by_cluster"][cluster])
+            candidate_score = float(systematic["candidate"]["by_cluster_observable"][key])
             best_baseline = min(
-                float(row["by_cluster"][cluster])
+                float(row["by_cluster_observable"][key])
                 for row in systematic["baselines"].values()
             )
             if candidate_score < best_baseline:
                 stable = False
         if stable:
-            stable_counterexamples.append(cluster)
+            stable_cluster_observable_failures.append(key)
+    stable_counterexamples = sorted(
+        {key.split(":", 1)[0] for key in stable_cluster_observable_failures}
+    )
     strongest_baseline = min(
         confirmation["baselines"],
         key=lambda name: (
@@ -1239,7 +1253,13 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
             "splits": evaluations,
             "systematic_confirmation": systematic_results,
             "confirmation_cluster_wins": cluster_wins,
+            "confirmation_counterexamples_by_cluster_observable": (
+                cluster_observable_failures
+            ),
             "confirmation_counterexamples": counterexamples,
+            "counterexamples_by_cluster_observable_stable_across_all_systematics": (
+                stable_cluster_observable_failures
+            ),
             "counterexamples_stable_across_all_systematics": stable_counterexamples,
             "influence": influence,
             "gates": gates,
@@ -1316,7 +1336,15 @@ def build_aggregate_result(root: Path) -> dict[str, Any]:
             "splits": evaluation["splits"],
             "systematic_confirmation": evaluation["systematic_confirmation"],
             "confirmation_cluster_wins": evaluation["confirmation_cluster_wins"],
+            "confirmation_counterexamples_by_cluster_observable": evaluation[
+                "confirmation_counterexamples_by_cluster_observable"
+            ],
             "confirmation_counterexamples": evaluation["confirmation_counterexamples"],
+            "counterexamples_by_cluster_observable_stable_across_all_systematics": (
+                evaluation[
+                    "counterexamples_by_cluster_observable_stable_across_all_systematics"
+                ]
+            ),
             "counterexamples_stable_across_all_systematics": evaluation[
                 "counterexamples_stable_across_all_systematics"
             ],

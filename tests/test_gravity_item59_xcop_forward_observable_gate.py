@@ -173,3 +173,7 @@ def test_hydrostatic_forward_model_predicts_pressure_and_temperature() -> None:
     score = _score_predictions([packet], predictions, "confirmation", _config())
     assert score["rows"] == 4
     assert set(score["by_observable"]) == {"pressure", "temperature"}
+    assert set(score["by_cluster_observable"]) == {
+        "SYNTHETIC:pressure",
+        "SYNTHETIC:temperature",
+    }
