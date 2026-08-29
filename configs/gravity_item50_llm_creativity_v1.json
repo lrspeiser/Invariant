@@ -1,0 +1,215 @@
+{
+  "schema_version": "invariant-gravity-item50-llm-creativity-config-1.0",
+  "item": 50,
+  "status": "pending_scientific_freeze_commit_binding_before_any_item50_provider_call",
+  "scientific_freeze_commit": "PENDING",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "hypothesis": "A blind ensemble of independently attributed language models can propose physically motivated cross-mechanism formula structures that are more diverse or more predictive than an equal-count seeded-random structural control, while explicit lineage labels prevent generated recombinations from being mistaken for historical novelty.",
+  "scientific_dependencies": {
+    "runs/gravity/roadmap/item-49-pseudorandom-exploration-v1.json": "c74f7d344ae23828665115bc26ffa09dbda3267537486590222c3a4c8e718341",
+    "runs/gravity/roadmap/item-49-pseudorandom-exploration-v1-source/primitive-bank-receipt.json": "699cba9bce2a9739b2f76d7b87d0f95389dcee8eb9a90ee35c4aaf7f33ac04fd",
+    "src/sigma_theory_compiler/claude_creativity_api.py": "d6988ca43e457f7a95c19b867891e6fb61927d6db7697ea397a0ff611703e9bd",
+    "src/sigma_theory_compiler/core_credential.py": "9089e9b3d2212bed174f5b5660339a6f5ed881b6d6d419b9fb9c3b38ccf8b5f5",
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d"
+  },
+  "required_predecessor": {
+    "content_sha256": "632fe28e1ecf1fafae288dd3ee22487e277677191b95facc10c01a8462514209",
+    "decision": "NONPROMOTED_ITEM49_PSEUDORANDOM_RESULT_RETAINED",
+    "selected_ordinal": 1575724121867
+  },
+  "scope": {
+    "all_empirical_responses_already_exposed": true,
+    "proposal_prompt_reads_empirical_response_values": false,
+    "critic_prompt_reads_empirical_response_values": false,
+    "fresh_confirmation_claim_allowed": false,
+    "historical_novelty_may_be_claimed": false,
+    "llm_is_verification_authority": false,
+    "provider_self_scores_are_empirical_evidence": false
+  },
+  "provider": {
+    "api": "Anthropic Messages API",
+    "endpoint": "https://api.anthropic.com/v1/messages",
+    "models_endpoint": "https://api.anthropic.com/v1/models",
+    "anthropic_version": "2023-06-01",
+    "credential_env_var": "ANTHROPIC_API_KEY",
+    "effort": "medium",
+    "maximum_output_tokens_per_call": 12000,
+    "maximum_prompt_bytes_per_call": 150000,
+    "timeout_seconds": 180,
+    "maximum_calls": 9,
+    "proposals_per_generation_call": 8,
+    "maximum_total_proposals": 48,
+    "conservative_input_usd_per_million_tokens": "10.000000",
+    "conservative_output_usd_per_million_tokens": "50.000000",
+    "conservative_maximum_campaign_usd": "20.000000",
+    "user_authorized_maximum_usd": "1000.000000",
+    "pricing_checked_utc_date": "2026-08-29",
+    "pricing_sources": [
+      "https://platform.claude.com/docs/en/about-claude/pricing",
+      "https://www.anthropic.com/claude/opus",
+      "https://www.anthropic.com/research/claude-opus-4-8",
+      "https://www.anthropic.com/research/claude-sonnet-5"
+    ],
+    "standard_prices_usd_per_million_tokens": {
+      "claude-opus-5": {"input": "5.000000", "output": "25.000000"},
+      "claude-sonnet-5": {"input": "2.000000", "output": "10.000000"},
+      "claude-opus-4-8": {"input": "5.000000", "output": "25.000000"}
+    }
+  },
+  "ensemble": {
+    "generation_calls": [
+      {"call_id": "opus5-mechanism", "model": "claude-opus-5", "role": "mechanism_synthesizer"},
+      {"call_id": "opus5-analogue", "model": "claude-opus-5", "role": "cross_domain_analogue_scout"},
+      {"call_id": "sonnet5-mechanism", "model": "claude-sonnet-5", "role": "mechanism_synthesizer"},
+      {"call_id": "sonnet5-analogue", "model": "claude-sonnet-5", "role": "cross_domain_analogue_scout"},
+      {"call_id": "opus48-mechanism", "model": "claude-opus-4-8", "role": "mechanism_synthesizer"},
+      {"call_id": "opus48-analogue", "model": "claude-opus-4-8", "role": "cross_domain_analogue_scout"}
+    ],
+    "critic_calls": [
+      {"call_id": "sonnet5-critic-opus5", "model": "claude-sonnet-5", "reviews_models": ["claude-opus-5"]},
+      {"call_id": "opus48-critic-sonnet5", "model": "claude-opus-4-8", "reviews_models": ["claude-sonnet-5"]},
+      {"call_id": "opus5-critic-opus48", "model": "claude-opus-5", "reviews_models": ["claude-opus-4-8"]}
+    ],
+    "same_model_may_critique_its_own_proposal": false,
+    "model_identity_is_attributed_on_every_proposal": true
+  },
+  "proposal_contract": {
+    "origin_labels": [
+      "known_formula",
+      "algebraic_rewrite",
+      "known_family_combination",
+      "potentially_new_synthesis",
+      "uncertain"
+    ],
+    "origin_label_is_non_authoritative": true,
+    "origin_label_never_prunes": true,
+    "required_fields": [
+      "proposal_id",
+      "title",
+      "origin_self_assessment",
+      "known_analogues",
+      "source_domains",
+      "mechanism",
+      "left_primitive_id",
+      "left_transform",
+      "right_primitive_id",
+      "right_transform",
+      "binary_operator",
+      "mixing",
+      "suggested_amplitude",
+      "suggested_acceleration_exponent",
+      "suggested_transition_u",
+      "why_not_merely_a_rewrite",
+      "expected_observational_signature",
+      "cheapest_falsifier",
+      "likely_failure_mode"
+    ],
+    "primitive_catalog_count": 440,
+    "unary_transforms": [
+      "identity",
+      "negation",
+      "absolute",
+      "signed_square",
+      "signed_square_root",
+      "tanh_2x",
+      "softsign_0p25",
+      "sin_pi_x"
+    ],
+    "binary_operators": [
+      "weighted_add",
+      "weighted_difference",
+      "weighted_product",
+      "tanh_gate",
+      "normalized_contrast",
+      "weighted_max",
+      "weighted_min",
+      "signed_geometric_mean"
+    ],
+    "mixing_grid": [-2.0, -1.5, -1.0, -0.75, -0.5, -0.25, -0.1, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0],
+    "outer_parameter_rule": "Use A=0.3 with p in 0.2..0.4 by 0.05; A=0.6 with p in 0.2..0.35; A in {1,1.5} with p in 0.2..0.3; A in {2,3} with p in {0.2,0.25}; A in {4,6} with p=0.2; any frozen transition_u is allowed.",
+    "transition_u_grid": [0.1, 0.2, 0.3, 0.5, 1.0, 2.0, 3.0, 5.0, 10.0, 20.0, 30.0, 50.0, 100.0, 300.0, 1000.0, 10000.0],
+    "provider_proposal_is_never_accepted_without_local_compilation": true,
+    "provider_criticism_is_advisory_and_never_a_veto": true
+  },
+  "candidate_expansion": {
+    "expand_each_executable_structure_over_all_physically_admitted_outer_cells": true,
+    "physically_admitted_outer_cells_per_structure": 336,
+    "matched_control_raw_structures": 48,
+    "matched_control_seed": "Invariant gravity Item 50 equal-count seeded-random structure control v1",
+    "structural_space": 1585561600,
+    "deduplicate_symbolic_structures": true,
+    "deduplicate_predictor_behaviors_before_response_scoring": true,
+    "behavior_signature_decimals": 10
+  },
+  "data_boundary": {
+    "proposal_and_critic_allowed": [
+      "the physical objective of predicting motion and lensing from baryonic mass and geometry",
+      "the response-blind 440-primitive catalog with provenance",
+      "the typed transform, operator, and parameter grammar",
+      "general dimensional, conservation, stability, causality, and falsifiability requirements"
+    ],
+    "proposal_and_critic_forbidden": [
+      "observed target values",
+      "per-object residuals or losses",
+      "aggregate model scores or winning candidate IDs",
+      "object names or identifiers",
+      "sealed confirmation rows or summaries",
+      "dark-halo fit quantities as formula inputs"
+    ],
+    "sealed_item43_confirmation_rows": 7,
+    "sealed_rows_may_be_read": false
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "candidate_batch_size": 8192,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_gpu_tolerance": 1e-10,
+    "selection_unit": "whole object",
+    "balanced_score": "0.5*equal_S4TM_object_MSE+0.5*equal_CLASH_object_MSE",
+    "primary_control": "Item45 geometry-density interaction",
+    "additional_controls": [
+      "equal-count seeded-random structures",
+      "Item49 pseudorandom program",
+      "Item47 operator generator",
+      "ordinary coordinate ridge"
+    ],
+    "paired_sign_flip_permutations": 19999,
+    "permutation_seed": 5001999,
+    "robust_trim_fraction": 0.1,
+    "mass_scale_variants": [
+      ["s4tm_stellar_mass_minus_0.25_dex", "S4TM", -0.25],
+      ["s4tm_stellar_mass_plus_0.25_dex", "S4TM", 0.25],
+      ["clash_baryonic_scale_minus_0.10_dex", "CLASH", -0.10],
+      ["clash_baryonic_scale_plus_0.10_dex", "CLASH", 0.10]
+    ],
+    "promotion_gates": {
+      "balanced_improvement_over_item45_at_least": 0.05,
+      "improves_both_populations_over_item45": true,
+      "balanced_improvement_over_matched_random_at_least": 0.05,
+      "paired_p_at_most": 0.05,
+      "leave_one_and_trim_stable": true,
+      "all_mass_scale_variants_positive": true,
+      "post_evaluation_candidate_cells": 0,
+      "sealed_confirmation_rows": 0
+    }
+  },
+  "discovery_policy": {
+    "single_empirical_counterexample_is_not_a_formula_or_family_veto": true,
+    "counterexample_count_alone_is_never_decisive": true,
+    "finite_empirical_sample_may_prune_family": false,
+    "unchanged_independent_replication_required_for_terminal_tested_scope_rejection": true,
+    "all_provider_proposals_retained_with_lineage_even_if_nonexecutable": true,
+    "all_critic_objections_retained_without_deletion": true
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-50-llm-creativity-v1-source",
+    "preflight_manifest": "preflight-manifest.json",
+    "proposal_receipt": "provider-proposals.json",
+    "critic_receipt": "provider-critiques.json",
+    "candidate_manifest": "candidate-manifest.json",
+    "evaluation_result": "joint-evaluation-result.json",
+    "aggregate_result": "runs/gravity/roadmap/item-50-llm-creativity-v1.json",
+    "report": "docs/GRAVITY_ITEM50_LLM_CREATIVITY_RESULT.md"
+  }
+}
