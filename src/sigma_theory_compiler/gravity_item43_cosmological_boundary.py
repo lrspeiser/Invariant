@@ -866,10 +866,12 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
     audit_predictions: dict[str, list[float]] = {}
     stable_mismatch = raw_counterexamples.copy()
     systematic_specs = {
-        "stellar_mass_minus_0.25_dex": (-0.25, 1.0),
-        "stellar_mass_plus_0.25_dex": (0.25, 1.0),
-        "effective_radius_minus_10_percent": (0.0, 0.9),
-        "effective_radius_plus_10_percent": (0.0, 1.1),
+        "stellar_mass_minus_0.25_dex": (-0.25, 1.0, None),
+        "stellar_mass_plus_0.25_dex": (0.25, 1.0, None),
+        "effective_radius_minus_10_percent": (0.0, 0.9, None),
+        "effective_radius_plus_10_percent": (0.0, 1.1, None),
+        "omega_matter_0.25": (0.0, 1.0, 0.25),
+        "omega_matter_0.35": (0.0, 1.0, 0.35),
     }
     fold_candidate = {
         int(row["fold"]): int(row["selected_candidate"]["candidate_id"])
@@ -879,17 +881,28 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
         int(row["fold"]): int(row["matched_no_boundary_candidate"]["candidate_id"])
         for row in fold_ledger
     }
-    for name, (shift, re_scale) in systematic_specs.items():
-        audit_features = _feature_arrays(records, config, stellar_shift_dex=shift, re_scale=re_scale)
+    for name, (shift, re_scale, omega_matter) in systematic_specs.items():
+        audit_config: Mapping[str, Any] = config
+        if omega_matter is not None:
+            varied = json.loads(json.dumps(config))
+            varied["fiducial_cosmology"]["omega_matter"] = omega_matter
+            varied["fiducial_cosmology"]["omega_lambda"] = 1.0 - omega_matter
+            audit_config = varied
+        audit_features = _feature_arrays(
+            records,
+            audit_config,
+            stellar_shift_dex=shift,
+            re_scale=re_scale,
+        )
         candidate_variant = np.empty(len(target))
         no_boundary_variant = np.empty(len(target))
         for fold in sorted(set(folds.tolist())):
             test = np.flatnonzero(folds == fold)
             candidate_variant[test] = _predict_candidate(
-                fold_candidate[int(fold)], audit_features, config
+                fold_candidate[int(fold)], audit_features, audit_config
             )[test]
             no_boundary_variant[test] = _predict_candidate(
-                fold_no_boundary[int(fold)], audit_features, config
+                fold_no_boundary[int(fold)], audit_features, audit_config
             )[test]
         newton_variant = np.asarray(audit_features["log_mbar"])
         mond_variant = newton_variant + np.log10(
@@ -986,6 +999,15 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
                 "candidate_point_fold_evaluations": evaluations,
                 "cpu_gpu_selected_loss_absolute_difference": cpu_gpu_difference,
                 "admission": admission,
+            },
+            "implementation_audit": {
+                "timing": "after exploration response access",
+                "repair": "The first evaluator version executed the four stellar-mass and effective-radius variants but omitted the two already frozen Omega_m variants; the evaluator was repaired to run Omega_m=0.25 and 0.35 with flat Omega_Lambda complements.",
+                "formula_space_changed": False,
+                "sample_or_fold_changed": False,
+                "nominal_candidate_or_score_changed": False,
+                "post_response_candidate_cells_added": 0,
+                "all_six_frozen_systematic_variants_now_executed": True,
             },
             "counts": {
                 "exploration_lenses": len(target),
