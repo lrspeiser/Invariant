@@ -1,0 +1,128 @@
+{
+  "schema_version": "invariant-gravity-cluster-nuisance-identifiability-audit-1.0",
+  "status": "frozen_development_only_no_target_access",
+  "audit_id": "gravity-cluster-nuisance-identifiability-audit-v1",
+  "purpose": "Determine whether tempered sequential Monte Carlo and full-posterior rejuvenation make the 17-parameter cluster nuisance posterior reproducible under the unchanged CP5.7-CP5.10 completion gates.",
+  "predecessor_binding": {
+    "path": "runs/gravity/publication-readiness/nuisance-sampler-diagnostic-v1.json",
+    "file_sha256": "5ca93092d1773e37ba63018816574c6f7e723ab4efaea2e457c567145f33e311",
+    "content_sha256": "a2a1bcd3cbce855a6b4374d073648f6ebf7bd9ef412f5fe8cf8c4fd702726040"
+  },
+  "sample_seal": {
+    "likelihood_split": "development_train",
+    "development_holdout_rows_used": false,
+    "same_release_confirmation_rows_used": false,
+    "independent_source_rows_used": false,
+    "target_rows_opened": 0,
+    "paid_model_calls": 0
+  },
+  "unchanged_completion_thresholds": {
+    "maximum_rhat": 1.2,
+    "minimum_effective_samples": 50,
+    "maximum_standardized_between_replicate_median_spread": 0.25,
+    "all_17_parameters_must_pass": true
+  },
+  "diagnostic_runs": [
+    {
+      "run_id": "TEMPERED_SMC_4X512_V2",
+      "engine": "adaptive_tempered_sequential_monte_carlo_with_reflected_multivariate_rejuvenation",
+      "settings": {
+        "replicates": 4,
+        "particles_per_replicate": 512,
+        "moves_per_temperature": 8,
+        "target_conditional_effective_sample_fraction": 0.8,
+        "posterior_particles": 2048,
+        "evaluations": 329728
+      },
+      "result": {
+        "maximum_rhat": 1.0293495861785926,
+        "minimum_effective_samples": 1725.0383857189327,
+        "maximum_standardized_between_replicate_median_spread": 0.6482962119741006,
+        "log_evidence_range_width": 2.165153542037979,
+        "minimum_final_unique_particles": 508,
+        "minimum_final_unique_prior_ancestors": 26,
+        "failed_between_replicate_parameters": [
+          "nonthermal_radial_power",
+          "outer_pressure_boundary_sigma",
+          "missing_member_fraction",
+          "intracluster_light_fraction",
+          "imf_mass_scale",
+          "clumping_amplitude",
+          "centering_radius_shift",
+          "triaxial_radius_scale",
+          "spherical_acceleration_scale"
+        ],
+        "converged": false
+      },
+      "prototype_evidence": {
+        "contract_sha256": "d4e62c22d5bd129627d7febd8db62544bec1fa2ea084447aaf04e0856072f786",
+        "source_sha256": "d3563b174f0bdb155fcbc7fb896dde13ae76b1b43ecf7e0d12838d89730443c3",
+        "result_sha256": "d39d786b6936be72dcacc185d0393e84e3e05bff965601c2a7493e8a9f074396",
+        "result_bytes": 284902
+      }
+    },
+    {
+      "run_id": "FULL_POSTERIOR_REJUVENATION_4X512X64_V3",
+      "engine": "beta_one_reflected_multivariate_random_walk_particle_trajectories",
+      "settings": {
+        "replicates": 4,
+        "particle_chains_per_replicate": 512,
+        "burn_sweeps": 64,
+        "retained_sweeps": 128,
+        "thinning_sweeps": 2,
+        "retained_snapshots_per_particle_chain": 64,
+        "posterior_draws": 131072,
+        "evaluations": 393216
+      },
+      "result": {
+        "maximum_rhat": 1.4172635605159771,
+        "minimum_effective_samples": 10089.914213528697,
+        "maximum_standardized_between_replicate_median_spread": 0.5085962688360324,
+        "maximum_standardized_source_to_rejuvenated_median_shift": 0.14390824392104384,
+        "mean_retained_acceptance_range": [0.2212982177734375, 0.2401275634765625],
+        "parameters_above_rhat_threshold": 17,
+        "failed_between_replicate_parameters": [
+          "nonthermal_radial_power",
+          "missing_member_fraction",
+          "centering_radius_shift",
+          "projection_density_scale"
+        ],
+        "converged": false
+      },
+      "prototype_evidence": {
+        "contract_sha256": "ac0cb5eccf399e11a1cbf43c4a67cb00bdae64a95819dbbc1fc3adb687c008ef",
+        "source_sha256": "39dfc365b0ffc22363c129d00b3c103f11873af4a9ed2a9bfb4347a5f104c06f",
+        "source_smc_result_sha256": "d39d786b6936be72dcacc185d0393e84e3e05bff965601c2a7493e8a9f074396",
+        "result_sha256": "19758b00d4b26b0b23bec3ade1a4b537ca4c62e033e83f1fbfc91c4adcd0456e",
+        "result_bytes": 7133179
+      }
+    }
+  ],
+  "adjudication": {
+    "decision": "TEMPERED_SMC_AND_POSTERIOR_REJUVENATION_FAILED_UNCHANGED_CONVERGENCE_REQUIRES_IDENTIFIABILITY_REDESIGN",
+    "sampler_mechanics_materially_improved": true,
+    "more_sampling_alone_supported": false,
+    "finite_particle_noise_is_sufficient_explanation": false,
+    "structural_weak_identifiability_or_reparameterization_required": true,
+    "CP5_7_through_CP5_10_complete": false,
+    "newtonian_control_run": false,
+    "do_not_weaken_thresholds": true,
+    "do_not_use_holdout_for_sampler_selection": true,
+    "do_not_open_confirmation_or_independent_rows": true
+  },
+  "required_next_actions": [
+    "derive identifiable composite coordinates for the density-calibration-geometry and stellar-product degeneracies",
+    "derive the induced prior and Jacobian before replacing primitive nuisance coordinates",
+    "prefer independent calibration priors or external measurements over additional development-only sweeps",
+    "run prior-to-observable sensitivity and simulation-based calibration before another posterior campaign",
+    "freeze an identifiability rank test and a Newtonian control before rerunning",
+    "retain CP5.7-CP5.10 as open until candidate and control pass every unchanged gate"
+  ],
+  "reproduction": {
+    "prototype_contracts_and_failure_receipts_retained_in_work_tree": true,
+    "raw_npz_archives_committed": false,
+    "cheap_check_reexecutes_expensive_numeric_runs": false,
+    "exact_replay_requires_the_frozen_prototype_sources_and_contracts": true
+  },
+  "output_path": "runs/gravity/publication-readiness/nuisance-identifiability-audit-v1.json"
+}

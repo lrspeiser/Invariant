@@ -72,7 +72,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP2 | Prior art and expert positioning | No | Yes | PARTIAL |
 | CP3 | Direct-observable data contract | Yes | Yes | PARTIAL; X-COP is bound but the independent packet is absent |
 | CP4 | Matched-flexibility comparators | Yes | Yes | PASS on development data; frozen for replication |
-| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; stress tests complete, correlation-aware sampler improved but did not converge, source covariance and reparameterized marginalization open |
+| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; stress tests complete, affine and tempered-SMC samplers improved but did not converge, source covariance and identifiability redesign open |
 | CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PASS on development controls; outer-radius and power warnings retained |
 | CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; protocol frozen, no lane selected or payload committed |
 | CP8 | Unchanged independent thermodynamic replication | No | Yes | NOT STARTED |
@@ -238,6 +238,29 @@ standardized between-ensemble median spread `0.458`). The bound receipt is
 move is a frozen reparameterization of the density-calibration-geometry degeneracy and
 the six-factor stellar product, or independently calibrated priors—not more
 componentwise brute force and not weaker thresholds.
+
+That boundary was tested once more with stronger development-only machinery before it
+was made final. Four independently initialized tempered sequential Monte Carlo runs
+used 2,048 total posterior particles and 329,728 candidate evaluations. The sampler
+mechanics, nominal effective sample count, evidence agreement, particle diversity, and
+acceptance checks passed, but nine nuisance coordinates failed the unchanged
+cross-replicate median criterion (worst standardized spread `0.648` versus `0.25`). A
+separately frozen full-posterior rejuvenation then retained 131,072 trajectory draws
+after 393,216 more evaluations. It reduced the worst spread to `0.509` and moved the
+pooled posterior median by at most `0.144` standard deviations, but all 17 coordinates
+exceeded the trajectory R-hat limit (worst `1.417` versus `1.2`) and four still failed
+replicate-median agreement. The two new runs bring the development-only sampler ledger
+to 1,224,580 candidate evaluations with zero holdout, confirmation, or independent
+target rows used for sampler selection. Their bound receipt is
+`runs/gravity/publication-readiness/nuisance-identifiability-audit-v1.json`.
+
+This closes **more sampling alone** as the next action; it does not prove one unique
+physical degeneracy. Future CP5 work must first derive identifiable composite
+coordinates and their induced priors/Jacobians, add independent calibration priors or
+measurements where possible, and freeze sensitivity, rank, simulation-based
+calibration, and Newtonian-control tests before another posterior run. CP5.7 through
+CP5.10 remain open, and the Newtonian control remains locked until the candidate passes
+the unchanged sampler gates.
 
 ## CP6 — numerical, synthetic, and leakage controls
 
