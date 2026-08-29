@@ -948,12 +948,15 @@ def _normalize_critic_output(
     result = []
     for proposal_id in proposal_ids:
         row = assessments[proposal_id]
+        raw_row = row
+        parse_issue: str | None = None
         if not isinstance(row, str):
-            raise GravityItem50Error("critic assessment slot is not a string")
-        try:
-            row = json.loads(row)
-        except json.JSONDecodeError as error:
-            raise GravityItem50Error("critic assessment slot is not JSON") from error
+            parse_issue = "critic_slot_not_a_string"
+        else:
+            try:
+                row = json.loads(row)
+            except json.JSONDecodeError:
+                parse_issue = "critic_slot_not_json"
         expected = {
             "lineage_reclassification",
             "nearest_known_analogue",
@@ -963,22 +966,47 @@ def _normalize_critic_output(
             "retain_for_empirical_test",
             "confidence",
         }
-        if not isinstance(row, Mapping) or set(row) != expected:
-            raise GravityItem50Error("critic assessment fields changed")
-        if row["lineage_reclassification"] not in config["proposal_contract"][
-            "origin_labels"
-        ]:
-            raise GravityItem50Error("critic lineage label changed")
-        if row["dimensional_consistency"] not in {
+        if parse_issue is None and (
+            not isinstance(row, Mapping) or set(row) != expected
+        ):
+            parse_issue = "critic_assessment_fields_changed"
+        if parse_issue is None and row["lineage_reclassification"] not in config[
+            "proposal_contract"
+        ]["origin_labels"]:
+            parse_issue = "critic_lineage_label_changed"
+        if parse_issue is None and row["dimensional_consistency"] not in {
             "consistent",
             "repairable",
             "inconsistent",
             "uncertain",
         }:
-            raise GravityItem50Error("critic dimensional verdict changed")
-        confidence = int(row["confidence"])
-        if not 1 <= confidence <= 5:
-            raise GravityItem50Error("critic confidence changed")
+            parse_issue = "critic_dimensional_verdict_changed"
+        if parse_issue is None:
+            try:
+                confidence = int(row["confidence"])
+            except (TypeError, ValueError):
+                parse_issue = "critic_confidence_not_an_integer"
+            else:
+                if not 1 <= confidence <= 5:
+                    parse_issue = "critic_confidence_outside_range"
+        if parse_issue is not None:
+            result.append(
+                {
+                    "proposal_id": proposal_id,
+                    "lineage_reclassification": "uncertain",
+                    "nearest_known_analogue": "No valid independent assessment returned.",
+                    "dimensional_consistency": "uncertain",
+                    "independent_physical_concern": "Critic slot did not compile; no adverse inference is authorized.",
+                    "suggested_repair": "Retain the proposal and request a future independent critique without changing the empirical formula.",
+                    "retain_for_empirical_test": True,
+                    "confidence": 1,
+                    "advisory_only": True,
+                    "proposal_pruned": False,
+                    "local_critic_issue": parse_issue,
+                    "raw_provider_slot": raw_row,
+                }
+            )
+            continue
         result.append(
             {
                 "proposal_id": proposal_id,
@@ -995,6 +1023,7 @@ def _normalize_critic_output(
                 "confidence": confidence,
                 "advisory_only": True,
                 "proposal_pruned": False,
+                "local_critic_issue": None,
             }
         )
     return result

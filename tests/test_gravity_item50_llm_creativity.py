@@ -18,6 +18,7 @@ from sigma_theory_compiler.gravity_item50_llm_creativity import (
     _generation_prompt,
     _normalize_proposal,
     _normalize_generation_output,
+    _normalize_critic_output,
     _proposal_schema,
     _unique_structures,
     build_preflight_manifest,
@@ -163,3 +164,31 @@ def test_malformed_provider_slot_is_retained_without_becoming_a_formula() -> Non
     assert proposals[2]["retained_regardless_of_origin_or_critic_label"] is True
     assert proposals[2]["structure_executable_for_frozen_outer_expansion"] is False
     assert proposals[2]["local_compilation_issues"] == ["provider_slot_not_json"]
+
+
+def test_malformed_critic_slot_is_uncertain_and_never_a_veto() -> None:
+    config = load_config(ROOT)
+    proposal_ids = ["item50-a", "item50-b"]
+    valid = {
+        "lineage_reclassification": "known_family_combination",
+        "nearest_known_analogue": "screened response",
+        "dimensional_consistency": "consistent",
+        "independent_physical_concern": "May not transfer across scales.",
+        "suggested_repair": "No repair needed before empirical testing.",
+        "retain_for_empirical_test": True,
+        "confidence": 3,
+    }
+    rows = _normalize_critic_output(
+        {
+            "assessments": {
+                proposal_ids[0]: json.dumps(valid),
+                proposal_ids[1]: "placeholder",
+            }
+        },
+        proposal_ids,
+        config,
+    )
+    assert rows[0]["local_critic_issue"] is None
+    assert rows[1]["lineage_reclassification"] == "uncertain"
+    assert rows[1]["retain_for_empirical_test"] is True
+    assert rows[1]["proposal_pruned"] is False
