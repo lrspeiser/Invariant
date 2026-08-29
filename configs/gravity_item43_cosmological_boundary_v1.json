@@ -1,0 +1,240 @@
+{
+  "schema_version": "invariant-gravity-item43-cosmological-boundary-config-1.0",
+  "item": 43,
+  "status": "scientific_freeze_before_unexposed_S4TM_predictor_or_response_access",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "PENDING_ITEM43_SCIENTIFIC_FREEZE_COMMIT",
+  "sample_freeze_commit": "PENDING_ITEM43_SAMPLE_FREEZE_COMMIT",
+  "hypothesis": "A universal weak-field gravity multiplier whose strength depends on an explicitly cosmological boundary coordinate predicts previously unopened strong-lens masses better than its matched boundary-free counterpart and transfers unchanged across cluster radii.",
+  "scope": {
+    "predictor_acquisition_started": false,
+    "exploration_response_opened": false,
+    "confirmation_opening_authorized": false,
+    "paid_api_calls_authorized": false,
+    "maximum_paid_api_usd": 0.0,
+    "historical_novelty_established": false,
+    "covariant_theory_established": false
+  },
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-42-matter-geometry-feedback-v1.json": "5700cf64f137ebbfa1a07dc4a38791787aab826588a3826e32f57a80eeec268d",
+    "runs/gravity/g4/cluster-lensing-exploration-v7-source/fig2.tsv": "6ae2cc0a75e2113f2af73c054d5283099b8764b534d17c89b65d8562d799d58a",
+    "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/clash_clusters.tsv": "73f69adf19a123a72442614c518adb161cb3405bb3c5311ae418672ebe80ad11"
+  },
+  "required_predecessor": {
+    "content_sha256": "4d28feb2d3714a3c45445344911b8466308b364685f89bdecfbd05086ecdb3a7",
+    "decision": "NONPROMOTED_ITEM42_CROSS_SCALE_FEEDBACK_INCREMENT_RETAINED"
+  },
+  "discovery_policy": {
+    "equal_initial_viability": true,
+    "post_response_candidate_cells": 0,
+    "single_empirical_counterexample_is_not_a_formula_or_family_veto": true,
+    "counterexample_count_alone_is_never_decisive": true,
+    "finite_empirical_sample_may_prune_family": false,
+    "unchanged_independent_replication_required_for_terminal_tested_scope_rejection": true,
+    "data_quality_uncertainty_must_be_audited": true,
+    "model_dependent_lensing_mass_is_not_direct_raw_lensing": true
+  },
+  "prior_art": [
+    {
+      "id": "milgrom_a0_cosmology_connection_2020",
+      "url": "https://arxiv.org/abs/2001.09729",
+      "role": "known near-coincidence among the MOND acceleration scale, cH0, and the de Sitter acceleration"
+    },
+    {
+      "id": "mannheim_obrien_global_potentials_2010",
+      "url": "https://arxiv.org/abs/1011.3495",
+      "role": "known conformal-gravity proposal in which cosmology induces universal linear and quadratic galaxy potentials"
+    },
+    {
+      "id": "mishra_singh_common_cosmic_galaxy_cause_2012",
+      "url": "https://arxiv.org/abs/1205.3088",
+      "role": "known proposal connecting galactic and cosmic acceleration through modified gravity"
+    },
+    {
+      "id": "shu_s4tm_strong_lenses_2017",
+      "url": "https://arxiv.org/abs/1711.00072",
+      "role": "primary source for the 40 grade-A S4TM lens models, foreground redshifts, sizes, stellar masses, Einstein radii, and projected Einstein masses"
+    }
+  ],
+  "weak_field_metric_contract": {
+    "metric": "ds^2=-(1+2*Phi/c^2)c^2dt^2+(1-2*Psi/c^2)dx^2",
+    "dynamics": "g_dyn=g_bar*nu(u,B_cosmic)",
+    "lensing": "M_lens,pred(<R)=M_bar,projected(<R)*nu under Phi=Psi",
+    "gravitational_slip": "Phi=Psi",
+    "claim_boundary": "This is a frozen phenomenological weak-field closure using a fiducial flat background cosmology, not a covariant action, a replacement for GR, or a derivation of lensing from field equations."
+  },
+  "candidate_generator": {
+    "seed": 4300829,
+    "raw_candidate_cells": 262144,
+    "cells_per_niche": 65536,
+    "post_response_cells": 0,
+    "grid_shape_per_niche": [16, 16, 16, 16],
+    "parameter_grids": {
+      "amplitude": [0.02, 0.05, 0.1, 0.2, 0.3, 0.408248290463863, 0.5, 0.65, 0.8, 1.0, 1.25, 1.5, 2.0, 2.75, 4.0, 6.0],
+      "acceleration_exponent": [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.75, 0.9, 1.1, 1.4],
+      "transition_u": [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0, 10000.0, 1000000.0, 100000000.0],
+      "boundary_exponent": [-4.0, -3.0, -2.0, -1.5, -1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0]
+    },
+    "niches": [
+      {
+        "id": 0,
+        "name": "expansion_rate_running",
+        "creativity_label": "known_a0_cosmology_connection_with_empirical_redshift_running",
+        "boundary_coordinate": "B=[H(z)/H0]^q"
+      },
+      {
+        "id": 1,
+        "name": "cosmic_age_memory",
+        "creativity_label": "potentially_new_age_memory_projection_not_historical_novelty",
+        "boundary_coordinate": "B=[t0/t(z)]^q"
+      },
+      {
+        "id": 2,
+        "name": "scale_factor_periodicity_proxy",
+        "creativity_label": "potentially_new_scale_factor_gravity_projection_not_historical_novelty",
+        "boundary_coordinate": "B=(1+z)^q"
+      },
+      {
+        "id": 3,
+        "name": "finite_horizon_fraction",
+        "creativity_label": "known_horizon_idea_with_potentially_new_lens_scale_projection",
+        "boundary_coordinate": "B=[1+R*H(z)/(c*x_ref)]^q"
+      }
+    ],
+    "universal_formula": "nu=1+A*u^(-p)/(1+u/u_t)*B_lane(z,R,q)",
+    "admissibility": {
+      "probe_log10_u_min": -8.0,
+      "probe_log10_u_max": 8.0,
+      "probe_points": 49,
+      "probe_redshifts": [0.0, 0.5, 1.0],
+      "probe_radii_kpc": [1.0, 10.0, 100.0],
+      "minimum_multiplier": 1.0,
+      "maximum_multiplier": 1000000.0,
+      "maximum_high_acceleration_log10_deviation": 0.001,
+      "minimum_low_acceleration_multiplier": 1.02,
+      "monotone_nonincreasing_tolerance": 1e-10,
+      "behavior_signature_decimals": 6
+    }
+  },
+  "fiducial_cosmology": {
+    "hubble_constant_km_s_mpc": 70.0,
+    "omega_matter": 0.3,
+    "omega_lambda": 0.7,
+    "speed_of_light_km_s": 299792.458,
+    "horizon_fraction_reference": 1e-6,
+    "role": "fixed coordinate convention and sensitivity audit; dependence on this background is a claim limitation"
+  },
+  "constants": {
+    "acceleration_scale_m_s2": 1.2e-10,
+    "gravitational_constant_kpc_km2_s2_msun": 4.30091727003628e-6,
+    "kpc_to_km": 3.0856775814913673e16,
+    "sersic_n4_b": 7.669249442500804
+  },
+  "data_sources": {
+    "s4tm_table1_endpoint": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J%2FApJ%2F851%2F48%2Ftable1",
+    "s4tm_table2_endpoint": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J%2FApJ%2F851%2F48%2Ftable2",
+    "s4tm_catalogue": "J/ApJ/851/48",
+    "predictor_table1_columns": ["Target", "zL", "zS", "Imag", "Ai", "Reff", "q", "Class"],
+    "predictor_table2_columns": ["Target", "bSIE", "q", "logM", "chi2", "dof"],
+    "response_columns": ["Target", "logMein"],
+    "clash_acceleration_source": "runs/gravity/g4/cluster-lensing-exploration-v7-source/fig2.tsv",
+    "clash_redshift_source": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/clash_clusters.tsv"
+  },
+  "schema_audit_exposure": {
+    "reason": "A five-row all-column query was used to verify the S4TM table schema before this freeze.",
+    "excluded_from_every_item43_role": [
+      "SDSSJ0143-1006",
+      "SDSSJ0159-0006",
+      "SDSSJ0324+0045",
+      "SDSSJ0324-0110",
+      "SDSSJ0753+3416"
+    ],
+    "rows_with_response_seen": 5,
+    "response_values_used_for_formula_or_sample_design": 0,
+    "exclusion_is_permanent": true
+  },
+  "sample_boundary": {
+    "eligible_definition": "grade-A S4TM lenses in the exact table1/table2 predictor intersection after permanent schema-audit exclusions",
+    "split_unit": "whole physical lens",
+    "split_salt": "invariant-gravity-item43-s4tm-split-v1-20260829",
+    "expected_eligible_lenses": 35,
+    "expected_exploration_lenses": 28,
+    "reserved_confirmation_lenses": 7,
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item43-s4tm-fold-v1-20260829",
+    "failed_identity_replacement": false,
+    "confirmation_response_opening_authorized": false
+  },
+  "predictor_derivation": {
+    "stellar_profile": "projected circular de Vaucouleurs n=4 profile using published total Chabrier stellar mass and HST effective radius",
+    "aperture_mass": "Mbar(<bSIE)=Mstar,total*P(8,b4*(bSIE/Reff)^(1/4)); cold gas is unavailable and retained as a limitation",
+    "physical_einstein_radius": "bSIE times flat-background angular-diameter distance at zL",
+    "baryonic_acceleration": "gbar=G*Mbar(<R_E)/R_E^2",
+    "forbidden": [
+      "logMein before sample and evaluator freeze",
+      "stellar velocity dispersion as a formula input",
+      "object identity as a numeric feature",
+      "post-response formula generation",
+      "post-response object replacement"
+    ]
+  },
+  "evaluation": {
+    "primary_loss": "nested whole-lens out-of-fold mean squared standardized log10 Einstein-mass residual",
+    "assumed_log10_lens_mass_uncertainty": 0.05,
+    "assumed_log10_stellar_mass_uncertainty": 0.20,
+    "combined_log10_uncertainty": 0.20615528128088303,
+    "candidate_batch_size": 4096,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_crosscheck_candidates": 64,
+    "cpu_gpu_tolerance": 1e-10,
+    "ordinary_ridge_alphas": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "paired_sign_flip_permutations": 9999,
+    "permutation_seed": 4300999,
+    "robust_trim_fraction": 0.1,
+    "systematic_audits": [
+      "stellar_mass_minus_0.25_dex",
+      "stellar_mass_plus_0.25_dex",
+      "effective_radius_minus_10_percent",
+      "effective_radius_plus_10_percent",
+      "omega_matter_0.25",
+      "omega_matter_0.35"
+    ],
+    "controls": [
+      "baryonic Newton",
+      "fixed MOND/RAR",
+      "nested matched boundary-free formula search",
+      "cross-fitted ordinary ridge using the same measured coordinates without a cosmological mechanism label"
+    ],
+    "no_candidate_or_coefficient_may_be_selected_on_clash_or_confirmation_data": true
+  },
+  "cluster_transfer": {
+    "role": "already exposed model-dependent CLASH acceleration transfer; selection and retuning forbidden",
+    "selection_use": false,
+    "retuning_allowed": false,
+    "post_selection_candidate_cells": 0
+  },
+  "gates": {
+    "candidate_must_beat_baryonic_newton": true,
+    "candidate_must_beat_fixed_mond": true,
+    "candidate_must_beat_matched_boundary_free": true,
+    "candidate_must_beat_ordinary_ridge": true,
+    "paired_p_maximum": 0.05,
+    "leave_one_and_trim_may_not_reverse_sign": true,
+    "unchanged_clash_transfer_must_improve_over_mond": true,
+    "confirmation_response_rows": 0,
+    "post_response_candidate_cells": 0
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-43-cosmological-boundary-v1-source",
+    "candidate_manifest": "candidate-manifest.json",
+    "exposure_manifest": "schema-audit-exposure.json",
+    "predictor_source": "s4tm-predictors.json",
+    "sample_manifest": "sample-manifest.json",
+    "response_source": "s4tm-exploration-responses.json",
+    "evaluation_result": "s4tm-evaluation-result.json",
+    "clash_transfer_result": "clash-transfer-result.json",
+    "aggregate_result": "runs/gravity/roadmap/item-43-cosmological-boundary-v1.json"
+  }
+}
