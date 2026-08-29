@@ -98,8 +98,12 @@ def validate_config(root: Path, config: Mapping[str, Any]) -> None:
     critics = config["ensemble"]["critic_calls"]
     if len(generation) != 6 or len(critics) != 3:
         raise GravityItem50Error("Item 50 call schedule changed")
-    if len(generation) + len(critics) != int(provider["maximum_calls"]):
-        raise GravityItem50Error("provider call cap and schedule disagree")
+    if len(generation) + len(critics) != int(provider["maximum_successful_calls"]):
+        raise GravityItem50Error("provider successful-call cap and schedule disagree")
+    if int(provider["maximum_provider_attempts"]) != int(
+        provider["maximum_successful_calls"]
+    ) + int(provider["pre_durable_journal_attempt_audit"]["provider_attempts"]):
+        raise GravityItem50Error("provider attempt audit and cap disagree")
     if int(provider["maximum_total_proposals"]) != len(generation) * int(
         provider["proposals_per_generation_call"]
     ):
@@ -112,11 +116,11 @@ def validate_config(root: Path, config: Mapping[str, Any]) -> None:
             raise GravityItem50Error("a critic reviews its own model")
     maximum_input_tokens = (
         int(provider["maximum_prompt_bytes_per_call"])
-        * int(provider["maximum_calls"])
+        * int(provider["maximum_provider_attempts"])
     )
     maximum_output_tokens = (
         int(provider["maximum_output_tokens_per_call"])
-        * int(provider["maximum_calls"])
+        * int(provider["maximum_provider_attempts"])
     )
     conservative = (
         Decimal(maximum_input_tokens)
@@ -290,6 +294,27 @@ def _generation_prompt(
             "Do not claim proof, empirical support, or historical novelty.",
         ],
         "required_proposal_fields": config["proposal_contract"]["required_fields"],
+        "proposal_field_types": {
+            "proposal_id": "nonempty string",
+            "title": "nonempty string",
+            "origin_self_assessment": "one allowed lineage-label string",
+            "known_analogues": "JSON array of one to four nonempty strings",
+            "source_domains": "JSON array of one to four nonempty strings",
+            "mechanism": "nonempty string",
+            "left_primitive_id": "integer 0..439",
+            "left_transform": "one allowed unary-transform string",
+            "right_primitive_id": "integer 0..439",
+            "right_transform": "one allowed unary-transform string",
+            "binary_operator": "one allowed binary-operator string",
+            "mixing": "one allowed numeric mixing-grid value",
+            "suggested_amplitude": "one allowed numeric amplitude",
+            "suggested_acceleration_exponent": "one allowed numeric exponent",
+            "suggested_transition_u": "one allowed numeric transition value",
+            "why_not_merely_a_rewrite": "nonempty string",
+            "expected_observational_signature": "nonempty string",
+            "cheapest_falsifier": "nonempty string",
+            "likely_failure_mode": "nonempty string"
+        },
         "allowed_unary_transforms": config["proposal_contract"]["unary_transforms"],
         "allowed_binary_operators": config["proposal_contract"]["binary_operators"],
         "allowed_mixing_grid": config["proposal_contract"]["mixing_grid"],
@@ -354,6 +379,15 @@ def _critic_prompt(
             "retain_for_empirical_test",
             "confidence"
         ],
+        "assessment_field_types": {
+            "lineage_reclassification": "one allowed lineage-label string",
+            "nearest_known_analogue": "nonempty string",
+            "dimensional_consistency": "one of consistent, repairable, inconsistent, uncertain",
+            "independent_physical_concern": "nonempty string",
+            "suggested_repair": "nonempty string; say no repair needed when appropriate",
+            "retain_for_empirical_test": "JSON boolean",
+            "confidence": "integer 1..5"
+        },
         "wire_format": (
             "Each proposal-ID value must be a JSON-serialized assessment object string with exactly required_assessment_fields."
         ),
@@ -738,41 +772,49 @@ def run_provider_proposals(root: Path) -> dict[str, Any]:
     ) as activation:
         credential = os.environ[config["provider"]["credential_env_var"]]
         for call in expected_calls:
-            if call["call_id"] in completed:
-                continue
-            prompt = _generation_prompt(root, config, call)
-            output, evidence = _provider_call(
-                credential=credential,
-                model=call["model"],
-                prompt=prompt,
-                schema=_proposal_schema(config),
-                config=config,
-                model_evidence=model_evidence[call["model"]],
-                system=(
-                    "You are one fallible idea generator in a blind scientific search. Return only the required structured object. Generate diverse, executable formula structures; disclose known analogues; distinguish known formulas, rewrites, combinations, potentially new syntheses, and uncertainty. These labels are lineage metadata, never proof of novelty or correctness."
-                ),
-            )
-            proposals = _normalize_generation_output(
-                output, call, config, config49
-            )
-            row = {
-                "call_id": call["call_id"],
-                "model": call["model"],
-                "role": call["role"],
-                "completed_utc": _now(),
-                "evidence": evidence,
-                "proposals": proposals,
-                "credential_activation": activation.to_evidence(),
-            }
-            journal["calls"].append(row)
-            completed[call["call_id"]] = row
-            journal["last_updated_utc"] = _now()
-            _write_json(journal_path, journal)
+            row = completed.get(call["call_id"])
+            if row is None:
+                prompt = _generation_prompt(root, config, call)
+                output, evidence = _provider_call(
+                    credential=credential,
+                    model=call["model"],
+                    prompt=prompt,
+                    schema=_proposal_schema(config),
+                    config=config,
+                    model_evidence=model_evidence[call["model"]],
+                    system=(
+                        "You are one fallible idea generator in a blind scientific search. Return only the required structured object. Generate diverse, executable formula structures; disclose known analogues; distinguish known formulas, rewrites, combinations, potentially new syntheses, and uncertainty. These labels are lineage metadata, never proof of novelty or correctness."
+                    ),
+                )
+                row = {
+                    "call_id": call["call_id"],
+                    "model": call["model"],
+                    "role": call["role"],
+                    "completed_utc": _now(),
+                    "evidence": evidence,
+                    "raw_provider_output": output,
+                    "normalization_status": "provider_completed_pending_local_normalization",
+                    "proposals": None,
+                    "credential_activation": activation.to_evidence(),
+                }
+                journal["calls"].append(row)
+                completed[call["call_id"]] = row
+                journal["last_updated_utc"] = _now()
+                _write_json(journal_path, journal)
+            if row.get("normalization_status") != "normalized":
+                row["proposals"] = _normalize_generation_output(
+                    row["raw_provider_output"], call, config, config49
+                )
+                row["normalization_status"] = "normalized"
+                journal["last_updated_utc"] = _now()
+                _write_json(journal_path, journal)
             if _call_cost_total(journal["calls"]) > Decimal(
                 config["provider"]["conservative_maximum_campaign_usd"]
             ):
                 raise GravityItem50Error("proposal calls exceeded campaign cost cap")
     ordered = [completed[row["call_id"]] for row in expected_calls]
+    if any(row.get("normalization_status") != "normalized" for row in ordered):
+        raise GravityItem50Error("a provider call was not normalized")
     proposals = [proposal for call in ordered for proposal in call["proposals"]]
     if len(proposals) != int(config["provider"]["maximum_total_proposals"]):
         raise GravityItem50Error("provider proposal count changed")
@@ -788,6 +830,12 @@ def run_provider_proposals(root: Path) -> dict[str, Any]:
             "proposals": proposals,
             "counts": {
                 "provider_calls": len(ordered),
+                "provider_attempts_including_unretained_pre_journal_call": len(ordered)
+                + int(
+                    config["provider"]["pre_durable_journal_attempt_audit"][
+                        "provider_attempts"
+                    ]
+                ),
                 "proposals": len(proposals),
                 "models": len(set(row["model"] for row in ordered)),
                 "origin_labels": dict(
@@ -814,6 +862,9 @@ def run_provider_proposals(root: Path) -> dict[str, Any]:
                 "empirical_response_values_in_prompt": False,
                 "sealed_rows_read": 0,
             },
+            "pre_durable_journal_attempt_audit": config["provider"][
+                "pre_durable_journal_attempt_audit"
+            ],
         }
     )
     _write_json(_source_path(root, config, "proposal_receipt"), receipt)
@@ -902,8 +953,6 @@ def run_provider_critiques(root: Path) -> dict[str, Any]:
     ) as activation:
         credential = os.environ[config["provider"]["credential_env_var"]]
         for call in expected_calls:
-            if call["call_id"] in completed:
-                continue
             reviewed = [
                 row for row in proposals if row["provider_model"] in call["reviews_models"]
             ]
@@ -912,39 +961,49 @@ def run_provider_critiques(root: Path) -> dict[str, Any]:
             ):
                 raise GravityItem50Error("critic independence allocation changed")
             proposal_ids = [row["proposal_id"] for row in reviewed]
-            prompt = _critic_prompt(reviewed, config)
-            output, evidence = _provider_call(
-                credential=credential,
-                model=call["model"],
-                prompt=prompt,
-                schema=_critic_schema(proposal_ids, config),
-                config=config,
-                model_evidence=model_evidence[call["model"]],
-                system=(
-                    "You are an independent, fallible scientific critic. Audit lineage and physics without observed outcomes. Your critique is advisory, cannot verify a formula, cannot establish novelty, and cannot delete an executable idea. Return only the required structured object."
-                ),
-            )
-            assessments = _normalize_critic_output(
-                output, proposal_ids, config
-            )
-            row = {
-                "call_id": call["call_id"],
-                "model": call["model"],
-                "reviews_models": call["reviews_models"],
-                "completed_utc": _now(),
-                "evidence": evidence,
-                "assessments": assessments,
-                "credential_activation": activation.to_evidence(),
-            }
-            journal["calls"].append(row)
-            completed[call["call_id"]] = row
-            journal["last_updated_utc"] = _now()
-            _write_json(journal_path, journal)
+            row = completed.get(call["call_id"])
+            if row is None:
+                prompt = _critic_prompt(reviewed, config)
+                output, evidence = _provider_call(
+                    credential=credential,
+                    model=call["model"],
+                    prompt=prompt,
+                    schema=_critic_schema(proposal_ids, config),
+                    config=config,
+                    model_evidence=model_evidence[call["model"]],
+                    system=(
+                        "You are an independent, fallible scientific critic. Audit lineage and physics without observed outcomes. Your critique is advisory, cannot verify a formula, cannot establish novelty, and cannot delete an executable idea. Return only the required structured object."
+                    ),
+                )
+                row = {
+                    "call_id": call["call_id"],
+                    "model": call["model"],
+                    "reviews_models": call["reviews_models"],
+                    "completed_utc": _now(),
+                    "evidence": evidence,
+                    "raw_provider_output": output,
+                    "normalization_status": "provider_completed_pending_local_normalization",
+                    "assessments": None,
+                    "credential_activation": activation.to_evidence(),
+                }
+                journal["calls"].append(row)
+                completed[call["call_id"]] = row
+                journal["last_updated_utc"] = _now()
+                _write_json(journal_path, journal)
+            if row.get("normalization_status") != "normalized":
+                row["assessments"] = _normalize_critic_output(
+                    row["raw_provider_output"], proposal_ids, config
+                )
+                row["normalization_status"] = "normalized"
+                journal["last_updated_utc"] = _now()
+                _write_json(journal_path, journal)
             if proposal_cost + _call_cost_total(journal["calls"]) > Decimal(
                 config["provider"]["conservative_maximum_campaign_usd"]
             ):
                 raise GravityItem50Error("critic calls exceeded campaign cost cap")
     ordered = [completed[row["call_id"]] for row in expected_calls]
+    if any(row.get("normalization_status") != "normalized" for row in ordered):
+        raise GravityItem50Error("a critic call was not normalized")
     assessments = [item for call in ordered for item in call["assessments"]]
     if len(assessments) != len(proposals) or len(
         {row["proposal_id"] for row in assessments}
@@ -1217,7 +1276,11 @@ def build_candidate_manifest(root: Path) -> dict[str, Any]:
                 "provider_proposals": len(proposal_receipt["proposals"]),
                 "critic_assessments": len(critic_receipt["assessments"]),
                 "raw_structures_per_lane": 48,
-                "paid_model_calls": proposal_receipt["counts"]["provider_calls"]
+                "successful_paid_model_calls": proposal_receipt["counts"]["provider_calls"]
+                + critic_receipt["counts"]["critic_calls"],
+                "provider_attempts_including_unretained_call": proposal_receipt["counts"][
+                    "provider_attempts_including_unretained_pre_journal_call"
+                ]
                 + critic_receipt["counts"]["critic_calls"],
                 "sealed_rows_read": 0,
             },
