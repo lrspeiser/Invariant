@@ -29,6 +29,9 @@ import numpy as np
 from sigma_theory_compiler.gravity_item12_manga_dynamical_age import (
     _coordinates as _item12_legacy_coordinates,
 )
+from sigma_theory_compiler.gravity_item12_manga_dynamical_age import (
+    _validate_content_hash as _validate_legacy_content_hash,
+)
 from sigma_theory_compiler.gravity_item16_s4tm_qed_field import _parse_vizier_tsv
 from sigma_theory_compiler.gravity_item22_polarization_superposition import (
     _canonical_bytes,
@@ -831,7 +834,11 @@ def prepare_predictors(root: Path) -> dict[str, Path]:
 
     predictor_path = root / str(config["sources"]["manga_predictor_source"])
     predictor_source = _read_json(predictor_path)
-    _verify_content_hash(predictor_source, "frozen response-blind MaNGA predictor source")
+    # Item 12 predates the newline-terminated receipt convention used by Item 30.
+    # Its embedded digest is still independently bound by the exact file SHA-256 in
+    # ``scientific_dependencies`` above; validate the embedded digest with Item 12's
+    # canonicalizer rather than silently rewriting the immutable predecessor receipt.
+    _validate_legacy_content_hash(predictor_source, "frozen response-blind MaNGA predictor source")
     if int(predictor_source["counts"]["response_columns_requested"]) != 0:
         raise GravityItem30Error("response column entered inherited MaNGA predictors")
     records = predictor_source["records"]

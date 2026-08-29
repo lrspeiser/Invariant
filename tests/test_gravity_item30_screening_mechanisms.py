@@ -17,6 +17,7 @@ from sigma_theory_compiler.gravity_item30_screening_mechanisms import (
     _sample_manifest,
     generate_raw_candidates,
     load_config,
+    prepare_predictors,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -160,6 +161,28 @@ def test_item30_frozen_predecessor_audit_is_response_blind() -> None:
     assert audit["total_coordinate_rows"] > 10000
     assert audit["unique_manga_identities"] == 4260
     assert audit["item24_role_coordinates"] == 160
+
+
+def test_item30_inherited_predictor_receipt_uses_legacy_digest_convention(
+    monkeypatch,
+) -> None:
+    def stop_before_source_access(*_args, **_kwargs):
+        raise RuntimeError("stop after inherited predictor verification")
+
+    monkeypatch.setattr(
+        "sigma_theory_compiler.gravity_item30_screening_mechanisms.verify_science_freeze",
+        lambda *_args, **_kwargs: None,
+    )
+    monkeypatch.setattr(
+        "sigma_theory_compiler.gravity_item30_screening_mechanisms._minimum_separations_arcsec",
+        stop_before_source_access,
+    )
+    try:
+        prepare_predictors(ROOT)
+    except RuntimeError as error:
+        assert str(error) == "stop after inherited predictor verification"
+    else:
+        raise AssertionError("test sentinel did not stop predictor preparation")
 
 
 def test_item30_candidate_value_decoder_reports_physical_parameters() -> None:
