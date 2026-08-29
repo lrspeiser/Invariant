@@ -362,6 +362,9 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
     pressure = evidence["development_pressure_covariance_boundary"]
     ben = evidence["shared_ben_synthetic_and_real_boundary"]
     strata = evidence["cluster_strata_boundary"]
+    shape_missing = evidence["predictor_shape_and_missing_variable_boundary"]
+    acquisition = evidence["group_and_act_acquisition_boundary"]
+    theory = evidence["matter_lensing_theory_boundary"]
     covariance = uncertainty["covariance_sensitivity"]
     missingness = uncertainty["missingness_sensitivity"]
     sampler = uncertainty["marginalization"]["candidate"]["posterior_sampler"]
@@ -533,6 +536,48 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             strata["frozen_stratum_explains_covariance_flips"],
             "no Holm-significant explanation",
         ),
+        (
+            "xcop_shape_bridge",
+            "real_scoring_executed",
+            shape_missing["shape_real_scoring_executed"],
+            "predictor-only, unauthorized",
+        ),
+        (
+            "missing_variables",
+            "defined_proxy_contracts",
+            shape_missing["defined_proxy_contracts"],
+            "categorical/projected proxies only",
+        ),
+        (
+            "missing_variables",
+            "continuous_measurement_ready_rows",
+            shape_missing["continuous_measurement_ready_rows"],
+            f"source-blocked applicable rows={shape_missing['source_blocked_applicable_rows']}",
+        ),
+        (
+            "group_acquisition",
+            "scientific_payload_rows_opened",
+            acquisition["group_scientific_payload_rows_opened"],
+            "metadata manifest only",
+        ),
+        (
+            "act_erass_overlap",
+            "population_gate_evaluated",
+            acquisition["act_population_gate_evaluated"],
+            "catalog rows unauthorized",
+        ),
+        (
+            "matter_lensing_theory",
+            "template_level_gates_passed",
+            theory["template_level_gates_passed"],
+            f"of {theory['health_gates_total']}; blocked={theory['health_gates_blocked']}",
+        ),
+        (
+            "matter_lensing_symbolic",
+            "full_H2_passed",
+            theory["full_H2_passed"],
+            "bounded scalar identities only",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(
@@ -562,8 +607,14 @@ def _table_6(evidence: Mapping[str, Any]) -> bytes:
         rows.append(("pressure_covariance_boundary", key, value))
     for section, source in (
         ("shared_ben_boundary", evidence["shared_ben_synthetic_and_real_boundary"]),
+        (
+            "shape_missing_variable_boundary",
+            evidence["predictor_shape_and_missing_variable_boundary"],
+        ),
         ("group_scale_source_boundary", evidence["group_scale_source_boundary"]),
+        ("group_act_acquisition_boundary", evidence["group_and_act_acquisition_boundary"]),
         ("cluster_strata_boundary", evidence["cluster_strata_boundary"]),
+        ("matter_lensing_theory_boundary", evidence["matter_lensing_theory_boundary"]),
     ):
         for key, value in sorted(source.items()):
             rows.append((section, key, value))

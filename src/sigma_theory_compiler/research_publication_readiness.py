@@ -377,10 +377,14 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "item61_cross_scale_transfer",
         "screened_descendant_adjudication",
         "shared_ben_synthetic_execution",
+        "xcop_shape_bridge_preflight",
         "mixed_sparc_access_preflight",
         "shared_ben_real_development_preflight_v2",
         "group_scale_source_audit",
+        "group_scale_bridge_acquisition_v2",
+        "missing_variable_preflight",
         "independent_data_contract",
+        "act_erass_overlap_preflight",
         "matched_comparator_suite",
         "uncertainty_program",
         "nuisance_sampler_diagnostic",
@@ -393,6 +397,8 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "a1795_covariance_source_feasibility",
         "predictor_strata_preflight",
         "cluster_strata_development_scoring",
+        "matter_lensing_theory_preflight",
+        "matter_lensing_symbolic_derivation",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -438,10 +444,14 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     item61 = evidence["item61_cross_scale_transfer"]
     descendant = evidence["screened_descendant_adjudication"]
     ben_synthetic = evidence["shared_ben_synthetic_execution"]
+    shape_bridge = evidence["xcop_shape_bridge_preflight"]
     sparc_incident = evidence["mixed_sparc_access_preflight"]
     ben_real_v2 = evidence["shared_ben_real_development_preflight_v2"]
     group_source = evidence["group_scale_source_audit"]
+    group_acquisition = evidence["group_scale_bridge_acquisition_v2"]
+    missing_variables = evidence["missing_variable_preflight"]
     data_contract = evidence["independent_data_contract"]
+    act_overlap = evidence["act_erass_overlap_preflight"]
     comparators = evidence["matched_comparator_suite"]
     uncertainty = evidence["uncertainty_program"]
     nuisance_diagnostic = evidence["nuisance_sampler_diagnostic"]
@@ -454,6 +464,8 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     a1795_feasibility = evidence["a1795_covariance_source_feasibility"]
     predictor_strata = evidence["predictor_strata_preflight"]
     strata_scoring = evidence["cluster_strata_development_scoring"]
+    theory_preflight = evidence["matter_lensing_theory_preflight"]
+    symbolic_derivation = evidence["matter_lensing_symbolic_derivation"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -513,6 +525,37 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or ben_synthetic["data_boundary"]["real_target_fields_read"] != []
     ):
         raise ResearchPublicationReadinessError("synthetic B+E+N evidence changed")
+    if (
+        shape_bridge["status"]
+        != "v3_predictor_only_shape_basis_frozen_response_profiled_nuisance_no_payload_access"
+        or shape_bridge["current_authorization"]
+        != {
+            "authorized": False,
+            "authorized_cpu_formula_domain_batches": 0,
+            "authorized_gpu_formula_domain_batches": 0,
+            "authorized_paid_calls": 0,
+            "authorized_payload_file_opens": 0,
+            "path": "runs/gravity/shared-target-blind-ben-xcop-shape-preflight-v3/authorization-v1.json",
+        }
+        or shape_bridge["production_gate"]["payload_loader_present_in_v3"] is not False
+        or shape_bridge["production_gate"]["scoring_executor_present_in_v3"] is not False
+        or shape_bridge["claims"]["predictor_only_xcop_shape_basis_frozen"] is not True
+        or shape_bridge["claims"]["production_authorized"] is not False
+        or shape_bridge["claims"]["real_scoring_executed"] is not False
+        or shape_bridge["claims"]["scientific_claim_allowed_now"] is not False
+        or shape_bridge["claims"]["candidate_supported_or_refuted"] is not False
+        or shape_bridge["claims"]["absolute_pressure_or_temperature_prediction"] is not False
+        or shape_bridge["claims"]["parameter_free_target_independent_observable_mapping"]
+        is not False
+        or shape_bridge["zero_access_chronology"]["v3_contract_frozen_before_payload_access"]
+        is not True
+        or any(
+            value != 0
+            for key, value in shape_bridge["zero_access_chronology"].items()
+            if key != "v3_contract_frozen_before_payload_access"
+        )
+    ):
+        raise ResearchPublicationReadinessError("X-COP shape bridge evidence changed")
     if (
         sparc_incident["status"] != "blocked_preflight_retained_no_real_evaluation"
         or sparc_incident["claim_boundary"]["local_sparc_confirmation_sealed_for_descendant"]
@@ -594,6 +637,72 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     ):
         raise ResearchPublicationReadinessError("group-scale source audit changed")
     if (
+        group_acquisition["status"] != "frozen_metadata_manifest_only_bridge_blocked"
+        or group_acquisition["counts"]["metadata_manifests_frozen"] != 1
+        or group_acquisition["counts"]["metadata_manifest_bytes_frozen"] != 6278
+        or group_acquisition["counts"]["ready_science_lanes"] != 0
+        or any(
+            group_acquisition["counts"][key] != 0
+            for key in (
+                "sample_alias_rows_opened",
+                "scientific_payload_bytes",
+                "scientific_payload_downloads",
+                "scientific_payload_rows_opened",
+                "scores_computed",
+                "target_rows_opened",
+                "model_or_paid_calls",
+                "network_calls_by_receipt_builder",
+            )
+        )
+        or group_acquisition["claims"]["CP10_1_complete"] is not False
+        or group_acquisition["claims"]["CP10_2_complete"] is not False
+        or group_acquisition["claims"]["group_scale_bridge_ready"] is not False
+        or group_acquisition["claims"]["candidate_tested_on_groups"] is not False
+        or group_acquisition["claims"]["publication_claim_supported"] is not False
+        or group_acquisition["xcop_overlap_contract"]["executed"] is not False
+        or group_acquisition["xcop_overlap_contract"]["input_alias_rows"] != 0
+        or group_acquisition["xcop_overlap_contract"]["overlap_count"] is not None
+    ):
+        raise ResearchPublicationReadinessError("group-scale bridge acquisition changed")
+    if (
+        missing_variables["status"]
+        != "target_blind_defined_proxies_frozen_continuous_sources_or_definitions_blocked"
+        or missing_variables["counts"]["variable_families"] != 7
+        or missing_variables["counts"]["defined_proxy_contracts"] != 4
+        or missing_variables["counts"]["executable_proxy_only_rows"] != 4
+        or missing_variables["counts"]["continuous_measurement_ready_rows"] != 0
+        or missing_variables["counts"]["source_blocked_applicable_rows"] != 16
+        or missing_variables["counts"]["source_definition_blocked_variables"] != 2
+        or missing_variables["counts"]["response_or_target_rows_opened"] != 0
+        or missing_variables["counts"]["scientific_scores_computed"] != 0
+        or missing_variables["claim_boundary"]["all_variable_predictor_contracts_frozen"]
+        is not False
+        or missing_variables["claim_boundary"]["continuous_missing_variables_measured"] is not False
+        or missing_variables["claim_boundary"]["cause_identified"] is not False
+        or missing_variables["claim_boundary"]["cross_domain_law_supported"] is not False
+        or missing_variables["claim_boundary"]["scientific_scoring_executed"] is not False
+        or missing_variables["claim_boundary"]["scientific_claim_allowed"] is not False
+        or any(
+            missing_variables["chronology_and_access"][key] != 0
+            for key in (
+                "confirmation_rows_loaded",
+                "formula_selection_events",
+                "gpu_calls",
+                "group_payload_rows_loaded",
+                "holdout_rows_loaded",
+                "independent_rows_loaded",
+                "inferred_mass_rows_loaded",
+                "lensing_rows_loaded",
+                "model_or_paid_calls",
+                "network_calls",
+                "new_predictor_source_payload_rows_opened",
+                "response_rows_loaded",
+                "scientific_scores_computed",
+            )
+        )
+    ):
+        raise ResearchPublicationReadinessError("missing-variable preflight evidence changed")
+    if (
         data_contract["claims"]["source_metadata_audit_complete"] is not True
         or data_contract["claims"]["independent_source_selected"] is not False
         or data_contract["claims"]["target_rows_accessed"] is not False
@@ -601,6 +710,27 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or data_contract["counts"]["candidate_lanes"] != 6
     ):
         raise ResearchPublicationReadinessError("independent data contract changed")
+    if (
+        act_overlap["status"] != "frozen_metadata_only_unauthorized_catalog_rows_required"
+        or act_overlap["counts"]["catalog_bytes_downloaded"] != 0
+        or act_overlap["counts"]["catalog_files_downloaded"] != 0
+        or act_overlap["counts"]["catalog_rows_opened"] != 0
+        or act_overlap["counts"]["overlap_rows"] != 0
+        or act_overlap["counts"]["profile_thermodynamic_lensing_target_rows_opened"] != 0
+        or act_overlap["counts"]["ready_lanes"] != 0
+        or act_overlap["counts"]["scores_computed"] != 0
+        or act_overlap["access_and_decision"]["current_catalog_access_authorized"] is not False
+        or act_overlap["claims"]["catalog_population_gate_passed"] is not False
+        or act_overlap["claims"]["minimum_192_rule_evaluated"] is not False
+        or act_overlap["claims"]["overlap_count_computed"] is not False
+        or act_overlap["claims"]["independent_replication_ready"] is not False
+        or act_overlap["population_gate"]["catalog_overlap_count"] is not None
+        or act_overlap["population_gate"]["post_xcop_catalog_upper_bound"] is not None
+        or act_overlap["population_gate"]["rule_evaluated"] is not False
+        or act_overlap["xcop_exclusion_ledger_contract"]["executed"] is not False
+        or act_overlap["xcop_exclusion_ledger_contract"]["input_rows"] != 0
+    ):
+        raise ResearchPublicationReadinessError("ACT/eRASS overlap preflight changed")
     if (
         comparators["claims"]["matched_comparator_suite_complete"] is not True
         or comparators["claims"]["independent_replication"] is not False
@@ -864,6 +994,48 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or strata_scoring["compute_and_access_accounting"]["independent_rows_opened"] != 0
     ):
         raise ResearchPublicationReadinessError("cluster strata scoring evidence changed")
+    if (
+        theory_preflight["status"]
+        != "blocked_covariant_template_defined_health_and_lensing_not_established"
+        or theory_preflight["counts"]["health_gates_total"] != 10
+        or theory_preflight["counts"]["template_level_gates_passed"] != 1
+        or theory_preflight["counts"]["health_gates_blocked"] != 9
+        or theory_preflight["feasibility_adjudication"]["action_is_covariant_template"] is not True
+        or theory_preflight["feasibility_adjudication"]["one_universal_matter_photon_metric"]
+        is not True
+        or theory_preflight["feasibility_adjudication"]["healthy_degrees_of_freedom_proven"]
+        is not False
+        or theory_preflight["feasibility_adjudication"]["matter_and_lensing_jointly_passed"]
+        is not False
+        or theory_preflight["feasibility_adjudication"]["theory_feasible_for_observational_scoring"]
+        is not False
+        or theory_preflight["claim_boundary"]["healthy_action_completed"] is not False
+        or theory_preflight["claim_boundary"]["alternative_to_GR_established"] is not False
+        or theory_preflight["claim_boundary"]["dark_matter_eliminated"] is not False
+        or theory_preflight["claim_boundary"]["scientific_claim_allowed"] is not False
+        or any(value != 0 for value in theory_preflight["zero_access_and_compute"].values())
+    ):
+        raise ResearchPublicationReadinessError("matter+lensing theory preflight changed")
+    if (
+        symbolic_derivation["status"]
+        != "partial_bounded_symbolic_derivation_passed_full_covariant_gates_blocked"
+        or symbolic_derivation["counts"]["symbolic_checks"] != 20
+        or symbolic_derivation["counts"]["symbolic_checks_passed"] != 20
+        or symbolic_derivation["counts"]["independent_numeric_checks"] != 6
+        or symbolic_derivation["counts"]["independent_numeric_checks_passed"] != 6
+        or symbolic_derivation["adjudication"]["H2_bounded_scalar_euler_lagrange"]
+        != "PASS_MACHINE_SYMBOLIC_0P1_FLAT_HOMOGENEOUS_WITH_EXPLICIT_Q_SIGN"
+        or symbolic_derivation["adjudication"]["H2_general_covariant_scalar_equations"]
+        != "UNVERIFIED_STORED_CONTRACT_ONLY"
+        or symbolic_derivation["adjudication"]["H2_full_metric_variation"] != "BLOCKED_NOT_DERIVED"
+        or symbolic_derivation["claim_boundary"]["full_H2_passed"] is not False
+        or symbolic_derivation["claim_boundary"]["healthy_action_established"] is not False
+        or symbolic_derivation["claim_boundary"]["matter_and_lensing_jointly_predicted"]
+        is not False
+        or symbolic_derivation["claim_boundary"]["scientific_claim_allowed"] is not False
+        or any(value != 0 for value in symbolic_derivation["zero_access_and_compute"].values())
+    ):
+        raise ResearchPublicationReadinessError("bounded symbolic derivation changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True

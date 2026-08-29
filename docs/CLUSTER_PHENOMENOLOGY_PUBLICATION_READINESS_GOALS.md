@@ -69,6 +69,21 @@ follows the candidate acceleration law.
 - A source-only group-scale audit examined three candidate public lanes and found zero
   lanes ready for direct thermodynamic testing. It opened no payload rows and completes
   neither CP10.1 nor CP10.2.
+- A predictor-only X-COP shape bridge now freezes a dimensionless radial-shape mapping
+  with response-profiled nuisances. It is unauthorized, has no payload loader or scoring
+  executor, opened zero rows, and supports neither an absolute pressure/temperature claim
+  nor a scientific result.
+- A target-blind registry covers geometry, nonthermal pressure, calibration, clumping,
+  boundaries, environment, and assembly across SPARC, X-COP, and group lanes. It has four
+  executable X-COP proxy rows but zero continuous measurements; sixteen applicable rows
+  remain source-blocked, so CP5.13 stays open.
+- Group acquisition froze one 6,278-byte schema manifest but opened zero alias or science
+  rows. The ACT DR6 x eRASS1 preflight likewise opened zero catalog rows: its overlap,
+  X-COP exclusion, and 192-object population gates remain unevaluated and unauthorized.
+- A two-scalar matter+lensing action was retained only as a feasibility template. One of
+  ten template/health gates passes and nine remain blocked. A separate symbolic suite
+  passes bounded scalar identities (20 symbolic and 6 numerical checks), but not general
+  covariant equations, full H2, metric variation, Hamiltonian health, or joint lensing.
 
 Useful primary context includes the SPARC radial-acceleration relation
 (https://arxiv.org/abs/1609.05917), the documented residual MOND problem in X-ray groups
@@ -262,6 +277,13 @@ explaining the flips. A3266's boundary-method class is a descriptive singleton. 
 completes CP5.11's frozen strata task but not CP5.13, a causal explanation, an independent
 replication, or a scientific claim.
 
+The separate missing-variable contract makes the remaining CP5.13 work explicit without
+upgrading it: four X-COP categorical or projected proxies can be assembled from already
+public predictor metadata, but no continuous missing-variable measurement is ready.
+Nonthermal-pressure and calibration definitions remain source-definition blocked, and
+sixteen applicable lane-variable rows still require predictor-side public products. No
+response row was opened and no score or causal selection was made.
+
 A follow-up diagnostic then spent 501,636 candidate forward evaluations without opening
 confirmation or independent rows. Prior-space Sobol importance sampling collapsed to one
 effective sample. Extending the componentwise chains to 500 retained samples per chain
@@ -449,6 +471,12 @@ lanes across all six candidates and opened zero payloads or target rows. CP3 and
 therefore remain PARTIAL; CP7.2, CP7.3, and CP7.9 remain open rather than treating
 archive, map, catalog, or paper availability as a complete replication packet.
 
+The ACT/eRASS overlap preflight now freezes the exact catalog-only projection and identity
+rules, but current authorization is false. It downloaded and opened zero catalog rows, so
+the overlap count, X-COP exclusion ledger, post-exclusion population, and 192-object rule
+are all unevaluated. Metadata readiness does not complete CP3 or CP7 and does not make an
+independent profile packet ready.
+
 The preselection protocol is machine-bound in
 `configs/gravity_cluster_independent_replication_protocol_v1.json` and
 `runs/gravity/publication-readiness/independent-replication-protocol-v1.json`. It freezes
@@ -511,6 +539,12 @@ audit opened no payload, thermodynamic, stellar-baryon, inferred-mass, or lensin
 computed no score. Direct endpoints, covariance/calibration products, licensing, and
 alias resolution remain incomplete, so CP10.1 and CP10.2 remain open.
 
+A follow-up acquisition froze the 6,278-byte AXES-2MRS CDS ReadMe as a schema/file
+manifest, not as a scientific catalog. It still opened zero alias and scientific rows;
+the X-GAP alias inventory, direct thermodynamic endpoints, covariance, per-file terms,
+and X-COP overlap remain unresolved. The bridge therefore has zero ready science lanes,
+and neither group task changes state.
+
 - [ ] **CP10.1** Assemble a source-audited X-ray group sample spanning roughly
   `10^13–10^14` solar masses.
 - [ ] **CP10.2** Freeze whole-group splits and direct thermodynamic endpoints.
@@ -528,6 +562,14 @@ alias resolution remain incomplete, so CP10.1 and CP10.2 remain open.
 
 This gate is not required for the bounded empirical paper. It becomes mandatory when
 the wording attributes the relation to gravity or claims an alternative to dark matter.
+
+The current two-scalar action is a blocked feasibility template, not a derived healthy
+theory. It declares one universal matter/photon metric and a locally fixed-range channel,
+but passes only one of ten template/health gates. The bounded symbolic follow-up checks
+restricted flat-background scalar identities and local Green-function behavior; it
+explicitly leaves the general covariant scalar equations unverified and full metric
+variation, Noether/Hamiltonian closure, global hyperbolicity, screening, cosmology, and
+joint matter+lensing prediction blocked. No CP11 checkbox or scientific claim changes.
 
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.

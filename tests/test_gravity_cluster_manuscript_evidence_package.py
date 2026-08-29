@@ -124,6 +124,71 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert strata["CP5_13_complete"] is False
     assert strata["causal_variable_identified"] is False
     assert strata["scientific_claim_allowed"] is False
+    shape_missing = receipt["predictor_shape_and_missing_variable_boundary"]
+    assert shape_missing["shape_production_authorized"] is False
+    assert shape_missing["shape_real_scoring_executed"] is False
+    assert shape_missing["shape_absolute_prediction_established"] is False
+    assert shape_missing["defined_proxy_contracts"] == 4
+    assert shape_missing["continuous_measurement_ready_rows"] == 0
+    assert shape_missing["source_blocked_applicable_rows"] == 16
+    acquisition = receipt["group_and_act_acquisition_boundary"]
+    assert acquisition["group_alias_rows_opened"] == 0
+    assert acquisition["group_scientific_payload_rows_opened"] == 0
+    assert acquisition["group_ready_science_lanes"] == 0
+    assert acquisition["act_catalog_rows_opened"] == 0
+    assert acquisition["act_population_gate_evaluated"] is False
+    theory = receipt["matter_lensing_theory_boundary"]
+    assert theory["template_level_gates_passed"] == 1
+    assert theory["health_gates_total"] == 10
+    assert theory["health_gates_blocked"] == 9
+    assert theory["healthy_action_completed"] is False
+    assert theory["symbolic_checks_passed"] == 20
+    assert theory["independent_numeric_checks_passed"] == 6
+    assert theory["full_H2_passed"] is False
+    assert theory["scientific_claim_allowed"] is False
+
+
+@pytest.mark.parametrize(
+    "source_id,mutation,match",
+    [
+        (
+            "xcop_shape_bridge_preflight",
+            lambda value: value["claims"].__setitem__("real_scoring_executed", True),
+            "shape bridge",
+        ),
+        (
+            "missing_variable_preflight",
+            lambda value: value["counts"].__setitem__("continuous_measurement_ready_rows", 1),
+            "missing-variable",
+        ),
+        (
+            "group_scale_bridge_acquisition_v2",
+            lambda value: value["counts"].__setitem__("scientific_payload_rows_opened", 1),
+            "group acquisition",
+        ),
+        (
+            "act_erass_overlap_preflight",
+            lambda value: value["population_gate"].__setitem__("rule_evaluated", True),
+            "ACT/eRASS",
+        ),
+        (
+            "matter_lensing_theory_preflight",
+            lambda value: value["claim_boundary"].__setitem__("healthy_action_completed", True),
+            r"matter\+lensing theory",
+        ),
+        (
+            "matter_lensing_symbolic_derivation",
+            lambda value: value["claim_boundary"].__setitem__("full_H2_passed", True),
+            "bounded symbolic",
+        ),
+    ],
+)
+def test_new_source_semantics_fail_closed(source_id: str, mutation: object, match: str) -> None:
+    sources = package._load_sources(ROOT, package.load_config(ROOT))
+    changed = copy.deepcopy(sources)
+    mutation(changed[source_id])  # type: ignore[operator]
+    with pytest.raises(package.GravityClusterManuscriptPackageError, match=match):
+        package._validate_new_source_semantics(changed)
 
 
 @pytest.mark.parametrize(

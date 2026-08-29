@@ -70,6 +70,24 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         row[:3] == ["cluster_strata", "candidate_object_win_gate_passed", "false"]
         for row in table_5[1:]
     )
+    assert any(
+        row[:3] == ["xcop_shape_bridge", "real_scoring_executed", "false"] for row in table_5[1:]
+    )
+    assert any(
+        row[:3] == ["missing_variables", "continuous_measurement_ready_rows", "0"]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3] == ["act_erass_overlap", "population_gate_evaluated", "false"]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3] == ["matter_lensing_theory", "template_level_gates_passed", "1"]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3] == ["matter_lensing_symbolic", "full_H2_passed", "false"] for row in table_5[1:]
+    )
     table_6 = parsed["table-6-access-claims-limitations.csv"]
     assert any(
         row
@@ -92,6 +110,26 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
             "false",
         ]
         for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "shape_missing_variable_boundary",
+            "continuous_measurement_ready_rows",
+            "0",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row == ["group_act_acquisition_boundary", "act_catalog_rows_opened", "0"]
+        for row in table_6[1:]
+    )
+    assert any(
+        row == ["group_act_acquisition_boundary", "act_population_gate_evaluated", "false"]
+        for row in table_6[1:]
+    )
+    assert any(
+        row == ["matter_lensing_theory_boundary", "full_H2_passed", "false"] for row in table_6[1:]
     )
     assert any(
         row

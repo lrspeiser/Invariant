@@ -182,6 +182,36 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             ),
             "cluster strata scoring",
         ),
+        (
+            "xcop_shape_bridge_preflight",
+            lambda value: value["claims"].__setitem__("real_scoring_executed", True),
+            "X-COP shape bridge",
+        ),
+        (
+            "missing_variable_preflight",
+            lambda value: value["counts"].__setitem__("continuous_measurement_ready_rows", 1),
+            "missing-variable",
+        ),
+        (
+            "group_scale_bridge_acquisition_v2",
+            lambda value: value["counts"].__setitem__("scientific_payload_rows_opened", 1),
+            "group-scale bridge acquisition",
+        ),
+        (
+            "act_erass_overlap_preflight",
+            lambda value: value["population_gate"].__setitem__("rule_evaluated", True),
+            "ACT/eRASS",
+        ),
+        (
+            "matter_lensing_theory_preflight",
+            lambda value: value["claim_boundary"].__setitem__("healthy_action_completed", True),
+            r"matter\+lensing theory",
+        ),
+        (
+            "matter_lensing_symbolic_derivation",
+            lambda value: value["claim_boundary"].__setitem__("full_H2_passed", True),
+            "bounded symbolic",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -208,7 +238,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 5,
         "blocked_gates": 1,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 26,
+        "bound_evidence_receipts": 32,
         "independent_target_rows_opened": 0,
     }
 
