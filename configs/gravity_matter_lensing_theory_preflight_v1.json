@@ -1,0 +1,246 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-theory-preflight-config-1.0",
+  "preflight_id": "gravity-matter-lensing-theory-preflight-v1",
+  "status": "frozen_no_data_two_scalar_eft_feasibility_contract",
+  "purpose": "Define and fail-closed adjudicate the smallest two-scalar covariant EFT template found here that can represent an E/RAR-like local base and a B-gated finite-range additive channel while coupling matter and photons through one physical metric; do not claim health, novelty, or empirical support.",
+  "source_bindings": [
+    {
+      "source_id": "gravity_lead_parent_registry",
+      "path": "runs/gravity/lead-programs/gravity-lead-parent-registry-v1.json",
+      "file_sha256": "0ff0ae7b8bb8fc18cea2a04b9a7b8b968195437a1b19f784960370e441959d85",
+      "content_sha256": "89cc89dc5caea84b350ddca13a9e1f2fffadb540a0472379ac8f6cdfcf5d2fe3",
+      "schema_version": "invariant-gravity-lead-parent-registry-receipt-1.0",
+      "decision": "PASS_ALL_FIVE_PARENTS_REGISTERED_EVIDENCE_INTACT"
+    },
+    {
+      "source_id": "gravity_lead_recombination",
+      "path": "runs/gravity/lead-programs/gravity-lead-recombination-v1.json",
+      "file_sha256": "74dd4de439cdfb23027b41530cc6a8658e9e635ead2c53016b797c39aada3d0f",
+      "content_sha256": "babfd6794faf53256d661c81b405ee194d6e9fddb7746cc674bf72920d6960f0",
+      "schema_version": "invariant-gravity-lead-recombination-preflight-1.0",
+      "decision": "PASS_TARGET_BLIND_STRUCTURAL_PREFLIGHT_CHILDREN_NOT_EXECUTED"
+    },
+    {
+      "source_id": "shared_ben_synthetic_execution",
+      "path": "runs/gravity/shared-target-blind-ben-synthetic-execution-v1.json",
+      "file_sha256": "05493ee23a86bd6f16e9eb460e3c175628f30d5946c3b6b6b7441fc31099db64",
+      "content_sha256": "c5ecdfd36d0b940c3c11c9a92054c0c575ed3551d66034bdcb9d592fa2f702c3",
+      "schema_version": "invariant-gravity-shared-target-blind-ben-synthetic-receipt-1.0",
+      "decision": "PASS_SYNTHETIC_BEN_GRAMMAR_CONTROLS_REAL_SCIENTIFIC_EVALUATION_LOCKED"
+    }
+  ],
+  "role_mapping": {
+    "E_local_base": "phi k-essence/AQUAL-like quasistatic branch",
+    "B_continuous_gate": "B(u)=1/(1+u) with u=4*X_phi^2/(M_Pl^4*a0^4)",
+    "N_additive_channel": "massive chi response with Z_chi(u)=B(u)^(-2) and range ell_chi=1/m_chi",
+    "A_nuisance": "ABSENT_FROM_THEORY_ACTION",
+    "M_temporal_phase": "ABSENT_FROM_THEORY_ACTION",
+    "labels_are_empirical_roles_not_fundamental_fields": true
+  },
+  "conventions_and_dimensions": {
+    "spacetime_dimension": 4,
+    "metric_signature": "(-,+,+,+)",
+    "units": "natural_units_c_equals_hbar_equals_1",
+    "covariant_derivative": "Levi-Civita connection of Einstein metric g_mu_nu",
+    "riemann_convention": "[nabla_mu,nabla_nu]V^rho=R^rho_sigma_mu_nu V^sigma",
+    "mass_dimensions": {
+      "g_mu_nu": 0,
+      "g_tilde_mu_nu": 0,
+      "A_conformal": 0,
+      "B_gate": 0,
+      "P_function": 0,
+      "Z_chi": 0,
+      "d_phi": 0,
+      "alpha_phi": 0,
+      "alpha_chi": 0,
+      "partial_mu": 1,
+      "phi": 1,
+      "chi": 1,
+      "M_Pl": 1,
+      "M_phi": 1,
+      "m_chi": 1,
+      "a0": 1,
+      "X_phi": 4,
+      "X_chi": 4,
+      "V_phi": 4,
+      "lagrangian_density_without_sqrt_minus_g": 4
+    }
+  },
+  "action_family": {
+    "action": "S=int d4x sqrt(-g)[M_Pl^2*R/2 + M_phi^4*P(y) + Z_chi(u)*(X_chi - m_chi^2*chi^2/2) - V_phi(phi)] + S_m[psi,g_tilde]",
+    "kinetic_invariants": {
+      "X_phi": "-g^mu_nu*nabla_mu(phi)*nabla_nu(phi)/2",
+      "X_chi": "-g^mu_nu*nabla_mu(chi)*nabla_nu(chi)/2",
+      "y": "X_phi/M_phi^4",
+      "u": "4*X_phi^2/(M_Pl^4*a0^4)"
+    },
+    "gate_and_range": {
+      "B_u": "1/(1+u)",
+      "Z_chi_u": "B_u^(-2)",
+      "ell_chi": "1/m_chi",
+      "high_invariant_behavior": "u->infinity implies B->0 and Z_chi->infinity, suppressing the sourced chi amplitude by 1/Z_chi=B^2 in the locally constant-background estimate while leaving ell_chi=1/m_chi fixed",
+      "low_invariant_behavior": "u->0 implies B->1 and Z_chi->1 for the entire chi quadratic sector",
+      "nonconstant_background_obligation": "Gradients of Z_chi and kinetic/mass mixing with the phi background must be retained; the locally constant Green-function estimate is not valid until their size is bounded on every tested background.",
+      "nonconstant_background_status": "BLOCKED_GRAD_Z_CHI_AND_BACKGROUND_MIXING_NOT_DERIVED"
+    },
+    "universal_physical_metric": {
+      "definition": "g_tilde_mu_nu=A(phi,chi)^2*[g_mu_nu + d_phi*nabla_mu(phi)*nabla_nu(phi)/M_phi^4]",
+      "ln_A": "alpha_phi*phi/M_Pl + alpha_chi*chi/M_Pl",
+      "matter_and_photons_use_same_metric": true,
+      "separate_photon_coefficient_forbidden": true,
+      "invertibility_and_signature_condition": "A>0 and 1-2*d_phi*X_phi/M_phi^4>0"
+    },
+    "local_base_target_branch": {
+      "quasistatic_equation": "div[P_y(-|grad(phi)|^2/(2*M_phi^4))*grad(phi)]=alpha_phi*rho_b/M_Pl when chi and disformal terms are disabled",
+      "matter_acceleration": "g_local=g_N+alpha_phi*|grad(phi)|/M_Pl",
+      "rar_like_reference": "nu_E(x)=1/[1-exp(-sqrt(x))] and g_local=g_N*nu_E(g_N/a0)",
+      "functional_requirement": "P_y on the spacelike quasistatic branch must reproduce the declared nu_E mapping under the frozen source symmetry/solver contract, remain single-valued, and extend to a healthy timelike cosmological branch",
+      "completion_status": "BLOCKED_NO_GLOBAL_P_FUNCTION_OR_NONSpherical_DERIVATION"
+    },
+    "finite_range_channel": {
+      "quasistatic_equation": "div[Z_chi(u)*grad(chi)]-Z_chi(u)*m_chi^2*chi=alpha_chi*rho_b/M_Pl plus the frozen metric-source terms",
+      "slow_background_green_function": "chi(r) proportional to B(u)^2*exp(-m_chi*r)/r when u is locally constant",
+      "additive_matter_acceleration": "g_N_channel=alpha_chi*|grad(chi)|/M_Pl plus the universal disformal geodesic contribution",
+      "completion_status": "BLOCKED_TEMPLATE_ONLY_FIXED_RANGE_LOCAL_ESTIMATE_GRAD_Z_CHI_AND_BACKGROUND_MIXING_UNRESOLVED"
+    }
+  },
+  "term_provenance_ledger": [
+    {"term_id": "EH", "term": "M_Pl^2*R/2", "provenance_label": "known_rewrite", "basis": "Einstein-Hilbert gravitational kinetic term", "historical_novelty_claim": false},
+    {"term_id": "PHI_KESSENCE", "term": "M_phi^4*P(X_phi/M_phi^4)-V_phi(phi)", "provenance_label": "known_combination", "basis": "k-essence/AQUAL/K-mouflage-style nonlinear scalar kinetic sector", "historical_novelty_claim": false},
+    {"term_id": "CHI_YUKAWA", "term": "Z_chi(u)*[X_chi-m_chi^2*chi^2/2]", "provenance_label": "known_combination", "basis": "massive scalar finite-range response with one environment-dependent normalization multiplying its full quadratic sector", "historical_novelty_claim": false},
+    {"term_id": "B_KINETIC_GATE", "term": "u=4*X_phi^2/(M_Pl^4*a0^4); B=1/(1+u); Z_chi=B^(-2)", "provenance_label": "potentially_new_synthesis", "basis": "combination of invariant screening and finite-range scalar response flagged for literature review", "historical_novelty_claim": false},
+    {"term_id": "UNIVERSAL_CONFORMAL", "term": "A^2(phi,chi)*g_mu_nu", "provenance_label": "known_combination", "basis": "universal scalar-tensor conformal matter coupling", "historical_novelty_claim": false},
+    {"term_id": "UNIVERSAL_DISFORMAL", "term": "A^2*d_phi*nabla_mu(phi)*nabla_nu(phi)/M_phi^4", "provenance_label": "known_combination", "basis": "universal disformal matter/photon metric term", "historical_novelty_claim": false},
+    {"term_id": "ASSEMBLED_TWO_FIELD_TEMPLATE", "term": "EH+PHI_KESSENCE+CHI_YUKAWA+B_KINETIC_GATE+ONE_UNIVERSAL_METRIC", "provenance_label": "potentially_new_synthesis", "basis": "assembled target architecture only; no authoritative novelty search or claim", "historical_novelty_claim": false}
+  ],
+  "field_equations_and_symbolic_contract": {
+    "metric_equation": "M_Pl^2*G_mu_nu=T_phi_mu_nu+T_chi_mu_nu+T_m_E_mu_nu, with every X_phi dependence of Z_chi multiplying the full bracket [X_chi-m_chi^2*chi^2/2] and every conformal/disformal matter variation included by functional differentiation",
+    "phi_equation": "nabla_mu{[P_y + (X_chi-m_chi^2*chi^2/2)*Z_chi,u*(8*X_phi/(M_Pl^4*a0^4))]*nabla^mu(phi)}-V_phi,phi=Q_phi[g_tilde,T_m]",
+    "chi_equation": "nabla_mu[Z_chi(u)*nabla^mu(chi)]-Z_chi(u)*m_chi^2*chi=Q_chi[g_tilde,T_m]",
+    "matter_source_functionals": {
+      "Q_phi": "-(1/sqrt(-g))*delta(S_m)/delta(phi), including derivative terms generated by the disformal metric",
+      "Q_chi": "-(1/sqrt(-g))*delta(S_m)/delta(chi)"
+    },
+    "field_stress_definition": "T_fields_mu_nu=-(2/sqrt(-g))*delta(S_phi+S_chi)/delta(g^mu_nu); the Z_chi,u metric variation multiplying [X_chi-m_chi^2*chi^2/2] is mandatory and may not be dropped",
+    "symbolic_derivation_requirements": [
+      "derive Euler-Lagrange equations from the exact action before substituting a background",
+      "retain boundary terms until the variational boundary conditions are declared",
+      "expand the full two-field principal symbol including Z_chi,u, Z_chi,uu, gradients of Z_chi, and phi-background mixing",
+      "derive Einstein-frame matter sources from the one physical metric rather than inserting rho by hand",
+      "verify the diffeomorphism Noether identity symbolically off shell",
+      "derive weak-field equations before imposing spherical symmetry",
+      "derive FLRW background and quadratic perturbation actions from the same parameter set"
+    ],
+    "machine_verified_symbolic_derivation": false,
+    "gradient_and_background_mixing_status": "BLOCKED_GRAD_Z_CHI_AND_PHI_BACKGROUND_MIXING_NOT_MACHINE_DERIVED",
+    "status": "PARTIAL_FUNCTIONAL_EQUATIONS_FROZEN_FULL_VARIATION_NOT_MACHINE_VERIFIED"
+  },
+  "degrees_of_freedom": {
+    "tensor_polarizations": 2,
+    "scalar_fields": 2,
+    "vector_gravitational_modes": 0,
+    "total_gravitational_dof_if_healthy": 4,
+    "condition": "The count holds only if the two-field kinetic Hessian is nondegenerate, the physical-metric transformation is invertible, no extra higher-derivative matter mode appears below the EFT cutoff, and all constraints close.",
+    "status": "CONDITIONAL_NOT_HAMILTONIAN_VERIFIED"
+  },
+  "conservation_identity": {
+    "physical_frame": "g_tilde_nabla_mu(T_tilde_m^mu_nu)=0 when matter equations hold because all matter and photons couple to the same g_tilde_mu_nu",
+    "einstein_frame_exchange": "nabla_mu(T_m_E^mu_nu)=Q_phi*nabla^nu(phi)+Q_chi*nabla^nu(chi)+the explicitly derived disformal derivative-exchange terms",
+    "total_identity": "nabla_mu[T_m_E^mu_nu+T_phi^mu_nu+T_chi^mu_nu]=0 after the two scalar equations and metric equation hold",
+    "off_shell_noether_check_required": true,
+    "status": "IDENTITY_CONTRACT_FROZEN_NOT_SYMBOLICALLY_VERIFIED"
+  },
+  "weak_field_matter_and_lensing": {
+    "einstein_metric": "g_00=-(1+2*Phi_E); g_ij=(1-2*Psi_E)*delta_ij",
+    "conformal_perturbation": "a=alpha_phi*delta_phi/M_Pl+alpha_chi*delta_chi/M_Pl",
+    "static_conformal_limit": {
+      "Phi": "Phi_E+a",
+      "Psi": "Psi_E-a",
+      "slip": "Phi-Psi=(Phi_E-Psi_E)+2*a",
+      "lensing_sum": "Phi+Psi=Phi_E+Psi_E; the leading conformal scalar contribution cancels"
+    },
+    "disformal_effect": "For spatial phi gradients, d_phi*nabla_i(phi)*nabla_j(phi)/M_phi^4 adds an anisotropic photon/matter metric contribution that must be projected through the full lens equation; it is not an independent photon multiplier.",
+    "lensing_gate": "A viable completion must predict Phi, Psi, slip, convergence, and shear from one parameter set and one g_tilde, with no lensing-only coefficient.",
+    "status": "BLOCKED_CONFORMAL_LIMIT_HAS_NO_LEADING_EXTRA_LENSING_DISFORMAL_COMPLETION_NOT_HEALTH_VERIFIED"
+  },
+  "health_and_consistency_gates": [
+    {"gate_id": "H1_ACTION_AND_DIMENSIONS", "requirement": "Every term is a scalar density of mass dimension four and one universal physical metric is used.", "status": "PASS_TEMPLATE_LEVEL"},
+    {"gate_id": "H2_VARIATION_AND_CONSTRAINTS", "requirement": "Machine-derive full metric/scalar equations, principal symbol, Hamiltonian constraints, and off-shell Noether identity.", "status": "BLOCKED_NOT_MACHINE_DERIVED"},
+    {"gate_id": "H3_NO_GHOST", "requirement": "All eigenvalues of the two-scalar time-kinetic matrix from the quadratic action are positive below the EFT cutoff; P_y>0, P_y+2*y*P_yy>0, and Z_chi>0 are necessary but not sufficient.", "status": "BLOCKED_P_FUNCTION_AND_BACKGROUND_GRID_ABSENT"},
+    {"gate_id": "H4_GRADIENT_AND_HYPERBOLICITY", "requirement": "The full coupled principal symbol, including gradients of Z_chi and phi-background kinetic/mass mixing, has one common timelike covector, real positive scalar sound-speed squared eigenvalues, and a well-posed Cauchy surface on Solar, galaxy, group, cluster, and FLRW backgrounds.", "status": "BLOCKED_FULL_PRINCIPAL_SYMBOL_GRAD_Z_CHI_AND_BACKGROUND_MIXING_NOT_EVALUATED"},
+    {"gate_id": "H5_EFT_CUTOFF", "requirement": "Strong-coupling scale exceeds every frozen spatial, temporal, source, gradient-of-Z_chi, and background-mixing scale used in a test and remains above the disformal scale.", "status": "BLOCKED_NO_PARAMETER_MIXING_SCALE_OR_CUTOFF_FREEZE"},
+    {"gate_id": "H6_GW_AND_PHOTON_CONES", "requirement": "EH gives c_T(g)=1; on homogeneous phi(t), c_GW/c_gamma=[1-d_phi*dot(phi)^2/M_phi^4]^(-1/2), the physical metric remains Lorentzian, and |c_GW/c_gamma-1|<=1e-15 on the late-time background.", "status": "BLOCKED_DISFORMAL_LENSING_VERSUS_GW_SPEED_TENSION_UNRESOLVED"},
+    {"gate_id": "H7_SOLAR_SCREENING", "requirement": "The same P, B, couplings, and boundary conditions yield |gamma_PPN-1|<=2.3e-5, suppress the scalar fifth-force ratio below the frozen Solar-System bound, and avoid preferred-frame/disformal anomalies without a Solar-only coefficient.", "status": "BLOCKED_NO_SCREENED_SOLUTION_OR_PPN_DERIVATION"},
+    {"gate_id": "H8_COSMOLOGY", "requirement": "Solve 3*M_Pl^2*H^2=rho_m+rho_r+rho_phi+rho_chi and both scalar background equations; demonstrate stable perturbations, acceptable early scalar fraction, late expansion, G_eff evolution, and no unintended chi activation from timelike X_phi.", "status": "BLOCKED_NO_FLRW_SOLUTION_OR_PERTURBATION_ANALYSIS"},
+    {"gate_id": "H9_MATTER_AND_LENSING", "requirement": "Derive dynamics and lensing from the same g_tilde and parameters; conformal cancellation or a disformal health failure cannot be repaired with a photon-only factor.", "status": "BLOCKED_NO_HEALTHY_LENSING_COMPLETION"},
+    {"gate_id": "H10_RAR_AND_FINITE_RANGE_MATCH", "requirement": "Derive, rather than fit after target access, a globally healthy P branch and show that the chi Green function has fixed range 1/m_chi, amplitude gate B^2, and controlled gradient-of-Z_chi corrections outside the locally constant and spherical limits.", "status": "BLOCKED_SYMBOLIC_MAPPING_AND_NONCONSTANT_BACKGROUND_CONTROL_INCOMPLETE"}
+  ],
+  "exact_parameter_and_limit_gates": {
+    "parameter_domains": {
+      "M_Pl": "positive",
+      "M_phi": "positive",
+      "m_chi": "positive",
+      "a0": "positive",
+      "alpha_phi": "finite real",
+      "alpha_chi": "finite real",
+      "d_phi": "finite real subject to invertibility, GW, hyperbolicity, and cutoff gates",
+      "P_function": "single frozen differentiable function on all tested spacelike and timelike y",
+      "V_phi": "single frozen potential bounded sufficiently for every tested background"
+    },
+    "parameter_values_frozen": false,
+    "ell_chi_mpc_frozen": null,
+    "eft_cutoff_frozen": null,
+    "zero_coupling_limit": "alpha_phi=alpha_chi=d_phi=0 makes g_tilde=g and removes scalar forces from matter/photon geodesics",
+    "gr_limit": "alpha_phi=alpha_chi=d_phi=0, phi and chi constant at zero-stress extrema, P(0)=0, and V_phi=0 gives Einstein gravity plus minimally coupled matter",
+    "high_acceleration_limit": "u->infinity requires B->0, Z_chi->infinity, locally constant-background chi source amplitude 1/Z_chi=B^2->0 at fixed range 1/m_chi, |g_chi/g_N|->0 after gradient-of-Z_chi corrections are bounded, and the frozen P branch must also enforce |g_phi/g_N|->0",
+    "low_invariant_limit": "u->0 gives B->1 and a canonical-normalized full chi quadratic sector with range 1/m_chi",
+    "zero_finite_channel_limit": "alpha_chi->0 or m_chi->infinity removes the N channel without changing the phi local-base action",
+    "zero_local_base_limit": "alpha_phi->0 removes the direct phi conformal force but does not by itself remove derivative gate background effects; a valid ablation must also freeze phi at a constant solution",
+    "no_disformal_limit": "d_phi=0 restores a purely conformal universal metric and therefore the leading weak-field scalar lensing cancellation",
+    "promotion_rule": "No observational execution may begin until P, V_phi, all parameter values, ell_chi, cutoff, background/branch choice, boundary conditions, and H2-H10 adjudicators are hash-frozen and passed."
+  },
+  "feasibility_adjudication": {
+    "action_is_covariant_template": true,
+    "one_universal_matter_photon_metric": true,
+    "E_RAR_like_branch_possible_in_principle": true,
+    "B_gated_finite_range_channel_possible_in_principle": true,
+    "exact_empirical_BEN_formula_derived": false,
+    "global_P_function_completed": false,
+    "full_field_equations_machine_verified": false,
+    "healthy_degrees_of_freedom_proven": false,
+    "ghost_gradient_hyperbolicity_passed": false,
+    "GW_speed_passed": false,
+    "Solar_System_screening_passed": false,
+    "cosmology_passed": false,
+    "matter_and_lensing_jointly_passed": false,
+    "theory_feasible_for_observational_scoring": false,
+    "decision": "BLOCKED_TWO_SCALAR_COVARIANT_TEMPLATE_DEFINED_HEALTHY_MATTER_LENSING_COMPLETION_NOT_ESTABLISHED"
+  },
+  "claim_boundary": {
+    "historical_novelty_established": false,
+    "new_fundamental_theory_discovered": false,
+    "alternative_to_GR_established": false,
+    "dark_matter_eliminated": false,
+    "lensing_predicted": false,
+    "healthy_action_completed": false,
+    "scientific_claim_allowed": false,
+    "observational_execution_unlocked": false,
+    "publication_readiness_changed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "predictor_rows_opened": 0,
+    "response_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "holdout_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "formula_scores_computed": 0,
+    "likelihood_calls": 0,
+    "network_calls": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/matter-lensing-theory-preflight-v1.json"
+}
