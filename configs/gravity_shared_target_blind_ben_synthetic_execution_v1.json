@@ -1,0 +1,117 @@
+{
+  "schema_version": "invariant-gravity-shared-target-blind-ben-synthetic-config-1.0",
+  "status": "frozen_append_only_synthetic_ben_execution",
+  "purpose": "Execute a finite target-blind B+E+N grammar only on injected synthetic packets passed through the four frozen adapters, with exact expression collapse, channel ablations, wrong-law controls, and no real target scoring.",
+  "implementation_source": "src/sigma_theory_compiler/gravity_shared_target_blind_ben_synthetic_execution.py",
+  "implementation_source_normalized_sha256": "6f1a7091c6a3d14ec6869c7ee30f8a38ff871343246d57b048883eda8a26fcc5",
+  "verifier_test": {
+    "path": "tests/test_gravity_shared_target_blind_ben_synthetic_execution.py",
+    "file_sha256": "563da043471e41ef512a0db4fefc6067b054964cb3bb86b187f7503230d7072b"
+  },
+  "source_bindings": {
+    "shared_source": {
+      "path": "src/sigma_theory_compiler/gravity_shared_target_blind_evaluator.py",
+      "file_sha256": "7110b5c8012b8bd1493944715fc482db86cafbe43374fcec5837d1288c6ef439"
+    },
+    "shared_config": {
+      "path": "configs/gravity_shared_target_blind_evaluator_v1.json",
+      "file_sha256": "896f1796033898c32145a16bad22e041ebced2b318c44d1e3fcdeb4911f91d76"
+    },
+    "shared_test": {
+      "path": "tests/test_gravity_shared_target_blind_evaluator.py",
+      "file_sha256": "7c6a41a88fe2eeb7fd48bdb7b103098b2e44fd24e5fadcd4f1fba9e56308ce48"
+    },
+    "shared_documentation": {
+      "path": "docs/GRAVITY_SHARED_TARGET_BLIND_EVALUATOR_V1.md",
+      "file_sha256": "2d462a0d78a947c7be2c5c2f71fe7206a7509c84432552b031fb5e2e5d893515"
+    },
+    "shared_receipt": {
+      "path": "runs/gravity/shared-target-blind-evaluator-v1.json",
+      "file_sha256": "5d0a87c37d42ddac65a926f1ec3108f9e64511be20b47701f2b35f02838a7e7a",
+      "content_sha256": "71db064da23d44191f20c0327cc06c488963f37b748ae2fa5de4b3f7de3779df"
+    },
+    "parent_registry_receipt": {
+      "path": "runs/gravity/lead-programs/gravity-lead-parent-registry-v1.json",
+      "file_sha256": "0ff0ae7b8bb8fc18cea2a04b9a7b8b968195437a1b19f784960370e441959d85",
+      "content_sha256": "89cc89dc5caea84b350ddca13a9e1f2fffadb540a0472379ac8f6cdfcf5d2fe3"
+    },
+    "recombination_receipt": {
+      "path": "runs/gravity/lead-programs/gravity-lead-recombination-v1.json",
+      "file_sha256": "74dd4de439cdfb23027b41530cc6a8658e9e635ead2c53016b797c39aada3d0f",
+      "content_sha256": "babfd6794faf53256d661c81b405ee194d6e9fddb7746cc674bf72920d6960f0"
+    }
+  },
+  "generation_packet_sha256": "7bfae7b2d7cfe615bb5f80e2f375e01b72f249237a126c592364eb1dfeaf2785",
+  "typed_variables": [
+    {"symbol": "x_source", "dimension": "1", "finite": true},
+    {"symbol": "x_radial", "dimension": "1", "finite": true},
+    {"symbol": "x_state", "dimension": "1", "finite": true},
+    {"symbol": "x_geometry", "dimension": "1", "finite": true}
+  ],
+  "allowed_operators": ["add", "divide_safe", "exp_negative", "multiply", "sqrt_positive", "subtract"],
+  "component_grammar_sha256": "c319ad7ca481025d15cc5a0500bb724c5f0408e0eb95f59faa63843b12c5dd11",
+  "component_grammar_counts": {
+    "E_local_base": 4,
+    "B_continuous_gate": 4,
+    "N_additive_channel": 5,
+    "A_nuisance": 3
+  },
+  "target_components": {
+    "known_rewrite": {
+      "E_local_base": "E.newtonian",
+      "B_continuous_gate": "B.low_acceleration",
+      "N_additive_channel": "N.null_ablation",
+      "A_nuisance": "A.off"
+    },
+    "known_combination": {
+      "E_local_base": "E.newtonian",
+      "B_continuous_gate": "B.low_acceleration",
+      "N_additive_channel": "N.radial_tail",
+      "A_nuisance": "A.off"
+    },
+    "potentially_new_synthesis": {
+      "E_local_base": "E.rarlike_interpolation",
+      "B_continuous_gate": "B.state_weighted",
+      "N_additive_channel": "N.sqrt_radial_tail",
+      "A_nuisance": "A.geometry_calibration"
+    }
+  },
+  "rows_per_domain": 64,
+  "same_action_boundary": {
+    "action_or_field_equations_frozen": false,
+    "independent_photon_multiplier_allowed": false,
+    "synthetic_metric_projection": "Phi_syn=prediction/2; Psi_syn=prediction/2",
+    "synthetic_projection_is_physical_derivation": false,
+    "real_lensing_score_allowed": false,
+    "real_lensing_unlock": false,
+    "required_next_gate": "derive metric potentials and matter/light coupling from one frozen action or field-equation system before any real lensing target access"
+  },
+  "data_boundary": {
+    "synthetic_rows_per_domain": 64,
+    "real_galaxy_rows_read": 0,
+    "real_group_rows_read": 0,
+    "real_cluster_rows_read": 0,
+    "real_lensing_rows_read": 0,
+    "real_target_fields_read": [],
+    "real_formula_scores_computed": 0,
+    "sealed_rows_read": 0,
+    "confirmation_rows_read": 0,
+    "independent_rows_read": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "gpu_calls": 0
+  },
+  "claim_boundary": {
+    "synthetic_grammar_mechanics_validated": true,
+    "ben_child_empirically_works": false,
+    "candidate_physics_supported": false,
+    "same_action_derived": false,
+    "historical_novelty_established": false,
+    "publication_ready": false,
+    "gr_replaced": false,
+    "synthetic_recovery_is_scientific_evidence": false,
+    "real_scientific_evaluation_unlocked": false
+  },
+  "receipt_path": "runs/gravity/shared-target-blind-ben-synthetic-execution-v1.json"
+}
