@@ -171,13 +171,21 @@
     },
     "legacy_dr10": {
       "official_catalogue": "https://www.legacysurvey.org/dr10/catalogs/",
-      "tap_sync_endpoint": "https://datalab.noirlab.edu/tap/sync",
+      "query_manager_endpoint": "https://datalab.noirlab.edu/query/query",
       "table": "ls_dr10.tractor",
       "columns": ["ra", "dec", "type", "flux_g", "flux_r", "flux_i", "flux_z", "flux_ivar_g", "flux_ivar_r", "flux_ivar_i", "flux_ivar_z", "mw_transmission_g", "mw_transmission_r", "mw_transmission_i", "mw_transmission_z", "shape_r", "shape_r_ivar", "shape_e1", "shape_e2", "sersic"],
       "match_radius_arcsec": 15.0,
       "match_rule": "Among finite positive extended-source candidates, minimize angular separation divided by 5 arcsec minus 0.05 log10 extinction-corrected r flux; require final separation at most 10 arcsec.",
       "stellar_mass_rule": "Use extinction-corrected g and i AB fluxes with the frozen Taylor et al. 2011 color-M/L approximation log10(M*/Msun)=1.15+0.70(g-i)-0.4*M_i; retain a 0.30 dex systematic audit."
     }
+  },
+  "prefreeze_source_audit": {
+    "wallaby_schema_only_queries": 2,
+    "legacy_endpoint_test_coordinate": [195.0, -15.0],
+    "legacy_endpoint_test_predictor_rows_read": 4,
+    "legacy_endpoint_test_response_columns_read": 0,
+    "endpoint_test_values_used_for_formula_gate_or_sample_design": 0,
+    "paid_model_calls": 0
   },
   "independence": {
     "item10_sample_path": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/sample-manifest.json",

@@ -108,9 +108,7 @@ def test_item39_admission_is_reproducible_and_keeps_every_niche() -> None:
     assert all(audit["admitted_by_lane"][str(lane)] > 0 for lane in range(4))
     replay, replay_audit = admissible_candidates(config, batch_size=32768)
     assert np.array_equal(admitted["candidate_id"], replay["candidate_id"])
-    assert audit["behavioral_equivalence_classes"] == replay_audit[
-        "behavioral_equivalence_classes"
-    ]
+    assert audit["behavioral_equivalence_classes"] == replay_audit["behavioral_equivalence_classes"]
 
 
 def test_item39_metric_contract_uses_same_field_for_motion_and_light() -> None:
@@ -130,7 +128,7 @@ def test_item39_controls_reproduce_frozen_item38_formula() -> None:
     baryonic = fixed_control_multiplier("baryonic_newton", u)
     mond = fixed_control_multiplier("mond_RAR", u)
     item38 = fixed_control_multiplier("item38_selected", u)
-    expected = 1.0 + 2.75 * u ** -0.45 * (1.0 + (u / 0.01) ** 0.5) ** -2.0
+    expected = 1.0 + 2.75 * u**-0.45 * (1.0 + (u / 0.01) ** 0.5) ** -2.0
     assert np.array_equal(baryonic, np.ones_like(u))
     assert np.all(mond >= 1.0)
     assert np.allclose(item38, expected)
