@@ -1,0 +1,474 @@
+{
+  "schema_version": "invariant-gravity-cluster-a1795-covariance-source-feasibility-1.0",
+  "status": "metadata_audit_blocked",
+  "audit_id": "gravity-cluster-a1795-covariance-source-feasibility-v1",
+  "as_of_utc": "2026-08-29T20:12:58Z",
+  "purpose": "Freeze a metadata-only feasibility audit for reconstructing temperature, density, shared-calibration, background, beam/PSF, and joint X-ray/SZ covariance for the already-exposed A1795 development object, without downloading or opening scientific rows.",
+  "implementation_binding": {
+    "path": "src/sigma_theory_compiler/gravity_cluster_a1795_covariance_source_feasibility.py",
+    "file_sha256": "a6401da1245041da6443b6fd309186ef95b9b23ae4e51a47498b6c5805737ac7"
+  },
+  "scope": {
+    "cluster": "A1795",
+    "sample_role": "already_exposed_development_object",
+    "scientific_payload_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "hidden_answers_opened": 0,
+    "large_files_downloaded": 0,
+    "downloaded_bytes": 0,
+    "paid_or_model_calls": 0
+  },
+  "source_references": [
+    {
+      "source_id": "XCOP_THERMODYNAMIC_PRIMARY",
+      "url": "https://arxiv.org/abs/1805.00042",
+      "role": "Primary X-COP thermodynamic methods and Table F.1 observation manifest."
+    },
+    {
+      "source_id": "XMM_XSA_TAP",
+      "url": "https://nxsa.esac.esa.int/tap-server/tap",
+      "role": "Official public observation and exposure metadata queried through xsa.v_public_observations and xsa.v_exposure."
+    },
+    {
+      "source_id": "XMM_XSA_HANDBOOK",
+      "url": "https://xmm-tools.cosmos.esa.int/external/xmm_user_support/documentation/uhb/xsa.html",
+      "role": "Official archive access and 2025 fourth bulk-reprocessing documentation."
+    },
+    {
+      "source_id": "XMM_XCOP_PROPOSAL_DOI",
+      "url": "https://esdcdoi.esac.esa.int/doi/html/data/astronomy/xmm-newton/074441.html",
+      "role": "Official X-COP proposal metadata, download links, PPS version, credit, and CC BY-NC 3.0 IGO rights."
+    },
+    {
+      "source_id": "XMM_OFFSET_PROPOSAL_DOI",
+      "url": "https://esdcdoi.esac.esa.int/doi/html/data/astronomy/xmm-newton/020519.html",
+      "role": "Official A1795 offset-pointing proposal metadata and download links."
+    },
+    {
+      "source_id": "XMM_PPS_PRODUCTS",
+      "url": "https://xmm-tools.cosmos.esa.int/external/xmm_user_support/documentation/dfhb/pps.html",
+      "role": "Official event-list and point-source PPS product identifiers."
+    },
+    {
+      "source_id": "XMM_EXTENDED_RESPONSES",
+      "url": "https://xmm-tools.cosmos.esa.int/external/xmm_user_support/documentation/sas_usg/USG/responsefilesextsrc.html",
+      "role": "Official guidance requiring source-distribution-aware RMF/ARF generation for extended sources."
+    },
+    {
+      "source_id": "XMM_RMFGEN",
+      "url": "https://xmm-tools.cosmos.esa.int/external/sas/current/doc/rmfgen/",
+      "role": "Official SAS 22.0.0 RMF generator documentation."
+    },
+    {
+      "source_id": "XMM_ARFGEN",
+      "url": "https://xmm-tools.cosmos.esa.int/external/sas/current/doc/arfgen/",
+      "role": "Official SAS ARF and cross-region ARF generator documentation."
+    },
+    {
+      "source_id": "XMM_CCF",
+      "url": "https://sasdev-xmm.esac.esa.int/pub/ccf/valid_constituents/",
+      "role": "Official mutable valid-CCF repository supplying calibration and PSF constituents."
+    },
+    {
+      "source_id": "XMM_ESAS_PARTICLE_BACKGROUND",
+      "url": "https://heasarc.gsfc.nasa.gov/docs/xmm/esas/cookbook/node43.html",
+      "role": "Primary ESAS recipe for observation-corner, filter-wheel-closed, and archive-augmented QPB modeling."
+    },
+    {
+      "source_id": "XMM_ESAS_A1795_MULTI_REGION",
+      "url": "https://heasarc.gsfc.nasa.gov/docs/xmm/esas/cookbook/node61.html",
+      "role": "Primary A1795 example with 10 annuli, 30 EPIC spectra, and one RASS spectrum."
+    },
+    {
+      "source_id": "XMM_ESAS_A1795_BACKGROUND",
+      "url": "https://heasarc.gsfc.nasa.gov/docs/xmm/esas/cookbook/node62.html",
+      "role": "Primary A1795 demonstration that RASS and cross-talk ARFs materially affect outer temperature fits."
+    },
+    {
+      "source_id": "HEASARC_XRAY_BACKGROUND_TOOL",
+      "url": "https://heasarc.gsfc.nasa.gov/cgi-bin/Tools/xraybg/xraybg.pl",
+      "role": "Public service for a new local RASS background constraint; exact X-COP extraction receipt is absent."
+    },
+    {
+      "source_id": "PLANCK_PR2_Y_PRODUCTS",
+      "url": "https://irsa.ipac.caltech.edu/data/Planck/release_2/all-sky-maps/ysz_index.html",
+      "role": "Official full-sky MILCA/NILC maps, weights, half splits, noise summaries, and mask bundle."
+    },
+    {
+      "source_id": "PLANCK_PR2_ANCILLARY",
+      "url": "https://irsa.ipac.caltech.edu/data/Planck/release_2/ancillary-data/",
+      "role": "Official HFI RIMO, beam window functions, masks, and external CMB-simulation pointer."
+    },
+    {
+      "source_id": "XCOP_DATA_PAGE",
+      "url": "https://dominiqueeckert.wixsite.com/xcop/data",
+      "role": "Project data page stating that only basic products are currently available."
+    },
+    {
+      "source_id": "XCOP_GRAVITATIONAL_FIELD_PRIMARY",
+      "url": "https://arxiv.org/abs/2205.01110",
+      "role": "Primary description of the X-COP local MILCA map at approximately 7 arcmin and intrinsically correlated noise."
+    }
+  ],
+  "xmm_observations": [
+    {
+      "observation_id": "0097820101",
+      "mosaic_role": "CENTER",
+      "target": "A 1795",
+      "ra_deg": 207.2208,
+      "dec_deg": 26.59222,
+      "duration_s": 66559,
+      "odf_version": "005",
+      "pps_version": "21.51_20241115_1113",
+      "sas_version": "xmmsas_20241108_1150-21.0.0",
+      "pps_proc_date": "2024-11-26T02:19:11Z",
+      "public": true,
+      "science_exposures": ["EMOS1:S003:FULL_FRAME:THIN1", "EMOS2:S004:FULL_FRAME:THIN1", "EPN:S005:FULL_FRAME:THIN1"]
+    },
+    {
+      "observation_id": "0109070201",
+      "mosaic_role": "SOUTH",
+      "target": "E1346+266",
+      "ra_deg": 207.1458,
+      "dec_deg": 26.36861,
+      "duration_s": 72061,
+      "odf_version": "004",
+      "pps_version": "21.51_20241115_1113",
+      "sas_version": "xmmsas_20241108_1150-21.0.0",
+      "pps_proc_date": "2024-11-23T08:16:04Z",
+      "public": true,
+      "science_exposures": ["EMOS1:S001:FULL_FRAME:THIN1", "EMOS1:U002:FULL_FRAME:THIN1", "EMOS2:S002:FULL_FRAME:THIN1", "EMOS2:U002:FULL_FRAME:THIN1", "EPN:S003:FULL_FRAME:THIN1"]
+    },
+    {
+      "observation_id": "0205190101",
+      "mosaic_role": "WEST",
+      "target": "A1795-OFFSET1",
+      "ra_deg": 206.89215,
+      "dec_deg": 26.69578,
+      "duration_s": 29918,
+      "odf_version": "004",
+      "pps_version": "21.51_20241115_1113",
+      "sas_version": "xmmsas_20241108_1150-21.0.0",
+      "pps_proc_date": "2024-11-28T23:15:25Z",
+      "public": true,
+      "science_exposures": ["EMOS1:S001:FULL_FRAME:MEDIUM", "EMOS2:S002:FULL_FRAME:MEDIUM", "EPN:S003:FULL_FRAME:MEDIUM"]
+    },
+    {
+      "observation_id": "0205190201",
+      "mosaic_role": "NORTHWEST",
+      "target": "A1795-OFFSET2",
+      "ra_deg": 207.3912,
+      "dec_deg": 26.87525,
+      "duration_s": 29712,
+      "odf_version": "004",
+      "pps_version": "21.51_20241115_1113",
+      "sas_version": "xmmsas_20241108_1150-21.0.0",
+      "pps_proc_date": "2024-11-28T14:35:03Z",
+      "public": true,
+      "science_exposures": ["EMOS1:S001:FULL_FRAME:MEDIUM", "EMOS2:S002:FULL_FRAME:MEDIUM", "EPN:S003:FULL_FRAME:MEDIUM"]
+    },
+    {
+      "observation_id": "0744412001",
+      "mosaic_role": "NORTH",
+      "target": "A1795 N",
+      "ra_deg": 207.05333333333334,
+      "dec_deg": 26.961694444444444,
+      "duration_s": 31000,
+      "odf_version": "001",
+      "pps_version": "21.51_20241115_1113",
+      "sas_version": "xmmsas_20241108_1150-21.0.0",
+      "pps_proc_date": "2024-11-29T08:56:02Z",
+      "public": true,
+      "science_exposures": ["EMOS1:S001:FULL_FRAME:MEDIUM", "EMOS2:S002:FULL_FRAME:MEDIUM", "EPN:S003:EXTENDED_FULL_FRAME:MEDIUM"]
+    },
+    {
+      "observation_id": "0744412101",
+      "mosaic_role": "EAST_IN_PRIMARY_TABLE_TARGET_LABEL_A1795_S",
+      "target": "A1795 S",
+      "ra_deg": 207.60091666666668,
+      "dec_deg": 26.43788888888889,
+      "duration_s": 32000,
+      "odf_version": "001",
+      "pps_version": "21.51_20241115_1113",
+      "sas_version": "xmmsas_20241108_1150-21.0.0",
+      "pps_proc_date": "2024-12-01T08:21:21Z",
+      "public": true,
+      "science_exposures": ["EMOS1:S001:FULL_FRAME:MEDIUM", "EMOS2:S002:FULL_FRAME:MEDIUM", "EPN:S003:EXTENDED_FULL_FRAME:MEDIUM"]
+    }
+  ],
+  "xmm_source_packet": {
+    "archive_endpoint": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio",
+    "license": {
+      "status": "VERIFIED_PUBLIC_CC_BY_NC_3_0_IGO",
+      "rights_url": "https://esdcdoi.esac.esa.int/doi/html/data/astronomy/xmm-newton/074441.html",
+      "redistribution_by_this_manifest": false
+    },
+    "observation_archives": [
+      {
+        "observation_id": "0097820101",
+        "odf_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0097820101&level=ODF",
+        "pps_event_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0097820101&level=PPS&name=EVENLI",
+        "odf_head_status": 200,
+        "pps_event_head_status": 200,
+        "odf_expected_bytes": null,
+        "pps_event_expected_bytes": null,
+        "size_status": "NOT_REPORTED_BY_XSA_HEAD_OR_TAP",
+        "download_authorized": false
+      },
+      {
+        "observation_id": "0109070201",
+        "odf_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0109070201&level=ODF",
+        "pps_event_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0109070201&level=PPS&name=EVENLI",
+        "odf_head_status": 200,
+        "pps_event_head_status": 200,
+        "odf_expected_bytes": null,
+        "pps_event_expected_bytes": null,
+        "size_status": "NOT_REPORTED_BY_XSA_HEAD_OR_TAP",
+        "download_authorized": false
+      },
+      {
+        "observation_id": "0205190101",
+        "odf_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0205190101&level=ODF",
+        "pps_event_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0205190101&level=PPS&name=EVENLI",
+        "odf_head_status": 200,
+        "pps_event_head_status": 200,
+        "odf_expected_bytes": null,
+        "pps_event_expected_bytes": null,
+        "size_status": "NOT_REPORTED_BY_XSA_HEAD_OR_TAP",
+        "download_authorized": false
+      },
+      {
+        "observation_id": "0205190201",
+        "odf_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0205190201&level=ODF",
+        "pps_event_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0205190201&level=PPS&name=EVENLI",
+        "odf_head_status": 200,
+        "pps_event_head_status": 200,
+        "odf_expected_bytes": null,
+        "pps_event_expected_bytes": null,
+        "size_status": "NOT_REPORTED_BY_XSA_HEAD_OR_TAP",
+        "download_authorized": false
+      },
+      {
+        "observation_id": "0744412001",
+        "odf_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0744412001&level=ODF",
+        "pps_event_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0744412001&level=PPS&name=EVENLI",
+        "odf_head_status": 200,
+        "pps_event_head_status": 200,
+        "odf_expected_bytes": null,
+        "pps_event_expected_bytes": null,
+        "size_status": "NOT_REPORTED_BY_XSA_HEAD_OR_TAP",
+        "download_authorized": false
+      },
+      {
+        "observation_id": "0744412101",
+        "odf_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0744412101&level=ODF",
+        "pps_event_url": "https://nxsa.esac.esa.int/nxsa-sl/servlet/data-action-aio?obsno=0744412101&level=PPS&name=EVENLI",
+        "odf_head_status": 200,
+        "pps_event_head_status": 200,
+        "odf_expected_bytes": null,
+        "pps_event_expected_bytes": null,
+        "size_status": "NOT_REPORTED_BY_XSA_HEAD_OR_TAP",
+        "download_authorized": false
+      }
+    ],
+    "component_dispositions": [
+      {
+        "component": "CALIBRATED_EPIC_EVENT_LISTS",
+        "availability": "PUBLIC_PPS_OR_REGENERATABLE_FROM_ODF",
+        "exact_xcop_product": false,
+        "blocker": "X-COP cleaning intervals, point-source masks, event selections, and mosaic reprojection receipt are not frozen in the public basic-product release."
+      },
+      {
+        "component": "PARTICLE_AND_SKY_BACKGROUND",
+        "availability": "PUBLIC_TOOLS_AND_MUTABLE_CALIBRATION_INPUTS",
+        "exact_xcop_product": false,
+        "blocker": "ESAS requires observation corners, FWC/archive augmentation, soft-proton and SWCX choices, plus a local RASS spectrum; the exact inputs, versions, linked parameters, and posterior are absent. The official ESAS documentation reports that a full mutable CCF mirror is approximately 7 GB, not a bounded A1795-specific snapshot."
+      },
+      {
+        "component": "ANNULAR_SPECTRA_ARF_RMF",
+        "availability": "MUST_BE_GENERATED",
+        "exact_xcop_product": false,
+        "blocker": "PPS source spectra and SRCARFs are point-source products; extended annuli require frozen regions plus rmfgen, arfgen, and cross-region ARFs against an exact CCF snapshot."
+      },
+      {
+        "component": "PSF_AND_CROSSTALK",
+        "availability": "PUBLIC_CCF_ALGORITHMS_BUT_GENERATED_OPERATOR_REQUIRED",
+        "exact_xcop_product": false,
+        "blocker": "The mutable CCF and SAS algorithms are public, but the X-COP response-mixing matrix and analysis-date CCF constituent set are not deposited."
+      },
+      {
+        "component": "TEMPERATURE_COVARIANCE",
+        "availability": "NOT_PUBLICLY_RECONSTRUCTIBLE",
+        "exact_xcop_product": false,
+        "blocker": "No count spectra, background spectra, annulus-specific ARF/RMF/cross-talk bundle, likelihood configuration, fit chains, or cross-bin covariance are in the basic X-COP release."
+      },
+      {
+        "component": "DENSITY_COVARIANCE",
+        "availability": "NOT_PUBLICLY_RECONSTRUCTIBLE",
+        "exact_xcop_product": false,
+        "blocker": "No exact counts/exposure/background/mask stack, PSF convolution operator, deprojection configuration, clump masking receipt, or Monte Carlo realizations are deposited."
+      },
+      {
+        "component": "SHARED_XMM_CALIBRATION_COVARIANCE",
+        "availability": "NOT_PUBLICLY_SPECIFIED",
+        "exact_xcop_product": false,
+        "blocker": "CCF constituents encode calibrations but do not supply a frozen nuisance prior or ensemble linking MOS1, MOS2, pn, temperature, and density bins."
+      }
+    ],
+    "bounded_packet_status": "BLOCKED_ARCHIVE_SIZES_UNREPORTED_AND_DERIVED_COVARIANCE_INPUTS_ABSENT"
+  },
+  "planck_source_packet": {
+    "release": "Planck Public Data Release 2 thermal-SZ and ancillary products",
+    "xcop_basic_archive": {
+      "release_page_url": "https://dominiqueeckert.wixsite.com/xcop/data",
+      "archive_download_url": "https://drive.switch.ch/index.php/s/j3WUOYXWgv9Jbnz/download",
+      "observed_archive_bytes": 315080566,
+      "observed_archive_sha256": "0edf5038b419b70d070b73b22f4801e27f318b0854db61eec52142c27c140d94",
+      "redistribution_license_status": "NOT_VERIFIED",
+      "contains_basic_profile_and_covariance_products": true,
+      "contains_xcop_local_milca_map_or_matched_noise_realizations": false,
+      "download_authorized": false
+    },
+    "public_products": [
+      {
+        "file": "COM_CompMap_Compton-SZMap_R2.02.tgz",
+        "url": "https://irsa.ipac.caltech.edu/data/Planck/release_3/all-sky-maps/maps/component-maps/foregrounds/COM_CompMap_Compton-SZMap_R2.02.tgz",
+        "contents": "Full-sky MILCA/NILC y maps, first/last splits, ILC weights, standard-deviation maps, homogeneous-noise spectra, and masks.",
+        "head_status": 200,
+        "head_content_length": 12252877791,
+        "last_modified": "2019-08-26T22:05:48Z",
+        "download_authorized": false
+      },
+      {
+        "file": "HFI_RIMO_R2.00.fits",
+        "url": "https://irsa.ipac.caltech.edu/data/Planck/release_2/ancillary-data/HFI_RIMO_R2.00.fits",
+        "contents": "HFI reduced instrument model.",
+        "head_status": 200,
+        "head_content_length": 17199360,
+        "last_modified": "2015-01-24T16:51:21Z",
+        "download_authorized": false
+      },
+      {
+        "file": "HFI_RIMO_Beams-075pc_R2.00.fits",
+        "url": "https://irsa.ipac.caltech.edu/data/Planck/release_2/ancillary-data/HFI_RIMO_Beams-075pc_R2.00.fits",
+        "contents": "HFI 75-percent beam window functions.",
+        "head_status": 200,
+        "head_content_length": 19097280,
+        "last_modified": "2014-12-11T15:22:47Z",
+        "download_authorized": false
+      },
+      {
+        "file": "HFI_RIMO_Beams-100pc_R2.00.fits",
+        "url": "https://irsa.ipac.caltech.edu/data/Planck/release_2/ancillary-data/HFI_RIMO_Beams-100pc_R2.00.fits",
+        "contents": "HFI 100-percent beam window functions.",
+        "head_status": 200,
+        "head_content_length": 19097280,
+        "last_modified": "2014-12-11T15:22:47Z",
+        "download_authorized": false
+      },
+      {
+        "file": "COM_Mask_Compton-SZMap_2048_R2.00.fits",
+        "url": "https://irsa.ipac.caltech.edu/data/Planck/release_2/ancillary-data/masks/COM_Mask_Compton-SZMap_2048_R2.00.fits",
+        "contents": "Mask used for the public y map.",
+        "head_status": 200,
+        "head_content_length": 1006643520,
+        "last_modified": "2016-04-19T07:50:49Z",
+        "download_authorized": false
+      }
+    ],
+    "license": {
+      "public_access_verified": true,
+      "machine_readable_redistribution_license_located": false,
+      "redistribution_by_this_manifest": false
+    },
+    "simulation_pointer": {
+      "url": "https://crd.lbl.gov/departments/computational-science/c3/c3-research/cosmic-microwave-background/cmb-data-at-nersc/",
+      "observed_resolution": "REDIRECTS_TO_CS.LBL.GOV_THEN_RETURNS_403_TO_METADATA_CLIENT",
+      "is_xcop_local_milca_noise_ensemble": false,
+      "file_manifest_or_sizes_verified": false
+    },
+    "exact_reconstruction_status": "BLOCKED_PUBLIC_PR2_PRODUCTS_DO_NOT_INCLUDE_XCOP_LOCAL_MAP_OR_MATCHED_SIMULATIONS",
+    "blocker": "The public full-sky PR2 bundle is a useful input to a new analysis, but X-COP used its own approximately 7-arcmin MILCA map with correlated noise. The local map, exact component-separation configuration, transfer/beam operator, object mask, radial extraction, noise-realization maps, and pressure deconvolution/deprojection realizations are not in the public basic-product release."
+  },
+  "required_missing_assets": [
+    {
+      "asset_id": "A1795_XRAY_TEMPERATURE_LIKELIHOOD_OR_CHAINS",
+      "needed_for": "CP5.2",
+      "publicly_located": false,
+      "minimum_receipt": "Per-annulus MOS1/MOS2/pn source and background spectra; RMF, ARF, and cross-region ARF hashes; fit model, priors, linked parameters, fit statistic, chains or likelihood samples, and cross-bin covariance."
+    },
+    {
+      "asset_id": "A1795_XRAY_DENSITY_DEPROJECTION_REALIZATIONS",
+      "needed_for": "CP5.3",
+      "publicly_located": false,
+      "minimum_receipt": "Counts, exposure, QPB/soft-proton/SWCX maps, point-source and clump masks, PSF operator, radial bins, conversion model, deprojection code/config, seeds, and realizations."
+    },
+    {
+      "asset_id": "A1795_SHARED_XMM_CALIBRATION_NUISANCE_ENSEMBLE",
+      "needed_for": "CP5.4",
+      "publicly_located": false,
+      "minimum_receipt": "Frozen CCF snapshot and a justified nuisance prior/ensemble tying effective area, redistribution, PSF, background, and MOS/pn cross-calibration across temperature and density."
+    },
+    {
+      "asset_id": "A1795_XCOP_LOCAL_MILCA_7ARCMIN_YMAP",
+      "needed_for": "CP5.5",
+      "publicly_located": false,
+      "minimum_receipt": "Exact local map, frequency-map inputs, component-separation weights, effective beam, transfer function, mask, projection, pixelization, and hashes."
+    },
+    {
+      "asset_id": "A1795_XCOP_MATCHED_NOISE_REALIZATION_MAPS",
+      "needed_for": "CP5.5",
+      "publicly_located": false,
+      "minimum_receipt": "The matched map-level noise realizations or a fully specified generator with input spectra/correlations, number of simulations, seeds, and hashes."
+    },
+    {
+      "asset_id": "A1795_XCOP_PRESSURE_DECONVOLUTION_DEPROJECTION_OPERATOR",
+      "needed_for": "CP5.5",
+      "publicly_located": false,
+      "minimum_receipt": "Radial bins, beam/transfer matrix, background treatment, regularization/prior, deprojection operator, Monte Carlo count and seeds, and output covariance construction."
+    },
+    {
+      "asset_id": "A1795_JOINT_XRAY_SZ_CALIBRATION_COVARIANCE",
+      "needed_for": "CP5.6",
+      "publicly_located": false,
+      "minimum_receipt": "Joint nuisance draw table or generator linking XMM effective-area/background/density systematics with Planck beam/gain/component-separation/pressure systematics."
+    }
+  ],
+  "cp5_adjudication": {
+    "decision": "BLOCKED_NO_COMPLETE_PUBLIC_COVARIANCE_SOURCE_PACKET",
+    "statuses": {
+      "CP5.2": "BLOCKED_TEMPERATURE_COVARIANCE_NOT_RECONSTRUCTIBLE_FROM_PUBLIC_PACKET",
+      "CP5.3": "BLOCKED_DENSITY_COVARIANCE_NOT_RECONSTRUCTIBLE_FROM_PUBLIC_PACKET",
+      "CP5.4": "BLOCKED_SHARED_CALIBRATION_COVARIANCE_NOT_PUBLICLY_SPECIFIED",
+      "CP5.5": "BLOCKED_MATCHED_BACKGROUND_BEAM_SIMULATION_ENSEMBLE_NOT_PUBLIC",
+      "CP5.6": "BLOCKED_JOINT_XRAY_SZ_CALIBRATION_COVARIANCE_NOT_PUBLIC"
+    },
+    "new_reduction_feasible": true,
+    "exact_xcop_covariance_reconstruction_feasible": false,
+    "component_complete_covariance_feasible": false,
+    "smallest_next_action": "obtain explicit authorization and storage budget for a new A1795 ODF/CCF/Planck reduction, then freeze archive hashes, CCF snapshot, regions, background model, response generation, deprojection operator, seeds, and nuisance priors before opening rows"
+  },
+  "authorization": {
+    "authorized": false,
+    "downloads_authorized": false,
+    "payload_access_authorized": false,
+    "reduction_authorized": false,
+    "scoring_authorized": false,
+    "reason": "SOURCE_PACKET_INCOMPLETE_AND_NO_PAYLOAD_COMMITMENT_GRANTED"
+  },
+  "claim_boundary": {
+    "public_inputs_exist_for_a_new_a1795_reduction": true,
+    "complete_bounded_source_packet_frozen": false,
+    "original_xcop_temperature_covariance_reconstructible": false,
+    "original_xcop_density_covariance_reconstructible": false,
+    "original_xcop_pressure_covariance_reconstructible_from_public_raw_assets": false,
+    "shared_calibration_covariance_reconstructible": false,
+    "joint_xray_sz_covariance_reconstructible": false,
+    "CP5_2_through_CP5_6_complete": false,
+    "scientific_reanalysis_performed": false,
+    "scientific_result_changed": false,
+    "publication_claim_supported": false
+  },
+  "output_path": "runs/gravity/publication-readiness/a1795-covariance-source-feasibility-v1.json"
+}
