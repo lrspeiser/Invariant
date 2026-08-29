@@ -1,0 +1,147 @@
+{
+  "schema_version": "invariant-screened-nonlocal-boundary-permutation-config-0.1",
+  "status": "scientific_freeze_before_exposed_response_evaluation",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "hypothesis": "A universal MOND-or-GR base law multiplied by a screened finite-range baryonic response can preserve the X-COP profile lead while avoiding the unchanged Item 59 disk-galaxy failure, without an object-type label.",
+  "scientific_dependencies": {
+    "configs/gravity_item59_xcop_forward_observable_gate_v1.json": "7d17fa71dce7bfb44ab517a47b1cbe0ed17826cc2ffe36f871296b4d8632878b",
+    "configs/gravity_item61_cross_scale_gate_v1.json": "1c62a0b1987d0d402192453ef7c3eeb029f3c1cfe2a368f906f39e5a2b6baab8",
+    "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051",
+    "runs/gravity/roadmap/item-61-cross-scale-gate-v1.json": "bd8ce28f5f6ca5f39e1cb98ad753850155bfc32b92f18c5afbaaf213e1474fe8",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d"
+  },
+  "grammar": {
+    "factor_order": [
+      "base_law",
+      "kernel",
+      "occupancy_y0",
+      "log_radius_scale",
+      "alpha",
+      "screen_y",
+      "screen_power",
+      "compactness_threshold",
+      "environment_shape",
+      "lensing_branch"
+    ],
+    "base_law": [
+      "newtonian_gr",
+      "empirical_rar",
+      "simple_mond",
+      "standard_mond"
+    ],
+    "kernel": [
+      "symmetric_exponential",
+      "interior_exponential",
+      "exterior_exponential",
+      "symmetric_gaussian"
+    ],
+    "occupancy_y0": [0.03, 0.1, 0.3, 1.0],
+    "log_radius_scale": [0.125, 0.25, 0.5, 1.0],
+    "alpha": [0.0, 0.5, 1.0, 1.5],
+    "screen_y": [1.0, 10.0, 100.0, 1000.0],
+    "screen_power": [1.0, 2.0, 3.0, 4.0],
+    "compactness_threshold": [1e-08, 1e-07, 1e-06, 1e-05],
+    "environment_shape": [
+      {
+        "id": "compactness_soft",
+        "compactness_power": 0.5,
+        "boundary_power": 0.0,
+        "activation_power": 1.0
+      },
+      {
+        "id": "compactness_sharp",
+        "compactness_power": 1.0,
+        "boundary_power": 0.0,
+        "activation_power": 2.0
+      },
+      {
+        "id": "boundary_balanced",
+        "compactness_power": 1.0,
+        "boundary_power": 1.0,
+        "activation_power": 2.0
+      },
+      {
+        "id": "boundary_dominant",
+        "compactness_power": 1.0,
+        "boundary_power": 2.0,
+        "activation_power": 4.0
+      }
+    ],
+    "lensing_branch": [
+      "scalar_conformal_control",
+      "transition_linked_linear",
+      "transition_linked_quadratic",
+      "metric_tensor_control"
+    ],
+    "raw_ordinal_count": 1048576,
+    "all_factors_exhausted": true,
+    "sampling_allowed": false
+  },
+  "formula": {
+    "occupancy": "Q=y/(y+y0)",
+    "transition": "T=[1+(y/y_screen)^n]^-1 * zeta^m/(1+zeta^m)",
+    "environment": "zeta=(C/C_star)^p*(1+b)^q",
+    "compactness": "C=g_bar*r/c^2",
+    "boundary_state": "b=|d^2 ln M_b(<r)/d(ln r)^2|",
+    "nonlocal_response": "X=normalized_kernel(log(r),ell) applied to Q",
+    "acceleration": "g=base_law(g_bar)*exp(2*alpha*T*X)",
+    "permittivity": "epsilon=exp(-2*alpha*T*X)",
+    "lensing": "p_gamma in {0,T,T^2,1}",
+    "object_type_label_used": false
+  },
+  "analytic_gates": {
+    "solar_acceleration_to_a0": 50000000.0,
+    "solar_compactness": 1e-08,
+    "maximum_local_fractional_deviation": 1e-05,
+    "cluster_probe_acceleration_to_a0": 0.1,
+    "cluster_probe_compactness": 1e-05,
+    "cluster_probe_boundary_state": 1.0,
+    "minimum_nonlocal_materiality": 0.01,
+    "maximum_total_acceleration_factor": 25.0,
+    "positive_permittivity_required": true
+  },
+  "data_contract": {
+    "only_previously_exposed_responses": true,
+    "new_target_queries_allowed": 0,
+    "sealed_confirmation_accesses_allowed": 0,
+    "direct_lensing_target_rows_allowed": 0,
+    "xcop_development_clusters": 8,
+    "xcop_previously_exposed_former_confirmation_clusters": 4,
+    "sparc_exploration_galaxies": 139,
+    "sparc_exploration_rows": 2720,
+    "little_things_exploration_galaxies": 11,
+    "little_things_exploration_rows": 199,
+    "former_confirmation_rows_are_retrospective_diagnostics": true
+  },
+  "fixed_xcop_nuisances": {
+    "outer_nonthermal_fraction": 0.3,
+    "published_stellar_mass_scale": 1.3,
+    "missing_stellar_to_gas_mass_ratio": 0.2,
+    "xray_temperature_cross_calibration": 1.0
+  },
+  "scoring": {
+    "gpu_batch_size": 4096,
+    "galaxy_score": "equal-object mean squared standardized velocity residual",
+    "xcop_score": "equal-cluster equal-observable mean squared standardized log residual",
+    "selection": "minimum worst ratio across X-COP development train versus Item59 incumbent, SPARC versus empirical RAR, and LITTLE THINGS versus empirical RAR",
+    "tie_break": "minimum sum of the three ratios then minimum representative ordinal",
+    "candidate_never_selected_on_lensing_branch": true
+  },
+  "claim_policy": {
+    "evaluation_is_exploratory": true,
+    "evaluation_is_fresh_confirmation": false,
+    "former_xcop_confirmation_is_fresh_for_new_grammar": false,
+    "pass_establishes_alternative_to_gr": false,
+    "pass_eliminates_dark_matter": false,
+    "pass_establishes_historical_novelty": false,
+    "single_counterexample_terminal": false,
+    "counterexample_count_alone_terminal": false,
+    "finite_sample_prunes_family": false
+  },
+  "paths": {
+    "source_dir": "runs/gravity/screened-nonlocal-boundary-v0",
+    "preflight": "preflight-manifest.json",
+    "evaluation": "exposed-data-evaluation.json",
+    "aggregate": "runs/gravity/screened-nonlocal-boundary-v0.json"
+  }
+}
