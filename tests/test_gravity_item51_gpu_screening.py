@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import json
 from pathlib import Path
 
 import numpy as np
@@ -12,6 +13,9 @@ from sigma_theory_compiler.gravity_item49_pseudorandom_exploration import (
 from sigma_theory_compiler.gravity_item51_gpu_screening import (
     _canonical_symbolic_keys,
     _schedule_ordinals,
+    build_aggregate_result,
+    build_candidate_manifest,
+    build_evaluation_result,
     build_preflight_manifest,
     load_config,
 )
@@ -80,3 +84,39 @@ def test_schedule_decodes_under_the_bound_item49_grammar() -> None:
     assert np.array_equal(decoded["ordinal"], ordinals)
     assert np.all(decoded["left_primitive_index"] < 440)
     assert np.all(decoded["right_primitive_index"] < 440)
+
+
+def test_recorded_item51_candidate_stream_is_exactly_replayable() -> None:
+    config = load_config(ROOT)
+    source = ROOT / config["paths"]["source_dir"]
+    recorded = json.loads(
+        (source / config["paths"]["candidate_manifest"]).read_text(encoding="utf-8")
+    )
+    assert recorded == build_candidate_manifest(ROOT)
+    assert recorded["schedule"]["raw_schedule_positions"] == 67_108_864
+    assert recorded["physically_admitted_candidates"] == 5_505_024
+    assert recorded["exact_symbolic_equivalence_classes"] == 5_505_024
+    assert recorded["claims"]["trillion_formula_campaign_executed"] is False
+
+
+def test_recorded_item51_outcome_and_decision_are_exactly_replayable() -> None:
+    config = load_config(ROOT)
+    source = ROOT / config["paths"]["source_dir"]
+    evaluation = json.loads(
+        (source / config["paths"]["evaluation_result"]).read_text(encoding="utf-8")
+    )
+    aggregate = json.loads(
+        (ROOT / config["paths"]["aggregate_result"]).read_text(encoding="utf-8")
+    )
+    assert evaluation == build_evaluation_result(ROOT)
+    assert aggregate == build_aggregate_result(ROOT)
+    assert evaluation["selected_gpu_program"]["ordinal"] == 2_510_928_084_750
+    assert evaluation["scores"]["gpu_stream_search"]["balanced_loss"] > evaluation[
+        "scores"
+    ]["item45_universal_interaction"]["balanced_loss"]
+    assert aggregate["decision"] == (
+        "OPERATIONAL_ITEM51_GPU_SCALE_COMPLETE_SCIENTIFIC_LEAD_NOT_DEMONSTRATED"
+    )
+    assert aggregate["claims"]["roadmap_item_51_complete"] is True
+    assert aggregate["claims"]["formula_family_pruned"] is False
+    assert aggregate["claims"]["trillion_formula_campaign_executed"] is False
