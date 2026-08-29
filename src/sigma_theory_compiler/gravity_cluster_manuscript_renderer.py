@@ -349,6 +349,8 @@ def _table_4(evidence: Mapping[str, Any]) -> bytes:
 def _table_5(evidence: Mapping[str, Any]) -> bytes:
     uncertainty = evidence["uncertainty_and_alternative_cause_boundary"]
     controls = evidence["negative_and_numerical_controls"]
+    calibration = evidence["quotient_sampler_calibration_and_newtonian_boundary"]
+    pressure = evidence["development_pressure_covariance_boundary"]
     covariance = uncertainty["covariance_sensitivity"]
     missingness = uncertainty["missingness_sensitivity"]
     sampler = uncertainty["marginalization"]["candidate"]["posterior_sampler"]
@@ -376,6 +378,67 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
         ("power", "planned_approximate_power", power["planned_approximate_power"], ""),
         ("power", "calculated_required_clusters", power["calculated_required_clusters"], "frozen confirmatory target"),
         ("power", "target_power", power["target_power"], ""),
+        ("quotient_sbc", "v1_passed", calibration["v1_passed"], "retained failure"),
+        (
+            "quotient_sbc",
+            "v2_passed",
+            calibration["v2_passed"],
+            "independent reference fixed; candidate mixing failed",
+        ),
+        (
+            "quotient_sbc",
+            "v3_synthetic_sbc_passed",
+            calibration["v3_synthetic_sbc_passed"],
+            "synthetic calibration only",
+        ),
+        (
+            "quotient_sbc",
+            "candidate_production_unlock",
+            calibration["candidate_production_unlock"],
+            "",
+        ),
+        (
+            "newtonian_control",
+            "external_approval_present",
+            calibration["newtonian_external_approval_present"],
+            "",
+        ),
+        (
+            "newtonian_control",
+            "production_runs",
+            calibration["newtonian_production_runs"],
+            "",
+        ),
+        (
+            "newtonian_control",
+            "requested_likelihood_evaluations",
+            calibration["newtonian_requested_likelihood_evaluations"],
+            "$0 external cost; not executed",
+        ),
+        (
+            "pressure_covariance",
+            "reconstructed_matrices",
+            pressure["reconstructed_matrices"],
+            "development only",
+        ),
+        (
+            "pressure_covariance",
+            "scored_pressure_rows",
+            pressure["scored_pressure_rows"],
+            "",
+        ),
+        (
+            "pressure_covariance",
+            "scoring_decision",
+            pressure["scoring_decision"],
+            "4/8 full-covariance cluster wins versus 6/8 required",
+        ),
+        (
+            "covariance_sources",
+            "a1795_complete_source_packet",
+            pressure["a1795_complete_source_packet"],
+            "CP5.2-CP5.6 remain blocked",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(
@@ -397,6 +460,12 @@ def _table_6(evidence: Mapping[str, Any]) -> bytes:
         rows.append(("claim_track", track, value))
     for key, value in sorted(evidence["claims"].items()):
         rows.append(("claim_boundary", key, value))
+    for key, value in sorted(
+        evidence["quotient_sampler_calibration_and_newtonian_boundary"].items()
+    ):
+        rows.append(("sampler_calibration_boundary", key, value))
+    for key, value in sorted(evidence["development_pressure_covariance_boundary"].items()):
+        rows.append(("pressure_covariance_boundary", key, value))
     for index, limitation in enumerate(evidence["limitations"], start=1):
         rows.append(("limitation", f"limitation_{index}", limitation))
     return _csv_bytes(("section", "field", "value"), rows)

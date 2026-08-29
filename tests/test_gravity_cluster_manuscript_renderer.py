@@ -48,6 +48,39 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     assert {row[0] for row in table_3[1:]} == {"candidate", "comparator", "ablation"}
     table_4 = parsed["table-4-object-performance.csv"]
     assert len(table_4) == 21
+    table_5 = parsed["table-5-robustness-and-controls.csv"]
+    assert any(
+        row[:3] == ["quotient_sbc", "v3_synthetic_sbc_passed", "true"]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
+            "pressure_covariance",
+            "scoring_decision",
+            "FAIL_FROZEN_PRESSURE_RANKING_ROBUSTNESS",
+        ]
+        for row in table_5[1:]
+    )
+    table_6 = parsed["table-6-access-claims-limitations.csv"]
+    assert any(
+        row
+        == [
+            "sampler_calibration_boundary",
+            "candidate_production_unlock",
+            "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "sampler_calibration_boundary",
+            "newtonian_production_runs",
+            "0",
+        ]
+        for row in table_6[1:]
+    )
     table_7 = parsed["table-7-prior-art-boundary.csv"]
     assert sum(row[0] == "source" for row in table_7[1:]) == 10
 

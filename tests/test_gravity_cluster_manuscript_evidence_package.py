@@ -74,6 +74,18 @@ def test_negative_uncertainty_prior_art_and_claim_boundaries_are_all_present() -
     assert receipt["negative_and_numerical_controls"]["synthetic_recovery"]
     assert receipt["negative_and_numerical_controls"]["false_selection"]
     assert receipt["uncertainty_and_alternative_cause_boundary"]["source_covariance_blockers"]
+    calibration = receipt["quotient_sampler_calibration_and_newtonian_boundary"]
+    assert calibration["v1_passed"] is False
+    assert calibration["v2_passed"] is False
+    assert calibration["v3_synthetic_sbc_passed"] is True
+    assert calibration["newtonian_control_unlock"] is True
+    assert calibration["candidate_production_unlock"] is False
+    assert calibration["newtonian_external_approval_present"] is False
+    covariance = receipt["development_pressure_covariance_boundary"]
+    assert covariance["scoring_decision"] == "FAIL_FROZEN_PRESSURE_RANKING_ROBUSTNESS"
+    assert covariance["reconstructed_matrices"] == 8
+    assert covariance["scored_pressure_rows"] == 54
+    assert covariance["CP5_2_through_CP5_6_complete"] is False
     assert receipt["prior_art_boundary"]["closest_behavioral_neighbor"]["source_id"] == (
         "PENNER_MODIFIED_GRAS_AQUAL_2026"
     )

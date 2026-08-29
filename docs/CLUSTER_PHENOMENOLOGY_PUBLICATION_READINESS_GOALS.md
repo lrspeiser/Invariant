@@ -72,7 +72,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP2 | Prior art and expert positioning | No | Yes | PARTIAL |
 | CP3 | Direct-observable data contract | Yes | Yes | PARTIAL; X-COP is bound but the independent packet is absent |
 | CP4 | Matched-flexibility comparators | Yes | Yes | PASS on development data; frozen for replication |
-| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; exact 10-coordinate nuisance quotient identified, composite posterior and source covariance still open |
+| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; exact quotient and a synthetic-calibrated transport kernel identified, but the matched Newtonian run, candidate posterior, complete source covariance, and alternative-cause separation remain open |
 | CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PASS on development controls; outer-radius and power warnings retained |
 | CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; protocol frozen, no lane selected or payload committed |
 | CP8 | Unchanged independent thermodynamic replication | No | Yes | NOT STARTED |
@@ -293,6 +293,43 @@ bound receipt is
 step is a quotient-aware sampler with simulation-based calibration, followed by the
 same frozen program on the Newtonian control. This is material CP5 progress but does not
 complete CP5.7 through CP5.10 or authorize any target access.
+
+The canonical quotient sampler and its subsequent synthetic calibration history are now
+append-only. Two initial SBC versions failed without threshold repair: V1 mixed poorly
+and its finite-Sobol reference collapsed; V2 replaced that reference with an independent
+adaptive-tempering SMC reference, but the candidate chains still reached R-hat about
+`1.75` with minimum bulk ESS about `48`. V3 changed the transition itself rather than
+merely adding sweeps: six quotient-informed pCN blocks in Gaussianized primitive
+coordinates preserve the exact 17-primitive prior and the clipped stellar-product atoms.
+On the two frozen synthetic regimes V3 reached maximum R-hat `1.0072` and `1.0049`,
+minimum bulk ESS `2760` and `3743`, and passed the frozen rank, coverage, invariance,
+atom-frequency, and independent-reference gates. A separate strict adjudicator rebuilds
+the result from the sealed arrays and prevents a forged receipt from relabeling failure
+as success. This permits the matched Newtonian control to be requested; candidate
+production remains locked. The Newtonian V2 package is frozen for one synthetic
+`233,504`-likelihood-evaluation run at zero paid external cost, but no authorized
+manifest or production result exists. Synthetic SBC does not establish the candidate
+physics or complete CP5.7 through CP5.10.
+
+The released X-COP pressure correlations were also recovered for the eight already
+exposed development clusters. They map exactly to 82 standalone pressure bins and were
+used in one frozen, no-refit pressure-only comparison over 54 scored rows. The candidate's
+equal-cluster holdout score remained ahead of frozen GR+NFW and its aggregate advantage
+increased from `6.836` under diagonal errors to `8.757` under reconstructed covariance.
+However, cluster-level candidate wins fell from six of eight to four of eight, below the
+frozen six-of-eight robustness requirement. A85 and ZW1215 changed from small diagonal
+wins to covariance-aware losses. The result is therefore retained as
+`FAIL_FROZEN_PRESSURE_RANKING_ROBUSTNESS`: it advances CP5.1 to a development scoring
+pilot but does not complete CP5.1 or permit a covariance-robust publication claim.
+
+A strict source-feasibility audit for one already exposed cluster, A1795, confirms that
+public XMM and Planck inputs are sufficient for a new reduction but not for reconstructing
+the exact missing X-COP temperature, density, shared-calibration, background/beam, and
+joint X-ray/SZ covariance. Six public XMM observations and the required reduction roles
+are frozen, but the original likelihood chains, deprojection realizations, annular
+response/mixing products, local MILCA map, and matched simulations are absent. CP5.2
+through CP5.6 remain blocked. No large payload was downloaded and no scientific row was
+opened by that audit.
 
 ## CP6 — numerical, synthetic, and leakage controls
 

@@ -385,6 +385,10 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "nuisance_identifiability_audit",
         "nuisance_quotient_audit",
         "nuisance_quotient_sampler_implementation",
+        "nuisance_quotient_sbc_v3_adjudicator",
+        "matched_newtonian_control_v2",
+        "development_pressure_covariance",
+        "a1795_covariance_source_feasibility",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -434,6 +438,10 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     nuisance_identifiability = evidence["nuisance_identifiability_audit"]
     nuisance_quotient = evidence["nuisance_quotient_audit"]
     nuisance_quotient_sampler = evidence["nuisance_quotient_sampler_implementation"]
+    quotient_sbc = evidence["nuisance_quotient_sbc_v3_adjudicator"]
+    newtonian_control = evidence["matched_newtonian_control_v2"]
+    pressure_covariance = evidence["development_pressure_covariance"]
+    a1795_feasibility = evidence["a1795_covariance_source_feasibility"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -576,6 +584,119 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         raise ResearchPublicationReadinessError(
             "nuisance quotient sampler implementation evidence changed"
         )
+    if (
+        quotient_sbc["status"]
+        != "strictly_verified_v3_synthetic_pass_newtonian_eligible_production_locked"
+        or quotient_sbc["machine_statement"]
+        != "V3 synthetic SBC passed; Newtonian-control may unlock; candidate production remains locked"
+        or quotient_sbc["adjudication"]["v1_passed"] is not False
+        or quotient_sbc["adjudication"]["v2_passed"] is not False
+        or quotient_sbc["adjudication"]["v3_synthetic_sbc_passed"] is not True
+        or quotient_sbc["adjudication"]["newtonian_control_unlock"] is not True
+        or quotient_sbc["adjudication"]["candidate_production_unlock"] is not False
+        or quotient_sbc["adjudication"]["v3_synthetic_likelihood_evaluations"]
+        != 24_896_774
+        or quotient_sbc["claim_boundary"]["scientific_claim_allowed"] is not False
+        or quotient_sbc["diagnostic_evidence_boundary"]["retained_chains_present_in_sealed_npz"]
+        is not False
+        or quotient_sbc["diagnostic_evidence_boundary"]["rhat_and_ess_recomputed_from_retained_chains"]
+        is not False
+        or quotient_sbc["data_boundary"]
+        != {
+            "candidate_production_runs": 0,
+            "network_calls": 0,
+            "newtonian_control_production_runs": 0,
+            "paid_model_calls": 0,
+            "real_confirmation_rows_loaded": 0,
+            "real_development_rows_loaded": 0,
+            "real_holdout_rows_loaded": 0,
+            "real_independent_rows_loaded": 0,
+            "synthetic_data_only": True,
+        }
+    ):
+        raise ResearchPublicationReadinessError("strict quotient SBC evidence changed")
+    if (
+        newtonian_control["status"]
+        != "package_prepared_strict_v3_pass_external_approval_required"
+        or newtonian_control["gates"]
+        != {
+            "external_approval_present": False,
+            "full_matched_newtonian_run_completed": False,
+            "production_authorized": False,
+            "strict_v3_adjudicator_passed": True,
+        }
+        or newtonian_control["claim_boundary"]["package_prepared"] is not True
+        or newtonian_control["claim_boundary"]["full_matched_newtonian_run_completed"]
+        is not False
+        or newtonian_control["claim_boundary"]["scientific_claim_allowed"] is not False
+        or newtonian_control["data_boundary"]
+        != {
+            "network_calls": 0,
+            "paid_or_model_calls": 0,
+            "production_runs": 0,
+            "real_confirmation_rows": 0,
+            "real_development_rows": 0,
+            "real_holdout_rows": 0,
+            "real_independent_rows": 0,
+            "synthetic_target_blind_predictor_rows": 80,
+        }
+        or newtonian_control["run_request"]["maximum_newtonian_control_likelihood_evaluations"]
+        != 233_504
+        or newtonian_control["run_request"]["maximum_paired_likelihood_evaluations"]
+        != 467_008
+        or newtonian_control["run_request"]["maximum_paid_external_cost_usd"] != 0.0
+    ):
+        raise ResearchPublicationReadinessError("matched Newtonian control evidence changed")
+    if (
+        pressure_covariance["claims"]["portable_integrity_supported"] is not True
+        or pressure_covariance["claims"]["CP5_status_changed"] is not False
+        or pressure_covariance["claims"]["scientific_result_changed"] is not False
+        or pressure_covariance["claims"]["archive_license_verified"] is not False
+        or pressure_covariance["lineage"]
+        != {
+            "CP5_1_status": "DEVELOPMENT_PRESSURE_COVARIANCE_SCORED_NOT_COMPONENT_COMPLETE",
+            "reconstructed_matrices": 8,
+            "reconstruction_decision": "DEVELOPMENT_PRESSURE_COVARIANCE_PILOT_RECONSTRUCTIBLE_CP5_REMAINS_PARTIAL",
+            "scored_pressure_rows": 54,
+            "scoring_decision": "FAIL_FROZEN_PRESSURE_RANKING_ROBUSTNESS",
+        }
+        or pressure_covariance["counts"]["external_covariance_members_manifested"] != 8
+        or pressure_covariance["counts"]["tracked_standalone_pressure_files_verified"] != 8
+        or pressure_covariance["counts"]["scientific_payload_rows_read"] != 0
+        or pressure_covariance["counts"]["scientific_scores_computed"] != 0
+        or pressure_covariance["external_archive_contract"]["included_in_portable_package"]
+        is not False
+        or pressure_covariance["external_archive_contract"]["required_for_portable_integrity_check"]
+        is not False
+    ):
+        raise ResearchPublicationReadinessError("development pressure covariance evidence changed")
+    if (
+        a1795_feasibility["status"]
+        != "strictly_verified_source_packet_incomplete_cp5_2_through_cp5_6_blocked"
+        or a1795_feasibility["adjudication"]["strict_verifier_passed"] is not True
+        or a1795_feasibility["adjudication"]["complete_public_covariance_source_packet"]
+        is not False
+        or a1795_feasibility["adjudication"]["CP5_2_through_CP5_6_complete"]
+        is not False
+        or a1795_feasibility["adjudication"]["observation_count"] != 6
+        or a1795_feasibility["adjudication"]["planck_product_count"] != 5
+        or a1795_feasibility["adjudication"]["planck_public_bytes_manifested"]
+        != 13_314_915_231
+        or a1795_feasibility["claim_boundary"]["public_inputs_exist_for_a_new_a1795_reduction"]
+        is not True
+        or a1795_feasibility["claim_boundary"]["complete_bounded_source_packet_frozen"]
+        is not False
+        or a1795_feasibility["claim_boundary"]["publication_claim_supported"]
+        is not False
+        or set(a1795_feasibility["cp5_statuses"])
+        != {"CP5.2", "CP5.3", "CP5.4", "CP5.5", "CP5.6"}
+        or not all(
+            value.startswith("BLOCKED_")
+            for value in a1795_feasibility["cp5_statuses"].values()
+        )
+        or any(value != 0 for value in a1795_feasibility["data_boundary"].values())
+    ):
+        raise ResearchPublicationReadinessError("A1795 covariance feasibility evidence changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True

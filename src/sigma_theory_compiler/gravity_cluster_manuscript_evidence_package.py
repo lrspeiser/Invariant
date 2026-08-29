@@ -23,6 +23,10 @@ SOURCE_IDS = (
     "replication_protocol",
     "prior_art",
     "nuisance_quotient_sampler_implementation",
+    "nuisance_quotient_sbc_v3_adjudicator",
+    "matched_newtonian_control_v2",
+    "development_pressure_covariance",
+    "a1795_covariance_source_feasibility",
 )
 
 
@@ -165,6 +169,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
     protocol = sources["replication_protocol"]
     prior_art = sources["prior_art"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
+    quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
+    newtonian_control = sources["matched_newtonian_control_v2"]
+    pressure_covariance = sources["development_pressure_covariance"]
+    a1795_feasibility = sources["a1795_covariance_source_feasibility"]
     readiness = _read_json(root / READINESS_PATH)
     _content_sha(readiness)
 
@@ -250,6 +258,38 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "CP5_7_through_CP5_10"
             ],
         },
+        "quotient_sampler_calibration_and_newtonian_boundary": {
+            "sbc_decision": quotient_sbc["decision"],
+            "machine_statement": quotient_sbc["machine_statement"],
+            "v1_passed": quotient_sbc["adjudication"]["v1_passed"],
+            "v2_passed": quotient_sbc["adjudication"]["v2_passed"],
+            "v3_synthetic_sbc_passed": quotient_sbc["adjudication"][
+                "v3_synthetic_sbc_passed"
+            ],
+            "newtonian_control_unlock": quotient_sbc["adjudication"][
+                "newtonian_control_unlock"
+            ],
+            "candidate_production_unlock": quotient_sbc["adjudication"][
+                "candidate_production_unlock"
+            ],
+            "retained_chains_present": quotient_sbc["diagnostic_evidence_boundary"][
+                "retained_chains_present_in_sealed_npz"
+            ],
+            "newtonian_package_decision": newtonian_control["decision"],
+            "newtonian_external_approval_present": newtonian_control["gates"][
+                "external_approval_present"
+            ],
+            "newtonian_production_runs": newtonian_control["data_boundary"][
+                "production_runs"
+            ],
+            "newtonian_requested_likelihood_evaluations": newtonian_control[
+                "run_request"
+            ]["maximum_newtonian_control_likelihood_evaluations"],
+            "newtonian_maximum_paid_external_cost_usd": newtonian_control[
+                "run_request"
+            ]["maximum_paid_external_cost_usd"],
+            "scientific_claim_allowed": False,
+        },
         "access_ledger": access,
         "split_summaries": split_summaries,
         "per_row_candidate_predictions": per_row,
@@ -294,6 +334,37 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 for task in ("CP5.1", "CP5.2", "CP5.3", "CP5.4", "CP5.5", "CP5.6")
             },
             "limitations": uncertainty["limitations"],
+        },
+        "development_pressure_covariance_boundary": {
+            "portable_integrity_decision": pressure_covariance["decision"],
+            "reconstruction_decision": pressure_covariance["lineage"][
+                "reconstruction_decision"
+            ],
+            "scoring_decision": pressure_covariance["lineage"]["scoring_decision"],
+            "reconstructed_matrices": pressure_covariance["lineage"][
+                "reconstructed_matrices"
+            ],
+            "scored_pressure_rows": pressure_covariance["lineage"][
+                "scored_pressure_rows"
+            ],
+            "CP5_1_status": pressure_covariance["lineage"]["CP5_1_status"],
+            "archive_included": pressure_covariance["external_archive_contract"][
+                "included_in_portable_package"
+            ],
+            "archive_license_verified": pressure_covariance["claims"][
+                "archive_license_verified"
+            ],
+            "a1795_source_decision": a1795_feasibility["decision"],
+            "a1795_public_inputs_support_new_reduction": a1795_feasibility[
+                "claim_boundary"
+            ]["public_inputs_exist_for_a_new_a1795_reduction"],
+            "a1795_complete_source_packet": a1795_feasibility["adjudication"][
+                "complete_public_covariance_source_packet"
+            ],
+            "CP5_2_through_CP5_6_complete": a1795_feasibility["adjudication"][
+                "CP5_2_through_CP5_6_complete"
+            ],
+            "scientific_result_changed": False,
         },
         "prior_art_boundary": {
             "decision": prior_art["decision"],
