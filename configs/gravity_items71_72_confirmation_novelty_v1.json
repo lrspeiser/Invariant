@@ -1,0 +1,115 @@
+{
+  "schema_version": "invariant-gravity-items71-72-confirmation-novelty-config-1.0",
+  "items": [71, 72],
+  "status": "scientific_freeze_before_final_replay_and_novelty_adjudication",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051",
+    "runs/gravity/roadmap/item-60-direct-clash-lensing-gate-v1.json": "12ebf32f59ef955d8a0a185044bf9545e8ba944b6ab53ef30225eafddbd57323",
+    "runs/gravity/roadmap/item-61-cross-scale-gate-v1.json": "bd8ce28f5f6ca5f39e1cb98ad753850155bfc32b92f18c5afbaaf213e1474fe8",
+    "runs/gravity/roadmap/items-62-70-formal-gate-matrix-v1.json": "47415128542155c725c73e991b9ee02a8fa084ce9d83792b5bb1c3d7d1c28050"
+  },
+  "target": {
+    "source_item": 59,
+    "variant_id": "cross_scale_boundary:5e945be899287b75",
+    "family_id": "cross_scale_boundary",
+    "parameters": {"beta": 1.5},
+    "formula": "q=(gbar/a0)/(gbar/a0+0.1); g=gbar+beta*(gbar*K_in(q)+a0*K_sym(q))",
+    "origin_label_before_adjudication": "new_combination_of_known_permittivity_and_auxiliary_field_ideas"
+  },
+  "item71": {
+    "eligible_claim": "The frozen radial cross-scale-boundary ansatz predicted held-out X-COP SZ pressure and X-ray temperature profile shapes better than the frozen comparators, conditional on one outer pressure anchor and the declared hydrostatic/nuisance assumptions.",
+    "ineligible_claims": [
+      "a universal alternative to general relativity",
+      "dark matter has been eliminated",
+      "direct lensing is predicted",
+      "the exact beta=1.5 representation works across galaxies and clusters",
+      "historical novelty"
+    ],
+    "internal_replays_required": [59, 60, 61, "62-70"],
+    "same_release_confirmation_clusters": 4,
+    "external_survey_confirmation_clusters": 0,
+    "independent_external_implementation_replays": 0,
+    "sealed_sparc_confirmation_rows_allowed": 0,
+    "new_observational_target_rows_allowed": 0,
+    "pass_requires_external_data_or_independent_implementation": true
+  },
+  "item72": {
+    "search_as_of": "2026-08-29",
+    "search_scope": "primary papers and current primary publication records found by exact-formula, nonlocal-kernel, MOND, permittivity, galaxy-cluster, lensing, and covariant-completion searches",
+    "prior_art": [
+      {
+        "id": "mond_rar",
+        "title": "The Radial Acceleration Relation in Rotationally Supported Galaxies",
+        "url": "https://arxiv.org/abs/1609.05917",
+        "year": 2016,
+        "overlap": "the acceleration scale a0 and an empirical baryonic-acceleration response are known"
+      },
+      {
+        "id": "qumond",
+        "title": "Quasi-linear formulation of MOND",
+        "url": "https://arxiv.org/abs/0911.5464",
+        "year": 2009,
+        "overlap": "a nonlinear baryonic-acceleration response followed by a field solve is known and action-derived"
+      },
+      {
+        "id": "refracted_gravity",
+        "title": "Dynamics of galaxies and clusters in refracted gravity",
+        "url": "https://arxiv.org/abs/1603.04943",
+        "year": 2016,
+        "overlap": "density-dependent gravitational permittivity and galaxy-to-cluster applications are known"
+      },
+      {
+        "id": "covariant_refracted_gravity",
+        "title": "Covariant formulation of refracted gravity",
+        "url": "https://arxiv.org/abs/2109.11217",
+        "year": 2021,
+        "overlap": "a scalar-tensor completion of gravitational permittivity with cosmological equations is known"
+      },
+      {
+        "id": "nonlocal_modified_poisson",
+        "title": "Nonlocal Gravity: Modified Poisson's Equation",
+        "url": "https://arxiv.org/abs/1111.4702",
+        "year": 2011,
+        "overlap": "integral kernels and Fredholm/reciprocal-kernel gravity that can simulate dark matter are known"
+      },
+      {
+        "id": "teves",
+        "title": "Relativistic gravitation theory for the MOND paradigm",
+        "url": "https://arxiv.org/abs/astro-ph/0403694",
+        "year": 2004,
+        "overlap": "metric-scalar-vector completions that connect dynamics, lensing, Solar-System limits, causality, and cosmology are known"
+      },
+      {
+        "id": "discrete_informational_kernel",
+        "title": "A Discrete Informational Framework for Classical Gravity: Ledger Foundations and Galaxy Rotation Curve Constraints",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42072602/",
+        "year": 2026,
+        "overlap": "a source-side nonlocal response kernel applied to SPARC with explicit Solar-System and relativistic-completion caveats predates this adjudication"
+      }
+    ],
+    "exact_phrase_search_found_exact_formula": false,
+    "absence_from_scoped_search_proves_global_novelty": false,
+    "behavioral_witness": {
+      "compare_against": ["purely_local_algebraic_RAR_or_MOND_interpolator", "purely_local_distance_running_multiplier"],
+      "construction": "two radial baryonic-acceleration profiles have identical radius and local gbar at the witness row but different remote occupancy",
+      "required_candidate_difference_fraction_minimum": 0.001,
+      "required_local_formula_difference": 0.0
+    }
+  },
+  "counterexample_policy": {
+    "single_empirical_counterexample_terminal": false,
+    "counterexample_count_alone_terminal": false,
+    "finite_sample_may_prune_formula_family": false,
+    "novelty_label_may_override_failed_physics_gate": false,
+    "lack_of_novelty_prunes_empirically_useful_formula": false
+  },
+  "paths": {
+    "item71": "runs/gravity/roadmap/item-71-independent-confirmation-gate-v1.json",
+    "item72": "runs/gravity/roadmap/item-72-novelty-adjudication-gate-v1.json",
+    "aggregate": "runs/gravity/roadmap/items-71-72-final-gates-v1.json"
+  }
+}
