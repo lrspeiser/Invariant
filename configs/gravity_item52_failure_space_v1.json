@@ -1,0 +1,69 @@
+{
+  "schema_version": "invariant-gravity-item52-failure-space-config-1.0",
+  "item": 52,
+  "status": "scientific_freeze_before_item52_failure_region_evaluation",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "hypothesis": "Invariant can accumulate exact formal exclusions and scoped empirical underperformance by equation region, making failed space queryable without treating one imperfect datum or one finite retrospective dataset as a global veto.",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "configs/gravity_item51_gpu_screening_v1.json": "c2a5c89bda69cd41047aed0de22d61b8b45b566cfd7087c698334006344e1538",
+    "runs/gravity/roadmap/item-51-gpu-screening-v1.json": "1b10176e0c8715d6c0f6ac70ae0514a37614b63edf365fd50148681bfd6c8acb",
+    "runs/gravity/roadmap/item-51-gpu-screening-v1-source/candidate-manifest.json": "8ec752f0b47aad6d031892a768bf748b858ffe6bf7ad7a2b0d80951b54547040",
+    "runs/gravity/roadmap/item-51-gpu-screening-v1-source/gpu-screen-result.json": "57c46a0cbfaf05202d01f0f93c175c942b1eac00bcc2cb6eb86b727181e10118"
+  },
+  "required_predecessor": {
+    "decision": "OPERATIONAL_ITEM51_GPU_SCALE_COMPLETE_SCIENTIFIC_LEAD_NOT_DEMONSTRATED",
+    "content_sha256": "1b8ecc71ab26f0d44e4c184658ef42412df15f4c97079211a0ae8923bfc47128"
+  },
+  "failure_policy": {
+    "single_empirical_counterexample_terminal": false,
+    "empirical_counterexample_count_terminal": false,
+    "finite_empirical_region_underperformance_global_prune": false,
+    "formal_exclusion_wording": "cannot pass the explicitly named frozen admissibility constraint",
+    "empirical_exclusion_wording": "no scheduled member passed the named threshold on the named retrospective data",
+    "unchanged_independent_replication_required_for_terminal_tested_scope_rejection": true,
+    "retain_best_representative_for_every_empirical_region": true,
+    "retain_all_object_level_counterexamples": true
+  },
+  "formal_regions": {
+    "outer_parameter_cells": 4096,
+    "probe_points": 256,
+    "program_coordinates": [0.001, 0.25, 0.5, 0.75, 0.999],
+    "constraints": [
+      "finite_multiplier",
+      "minimum_multiplier_0.05",
+      "maximum_multiplier_100",
+      "high_acceleration_log10_deviation_at_most_1e-5",
+      "low_acceleration_absolute_log10_deviation_at_least_0.01"
+    ]
+  },
+  "empirical_regions": [
+    "binary_operator",
+    "ordered_source_item_pair",
+    "binary_operator_x_ordered_source_item_pair",
+    "binary_operator_x_transform_pair",
+    "admitted_outer_parameter_cell"
+  ],
+  "empirical_threshold": {
+    "name": "item45_full_data_balanced_training_loss",
+    "value": 0.6744646153665534,
+    "dataset": "28 S4TM exploration lenses plus 20 CLASH clusters / 84 cluster radii",
+    "role": "retrospective development only"
+  },
+  "item51_schedule_replay": {
+    "raw_positions": 67108864,
+    "raw_batch_size": 1048576,
+    "expected_physically_admitted": 5505024,
+    "gpu_backend_required": "cupy_cuda"
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-52-failure-space-v1-source",
+    "preflight_manifest": "preflight-manifest.json",
+    "database": "failure-space-database.json",
+    "query_test": "query-test-result.json",
+    "aggregate_result": "runs/gravity/roadmap/item-52-failure-space-v1.json",
+    "report": "docs/GRAVITY_ITEM52_FAILURE_SPACE_RESULT.md"
+  }
+}
