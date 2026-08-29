@@ -1,0 +1,567 @@
+{
+  "schema_version": "invariant-gravity-cluster-pressure-covariance-scoring-pilot-1.0",
+  "status": "frozen_before_covariance_scoring",
+  "pilot_id": "gravity-cluster-pressure-covariance-scoring-pilot-v1",
+  "purpose": "Score only the exact frozen Item 59 candidate and strongest frozen conventional comparator on the exact already-exposed development pressure rows, once with released diagonal errors and once with the reconstructed released pressure correlation, without refitting or selection.",
+  "implementation_binding": {
+    "path": "src/sigma_theory_compiler/gravity_cluster_pressure_covariance_scoring_pilot.py",
+    "file_sha256": "652f8467be4764797e93babe633545aaf6a028d5530f0999e728dc68f7422e56"
+  },
+  "source_bindings": [
+    {
+      "source_id": "RECONSTRUCTION_CONFIG",
+      "path": "configs/gravity_cluster_development_covariance_reconstruction_v1.json",
+      "file_sha256": "ab5c2964f218bdab38d5f0fdd2bd1931069d595b6dd0759448d53825a7f5ec01",
+      "content_sha256": null
+    },
+    {
+      "source_id": "RECONSTRUCTION_IMPLEMENTATION",
+      "path": "src/sigma_theory_compiler/gravity_cluster_development_covariance_reconstruction.py",
+      "file_sha256": "846b91f14408f80d8398e738ed9892c4c5c5ad268d535894ec3a1ac123c0c88d",
+      "content_sha256": null
+    },
+    {
+      "source_id": "RECONSTRUCTION_RECEIPT",
+      "path": "runs/gravity/publication-readiness/development-covariance-reconstruction-v1.json",
+      "file_sha256": "c9e57a36bdb92d27aa1e1250171731ee2b7bbf89bffa20110ef1327ca86ae937",
+      "content_sha256": "aa1a0f2661918fcb2e84fcf4a451db31d713e9c1ca6310616d91cb7aae2c5284"
+    },
+    {
+      "source_id": "ITEM59_CONFIG",
+      "path": "configs/gravity_item59_xcop_forward_observable_gate_v1.json",
+      "file_sha256": "7d17fa71dce7bfb44ab517a47b1cbe0ed17826cc2ffe36f871296b4d8632878b",
+      "content_sha256": null
+    },
+    {
+      "source_id": "ITEM59_IMPLEMENTATION",
+      "path": "src/sigma_theory_compiler/gravity_item59_xcop_forward_observable_gate.py",
+      "file_sha256": "a633622e2833195c05dbe3b95f78121444a7727754f5d73bcbb732f2c0ae7819",
+      "content_sha256": null
+    },
+    {
+      "source_id": "COMPARATOR_CONFIG",
+      "path": "configs/gravity_cluster_comparator_suite_v1.json",
+      "file_sha256": "41d58da6842cf52666ef065c2128015294778dd3dec86400ac71e27440a21cb5",
+      "content_sha256": null
+    },
+    {
+      "source_id": "COMPARATOR_IMPLEMENTATION",
+      "path": "src/sigma_theory_compiler/gravity_cluster_comparator_suite.py",
+      "file_sha256": "dc8c430cff1361421dfbc23e5119621cae47b05ab54798ce805f24c426c5458e",
+      "content_sha256": null
+    },
+    {
+      "source_id": "COMPARATOR_RECEIPT",
+      "path": "runs/gravity/publication-readiness/comparator-suite-v1.json",
+      "file_sha256": "bb0b87663cb8ab0d5b509823ea19a408e021fc366c21ea98374afec356369e67",
+      "content_sha256": "a58691bc601994802f94bfe40b458242360580949331f8f407a52aea522cd128"
+    }
+  ],
+  "access_boundary": {
+    "development_clusters": [
+      "A1644",
+      "A1795",
+      "A2142",
+      "A2255",
+      "A2319",
+      "A3266",
+      "A85",
+      "ZW1215"
+    ],
+    "allowed_splits": [
+      "development_train",
+      "development_holdout"
+    ],
+    "observable": "pressure",
+    "same_release_confirmation_clusters_opened": 0,
+    "independent_target_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "formula_refits": 0,
+    "nuisance_refits": 0,
+    "model_selection_operations": 0,
+    "paid_model_calls": 0,
+    "network_payload_reads": 0
+  },
+  "sample_freeze": [
+    {
+      "anchor_index": 7,
+      "cluster": "A1644",
+      "pressure_rows": [
+        {
+          "index": 0,
+          "r_over_r500": 0.11886436768748815,
+          "row_id": "A1644:pressure:0",
+          "split": "development_holdout"
+        },
+        {
+          "index": 1,
+          "r_over_r500": 0.2908921164844324,
+          "row_id": "A1644:pressure:1",
+          "split": "development_train"
+        },
+        {
+          "index": 2,
+          "r_over_r500": 0.4764308695144291,
+          "row_id": "A1644:pressure:2",
+          "split": "development_holdout"
+        },
+        {
+          "index": 3,
+          "r_over_r500": 0.6637683949230667,
+          "row_id": "A1644:pressure:3",
+          "split": "development_holdout"
+        },
+        {
+          "index": 4,
+          "r_over_r500": 0.8517050336755003,
+          "row_id": "A1644:pressure:4",
+          "split": "development_train"
+        },
+        {
+          "index": 5,
+          "r_over_r500": 1.039913958575854,
+          "row_id": "A1644:pressure:5",
+          "split": "development_train"
+        },
+        {
+          "index": 6,
+          "r_over_r500": 1.2282696025004396,
+          "row_id": "A1644:pressure:6",
+          "split": "development_train"
+        }
+      ],
+      "scored_r_over_r500": [
+        0.11886436768748815,
+        1.2282696025004396
+      ]
+    },
+    {
+      "anchor_index": 6,
+      "cluster": "A1795",
+      "pressure_rows": [
+        {
+          "index": 0,
+          "r_over_r500": 0.13370176047397614,
+          "row_id": "A1795:pressure:0",
+          "split": "development_holdout"
+        },
+        {
+          "index": 1,
+          "r_over_r500": 0.327203070804887,
+          "row_id": "A1795:pressure:1",
+          "split": "development_holdout"
+        },
+        {
+          "index": 2,
+          "r_over_r500": 0.5359019018075041,
+          "row_id": "A1795:pressure:2",
+          "split": "development_train"
+        },
+        {
+          "index": 3,
+          "r_over_r500": 0.74662410045857,
+          "row_id": "A1795:pressure:3",
+          "split": "development_holdout"
+        },
+        {
+          "index": 4,
+          "r_over_r500": 0.9580201266797885,
+          "row_id": "A1795:pressure:4",
+          "split": "development_train"
+        },
+        {
+          "index": 5,
+          "r_over_r500": 1.169722502837448,
+          "row_id": "A1795:pressure:5",
+          "split": "development_train"
+        }
+      ],
+      "scored_r_over_r500": [
+        0.13370176047397614,
+        1.169722502837448
+      ]
+    },
+    {
+      "anchor_index": 7,
+      "cluster": "A2142",
+      "pressure_rows": [
+        {
+          "index": 0,
+          "r_over_r500": 0.12286313013107789,
+          "row_id": "A2142:pressure:0",
+          "split": "development_train"
+        },
+        {
+          "index": 1,
+          "r_over_r500": 0.30067809513200716,
+          "row_id": "A2142:pressure:1",
+          "split": "development_holdout"
+        },
+        {
+          "index": 2,
+          "r_over_r500": 0.49245864166647946,
+          "row_id": "A2142:pressure:2",
+          "split": "development_train"
+        },
+        {
+          "index": 3,
+          "r_over_r500": 0.6860984872734697,
+          "row_id": "A2142:pressure:3",
+          "split": "development_train"
+        },
+        {
+          "index": 4,
+          "r_over_r500": 0.880357572298711,
+          "row_id": "A2142:pressure:4",
+          "split": "development_holdout"
+        },
+        {
+          "index": 5,
+          "r_over_r500": 1.0748981730545373,
+          "row_id": "A2142:pressure:5",
+          "split": "development_holdout"
+        },
+        {
+          "index": 6,
+          "r_over_r500": 1.2695902453854797,
+          "row_id": "A2142:pressure:6",
+          "split": "development_train"
+        }
+      ],
+      "scored_r_over_r500": [
+        0.12286313013107789,
+        1.2695902453854797
+      ]
+    },
+    {
+      "anchor_index": 7,
+      "cluster": "A2255",
+      "pressure_rows": [
+        {
+          "index": 0,
+          "r_over_r500": 0.11248479867482025,
+          "row_id": "A2255:pressure:0",
+          "split": "development_holdout"
+        },
+        {
+          "index": 1,
+          "r_over_r500": 0.2752796504440481,
+          "row_id": "A2255:pressure:1",
+          "split": "development_train"
+        },
+        {
+          "index": 2,
+          "r_over_r500": 0.4508603598974131,
+          "row_id": "A2255:pressure:2",
+          "split": "development_holdout"
+        },
+        {
+          "index": 3,
+          "r_over_r500": 0.6281432864687524,
+          "row_id": "A2255:pressure:3",
+          "split": "development_train"
+        },
+        {
+          "index": 4,
+          "r_over_r500": 0.8059931731695876,
+          "row_id": "A2255:pressure:4",
+          "split": "development_train"
+        },
+        {
+          "index": 5,
+          "r_over_r500": 0.9841008068136706,
+          "row_id": "A2255:pressure:5",
+          "split": "development_train"
+        },
+        {
+          "index": 6,
+          "r_over_r500": 1.1623471050140166,
+          "row_id": "A2255:pressure:6",
+          "split": "development_holdout"
+        }
+      ],
+      "scored_r_over_r500": [
+        0.11248479867482025,
+        1.1623471050140166
+      ]
+    },
+    {
+      "anchor_index": 7,
+      "cluster": "A2319",
+      "pressure_rows": [
+        {
+          "index": 0,
+          "r_over_r500": 0.1168510910282588,
+          "row_id": "A2319:pressure:0",
+          "split": "development_train"
+        },
+        {
+          "index": 1,
+          "r_over_r500": 0.2859650962367524,
+          "row_id": "A2319:pressure:1",
+          "split": "development_train"
+        },
+        {
+          "index": 2,
+          "r_over_r500": 0.468361231783191,
+          "row_id": "A2319:pressure:2",
+          "split": "development_train"
+        },
+        {
+          "index": 3,
+          "r_over_r500": 0.6525257278356469,
+          "row_id": "A2319:pressure:3",
+          "split": "development_holdout"
+        },
+        {
+          "index": 4,
+          "r_over_r500": 0.8372791793856483,
+          "row_id": "A2319:pressure:4",
+          "split": "development_train"
+        },
+        {
+          "index": 5,
+          "r_over_r500": 1.0223002653884377,
+          "row_id": "A2319:pressure:5",
+          "split": "development_holdout"
+        },
+        {
+          "index": 6,
+          "r_over_r500": 1.2074655756570276,
+          "row_id": "A2319:pressure:6",
+          "split": "development_holdout"
+        }
+      ],
+      "scored_r_over_r500": [
+        0.1168510910282588,
+        1.2074655756570276
+      ]
+    },
+    {
+      "anchor_index": 6,
+      "cluster": "A3266",
+      "pressure_rows": [
+        {
+          "index": 0,
+          "r_over_r500": 0.10119368470604946,
+          "row_id": "A3266:pressure:0",
+          "split": "development_train"
+        },
+        {
+          "index": 1,
+          "r_over_r500": 0.24764733928345434,
+          "row_id": "A3266:pressure:1",
+          "split": "development_holdout"
+        },
+        {
+          "index": 2,
+          "r_over_r500": 0.4056034131683455,
+          "row_id": "A3266:pressure:2",
+          "split": "development_train"
+        },
+        {
+          "index": 3,
+          "r_over_r500": 0.565090871917158,
+          "row_id": "A3266:pressure:3",
+          "split": "development_holdout"
+        },
+        {
+          "index": 4,
+          "r_over_r500": 0.7250883752362111,
+          "row_id": "A3266:pressure:4",
+          "split": "development_holdout"
+        },
+        {
+          "index": 5,
+          "r_over_r500": 0.8853176408727987,
+          "row_id": "A3266:pressure:5",
+          "split": "development_train"
+        }
+      ],
+      "scored_r_over_r500": [
+        0.10119368470604946,
+        0.8853176408727987
+      ]
+    },
+    {
+      "anchor_index": 7,
+      "cluster": "A85",
+      "pressure_rows": [
+        {
+          "index": 0,
+          "r_over_r500": 0.1234736819799039,
+          "row_id": "A85:pressure:0",
+          "split": "development_holdout"
+        },
+        {
+          "index": 1,
+          "r_over_r500": 0.3021723035649736,
+          "row_id": "A85:pressure:1",
+          "split": "development_holdout"
+        },
+        {
+          "index": 2,
+          "r_over_r500": 0.49490585299853146,
+          "row_id": "A85:pressure:2",
+          "split": "development_train"
+        },
+        {
+          "index": 3,
+          "r_over_r500": 0.6895079550816536,
+          "row_id": "A85:pressure:3",
+          "split": "development_train"
+        },
+        {
+          "index": 4,
+          "r_over_r500": 0.8847323991740069,
+          "row_id": "A85:pressure:4",
+          "split": "development_train"
+        },
+        {
+          "index": 5,
+          "r_over_r500": 1.0802396911607282,
+          "row_id": "A85:pressure:5",
+          "split": "development_train"
+        },
+        {
+          "index": 6,
+          "r_over_r500": 1.2758992807459788,
+          "row_id": "A85:pressure:6",
+          "split": "development_holdout"
+        }
+      ],
+      "scored_r_over_r500": [
+        0.1234736819799039,
+        1.2758992807459788
+      ]
+    },
+    {
+      "anchor_index": 7,
+      "cluster": "ZW1215",
+      "pressure_rows": [
+        {
+          "index": 0,
+          "r_over_r500": 0.09786456792707592,
+          "row_id": "ZW1215:pressure:0",
+          "split": "development_train"
+        },
+        {
+          "index": 1,
+          "r_over_r500": 0.23950012224247416,
+          "row_id": "ZW1215:pressure:1",
+          "split": "development_train"
+        },
+        {
+          "index": 2,
+          "r_over_r500": 0.3922597006053623,
+          "row_id": "ZW1215:pressure:2",
+          "split": "development_holdout"
+        },
+        {
+          "index": 3,
+          "r_over_r500": 0.5465002644103415,
+          "row_id": "ZW1215:pressure:3",
+          "split": "development_train"
+        },
+        {
+          "index": 4,
+          "r_over_r500": 0.7012341298052956,
+          "row_id": "ZW1215:pressure:4",
+          "split": "development_holdout"
+        },
+        {
+          "index": 5,
+          "r_over_r500": 0.8561921082521601,
+          "row_id": "ZW1215:pressure:5",
+          "split": "development_holdout"
+        },
+        {
+          "index": 6,
+          "r_over_r500": 1.0112708081528439,
+          "row_id": "ZW1215:pressure:6",
+          "split": "development_train"
+        }
+      ],
+      "scored_r_over_r500": [
+        0.09786456792707592,
+        1.0112708081528439
+      ]
+    }
+  ],
+  "model_freeze": {
+    "candidate": {
+      "model_id": "ITEM59_CROSS_SCALE_BOUNDARY",
+      "family_id": "cross_scale_boundary",
+      "variant_id": "cross_scale_boundary:5e945be899287b75",
+      "parameters": {
+        "beta": 1.5
+      },
+      "nuisances": {
+        "missing_stellar_to_gas_mass_ratio": 0.2,
+        "outer_nonthermal_fraction": 0.3,
+        "published_stellar_mass_scale": 1.3,
+        "xray_temperature_cross_calibration": 1
+      },
+      "refit": false
+    },
+    "strongest_frozen_comparator": {
+      "model_id": "GR_PLUS_NFW",
+      "selection_source": "frozen_development_comparator_suite_strongest_conventional",
+      "parameters": {
+        "c500": 3.5,
+        "log10_halo_m500_solar_mass": 14.6
+      },
+      "nuisances": {
+        "missing_stellar_to_gas_mass_ratio": 0.05,
+        "outer_nonthermal_fraction": 0,
+        "published_stellar_mass_scale": 1.3,
+        "xray_temperature_cross_calibration": 1
+      },
+      "refit": false
+    }
+  },
+  "scoring_freeze": {
+    "space": "log_pressure",
+    "fractional_error_floor": 0.05,
+    "covariance_floor_rule": "preserve_released_correlation_and_replace_each_marginal_fractional_sigma_with_max_released_fractional_sigma_0p05",
+    "diagonal_metric": "mean_squared_standardized_log_residual",
+    "full_metric": "log_residual_transpose_covariance_inverse_log_residual_divided_by_rows",
+    "aggregation": "equal_cluster_mean_separately_per_split",
+    "primary_split": "development_holdout",
+    "expected_diagonal_scores": {
+      "development_train": {
+        "ITEM59_CROSS_SCALE_BOUNDARY": 2.799233887535375,
+        "GR_PLUS_NFW": 9.345947485465649
+      },
+      "development_holdout": {
+        "ITEM59_CROSS_SCALE_BOUNDARY": 4.202682093406597,
+        "GR_PLUS_NFW": 11.038980283164767
+      }
+    },
+    "expected_diagonal_score_absolute_tolerance": 1e-10,
+    "selection_after_scoring": false
+  },
+  "adjudication_thresholds": {
+    "maximum_condition_number": 100000000,
+    "maximum_inverse_identity_residual": 1e-10,
+    "maximum_diagonal_reconstruction_relative_error": 1e-12,
+    "minimum_primary_full_covariance_cluster_wins": 6,
+    "require_primary_full_covariance_candidate_advantage_positive": true,
+    "require_primary_diagonal_and_full_ranking_concordance": true,
+    "magnitude_sensitivity_relative_change": 0.25,
+    "single_cluster_failure_terminal": false
+  },
+  "claim_boundary": {
+    "CP5_1_advances_to_development_scored": true,
+    "CP5_1_complete": false,
+    "CP5_2_through_CP5_6_complete": false,
+    "component_covariance_separated": false,
+    "temperature_or_density_covariance_used": false,
+    "independent_replication": false,
+    "physical_mechanism_established": false,
+    "alternative_to_gr_established": false,
+    "dark_matter_eliminated": false,
+    "scientific_promotion_authorized": false
+  },
+  "output_path": "runs/gravity/publication-readiness/pressure-covariance-scoring-pilot-v1.json"
+}

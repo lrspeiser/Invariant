@@ -1,0 +1,197 @@
+{
+  "schema_version": "invariant-gravity-cluster-development-covariance-reconstruction-1.0",
+  "status": "append_only_development_audit",
+  "contract_id": "gravity-cluster-development-covariance-reconstruction-v1",
+  "audit_cutoff": "2026-08-29",
+  "purpose": "Reconstruct and provenance-bind only the released Planck pressure correlation structure for the eight already-exposed X-COP development clusters, while recording why pressure, temperature, density, calibration, background, beam/PSF, and cross-instrument covariance gates remain incomplete.",
+  "implementation_binding": {
+    "path": "src/sigma_theory_compiler/gravity_cluster_development_covariance_reconstruction.py",
+    "file_sha256": "846b91f14408f80d8398e738ed9892c4c5c5ad268d535894ec3a1ac123c0c88d"
+  },
+  "public_metadata": [
+    {
+      "source_id": "XCOP_OFFICIAL_DATA_RELEASE",
+      "url": "https://dominiqueeckert.wixsite.com/xcop/data",
+      "audited_fact": "The official X-COP page distributes high-level thermodynamic profiles and a complete downloadable data archive for the named X-COP clusters."
+    },
+    {
+      "source_id": "XCOP_THERMODYNAMIC_PRIMARY_PAPER",
+      "url": "https://arxiv.org/abs/1805.00042",
+      "audited_fact": "The primary X-COP thermodynamic analysis documents spatially resolved density, temperature, and Planck pressure profiles for the X-COP sample."
+    }
+  ],
+  "local_source_bindings": [
+    {
+      "source_id": "XCOP_ARCHIVE",
+      "path": "work/item3-density-v2-audit/xcop-allfiles.tar.gz",
+      "file_sha256": "0edf5038b419b70d070b73b22f4801e27f318b0854db61eec52142c27c140d94",
+      "content_sha256": null
+    },
+    {
+      "source_id": "ITEM59_SOURCE_RECEIPT",
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1-source/source-receipt.json",
+      "file_sha256": "819360acdd40c58254cc43b18f9d6613b2c5f908122e134b7fa4b3f346b69aac",
+      "content_sha256": "da4b00265cbb3a5fe09192bed21564d8a752b6fa32bdf5b5fad84564d512c113"
+    },
+    {
+      "source_id": "ITEM59_PREFLIGHT",
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1-source/preflight-manifest.json",
+      "file_sha256": "152af8f8bb3da718e023ef56497d85747f6ddeefcb198b76cc3473f23792e484",
+      "content_sha256": "acc02410dd10203ecde419f0811383a23eef01045f821d0282ec469e35e41cd2"
+    },
+    {
+      "source_id": "ITEM59_CONFIG",
+      "path": "configs/gravity_item59_xcop_forward_observable_gate_v1.json",
+      "file_sha256": "7d17fa71dce7bfb44ab517a47b1cbe0ed17826cc2ffe36f871296b4d8632878b",
+      "content_sha256": null
+    }
+  ],
+  "population_boundary": {
+    "development_clusters": ["A1644", "A1795", "A2142", "A2255", "A2319", "A3266", "A85", "ZW1215"],
+    "excluded_same_release_confirmation_clusters": ["A2029", "A3158", "A644", "RXC1825"],
+    "only_development_covariance_members_may_be_opened": true,
+    "same_release_confirmation_members_opened_by_this_contract": 0,
+    "independent_target_rows_allowed": 0,
+    "independent_target_rows_opened": 0,
+    "paid_model_calls": 0,
+    "network_payload_reads": 0
+  },
+  "pressure_covariance_reconstruction": {
+    "covariance_hdu": 4,
+    "covariance_radius_field": "RW",
+    "covariance_profile_field": "FLUX",
+    "covariance_error_field": "ERRFLUX",
+    "covariance_matrix_field": "COVMAT",
+    "standalone_pressure_hdu": 2,
+    "standalone_radius_field": "RW_SZ",
+    "standalone_profile_field": "P_SZ",
+    "standalone_error_field": "eP_SZ",
+    "standalone_scale_header": "P500",
+    "mapping_rule": "Verify identical bin order through constant radius and central-profile scale ratios, convert the released COVMAT to a correlation matrix, then apply the already-used standalone physical pressure errors as C_target=diag(eP_SZ*P500) Corr_released diag(eP_SZ*P500).",
+    "mapping_reason": "The covariance product and standalone Item 59 profile use the same bin order but different constant radius/profile normalizations; retaining the released correlation structure and the scorer's existing diagonal errors avoids inventing a unit conversion or silently changing the scored central values.",
+    "radius_ratio_relative_tolerance": 1e-12,
+    "profile_ratio_relative_tolerance": 1e-12,
+    "symmetry_absolute_tolerance": 1e-14,
+    "minimum_correlation_eigenvalue": -1e-12,
+    "member_bindings": [
+      {
+        "cluster": "A1644",
+        "covariance_member": "A1644/A1644_Y-PROF-COVMAT_P-PROF-COVMAT.20170830.fits",
+        "covariance_member_sha256": "3577cdab77c6ccde78dc6788564211cafd6498910a0026031bda8801c69e7f0c",
+        "standalone_pressure_member": "A1644/A1644_pressure.fits",
+        "standalone_pressure_sha256": "93a39cbba8613dc6f1ca8e2b114cf4c512c7ac35ae67c18c6206594665157274"
+      },
+      {
+        "cluster": "A1795",
+        "covariance_member": "A1795/A1795_Y-PROF-COVMAT_P-PROF-COVMAT.20170830.fits",
+        "covariance_member_sha256": "b3ed7d352146820b56e75a41fb5dd24ca995073d54e7292623eee968ed65ac22",
+        "standalone_pressure_member": "A1795/A1795_pressure.fits",
+        "standalone_pressure_sha256": "1788e2e4f397f79b27642fda298f7a91a84063a5ad69af990303e7c32c2fbb8d"
+      },
+      {
+        "cluster": "A2142",
+        "covariance_member": "A2142/A2142_Y-PROF-COVMAT_P-PROF-COVMAT.20170830.fits",
+        "covariance_member_sha256": "d7b0128113d9be897700e2b23c9ab0123bb3c9252e75e8c216419acda9d4c851",
+        "standalone_pressure_member": "A2142/A2142_pressure.fits",
+        "standalone_pressure_sha256": "87bd6fbe0cead2a705beed2004a493197d3a30c5ed291e3c547933c126419bcf"
+      },
+      {
+        "cluster": "A2255",
+        "covariance_member": "A2255/A2255_Y-PROF-COVMAT_P-PROF-COVMAT.20170830.fits",
+        "covariance_member_sha256": "6b1a4ad6df945213a2189bbfc881cb0c0d916e503cf027c24478d1bf705eb4c2",
+        "standalone_pressure_member": "A2255/A2255_pressure.fits",
+        "standalone_pressure_sha256": "abf963f94b27306ae79ac5c08165e0c5ca948431eae652de1b57d72d90302f25"
+      },
+      {
+        "cluster": "A2319",
+        "covariance_member": "A2319/A2319_Y-PROF-COVMAT_P-PROF-COVMAT.20170830.fits",
+        "covariance_member_sha256": "ed351ab3a38196454a18ac4f66813987233c8c432ebf745a5c6d12b9a4f4c886",
+        "standalone_pressure_member": "A2319/A2319_pressure.fits",
+        "standalone_pressure_sha256": "2bdc28bde58167a6b71bef5754fef9a9c4fffea8a6686ae0fbc1bb23ba7a923e"
+      },
+      {
+        "cluster": "A3266",
+        "covariance_member": "A3266/A3266_Y-PROF-COVMAT_P-PROF-COVMAT.20170830.fits",
+        "covariance_member_sha256": "99419e88d51499fccda38ee91e68d6cb7848acca4f6ff5b42a5740a2544d5e67",
+        "standalone_pressure_member": "A3266/A3266_pressure.fits",
+        "standalone_pressure_sha256": "74b1a7b6b73302ee749c37973244f4a37c62e88ab3a5689f6ecb6d6a1eba2fb3"
+      },
+      {
+        "cluster": "A85",
+        "covariance_member": "A85/A85_Y-PROF-COVMAT_P-PROF-COVMAT.20170830.fits",
+        "covariance_member_sha256": "3d3b9fd1301500d46c8e5e8b2557613fccb39bc08f702378e03f22bbe945c328",
+        "standalone_pressure_member": "A85/A85_pressure.fits",
+        "standalone_pressure_sha256": "8dbf06c943cc9808cd9a06151775a2c0377d0254d7ad9ea79b38dacacdede3eb"
+      },
+      {
+        "cluster": "ZW1215",
+        "covariance_member": "ZW1215/ZwCl1215.1+040_Y-PROF-COVMAT_P-PROF-COVMAT.20170830.fits",
+        "covariance_member_sha256": "aa26667e2d54ec1f93d7dd4b011f58fc3820ae019a60420f4187f24130915b97",
+        "standalone_pressure_member": "ZW1215/ZW1215_pressure.fits",
+        "standalone_pressure_sha256": "dc92ccd3b4351f27905b469ff765840eb92c1ddd9d81ff7e8b6378a06d6671da"
+      }
+    ]
+  },
+  "auxiliary_inventory": {
+    "density_hdu": 2,
+    "density_columns": ["RW_X", "NE", "ERR_NE_LO", "ERR_NE_HI"],
+    "temperature_hdu": 1,
+    "temperature_columns": ["RW_X", "T_X", "eT_X"],
+    "spectral_summary_columns": ["RADIUS", "WIDTH", "KT", "KT_LO", "KT_HI", "NORM", "NORM_LO", "NORM_HI", "ZFE", "ZFE_LO", "ZFE_HI"],
+    "available_per_development_cluster": ["background_mosaic", "exposure_mosaic", "science_mosaic", "spectral_fit_summary"],
+    "absent_archive_filename_tokens": ["psf", "beam", "arf", "rmf", "response", "event", "attitude", "mask", "noise", "calib"],
+    "interpretation": "The archive contains processed background/exposure/science mosaics and marginal spectral summaries, but not the event-level, response, PSF-mixing, noise-realisation, mask, or calibration files needed to reconstruct X-ray radial or cross-instrument covariance."
+  },
+  "component_dispositions": {
+    "CP5.1": {
+      "status": "DEVELOPMENT_RECONSTRUCTION_PILOT_READY_NOT_GATE_COMPLETE",
+      "reconstructible": "Eight development-cluster Planck pressure correlation matrices, diagonal-calibrated to the already-scored standalone pressure errors.",
+      "blocker": "The reconstructed matrices are not yet wired into a frozen scorer, do not separate beam/background/deprojection components, and do not cover an independent source packet.",
+      "smallest_next_action": "Run a no-refit development-only diagonal-versus-reconstructed-pressure-covariance score comparison and publish every per-cluster score delta."
+    },
+    "CP5.2": {
+      "status": "BLOCKED",
+      "reconstructible": "Only released per-bin X-ray temperature errors and asymmetric spectral-fit intervals.",
+      "blocker": "No temperature likelihood surface, posterior samples, cross-bin covariance, ARF/RMF, or shared calibration realization is present.",
+      "smallest_next_action": "Request or reproduce one development-cluster annular spectral likelihood with response and background files before generalizing."
+    },
+    "CP5.3": {
+      "status": "BLOCKED",
+      "reconstructible": "Only asymmetric per-bin electron-density errors.",
+      "blocker": "No surface-brightness count covariance, deprojection operator covariance, PSF mixing matrix, or density Monte Carlo ensemble is present.",
+      "smallest_next_action": "Reconstruct one development-cluster density covariance from public counts, exposure, background, and a frozen deprojection/PSF operator."
+    },
+    "CP5.4": {
+      "status": "BLOCKED",
+      "reconstructible": "A declared global 0.9/1.0/1.1 X-ray temperature cross-calibration sensitivity grid, which is a model stress test rather than measured covariance.",
+      "blocker": "No shared XMM-temperature/Planck-pressure calibration covariance or joint calibration samples are present.",
+      "smallest_next_action": "Freeze an externally calibrated shared nuisance prior and its channel-loading matrix before any covariance-aware score."
+    },
+    "CP5.5": {
+      "status": "BLOCKED",
+      "reconstructible": "Processed XMM background/exposure mosaics and Planck covariance metadata with a 7.3 arcmin beam, 1001 simulations, and 10000 Monte Carlo draws.",
+      "blocker": "The actual Planck simulations and beam/mask products, plus XMM event lists, PSF, ARF/RMF, background-component realizations, and reduction configuration are absent.",
+      "smallest_next_action": "Bind the raw realization and response files for one development cluster and replay the published radial extraction exactly."
+    },
+    "CP5.6": {
+      "status": "BLOCKED",
+      "reconstructible": "No cross-instrument covariance; only separate channel summaries and the uncalibrated global sensitivity grid.",
+      "blocker": "No XMM-Chandra comparison packet and no X-ray/SZ joint calibration covariance are bound.",
+      "smallest_next_action": "Construct a named shared-nuisance design matrix from an external calibration sample, retaining instrument-specific and common modes separately."
+    }
+  },
+  "claim_boundary": {
+    "development_pressure_covariance_reconstruction_supported": true,
+    "pressure_covariance_scored": false,
+    "temperature_covariance_reconstructed": false,
+    "density_covariance_reconstructed": false,
+    "shared_calibration_covariance_reconstructed": false,
+    "background_beam_psf_covariance_reconstructed": false,
+    "cross_instrument_covariance_reconstructed": false,
+    "CP5_1_through_CP5_6_complete": false,
+    "full_source_covariance_complete": false,
+    "independent_replication": false,
+    "scientific_result_emitted": false
+  },
+  "output_path": "runs/gravity/publication-readiness/development-covariance-reconstruction-v1.json"
+}
