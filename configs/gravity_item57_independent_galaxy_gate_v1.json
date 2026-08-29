@@ -1,0 +1,168 @@
+{
+  "schema_version": "invariant-gravity-item57-independent-galaxy-gate-config-1.0",
+  "item": 57,
+  "status": "scientific_freeze_before_item57_predictor_acquisition_or_evaluation",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "hypothesis": "The unchanged Item 45 geometry-density formula transfers from its non-SPARC lineage to independently reduced galaxy rotation curves when baryonic gravity is reconstructed without observed velocity, uncertainty, fitted halo, or target-derived mass components.",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-56-disk-galaxy-gate-v1.json": "c4ef00dbead2f9d512d09843a4e04fd325b928ac6925a2608d695012b6b82c9a",
+    "runs/gravity/roadmap/item-45-universal-interactions-v1.json": "db243c2d12992c938b04da5578e5aefa800b9770f09f29907f51f3598af47c6b",
+    "runs/gravity/roadmap/item-05-pressure-support-v1-source/sample-manifest.json": "964f22e3aba543e2bbb21bfc57d203187c892321c0bd62abf94e87e49cb3a8ea",
+    "runs/gravity/roadmap/item-05-pressure-support-v1-source/exploration-source-manifest.json": "a268a78adcc37b0155b63d5bce406ba3f6734089c6ea0318f84d7150e2f45652",
+    "runs/gravity/roadmap/item-05-pressure-support-v1-source/radial-features.tsv": "e8f4f8e373d745a7a92e1ee64574a775800aaadbe5226cbe05960a25dfe20673"
+  },
+  "required_predecessor": {
+    "decision": "ITEM56_DISK_GALAXY_GATE_NOT_PASSED_LEAD_AND_FAILURES_RETAINED",
+    "candidate_exact_representation_terminally_rejected": false,
+    "formula_family_pruned": false
+  },
+  "target_candidate": {
+    "source_item": 45,
+    "candidate_id": 135082,
+    "recipe_id": 32,
+    "interaction_expression": "geometry*tanh(2*density)",
+    "parameters": {
+      "amplitude": 6.0,
+      "acceleration_exponent": 0.6,
+      "transition_u": 100.0
+    },
+    "refitting_allowed": false,
+    "post_freeze_formula_variants_allowed": 0
+  },
+  "little_things": {
+    "role": "unchanged_independent_pipeline_replication",
+    "exploration_objects": [
+      {"slug": "cvidwa", "vizier_name": "CVnIdwA"},
+      {"slug": "ddo126", "vizier_name": "DDO_126"},
+      {"slug": "ddo133", "vizier_name": "DDO_133"},
+      {"slug": "ddo168", "vizier_name": "DDO_168"},
+      {"slug": "ddo216", "vizier_name": "DDO_216"},
+      {"slug": "ddo47", "vizier_name": "DDO_47"},
+      {"slug": "ddo52", "vizier_name": "DDO_52"},
+      {"slug": "ddo53", "vizier_name": "DDO_53"},
+      {"slug": "ddo87", "vizier_name": "DDO_87"},
+      {"slug": "ngc1569", "vizier_name": "NGC_1569"},
+      {"slug": "ugc8508", "vizier_name": "UGC_8508"}
+    ],
+    "reserved_confirmation_objects_never_read": ["ddo101", "ddo210", "ddo50", "ngc2366", "wlm"],
+    "existing_target_catalog": "J/AJ/149/180/rotdmbar",
+    "existing_target_role": "published asymmetric-drift-corrected total rotation velocity; previously opened Item 5 exploration rows only",
+    "photometry_query_template": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/AJ/144/134/table1&Name={name}&-out=Name,Dist,VMag,Rd,e_Rd&-out.max=unlimited",
+    "photometry_allowed_columns": ["Name", "Dist", "VMag", "Rd", "e_Rd"],
+    "photometry_response_columns_forbidden": ["Vrot", "Vc", "Vobs", "halo", "dark_matter"],
+    "predictor_member_allowed_columns": ["radius_kpc", "surface_density_msun_pc2"],
+    "predictor_member_forbidden_columns": ["Vr", "err_Vr", "Va", "err_Va", "Vc", "err_Vc", "Vd", "err_Vd"],
+    "target_rows_allowed": 255,
+    "new_target_queries_allowed": 0,
+    "reserved_predictor_queries_allowed": 0,
+    "reserved_target_queries_allowed": 0
+  },
+  "things": {
+    "role": "required_source-and-independence lane; numeric claims require a machine-readable or preregistered vector extraction",
+    "arxiv_identifier": "0810.2100v2",
+    "source_archive_sha256": "5f9d482231d6528a6c120c66fcd717551a633c5e974adbcf3716fb80d2a55427",
+    "sample": ["NGC925", "NGC2366", "NGC2403", "NGC2841", "NGC2903", "NGC2976", "NGC3031", "NGC3198", "NGC3521", "NGC3621", "NGC3627", "NGC4736", "DDO154", "NGC4826", "NGC5055", "NGC6946", "NGC7331", "NGC7793", "IC2574"],
+    "expected_rotation_curve_count": 19,
+    "sparc_exploration_predictor_overlap": ["NGC2403", "NGC2841", "NGC2976", "NGC3198", "NGC3521", "NGC6946", "NGC7331"],
+    "excluded_sparc_confirmation_overlap": ["DDO154", "IC2574", "NGC2366", "NGC2903", "NGC5055", "NGC7793"],
+    "without_sparc_baryonic_predictor": ["NGC925", "NGC3031", "NGC3621", "NGC3627", "NGC4736", "NGC4826"],
+    "secondary_machine_readable_candidate": {
+      "zenodo_record": 19563417,
+      "version": "V7",
+      "publication_date": "2026-04-14",
+      "archive_name": "rotation_curve_corpus_v7_by_galaxy.zip",
+      "archive_bytes": 785285,
+      "archive_md5": "75673ac6c73a061eaf8e18288ad6b581",
+      "whole_archive_download_allowed": false,
+      "reason": "The archive also contains sealed SPARC-confirmation response rows; no selective per-galaxy endpoint or verified byte-range service was established before freeze."
+    },
+    "source_format_observed_before_freeze": "PostScript figures and TeX tables; no machine-readable radial rotation-curve table found",
+    "digitized_pixels_allowed_as_precision_target": false,
+    "numeric_test_if_source_not_machine_readable": "SOURCE_FORMAT_LIMITATION_RETAINED_NO_NUMERIC_CLAIM",
+    "same_object_is_not_automatically_same_measurement": true,
+    "provenance_overlap_must_be_reported": true
+  },
+  "predictor_contract": {
+    "gas_surface_density": "Iorio/LITTLE THINGS face-on HI surface-density profile multiplied by the frozen neutral-gas factor",
+    "gas_rotation": "deterministic axisymmetric softened-annulus quadrature; observed rotation columns are forbidden",
+    "stellar_mass": "10^(-0.4*(VMag-4.83))*frozen V-band mass-to-light ratio",
+    "stellar_rotation": "analytic infinitesimally thin exponential disk using Hunter Rd",
+    "baryonic_velocity_squared": "maximum(gas_velocity_squared+stellar_velocity_squared, positive_floor)",
+    "effective_radius": "1.67834699*Hunter V-band Rd",
+    "nominal_neutral_gas_factor": 1.36,
+    "nominal_vband_mass_to_light": 0.5,
+    "solar_vband_absolute_magnitude": 4.83,
+    "nominal_gas_softening_fraction_of_rd": 0.1,
+    "gas_radial_subcells": 12,
+    "gas_azimuthal_cells": 720,
+    "gravitational_constant_kpc_km2_s2_msun": 4.30091e-6,
+    "acceleration_scale_km2_s2_kpc": 3702.81458,
+    "galaxy_identifier_allowed_as_predictor": false,
+    "observed_velocity_allowed_as_predictor": false,
+    "uncertainty_allowed_as_predictor": false,
+    "dark_matter_residual_allowed_as_predictor": false,
+    "fitted_halo_allowed_as_predictor": false,
+    "per_galaxy_formula_parameters_allowed": false
+  },
+  "evaluation": {
+    "target_radius_rule": "use only target radii inside the published HI surface-density radial support; no response-selected row exclusion",
+    "minimum_target_rows_per_galaxy": 5,
+    "minimum_quality_galaxies": 7,
+    "minimum_quality_rows": 70,
+    "primary_score": "equal-galaxy mean of mean squared standardized velocity residual",
+    "comparators": ["newtonian_baryons", "empirical_rar"],
+    "systematic_variants": {
+      "neutral_gas_factors": [1.2, 1.52],
+      "vband_mass_to_light": [0.3, 0.8],
+      "rd_endpoints": ["Rd-e_Rd", "Rd+e_Rd"],
+      "gas_softening_fractions_of_rd": [0.05, 0.2]
+    },
+    "influence_trim_fraction": 0.1,
+    "negative_replication_gates": {
+      "quality_gate_passed": true,
+      "candidate_loses_equal_galaxy_to_newton": true,
+      "candidate_loses_equal_galaxy_to_rar": true,
+      "galaxy_fraction_losing_to_rar_minimum": 0.7,
+      "systematic_variants_losing_to_rar_minimum": 8,
+      "leave_one_and_trim_preserve_negative_sign": true
+    },
+    "unexpected_survival_gate": {
+      "candidate_beats_equal_galaxy_rar": true,
+      "galaxy_fraction_beating_rar_minimum": 0.6,
+      "systematic_variants_beating_rar_minimum": 5
+    }
+  },
+  "counterexample_policy": {
+    "single_counterexample_terminal": false,
+    "counterexample_count_alone_terminal": false,
+    "minimum_uncertainty_resolved_counterexamples_for_pattern": 2,
+    "unchanged_independent_replication_required_for_terminal_tested_scope_rejection": true,
+    "finite_sample_may_prune_formula_family": false,
+    "failed_quality_gate_retains_exact_formula": true
+  },
+  "confirmation_boundary": {
+    "sparc_confirmation_objects_declared": 35,
+    "sparc_confirmation_response_rows_allowed": 0,
+    "authorization_present": false,
+    "confirmation_opened": false
+  },
+  "claim_policy": {
+    "alternative_to_gr_established_by_pass": false,
+    "dark_matter_eliminated_by_pass": false,
+    "historical_novelty_established_by_pass": false,
+    "formula_family_pruned_on_failure": false,
+    "exact_representation_may_be_retired_only_in_tested_scope_after_quality_passing_independent_replication": true,
+    "partial_source_lane_may_be_called_full_item_pass": false
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-57-independent-galaxy-gate-v1-source",
+    "preflight_manifest": "preflight-manifest.json",
+    "photometry_manifest": "photometry-source-manifest.json",
+    "things_source_audit": "things-source-audit.json",
+    "little_things_evaluation": "little-things-evaluation.json",
+    "aggregate_result": "runs/gravity/roadmap/item-57-independent-galaxy-gate-v1.json"
+  }
+}
