@@ -104,3 +104,30 @@ def test_exponential_disk_velocity_squared_scales_with_stellar_mass() -> None:
     )
     assert np.all(low > 0.0)
     np.testing.assert_allclose(high, 2.0 * low, rtol=1.0e-12)
+
+
+def test_gas_quadrature_recovers_known_exponential_disk_curve() -> None:
+    gravitational_constant = 4.30091e-6
+    disk_mass = 1.0e8
+    disk_scale = 0.7
+    density_radius = np.linspace(0.035, 4.865, 70)
+    central_density_msun_pc2 = disk_mass / (2.0 * np.pi * disk_scale**2) / 1.0e6
+    surface_density = central_density_msun_pc2 * np.exp(-density_radius / disk_scale)
+    evaluation_radius = np.asarray([0.3, 0.7, 1.4, 2.1])
+    quadrature = gas_disk_velocity_squared(
+        evaluation_radius,
+        density_radius,
+        surface_density,
+        neutral_gas_factor=1.0,
+        softening_kpc=0.02,
+        radial_subcells=4,
+        azimuthal_cells=720,
+        gravitational_constant=gravitational_constant,
+    )
+    analytic = exponential_disk_velocity_squared(
+        evaluation_radius,
+        disk_mass_msun=disk_mass,
+        disk_scale_kpc=disk_scale,
+        gravitational_constant=gravitational_constant,
+    )
+    np.testing.assert_allclose(quadrature, analytic, rtol=0.08)
