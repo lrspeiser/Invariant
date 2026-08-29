@@ -251,7 +251,7 @@ def acquire_photometry(root: Path) -> Path:
     source_dir = root / str(config["paths"]["source_dir"])
     for object_row in config["little_things"]["exploration_objects"]:
         slug = str(object_row["slug"])
-        name = str(object_row["vizier_name"])
+        name = str(object_row["photometry_name"])
         url = template.format(name=urllib.parse.quote(name))
         raw_path = source_dir / "raw" / f"photometry-{slug}.tsv"
         payload = _download(url, raw_path)
