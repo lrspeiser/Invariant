@@ -98,3 +98,17 @@ limit, or cosmology. Its radial kernels are empirical operators.
 The first concrete attempt is in
 [SCREENED_COMPLETION_ATTEMPT_V0.md](SCREENED_COMPLETION_ATTEMPT_V0.md).
 
+## First exhaustive descendant result
+
+The frozen `4^10` screened-nonlocal grammar has now been exhaustively evaluated. It
+represented 1,048,576 raw permutations and scored all 185,140 analytically admitted
+dynamics behaviors on the already-exposed SPARC, LITTLE THINGS, and X-COP data.
+
+No behavior matched both the SPARC RAR and the existing X-COP result. The least-bad
+compromise was about 70% worse on SPARC and 66% worse on X-COP. It is a diagnostic
+failure-space representative, not a candidate for promotion. The result points to a
+structurally different two-channel or additive transition, rather than a denser search
+of the same positive multiplicative response.
+
+Full accounting, formulas, trade-offs, and next grammar are in
+[EXHAUSTIVE_PERMUTATION_RESULT_V0.md](EXHAUSTIVE_PERMUTATION_RESULT_V0.md).

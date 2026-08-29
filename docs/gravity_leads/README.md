@@ -36,3 +36,9 @@ A descendant becomes a serious gravity candidate only if it:
 The proposed first descendant of Rank 1 is documented in
 [screened completion attempt v0](nonlocal_boundary_response/SCREENED_COMPLETION_ATTEMPT_V0.md).
 
+Its first frozen exhaustive test is documented in
+[exhaustive permutation result v0](nonlocal_boundary_response/EXHAUSTIVE_PERMUTATION_RESULT_V0.md).
+The `4^10` grammar did not find a cross-scale bridge: no tested behavior matched both
+the SPARC RAR and the existing X-COP result. This narrows the next search toward
+structurally different additive or two-field mechanisms, not a denser version of the
+same multiplicative response.

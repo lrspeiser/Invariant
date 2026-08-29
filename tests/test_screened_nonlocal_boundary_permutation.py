@@ -7,6 +7,9 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from sigma_theory_compiler.gravity_item22_polarization_superposition import (
+    _verify_content_hash,
+)
 from sigma_theory_compiler.screened_nonlocal_boundary_permutation import (
     CONFIG_PATH,
     ScreenedNonlocalPermutationError,
@@ -131,3 +134,23 @@ def test_base_laws_recover_newtonian_high_acceleration_limit() -> None:
     factors = _base_factor(y, np.arange(4)).reshape(-1)
     assert factors[0] == 1.0
     assert np.allclose(factors, np.ones(4), rtol=0.0, atol=1.0e-5)
+
+
+def test_exhaustive_result_is_adjudicated_as_a_failed_cross_scale_bridge() -> None:
+    source = ROOT / "runs/gravity/screened-nonlocal-boundary-v0"
+    preflight = json.loads((source / "preflight-manifest.json").read_text(encoding="utf-8"))
+    evaluation = json.loads(
+        (source / "exposed-data-evaluation.json").read_text(encoding="utf-8")
+    )
+    adjudication = json.loads(
+        (source / "post-exposure-adjudication.json").read_text(encoding="utf-8")
+    )
+    _verify_content_hash(preflight, "screened nonlocal preflight")
+    _verify_content_hash(evaluation, "screened nonlocal evaluation")
+    _verify_content_hash(adjudication, "screened nonlocal adjudication")
+    assert evaluation["counts"]["raw_candidates"] == 4**10
+    assert evaluation["threshold_counts"]["beats_or_matches_all_three_incumbents"] == 0
+    assert adjudication["decision"] == "FINITE_GRAMMAR_CROSS_SCALE_BRIDGE_NOT_FOUND"
+    assert adjudication["pair_counts"]["sparc_and_xcop_at_or_better_than_incumbents"] == 0
+    assert adjudication["promotion"]["promote_to_fresh_group_gate"] is False
+    assert adjudication["interpretation"]["broader_theory_family_pruned"] is False
