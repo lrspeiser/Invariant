@@ -21,6 +21,7 @@ from sigma_theory_compiler.gravity_item22_polarization_superposition import (
     _content_hashed,
     _read_json,
     _sha256_file,
+    _verify_content_hash,
     _write_json,
 )
 from sigma_theory_compiler.gravity_item39_holographic_boundary import (
@@ -32,7 +33,6 @@ from sigma_theory_compiler.gravity_item39_holographic_boundary import (
     decode_candidate,
     fixed_control_multiplier,
     load_config,
-    predict_multiplier,
 )
 
 
@@ -170,19 +170,15 @@ def _candidate_prediction_for_ids(
     arrays: Mapping[str, Any],
     config: Mapping[str, Any],
 ) -> np.ndarray:
-    result = []
-    for index in ids:
-        row = {key: value[index : index + 1] for key, value in candidates.items()}
-        multiplier = predict_multiplier(
-            row,
-            np.asarray(arrays["u"]),
-            np.asarray(arrays["fraction"]),
-            np.asarray(arrays["x"]),
-            np.asarray(arrays["slope"]),
-            config,
-        )[0]
-        result.append(np.log10(np.asarray(arrays["vbar"])) + 0.5 * np.log10(multiplier))
-    return np.asarray(result)
+    return np.concatenate(
+        [
+            _candidate_log_velocity_batch(
+                candidates, int(index), int(index) + 1, arrays, config, np
+            )
+            for index in ids
+        ],
+        axis=0,
+    )
 
 
 def _screen_candidates(
@@ -247,7 +243,7 @@ def _screen_candidates(
         int(config["evaluation"]["cpu_crosscheck_candidates"]),
         len(candidates["candidate_id"]),
     )
-    cpu = _candidate_prediction_for_ids(candidates, list(range(crosscheck_count)), arrays, config)
+    cpu = _candidate_log_velocity_batch(candidates, 0, crosscheck_count, arrays, config, np)
     gpu = _to_numpy(
         _candidate_log_velocity_batch(candidates, 0, crosscheck_count, arrays, config, xp),
         xp,
@@ -590,7 +586,7 @@ def _systematic_predictions(
     return result
 
 
-def evaluate(root: Path) -> dict[str, Any]:
+def evaluate(root: Path, *, write: bool = True) -> dict[str, Any]:
     root = root.resolve()
     config = load_config(root)
     summary_path = _source_path(root, config, "extraction_summary")
@@ -794,7 +790,17 @@ def evaluate(root: Path) -> dict[str, Any]:
         }
     )
     path = _source_path(root, config, "compute_manifest")
-    _write_json(path, result)
+    if write:
+        _write_json(path, result)
+    return result
+
+
+def _scientific_replay_payload(value: Mapping[str, Any]) -> dict[str, Any]:
+    """Remove measured runtime fields that are not scientific replay inputs."""
+
+    result = json.loads(json.dumps(value))
+    result.pop("content_sha256", None)
+    result["candidate_search"].pop("search_seconds", None)
     return result
 
 
@@ -802,8 +808,9 @@ def check(root: Path) -> dict[str, Any]:
     config = load_config(root)
     path = _source_path(root, config, "compute_manifest")
     existing = _read_json(path)
-    replay = evaluate(root)
-    if existing != replay:
+    _verify_content_hash(existing, "Item 39 compute manifest")
+    replay = evaluate(root, write=False)
+    if _scientific_replay_payload(existing) != _scientific_replay_payload(replay):
         raise GravityItem39Error("Item 39 compute replay drifted")
     return {
         "status": "ITEM39_COMPUTE_REPLAY_VALID",

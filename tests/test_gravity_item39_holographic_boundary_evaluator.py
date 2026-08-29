@@ -13,6 +13,7 @@ from sigma_theory_compiler.gravity_item39_holographic_boundary_evaluator import 
     _paired_sign_flip,
     _ridge_fit,
     _ridge_predict,
+    check,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -56,3 +57,10 @@ def test_item39_paired_sign_flip_is_seeded_and_nonparametric() -> None:
     assert first == second
     assert 0.0 < first["p_value"] <= 0.05
     assert first["selection_aware"] is False
+
+
+def test_item39_full_gpu_result_replays_ignoring_only_measured_runtime() -> None:
+    result = check(ROOT)
+    assert result["status"] == "ITEM39_COMPUTE_REPLAY_VALID"
+    assert result["confirmation_response_rows"] == 0
+    assert result["paid_model_calls"] == 0
