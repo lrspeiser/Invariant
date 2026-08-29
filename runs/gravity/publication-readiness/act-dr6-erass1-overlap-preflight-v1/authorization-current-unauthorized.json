@@ -1,0 +1,101 @@
+{
+  "schema_version": "invariant-act-dr6-erass1-catalog-access-authorization-1.0",
+  "status": "UNAUTHORIZED_CATALOG_ROWS_NOT_OPENED",
+  "authorization_id": "act-dr6-erass1-overlap-catalog-access-v1",
+  "scope": "Catalog identity, position, preregistered quality, and overlap fields only; no map, profile, thermodynamic, lensing, inferred-mass, or scoring access.",
+  "catalogs": [
+    {
+      "catalog_id": "ACT_DR6_LEGACY_V1_0",
+      "url": "https://lambda.gsfc.nasa.gov/data/suborbital/ACT/actadv_dr6_cluster_cat/DR6_cluster-legacy-catalog_v1.0.fits",
+      "filename": "DR6_cluster-legacy-catalog_v1.0.fits",
+      "expected_bytes": 9705600,
+      "expected_rows": 3747,
+      "file_sha256": null,
+      "permitted_columns": [
+        "name",
+        "RADeg",
+        "decDeg",
+        "fixed_SNR",
+        "flags",
+        "footprint_eROSITADe",
+        "footprint_Legacy",
+        "eRASS1CL",
+        "redshift",
+        "redshiftErr",
+        "redshiftType",
+        "opt_RADeg",
+        "opt_decDeg",
+        "opt_positionSource",
+        "warnings"
+      ],
+      "authorized": false
+    },
+    {
+      "catalog_id": "ERASS1_PRIMARY_V3_2",
+      "url": "https://erosita.mpe.mpg.de/dr1/AllSkySurveyData_dr1/Catalogues_dr1/BulbulE_DR1/erass1cl_primary_v3.2.fits.tgz",
+      "filename": "erass1cl_primary_v3.2.fits.tgz",
+      "expected_bytes": 23764095,
+      "expected_rows": 12247,
+      "file_sha256": null,
+      "permitted_columns": [
+        "DETUID",
+        "NAME",
+        "RA",
+        "DEC",
+        "RA_XFIT",
+        "DEC_XFIT",
+        "EXT_LIKE",
+        "DET_LIKE_0",
+        "BEST_Z",
+        "BEST_ZERR",
+        "BEST_Z_TYPE",
+        "PCONT",
+        "MATCH_NAME"
+      ],
+      "authorized": false
+    }
+  ],
+  "prohibited_field_families": [
+    "ACT y_c, fixed_y_c, inferred_y_c, inferred_Y500, theta500, Q, M500, M200, and all related uncertainties",
+    "eRASS count rates, counts, fluxes, luminosities, KT, MGAS, YX, M500, FGAS, R500, mass PDFs, and all related uncertainties",
+    "all map pixels, inverse-variance pixels, null maps, beams, masks, events, spectra, profiles, covariance, lensing, and target responses"
+  ],
+  "access_state": {
+    "authorization": false,
+    "catalog_files_downloaded": 0,
+    "catalog_bytes_downloaded": 0,
+    "catalog_rows_opened": 0,
+    "alias_rows_opened": 0,
+    "scientific_target_rows_opened": 0,
+    "map_or_profile_bytes_downloaded": 0,
+    "scores_computed": 0,
+    "model_or_paid_calls": 0
+  },
+  "future_exact_approval_schema": {
+    "required_status": "AUTHORIZED_CATALOG_ONLY_ACCESS",
+    "required_authorization_id": "act-dr6-erass1-overlap-catalog-access-v1",
+    "required_config_file_sha256_field": true,
+    "required_implementation_file_sha256_field": true,
+    "required_preflight_receipt_content_sha256_field": true,
+    "required_catalog_ids": [
+      "ACT_DR6_LEGACY_V1_0",
+      "ERASS1_PRIMARY_V3_2"
+    ],
+    "maximum_rows": {
+      "ACT_DR6_LEGACY_V1_0": 3747,
+      "ERASS1_PRIMARY_V3_2": 12247
+    },
+    "authorization_must_be_true": true,
+    "authorized_by_nonempty": true,
+    "approved_at_utc_nonempty": true,
+    "exact_permitted_columns_must_match": true,
+    "no_map_profile_target_or_scoring_authorization": true
+  },
+  "claim_boundary": {
+    "overlap_count_computed": false,
+    "xcop_exclusion_ledger_materialized": false,
+    "minimum_192_rule_evaluated": false,
+    "independent_cluster_lane_ready": false,
+    "observational_authorization": false
+  }
+}

@@ -1,0 +1,467 @@
+{
+  "schema_version": "invariant-gravity-cluster-act-dr6-erass1-overlap-preflight-config-1.0",
+  "status": "frozen_metadata_only_unauthorized_catalog_rows_required",
+  "preflight_id": "gravity-cluster-act-dr6-erass1-overlap-preflight-v1",
+  "audit_cutoff": "2026-08-29",
+  "purpose": "Freeze authoritative ACT DR6 and eRASS1 catalog/map metadata, a target-blind overlap and X-COP exclusion algorithm, leakage-safe catalog projections, population gates, licensing limits, and an exact unauthorized catalog-only access request before any object rows are opened.",
+  "implementation_evidence": {
+    "module_path": "src/sigma_theory_compiler/gravity_cluster_act_dr6_erass1_overlap_preflight.py",
+    "test_path": "tests/test_gravity_cluster_act_dr6_erass1_overlap_preflight.py",
+    "test_file_sha256": "f393a3c237d6f58787bbd1581d9d163938fa6b01ff8d126a53cff9500f047565",
+    "hash_mode": "SHA256_RAW_BYTES",
+    "test_binding_required": true
+  },
+  "parent_bindings": [
+    {
+      "parent_id": "gravity-cluster-independent-data-contract-v1",
+      "config_path": "configs/gravity_cluster_independent_data_contract_v1.json",
+      "config_file_sha256": "207deef8023fa94bf17d7e54f39ad28035b590d2dc8d70265c398db148dd5232",
+      "module_path": "src/sigma_theory_compiler/gravity_cluster_independent_data_contract.py",
+      "module_file_sha256": "2f87ae828facb02d3146058747f0f6d56afb8ee61a1cccca476a10f176a0f414",
+      "test_path": "tests/test_gravity_cluster_independent_data_contract.py",
+      "test_file_sha256": "9f2e3cecbe4ecf702b5f0401a93e2df054332caf2c3d00b6b2ea39ec7ca4e559",
+      "receipt_path": "runs/gravity/publication-readiness/independent-data-contract-v1.json",
+      "receipt_file_sha256": "9bb7c4126ace714c5b5d89c4d4214cecd2188fa045a816a1d05c402b3691652e",
+      "receipt_content_sha256": "6f71faa79c32243f971de412be7d861369e27e4bf00fa3a27c1880382822fa8f"
+    },
+    {
+      "parent_id": "gravity-cluster-independent-replication-protocol-v1",
+      "config_path": "configs/gravity_cluster_independent_replication_protocol_v1.json",
+      "config_file_sha256": "35b564cfac8d0caebe37e4f7e8c54749589de5b9bd9a17221480643f525e1b2a",
+      "module_path": "src/sigma_theory_compiler/gravity_cluster_independent_replication_protocol.py",
+      "module_file_sha256": "9ca62eb08d522ff24217fcb32fe9227f3275268601ae0fe2a551e7a921e8796b",
+      "test_path": "tests/test_gravity_cluster_independent_replication_protocol.py",
+      "test_file_sha256": "afa816d2fe50aefa938fded94a5a647c73fc2797ef27b46fbeb7f1ed8b559e88",
+      "receipt_path": "runs/gravity/publication-readiness/independent-replication-protocol-v1.json",
+      "receipt_file_sha256": "9948bb402c8bc3e78ebe60b167089a9c46cc1d601dff08dfc9039c2eff4c3c18",
+      "receipt_content_sha256": "90c87dc0e275abf0b6d2f3d499e10385c73b291772eea524a8ef47fd87885e9d"
+    }
+  ],
+  "authorization_manifest": {
+    "path": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-preflight-v1/authorization-current-unauthorized.json",
+    "file_sha256": "de29475463092498194b42b9825fafe1cbc87ab960dd6c80324f66425acb4060",
+    "required_status": "UNAUTHORIZED_CATALOG_ROWS_NOT_OPENED",
+    "authorization": false
+  },
+  "fact_provenance_contract": {
+    "binding_algorithm": "SHA256_CANONICAL_JSON",
+    "binding_fields": [
+      "source_id",
+      "source_type",
+      "url",
+      "doi",
+      "observed_release",
+      "audited_fact",
+      "observation_method",
+      "retrieved_at",
+      "evidence_locator"
+    ],
+    "retrieved_at_precision": "UTC_DAY",
+    "remote_content_archived": false,
+    "cryptographic_remote_checksums_available": false,
+    "claim_limit": "Mutable official metadata pages and noncryptographic HTTP ETags are bound as observed facts, not substituted for archived content or SHA-256 file receipts."
+  },
+  "authoritative_sources": [
+    {
+      "source_id": "ACT_DR6_CATALOG_RELEASE",
+      "source_type": "official_nasa_lambda_release",
+      "url": "https://lambda.gsfc.nasa.gov/product/act/actadv_dr6_szcluster_catalog_info.html",
+      "doi": null,
+      "observed_release": "ACT DR6 SZ cluster catalogs public release v1.0; Nemo v0.9.0",
+      "audited_fact": "NASA LAMBDA documents a 10,040-row full ACT DR6 catalog and a Legacy catalog with pre-applied fixed_SNR above 5.5, flags equal to zero, and footprint_Legacy true; it exposes eROSITA footprint and eRASS1 crossmatch flags and warns that many optical coordinates are zero.",
+      "observation_method": "official_release_metadata_and_column_documentation_no_rows",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "release change log, known issues, catalog columns, and Legacy cuts",
+      "fact_binding_sha256": "01aae06d8e651982bc1bbeda32d9f1bc82c5bcd7d38f8c84e649ef520e90a9ad"
+    },
+    {
+      "source_id": "ACT_DR6_FITS_HEADERS",
+      "source_type": "official_nasa_lambda_fits_header_service",
+      "url": "https://lambda.gsfc.nasa.gov/cgi-bin/fitsheader.cgi?fitsfile=/data/suborbital/ACT/actadv_dr6_cluster_cat/DR6_cluster-catalog_v1.0.fits",
+      "doi": null,
+      "observed_release": "v1.0 full header NAXIS2=10040; Legacy header NAXIS2=3747; 72 fields; NEMOVER=0.9.0",
+      "audited_fact": "The current official v1.0 headers establish 10,040 full-catalog rows and 3,747 Legacy rows. The 3,747 Legacy header count differs from the 3,758 paper-era count retained in the parent audit, so the current file count governs only a future v1.0 row receipt and the discrepancy remains explicit.",
+      "observation_method": "official_fits_header_metadata_review_no_table_rows",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "full and Legacy FITS extension headers NAXIS1, NAXIS2, TFIELDS, and NEMOVER",
+      "fact_binding_sha256": "fd8db9890f09226cb8f15a9eff529f9dd9f028fdd91d7320a5d757cbe37b3889"
+    },
+    {
+      "source_id": "ACT_DR6_PRIMARY_PAPER",
+      "source_type": "primary_paper",
+      "url": "https://arxiv.org/abs/2507.21459v3",
+      "doi": "10.33232/001c.155863",
+      "observed_release": "arXiv:2507.21459v3 submitted 2026-01-26; current LAMBDA catalog release v1.0",
+      "audited_fact": "The v3 primary analysis defines automated catalog matching with physical radius max(0.5 Mpc, the projected distance subtended by 1.22 arcmin at the cluster redshift), notes possible missed and chance matches, and reports 7,043 eRASS1 clusters in the ACT footprint for a separate forced-photometry analysis, of which 1,690 have q-tilde above 4. These forced-photometry counts do not replace a version-bound v1.0 overlap receipt.",
+      "observation_method": "version_pinned_arxiv_v3_methods_and_release_metadata_review_no_catalog_rows",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "arXiv v3 submission history and Section 5.2 eRASS1 forced-photometry paragraph; automated crossmatch method",
+      "fact_binding_sha256": "1321ed3c7e753ac75239396dbd00152389bb4c293269ef3f8c0572d93b0f5999"
+    },
+    {
+      "source_id": "ACT_DR6_02_MAP_RELEASE",
+      "source_type": "official_nasa_lambda_map_release",
+      "url": "https://lambda.gsfc.nasa.gov/product/act/act_dr6.02/act_dr6.02_maps_info.html",
+      "doi": null,
+      "observed_release": "ACT DR6.02 maps from 2017-2022",
+      "audited_fact": "LAMBDA documents standard, null, and coadd maps, inverse-variance maps, cross-linking products, source-subtracted products, beam conventions, and ancillary masks. No map file is needed or authorized for the catalog-only overlap count.",
+      "observation_method": "official_map_release_metadata_review_no_map_download",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "map naming patterns, product classes, beam statement, and ancillary products",
+      "fact_binding_sha256": "06d60f000cb6e576a9b80130876b07bcdea87d21735821c187214f9789e64704"
+    },
+    {
+      "source_id": "ERASS1_CLUSTER_RELEASE",
+      "source_type": "official_erosita_catalog_release",
+      "url": "https://erosita.mpe.mpg.de/dr1/AllSkySurveyData_dr1/Catalogues_dr1/",
+      "doi": "10.1051/0004-6361/202348264",
+      "observed_release": "eRASS1 primary galaxy groups and clusters catalog v3.2, 12,247 objects",
+      "audited_fact": "The official release identifies a 12,247-object optically confirmed primary catalog over 13,116 square degrees in the western Galactic hemisphere and links the v3.2 data model and catalog file.",
+      "observation_method": "official_catalog_landing_metadata_review_no_rows",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "clusters-of-galaxies primary catalog entry",
+      "fact_binding_sha256": "572f586f83b90c8cb901f09818744eedc337a5bf38852e238423bf78457928f3"
+    },
+    {
+      "source_id": "ERASS1_PRIMARY_V3_2_DATA_MODEL",
+      "source_type": "official_erosita_data_model",
+      "url": "https://erosita.mpe.mpg.de/dr1/AllSkySurveyData_dr1/Catalogues_dr1/BulbulE_DR1/erass1cl_primary_v3.2.html",
+      "doi": "10.1051/0004-6361/202348264",
+      "observed_release": "erass1cl_main_v3.2; erass1cl_main_v3.2.fits; approximate uncompressed size 48 MB",
+      "audited_fact": "The data model documents identity, sky position, redshift, contamination and detection-quality columns together with scientific count-rate, flux, luminosity, temperature, gas-mass, total-mass, gas-fraction, radius, and mass-PDF columns. Only the preregistered identity and quality projection may be requested later; scientific columns remain prohibited.",
+      "observation_method": "official_data_model_schema_review_no_rows",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "filename, HDU size, and HDU1 column schema",
+      "fact_binding_sha256": "4d286096de376ed5c42758f0f4149acc0b5f3ec94dfe39841ab1aab9d0cb725f"
+    },
+    {
+      "source_id": "ERASS1_DR1_RIGHTS_AND_ACKNOWLEDGEMENT",
+      "source_type": "official_erosita_release_terms_metadata",
+      "url": "https://erosita.mpe.mpg.de/dr1/",
+      "doi": null,
+      "observed_release": "eROSITA-DE DR1 public since 2024-01-31; western Galactic hemisphere",
+      "audited_fact": "The official DR1 page states that the western-hemisphere DR1 data are public and requests acknowledgement. It does not present a machine-readable per-file license grant on the catalog metadata pages, so redistribution terms remain unverified.",
+      "observation_method": "official_release_rights_and_acknowledgement_metadata_review",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "DR1 public-release, data-rights, and acknowledgement statements",
+      "fact_binding_sha256": "15476959b625a2f3e44a80afd1e7ab7bc42d2960a2dc5e1ca5cde0e8c8499d2a"
+    }
+  ],
+  "file_manifest": [
+    {
+      "asset_id": "ACT_DR6_FULL_V1_0",
+      "url": "https://lambda.gsfc.nasa.gov/data/suborbital/ACT/actadv_dr6_cluster_cat/DR6_cluster-catalog_v1.0.fits",
+      "filename": "DR6_cluster-catalog_v1.0.fits",
+      "release_version": "v1.0",
+      "bytes": 25971840,
+      "rows": 10040,
+      "fields": 72,
+      "last_modified": "Thu, 11 Dec 2025 11:07:06 GMT",
+      "etag_noncryptographic": "\"18c4c80-645ab2531aa80\"",
+      "sha256": null,
+      "downloaded": false,
+      "rows_opened": 0,
+      "role": "metadata parent only; not the selected catalog projection"
+    },
+    {
+      "asset_id": "ACT_DR6_LEGACY_V1_0",
+      "url": "https://lambda.gsfc.nasa.gov/data/suborbital/ACT/actadv_dr6_cluster_cat/DR6_cluster-legacy-catalog_v1.0.fits",
+      "filename": "DR6_cluster-legacy-catalog_v1.0.fits",
+      "release_version": "v1.0",
+      "bytes": 9705600,
+      "rows": 3747,
+      "fields": 72,
+      "last_modified": "Thu, 11 Dec 2025 11:07:35 GMT",
+      "etag_noncryptographic": "\"941880-645ab26ec2bc0\"",
+      "sha256": null,
+      "downloaded": false,
+      "rows_opened": 0,
+      "role": "future row-limited ACT identity and quality projection"
+    },
+    {
+      "asset_id": "ERASS1_PRIMARY_V3_2",
+      "url": "https://erosita.mpe.mpg.de/dr1/AllSkySurveyData_dr1/Catalogues_dr1/BulbulE_DR1/erass1cl_primary_v3.2.fits.tgz",
+      "filename": "erass1cl_primary_v3.2.fits.tgz",
+      "release_version": "v3.2",
+      "bytes": 23764095,
+      "rows": 12247,
+      "fields": null,
+      "last_modified": "Fri, 09 Feb 2024 13:18:13 GMT",
+      "etag_noncryptographic": "\"16a9c7f-610f2c2a175aa\"",
+      "sha256": null,
+      "downloaded": false,
+      "rows_opened": 0,
+      "role": "future row-limited eRASS1 identity and quality projection"
+    },
+    {
+      "asset_id": "ACT_DR6_02_MAP_FAMILY",
+      "url": "https://lambda.gsfc.nasa.gov/product/act/act_dr6.02/act_dr6.02_maps_info.html",
+      "filename": "act_dr6.02_std_{region}_{time}_{array}_{freq}_4way_{set}_{product}.fits and documented null/coadd families",
+      "release_version": "DR6.02",
+      "bytes": null,
+      "rows": null,
+      "fields": null,
+      "last_modified": null,
+      "etag_noncryptographic": null,
+      "sha256": null,
+      "downloaded": false,
+      "rows_opened": 0,
+      "role": "future profile-reduction metadata only; explicitly outside catalog overlap authorization"
+    }
+  ],
+  "catalog_projection_contract": {
+    "ACT_DR6_LEGACY_V1_0": {
+      "allowed_columns": [
+        "name",
+        "RADeg",
+        "decDeg",
+        "fixed_SNR",
+        "flags",
+        "footprint_eROSITADe",
+        "footprint_Legacy",
+        "eRASS1CL",
+        "redshift",
+        "redshiftErr",
+        "redshiftType",
+        "opt_RADeg",
+        "opt_decDeg",
+        "opt_positionSource",
+        "warnings"
+      ],
+      "selection_only_columns": [
+        "fixed_SNR",
+        "flags",
+        "footprint_eROSITADe",
+        "footprint_Legacy",
+        "eRASS1CL",
+        "warnings"
+      ],
+      "prohibited_scoring_columns": [
+        "fixed_SNR",
+        "flags",
+        "footprint_eROSITADe",
+        "footprint_Legacy",
+        "eRASS1CL",
+        "redshift",
+        "redshiftErr",
+        "redshiftType",
+        "opt_RADeg",
+        "opt_decDeg",
+        "opt_positionSource",
+        "warnings"
+      ]
+    },
+    "ERASS1_PRIMARY_V3_2": {
+      "allowed_columns": [
+        "DETUID",
+        "NAME",
+        "RA",
+        "DEC",
+        "RA_XFIT",
+        "DEC_XFIT",
+        "EXT_LIKE",
+        "DET_LIKE_0",
+        "BEST_Z",
+        "BEST_ZERR",
+        "BEST_Z_TYPE",
+        "PCONT",
+        "MATCH_NAME"
+      ],
+      "selection_only_columns": [
+        "EXT_LIKE",
+        "DET_LIKE_0",
+        "PCONT"
+      ],
+      "prohibited_scoring_columns": [
+        "RA_XFIT",
+        "DEC_XFIT",
+        "EXT_LIKE",
+        "DET_LIKE_0",
+        "BEST_Z",
+        "BEST_ZERR",
+        "BEST_Z_TYPE",
+        "PCONT",
+        "MATCH_NAME"
+      ]
+    },
+    "globally_forbidden_column_patterns": [
+      "*M500*",
+      "*M200*",
+      "*MGAS*",
+      "*FGAS*",
+      "*YX*",
+      "*KT*",
+      "*L300*",
+      "*L500*",
+      "*CR300*",
+      "*CR500*",
+      "*F300*",
+      "*F500*",
+      "*R500*",
+      "*y_c*",
+      "*Y500*",
+      "*theta500*",
+      "*Q*"
+    ],
+    "sanitized_output_rule": "A future authorized loader must emit only canonical_id, source IDs, match evidence, selection flags, X-COP exclusion status, and split eligibility; no allowed selection-only or redshift field may enter candidate fitting or scoring.",
+    "mass_leakage_conclusion": "A catalog-only overlap count is possible without inferred-mass leakage only through this exact allowlist and a fail-before-load authorization gate. It is not possible from metadata pages alone."
+  },
+  "selection_and_quality_contract": {
+    "act_base_population": "Current ACT DR6 Legacy v1.0 rows, whose release defines fixed_SNR > 5.5, flags == 0, and footprint_Legacy == true.",
+    "additional_act_requirements": [
+      "footprint_eROSITADe == true",
+      "eRASS1CL == true",
+      "finite nonzero RADeg and decDeg",
+      "finite redshift with 0.01 <= redshift <= 0.6",
+      "warnings containing Possible projected system are quarantined before counting rather than silently excluded"
+    ],
+    "erass_base_population": "eRASS1 primary v3.2 membership, which is optically confirmed and constructed from extended X-ray candidates with EXT_LIKE > 3.",
+    "additional_erass_requirements": [
+      "nonempty DETUID and NAME",
+      "finite RA and DEC",
+      "finite BEST_Z with 0.01 <= BEST_Z <= 0.6",
+      "PCONT is recorded as a quality diagnostic but no post-hoc PCONT threshold is selected in this preflight"
+    ],
+    "forbidden_selection_inputs": [
+      "ACT or eRASS inferred mass and radius",
+      "ACT y or Q observables other than the pre-applied Legacy membership",
+      "eRASS flux, luminosity, count rate, temperature, gas mass, YX, gas fraction, mass PDF",
+      "any pressure, temperature, density, stellar-baryon, lensing, candidate prediction, or residual value"
+    ],
+    "quality_failure_action": "QUARANTINE_WITH_REASON_BEFORE_ANY_PROFILE_OR_TARGET_ACCESS"
+  },
+  "act_erass_match_contract": {
+    "cosmology": {
+      "model": "flat_LCDM",
+      "H0_km_s-1_Mpc-1": 70.0,
+      "Omega_m": 0.3,
+      "Omega_lambda": 0.7
+    },
+    "candidate_gate": "ACT eRASS1CL must be true; this publisher crossmatch flag is verified rather than treated as an identity on its own.",
+    "canonicalization": [
+      "NFKD Unicode normalization",
+      "uppercase",
+      "remove punctuation and whitespace",
+      "preserve catalog namespace and numeric component",
+      "compare ACT name against eRASS MATCH_NAME tokens when supplied"
+    ],
+    "coordinate_radius": "theta_match(z)=max(1.22 arcmin, angular size of 0.5 Mpc at the ACT redshift under the frozen cosmology), matching the ACT primary-paper automated catalog rule.",
+    "position_priority": {
+      "ACT": [
+        "valid opt_RADeg and opt_decDeg when not 0,0",
+        "RADeg and decDeg SZ centroid"
+      ],
+      "eRASS1": [
+        "finite RA_XFIT and DEC_XFIT",
+        "RA and DEC detection position"
+      ]
+    },
+    "unique_match_rule": "Accept one eRASS candidate inside the radius. An exact normalized MATCH_NAME token may confirm it but may not override a competing in-radius candidate.",
+    "redshift_diagnostic": "Record delta_z and combined stated uncertainty for identity audit; do not invent a response-tuned redshift cut. Parent X-COP exclusion retains its separate absolute delta_z <= 0.005 rule.",
+    "ambiguous_or_missing_action": "QUARANTINE_AND_DO_NOT_COUNT",
+    "one_to_many_action": "QUARANTINE_ALL_COMPONENTS_AND_RECORD_CANDIDATE_IDS",
+    "overlap_count_state": "NOT_COMPUTED_CATALOG_ROWS_UNAUTHORIZED"
+  },
+  "xcop_exclusion_ledger_contract": {
+    "canonical_xcop_objects": [
+      "A1644",
+      "A1795",
+      "A2029",
+      "A2142",
+      "A2255",
+      "A2319",
+      "A3158",
+      "A3266",
+      "A644",
+      "A85",
+      "RXC1825",
+      "ZW1215"
+    ],
+    "identity_order": [
+      "source-stable object identifier",
+      "normalized supplied canonical name",
+      "casefolded alias without punctuation or whitespace",
+      "sky position within 2.0 arcmin and absolute redshift difference <= 0.005"
+    ],
+    "ledger_fields": [
+      "canonical_join_id",
+      "ACT_name",
+      "eRASS_DETUID",
+      "matched_xcop_id",
+      "match_method",
+      "angular_separation_arcmin",
+      "absolute_redshift_difference",
+      "excluded_before_target_access",
+      "ambiguity_state"
+    ],
+    "action": "Exclude resolved X-COP identities from replication eligibility before profile or target access; quarantine ambiguous identities; retain every decision in the ledger.",
+    "executed": false,
+    "input_rows": 0,
+    "resolved_overlaps": 0
+  },
+  "population_gate": {
+    "confirmatory_target_clusters": 192,
+    "confirmatory_power_target": 0.9,
+    "underpowered_execution_floor_clusters": 120,
+    "projected_power_at_floor": 0.727,
+    "classification_rule": "At least 192 untouched confirmation clusters with complete future profile packets permits the preregistered confirmatory decision. A catalog overlap count at or above 192 is only a necessary population upper bound, not proof of profile completeness or trial readiness. Between 120 and 191 is underpowered exploratory; fewer than 120 does not open as the primary trial.",
+    "catalog_overlap_count": null,
+    "post_xcop_catalog_upper_bound": null,
+    "rule_evaluated": false
+  },
+  "license_and_terms": {
+    "ACT_LAMBDA": {
+      "public_download_documented": true,
+      "per_file_license_verified": false,
+      "redistribution_authorized": false,
+      "required_action": "Bind an explicit ACT/LAMBDA reuse or citation statement before redistribution or derived public packet release."
+    },
+    "ERASS1_DR1": {
+      "public_download_documented": true,
+      "public_western_hemisphere_scope_documented": true,
+      "acknowledgement_requested": true,
+      "per_file_license_verified": false,
+      "redistribution_authorized": false,
+      "required_action": "Carry the official acknowledgement and bind explicit per-file reuse terms before redistribution."
+    },
+    "claim_limit": "Public access supports a future internal catalog projection after approval; it does not establish redistribution rights for catalogs, maps, or derived profile packets."
+  },
+  "access_and_decision": {
+    "existing_parent_catalog_row_authorization": false,
+    "catalog_row_access_required_for_overlap_count": true,
+    "current_catalog_access_authorized": false,
+    "catalog_files_downloaded": 0,
+    "catalog_bytes_downloaded": 0,
+    "catalog_rows_opened": 0,
+    "alias_rows_opened": 0,
+    "profile_thermodynamic_lensing_target_rows_opened": 0,
+    "map_bytes_downloaded": 0,
+    "scores_computed": 0,
+    "model_or_paid_calls": 0,
+    "decision": "BLOCKED_EXACT_CATALOG_ONLY_AUTHORIZATION_REQUIRED_BEFORE_OVERLAP_COUNT",
+    "next_action": "Obtain an exact hash-bound catalog-only authorization matching the frozen allowlists, then run the row-projection and overlap/X-COP ledger once. Do not open map, profile, thermodynamic, lensing, or scoring payloads."
+  },
+  "claim_boundary": {
+    "metadata_preflight_complete": true,
+    "overlap_count_computed": false,
+    "xcop_exclusion_ledger_materialized": false,
+    "minimum_192_rule_evaluated": false,
+    "catalog_population_gate_passed": false,
+    "profile_packet_ready": false,
+    "independent_replication_ready": false,
+    "CP3_complete": false,
+    "CP7_complete": false,
+    "observational_authorization": false,
+    "central_readiness_changed": false
+  },
+  "publication_contract": {
+    "staging_location": "OUTPUT_SAME_DIRECTORY",
+    "staging_file_fsync_before_publish": true,
+    "publish_primitive": "SAME_DIRECTORY_HARD_LINK_NO_REPLACE",
+    "directory_fsync": "POSIX_WHEN_SUPPORTED_AFTER_PUBLISH_AND_TEMP_CLEANUP",
+    "existing_identical_receipt_action": "RETURN_WITHOUT_REWRITE",
+    "existing_different_receipt_action": "FAIL_CLOSED",
+    "race_loser_action": "VERIFY_IDENTICAL_OR_FAIL_CLOSED"
+  },
+  "output_path": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-preflight-v1.json"
+}
