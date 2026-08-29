@@ -11,6 +11,7 @@ from sigma_theory_compiler.gravity_item39_holographic_boundary import (
     admissible_candidates,
     boundary_coordinates,
     build_exposure_manifest,
+    build_sample_manifest,
     decode_candidate,
     fixed_control_multiplier,
     generate_raw_candidates,
@@ -150,6 +151,20 @@ def test_item39_exposure_manifest_excludes_exploration_and_confirmation() -> Non
     assert manifest["role_counts"]["reserved_confirmation"] > 0
     assert len(manifest["excluded_names"]) > 0
     assert manifest["response_values_read_while_building"] == 0
+
+
+def test_item39_target_blind_sample_is_balanced_and_keeps_confirmation_sealed() -> None:
+    sample = build_sample_manifest(ROOT)
+    assert sample["counts"]["exploration"] == 60
+    assert sample["counts"]["reserved_confirmation"] == 15
+    assert sample["counts"]["response_rows_read"] == 0
+    assert sample["counts"]["confirmation_rows_read"] == 0
+    assert len(sample["cells"]) == 8
+    assert all(
+        counts["exploration"] > 0 and counts["reserved_confirmation"] > 0
+        for counts in sample["cells"].values()
+    )
+    assert all(row["response_read"] is False for row in sample["objects"])
 
 
 def test_item39_rejects_tampered_counterexample_metric_and_confirmation_boundaries() -> None:

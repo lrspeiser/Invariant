@@ -630,6 +630,260 @@ def write_legacy_predictor_source(root: Path) -> Path:
     return path
 
 
+def validate_legacy_predictor_source(root: Path, source: Mapping[str, Any]) -> None:
+    config = load_config(root)
+    copy_value = dict(source)
+    digest = copy_value.pop("content_sha256", None)
+    if digest != _sha256_bytes(_canonical_bytes(copy_value)):
+        raise GravityItem39Error("Legacy DR10 predictor content hash changed")
+    wallaby_path = _source_path(root, config, "wallaby_predictor_source")
+    if source["wallaby_predictor_sha256"] != _sha256_file(wallaby_path):
+        raise GravityItem39Error("Legacy-to-WALLABY predictor binding changed")
+    if int(source["counts"]["response_columns_requested"]) != 0:
+        raise GravityItem39Error("response column entered Legacy predictor source")
+    if int(source["counts"]["response_rows_read"]) != 0:
+        raise GravityItem39Error("response row entered Legacy predictor source")
+
+
+def _split_hash(value: str, salt: str) -> str:
+    return hashlib.sha256(f"{salt}|{value}".encode()).hexdigest()
+
+
+def _predictor_quality_reasons(
+    wallaby: Mapping[str, Any], optical: Mapping[str, Any], config: Mapping[str, Any]
+) -> list[str]:
+    quality = config["predictor_quality"]
+    checks = {
+        "optical_match_separation": _as_float(optical["match_separation_arcsec"])
+        <= float(quality["maximum_optical_match_separation_arcsec"]),
+        "g_minus_i": float(quality["minimum_g_minus_i_ab"])
+        <= _as_float(optical["g_minus_i_ab"])
+        <= float(quality["maximum_g_minus_i_ab"]),
+        "stellar_mass": float(quality["minimum_log10_stellar_mass_msun"])
+        <= _as_float(optical["log10_stellar_mass_msun"])
+        <= float(quality["maximum_log10_stellar_mass_msun"]),
+        "effective_radius": float(quality["minimum_effective_radius_kpc"])
+        <= _as_float(optical["effective_radius_kpc"])
+        <= float(quality["maximum_effective_radius_kpc"]),
+        "axis_ratio": _as_float(optical["axis_ratio"]) >= float(quality["minimum_axis_ratio"]),
+        "screen_radius": _as_float(wallaby["screen_radius_kpc"])
+        >= float(quality["minimum_screen_radius_kpc"]),
+    }
+    return [name for name, passed in checks.items() if not passed]
+
+
+def build_sample_manifest(root: Path) -> dict[str, Any]:
+    root = root.resolve()
+    config = load_config(root)
+    if str(config["predictor_freeze_commit"]).startswith("PENDING_"):
+        raise GravityItem39Error("Item 39 predictor freeze is not bound")
+    wallaby_path = _source_path(root, config, "wallaby_predictor_source")
+    legacy_path = _source_path(root, config, "legacy_predictor_source")
+    wallaby = _read_json(wallaby_path)
+    legacy = _read_json(legacy_path)
+    validate_wallaby_predictor_source(root, wallaby)
+    validate_legacy_predictor_source(root, legacy)
+    optical_by_key = {
+        (str(row["galaxy"]), str(row["team_release_kin"])): row for row in legacy["records"]
+    }
+    eligible: list[dict[str, Any]] = []
+    rejected: list[dict[str, Any]] = []
+    for row in wallaby["records"]:
+        key = (str(row["name"]), str(row["team_release_kin"]))
+        optical = optical_by_key.get(key)
+        if optical is None:
+            rejected.append(
+                {
+                    "name": key[0],
+                    "team_release_kin": key[1],
+                    "reasons": ["no_accepted_optical_match"],
+                }
+            )
+            continue
+        reasons = _predictor_quality_reasons(row, optical, config)
+        if reasons:
+            rejected.append({"name": key[0], "team_release_kin": key[1], "reasons": reasons})
+            continue
+        stellar_mass = float(optical["stellar_mass_msun"])
+        gas_mass = float(config["constants"]["helium_mass_factor"]) * float(row["hi_mass_msun"])
+        total_baryonic = stellar_mass + gas_mass
+        screen_radius = float(row["screen_radius_kpc"])
+        effective_radius = float(optical["effective_radius_kpc"])
+        eligible.append(
+            {
+                "name": key[0],
+                "team_release_kin": key[1],
+                "ra": row["ra"],
+                "dec": row["dec"],
+                "distance_mpc": row["distance_mpc"],
+                "hi_mass_msun": row["hi_mass_msun"],
+                "stellar_mass_msun": optical["stellar_mass_msun"],
+                "total_baryonic_mass_msun": f"{total_baryonic:.12e}",
+                "gas_fraction": f"{(gas_mass / total_baryonic):.12e}",
+                "screen_radius_kpc": row["screen_radius_kpc"],
+                "effective_radius_kpc": optical["effective_radius_kpc"],
+                "effective_to_screen_ratio": f"{(effective_radius / screen_radius):.12e}",
+                "axis_ratio": optical["axis_ratio"],
+                "optical_match_separation_arcsec": optical["match_separation_arcsec"],
+            }
+        )
+    if not eligible:
+        raise GravityItem39Error("no Item 39 source-only sample survived")
+
+    log_mass = np.log10(np.asarray([float(row["total_baryonic_mass_msun"]) for row in eligible]))
+    mass_edges = np.quantile(log_mass, [0.25, 0.5, 0.75])
+    ratios = np.asarray([float(row["effective_to_screen_ratio"]) for row in eligible])
+    ratio_median = float(np.median(ratios))
+    cells: dict[str, list[dict[str, Any]]] = {}
+    salt = str(config["sample_boundary"]["split_salt"])
+    for row, mass, ratio in zip(eligible, log_mass, ratios, strict=True):
+        mass_bin = int(np.searchsorted(mass_edges, mass, side="right"))
+        ratio_bin = int(ratio > ratio_median)
+        cell = f"mass{mass_bin}|screen_ratio{ratio_bin}"
+        enriched = dict(row)
+        enriched["source_cell"] = cell
+        identity = f"{row['name']}|{row['team_release_kin']}"
+        enriched["selection_hash"] = _split_hash(f"select|{identity}", salt)
+        enriched["confirmation_hash"] = _split_hash(f"confirm|{identity}", salt)
+        cells.setdefault(cell, []).append(enriched)
+    for rows in cells.values():
+        rows.sort(key=lambda row: str(row["selection_hash"]))
+
+    maximum_exploration = int(config["sample_boundary"]["maximum_exploration_galaxies"])
+    fraction = float(config["sample_boundary"]["confirmation_fraction"])
+    desired_total = math.ceil(maximum_exploration / (1.0 - fraction))
+    desired_total = min(desired_total, len(eligible))
+    selected: list[dict[str, Any]] = []
+    cell_names = sorted(cells)
+    round_index = 0
+    while len(selected) < desired_total:
+        added = False
+        for cell in cell_names:
+            if round_index < len(cells[cell]) and len(selected) < desired_total:
+                selected.append(cells[cell][round_index])
+                added = True
+        if not added:
+            break
+        round_index += 1
+
+    confirmation_count = max(
+        int(config["sample_boundary"]["minimum_reserved_confirmation_galaxies"]),
+        round(len(selected) * fraction),
+    )
+    confirmation_count = min(confirmation_count, max(len(selected) - 1, 0))
+    selected_by_cell: dict[str, list[dict[str, Any]]] = {}
+    for row in selected:
+        selected_by_cell.setdefault(str(row["source_cell"]), []).append(row)
+    quotas = {
+        cell: min(len(rows), math.floor(len(rows) * fraction))
+        for cell, rows in selected_by_cell.items()
+    }
+    remaining = confirmation_count - sum(quotas.values())
+    order = sorted(
+        selected_by_cell,
+        key=lambda cell: (
+            -(len(selected_by_cell[cell]) * fraction - quotas[cell]),
+            _split_hash(f"quota|{cell}", salt),
+        ),
+    )
+    while remaining > 0:
+        progressed = False
+        for cell in order:
+            if remaining <= 0:
+                break
+            if quotas[cell] < len(selected_by_cell[cell]):
+                quotas[cell] += 1
+                remaining -= 1
+                progressed = True
+        if not progressed:
+            break
+
+    objects: list[dict[str, Any]] = []
+    outer_folds = int(config["evaluation"]["outer_folds"])
+    fold_salt = str(config["evaluation"]["fold_salt"])
+    for cell, rows in sorted(selected_by_cell.items()):
+        ordered = sorted(rows, key=lambda row: str(row["confirmation_hash"]))
+        confirmations = {
+            (str(row["name"]), str(row["team_release_kin"])) for row in ordered[: quotas[cell]]
+        }
+        for row in rows:
+            identity = f"{row['name']}|{row['team_release_kin']}"
+            role = (
+                "reserved_confirmation"
+                if (str(row["name"]), str(row["team_release_kin"])) in confirmations
+                else "exploration"
+            )
+            output = {
+                key: value
+                for key, value in row.items()
+                if key not in {"selection_hash", "confirmation_hash"}
+            }
+            output["role"] = role
+            output["outer_fold"] = int(_split_hash(identity, fold_salt), 16) % outer_folds
+            output["response_read"] = False
+            objects.append(output)
+    objects.sort(key=lambda row: (str(row["name"]), str(row["team_release_kin"])))
+    role_counts = Counter(str(row["role"]) for row in objects)
+    cell_counts: dict[str, dict[str, int]] = {}
+    for row in objects:
+        cell_counts.setdefault(
+            str(row["source_cell"]), {"exploration": 0, "reserved_confirmation": 0}
+        )[str(row["role"])] += 1
+    return _content_hashed(
+        {
+            "schema_version": "invariant-gravity-item39-sample-manifest-1.0",
+            "item": 39,
+            "scientific_freeze_commit": config["scientific_freeze_commit"],
+            "predictor_freeze_commit": config["predictor_freeze_commit"],
+            "wallaby_predictor_sha256": _sha256_file(wallaby_path),
+            "legacy_predictor_sha256": _sha256_file(legacy_path),
+            "predictor_quality": config["predictor_quality"],
+            "mass_quartile_edges_log10_msun": [f"{value:.12e}" for value in mass_edges],
+            "effective_to_screen_ratio_median": f"{ratio_median:.12e}",
+            "objects": objects,
+            "rejected_predictors": rejected,
+            "cells": cell_counts,
+            "counts": {
+                "wallaby_predictor_profiles": len(wallaby["records"]),
+                "legacy_optical_matches": len(legacy["records"]),
+                "source_quality_eligible": len(eligible),
+                "source_quality_rejected": len(rejected),
+                "selected_total": len(objects),
+                "exploration": role_counts["exploration"],
+                "reserved_confirmation": role_counts["reserved_confirmation"],
+                "response_rows_read": 0,
+                "confirmation_rows_read": 0,
+                "paid_model_calls": 0,
+            },
+            "claims": {
+                "response_opened": False,
+                "confirmation_opened": False,
+                "historical_novelty_established": False,
+            },
+        }
+    )
+
+
+def validate_sample_manifest(root: Path, sample: Mapping[str, Any]) -> None:
+    copy_value = dict(sample)
+    digest = copy_value.pop("content_sha256", None)
+    if digest != _sha256_bytes(_canonical_bytes(copy_value)):
+        raise GravityItem39Error("Item 39 sample content hash changed")
+    if sample != build_sample_manifest(root):
+        raise GravityItem39Error("Item 39 target-blind sample drifted")
+    if int(sample["counts"]["response_rows_read"]) != 0:
+        raise GravityItem39Error("response entered target-blind sample")
+    if int(sample["counts"]["confirmation_rows_read"]) != 0:
+        raise GravityItem39Error("confirmation entered target-blind sample")
+
+
+def write_sample_manifest(root: Path) -> Path:
+    config = load_config(root)
+    path = _source_path(root, config, "sample_manifest")
+    _write_json(path, build_sample_manifest(root))
+    return path
+
+
 def generate_raw_candidates(config: Mapping[str, Any]) -> dict[str, np.ndarray]:
     shape = tuple(int(value) for value in config["candidate_generator"]["grid_shape_per_niche"])
     indices = np.indices(shape, dtype=np.int16).reshape(4, -1).T
@@ -963,7 +1217,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "command",
-        choices=("freeze", "check-freeze", "wallaby-predictors", "legacy-predictors"),
+        choices=(
+            "freeze",
+            "check-freeze",
+            "wallaby-predictors",
+            "legacy-predictors",
+            "sample",
+        ),
     )
     parser.add_argument("--root", type=Path, default=Path("."))
     args = parser.parse_args()
@@ -978,8 +1238,10 @@ def main() -> None:
         print(json.dumps(check_freeze(args.root), sort_keys=True))
     elif args.command == "wallaby-predictors":
         print(write_wallaby_predictor_source(args.root))
-    else:
+    elif args.command == "legacy-predictors":
         print(write_legacy_predictor_source(args.root))
+    else:
+        print(write_sample_manifest(args.root))
 
 
 if __name__ == "__main__":
