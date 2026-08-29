@@ -1,0 +1,133 @@
+{
+  "schema_version": "invariant-gravity-item60-direct-clash-lensing-config-1.0",
+  "item": 60,
+  "status": "scientific_freeze_before_direct_lensing_response_access",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "hypothesis": "The unchanged Item 59 acceleration law has enough theory structure to forward-predict direct cluster-lensing observables from calibrated baryonic light and gas without importing a GR/NFW total-mass map or fitting a separate lensing law.",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051"
+  },
+  "candidate_contract": {
+    "source_item": 59,
+    "variant_id": "cross_scale_boundary:5e945be899287b75",
+    "family_id": "cross_scale_boundary",
+    "parameters": {"beta": 1.5},
+    "available_prediction": "spherically evaluated radial acceleration g(r) for nonrelativistic matter",
+    "available_theory_primitives": ["radial_acceleration"],
+    "not_supplied_by_item59": [
+      "action_or_covariant_field_equations",
+      "two_dimensional_baryon_to_metric_solver",
+      "matter_and_photon_coupling",
+      "dynamical_potential_phi",
+      "lensing_potential_phi_plus_psi",
+      "gravitational_slip_relation",
+      "null_geodesic_rule",
+      "fermat_potential_and_time_normalization"
+    ],
+    "formula_or_nuisance_refit_allowed": false,
+    "gr_lensing_conversion_may_be_assumed": false
+  },
+  "required_channels": [
+    {
+      "id": "image_positions",
+      "required_prediction": "solve the source-blind lens equation beta=theta-grad(psi) for all images"
+    },
+    {
+      "id": "parities",
+      "required_prediction": "sign of the determinant of the lensing Jacobian"
+    },
+    {
+      "id": "shapes",
+      "required_prediction": "local reduced-shear mapping including the source-shape nuisance distribution"
+    },
+    {
+      "id": "weak_shear",
+      "required_prediction": "two-component reduced shear from the Hessian of one lensing potential"
+    },
+    {
+      "id": "magnification",
+      "required_prediction": "inverse absolute Jacobian determinant from the same field"
+    },
+    {
+      "id": "time_delays",
+      "required_prediction": "Fermat-potential differences times a declared distance/time normalization"
+    }
+  ],
+  "source_metadata": [
+    {
+      "id": "clash_mast",
+      "url": "https://archive.stsci.edu/prepds/clash/",
+      "role": "official calibrated HST and Subaru catalog release index",
+      "target_rows": false
+    },
+    {
+      "id": "subaru_macs0416_readme",
+      "url": "https://archive.stsci.edu/missions/hlsp/clash/macs0416/catalogs/subaru/hlsp_clash_subaru_suprimecam_macs0416_catalog_readme.txt",
+      "role": "calibration and catalog schema metadata",
+      "target_rows": false
+    },
+    {
+      "id": "subaru_macs1149_readme",
+      "url": "https://archive.stsci.edu/missions/hlsp/clash/macs1149/catalogs/subaru/hlsp_clash_subaru_suprimecam_macs1149_catalog_readme.txt",
+      "role": "calibration and catalog schema metadata",
+      "target_rows": false
+    },
+    {
+      "id": "hff_strong_lensing_readme",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/MNRAS/486/5414/ReadMe",
+      "role": "strong-lensing position catalog schema and record-count metadata",
+      "target_rows": false,
+      "declared_catalog_records": {"MACS0416_tablea4": 158, "MACS1149_tablea6": 154}
+    },
+    {
+      "id": "sn_refsdal_primary",
+      "url": "https://arxiv.org/abs/2305.06377",
+      "role": "direct time-delay and magnification-ratio measurement source metadata",
+      "target_rows": false
+    }
+  ],
+  "pre_response_gate": {
+    "required_theory_primitives": [
+      "baryons_to_two_dimensional_metric_or_two_potentials",
+      "massive_tracer_coupling",
+      "photon_null_coupling",
+      "single_derived_gravitational_slip_rule",
+      "lensing_jacobian",
+      "fermat_potential"
+    ],
+    "all_required_before_target_rows_opened": true,
+    "if_incomplete": "BLOCKED_THEORY_UNDERDEFINED_RETAIN_CANDIDATE_AND_DO_NOT_OPEN_TARGET_ROWS"
+  },
+  "forbidden_inputs": [
+    "GR_or_NFW_derived_total_mass",
+    "lensing_mass_or_convergence_map_as_baryonic_input",
+    "hydrostatic_mass",
+    "per_cluster_gravity_or_lensing_coefficient",
+    "separately_fitted_lensing_slip",
+    "observed_image_position_used_to_build_the_predictor_map"
+  ],
+  "counterexample_policy": {
+    "single_empirical_counterexample_terminal": false,
+    "counterexample_count_alone_terminal": false,
+    "finite_sample_may_prune_formula_family": false,
+    "theory_underdetermination_is_an_empirical_counterexample": false,
+    "theory_underdetermination_action": "retain_candidate_and_require_action_or_metric_completion",
+    "global_family_pruning_allowed": false
+  },
+  "claim_policy": {
+    "source_metadata_is_direct_lensing_fit": false,
+    "missing_lensing_completion_rejects_item59_acceleration_fit": false,
+    "blocked_gate_establishes_alternative_to_gr": false,
+    "blocked_gate_eliminates_dark_matter": false,
+    "historical_novelty_established": false
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-60-direct-clash-lensing-gate-v1-source",
+    "source_receipt": "source-metadata-receipt.json",
+    "evaluation": "theory-readiness-evaluation.json",
+    "aggregate": "runs/gravity/roadmap/item-60-direct-clash-lensing-gate-v1.json"
+  }
+}
