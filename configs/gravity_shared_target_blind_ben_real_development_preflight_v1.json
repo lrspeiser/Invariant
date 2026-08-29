@@ -1,0 +1,160 @@
+{
+  "schema_version": "invariant-gravity-ben-real-development-preflight-config-1.0",
+  "status": "blocked_before_real_scoring_due_mixed_sparc_access_boundary_breach",
+  "purpose": "Retain the failed first real B+E+N launch attempt without scoring any target, because a mixed local SPARC packet exposed reserved confirmation rows.",
+  "implementation_source": "src/sigma_theory_compiler/gravity_shared_target_blind_ben_real_development_preflight.py",
+  "implementation_source_normalized_sha256": "a322f78c5ce346e4ab49865e7486a2e315c092cd380e01481259083d3fcbc5c0",
+  "verifier_test": {
+    "path": "tests/test_gravity_shared_target_blind_ben_real_development_preflight.py",
+    "file_sha256": "b5399423172f1810438fdc8ea0097016a1f9567fedade9c97b928df3e1a6556e"
+  },
+  "source_bindings": {
+    "synthetic_config": {
+      "path": "configs/gravity_shared_target_blind_ben_synthetic_execution_v1.json",
+      "file_sha256": "e5cf64b215873e286b2b16364b40b99a26fcb00bca7605063f4ddcad2066220d"
+    },
+    "synthetic_source": {
+      "path": "src/sigma_theory_compiler/gravity_shared_target_blind_ben_synthetic_execution.py",
+      "file_sha256": "6f1a7091c6a3d14ec6869c7ee30f8a38ff871343246d57b048883eda8a26fcc5"
+    },
+    "synthetic_test": {
+      "path": "tests/test_gravity_shared_target_blind_ben_synthetic_execution.py",
+      "file_sha256": "563da043471e41ef512a0db4fefc6067b054964cb3bb86b187f7503230d7072b"
+    },
+    "synthetic_receipt": {
+      "path": "runs/gravity/shared-target-blind-ben-synthetic-execution-v1.json",
+      "file_sha256": "05493ee23a86bd6f16e9eb460e3c175628f30d5946c3b6b6b7441fc31099db64",
+      "content_sha256": "c5ecdfd36d0b940c3c11c9a92054c0c575ed3551d66034bdcb9d592fa2f702c3"
+    },
+    "sparc_exposure_receipt": {
+      "path": "runs/gpu-baryonic-screen/per-object-decomposition-full-sparc-v1.json",
+      "file_sha256": "8d6057b220d0312ee36c2cdcdc7c2fadff97c253ee7a9a415e0e741ed308f584",
+      "content_sha256": "e37c6ab0c2548639a0540851a2355955e09d228e609aa327952ab8ae2605c497"
+    },
+    "item61_receipt": {
+      "path": "runs/gravity/roadmap/item-61-cross-scale-gate-v1.json",
+      "file_sha256": "bd8ce28f5f6ca5f39e1cb98ad753850155bfc32b92f18c5afbaaf213e1474fe8",
+      "content_sha256": "b6969690ad11afd71a3c8034c5cc56005f7c6e657e7ec8b261abb1bcf6eb8e1d"
+    }
+  },
+  "frozen_candidate_registry": {
+    "freeze_commit": "e89c86d040b46a2dd0154c25adbeb8a24e3b0bc2",
+    "freeze_commit_time": "2026-08-29T13:53:07-07:00",
+    "architecture_id": "BEN-additive-cross-scale-v1",
+    "formula_template": "A_nuisance*E_local_base+B_continuous_gate*N_additive_channel",
+    "A_role": "bounded_source_calibration_nuisance_only",
+    "M_temporal_phase_operator_included": false,
+    "raw_candidate_count": 240,
+    "equivalence_class_count": 60,
+    "candidate_registry_content_sha256": "45966eae73d7641ea982a7eea47aad883a9ff344baf121b91b901c32ef819f19",
+    "candidate_proposals_may_only_come_from_committed_registry": true
+  },
+  "requested_scope": {
+    "requested_real_evaluation_runs": 1,
+    "completed_real_evaluation_runs": 0,
+    "requested_sparc_exploration_objects": 139,
+    "requested_sparc_exploration_rows": 2720,
+    "requested_xcop_development_objects": 8,
+    "sparc_confirmation_allowed": false,
+    "little_things_independent_allowed": false,
+    "xcop_confirmation_or_holdout_allowed": false,
+    "group_allowed": false,
+    "lensing_allowed": false,
+    "inferred_total_mass_allowed": false
+  },
+  "access_incident": {
+    "incident_id": "BEN-REAL-V1-MIXED-SPARC-RG-ACCESS",
+    "mixed_file_path": "configs/sparc_rotation_curves_full_v1.json",
+    "mixed_file_git_commit": "e89c86d040b46a2dd0154c25adbeb8a24e3b0bc2",
+    "mixed_file_git_blob_sha1": "1dc2a31fabf5025065e37e5c8676c4fc91a525df",
+    "mixed_file_git_blob_bytes": 247315,
+    "command_class": "read_only_regex_search_rg_against_one_line_consolidated_json",
+    "command_scope": [
+      "runs/gpu-baryonic-screen/per-object-decomposition-full-sparc-v1.json",
+      "configs/sparc_rotation_curves_full_v1.json",
+      "src/sigma_theory_compiler/sparc_full_sample.py"
+    ],
+    "regex_intent": "locate exploration/confirmation row-count and rotation-data interfaces",
+    "one_line_json_match_emitted_entire_mixed_file_before_transport_truncation": true,
+    "process_read_entire_mixed_file": true,
+    "tool_output_was_truncated": true,
+    "exact_raw_rows_visible_to_agent_reconstructable": false,
+    "known_confirmation_objects_with_raw_rows_visible": [
+      "D512-2",
+      "DDO154",
+      "ESO444-G084"
+    ],
+    "known_visible_confirmation_raw_row_lower_bound": 23,
+    "exact_confirmation_raw_rows_surfaced": null,
+    "confirmation_access_is_definitely_nonzero": true,
+    "local_sparc_confirmation_remains_sealed_for_this_descendant": false
+  },
+  "chronology": {
+    "synthetic_commit_predates_mixed_file_access": true,
+    "candidate_registry_frozen_before_mixed_file_access": true,
+    "candidate_registry_raw_count_before_access": 240,
+    "candidate_registry_equivalence_count_before_access": 60,
+    "real_metric_definitions_frozen_before_access": 0,
+    "real_thresholds_frozen_before_access": 0,
+    "real_candidates_selected_before_access": 0,
+    "real_candidate_scores_before_access": 0,
+    "real_metric_definitions_after_access": 0,
+    "real_thresholds_after_access": 0,
+    "real_candidates_selected_after_access": 0,
+    "real_candidate_scores_after_access": 0,
+    "formula_repairs_after_access": 0
+  },
+  "data_boundary": {
+    "mixed_sparc_files_opened": 1,
+    "mixed_sparc_file_bytes_read_by_process": 247315,
+    "sparc_real_metric_calls": 0,
+    "sparc_real_candidate_score_calls": 0,
+    "xcop_predictor_rows_read": 0,
+    "xcop_target_rows_read": 0,
+    "xcop_target_files_opened": 0,
+    "xcop_real_metric_calls": 0,
+    "xcop_real_candidate_score_calls": 0,
+    "group_rows_read": 0,
+    "group_score_calls": 0,
+    "lensing_rows_read": 0,
+    "lensing_score_calls": 0,
+    "inferred_total_mass_rows_read": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "gpu_calls": 0,
+    "cpu_formula_evaluation_calls": 0,
+    "cpu_gpu_parity_calls": 0
+  },
+  "recovery_options": [
+    {
+      "option_id": "RECLASSIFY_LOCAL_SPARC_DEVELOPMENT_ONLY",
+      "action": "In a new version, explicitly reclassify every locally accessible SPARC row as development-only and reuse only already-frozen Item61 aggregate metrics; do not claim any local SPARC confirmation remains sealed.",
+      "authorized_here": false,
+      "executed_here": false
+    },
+    {
+      "option_id": "OBTAIN_GENUINELY_EXTERNAL_CONFIRMATION",
+      "action": "Obtain and preregister a genuinely external confirmation source before any new candidate scoring.",
+      "authorized_here": false,
+      "executed_here": false
+    }
+  ],
+  "claim_boundary": {
+    "blocked_preflight_only": true,
+    "real_ben_evaluation_executed": false,
+    "real_ben_candidate_supported_or_refuted": false,
+    "candidate_ranking_created": false,
+    "cross_domain_metric_created": false,
+    "local_sparc_confirmation_sealed_for_descendant": false,
+    "xcop_target_access_occurred": false,
+    "group_or_lensing_access_occurred": false,
+    "synthetic_registry_changed": false,
+    "publication_readiness_changed": false,
+    "scientific_claim_allowed": false
+  },
+  "output_paths": {
+    "access_ledger": "runs/gravity/shared-target-blind-ben-real-development-preflight-v1/access-ledger.json",
+    "receipt": "runs/gravity/shared-target-blind-ben-real-development-preflight-v1.json"
+  }
+}
