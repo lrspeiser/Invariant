@@ -217,13 +217,11 @@ def _proposal_schema(config: Mapping[str, Any]) -> dict[str, Any]:
             },
             "known_analogues": {
                 "type": "array",
-                "items": {"type": "string"},
-                "maxItems": 4,
+                "items": {"type": "string"}
             },
             "source_domains": {
                 "type": "array",
-                "items": {"type": "string"},
-                "maxItems": 4,
+                "items": {"type": "string"}
             },
             "mechanism": {"type": "string"},
             "left_primitive_id": {"type": "integer", "minimum": 0, "maximum": 439},
