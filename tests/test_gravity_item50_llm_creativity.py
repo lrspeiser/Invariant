@@ -21,6 +21,7 @@ from sigma_theory_compiler.gravity_item50_llm_creativity import (
     _normalize_critic_output,
     _proposal_schema,
     _unique_structures,
+    build_candidate_manifest,
     build_preflight_manifest,
     load_config,
 )
@@ -192,3 +193,29 @@ def test_malformed_critic_slot_is_uncertain_and_never_a_veto() -> None:
     assert rows[1]["lineage_reclassification"] == "uncertain"
     assert rows[1]["retain_for_empirical_test"] is True
     assert rows[1]["proposal_pruned"] is False
+
+
+def test_recorded_provider_and_response_blind_candidate_receipts() -> None:
+    config = load_config(ROOT)
+    source = ROOT / config["paths"]["source_dir"]
+    proposals = json.loads(
+        (source / config["paths"]["proposal_receipt"]).read_text(encoding="utf-8")
+    )
+    critics = json.loads(
+        (source / config["paths"]["critic_receipt"]).read_text(encoding="utf-8")
+    )
+    candidate = json.loads(
+        (source / config["paths"]["candidate_manifest"]).read_text(encoding="utf-8")
+    )
+    assert proposals["counts"]["proposals"] == 48
+    assert proposals["counts"]["executable_structures"] == 47
+    assert proposals["counts"]["quarantined_nonexecutable_slots"] == 1
+    assert proposals["claims"]["historical_novelty_established"] is False
+    assert critics["counts"]["assessments"] == 48
+    assert critics["claims"]["critic_advice_pruned_proposals"] is False
+    assert candidate == build_candidate_manifest(ROOT)
+    assert candidate["response_values_used_during_generation_compilation_or_equivalence"] == 0
+    assert candidate["lane_audits"]["llm_ensemble"]["outcome_scoring_classes"] == 15_792
+    assert candidate["lane_audits"]["matched_seeded_random"][
+        "outcome_scoring_classes"
+    ] == 16_128
