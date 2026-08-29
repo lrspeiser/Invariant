@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 
 import numpy as np
 import pytest
@@ -16,6 +17,7 @@ from sigma_theory_compiler.gravity_item50_llm_creativity import (
     _expand_structures,
     _generation_prompt,
     _normalize_proposal,
+    _normalize_generation_output,
     _proposal_schema,
     _unique_structures,
     build_preflight_manifest,
@@ -141,3 +143,23 @@ def test_symbolic_structure_dedup_does_not_delete_lineage() -> None:
     assert mapping == [0, 0]
     assert audit["raw_structures"] == 2
     assert audit["symbolic_structure_duplicates"] == 1
+
+
+def test_malformed_provider_slot_is_retained_without_becoming_a_formula() -> None:
+    config = load_config(ROOT)
+    config49 = load_item49_config(ROOT)
+    slots = {
+        f"idea_{index:02d}": json.dumps(_raw_proposal())
+        for index in range(1, 9)
+    }
+    slots["idea_03"] = "idea_03_placeholder"
+    proposals = _normalize_generation_output(
+        {"proposals": slots},
+        config["ensemble"]["generation_calls"][0],
+        config,
+        config49,
+    )
+    assert len(proposals) == 8
+    assert proposals[2]["retained_regardless_of_origin_or_critic_label"] is True
+    assert proposals[2]["structure_executable_for_frozen_outer_expansion"] is False
+    assert proposals[2]["local_compilation_issues"] == ["provider_slot_not_json"]

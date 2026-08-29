@@ -638,28 +638,68 @@ def _normalize_generation_output(
     expected = {f"idea_{index:02d}" for index in range(1, slots + 1)}
     if not isinstance(proposals, Mapping) or set(proposals) != expected:
         raise GravityItem50Error("generation output slots changed")
-    decoded: list[Mapping[str, Any]] = []
-    for name in sorted(expected):
+    def quarantine(slot: int, raw_value: Any, issue: str) -> dict[str, Any]:
+        return {
+            "proposal_id": f"item50-{call['call_id']}-{slot:02d}",
+            "provider_proposal_id": f"unparsed-slot-{slot:02d}",
+            "provider_call_id": call["call_id"],
+            "provider_model": call["model"],
+            "provider_role": call["role"],
+            "title": "Quarantined non-executable provider slot",
+            "origin_self_assessment": "uncertain",
+            "known_analogues": [],
+            "source_domains": [],
+            "mechanism": "Provider slot retained without a compilable structured mechanism.",
+            "left_primitive_id": None,
+            "left_transform": None,
+            "right_primitive_id": None,
+            "right_transform": None,
+            "binary_operator": None,
+            "mixing": None,
+            "suggested_amplitude": None,
+            "suggested_acceleration_exponent": None,
+            "suggested_transition_u": None,
+            "suggested_outer_cell_physically_admitted": False,
+            "structure_executable_for_frozen_outer_expansion": False,
+            "local_compilation_issues": [issue],
+            "why_not_merely_a_rewrite": "Unresolved because the provider slot did not compile.",
+            "expected_observational_signature": "Unresolved pending an independently generated repair.",
+            "cheapest_falsifier": "No empirical test is possible until the slot has a typed structure.",
+            "likely_failure_mode": "Malformed provider serialization.",
+            "historical_novelty_claimed": False,
+            "retained_regardless_of_origin_or_critic_label": True,
+            "raw_provider_slot": raw_value,
+        }
+
+    result: list[dict[str, Any]] = []
+    for slot, name in enumerate(sorted(expected), 1):
         value = proposals[name]
         if not isinstance(value, str):
-            raise GravityItem50Error("generation proposal slot is not a string")
+            result.append(quarantine(slot, value, "provider_slot_not_a_string"))
+            continue
         try:
             parsed = json.loads(value)
-        except json.JSONDecodeError as error:
-            raise GravityItem50Error("generation proposal slot is not JSON") from error
+        except json.JSONDecodeError:
+            result.append(quarantine(slot, value, "provider_slot_not_json"))
+            continue
         if not isinstance(parsed, Mapping):
-            raise GravityItem50Error("generation proposal slot is not an object")
-        decoded.append(parsed)
-    return [
-        _normalize_proposal(
-            value,
-            call=call,
-            slot=index,
-            config=config,
-            config49=config49,
-        )
-        for index, value in enumerate(decoded, 1)
-    ]
+            result.append(quarantine(slot, parsed, "provider_slot_not_an_object"))
+            continue
+        try:
+            result.append(
+                _normalize_proposal(
+                    parsed,
+                    call=call,
+                    slot=slot,
+                    config=config,
+                    config49=config49,
+                )
+            )
+        except GravityItem50Error as error:
+            result.append(
+                quarantine(slot, parsed, f"local_compilation_failed:{str(error)}")
+            )
+    return result
 
 
 def build_preflight_manifest(root: Path, *, live: bool = False) -> dict[str, Any]:
@@ -850,6 +890,14 @@ def run_provider_proposals(root: Path) -> dict[str, Any]:
                     ]
                 ),
                 "proposals": len(proposals),
+                "executable_structures": sum(
+                    row["structure_executable_for_frozen_outer_expansion"]
+                    for row in proposals
+                ),
+                "quarantined_nonexecutable_slots": sum(
+                    not row["structure_executable_for_frozen_outer_expansion"]
+                    for row in proposals
+                ),
                 "models": len(set(row["model"] for row in ordered)),
                 "origin_labels": dict(
                     sorted(Counter(row["origin_self_assessment"] for row in proposals).items())
@@ -1226,7 +1274,9 @@ def build_lane_candidates(
     if lane == "llm_ensemble":
         receipt = _read_json(_source_path(root, config, "proposal_receipt"))
         raw_structures = [
-            _structure_from_proposal(row, config) for row in receipt["proposals"]
+            _structure_from_proposal(row, config)
+            for row in receipt["proposals"]
+            if row["structure_executable_for_frozen_outer_expansion"]
         ]
     elif lane == "matched_seeded_random":
         raw_structures = _control_structures(config)
@@ -1287,8 +1337,13 @@ def build_candidate_manifest(root: Path) -> dict[str, Any]:
             "lineage": lineage,
             "counts": {
                 "provider_proposals": len(proposal_receipt["proposals"]),
+                "executable_provider_structures": sum(
+                    row["structure_executable_for_frozen_outer_expansion"]
+                    for row in proposal_receipt["proposals"]
+                ),
                 "critic_assessments": len(critic_receipt["assessments"]),
-                "raw_structures_per_lane": 48,
+                "provider_generation_slots": 48,
+                "matched_control_raw_structures": 48,
                 "successful_paid_model_calls": proposal_receipt["counts"]["provider_calls"]
                 + critic_receipt["counts"]["critic_calls"],
                 "provider_attempts_including_unretained_call": proposal_receipt["counts"][
