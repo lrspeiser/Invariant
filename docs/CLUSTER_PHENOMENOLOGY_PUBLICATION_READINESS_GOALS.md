@@ -42,6 +42,12 @@ follows the candidate acceleration law.
   do not reject the cluster-domain observation.
 - The first `4^10` screened descendant grammar found no SPARC-X-COP bridge. That is a
   failure-space result, not a reason to hide Item 59.
+- A machine-readable manuscript evidence package now preserves all 233 Item 59 candidate
+  predictions and residuals across development training, development holdout, and
+  same-release confirmation, together with object summaries, counterexamples,
+  comparators, ablations, numerical controls, uncertainty warnings, source revisions,
+  and access counts. It explicitly records zero independent target rows and is not a
+  completed manuscript or independent replication.
 
 Useful primary context includes the SPARC radial-acceleration relation
 (https://arxiv.org/abs/1609.05917), the documented residual MOND problem in X-ray groups
@@ -70,7 +76,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP9 | Independent mass probes | No | No for bounded paper | NOT STARTED |
 | CP10 | Group and domain-boundary map | No | No for bounded paper | NOT STARTED |
 | CP11 | Gravity-theory escalation | No | No for bounded paper | BLOCKED |
-| CP12 | External reproduction and manuscript package | No | Yes | NOT STARTED |
+| CP12 | External reproduction and manuscript package | No | Yes | PARTIAL; development evidence package complete, renderer, external replay, source release, reviews, and submission open |
 
 ## CP0 — freeze the bounded claim and population
 
@@ -379,21 +385,29 @@ Advance criteria: another analyst can reproduce the bounded claim and audit ever
 limitation without private state.
 
 - [ ] **CP12.1** Provide one command that recreates every primary table and figure.
-- [ ] **CP12.2** Freeze environment, dependencies, random seeds, hardware tolerances, and
+- [x] **CP12.2** Freeze environment, dependencies, random seeds, hardware tolerances, and
   source revisions.
 - [ ] **CP12.3** Publish source, calibration, covariance, transformation, split, and
   exclusion manifests.
-- [ ] **CP12.4** Publish machine-readable per-row predictions, residuals, object summaries,
+- [x] **CP12.4** Publish machine-readable per-row predictions, residuals, object summaries,
   and counterexamples.
-- [ ] **CP12.5** Preserve blinded and unblinded receipts and access counts.
+- [x] **CP12.5** Preserve blinded and unblinded receipts and access counts.
 - [ ] **CP12.6** Obtain a separately written implementation or independent analyst replay.
-- [ ] **CP12.7** Report all ablations, negative results, nuisance edges, and sensitivity
+- [x] **CP12.7** Report all ablations, negative results, nuisance edges, and sensitivity
   envelopes.
-- [ ] **CP12.8** Report absolute performance alongside relative improvements.
-- [ ] **CP12.9** Include the three-track claim adjudication in the manuscript.
+- [x] **CP12.8** Report absolute performance alongside relative improvements.
+- [x] **CP12.9** Include the three-track claim adjudication in the manuscript evidence
+  package; carry it unchanged into the eventual prose manuscript.
 - [ ] **CP12.10** Obtain statistical, cluster-astrophysics, and modified-gravity review.
 - [ ] **CP12.11** Release code and eligible data artifacts under declared licenses.
 - [ ] **CP12.12** Submit only the bounded claim unless CP9–CP11 independently pass.
+
+The development package is frozen by
+`configs/gravity_cluster_manuscript_evidence_package_v1.json` and reproduced at
+`runs/gravity/publication-readiness/manuscript-evidence-package-v1.json`. It completes
+the evidence-assembly portions of CP12 without substituting for the still-open primary
+figure/table renderer, independent implementation, source/covariance release, expert
+reviews, licensing, or submission decision.
 
 ## Frozen primary statistical decision to design before CP7 opens data
 

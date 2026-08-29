@@ -384,6 +384,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
+        "manuscript_evidence_package",
     )
     if tuple(binding.get("evidence_id") for binding in bindings) != expected_ids:
         raise ResearchPublicationReadinessError("publication evidence order changed")
@@ -427,6 +428,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
+    manuscript_package = evidence["manuscript_evidence_package"]
     if (
         item59["claims"]["xcop_forward_observable_development_gate_passed"] is not True
         or item59["counts"]["clusters"] != 12
@@ -507,6 +509,17 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or prior_art["counts"]["target_rows_opened"] != 0
     ):
         raise ResearchPublicationReadinessError("prior-art positioning evidence changed")
+    if (
+        set(manuscript_package["completed_goal_evidence"])
+        != {"CP12.2", "CP12.4", "CP12.5", "CP12.7", "CP12.8", "CP12.9"}
+        or set(manuscript_package["blocked_goal_evidence"])
+        != {"CP12.1", "CP12.3", "CP12.6", "CP12.10", "CP12.11", "CP12.12"}
+        or manuscript_package["claims"]["independent_replication"] is not False
+        or manuscript_package["claims"]["bounded_paper_ready"] is not False
+        or manuscript_package["counts"]["per_row_candidate_predictions"] != 233
+        or manuscript_package["counts"]["independent_target_rows_opened"] != 0
+    ):
+        raise ResearchPublicationReadinessError("manuscript evidence package changed")
 
 
 def classify_claim_tracks(

@@ -32,8 +32,8 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
     assert receipt["readiness"]["independent_cluster_data"]["ready"] is False
     assert receipt["readiness"]["observational_authorization"] is False
     assert receipt["readiness"]["independent_target_rows_opened"] == 0
-    assert receipt["counts"]["completed_tasks"] == 52
-    assert receipt["counts"]["open_tasks"] == 70
+    assert receipt["counts"]["completed_tasks"] == 58
+    assert receipt["counts"]["open_tasks"] == 64
     cp3 = next(gate for gate in receipt["gate_ledger"] if gate["gate_id"] == "CP3")
     assert cp3["completed_task_ids"] == [
         "CP3.1",
@@ -44,6 +44,15 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
         "CP3.8",
     ]
     assert cp3["open_task_ids"] == ["CP3.5", "CP3.6"]
+    cp12 = next(gate for gate in receipt["gate_ledger"] if gate["gate_id"] == "CP12")
+    assert cp12["completed_task_ids"] == [
+        "CP12.2",
+        "CP12.4",
+        "CP12.5",
+        "CP12.7",
+        "CP12.8",
+        "CP12.9",
+    ]
 
 
 def test_adjacent_domain_failure_does_not_veto_a_complete_bounded_claim() -> None:
@@ -137,13 +146,13 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "claim_tracks": 3,
         "gates": 13,
         "tasks": 122,
-        "completed_tasks": 52,
-        "open_tasks": 70,
+        "completed_tasks": 58,
+        "open_tasks": 64,
         "pass_gates": 4,
-        "partial_gates": 4,
+        "partial_gates": 5,
         "blocked_gates": 1,
-        "not_started_gates": 4,
-        "bound_evidence_receipts": 10,
+        "not_started_gates": 3,
+        "bound_evidence_receipts": 11,
         "independent_target_rows_opened": 0,
     }
 
