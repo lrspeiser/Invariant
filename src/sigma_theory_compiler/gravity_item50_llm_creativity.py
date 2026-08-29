@@ -205,50 +205,6 @@ def _catalog_for_prompt(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any
 
 def _proposal_schema(config: Mapping[str, Any]) -> dict[str, Any]:
     contract = config["proposal_contract"]
-    proposal = {
-        "type": "object",
-        "additionalProperties": False,
-        "properties": {
-            "proposal_id": {"type": "string"},
-            "title": {"type": "string"},
-            "origin_self_assessment": {
-                "type": "string",
-                "enum": contract["origin_labels"],
-            },
-            "known_analogues": {
-                "type": "array",
-                "items": {"type": "string"}
-            },
-            "source_domains": {
-                "type": "array",
-                "items": {"type": "string"}
-            },
-            "mechanism": {"type": "string"},
-            "left_primitive_id": {"type": "integer"},
-            "left_transform": {"type": "string", "enum": contract["unary_transforms"]},
-            "right_primitive_id": {"type": "integer"},
-            "right_transform": {"type": "string", "enum": contract["unary_transforms"]},
-            "binary_operator": {"type": "string", "enum": contract["binary_operators"]},
-            "mixing": {"type": "number", "enum": contract["mixing_grid"]},
-            "suggested_amplitude": {
-                "type": "number",
-                "enum": [0.3, 0.6, 1.0, 1.5, 2.0, 3.0, 4.0, 6.0],
-            },
-            "suggested_acceleration_exponent": {
-                "type": "number",
-                "enum": [0.2, 0.25, 0.3, 0.35, 0.4],
-            },
-            "suggested_transition_u": {
-                "type": "number",
-                "enum": contract["transition_u_grid"],
-            },
-            "why_not_merely_a_rewrite": {"type": "string"},
-            "expected_observational_signature": {"type": "string"},
-            "cheapest_falsifier": {"type": "string"},
-            "likely_failure_mode": {"type": "string"},
-        },
-        "required": contract["required_fields"],
-    }
     slots = int(config["provider"]["proposals_per_generation_call"])
     names = [f"idea_{index:02d}" for index in range(1, slots + 1)]
     return {
@@ -258,7 +214,15 @@ def _proposal_schema(config: Mapping[str, Any]) -> dict[str, Any]:
             "proposals": {
                 "type": "object",
                 "additionalProperties": False,
-                "properties": {name: proposal for name in names},
+                "properties": {
+                    name: {
+                        "type": "string",
+                        "description": (
+                            "One JSON-serialized proposal object containing exactly the frozen required fields."
+                        ),
+                    }
+                    for name in names
+                },
                 "required": names,
             }
         },
@@ -269,34 +233,6 @@ def _proposal_schema(config: Mapping[str, Any]) -> dict[str, Any]:
 def _critic_schema(
     proposal_ids: Sequence[str], config: Mapping[str, Any]
 ) -> dict[str, Any]:
-    assessment = {
-        "type": "object",
-        "additionalProperties": False,
-        "properties": {
-            "lineage_reclassification": {
-                "type": "string",
-                "enum": config["proposal_contract"]["origin_labels"],
-            },
-            "nearest_known_analogue": {"type": "string"},
-            "dimensional_consistency": {
-                "type": "string",
-                "enum": ["consistent", "repairable", "inconsistent", "uncertain"],
-            },
-            "independent_physical_concern": {"type": "string"},
-            "suggested_repair": {"type": "string"},
-            "retain_for_empirical_test": {"type": "boolean"},
-            "confidence": {"type": "integer"},
-        },
-        "required": [
-            "lineage_reclassification",
-            "nearest_known_analogue",
-            "dimensional_consistency",
-            "independent_physical_concern",
-            "suggested_repair",
-            "retain_for_empirical_test",
-            "confidence",
-        ],
-    }
     return {
         "type": "object",
         "additionalProperties": False,
@@ -304,7 +240,15 @@ def _critic_schema(
             "assessments": {
                 "type": "object",
                 "additionalProperties": False,
-                "properties": {proposal_id: assessment for proposal_id in proposal_ids},
+                "properties": {
+                    proposal_id: {
+                        "type": "string",
+                        "description": (
+                            "One JSON-serialized independent assessment with exactly the frozen critic fields."
+                        ),
+                    }
+                    for proposal_id in proposal_ids
+                },
                 "required": list(proposal_ids),
             }
         },
@@ -345,6 +289,13 @@ def _generation_prompt(
             "State a falsifier and likely failure mode; neither is grounds to delete the idea.",
             "Do not claim proof, empirical support, or historical novelty.",
         ],
+        "required_proposal_fields": config["proposal_contract"]["required_fields"],
+        "allowed_unary_transforms": config["proposal_contract"]["unary_transforms"],
+        "allowed_binary_operators": config["proposal_contract"]["binary_operators"],
+        "allowed_mixing_grid": config["proposal_contract"]["mixing_grid"],
+        "wire_format": (
+            "Each idea_NN value must be a JSON-serialized object string, not prose, with exactly required_proposal_fields."
+        ),
         "outer_parameter_rule": config["proposal_contract"]["outer_parameter_rule"],
         "primitive_catalog": _catalog_for_prompt(_catalog(root)),
     }
@@ -394,6 +345,18 @@ def _critic_prompt(
             "Independently audit these blind gravity structures for lineage, dimensional coherence, and physical weaknesses. You have no observed outcomes, losses, object identities, or confirmation data. Your advice is archived but never vetoes an executable proposal."
         ),
         "origin_labels": config["proposal_contract"]["origin_labels"],
+        "required_assessment_fields": [
+            "lineage_reclassification",
+            "nearest_known_analogue",
+            "dimensional_consistency",
+            "independent_physical_concern",
+            "suggested_repair",
+            "retain_for_empirical_test",
+            "confidence"
+        ],
+        "wire_format": (
+            "Each proposal-ID value must be a JSON-serialized assessment object string with exactly required_assessment_fields."
+        ),
         "proposals": summaries,
     }
     prompt = json.dumps(payload, sort_keys=True, separators=(",", ":"))
@@ -628,15 +591,27 @@ def _normalize_generation_output(
     expected = {f"idea_{index:02d}" for index in range(1, slots + 1)}
     if not isinstance(proposals, Mapping) or set(proposals) != expected:
         raise GravityItem50Error("generation output slots changed")
+    decoded: list[Mapping[str, Any]] = []
+    for name in sorted(expected):
+        value = proposals[name]
+        if not isinstance(value, str):
+            raise GravityItem50Error("generation proposal slot is not a string")
+        try:
+            parsed = json.loads(value)
+        except json.JSONDecodeError as error:
+            raise GravityItem50Error("generation proposal slot is not JSON") from error
+        if not isinstance(parsed, Mapping):
+            raise GravityItem50Error("generation proposal slot is not an object")
+        decoded.append(parsed)
     return [
         _normalize_proposal(
-            proposals[name],
+            value,
             call=call,
             slot=index,
             config=config,
             config49=config49,
         )
-        for index, name in enumerate(sorted(expected), 1)
+        for index, value in enumerate(decoded, 1)
     ]
 
 
@@ -856,6 +831,12 @@ def _normalize_critic_output(
     result = []
     for proposal_id in proposal_ids:
         row = assessments[proposal_id]
+        if not isinstance(row, str):
+            raise GravityItem50Error("critic assessment slot is not a string")
+        try:
+            row = json.loads(row)
+        except json.JSONDecodeError as error:
+            raise GravityItem50Error("critic assessment slot is not JSON") from error
         expected = {
             "lineage_reclassification",
             "nearest_known_analogue",
