@@ -18,6 +18,21 @@ LANE_IDS = (
     "LOCUSS_XRAY_AND_WEAK_LENSING",
     "INDEPENDENT_CHANDRA_THERMODYNAMICS",
     "ACT_OR_SPT_RADIAL_SZ",
+    "CHEX_MATE_A302_PRESSURE_SUBSAMPLE",
+    "ACT_DR6_ERASS1_PROSPECTIVE_REDUCTION",
+)
+SOURCE_IDS = (
+    "CHEX_MATE_TEMPERATURE_METHOD",
+    "CHEX_MATE_XMM_ARCHIVE",
+    "LOCUSS_XRAY_ANALYSIS",
+    "ACCEPT_HEASARC",
+    "ACT_LAMBDA_RELEASES",
+    "SPT_LAMBDA_RELEASES",
+    "CHEX_MATE_A302_PRESSURE_PAPER",
+    "ACT_DR6_CLUSTER_PAPER",
+    "ACT_DR6_CLUSTER_RELEASE",
+    "ACT_DR6_MAP_RELEASE",
+    "ERASS1_CLUSTER_RELEASE",
 )
 READINESS_FIELDS = (
     "public_object_inventory",
@@ -109,7 +124,10 @@ def validate_config(config: Mapping[str, Any]) -> None:
         raise GravityClusterDataContractError("independent data contract identity changed")
 
     sources = config["metadata_sources"]
-    if len(sources) != 6 or {row["lane_id"] for row in sources} != set(LANE_IDS):
+    if (
+        tuple(row["source_id"] for row in sources) != SOURCE_IDS
+        or {row["lane_id"] for row in sources} != set(LANE_IDS)
+    ):
         raise GravityClusterDataContractError("source metadata inventory changed")
     for source in sources:
         _strict(
@@ -137,6 +155,7 @@ def validate_config(config: Mapping[str, Any]) -> None:
                 "payload_opened",
                 "selected_role",
                 "readiness",
+                "audit_details",
                 "decision",
             },
             "candidate lane",
@@ -150,6 +169,34 @@ def validate_config(config: Mapping[str, Any]) -> None:
             or "BLOCKED" not in lane["decision"]
         ):
             raise GravityClusterDataContractError("candidate lane seal or status changed")
+        audit = lane["audit_details"]
+        _strict(
+            audit,
+            {
+                "observed_availability",
+                "exact_missing_fields",
+                "population_and_power_limitations",
+                "licensing_blocker",
+                "overlap_blocker",
+                "covariance_blocker",
+                "payload_commitment",
+            },
+            "candidate lane audit details",
+        )
+        missing_fields = [
+            key for key, value in lane["readiness"].items() if not value
+        ]
+        if (
+            not audit["observed_availability"]
+            or not all(isinstance(item, str) and item for item in audit["observed_availability"])
+            or audit["exact_missing_fields"] != missing_fields
+            or not audit["population_and_power_limitations"]
+            or not audit["licensing_blocker"]
+            or not audit["overlap_blocker"]
+            or not audit["covariance_blocker"]
+            or audit["payload_commitment"] is not None
+        ):
+            raise GravityClusterDataContractError("candidate lane audit is incomplete")
 
     required_manifest = list(map(str, config["source_manifest_required_fields"]))
     if len(required_manifest) != 18 or len(set(required_manifest)) != 18:
@@ -258,19 +305,23 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "blocking_readiness_fields": [
                     key for key, value in lane["readiness"].items() if not value
                 ],
+                "audit_details": lane["audit_details"],
             }
             for lane in lanes
         ],
         "completed_goal_evidence": {
             "CP3.7": "units_cosmology_distance_transformations_and_redshift_uses_frozen",
             "CP3.8": "target_derived_halo_mass_and_post_response_leakage_fail_closed",
-            "CP7.1": "four_candidate_source_lanes_audited_from_primary_or_official_metadata",
+            "CP7.1": "six_candidate_source_lanes_audited_from_primary_or_official_metadata",
         },
         "blocked_goal_evidence": {
             "CP3.5": "no_selected_independent_lane_or_file_level_payload_manifest",
             "CP3.6": "no_real_source_packet_with_all_calibration_and_covariance_roles",
             "CP7.2": "no_lane_satisfies_all_required_direct_observable_and_covariance_fields",
+            "CP7.3": "xcop_overlap_not_audited_for_any_candidate_lane",
+            "CP7.9": "no_source_lane_has_a_metadata_only_payload_commitment_or_file_receipt",
         },
+        "gate_status": {"CP3": "PARTIAL", "CP7": "PARTIAL"},
         "counts": {
             "metadata_sources": len(config["metadata_sources"]),
             "candidate_lanes": len(lanes),
@@ -290,7 +341,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "target_rows_accessed": False,
             "scientific_result_emitted": False,
         },
-        "next_action": "Resolve public file-level profiles, covariances, licenses, and X-COP overlap for CHEX-MATE before selecting a primary lane.",
+        "next_action": "Resolve file-level direct-observable releases or frozen reduction manifests, eligible population and power, full covariance, per-file licenses, and X-COP overlap before selecting any lane or committing a payload.",
     }
     return {**body, "content_sha256": _sha(body)}
 

@@ -164,6 +164,12 @@ model-derived invisible component is treated as truth.
 - [x] **CP3.8** Add fail-closed detection for target-derived predictors, halo labels,
   derived masses, and post-response exclusions.
 
+The expanded metadata audit does not change CP3 readiness. Neither CHEX-MATE A302 nor
+the ACT DR6 × eRASS1 reduction concept has a verified all-fields file manifest, complete
+calibration/covariance bindings, per-file reuse terms, or a committed payload. CP3.5 and
+CP3.6 therefore remain open, observational authorization remains false, and zero
+independent target rows are open.
+
 ## CP4 — matched-flexibility comparator suite
 
 Advance criteria: the candidate wins, loses, or ties against the strongest conventional
@@ -327,8 +333,9 @@ constraints, not used to erase the development result.
 Advance criteria: an eligible population is frozen without opening candidate-target
 responses and has no X-COP overlap or reduction-family dependence hidden as independence.
 
-- [x] **CP7.1** Audit CHEX-MATE, LoCuSS, independent Chandra samples, and available
-  ACT/SPT thermodynamic profiles for usable direct observables and covariances.
+- [x] **CP7.1** Audit CHEX-MATE, LoCuSS, independent Chandra, ACT/SPT, the
+  CHEX-MATE A&A 704 A302 subsample, and an ACT DR6 × eRASS1 prospective reduction
+  for usable direct observables and covariances.
 - [ ] **CP7.2** Select one primary independent thermodynamic sample and one secondary
   replication lane.
 - [ ] **CP7.3** Remove and record every X-COP object overlap.
@@ -347,10 +354,33 @@ CHEX-MATE is a representative 118-cluster XMM program with a dedicated temperatu
 pipeline (https://arxiv.org/abs/2402.18653). LoCuSS offers an independent 50-cluster
 X-ray and weak-lensing comparison (https://arxiv.org/abs/1511.01919). Eligibility depends
 on actual public payloads, overlap, covariance, and licensing—not the paper abstract.
+CHEX-MATE A&A 704 A302
+(https://doi.org/10.1051/0004-6361/202556045) is now recorded as a separate blocked
+lane: it documents XMM-Newton and Planck pressure profiles for 28 DR1 clusters, with a
+24-cluster dynamical-mass subset used for the joint mass fit. Both counts are below the
+120-object minimum. The paper propagates Planck pressure covariance, but starts from a
+non-public MILCA all-sky y-map; no official all-fields packet, stellar-baryon profile set,
+complete public joint covariance, per-file license binding, or X-COP overlap audit was
+verified.
+
+ACT DR6 × eRASS1 is recorded only as a prospective reduction lane. Official releases
+document 10,040 ACT DR6 SZ candidates
+(https://lambda.gsfc.nasa.gov/product/act/actadv_dr6_szcluster_catalog_info.html), ACT
+DR6 maps and calibration inputs
+(https://lambda.gsfc.nasa.gov/product/act/act_dr6.02/act_dr6.02_maps_info.html), and
+12,247 eRASS1 primary clusters
+(https://erosita.mpe.mpg.de/dr1/AllSkySurveyData_dr1/Catalogues_dr1/). Those large
+parent inventories do not establish the eligible resolved-profile sample. Direct
+gas-density, stellar-baryon, deprojected SZ-pressure, spectroscopic-temperature,
+complete calibration-role, and full joint-covariance files remain unverified, as do
+per-file reuse terms and X-COP exclusions. Map inverse variance is not a substitute for
+object-profile covariance, and catalog mass or SZ proxies remain forbidden targets.
+
 The metadata-only audit and frozen transformation rules are machine-bound in
 `configs/gravity_cluster_independent_data_contract_v1.json`. It found zero fully ready
-lanes and opened zero payloads or target rows; CP7.2 therefore remains blocked rather
-than treating archive or paper availability as a complete replication packet.
+lanes across all six candidates and opened zero payloads or target rows. CP3 and CP7
+therefore remain PARTIAL; CP7.2, CP7.3, and CP7.9 remain open rather than treating
+archive, map, catalog, or paper availability as a complete replication packet.
 
 The preselection protocol is machine-bound in
 `configs/gravity_cluster_independent_replication_protocol_v1.json` and

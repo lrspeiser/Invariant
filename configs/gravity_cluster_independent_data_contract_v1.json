@@ -52,6 +52,46 @@
       "url": "https://lambda.gsfc.nasa.gov/product/spt/spt_prod_table.html",
       "doi": null,
       "audited_fact": "NASA LAMBDA exposes SPT maps, noise spectra, bandpasses, transfer functions, beams, masks, and catalogs; an independent object-level profile extraction remains required."
+    },
+    {
+      "source_id": "CHEX_MATE_A302_PRESSURE_PAPER",
+      "lane_id": "CHEX_MATE_A302_PRESSURE_SUBSAMPLE",
+      "source_type": "primary_paper",
+      "url": "https://doi.org/10.1051/0004-6361/202556045",
+      "doi": "10.1051/0004-6361/202556045",
+      "audited_fact": "CHEX-MATE A&A 704 A302 presents XMM-Newton and Planck pressure profiles for 28 DR1 clusters and a 24-cluster subset with dynamical-mass estimates; it propagates Planck pressure covariance but uses a non-public MILCA all-sky y-map and does not establish a public file-level release containing every CP3 predictor, response, calibration, and covariance role."
+    },
+    {
+      "source_id": "ACT_DR6_CLUSTER_PAPER",
+      "lane_id": "ACT_DR6_ERASS1_PROSPECTIVE_REDUCTION",
+      "source_type": "primary_paper",
+      "url": "https://arxiv.org/abs/2507.21459",
+      "doi": "10.33232/001c.155863",
+      "audited_fact": "The ACT DR6 v3 catalog reports 10,040 SZ-selected cluster candidates, including a 3,758-object Legacy sample, and documents public catalog products; catalog observables and mass proxies are not direct radial thermodynamic profiles."
+    },
+    {
+      "source_id": "ACT_DR6_CLUSTER_RELEASE",
+      "lane_id": "ACT_DR6_ERASS1_PROSPECTIVE_REDUCTION",
+      "source_type": "official_archive",
+      "url": "https://lambda.gsfc.nasa.gov/product/act/actadv_dr6_szcluster_catalog_info.html",
+      "doi": null,
+      "audited_fact": "NASA LAMBDA exposes the ACT DR6 v1.0 cluster catalog, masks, eRASS1 crossmatch flags, and forced-photometry documentation; these products do not form an object-level density, stellar-baryon, SZ-pressure, and X-ray-temperature packet."
+    },
+    {
+      "source_id": "ACT_DR6_MAP_RELEASE",
+      "lane_id": "ACT_DR6_ERASS1_PROSPECTIVE_REDUCTION",
+      "source_type": "official_archive",
+      "url": "https://lambda.gsfc.nasa.gov/product/act/act_dr6.02/act_dr6.02_maps_info.html",
+      "doi": null,
+      "audited_fact": "NASA LAMBDA exposes ACT DR6.02 maps, inverse-variance maps, null splits, beams, and bandpass products; map-level noise and calibration assets are inputs to a prospective reduction, not verified deprojected object-pressure profiles or complete cross-instrument covariance."
+    },
+    {
+      "source_id": "ERASS1_CLUSTER_RELEASE",
+      "lane_id": "ACT_DR6_ERASS1_PROSPECTIVE_REDUCTION",
+      "source_type": "official_archive",
+      "url": "https://erosita.mpe.mpg.de/dr1/AllSkySurveyData_dr1/Catalogues_dr1/",
+      "doi": "10.1051/0004-6361/202348264",
+      "audited_fact": "The official eROSITA DR1 catalog page exposes the 12,247-object eRASS1 primary cluster catalog and data model; it does not expose a joined CP3 packet of resolved gas-density, stellar-baryon, SZ-pressure, and spectroscopic-temperature profiles with full covariance."
     }
   ],
   "candidate_lanes": [
@@ -72,6 +112,27 @@
         "license_per_file_verified": false,
         "xcop_overlap_audited": false
       },
+      "audit_details": {
+        "observed_availability": [
+          "A 118-object CHEX-MATE inventory, a published 30-object temperature-method demonstration, and the official XMM-Newton observation collection are publicly documented.",
+          "No single official release was verified to expose the complete density, stellar-baryon, SZ-pressure, temperature, calibration, and covariance packet required by CP3."
+        ],
+        "exact_missing_fields": [
+          "gas_density_profile_files_verified",
+          "stellar_baryon_profile_files_verified",
+          "sz_pressure_profile_files_verified",
+          "xray_temperature_profile_files_verified",
+          "calibration_role_files_verified",
+          "full_covariance_files_verified",
+          "license_per_file_verified",
+          "xcop_overlap_audited"
+        ],
+        "population_and_power_limitations": "The full 118-object program is below the frozen 120-object minimum and 192-object target before availability, quality, and overlap cuts; the demonstrated 30-object subset is smaller still.",
+        "licensing_blocker": "Article and observation-archive availability does not bind reuse terms to every required derived profile, calibration, and covariance file.",
+        "overlap_blocker": "Object aliases have not been reconciled against X-COP, so the untouched independent population is unknown.",
+        "covariance_blocker": "No complete public within-profile and cross-instrument covariance bundle for all required density, temperature, and pressure channels has been verified.",
+        "payload_commitment": null
+      },
       "decision": "POTENTIAL_PRIMARY_BLOCKED_DERIVED_PAYLOAD_COVARIANCE_AND_OVERLAP_AUDIT"
     },
     {
@@ -90,6 +151,27 @@
         "full_covariance_files_verified": false,
         "license_per_file_verified": false,
         "xcop_overlap_audited": false
+      },
+      "audit_details": {
+        "observed_availability": [
+          "A published 50-cluster Chandra/XMM-Newton analysis documents surface-brightness and temperature work.",
+          "No official complete CP3 file packet for this lane was verified."
+        ],
+        "exact_missing_fields": [
+          "gas_density_profile_files_verified",
+          "stellar_baryon_profile_files_verified",
+          "sz_pressure_profile_files_verified",
+          "xray_temperature_profile_files_verified",
+          "calibration_role_files_verified",
+          "full_covariance_files_verified",
+          "license_per_file_verified",
+          "xcop_overlap_audited"
+        ],
+        "population_and_power_limitations": "The 50-object parent sample is below both the frozen 120-object minimum and 192-object target before quality and overlap cuts.",
+        "licensing_blocker": "Publication access does not establish per-file reuse terms for every required profile, calibration asset, and covariance product.",
+        "overlap_blocker": "Aliases and sample membership have not been audited against X-COP.",
+        "covariance_blocker": "A complete released covariance across radius, X-ray instruments, and the required pressure channel has not been verified.",
+        "payload_commitment": null
       },
       "decision": "POTENTIAL_SECONDARY_BLOCKED_PROFILE_FILES_COVARIANCE_AND_PRESSURE_CHANNEL"
     },
@@ -110,6 +192,25 @@
         "license_per_file_verified": false,
         "xcop_overlap_audited": false
       },
+      "audit_details": {
+        "observed_availability": [
+          "HEASARC publicly exposes the 239-cluster ACCEPT entropy-profile catalog, including density and temperature information.",
+          "ACCEPT is not an SZ-pressure or stellar-baryon release."
+        ],
+        "exact_missing_fields": [
+          "stellar_baryon_profile_files_verified",
+          "sz_pressure_profile_files_verified",
+          "calibration_role_files_verified",
+          "full_covariance_files_verified",
+          "license_per_file_verified",
+          "xcop_overlap_audited"
+        ],
+        "population_and_power_limitations": "The 239-object parent inventory exceeds 192, but the eligible joined population after pressure, stellar-baryon, quality, licensing, and overlap requirements is unknown and cannot be treated as powered.",
+        "licensing_blocker": "Per-file reuse terms for a future joined multi-archive packet have not been bound.",
+        "overlap_blocker": "The archival sample has not been de-duplicated against X-COP or the other prospective confirmation sources.",
+        "covariance_blocker": "The catalog does not supply a verified complete joint radial covariance for density, temperature, pressure, and cross-calibration nuisances.",
+        "payload_commitment": null
+      },
       "decision": "POTENTIAL_SECONDARY_BLOCKED_SZ_STELLAR_COVARIANCE_AND_OVERLAP_REQUIREMENTS"
     },
     {
@@ -129,7 +230,109 @@
         "license_per_file_verified": false,
         "xcop_overlap_audited": false
       },
+      "audit_details": {
+        "observed_availability": [
+          "NASA LAMBDA exposes ACT and SPT maps, catalogs, beams, masks, noise, transfer-function, and bandpass assets.",
+          "Map availability does not establish object-level deprojected pressure profiles or the X-ray and stellar-baryon channels."
+        ],
+        "exact_missing_fields": [
+          "gas_density_profile_files_verified",
+          "stellar_baryon_profile_files_verified",
+          "sz_pressure_profile_files_verified",
+          "xray_temperature_profile_files_verified",
+          "full_covariance_files_verified",
+          "license_per_file_verified",
+          "xcop_overlap_audited"
+        ],
+        "population_and_power_limitations": "No object set or joined eligible population is selected, so neither the 120-object minimum nor 192-object target can be claimed.",
+        "licensing_blocker": "Public map access has not been converted into per-file reuse bindings for a derived multi-survey profile packet.",
+        "overlap_blocker": "No object-level lane exists yet to audit against X-COP.",
+        "covariance_blocker": "Map noise products are not a verified complete object-profile covariance across radius, deprojection, calibration, foreground, and X-ray channels.",
+        "payload_commitment": null
+      },
       "decision": "MAP_LEVEL_ASSETS_AVAILABLE_BLOCKED_OBJECT_PROFILE_EXTRACTION_AND_XRAY_BARYON_CHANNELS"
+    },
+    {
+      "lane_id": "CHEX_MATE_A302_PRESSURE_SUBSAMPLE",
+      "sample_scope": "28 CHEX-MATE DR1 clusters with XMM-Newton and Planck pressure profiles in A&A 704 A302; 24 have dynamical-mass estimates for the joint mass fit",
+      "instrument_family": "XMM-Newton plus Planck",
+      "payload_opened": false,
+      "selected_role": null,
+      "readiness": {
+        "public_object_inventory": true,
+        "gas_density_profile_files_verified": false,
+        "stellar_baryon_profile_files_verified": false,
+        "sz_pressure_profile_files_verified": false,
+        "xray_temperature_profile_files_verified": false,
+        "calibration_role_files_verified": false,
+        "full_covariance_files_verified": false,
+        "license_per_file_verified": false,
+        "xcop_overlap_audited": false
+      },
+      "audit_details": {
+        "observed_availability": [
+          "CHEX-MATE A&A 704 A302 documents XMM-Newton and Planck pressure profiles for 28 DR1 clusters; its joint mass-fit subset contains the 24 clusters with dynamical-mass estimates.",
+          "The Planck reduction propagates correlated Compton-y noise into pressure covariance matrices, but it starts from a non-public MILCA all-sky y-map.",
+          "The primary article is public, but no official all-fields file bundle satisfying the frozen source manifest was verified."
+        ],
+        "exact_missing_fields": [
+          "gas_density_profile_files_verified",
+          "stellar_baryon_profile_files_verified",
+          "sz_pressure_profile_files_verified",
+          "xray_temperature_profile_files_verified",
+          "calibration_role_files_verified",
+          "full_covariance_files_verified",
+          "license_per_file_verified",
+          "xcop_overlap_audited"
+        ],
+        "population_and_power_limitations": "The 28-cluster pressure sample and its 24-cluster dynamical-mass subset are below the frozen 120-object minimum and 192-object target, even before availability, quality, and overlap exclusions; neither can be the powered primary confirmation sample.",
+        "licensing_blocker": "The article license does not establish per-file reuse terms for every underlying or derived profile, calibration product, and covariance file.",
+        "overlap_blocker": "The 28 pressure-sample aliases have not been audited against X-COP, so independent membership is unverified.",
+        "covariance_blocker": "The paper documents Planck pressure-covariance propagation, but the underlying MILCA y-map is non-public and no released complete density-temperature-pressure and cross-instrument covariance packet was verified.",
+        "payload_commitment": null
+      },
+      "decision": "PUBLISHED_JOINT_ANALYSIS_BLOCKED_FILE_LEVEL_PACKET_STELLAR_BARYONS_POWER_LICENSE_COVARIANCE_AND_OVERLAP"
+    },
+    {
+      "lane_id": "ACT_DR6_ERASS1_PROSPECTIVE_REDUCTION",
+      "sample_scope": "ACT DR6 contains 10,040 SZ candidates and eRASS1 contains 12,247 primary catalog clusters; the joined resolved-profile eligible population is not yet defined",
+      "instrument_family": "ACT DR6 millimeter maps plus eROSITA eRASS1 X-ray catalogs and a prospective profile reduction",
+      "payload_opened": false,
+      "selected_role": null,
+      "readiness": {
+        "public_object_inventory": true,
+        "gas_density_profile_files_verified": false,
+        "stellar_baryon_profile_files_verified": false,
+        "sz_pressure_profile_files_verified": false,
+        "xray_temperature_profile_files_verified": false,
+        "calibration_role_files_verified": false,
+        "full_covariance_files_verified": false,
+        "license_per_file_verified": false,
+        "xcop_overlap_audited": false
+      },
+      "audit_details": {
+        "observed_availability": [
+          "Official ACT DR6 releases expose a 10,040-candidate catalog, masks, eRASS1 crossmatch flags, maps, inverse-variance products, null splits, beams, and bandpasses.",
+          "The official eRASS1 release exposes a 12,247-object primary cluster catalog and sky-survey data model.",
+          "These public assets define a prospective target-blind reduction route; they do not constitute a ready joined radial-profile packet."
+        ],
+        "exact_missing_fields": [
+          "gas_density_profile_files_verified",
+          "stellar_baryon_profile_files_verified",
+          "sz_pressure_profile_files_verified",
+          "xray_temperature_profile_files_verified",
+          "calibration_role_files_verified",
+          "full_covariance_files_verified",
+          "license_per_file_verified",
+          "xcop_overlap_audited"
+        ],
+        "population_and_power_limitations": "Large parent catalogs do not establish a powered sample: the eligible count after resolved X-ray spectroscopy, radial SZ deprojection, stellar-baryon coverage, quality, licensing, and X-COP exclusion is unknown and cannot be compared with the 120-object minimum or 192-object target.",
+        "licensing_blocker": "Public access is not yet bound to per-file reuse and derived-product terms for every ACT, eROSITA, optical/stellar, calibration, and covariance input.",
+        "overlap_blocker": "The prospective joined population and its object aliases have not been frozen or audited against X-COP.",
+        "covariance_blocker": "ACT inverse-variance and null products are not a complete object-profile covariance, and no joined covariance across SZ deprojection, eROSITA radial density/temperature, stellar baryons, calibration, and cross-instrument systematics is verified.",
+        "payload_commitment": null
+      },
+      "decision": "PROSPECTIVE_REDUCTION_BLOCKED_DIRECT_PROFILE_PACKET_STELLAR_BARYONS_ELIGIBLE_POWER_LICENSE_COVARIANCE_AND_OVERLAP"
     }
   ],
   "source_manifest_required_fields": [

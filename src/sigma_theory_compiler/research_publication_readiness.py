@@ -362,7 +362,7 @@ def validate_project(
     )
     if (
         data["source_metadata_only"] is not True
-        or len(data["candidate_lanes"]) != 4
+        or len(data["candidate_lanes"]) != 6
         or data["selected_primary_lane"] is not None
         or data["selected_secondary_lane"] is not None
         or data["authorized_target_packets"] != []
@@ -465,7 +465,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or data_contract["claims"]["independent_source_selected"] is not False
         or data_contract["claims"]["target_rows_accessed"] is not False
         or data_contract["counts"]["fully_ready_lanes"] != 0
-        or data_contract["counts"]["candidate_lanes"] != 4
+        or data_contract["counts"]["candidate_lanes"] != 6
     ):
         raise ResearchPublicationReadinessError("independent data contract changed")
     if (
