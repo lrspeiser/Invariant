@@ -384,6 +384,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "nuisance_sampler_diagnostic",
         "nuisance_identifiability_audit",
         "nuisance_quotient_audit",
+        "nuisance_quotient_sampler_implementation",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -432,6 +433,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     nuisance_diagnostic = evidence["nuisance_sampler_diagnostic"]
     nuisance_identifiability = evidence["nuisance_identifiability_audit"]
     nuisance_quotient = evidence["nuisance_quotient_audit"]
+    nuisance_quotient_sampler = evidence["nuisance_quotient_sampler_implementation"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -541,6 +543,39 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or nuisance_quotient["counts"]["paid_model_calls"] != 0
     ):
         raise ResearchPublicationReadinessError("nuisance quotient audit changed")
+    if (
+        nuisance_quotient_sampler["status"]
+        != "canonical_bounded_controls_and_smoke_only_external_approval_required"
+        or nuisance_quotient_sampler["authorization_and_execution"]
+        != {
+            "production_authorized": False,
+            "authorized_manifests_present": False,
+            "production_launches": 0,
+            "external_approval_required": True,
+        }
+        or nuisance_quotient_sampler["publication_readiness"]
+        != {
+            "completed_tasks": 59,
+            "open_tasks": 63,
+            "total_tasks": 122,
+            "CP5_status": "PARTIAL",
+            "CP5_7_through_CP5_10": "OPEN",
+            "implementation_evidence_only": True,
+            "scientific_claims_added": False,
+            "candidate_production_claim": False,
+        }
+        or nuisance_quotient_sampler["frozen_mechanics"][
+            "bounded_smoke_forward_evaluations"
+        ]
+        != 852
+        or nuisance_quotient_sampler["frozen_mechanics"][
+            "maximum_production_forward_evaluations"
+        ]
+        != 1_575_104
+    ):
+        raise ResearchPublicationReadinessError(
+            "nuisance quotient sampler implementation evidence changed"
+        )
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True

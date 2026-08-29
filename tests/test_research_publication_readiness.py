@@ -153,7 +153,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 5,
         "blocked_gates": 1,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 15,
+        "bound_evidence_receipts": 16,
         "independent_target_rows_opened": 0,
     }
 

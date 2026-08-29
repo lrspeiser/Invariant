@@ -22,6 +22,7 @@ SOURCE_IDS = (
     "data_contract",
     "replication_protocol",
     "prior_art",
+    "nuisance_quotient_sampler_implementation",
 )
 
 
@@ -163,6 +164,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     data_contract = sources["data_contract"]
     protocol = sources["replication_protocol"]
     prior_art = sources["prior_art"]
+    nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     readiness = _read_json(root / READINESS_PATH)
     _content_sha(readiness)
 
@@ -225,6 +227,29 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "CP12.12": "bounded_paper_gates_not_passed_and_no_submission_authorized",
         },
         "environment_and_revisions": config["environment_freeze"],
+        "nuisance_quotient_sampler_implementation": {
+            "decision": nuisance_sampler["decision"],
+            "status": nuisance_sampler["status"],
+            "implementation_evidence_only": nuisance_sampler["publication_readiness"][
+                "implementation_evidence_only"
+            ],
+            "scientific_claims_added": nuisance_sampler["publication_readiness"][
+                "scientific_claims_added"
+            ],
+            "production_authorized": nuisance_sampler["authorization_and_execution"][
+                "production_authorized"
+            ],
+            "production_launches": nuisance_sampler["authorization_and_execution"][
+                "production_launches"
+            ],
+            "bounded_smoke_forward_evaluations": nuisance_sampler["frozen_mechanics"][
+                "bounded_smoke_forward_evaluations"
+            ],
+            "CP5_status": nuisance_sampler["publication_readiness"]["CP5_status"],
+            "CP5_7_through_CP5_10": nuisance_sampler["publication_readiness"][
+                "CP5_7_through_CP5_10"
+            ],
+        },
         "access_ledger": access,
         "split_summaries": split_summaries,
         "per_row_candidate_predictions": per_row,
@@ -285,14 +310,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
         "claim_tracks": readiness["claim_tracks"],
         "claims": config["claim_boundary"],
         "limitations": sorted(
-            set(
-                [
-                    *map(str, item59["limitations"]),
-                    *map(str, comparators["limitations"]),
-                    *map(str, uncertainty["limitations"]),
-                    *map(str, numerical["limitations"]),
-                ]
-            )
+            {
+                *map(str, item59["limitations"]),
+                *map(str, comparators["limitations"]),
+                *map(str, uncertainty["limitations"]),
+                *map(str, numerical["limitations"]),
+            }
         ),
         "counts": {
             "per_row_candidate_predictions": len(per_row),

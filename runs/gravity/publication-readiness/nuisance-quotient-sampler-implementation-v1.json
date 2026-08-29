@@ -1,0 +1,93 @@
+{
+  "authorization_and_execution": {
+    "authorized_manifests_present": false,
+    "external_approval_required": true,
+    "production_authorized": false,
+    "production_launches": 0
+  },
+  "canonicalization": {
+    "canonical_source_or_artifact_binds_development_workspace": false,
+    "historical_prototype_ledgers_retained": true,
+    "prototype_generation_2_current_execution_basis": false,
+    "prototype_generation_5_current_execution_basis": false,
+    "self_contained_canonical_implementation": true
+  },
+  "content_sha256": "4571e84d0706e9ad857d3554fec040a0bf56a6c78f363db2f758f13d7224749a",
+  "decision": "CANONICAL_NUISANCE_QUOTIENT_SAMPLER_IMPLEMENTED_CONTROLS_PASS_PRODUCTION_UNAUTHORIZED",
+  "evidence": {
+    "atomic_no_clobber_controls": {
+      "file_sha256": "e30eb78053c768744eec761f4f90b09fc46b2e8f3e548b15a4f467b54abd8740",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sampler-v1/atomic-no-clobber-controls.json"
+    },
+    "authorization_transition_controls": {
+      "file_sha256": "0fc2189b5b219c0b6a93c7503cb71db5e34a9e87920729f4680e539c12187d9b",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sampler-v1/authorization-transition-controls.json"
+    },
+    "bounded_controls": {
+      "file_sha256": "bb2d42a9d4166ffbcb461a9350782bed573c49e6f38621e4645a42c7103bd96b",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sampler-v1/controls.json"
+    },
+    "bounded_smoke": {
+      "file_sha256": "7b4780eff19e14225c8703cc9270367b627083afc679086987c77b2cd5dc4705",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sampler-v1/bounded-smoke.npz"
+    },
+    "config": {
+      "file_sha256": "c7222acad7071929fff39c23216e1cf2142b967e96c40434764a115a6cf3fc17",
+      "path": "configs/gravity_cluster_nuisance_quotient_sampler_v1.json"
+    },
+    "current_unauthorized_manifest": {
+      "file_sha256": "8be4ac7942833bcea4343a7d3ac5fed6a151f4e64573bb70307339b789b3a781",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sampler-v1/authorization-current-unauthorized.json"
+    },
+    "implementation_source": {
+      "file_sha256": "975b9f69a614d7d419dcc44ac340c86b27a85e6e9fed7ed63d6f6caff228abcb",
+      "path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sampler.py"
+    },
+    "quotient_predecessor": {
+      "file_sha256": "65dd1909e11a724e01b9614b1a0bb611d7a3c2f5baf8c54edba9bd27b229af08",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-audit-v1.json"
+    },
+    "sobol_start_population": {
+      "file_sha256": "713402f917486ed0e8d08160bc22ce7e85bf9f166674d9829267665ffc53fa35",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sampler-v1/sobol-start-population.npz"
+    },
+    "train_only_packet": {
+      "file_sha256": "a8efa90d569ea79f895a136b8177da1fb00681ce5bac1a169a1675a3515e32dc",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sampler-v1/development-train-packet.json"
+    }
+  },
+  "frozen_mechanics": {
+    "bounded_smoke_forward_evaluations": 852,
+    "independent_sobol_scrambles": 4,
+    "maximum_production_forward_evaluations": 1575104,
+    "orbit_moves": [
+      "stellar",
+      "geometry",
+      "coupled"
+    ],
+    "out_of_bounds_policy": "whole_correlated_proposal_rejected_as_self_loop",
+    "primitive_priors": 17,
+    "quotient_coordinates": 10,
+    "sobol_particles_per_scramble": 512,
+    "train_only_clusters": 8,
+    "train_only_rows": 80
+  },
+  "publication_readiness": {
+    "CP5_7_through_CP5_10": "OPEN",
+    "CP5_status": "PARTIAL",
+    "candidate_production_claim": false,
+    "completed_tasks": 59,
+    "implementation_evidence_only": true,
+    "open_tasks": 63,
+    "scientific_claims_added": false,
+    "total_tasks": 122
+  },
+  "replay_commands": {
+    "bounded_controls": "python -m sigma_theory_compiler.gravity_cluster_nuisance_quotient_sampler controls --contract configs/gravity_cluster_nuisance_quotient_sampler_v1.json --expected-contract-sha256 c7222acad7071929fff39c23216e1cf2142b967e96c40434764a115a6cf3fc17 --output <new-absent-path>.json",
+    "bounded_smoke": "python -m sigma_theory_compiler.gravity_cluster_nuisance_quotient_sampler smoke --contract configs/gravity_cluster_nuisance_quotient_sampler_v1.json --expected-contract-sha256 c7222acad7071929fff39c23216e1cf2142b967e96c40434764a115a6cf3fc17 --output <new-absent-path>.npz",
+    "check": "python -m sigma_theory_compiler.gravity_cluster_nuisance_quotient_sampler check --config configs/gravity_cluster_nuisance_quotient_sampler_v1.json --expected-config-sha256 c7222acad7071929fff39c23216e1cf2142b967e96c40434764a115a6cf3fc17 --implementation-receipt runs/gravity/publication-readiness/nuisance-quotient-sampler-implementation-v1.json",
+    "production": "NOT_AUTHORIZED_AND_NOT_RUN"
+  },
+  "schema_version": "invariant-gravity-cluster-nuisance-quotient-sampler-implementation-1.0",
+  "status": "canonical_bounded_controls_and_smoke_only_external_approval_required"
+}
