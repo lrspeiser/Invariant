@@ -97,3 +97,37 @@ def test_fresh_predictor_source_and_sample_keep_responses_sealed() -> None:
         not in config["schema_audit_exposure"]["excluded_from_every_item43_role"]
         for row in sample["objects"]
     )
+
+
+def test_recorded_result_preserves_negative_transfer_and_formula_family() -> None:
+    config = load_config(ROOT)
+    source_dir = ROOT / config["paths"]["source_dir"]
+    responses = json.loads(
+        (source_dir / config["paths"]["response_source"]).read_text(encoding="utf-8")
+    )
+    evaluation = json.loads(
+        (source_dir / config["paths"]["evaluation_result"]).read_text(encoding="utf-8")
+    )
+    transfer = json.loads(
+        (source_dir / config["paths"]["clash_transfer_result"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    aggregate = json.loads(
+        (ROOT / config["paths"]["aggregate_result"]).read_text(encoding="utf-8")
+    )
+    assert responses["counts"]["exploration_response_rows"] == 28
+    assert responses["counts"]["confirmation_response_rows"] == 0
+    assert evaluation["selected_candidate"]["lane"] == "finite_horizon_fraction"
+    assert evaluation["scores"]["cosmological_boundary"]["loss"] < evaluation[
+        "scores"
+    ]["matched_no_boundary"]["loss"]
+    assert evaluation["scores"]["cosmological_boundary"]["loss"] > evaluation[
+        "scores"
+    ]["ordinary_ridge"]["loss"]
+    assert len(evaluation["robustness"]["systematic_candidate_predictions"]) == 6
+    assert evaluation["counterexample_policy_assessment"]["formula_family_pruned"] is False
+    assert len(transfer["raw_counterexample_clusters"]) == 20
+    assert transfer["aggregate_improvement_percent"] < 0.0
+    assert aggregate["claims"]["formula_family_pruned"] is False
+    assert aggregate["claims"]["single_counterexample_used_as_veto"] is False
