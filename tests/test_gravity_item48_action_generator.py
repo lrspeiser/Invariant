@@ -13,6 +13,8 @@ from sigma_theory_compiler.gravity_item48_action_generator import (
     build_candidate_manifest,
     build_derivation_receipt,
     build_exposure_manifest,
+    build_aggregate_result,
+    build_evaluation_result,
     decode_candidate,
     load_config,
     malformed_action_controls,
@@ -103,3 +105,30 @@ def test_candidate_decoding_preserves_action_provenance() -> None:
     assert decoded["creativity_label"] == "potentially_new_observational_synthesis"
     assert decoded["historical_novelty_claimed"] is False
     assert decoded["derived_flux_equation"] == "epsilon_c*g=g_bar"
+
+
+def test_recorded_result_retains_action_without_promotion() -> None:
+    config = load_config(ROOT)
+    source = ROOT / config["paths"]["source_dir"]
+    evaluation = json.loads(
+        (source / config["paths"]["evaluation_result"]).read_text(encoding="utf-8")
+    )
+    aggregate = json.loads(
+        (ROOT / config["paths"]["aggregate_result"]).read_text(encoding="utf-8")
+    )
+    assert evaluation == build_evaluation_result(ROOT)
+    assert aggregate == build_aggregate_result(ROOT)
+    assert evaluation["selected_candidate"]["candidate_id"] == 245512
+    assert evaluation["selected_candidate"]["action_class"] == "mixed_two_field"
+    assert {
+        row["selected_action"]["candidate_id"] for row in evaluation["fold_ledger"]
+    } == {245512}
+    assert evaluation["scores"]["action_generator"]["balanced_loss"] < evaluation[
+        "scores"
+    ]["ordinary_ridge"]["balanced_loss"]
+    assert evaluation["scores"]["action_generator"]["balanced_loss"] > evaluation[
+        "scores"
+    ]["item45_universal_interaction"]["balanced_loss"]
+    assert aggregate["decision"] == "NONPROMOTED_ITEM48_ACTION_RESULT_RETAINED"
+    assert aggregate["claims"]["formula_family_pruned"] is False
+    assert aggregate["formal_scope"]["covariant_completion"] is False
