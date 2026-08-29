@@ -381,6 +381,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "independent_data_contract",
         "matched_comparator_suite",
         "uncertainty_program",
+        "nuisance_sampler_diagnostic",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -426,6 +427,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     data_contract = evidence["independent_data_contract"]
     comparators = evidence["matched_comparator_suite"]
     uncertainty = evidence["uncertainty_program"]
+    nuisance_diagnostic = evidence["nuisance_sampler_diagnostic"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -478,6 +480,23 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or uncertainty["counts"]["target_rows_opened"] != 0
     ):
         raise ResearchPublicationReadinessError("uncertainty evidence changed")
+    if (
+        nuisance_diagnostic["completed_goal_evidence"] != {}
+        or set(nuisance_diagnostic["blocked_goal_evidence"])
+        != {"CP5.7", "CP5.8", "CP5.9", "CP5.10"}
+        or nuisance_diagnostic["claims"]["correlation_aware_sampler_materially_improved_mixing"]
+        is not True
+        or nuisance_diagnostic["claims"]["posterior_sampler_converged"] is not False
+        or nuisance_diagnostic["claims"]["development_nuisance_marginalization_complete"]
+        is not False
+        or nuisance_diagnostic["claims"]["CP5_7_through_CP5_10_complete"] is not False
+        or nuisance_diagnostic["counts"]["candidate_forward_evaluations"] != 501636
+        or nuisance_diagnostic["counts"]["largest_affine_posterior_draws"] != 115200
+        or nuisance_diagnostic["counts"]["parameters_passing_extended_affine_rhat"] != 0
+        or nuisance_diagnostic["counts"]["target_rows_opened"] != 0
+        or nuisance_diagnostic["counts"]["paid_model_calls"] != 0
+    ):
+        raise ResearchPublicationReadinessError("nuisance sampler diagnostic changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True

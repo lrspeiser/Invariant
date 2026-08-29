@@ -1,0 +1,128 @@
+{
+  "schema_version": "invariant-gravity-cluster-nuisance-sampler-diagnostic-1.0",
+  "status": "frozen_development_diagnostic_no_target_access",
+  "diagnostic_id": "gravity-cluster-nuisance-sampler-diagnostic-v1",
+  "purpose": "Determine whether more brute force or a correlation-aware sampler is sufficient to complete CP5.7-CP5.10 without weakening convergence thresholds or using confirmation or independent target rows.",
+  "source_bindings": [
+    {
+      "source_id": "uncertainty_config",
+      "path": "configs/gravity_cluster_uncertainty_program_v1.json",
+      "file_sha256": "f5172a92a78ded788f78a9b5eda9292276aaddc3e155bcd8f0175bd875191d47",
+      "content_sha256": null
+    },
+    {
+      "source_id": "uncertainty_receipt",
+      "path": "runs/gravity/publication-readiness/uncertainty-program-v1.json",
+      "file_sha256": "ae8f53e395110bb3ac15851c15c6e1206d3bfb3116899046710aa818812aee15",
+      "content_sha256": "189eecb69720a19df616f26c75752cd4334833530304f17366acd7c33db98a0e"
+    }
+  ],
+  "sample_seal": {
+    "likelihood_split": "development_train",
+    "predictive_split": "development_holdout",
+    "same_release_confirmation_rows_used": false,
+    "independent_source_rows_used": false,
+    "target_rows_opened": 0,
+    "paid_model_calls": 0
+  },
+  "unchanged_completion_thresholds": {
+    "maximum_rhat": 1.2,
+    "minimum_effective_samples": 50,
+    "maximum_standardized_between_ensemble_median_spread": 0.25,
+    "all_parameters_must_pass": true
+  },
+  "diagnostic_runs": [
+    {
+      "run_id": "SOBOL_PRIOR_IMPORTANCE_4096",
+      "engine": "scrambled_sobol_prior_importance",
+      "settings": {"samples": 4096, "dimensions": 17, "seed": 590507},
+      "result": {
+        "evaluations": 4096,
+        "importance_effective_samples": 1.0,
+        "maximum_normalized_weight": 1.0,
+        "log_likelihood_minimum": -6185.184607157713,
+        "log_likelihood_maximum": -1400.7428950892063,
+        "converged": false
+      }
+    },
+    {
+      "run_id": "COMPONENTWISE_LONG_500",
+      "engine": "deterministic_adaptive_componentwise_random_walk_metropolis",
+      "settings": {"chains": 4, "burn_sweeps": 500, "retained_samples_per_chain": 500, "dimensions": 17, "proposal_evaluations": 69028},
+      "result": {
+        "maximum_rhat": 17.37645796502024,
+        "minimum_effective_samples": 28.016161942533078,
+        "acceptance_rates": [0.4013529411764706, 0.3855294117647059, 0.4108823529411765, 0.39329411764705885],
+        "holdout_score_median": 10.614542484854415,
+        "holdout_score_q05": 7.036962455900107,
+        "holdout_score_q95": 12.164220477135613,
+        "worst_rhat_parameter": "density_error_sigma",
+        "worst_ess_parameter": "triaxial_radius_scale",
+        "converged": false
+      }
+    },
+    {
+      "run_id": "AFFINE_4X36_400_400",
+      "engine": "four_independent_logit_affine_invariant_stretch_ensembles",
+      "settings": {"ensembles": 4, "walkers_per_ensemble": 36, "burn_sweeps": 400, "retained_sweeps": 400, "dimensions": 17, "evaluations": 127856},
+      "result": {
+        "maximum_rhat": 2.023365667097716,
+        "minimum_effective_samples": 853.488473923384,
+        "maximum_standardized_between_ensemble_median_spread": 0.8769666504064515,
+        "acceptance_rates": [0.22583333333333333, 0.2502083333333333, 0.2559722222222222, 0.2428125],
+        "converged": false
+      }
+    },
+    {
+      "run_id": "AFFINE_4X36_1200_800",
+      "engine": "four_independent_logit_affine_invariant_stretch_ensembles",
+      "settings": {"ensembles": 4, "walkers_per_ensemble": 36, "burn_sweeps": 1200, "retained_sweeps": 800, "dimensions": 17, "evaluations": 300656},
+      "result": {
+        "maximum_rhat": 1.6410264955394165,
+        "minimum_effective_samples": 1423.204621614454,
+        "maximum_standardized_between_ensemble_median_spread": 0.45837171796217807,
+        "acceptance_rates": [0.22047222222222224, 0.2321388888888889, 0.2402638888888889, 0.23508333333333334],
+        "map_log_likelihoods": [-103.05237793894881, -101.99745299778748, -102.46705859961075, -102.171117092305],
+        "parameters_above_rhat_threshold": [
+          "outer_nonthermal_fraction",
+          "nonthermal_radial_power",
+          "xray_temperature_cross_calibration",
+          "outer_pressure_boundary_sigma",
+          "density_error_sigma",
+          "bcg_mass_scale",
+          "satellite_mass_scale",
+          "missing_member_fraction",
+          "intracluster_light_fraction",
+          "imf_mass_scale",
+          "mass_to_light_scale",
+          "missing_stellar_to_gas_mass_ratio",
+          "clumping_amplitude",
+          "centering_radius_shift",
+          "projection_density_scale",
+          "triaxial_radius_scale",
+          "spherical_acceleration_scale"
+        ],
+        "largest_between_ensemble_disagreement_parameter": "spherical_acceleration_scale",
+        "converged": false
+      }
+    }
+  ],
+  "adjudication": {
+    "decision": "CORRELATION_AWARE_MIXING_IMPROVED_NOT_CONVERGED_REQUIRES_REPARAMETERIZATION_OR_INDEPENDENT_PRIORS",
+    "more_componentwise_brute_force_supported": false,
+    "correlation_aware_sampler_materially_improved_ess": true,
+    "correlation_aware_sampler_met_completion_thresholds": false,
+    "CP5_7_through_CP5_10_complete": false,
+    "do_not_weaken_thresholds": true,
+    "do_not_use_holdout_for_sampler_selection": true,
+    "do_not_open_confirmation_or_independent_rows": true
+  },
+  "required_next_actions": [
+    "reparameterize the density-calibration-geometry degeneracy before another long run",
+    "derive the induced prior exactly when collapsing the six stellar factors to their identifiable product",
+    "use independently calibrated priors for cross-calibration, density error, geometry, and nonthermal pressure when available",
+    "freeze posterior predictive and convergence diagnostics before rerunning",
+    "retain CP5.7-CP5.10 as open until every frozen diagnostic passes"
+  ],
+  "output_path": "runs/gravity/publication-readiness/nuisance-sampler-diagnostic-v1.json"
+}

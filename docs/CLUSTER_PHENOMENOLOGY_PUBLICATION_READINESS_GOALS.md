@@ -72,7 +72,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP2 | Prior art and expert positioning | No | Yes | PARTIAL |
 | CP3 | Direct-observable data contract | Yes | Yes | PARTIAL; X-COP is bound but the independent packet is absent |
 | CP4 | Matched-flexibility comparators | Yes | Yes | PASS on development data; frozen for replication |
-| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; stress tests complete, source covariance and converged marginalization open |
+| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; stress tests complete, correlation-aware sampler improved but did not converge, source covariance and reparameterized marginalization open |
 | CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PASS on development controls; outer-radius and power warnings retained |
 | CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; protocol frozen, no lane selected or payload committed |
 | CP8 | Unchanged independent thermodynamic replication | No | Yes | NOT STARTED |
@@ -225,6 +225,19 @@ did not converge (`max R-hat=12.52`, minimum estimated effective samples `14.09`
 through CP5.10 therefore remain open: the failed sampler is recorded as evidence of
 strong nuisance degeneracy, not mislabeled as successful marginalization. Full released
 or reconstructed source covariance and morphology/merger strata also remain missing.
+
+A follow-up diagnostic then spent 501,636 candidate forward evaluations without opening
+confirmation or independent rows. Prior-space Sobol importance sampling collapsed to one
+effective sample. Extending the componentwise chains to 500 retained samples per chain
+still failed (`max R-hat=17.38`, minimum effective samples `28.02`). Four independently
+initialized logit-space affine ensembles materially improved mixing; the largest run
+retained 115,200 posterior draws with minimum estimated effective samples above 1,423.
+It still failed the unchanged all-parameter criteria (`max R-hat=1.64`, maximum
+standardized between-ensemble median spread `0.458`). The bound receipt is
+`runs/gravity/publication-readiness/nuisance-sampler-diagnostic-v1.json`. The next valid
+move is a frozen reparameterization of the density-calibration-geometry degeneracy and
+the six-factor stellar product, or independently calibrated priors—not more
+componentwise brute force and not weaker thresholds.
 
 ## CP6 — numerical, synthetic, and leakage controls
 
