@@ -18,10 +18,12 @@ from sigma_theory_compiler.gravity_item38_emergent_gravity import load_config
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def _profile_payload(scale: float = 1.0) -> bytes:
+def _profile_payload(scale: float = 1.0, *, negative_last: bool = False) -> bytes:
     lines = ["# header"]
     for index, g_bar in enumerate(np.logspace(-14, -12, 6)):
         esd = scale * (1.0 + index)
+        if negative_last and index == 5:
+            esd = -esd
         lines.append(f"{g_bar} {esd} 0.0 0.1 0.98 0.08 1.0 1.0")
     return ("\n".join(lines) + "\n").encode()
 
@@ -57,6 +59,17 @@ def test_item38_covariance_parser_builds_complete_log_space_matrix() -> None:
     assert covariance.shape == (18, 18)
     assert np.allclose(covariance, covariance.T)
     assert np.all(np.diag(covariance) > 0.0)
+
+
+def test_item38_nonpositive_ESD_is_preserved_but_masked_from_log_covariance() -> None:
+    profiles = [
+        _parse_profile(_profile_payload(1.0, negative_last=True), EXPLORATION_NAMES[0]),
+        _parse_profile(_profile_payload(2.0), EXPLORATION_NAMES[1]),
+        _parse_profile(_profile_payload(3.0), EXPLORATION_NAMES[2]),
+    ]
+    assert profiles[0]["esd_t_corrected"][-1] < 0.0
+    covariance = _parse_covariance(_covariance_payload(profiles), profiles)
+    assert covariance.shape == (17, 17)
 
 
 def test_item38_covariance_loss_rewards_the_exact_prediction() -> None:

@@ -114,7 +114,8 @@ def _parse_covariance(
         minimum = float(profile["profile_minimum"])
         radii = np.asarray(profile["g_bar_m_s2"], dtype=np.float64)
         esd = np.asarray(profile["esd_t_corrected"], dtype=np.float64)
-        for radius, value in zip(radii, esd, strict=True):
+        valid = np.isfinite(radii) & np.isfinite(esd) & (radii > 0.0) & (esd > 0.0)
+        for radius, value in zip(radii[valid], esd[valid], strict=True):
             offsets[(minimum, float(radius))] = position
             corrected_esd.append(float(value))
             position += 1
@@ -125,18 +126,17 @@ def _parse_covariance(
         minimum_i, minimum_j, radius_i, radius_j, value, _, bias_product = row
         if minimum_i not in allowed_minima or minimum_j not in allowed_minima:
             continue
-        key_i = min(
-            (key for key in offsets if key[0] == minimum_i),
-            key=lambda key: abs(key[1] - radius_i),
-        )
-        key_j = min(
-            (key for key in offsets if key[0] == minimum_j),
-            key=lambda key: abs(key[1] - radius_j),
-        )
-        if not math.isclose(key_i[1], radius_i, rel_tol=2e-4):
-            raise GravityItem38Error("KiDS covariance radius does not match profile")
-        if not math.isclose(key_j[1], radius_j, rel_tol=2e-4):
-            raise GravityItem38Error("KiDS covariance radius does not match profile")
+        candidate_i = [key for key in offsets if key[0] == minimum_i]
+        candidate_j = [key for key in offsets if key[0] == minimum_j]
+        key_i = min(candidate_i, key=lambda key: abs(key[1] - radius_i))
+        key_j = min(candidate_j, key=lambda key: abs(key[1] - radius_j))
+        if not math.isclose(key_i[1], radius_i, rel_tol=2e-4) or not math.isclose(
+            key_j[1], radius_j, rel_tol=2e-4
+        ):
+            # A published nonpositive ESD bin is preserved in the response receipt but
+            # cannot enter a log-space likelihood. Its covariance row is therefore
+            # retained only in the source hash, not silently reassigned to a neighbor.
+            continue
         i, j = offsets[key_i], offsets[key_j]
         covariance[i, j] = value / bias_product
         filled[i, j] = True
@@ -145,7 +145,7 @@ def _parse_covariance(
     covariance = 0.5 * (covariance + covariance.T)
     esd_array = np.asarray(corrected_esd, dtype=np.float64)
     if np.any(esd_array <= 0.0):
-        raise GravityItem38Error("nonpositive ESD cannot enter logarithmic evaluation")
+        raise GravityItem38Error("invalid ESD survived the frozen log-space quality mask")
     denominator = np.log(10.0) ** 2 * np.outer(esd_array, esd_array)
     log_covariance = covariance / denominator
     eigenvalues = np.linalg.eigvalsh(log_covariance)
@@ -280,10 +280,11 @@ def _flatten_profiles(
     for index, profile in enumerate(profiles):
         bar = np.asarray(profile["g_bar_m_s2"], dtype=np.float64)
         obs = np.asarray(profile["g_obs_m_s2"], dtype=np.float64)
-        names.extend([str(profile["name"])] * len(bar))
-        profile_index.extend([index] * len(bar))
-        g_bar.extend(float(value) for value in bar)
-        g_obs.extend(float(value) for value in obs)
+        valid = np.isfinite(bar) & np.isfinite(obs) & (bar > 0.0) & (obs > 0.0)
+        names.extend([str(profile["name"])] * int(np.sum(valid)))
+        profile_index.extend([index] * int(np.sum(valid)))
+        g_bar.extend(float(value) for value in bar[valid])
+        g_obs.extend(float(value) for value in obs[valid])
     bar_array = np.asarray(g_bar, dtype=np.float64)
     obs_array = np.asarray(g_obs, dtype=np.float64)
     if np.any(bar_array <= 0.0) or np.any(obs_array <= 0.0):
