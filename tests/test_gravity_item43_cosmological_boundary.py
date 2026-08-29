@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import numpy as np
@@ -8,6 +9,7 @@ from sigma_theory_compiler.gravity_item43_cosmological_boundary import (
     boundary_bases,
     build_candidate_manifest,
     build_exposure_manifest,
+    build_sample_manifest,
     decode_candidate,
     expansion_ratio,
     generate_raw_candidates,
@@ -73,3 +75,25 @@ def test_admission_and_freeze_manifests_are_response_safe() -> None:
     assert exposure["counts"]["schema_rows_with_response_seen"] == 5
     assert exposure["counts"]["remaining_response_rows_read"] == 0
     assert exposure["counts"]["confirmation_rows_read"] == 0
+
+
+def test_fresh_predictor_source_and_sample_keep_responses_sealed() -> None:
+    config = load_config(ROOT)
+    source_path = (
+        ROOT / config["paths"]["source_dir"] / config["paths"]["predictor_source"]
+    )
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    assert source["counts"]["grade_a_before_schema_exclusion"] == 40
+    assert source["counts"]["eligible_after_schema_exclusion"] == 35
+    assert source["counts"]["response_values_read"] == 0
+    assert not any("log10_einstein_mass_msun" in row for row in source["records"])
+    sample = build_sample_manifest(ROOT)
+    assert sample["counts"]["exploration_lenses"] == 28
+    assert sample["counts"]["confirmation_lenses"] == 7
+    assert sample["counts"]["response_rows_read"] == 0
+    assert sample["counts"]["confirmation_rows_read"] == 0
+    assert all(
+        row["target"]
+        not in config["schema_audit_exposure"]["excluded_from_every_item43_role"]
+        for row in sample["objects"]
+    )
