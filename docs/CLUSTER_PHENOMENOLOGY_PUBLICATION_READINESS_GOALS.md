@@ -65,7 +65,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP4 | Matched-flexibility comparators | Yes | Yes | PASS on development data; frozen for replication |
 | CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; stress tests complete, source covariance and converged marginalization open |
 | CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PASS on development controls; outer-radius and power warnings retained |
-| CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; metadata audit complete, no lane selected |
+| CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; protocol frozen, no lane selected or payload committed |
 | CP8 | Unchanged independent thermodynamic replication | No | Yes | NOT STARTED |
 | CP9 | Independent mass probes | No | No for bounded paper | NOT STARTED |
 | CP10 | Group and domain-boundary map | No | No for bounded paper | NOT STARTED |
@@ -249,16 +249,16 @@ responses and has no X-COP overlap or reduction-family dependence hidden as inde
 - [ ] **CP7.2** Select one primary independent thermodynamic sample and one secondary
   replication lane.
 - [ ] **CP7.3** Remove and record every X-COP object overlap.
-- [ ] **CP7.4** Freeze population, selection function, quality cuts, radial range, and
+- [x] **CP7.4** Freeze population, selection function, quality cuts, radial range, and
   minimum information requirements.
-- [ ] **CP7.5** Freeze development and untouched whole-cluster confirmation subsets by a
+- [x] **CP7.5** Freeze development and untouched whole-cluster confirmation subsets by a
   predictor-blind rule.
-- [ ] **CP7.6** Freeze object aliases and cross-survey duplicate detection.
-- [ ] **CP7.7** Freeze one primary endpoint, absolute-accuracy threshold, comparator
+- [x] **CP7.6** Freeze object aliases and cross-survey duplicate detection.
+- [x] **CP7.7** Freeze one primary endpoint, absolute-accuracy threshold, comparator
   threshold, maximum catastrophic fraction, and per-observable requirement.
-- [ ] **CP7.8** Freeze missing-data and exclusion rules before responses.
+- [x] **CP7.8** Freeze missing-data and exclusion rules before responses.
 - [ ] **CP7.9** Write metadata-only source receipts and payload commitments.
-- [ ] **CP7.10** Require explicit authorization before any independent target row opens.
+- [x] **CP7.10** Require explicit authorization before any independent target row opens.
 
 CHEX-MATE is a representative 118-cluster XMM program with a dedicated temperature
 pipeline (https://arxiv.org/abs/2402.18653). LoCuSS offers an independent 50-cluster
@@ -268,6 +268,17 @@ The metadata-only audit and frozen transformation rules are machine-bound in
 `configs/gravity_cluster_independent_data_contract_v1.json`. It found zero fully ready
 lanes and opened zero payloads or target rows; CP7.2 therefore remains blocked rather
 than treating archive or paper availability as a complete replication packet.
+
+The preselection protocol is machine-bound in
+`configs/gravity_cluster_independent_replication_protocol_v1.json` and
+`runs/gravity/publication-readiness/independent-replication-protocol-v1.json`. It freezes
+the population and quality rules, whole-cluster hash split, duplicate handling, primary
+joint score, absolute and comparator thresholds, missing-data rules, stopping rule, and
+explicit authorization schema while target access remains false. The conservative power
+target is 192 untouched confirmation clusters. A 120–191 cluster run remains useful but
+must be labeled underpowered exploratory replication; fewer than 120 may not open as the
+primary trial. CP7.2, CP7.3, and CP7.9 stay open until a real source inventory and sealed
+file commitments exist.
 
 ## CP8 — unchanged independent thermodynamic replication
 

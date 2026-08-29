@@ -382,6 +382,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matched_comparator_suite",
         "uncertainty_program",
         "numerical_controls",
+        "independent_replication_protocol",
     )
     if tuple(binding.get("evidence_id") for binding in bindings) != expected_ids:
         raise ResearchPublicationReadinessError("publication evidence order changed")
@@ -423,6 +424,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     comparators = evidence["matched_comparator_suite"]
     uncertainty = evidence["uncertainty_program"]
     numerical = evidence["numerical_controls"]
+    replication_protocol = evidence["independent_replication_protocol"]
     if (
         item59["claims"]["xcop_forward_observable_development_gate_passed"] is not True
         or item59["counts"]["clusters"] != 12
@@ -479,6 +481,19 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or numerical["counts"]["target_rows_opened"] != 0
     ):
         raise ResearchPublicationReadinessError("numerical control evidence changed")
+    if (
+        set(replication_protocol["completed_goal_evidence"])
+        != {"CP7.4", "CP7.5", "CP7.6", "CP7.7", "CP7.8", "CP7.10"}
+        or set(replication_protocol["blocked_goal_evidence"])
+        != {"CP7.2", "CP7.3", "CP7.9"}
+        or replication_protocol["claims"]["source_selected"] is not False
+        or replication_protocol["claims"]["observational_authorization"] is not False
+        or replication_protocol["claims"]["target_rows_accessed"] is not False
+        or replication_protocol["counts"]["independent_target_rows_opened"] != 0
+        or replication_protocol["frozen_decision_summary"]["confirmatory_target_clusters"]
+        != 192
+    ):
+        raise ResearchPublicationReadinessError("independent replication protocol changed")
 
 
 def classify_claim_tracks(

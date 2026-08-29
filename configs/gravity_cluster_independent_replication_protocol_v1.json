@@ -1,0 +1,208 @@
+{
+  "schema_version": "invariant-gravity-cluster-independent-replication-protocol-1.0",
+  "status": "frozen_preselection_metadata_only",
+  "protocol_id": "gravity-cluster-independent-replication-protocol-v1",
+  "purpose": "Freeze the independent population, object split, duplicate handling, primary decision, missing-data policy, and authorization boundary before any independent thermodynamic target is selected or opened.",
+  "source_eligibility": {
+    "population": "Massive galaxy clusters selected without using the Item 59 response or residual, with released direct gas-density, stellar-baryon, SZ-pressure, and X-ray-temperature inputs sufficient for the frozen forward model.",
+    "primary_lane_requirements": [
+      "different survey or reduction-family identity from X-COP",
+      "public object inventory and documented selection function",
+      "file-level gas-density and stellar-baryon predictors",
+      "file-level SZ-pressure and X-ray-temperature targets",
+      "calibration, background, PSF-or-beam, mask, response, and covariance roles",
+      "per-file release revision, license, checksum, and object identifier",
+      "completed X-COP overlap audit"
+    ],
+    "secondary_lane_requirements": [
+      "different instrument or reduction family from the selected primary lane",
+      "at least one direct thermodynamic target and the corresponding predictor packet",
+      "file-level release revision, license, checksum, calibration roles, and covariance",
+      "completed X-COP and primary-lane duplicate audit"
+    ],
+    "source_selection_rule": "Choose the eligible primary lane with the largest number of whole clusters meeting every primary requirement; break a tie by the lexicographically smallest lane_id. Choose the eligible secondary lane from a different reduction family by the same rule. If no lane qualifies, select neither.",
+    "current_selected_primary_lane": null,
+    "current_selected_secondary_lane": null
+  },
+  "population_and_quality_freeze": {
+    "mass_proxy_use": "A source-published selection mass proxy may define the population but may not enter the candidate formula, scoring, exclusion, or object-specific coefficients.",
+    "redshift_range": [0.01, 0.6],
+    "radial_range_R500": [0.1, 2.0],
+    "minimum_radial_bins_per_observable": 5,
+    "minimum_predictor_coverage_fraction": 0.8,
+    "required_primary_observables": [
+      "electron_pressure_keV_cm-3",
+      "spectroscopic_temperature_keV"
+    ],
+    "required_predictors": [
+      "electron_density_cm-3",
+      "stellar_baryon_profile_solar_mass"
+    ],
+    "quality_rules": [
+      "keep disturbed, merging, cool-core, and non-cool-core systems if the packet passes instrument quality requirements",
+      "require finite positive radii, predictors, targets, and declared uncertainties",
+      "require at least one measured outer pressure point reserved only as the unscored boundary anchor",
+      "do not exclude an object because the candidate or a comparator predicts it poorly",
+      "preserve every failed object in a machine-readable data-quality ledger"
+    ]
+  },
+  "xcop_exclusion_freeze": {
+    "canonical_development_objects": [
+      "A1644",
+      "A1795",
+      "A2029",
+      "A2142",
+      "A2255",
+      "A2319",
+      "A3158",
+      "A3266",
+      "A644",
+      "A85",
+      "RXC1825",
+      "ZW1215"
+    ],
+    "action": "Exclude any independent-source object resolved to one of these identities from primary or secondary replication scoring and record the match evidence before target access.",
+    "overlaps_resolved": 0,
+    "source_inventory_available": false
+  },
+  "identity_and_duplicate_freeze": {
+    "canonicalization_order": [
+      "source-stable object identifier",
+      "normalized SIMBAD-style canonical name when supplied in public metadata",
+      "casefolded alias with punctuation and whitespace removed",
+      "sky-position and spectroscopic-redshift proximity"
+    ],
+    "coordinate_match_max_arcmin": 2.0,
+    "redshift_match_max_absolute": 0.005,
+    "ambiguous_match_action": "QUARANTINE_OBJECT_BEFORE_TARGET_ACCESS",
+    "cross_source_duplicate_action": "Assign one canonical identity and one split; retain the predeclared primary-lane packet for primary scoring and use other packets only for explicitly secondary cross-instrument checks.",
+    "alias_and_duplicate_ledger_required": true
+  },
+  "predictor_blind_split_freeze": {
+    "unit": "whole_canonical_cluster_identity",
+    "hash": "sha256",
+    "salt": "INVARIANT_CLUSTER_INDEPENDENT_REPLICATION_V1_2026-08-29",
+    "algorithm": "Compute sha256(salt + ':' + canonical_object_id), sort ascending, assign the first min(24,floor(N/5)) eligible identities to infrastructure_development and every remaining identity to untouched_confirmation.",
+    "allowed_split_inputs": [
+      "canonical_object_id"
+    ],
+    "forbidden_split_inputs": [
+      "pressure",
+      "temperature",
+      "candidate_prediction",
+      "candidate_residual",
+      "comparator_residual",
+      "hydrostatic_mass",
+      "lensing_mass",
+      "morphology",
+      "relaxation_state"
+    ],
+    "infrastructure_development_use": "May validate parsing, units, covariance, and preregistered nuisance implementation; may not change the candidate, primary endpoint, success thresholds, exclusion rules, or confirmation split.",
+    "confirmation_access": "One authorized opening after every pre-data gate passes."
+  },
+  "primary_decision_freeze": {
+    "score": "Covariance-aware squared log predictive error, averaged first within each observable and cluster, then equally over pressure and temperature and equally over clusters; lower is better.",
+    "absolute_accuracy": {
+      "joint_median_absolute_log_residual_max": 0.22314355131420976,
+      "pressure_median_absolute_log_residual_max": 0.26236426446749106,
+      "temperature_median_absolute_log_residual_max": 0.3364722366212129
+    },
+    "comparators": [
+      "GR_plus_NFW",
+      "GR_plus_Einasto",
+      "strongest_frozen_empirical_or_generic_comparator"
+    ],
+    "minimum_relative_score_improvement_over_each_comparator": 0.2,
+    "catastrophic_cluster_definition": "Either observable has a cluster-level median absolute log residual greater than ln(1.5), or the forward evaluator emits a nonfinite or nonpositive prediction at an eligible scored row.",
+    "maximum_catastrophic_cluster_fraction": 0.1,
+    "per_observable_requirement": "The candidate must beat every required comparator separately for pressure and temperature and meet both observable-specific absolute-accuracy limits.",
+    "influence_requirement": "The aggregate advantage over every required comparator must remain positive in every leave-one-cluster-out fold, after symmetric 5-percent influence trimming, and in at least 80 percent of frozen radial, mass, redshift, morphology, and instrument strata containing five or more clusters.",
+    "multiplicity": "The joint endpoint is primary. Pressure, temperature, radial, population, and secondary-lane endpoints are secondary and use Holm control at familywise alpha 0.05.",
+    "posterior_edge_rule": "A required nuisance posterior with more than 10 percent of probability in the outer 5 percent of a frozen prior range blocks a positive physical interpretation and is reported for the bounded empirical result.",
+    "no_repair_rule": "No candidate, coefficient, threshold, split, exclusion, comparator, nuisance prior, or endpoint may change after confirmation access. Any change creates a named descendant requiring a different untouched external sample."
+  },
+  "sample_size_and_stopping_freeze": {
+    "confirmatory_target_clusters": 192,
+    "confirmatory_power_target": 0.9,
+    "underpowered_execution_floor_clusters": 120,
+    "projected_power_at_floor": 0.727,
+    "classification_rule": "At least 192 untouched confirmation clusters permits the preregistered confirmatory decision. Between 120 and 191 is explicitly underpowered exploratory replication and cannot be labeled a confirmatory pass. Fewer than 120 does not open as the primary trial.",
+    "stopping_rule": "Open the frozen confirmation once and analyze every eligible object. Do not stop early for success, failure, cost, or a desired narrative."
+  },
+  "missing_data_and_exclusion_freeze": {
+    "pre_access_exclusions": [
+      "resolved X-COP identity overlap",
+      "resolved duplicate retained in another primary packet",
+      "missing required predictor or both required primary targets",
+      "missing declared uncertainty or covariance role",
+      "fewer than five eligible radial bins for either primary observable",
+      "payload checksum, release, license, calibration, or provenance failure",
+      "ambiguous object identity not resolved from public metadata"
+    ],
+    "post_access_exclusions_allowed": false,
+    "partial_observable_rule": "A primary-lane object missing either pressure or temperature is not in the joint primary cohort; it remains in the ledger and may enter only a frozen secondary single-observable analysis.",
+    "missing_radial_rows": "Score available preregistered bins without interpolation across an unmeasured gap. Missingness stress tests remain secondary and may not delete inconvenient rows.",
+    "censoring": "Use a released likelihood or one-sided limit when available; otherwise preserve the row as unscored missing data with its declared reason.",
+    "extrapolation": "Do not score outside both the released measurement support and 0.1 to 2.0 R500.",
+    "catastrophic_predictions": "Count nonfinite or nonpositive predictions as catastrophic failures; never silently clip them into the scoring range."
+  },
+  "payload_commitment_template": {
+    "required_before_selection": [
+      "metadata-only lane receipt",
+      "canonical object inventory hash",
+      "selection-function document hash",
+      "alias and duplicate ledger hash",
+      "X-COP overlap ledger hash",
+      "predictor-file manifest hash",
+      "sealed target-file manifest hash",
+      "calibration-role manifest hash",
+      "covariance-role manifest hash",
+      "license ledger hash",
+      "split assignment hash"
+    ],
+    "target_manifest_may_expose_before_authorization": [
+      "file path or opaque object key",
+      "byte count",
+      "sha256",
+      "release revision",
+      "instrument",
+      "role label"
+    ],
+    "target_manifest_may_not_expose_before_authorization": [
+      "target values",
+      "target uncertainties",
+      "target covariance entries",
+      "response-derived quality flags",
+      "candidate residuals"
+    ],
+    "current_commitments": []
+  },
+  "authorization_freeze": {
+    "observational_authorization": false,
+    "authorized_target_packets": [],
+    "independent_target_rows_opened": 0,
+    "required_authorization_fields": [
+      "authorization_id",
+      "authorized_by",
+      "authorized_at_utc",
+      "selected_primary_lane",
+      "selected_secondary_lane",
+      "candidate_content_sha256",
+      "protocol_content_sha256",
+      "source_manifest_content_sha256",
+      "target_commitment_content_sha256",
+      "maximum_target_open_count",
+      "explicit_permission_to_open_target_rows"
+    ],
+    "failure_action": "REFUSE_TARGET_ACCESS"
+  },
+  "seals": {
+    "source_selected": false,
+    "payload_accessed": false,
+    "target_rows_accessed": false,
+    "split_materialized": false,
+    "authorization_present": false,
+    "formula_refit_authorized": false
+  },
+  "output_path": "runs/gravity/publication-readiness/independent-replication-protocol-v1.json"
+}
