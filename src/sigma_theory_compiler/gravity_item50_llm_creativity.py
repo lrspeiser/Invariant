@@ -224,9 +224,9 @@ def _proposal_schema(config: Mapping[str, Any]) -> dict[str, Any]:
                 "items": {"type": "string"}
             },
             "mechanism": {"type": "string"},
-            "left_primitive_id": {"type": "integer", "minimum": 0, "maximum": 439},
+            "left_primitive_id": {"type": "integer"},
             "left_transform": {"type": "string", "enum": contract["unary_transforms"]},
-            "right_primitive_id": {"type": "integer", "minimum": 0, "maximum": 439},
+            "right_primitive_id": {"type": "integer"},
             "right_transform": {"type": "string", "enum": contract["unary_transforms"]},
             "binary_operator": {"type": "string", "enum": contract["binary_operators"]},
             "mixing": {"type": "number", "enum": contract["mixing_grid"]},
@@ -285,7 +285,7 @@ def _critic_schema(
             "independent_physical_concern": {"type": "string"},
             "suggested_repair": {"type": "string"},
             "retain_for_empirical_test": {"type": "boolean"},
-            "confidence": {"type": "integer", "minimum": 1, "maximum": 5},
+            "confidence": {"type": "integer"},
         },
         "required": [
             "lineage_reclassification",
