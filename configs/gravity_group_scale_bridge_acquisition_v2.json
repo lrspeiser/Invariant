@@ -1,0 +1,315 @@
+{
+  "schema_version": "invariant-gravity-group-scale-bridge-acquisition-config-2.0",
+  "status": "frozen_metadata_manifest_only_bridge_blocked",
+  "audit_id": "gravity-group-scale-bridge-acquisition-v2",
+  "audit_cutoff": "2026-08-29",
+  "purpose": "Advance CP10 group-scale source acquisition without opening object, thermodynamic, stellar-baryon, inferred-mass, or lensing rows. Prefer X-GAP, freeze one clean authoritative replacement catalogue ReadMe only after X-GAP's advertised master attachment remains unavailable, and keep bridge authorization closed.",
+  "implementation_evidence": {
+    "module_path": "src/sigma_theory_compiler/gravity_group_scale_bridge_acquisition.py",
+    "test_path": "tests/test_gravity_group_scale_bridge_acquisition.py",
+    "test_file_sha256": "5b0b737b7e02b9807ed0402178d6c0e10d968fbd9ab0f2f31c1e238279b79ede",
+    "hash_mode": "SHA256_RAW_BYTES",
+    "test_binding_required": true
+  },
+  "parent_source_audit_binding": {
+    "config_path": "configs/gravity_group_scale_source_audit_v1.json",
+    "config_file_sha256": "65b37105b66d0d97db4bc02d3c3eeeb1beafa429350429b7aa899943ffb2aaf9",
+    "module_path": "src/sigma_theory_compiler/gravity_group_scale_source_audit.py",
+    "module_file_sha256": "b506e5dad5d6de1899a4e179814f9651b71d57c8c709948524eced271392a93d",
+    "test_path": "tests/test_gravity_group_scale_source_audit.py",
+    "test_file_sha256": "3f5689428cd0b9e58bec8b46894d32d3bc4903bb08eee73b2fb478d3f669a069",
+    "receipt_path": "runs/gravity/publication-readiness/group-scale-source-audit-v1.json",
+    "receipt_file_sha256": "7707606dfdeae6a4bbeef06b0c7553074f8f5496a7f30d45a427fce10075f73e",
+    "receipt_content_sha256": "d76a308369cf1175e418790cf2799905c9dc2484bb13ff1a1322c1f45160d3af"
+  },
+  "fact_provenance_contract": {
+    "binding_algorithm": "SHA256_CANONICAL_JSON",
+    "binding_fields": [
+      "source_id",
+      "source_type",
+      "url",
+      "doi",
+      "observed_release",
+      "audited_fact",
+      "observation_method",
+      "retrieved_at",
+      "evidence_locator"
+    ],
+    "retrieved_at_precision": "UTC_DAY",
+    "search_scope_is_not_proof_of_absence": true,
+    "remote_content_archived": false,
+    "historical_legacy_excerpt_archived": false,
+    "claim_limit": "The audit records authoritative locations checked by the cutoff. Search incompleteness and mutable remote content prevent a universal claim that no other release exists."
+  },
+  "source_discovery_scope": {
+    "preferred_lane": "XGAP_49_XMM",
+    "fallback_order": [
+      "XGAP_OFFICIAL_PROJECT_AND_PUBLISHER",
+      "CDS_VIZIER_XGAP_SEARCH",
+      "ZENODO_XGAP_SEARCH",
+      "UNIGE_YARETA_XGAP_SEARCH",
+      "ESA_XMM_PROGRAM_METADATA",
+      "AXES2MRS_CDS_REPLACEMENT"
+    ],
+    "observed_result": "The live X-GAP sample-selection URL and advertised FITS URL both returned HTTP 301 to the generic UNIGE astronomy page. No current official retrievable X-GAP alias file was located in the checked publisher, CDS/VizieR, Zenodo, Yareta, or ESA programme metadata. The official CDS AXES-2MRS ReadMe was therefore frozen as a replacement catalogue manifest only.",
+    "web_search_excerpt_caveat": "Exact legacy project-page criteria and attachment labeling survive here only as a non-archived cached search excerpt plus the byte-bound parent V1 audit, not as current live-page evidence. Current selection facts are independently attributed to the primary publisher article. No absence claim extends beyond the named search scope.",
+    "scientific_payload_search_or_download_authorized": false
+  },
+  "historical_non_authoritative_evidence": [
+    {
+      "source_id": "XGAP_SAMPLE_SELECTION_LEGACY_CACHE",
+      "source_type": "cached_search_excerpt_and_historical_prior_audit",
+      "url": "https://www.astro.unige.ch/xgap/blog/sample-selection",
+      "doi": null,
+      "observed_release": "non-archived search cache excerpt and byte-bound parent V1 audit of the former project page",
+      "audited_fact": "Historical cached evidence describes a former project page with 49 groups, angular R500 below 15 arcmin, more than eight optical members, approximate masses 1e13 to 1e14 solar masses, a legacy redshift rule z below 0.05, and an advertised xgap_master_v1.1.fits attachment of 25.31 KB. These are not attributed to the current live page.",
+      "observation_method": "cached_search_excerpt_plus_bound_parent_audit_no_live_page_fact_claim",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "non-archived indexed excerpt and parent gravity-group-scale-source-audit-v1 evidence; live URL separately checked as redirect",
+      "fact_binding_sha256": "fb4f4b675751ac4b904631e53afc5690bba8b96f02bdddaa319dac96238153b5"
+    }
+  ],
+  "authoritative_sources": [
+    {
+      "source_id": "XGAP_SAMPLE_PAGE_LIVE_REDIRECT",
+      "source_type": "official_project_url_redirect_observation",
+      "url": "https://www.astro.unige.ch/xgap/blog/sample-selection",
+      "doi": null,
+      "observed_release": "HTTP HEAD on 2026-08-29: 301, Content-Length 162, Location https://www.unige.ch/sciences/astro/en",
+      "audited_fact": "The live X-GAP sample-selection URL currently redirects to the generic University of Geneva astronomy page and therefore supplies no current sample manifest or live selection-page evidence.",
+      "observation_method": "official_project_page_head_no_redirect_follow_no_payload",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "HTTP status, Content-Length, and Location headers observed 2026-08-29",
+      "fact_binding_sha256": "8be6926c1daf60c6075035828fffaff6a1d114e2f8d61fb371d2ed48c2490902"
+    },
+    {
+      "source_id": "XGAP_MASTER_ATTACHMENT",
+      "source_type": "official_project_attachment_url",
+      "url": "https://www.astro.unige.ch/xgap/sites/default/files/xgap_master_v1.1.fits",
+      "doi": null,
+      "observed_release": "HTTP HEAD on 2026-08-29: 301, Content-Length 162, Location https://www.unige.ch/sciences/astro/en",
+      "audited_fact": "The advertised X-GAP v1.1 attachment currently redirects to the generic University of Geneva astronomy page; no FITS bytes, aliases, or rows were downloaded.",
+      "observation_method": "official_attachment_head_no_redirect_follow_no_payload",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "HTTP status, Content-Length, and Location headers",
+      "fact_binding_sha256": "8b25f427be25eaa0051a97376f530466e741134a8dbd38b41e340c997119a813"
+    },
+    {
+      "source_id": "XGAP_PRIMARY_2024",
+      "source_type": "primary_publisher_article",
+      "url": "https://www.mdpi.com/2075-4434/12/3/24",
+      "doi": "10.3390/galaxies12030024",
+      "observed_release": "Galaxies 12(3), 24, published 2024-05-13, CC BY article",
+      "audited_fact": "The primary article describes a 49-system sample with z below 0.06 and actual range 0.025 to 0.06, says 11 systems had prior observations and 38 were new, and places a master table in Appendix A. The Appendix rows were not opened or extracted in this acquisition.",
+      "observation_method": "primary_publisher_metadata_and_narrative_review_no_appendix_rows",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "sample-selection narrative and Appendix A introduction",
+      "fact_binding_sha256": "ac17bb16a1556f34b51d3cb7c7bb0561185acf6a642bb048b802889ef4f53be6"
+    },
+    {
+      "source_id": "XMM_LARGE_PROGRAMME_090389",
+      "source_type": "official_mission_programme_metadata",
+      "url": "https://xmm-tools.cosmos.esa.int/external/xmm_publications/large_programmes/view_lp.php?ao=21&pid=090389&t=LP",
+      "doi": null,
+      "observed_release": "AO-21 programme 090389; 36 observations; 859 ks",
+      "audited_fact": "ESA programme metadata lists the X-GAP proposal as 36 observations and 859 ks and the proposal abstract describes a planned 40-group programme. This proposal count is not substituted for the later 49-system final sample.",
+      "observation_method": "official_mission_programme_metadata_review_no_observation_rows",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "proposal overview and abstract",
+      "fact_binding_sha256": "05b1bbc9ce180fe539235fa1e8428e202f7e6440492a50325ff11aa308faf958"
+    },
+    {
+      "source_id": "AXES2MRS_CDS_README",
+      "source_type": "official_data_centre_catalogue_manifest",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/690/A212/ReadMe",
+      "doi": "10.26093/cds/vizier.36900212",
+      "observed_release": "CDS J/A+A/690/A212 ReadMe; Last-Modified 2024-10-08 12:09:20 GMT; 6278 bytes",
+      "audited_fact": "The official CDS ReadMe identifies a 558-record AXES-2MRS catalogue in axes2mrs.dat with record length 147 and documents global IDs, coordinates, member counts, redshifts, velocity dispersion, X-ray luminosity and flux, extent, and R500 fields. It documents no direct radial density, pressure, temperature, stellar-baryon, or covariance files.",
+      "observation_method": "official_cds_readme_download_and_schema_review_only_no_catalogue_rows",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "ReadMe file summary and byte-by-byte schema",
+      "fact_binding_sha256": "30f045abe0f27aa49fa3fcf153a97832abe3d4748b47b91ebf317b3df1cef282"
+    },
+    {
+      "source_id": "AXES2MRS_PRIMARY_2024",
+      "source_type": "primary_article_and_official_cds_record",
+      "url": "https://doi.org/10.1051/0004-6361/202450060",
+      "doi": "10.1051/0004-6361/202450060",
+      "observed_release": "Astronomy & Astrophysics 690, A212 (2024); CDS catalogue inserted 2024-10-08 and last modified 2025-02-24",
+      "audited_fact": "AXES-2MRS is an authoritative all-sky RASS and 2MRS group catalogue and a plausible replacement source inventory, but its released CDS table is a global catalogue rather than a direct multi-endpoint radial thermodynamic and stellar-baryon likelihood packet.",
+      "observation_method": "primary_article_release_metadata_and_official_cds_record_review_no_data_rows",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "article data-availability statement and CDS catalogue record",
+      "fact_binding_sha256": "399c704c3337591fc46c748843606e195721b1aee809865b878c887b61bf4804"
+    }
+  ],
+  "remote_assets": [
+    {
+      "asset_id": "XGAP_SAMPLE_PAGE",
+      "role": "preferred_sample_selection_page_current_availability_check",
+      "url": "https://www.astro.unige.ch/xgap/blog/sample-selection",
+      "reported_filename": null,
+      "reported_size": null,
+      "observed_http_status": 301,
+      "observed_content_length_bytes": 162,
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "observed_redirect": "https://www.unige.ch/sciences/astro/en",
+      "local_path": null,
+      "file_sha256": null,
+      "downloaded": false,
+      "payload_rows_opened": 0,
+      "license_for_file_verified": false,
+      "state": "BLOCKED_LIVE_PAGE_REDIRECT"
+    },
+    {
+      "asset_id": "XGAP_MASTER_V1_1",
+      "role": "preferred_sample_alias_and_selection_manifest",
+      "url": "https://www.astro.unige.ch/xgap/sites/default/files/xgap_master_v1.1.fits",
+      "reported_filename": "xgap_master_v1.1.fits",
+      "reported_size": "25.31 KB",
+      "observed_http_status": 301,
+      "observed_content_length_bytes": 162,
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "observed_redirect": "https://www.unige.ch/sciences/astro/en",
+      "local_path": null,
+      "file_sha256": null,
+      "downloaded": false,
+      "payload_rows_opened": 0,
+      "license_for_file_verified": false,
+      "state": "BLOCKED_DEAD_REDIRECT"
+    },
+    {
+      "asset_id": "AXES2MRS_README",
+      "role": "replacement_catalogue_schema_and_file_manifest_only",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/690/A212/ReadMe",
+      "reported_filename": "ReadMe",
+      "reported_size": "6278 bytes",
+      "observed_http_status": 200,
+      "observed_content_length_bytes": 6278,
+      "observed_etag": "\"1886-623f601da9b4a\"",
+      "observed_last_modified": "Tue, 08 Oct 2024 12:09:20 GMT",
+      "observed_redirect": null,
+      "local_path": "runs/gravity/publication-readiness/group-scale-bridge-acquisition-v2-sources/axes2mrs-cds-readme-2024-10-08.txt",
+      "file_sha256": "136a74a7218f8913113e8f86b9a9a529391a9cfe461e9d940156549e9486bcd2",
+      "downloaded": true,
+      "payload_rows_opened": 0,
+      "license_for_file_verified": false,
+      "state": "FROZEN_METADATA_ONLY_README_NO_SCIENTIFIC_ROWS"
+    },
+    {
+      "asset_id": "AXES2MRS_DATA",
+      "role": "replacement_global_catalogue_payload_not_opened",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/690/A212/axes2mrs.dat",
+      "reported_filename": "axes2mrs.dat",
+      "reported_size": "82584 bytes by HTTP HEAD",
+      "observed_http_status": 200,
+      "observed_content_length_bytes": 82584,
+      "observed_etag": "\"14298-622399a089d40\"",
+      "observed_last_modified": "Mon, 16 Sep 2024 09:57:33 GMT",
+      "observed_redirect": null,
+      "local_path": null,
+      "file_sha256": null,
+      "downloaded": false,
+      "payload_rows_opened": 0,
+      "license_for_file_verified": false,
+      "state": "PUBLIC_METADATA_VERIFIED_PAYLOAD_UNOPENED"
+    }
+  ],
+  "sample_and_alias_state": {
+    "xgap": {
+      "documented_final_object_count": 49,
+      "primary_selection_redshift_rule": "z < 0.06",
+      "primary_actual_redshift_range": "0.025 < z < 0.06",
+      "legacy_selection_redshift_rule": "z < 0.05",
+      "redshift_discrepancy_resolved": false,
+      "alias_rows_opened": 0,
+      "canonical_alias_inventory_frozen": false
+    },
+    "axes2mrs": {
+      "documented_catalogue_record_count": 558,
+      "catalogue_payload_rows_opened": 0,
+      "catalogue_aliases_frozen": false,
+      "mass_range_1e13_to_1e14_subset_frozen": false,
+      "reason": "The ReadMe exposes only the schema. Its released table has IDs and coordinates but no direct M500 field, and no scientific rows may be opened in this acquisition."
+    }
+  },
+  "xcop_overlap_contract": {
+    "executed": false,
+    "overlap_count": null,
+    "input_alias_rows": 0,
+    "procedure": [
+      "Freeze official X-GAP or replacement aliases and the canonical X-COP aliases before any response values are opened.",
+      "Normalize Unicode to NFKD, uppercase, remove whitespace and punctuation, and apply only a preregistered catalogue-prefix synonym map.",
+      "Exclude an overlap only on an exact normalized alias or an exact numeric identifier within the same documented catalogue namespace.",
+      "Do not auto-match on sky position because X-ray centroids, optical group centers, and BCG coordinates can differ; unresolved positional candidates block split publication until an authoritative cross-identification is frozen.",
+      "Resolve one-to-many or many-to-one aliases before whole-group split assignment; never use thermodynamic, inferred-mass, lensing, or candidate-score values to adjudicate identity."
+    ],
+    "blocker": "No retrievable X-GAP alias inventory and no opened AXES-2MRS object rows; overlap cannot be computed honestly."
+  },
+  "endpoint_and_covariance_state": {
+    "direct_radial_density_available": false,
+    "direct_radial_pressure_available": false,
+    "direct_radial_temperature_available": false,
+    "direct_radial_stellar_baryons_available": false,
+    "within_profile_covariance_available": false,
+    "cross_endpoint_covariance_available": false,
+    "shared_calibration_background_covariance_available": false,
+    "beam_psf_deprojection_covariance_available": false,
+    "reason": "The only frozen file is a CDS schema manifest. The unopen global catalogue does not advertise these endpoint or covariance products, and no X-GAP full-sample derived-product release was located."
+  },
+  "license_and_redistribution_state": {
+    "xgap_primary_article_cc_by": true,
+    "xgap_master_fits_per_file_license_verified": false,
+    "axes2mrs_readme_publicly_retrievable": true,
+    "axes2mrs_catalogue_per_file_license_verified": false,
+    "local_readme_copy_role": "integrity-frozen metadata evidence only",
+    "redistribution_claim": false,
+    "rule": "Article or service accessibility is not treated as a per-file scientific-data redistribution license. Obtain and bind explicit catalogue/product terms before redistribution or payload commitment."
+  },
+  "access_chronology": {
+    "metadata_head_checks_performed": true,
+    "clean_metadata_manifest_downloads": 1,
+    "clean_metadata_manifest_bytes": 6278,
+    "scientific_payload_downloads": 0,
+    "scientific_payload_bytes": 0,
+    "sample_alias_rows_opened": 0,
+    "thermodynamic_rows_opened": 0,
+    "stellar_baryon_rows_opened": 0,
+    "inferred_mass_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "target_rows_opened": 0,
+    "scores_computed": 0,
+    "model_or_paid_calls": 0,
+    "interactive_metadata_call_count_exhaustive": false,
+    "authorization": false
+  },
+  "claim_boundary": {
+    "xgap_master_recovered": false,
+    "replacement_metadata_manifest_frozen": true,
+    "replacement_alias_manifest_frozen": false,
+    "group_scale_bridge_ready": false,
+    "public_science_lane_ready": false,
+    "xcop_overlap_audited": false,
+    "whole_group_split_committable": false,
+    "CP10_1_complete": false,
+    "CP10_2_complete": false,
+    "candidate_tested_on_groups": false,
+    "publication_claim_supported": false,
+    "observational_authorization": false,
+    "central_readiness_changed": false
+  },
+  "decision": "PARTIAL_METADATA_MANIFEST_FROZEN_BRIDGE_BLOCKED_XGAP_ALIASES_ENDPOINTS_COVARIANCE_LICENSE_AND_OVERLAP",
+  "next_action": "Obtain an official current X-GAP alias-only manifest or authorize row-limited extraction of identity fields from the CC-BY Appendix A with an independent alias receipt; then freeze X-COP overlap. Separately require public file-level radial density, pressure, temperature, stellar-baryon, calibration, and covariance products before any group-scale score authorization.",
+  "publication_contract": {
+    "staging_location": "OUTPUT_SAME_DIRECTORY",
+    "staging_file_fsync_before_publish": true,
+    "publish_primitive": "SAME_DIRECTORY_HARD_LINK_NO_REPLACE",
+    "directory_fsync": "POSIX_WHEN_SUPPORTED_AFTER_PUBLISH_AND_TEMP_CLEANUP",
+    "existing_identical_receipt_action": "RETURN_WITHOUT_REWRITE",
+    "existing_different_receipt_action": "FAIL_CLOSED",
+    "race_loser_action": "VERIFY_IDENTICAL_OR_FAIL_CLOSED"
+  },
+  "output_path": "runs/gravity/publication-readiness/group-scale-bridge-acquisition-v2.json"
+}
