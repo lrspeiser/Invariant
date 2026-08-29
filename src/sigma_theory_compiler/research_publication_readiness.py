@@ -385,6 +385,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "independent_replication_protocol",
         "prior_art_positioning",
         "manuscript_evidence_package",
+        "manuscript_artifact_manifest",
     )
     if tuple(binding.get("evidence_id") for binding in bindings) != expected_ids:
         raise ResearchPublicationReadinessError("publication evidence order changed")
@@ -429,6 +430,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
     manuscript_package = evidence["manuscript_evidence_package"]
+    manuscript_artifacts = evidence["manuscript_artifact_manifest"]
     if (
         item59["claims"]["xcop_forward_observable_development_gate_passed"] is not True
         or item59["counts"]["clusters"] != 12
@@ -520,6 +522,30 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or manuscript_package["counts"]["independent_target_rows_opened"] != 0
     ):
         raise ResearchPublicationReadinessError("manuscript evidence package changed")
+    if (
+        manuscript_artifacts["completed_goal_evidence"]
+        != {
+            "CP12.1": "one_command_recreates_all_7_frozen_primary_tables_and_6_frozen_primary_figures"
+        }
+        or manuscript_artifacts["supersedes_snapshot_blocker"]
+        != {
+            "source_receipt": "manuscript_evidence_package",
+            "goal_task_id": "CP12.1",
+            "reason": "The upstream package recorded CP12.1 before this downstream renderer existed.",
+        }
+        or manuscript_artifacts["counts"]["primary_tables"] != 7
+        or manuscript_artifacts["counts"]["primary_figures"] != 6
+        or manuscript_artifacts["counts"]["artifacts"] != 13
+        or manuscript_artifacts["counts"]["source_candidate_rows"] != 233
+        or manuscript_artifacts["counts"]["independent_target_rows_opened"] != 0
+        or manuscript_artifacts["claims"]["development_artifacts_reproducible"] is not True
+        or manuscript_artifacts["claims"]["every_frozen_primary_table_and_figure_rendered"]
+        is not True
+        or manuscript_artifacts["claims"]["external_reproduction"] is not False
+        or manuscript_artifacts["claims"]["independent_replication"] is not False
+        or manuscript_artifacts["claims"]["bounded_paper_ready"] is not False
+    ):
+        raise ResearchPublicationReadinessError("manuscript artifact evidence changed")
 
 
 def classify_claim_tracks(

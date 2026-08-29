@@ -1,0 +1,132 @@
+from __future__ import annotations
+
+import copy
+import csv
+import io
+import json
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+import pytest
+
+from sigma_theory_compiler import gravity_cluster_manuscript_renderer as renderer
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_frozen_inventory_defines_and_renders_every_primary_artifact() -> None:
+    config = renderer.load_config(ROOT)
+    artifacts = renderer.build_artifacts(ROOT)
+    expected = {
+        row["filename"]
+        for row in config["primary_tables"] + config["primary_figures"]
+    }
+    assert set(artifacts) == expected
+    assert len(artifacts) == 13
+    assert tuple(row["artifact_id"] for row in config["primary_tables"]) == renderer.TABLE_IDS
+    assert tuple(row["artifact_id"] for row in config["primary_figures"]) == renderer.FIGURE_IDS
+
+
+def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -> None:
+    artifacts = renderer.build_artifacts(ROOT)
+    parsed = {
+        filename: list(csv.reader(io.StringIO(value.decode("utf-8"))))
+        for filename, value in artifacts.items()
+        if filename.endswith(".csv")
+    }
+    assert len(parsed) == 7
+    assert all(len(rows) > 2 and len({len(row) for row in rows}) == 1 for rows in parsed.values())
+    table_1 = parsed["table-1-candidate-and-claims.csv"]
+    assert any("g(r)=g_bar(r)+1.5" in cell for row in table_1 for cell in row)
+    table_2 = parsed["table-2-split-performance.csv"]
+    assert {row[0] for row in table_2[1:]} == {
+        "development_train",
+        "development_holdout",
+        "confirmation",
+    }
+    table_3 = parsed["table-3-comparators-and-ablations.csv"]
+    assert {row[0] for row in table_3[1:]} == {"candidate", "comparator", "ablation"}
+    table_4 = parsed["table-4-object-performance.csv"]
+    assert len(table_4) == 21
+    table_7 = parsed["table-7-prior-art-boundary.csv"]
+    assert sum(row[0] == "source" for row in table_7[1:]) == 10
+
+
+def test_all_six_figures_are_standalone_parseable_svg() -> None:
+    artifacts = renderer.build_artifacts(ROOT)
+    figures = {name: value for name, value in artifacts.items() if name.endswith(".svg")}
+    assert len(figures) == 6
+    for value in figures.values():
+        root = ET.fromstring(value)
+        assert root.tag == "{http://www.w3.org/2000/svg}svg"
+        assert root.attrib["viewBox"] == "0 0 960 640"
+        assert b"http://" not in value.replace(b'xmlns="http://www.w3.org/2000/svg"', b"")
+        assert b"https://" not in value
+    observed = figures["figure-1-observed-vs-predicted.svg"]
+    assert observed.count(b"<circle") >= 233
+
+
+def test_receipt_keeps_artifact_reproduction_separate_from_scientific_readiness() -> None:
+    receipt = renderer.build_receipt(ROOT)
+    assert receipt["decision"] == (
+        "PRIMARY_DEVELOPMENT_TABLES_AND_FIGURES_REPRODUCIBLE_NOT_PAPER_READY"
+    )
+    assert receipt["completed_goal_evidence"] == {
+        "CP12.1": "one_command_recreates_all_7_frozen_primary_tables_and_6_frozen_primary_figures"
+    }
+    assert receipt["counts"] == {
+        "primary_tables": 7,
+        "primary_figures": 6,
+        "artifacts": 13,
+        "source_candidate_rows": 233,
+        "independent_target_rows_opened": 0,
+    }
+    assert receipt["claims"]["development_artifacts_reproducible"] is True
+    assert receipt["claims"]["external_reproduction"] is False
+    assert receipt["claims"]["independent_replication"] is False
+    assert receipt["claims"]["bounded_paper_ready"] is False
+
+
+def test_renderer_is_byte_deterministic_and_stored_artifacts_validate() -> None:
+    first = renderer.build_artifacts(ROOT)
+    second = renderer.build_artifacts(ROOT)
+    assert first == second
+    stored = json.loads(
+        (ROOT / "runs/gravity/publication-readiness/manuscript-artifact-manifest-v1.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    renderer.validate_receipt(stored, ROOT)
+    assert stored == renderer.build_receipt(ROOT)
+
+
+@pytest.mark.parametrize(
+    "mutation,match",
+    [
+        (
+            lambda value: value["rendering_contract"].__setitem__(
+                "independent_target_access_allowed", True
+            ),
+            "rendering contract",
+        ),
+        (
+            lambda value: value["primary_figures"].pop(),
+            "artifact inventory",
+        ),
+        (
+            lambda value: value["source_bindings"][0].__setitem__(
+                "file_sha256", "0" * 64
+            ),
+            "source file changed",
+        ),
+    ],
+)
+def test_claim_inventory_and_source_mutations_fail_closed(mutation: object, match: str) -> None:
+    config = copy.deepcopy(renderer.load_config(ROOT))
+    mutation(config)  # type: ignore[operator]
+    if match == "source file changed":
+        with pytest.raises(renderer.GravityClusterManuscriptRendererError, match=match):
+            renderer._load_sources(ROOT, config)
+    else:
+        with pytest.raises(renderer.GravityClusterManuscriptRendererError, match=match):
+            renderer.validate_config(config)

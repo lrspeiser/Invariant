@@ -1,0 +1,50 @@
+{
+  "schema_version": "invariant-gravity-cluster-manuscript-renderer-1.0",
+  "status": "frozen_development_artifacts_only",
+  "renderer_id": "gravity-cluster-manuscript-renderer-v1",
+  "purpose": "Define every primary development table and figure and recreate them in one deterministic command without opening independent target data or changing scientific claims.",
+  "source_bindings": [
+    {
+      "source_id": "manuscript_evidence_package",
+      "path": "runs/gravity/publication-readiness/manuscript-evidence-package-v1.json",
+      "file_sha256": "a57797a265f585bd766d12c73777e96e2c6e3ce88dc860266b7101369b54efc3",
+      "content_sha256": "557be661826cc9d8aa1b0beddc0bfad93037caa12af1f5685691891a761bceea"
+    },
+    {
+      "source_id": "candidate_specification",
+      "path": "configs/gravity_cluster_prior_art_positioning_v1.json",
+      "file_sha256": "9894484fe0d529dec36c133a1c6471b9346d8e6b016d3118278908115984f50f",
+      "content_sha256": null
+    }
+  ],
+  "primary_tables": [
+    {"artifact_id": "TABLE_1_CANDIDATE_AND_CLAIMS", "filename": "table-1-candidate-and-claims.csv", "title": "Frozen candidate, nuisance settings, and claim boundary"},
+    {"artifact_id": "TABLE_2_SPLIT_PERFORMANCE", "filename": "table-2-split-performance.csv", "title": "Absolute candidate performance by split and observable"},
+    {"artifact_id": "TABLE_3_COMPARATORS_AND_ABLATIONS", "filename": "table-3-comparators-and-ablations.csv", "title": "Matched holdout comparators and candidate ablations"},
+    {"artifact_id": "TABLE_4_OBJECT_PERFORMANCE", "filename": "table-4-object-performance.csv", "title": "Per-cluster and per-observable performance"},
+    {"artifact_id": "TABLE_5_ROBUSTNESS_AND_CONTROLS", "filename": "table-5-robustness-and-controls.csv", "title": "Uncertainty, false-selection, numerical, and power controls"},
+    {"artifact_id": "TABLE_6_ACCESS_CLAIMS_LIMITATIONS", "filename": "table-6-access-claims-limitations.csv", "title": "Access ledger, claim adjudication, and limitations"},
+    {"artifact_id": "TABLE_7_PRIOR_ART_BOUNDARY", "filename": "table-7-prior-art-boundary.csv", "title": "Prior-art and historical-novelty boundary"}
+  ],
+  "primary_figures": [
+    {"artifact_id": "FIGURE_1_OBSERVED_VS_PREDICTED", "filename": "figure-1-observed-vs-predicted.svg", "title": "Observed versus predicted pressure and temperature"},
+    {"artifact_id": "FIGURE_2_COMPARATOR_SCORES", "filename": "figure-2-comparator-scores.svg", "title": "Development-holdout score by candidate and comparator"},
+    {"artifact_id": "FIGURE_3_OBJECT_SCORE_HEATMAP", "filename": "figure-3-object-score-heatmap.svg", "title": "Candidate holdout score by cluster and observable"},
+    {"artifact_id": "FIGURE_4_COVARIANCE_STRESS", "filename": "figure-4-covariance-stress.svg", "title": "Candidate versus NFW across covariance stress models"},
+    {"artifact_id": "FIGURE_5_RADIAL_RESIDUALS", "filename": "figure-5-radial-residuals.svg", "title": "Candidate log residual versus radius"},
+    {"artifact_id": "FIGURE_6_FALSE_SELECTION_AND_POWER", "filename": "figure-6-false-selection-and-power.svg", "title": "False-selection control and prospective replication power"}
+  ],
+  "rendering_contract": {
+    "table_format": "RFC4180-compatible UTF-8 CSV with LF line endings",
+    "figure_format": "standalone deterministic SVG 1.1",
+    "figure_width_px": 960,
+    "figure_height_px": 640,
+    "numeric_significant_digits": 12,
+    "font_family": "Arial, sans-serif",
+    "external_fonts_or_assets": false,
+    "timestamps_in_artifacts": false,
+    "independent_target_access_allowed": false
+  },
+  "output_directory": "runs/gravity/publication-readiness/manuscript-artifacts-v1",
+  "receipt_path": "runs/gravity/publication-readiness/manuscript-artifact-manifest-v1.json"
+}

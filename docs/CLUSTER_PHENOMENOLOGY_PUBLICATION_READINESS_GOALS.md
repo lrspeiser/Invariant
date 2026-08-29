@@ -48,6 +48,9 @@ follows the candidate acceleration law.
   comparators, ablations, numerical controls, uncertainty warnings, source revisions,
   and access counts. It explicitly records zero independent target rows and is not a
   completed manuscript or independent replication.
+- One deterministic standard-library command now recreates the frozen inventory of seven
+  primary CSV tables and six standalone SVG figures from that package. The artifact
+  manifest binds every output hash and retains the same not-paper-ready claim boundary.
 
 Useful primary context includes the SPARC radial-acceleration relation
 (https://arxiv.org/abs/1609.05917), the documented residual MOND problem in X-ray groups
@@ -76,7 +79,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP9 | Independent mass probes | No | No for bounded paper | NOT STARTED |
 | CP10 | Group and domain-boundary map | No | No for bounded paper | NOT STARTED |
 | CP11 | Gravity-theory escalation | No | No for bounded paper | BLOCKED |
-| CP12 | External reproduction and manuscript package | No | Yes | PARTIAL; development evidence package complete, renderer, external replay, source release, reviews, and submission open |
+| CP12 | External reproduction and manuscript package | No | Yes | PARTIAL; development package and primary renderer complete; external replay, source release, reviews, and submission open |
 
 ## CP0 — freeze the bounded claim and population
 
@@ -384,7 +387,7 @@ the wording attributes the relation to gravity or claims an alternative to dark 
 Advance criteria: another analyst can reproduce the bounded claim and audit every
 limitation without private state.
 
-- [ ] **CP12.1** Provide one command that recreates every primary table and figure.
+- [x] **CP12.1** Provide one command that recreates every primary table and figure.
 - [x] **CP12.2** Freeze environment, dependencies, random seeds, hardware tolerances, and
   source revisions.
 - [ ] **CP12.3** Publish source, calibration, covariance, transformation, split, and
@@ -405,9 +408,13 @@ limitation without private state.
 The development package is frozen by
 `configs/gravity_cluster_manuscript_evidence_package_v1.json` and reproduced at
 `runs/gravity/publication-readiness/manuscript-evidence-package-v1.json`. It completes
-the evidence-assembly portions of CP12 without substituting for the still-open primary
-figure/table renderer, independent implementation, source/covariance release, expert
-reviews, licensing, or submission decision.
+the evidence-assembly portions of CP12. The exact primary artifact inventory is frozen by
+`configs/gravity_cluster_manuscript_renderer_v1.json`; one `sigma-cluster-manuscript
+render` command recreates all seven tables and six figures and writes the hash-bound
+manifest at
+`runs/gravity/publication-readiness/manuscript-artifact-manifest-v1.json`. These local
+artifacts do not substitute for the still-open independent implementation,
+source/covariance release, expert reviews, licensing, or submission decision.
 
 ## Frozen primary statistical decision to design before CP7 opens data
 
