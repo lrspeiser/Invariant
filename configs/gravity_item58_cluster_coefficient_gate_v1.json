@@ -1,0 +1,119 @@
+{
+  "schema_version": "invariant-gravity-item58-cluster-coefficient-gate-config-1.0",
+  "item": 58,
+  "status": "scientific_freeze_before_item58_cluster_coefficient_evaluation",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "hypothesis": "The cluster-scale beta_eff shift of the unchanged cross-scale diagnostic is predictable among clusters from directly measured baryonic acceleration-profile geometry and X-ray morphology/state, without cluster identity, inferred total mass, or a per-cluster gravitational constant as an input.",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-57-independent-galaxy-gate-v1.json": "0b0564b32f64a9d67a074149e44c9654c4a5f6b90f40a06408193273f8049a30",
+    "runs/gravity/roadmap/item-01-effective-dimension-v1.json": "63b027c314436b40212c434c73a817cd1010bb3de9a3161526256357bb74440e",
+    "runs/gravity/roadmap/item-02-shape-anisotropy-v1.json": "6a257d6086da4c6aaa0bbf0dc2db03be8ea89ff1b1755848a4d45dd57f29f76a",
+    "configs/gravity_g4_cluster_lensing_exploration.json": "0f17d14a5e2f73018a1c1d64d2d9108dbbb03ed1931cf995da6400e0e31e2999",
+    "runs/gravity/g4/cluster-lensing-exploration-v7-source/fig2.tsv": "6ae2cc0a75e2113f2af73c054d5283099b8764b534d17c89b65d8562d799d58a",
+    "src/sigma_theory_compiler/gravity_item1_effective_dimension.py": "eee477298e133bd9598ac6a5b00fa4940c665183e60e724183e38b6e810a3a5e",
+    "src/sigma_theory_compiler/gravity_item2_shape_anisotropy.py": "f9734f018b697f7194a5483840dafd3529f0d8d6502d64f4328c03e33a74dc23",
+    "src/sigma_theory_compiler/gravity_g4_cluster_lensing_exploration.py": "6a86b4db8d8a670b776ff5e3f5dc5fc94fc40f97c0f3551b23f18f1b0635e7e2",
+    "src/sigma_theory_compiler/gravity_g4_first_principles_mechanism_search.py": "72fd908210f59cad9b08a116d4c3cd48f945f35d488428d69b07f247114bb0ff"
+  },
+  "required_predecessor": {
+    "decision": "ITEM57_LITTLE_THINGS_REPLICATES_NEGATIVE_THINGS_SOURCE_LIMITED_EXACT_REPRESENTATION_RETIRED_IN_TESTED_SCOPE",
+    "formula_family_pruned": false
+  },
+  "diagnostic_parent": {
+    "candidate_id": "cross-scale:y:q0p1:ell0p25:permittivity_plus_auxiliary",
+    "formula": "g=g_bar+beta_eff*(g_bar*chi+g_dagger*psi)",
+    "transition_acceleration_m_s2": 1.2e-10,
+    "log_radius_scale": 0.25,
+    "coefficient_grid": {"minimum": 0.0, "maximum": 4.0, "step": 0.01},
+    "beta_label_role": "response derived from the already exposed model-dependent CLASH gtot diagnostic; never an input feature",
+    "frozen_item1_labels_must_replay_exactly": true
+  },
+  "population": {
+    "clusters": 20,
+    "radial_points": 84,
+    "sample": ["A209", "A2261", "A383", "A611", "MACS0329", "MACS0416", "MACS0429", "MACS0647", "MACS0717", "MACS0744", "MACS1115", "MACS1149", "MACS1206", "MACS1720", "MACS1931", "MS2137", "RXJ1347", "RXJ1532", "RXJ2129", "RXJ2248"],
+    "target_status": "already_exposed_spherical_NFW_lensing_posterior_acceleration_diagnostic_not_direct_lensing",
+    "new_response_rows_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sparc_confirmation_response_rows_allowed": 0
+  },
+  "allowed_features": {
+    "baryonic_profile": ["profile_mass_dimension", "local_dimension_median", "local_dimension_iqr", "median_log10_gbar", "log10_gbar_span", "median_log10_radius_kpc", "log10_radius_span", "outer_inner_log10_equivalent_baryon_mass_ratio"],
+    "xray_morphology_state": ["projected_axis_ratio", "projected_concentration_c20", "cluster_log_centroid_shift", "cluster_log_p30"],
+    "derived_synthesis": ["concentration_x_profile_dimension", "ellipticity_x_gbar_span", "boundary_mass_x_centroid_shift", "concentration_x_local_dimension_iqr"]
+  },
+  "feature_lineage": {
+    "gbar": "published CLASH X-ray gas profiles plus empirically estimated stellar baryons",
+    "radius": "published CLASH physical radial coordinate",
+    "xray_shape": "Donahue et al. X-ray surface-brightness morphology within 500 kpc",
+    "feature_builder_target_fields_available": false,
+    "cluster_identifier_available_to_model": false,
+    "gtot_or_lensing_mass_available_to_model": false,
+    "inferred_total_mass_available_to_model": false,
+    "temperature_or_hydrostatic_mass_available_to_model": false,
+    "per_cluster_coefficient_available_to_model": false
+  },
+  "model_families": [
+    {"id": "constant_training_mean", "features": [], "origin_label": "known_regression_baseline", "qualifying": false},
+    {"id": "xray_morphology_state", "features": ["projected_axis_ratio", "projected_concentration_c20", "cluster_log_centroid_shift", "cluster_log_p30"], "origin_label": "known_morphology_statistics_combination", "qualifying": true},
+    {"id": "baryonic_profile_state", "features": ["profile_mass_dimension", "local_dimension_median", "local_dimension_iqr", "median_log10_gbar", "log10_gbar_span", "median_log10_radius_kpc", "log10_radius_span", "outer_inner_log10_equivalent_baryon_mass_ratio"], "origin_label": "known_baryonic_profile_statistics_combination", "qualifying": true},
+    {"id": "compactness_boundary_synthesis", "features": ["profile_mass_dimension", "local_dimension_iqr", "median_log10_gbar", "log10_gbar_span", "projected_axis_ratio", "projected_concentration_c20", "cluster_log_centroid_shift", "concentration_x_profile_dimension", "ellipticity_x_gbar_span", "boundary_mass_x_centroid_shift", "concentration_x_local_dimension_iqr"], "origin_label": "potentially_new_baryonic_boundary_shape_state_synthesis_not_historical_novelty", "qualifying": true},
+    {"id": "combined_geometry_state", "features": ["profile_mass_dimension", "local_dimension_median", "local_dimension_iqr", "median_log10_gbar", "log10_gbar_span", "median_log10_radius_kpc", "log10_radius_span", "outer_inner_log10_equivalent_baryon_mass_ratio", "projected_axis_ratio", "projected_concentration_c20", "cluster_log_centroid_shift", "cluster_log_p30"], "origin_label": "flexible_combination_control", "qualifying": false}
+  ],
+  "evaluation": {
+    "outer_folds": 5,
+    "outer_fold_salt": "invariant-gravity-item58-cluster-coefficient-outer-v1-20260829",
+    "inner_folds": 4,
+    "inner_fold_salt": "invariant-gravity-item58-cluster-coefficient-inner-v1-20260829",
+    "ridge_penalties": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "prediction_clip": [0.0, 4.0],
+    "selection_metric": "whole-cluster mean squared beta_eff error",
+    "fixed_beta_two_comparator": 2.0,
+    "permutations": 1999,
+    "permutation_seed": 5801999,
+    "influence_trim_fraction": 0.1,
+    "target_error_envelopes": ["log_gtot_minus_sigma", "log_gtot_plus_sigma"],
+    "primary_selector": "nested among all frozen model families and ridge penalties using training clusters only"
+  },
+  "admission": {
+    "all_20_clusters_evaluable": true,
+    "no_label_at_grid_boundary": true,
+    "nested_selector_qualifying_folds_minimum": 4,
+    "relative_beta_mse_improvement_over_oof_constant_minimum": 0.1,
+    "oof_beta_r2_minimum": 0.0,
+    "observational_chi_square_below_oof_constant": true,
+    "observational_chi_square_below_fixed_beta_two": true,
+    "permutation_p_maximum": 0.05,
+    "leave_one_and_trim_preserve_improvement": true,
+    "both_target_error_envelopes_preserve_positive_mse_improvement": true,
+    "new_response_rows": 0,
+    "direct_lensing_likelihood_evaluations": 0,
+    "sparc_confirmation_response_rows": 0
+  },
+  "counterexample_policy": {
+    "single_counterexample_terminal": false,
+    "counterexample_count_alone_terminal": false,
+    "finite_sample_may_prune_formula_family": false,
+    "model_dependent_target_prevents_gravity_confirmation": true,
+    "retain_every_cluster_where_selected_model_loses_to_constant": true
+  },
+  "claim_policy": {
+    "cluster_coefficient_gate_can_pass_as_development_evidence": true,
+    "pass_establishes_causal_variable": false,
+    "pass_establishes_alternative_to_gr": false,
+    "pass_eliminates_dark_matter": false,
+    "pass_establishes_historical_novelty": false,
+    "failure_prunes_feature_or_formula_family": false,
+    "direct_clash_lensing_completed": false
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-58-cluster-coefficient-gate-v1-source",
+    "preflight_manifest": "preflight-manifest.json",
+    "feature_table": "cluster-features.tsv",
+    "evaluation_result": "cluster-coefficient-evaluation.json",
+    "aggregate_result": "runs/gravity/roadmap/item-58-cluster-coefficient-gate-v1.json"
+  }
+}
