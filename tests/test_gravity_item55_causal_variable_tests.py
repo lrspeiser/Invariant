@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 
 import numpy as np
 
@@ -8,6 +9,8 @@ from sigma_theory_compiler.gravity_item55_causal_variable_tests import (
     _classification_accuracy,
     _common_support,
     _overlap_coefficients,
+    build_aggregate_result,
+    build_diagnostic_result,
     load_config,
 )
 
@@ -36,3 +39,29 @@ def test_overlap_and_label_diagnostics_detect_separated_synthetic_populations() 
     assert accuracy == 1.0
     assert all(row["correct"] for row in records)
     assert support["pairs_within_caliper"] == 0
+
+
+def test_recorded_item55_diagnostics_are_exactly_replayable() -> None:
+    config = load_config(ROOT)
+    source = ROOT / config["paths"]["source_dir"]
+    diagnostic = json.loads(
+        (source / config["paths"]["diagnostic_result"]).read_text(encoding="utf-8")
+    )
+    aggregate = json.loads(
+        (ROOT / config["paths"]["aggregate_result"]).read_text(encoding="utf-8")
+    )
+    assert diagnostic == build_diagnostic_result(ROOT)
+    assert aggregate == build_aggregate_result(ROOT)
+    assert diagnostic["scores"]["item45_universal_interaction"]["balanced_loss"] < diagnostic[
+        "scores"
+    ]["population_label_only"]["balanced_loss"]
+    assert diagnostic["within_population_axis_ablations"]["geometry"][
+        "relative_balanced_loss_increase"
+    ] > 0.30
+    assert diagnostic["object_level_population_overlap"]["density"] == 0.0
+    assert diagnostic["population_label_predictability"][
+        "leave_one_object_out_nearest_centroid_accuracy"
+    ] == 1.0
+    assert diagnostic["common_support"]["pairs_within_caliper"] == 0
+    assert aggregate["claims"]["causality_established"] is False
+    assert aggregate["claims"]["formula_family_pruned"] is False
