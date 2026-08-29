@@ -1,0 +1,182 @@
+{
+  "schema_version": "invariant-gravity-item44-scale-hierarchy-config-1.0",
+  "item": 44,
+  "status": "scientific_freeze_before_item44_joint_retrospective_evaluation",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "PENDING_ITEM44_SCIENTIFIC_FREEZE_COMMIT",
+  "hypothesis": "A universal law built from ratios among baryonic size, the MOND-like transition length, aperture radius, curvature radius, acceleration wavelength, and cosmological horizon can bridge galaxy and cluster lensing better than the same acceleration law without scale hierarchy.",
+  "scope": {
+    "all_empirical_responses_already_exposed": true,
+    "fresh_confirmation_claim_allowed": false,
+    "paid_api_calls_authorized": false,
+    "maximum_paid_api_usd": 0.0,
+    "historical_novelty_established": false,
+    "covariant_theory_established": false
+  },
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-43-cosmological-boundary-v1.json": "98fc370ab3ecbb23969be97789bd08e72cfbf53b7bc150ca24e2896c8ff7127e",
+    "runs/gravity/roadmap/item-43-cosmological-boundary-v1-source/s4tm-predictors.json": "614024b89e56bce20c78bfff89c4149b8cc423bfef079bdb2e33437392eff813",
+    "runs/gravity/roadmap/item-43-cosmological-boundary-v1-source/sample-manifest.json": "3c93f3cf7f9c68ff694be2d516ab27c845f7d315b84c338480077d79f2830de5",
+    "runs/gravity/roadmap/item-43-cosmological-boundary-v1-source/s4tm-exploration-responses.json": "1b744be6f4e8fff54accdc200f5d7544074d245c908364ec82d867a878430786",
+    "runs/gravity/g4/cluster-lensing-exploration-v7-source/fig2.tsv": "6ae2cc0a75e2113f2af73c054d5283099b8764b534d17c89b65d8562d799d58a",
+    "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/clash_clusters.tsv": "73f69adf19a123a72442614c518adb161cb3405bb3c5311ae418672ebe80ad11"
+  },
+  "required_predecessor": {
+    "content_sha256": "5a1c26876b842de1ed1faa9f0d2f0396812640f061f8db6999dbde6dbabeebeb",
+    "decision": "NONPROMOTED_ITEM43_COSMOLOGICAL_BOUNDARY_RESULT_RETAINED"
+  },
+  "discovery_policy": {
+    "equal_initial_viability": true,
+    "post_evaluation_candidate_cells": 0,
+    "single_empirical_counterexample_is_not_a_formula_or_family_veto": true,
+    "counterexample_count_alone_is_never_decisive": true,
+    "finite_empirical_sample_may_prune_family": false,
+    "unchanged_independent_replication_required_for_terminal_tested_scope_rejection": true,
+    "data_quality_uncertainty_must_be_audited": true
+  },
+  "prior_art": [
+    {
+      "id": "mcgaugh_lelli_schombert_rar_2016",
+      "url": "https://arxiv.org/abs/1609.05917",
+      "role": "known baryonic acceleration relation and empirical acceleration scale"
+    },
+    {
+      "id": "milgrom_a0_cosmology_connection_2020",
+      "url": "https://arxiv.org/abs/2001.09729",
+      "role": "known relation among a0, cH0, and a cosmological length"
+    },
+    {
+      "id": "moffat_scale_dependent_gravity_2005",
+      "url": "https://arxiv.org/abs/gr-qc/0506021",
+      "role": "known running gravitational strength and range across solar, galaxy, and cluster scales"
+    },
+    {
+      "id": "schwab_bolton_rappaport_lens_gravity_2009",
+      "url": "https://arxiv.org/abs/0907.4992",
+      "role": "known strong-lens gravity test and explicit warning about mass-structure systematics"
+    }
+  ],
+  "weak_field_metric_contract": {
+    "metric": "ds^2=-(1+2*Phi/c^2)c^2dt^2+(1-2*Psi/c^2)dx^2",
+    "dynamics": "g_dyn=g_bar*nu(u,H_scale)",
+    "lensing": "g_lens=g_bar*nu under Phi=Psi",
+    "gravitational_slip": "Phi=Psi",
+    "claim_boundary": "This is a dimensionless weak-field hierarchy grammar, not a covariant action, carrier field equation, or derivation of the selected length ratios."
+  },
+  "scale_definitions": {
+    "baryonic_size": "R_b is the physical stellar effective radius for S4TM and the response-blind half-enclosed-baryonic-mass radius for each CLASH profile",
+    "aperture_radius": "R is the Einstein aperture for S4TM and each published CLASH radial point",
+    "transition_length": "r_M=sqrt(G*M_bar(<R)/a0)",
+    "schwarzschild_length": "r_s=2*G*M_bar(<R)/c^2",
+    "curvature_radius": "L_K=sqrt(R^3/r_s), the Schwarzschild weak-field Kretschmann scaling up to a fixed numerical factor",
+    "acceleration_wavelength": "lambda_a=c^2/a0",
+    "horizon_radius": "R_H=c/H(z) in the frozen flat background convention"
+  },
+  "candidate_generator": {
+    "seed": 4400829,
+    "raw_candidate_cells": 262144,
+    "cells_per_niche": 65536,
+    "post_evaluation_cells": 0,
+    "grid_shape_per_niche": [16, 16, 16, 16],
+    "parameter_grids": {
+      "amplitude": [0.02, 0.05, 0.1, 0.2, 0.3, 0.408248290463863, 0.5, 0.65, 0.8, 1.0, 1.25, 1.5, 2.0, 2.75, 4.0, 6.0],
+      "acceleration_exponent": [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.75, 0.9, 1.1, 1.4],
+      "transition_u": [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0, 10000.0, 1000000.0, 100000000.0],
+      "hierarchy_shape": [0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 1.0, 1.2, 1.5, 1.8, 2.0, 2.4, 2.8, 3.2, 4.0, 5.0]
+    },
+    "niches": [
+      {
+        "id": 0,
+        "name": "baryonic_size_transition_match",
+        "creativity_label": "known_transition_radius_idea_with_scale_matching_projection",
+        "coordinate": "H=1/[1+|log10(R_b/r_M)|]"
+      },
+      {
+        "id": 1,
+        "name": "aperture_transition_match",
+        "creativity_label": "known_acceleration_transition_rewritten_as_length_hierarchy",
+        "coordinate": "H=1/[1+|log10(R/r_M)|]"
+      },
+      {
+        "id": 2,
+        "name": "curvature_carrier_bridge",
+        "creativity_label": "potentially_new_curvature_acceleration_wavelength_synthesis_not_historical_novelty",
+        "coordinate": "H=1/[1+|log10(L_K/sqrt(lambda_a*R_H))|]"
+      },
+      {
+        "id": 3,
+        "name": "four_scale_closure",
+        "creativity_label": "potentially_new_four_scale_cross_ratio_not_historical_novelty",
+        "coordinate": "H=1/[1+|log10((R_b/r_M)*(L_K/lambda_a)/(R/R_H))|]"
+      }
+    ],
+    "universal_formula": "nu=1+A*u^(-p)/(1+u/u_t)*(0.05+0.95*H_lane^s)",
+    "admissibility": {
+      "probe_log10_u_min": -8.0,
+      "probe_log10_u_max": 8.0,
+      "probe_points": 49,
+      "probe_hierarchy_coordinates": [0.02, 0.1, 0.3, 0.6, 1.0],
+      "minimum_multiplier": 1.0,
+      "maximum_multiplier": 1000000.0,
+      "maximum_high_acceleration_log10_deviation": 0.001,
+      "minimum_low_acceleration_multiplier": 1.02,
+      "minimum_hierarchy_log10_effect_span": 0.001,
+      "monotone_nonincreasing_tolerance": 1e-10,
+      "behavior_signature_decimals": 6
+    }
+  },
+  "fiducial_cosmology": {
+    "hubble_constant_km_s_mpc": 70.0,
+    "omega_matter": 0.3,
+    "omega_lambda": 0.7,
+    "speed_of_light_km_s": 299792.458
+  },
+  "constants": {
+    "acceleration_scale_m_s2": 1.2e-10,
+    "gravitational_constant_kpc_km2_s2_msun": 4.30091727003628e-6,
+    "kpc_to_km": 3.0856775814913673e16
+  },
+  "data_roles": {
+    "s4tm": "already exposed Item 43 28-lens exploration set; retrospective joint development only; seven Item 43 confirmations remain sealed",
+    "clash": "already exposed 20-cluster, 84-point model-dependent acceleration set; retrospective joint development only",
+    "selection_unit": "whole lens or whole cluster",
+    "balanced_primary_loss": "one half mean S4TM whole-object loss plus one half mean CLASH whole-cluster loss",
+    "fresh_confirmation_opened": false
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "cluster_fold_salt": "invariant-gravity-item44-clash-fold-v1-20260829",
+    "candidate_batch_size": 4096,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_gpu_tolerance": 1e-10,
+    "paired_sign_flip_permutations": 9999,
+    "permutation_seed": 4400999,
+    "robust_trim_fraction": 0.1,
+    "controls": [
+      "baryonic Newton",
+      "fixed MOND/RAR",
+      "matched scale-free candidate search with H=1",
+      "cross-fitted ordinary coordinate ridge"
+    ],
+    "no_candidate_or_coefficient_may_be_selected_on_any_sealed_confirmation": true
+  },
+  "gates": {
+    "candidate_must_beat_matched_scale_free_in_s4tm": true,
+    "candidate_must_beat_matched_scale_free_in_clash": true,
+    "candidate_must_beat_ordinary_ridge_balanced": true,
+    "paired_p_maximum": 0.05,
+    "leave_one_population_object_and_trim_may_not_reverse_sign": true,
+    "confirmation_response_rows": 0,
+    "post_evaluation_candidate_cells": 0
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-44-scale-hierarchy-v1-source",
+    "candidate_manifest": "candidate-manifest.json",
+    "exposure_manifest": "exposure-manifest.json",
+    "feature_receipt": "joint-scale-features.json",
+    "evaluation_result": "joint-evaluation-result.json",
+    "aggregate_result": "runs/gravity/roadmap/item-44-scale-hierarchy-v1.json"
+  }
+}
