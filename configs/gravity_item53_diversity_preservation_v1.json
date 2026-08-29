@@ -1,0 +1,68 @@
+{
+  "schema_version": "invariant-gravity-item53-diversity-preservation-config-1.0",
+  "item": 53,
+  "status": "scientific_freeze_before_item53_archive_selection_and_outcome_comparison",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "hypothesis": "A mechanism-niche archive can preserve substantially more structural diversity than score-only selection while retaining comparable cross-validated predictive performance on the real galaxy-lens and cluster diagnostic.",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "configs/gravity_item52_failure_space_v1.json": "57840e25eb316f828784f0aa49990dd2e9b659f87c2fda254aaced70a531b551",
+    "runs/gravity/roadmap/item-52-failure-space-v1.json": "92fb7b9831f07da4a9cdc473e76dee2602d614b11d455d5cf93a31230b23e45c",
+    "runs/gravity/roadmap/item-52-failure-space-v1-source/failure-space-database.json": "58c589cdd941099948947bc82d64fb30af7a0f76e88bc9f3cc979c6f39715821"
+  },
+  "required_predecessor": {
+    "decision": "ITEM52_QUERYABLE_FAILURE_SPACE_OPERATIONAL_NO_GLOBAL_EMPIRICAL_PRUNING",
+    "content_sha256": "bf377f8294c65c5bf04a60ef81e6382a6b26da7efd0c2a9d418e79cb3729d5b4"
+  },
+  "candidate_pool": {
+    "source": "unique best representative ordinals across all Item 52 empirical regions",
+    "response_fields_used_to_define_pool": 0,
+    "expected_region_records": 1000,
+    "expected_unique_ordinals": 878
+  },
+  "archives": {
+    "slots": 64,
+    "score_only": "lowest Item 52 full-data training loss, then ordinal",
+    "diversity_preserving": [
+      "seed the best available representative for every binary operator",
+      "add the best available representative for every ordered source-item pair",
+      "fill from the best representative of each previously uncovered operator-by-source-pair niche",
+      "fill remaining slots by full-data training loss, then ordinal"
+    ],
+    "selection_deduplicates_ordinals": true,
+    "selection_never_deletes_source_database_records": true
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "selection_unit": "whole object",
+    "balanced_score": "0.5*equal_S4TM_object_MSE+0.5*equal_CLASH_object_MSE",
+    "primary_control": "64-slot score-only archive",
+    "archive_predictor": "select one archive member on each training fold and apply it unchanged to held-out objects",
+    "promotion_gates": {
+      "all_8_operators_preserved": true,
+      "all_16_ordered_source_pairs_preserved": true,
+      "operator_source_niches_at_least": 48,
+      "diversity_archive_oof_loss_at_most_score_only_multiplier": 1.10,
+      "all_source_database_records_preserved": true,
+      "post_evaluation_archive_changes": 0,
+      "sealed_confirmation_rows": 0
+    }
+  },
+  "policy": {
+    "single_counterexample_terminal": false,
+    "finite_empirical_failure_prunes_niche": false,
+    "low_score_alone_deletes_candidate": false,
+    "historical_novelty_established": false,
+    "fresh_confirmation_claim_allowed": false
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-53-diversity-preservation-v1-source",
+    "preflight_manifest": "preflight-manifest.json",
+    "archive_manifest": "archive-manifest.json",
+    "evaluation_result": "archive-evaluation-result.json",
+    "aggregate_result": "runs/gravity/roadmap/item-53-diversity-preservation-v1.json",
+    "report": "docs/GRAVITY_ITEM53_DIVERSITY_PRESERVATION_RESULT.md"
+  }
+}
