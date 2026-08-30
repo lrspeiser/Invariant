@@ -1,0 +1,400 @@
+{
+  "schema_version": "invariant-gravity-gain-persistence-gp01-foundation-config-1.0",
+  "foundation_id": "GAIN-PERSISTENCE-01-FOUNDATION-v1",
+  "version": "1.0.0",
+  "status": "FROZEN_NO_RESPONSE_SYNTHETIC_PREFLIGHT",
+  "purpose": "Compile GP01 local, AQUAL-comparator, transport, elliptic, and telegraph-like contracts before any observational response access.",
+  "scope": {
+    "campaign_scoring": false,
+    "observational_execution": false,
+    "synthetic_execution_only": true,
+    "historical_novelty_claim": false,
+    "physical_theory_claim": false,
+    "allowed_work": [
+      "exact_formula_compilation",
+      "dimension_and_limit_checks",
+      "source-only_synthetic_fields",
+      "transport_and_path_checks",
+      "ellipticity_and_necessary_causal_speed_checks"
+    ]
+  },
+  "source_boundary": {
+    "allowed_inputs": [
+      "this_frozen_configuration",
+      "analytic_dimensionless_synthetic_baryonic_sources",
+      "implementation_source_and_test_hashes"
+    ],
+    "forbidden_inputs": [
+      "rotation_or_velocity_responses",
+      "cluster_pressure_or_temperature",
+      "lensing_or_inferred_total_mass",
+      "redshift_residuals",
+      "confirmation_holdout_or_independent_rows"
+    ],
+    "gain_is_constructed_only_from_baryonic_cause_fields": true,
+    "real_data_paths": []
+  },
+  "variants": [
+    {
+      "variant_id": "GP01-L",
+      "identity": "FORMULA_VARIANT",
+      "role": "local_radial_algebraic_control",
+      "status": "EXECUTABLE_SYNTHETIC_CONTROL_ONLY",
+      "general_three_dimensional_theory": false,
+      "response_scoring_eligible": false
+    },
+    {
+      "variant_id": "GP01-AQUAL",
+      "identity": "KNOWN_FAMILY_COMPARATOR",
+      "role": "conservative_local_field_equation_comparator",
+      "status": "EXACT_PARAMETRIC_MAPPING_COMPILED",
+      "general_three_dimensional_theory": true,
+      "equivalent_to_GP01_L_only_in": "spherical_or_valid_1D_curl_free_symmetry",
+      "general_3d_equivalence": false,
+      "response_scoring_eligible": false
+    },
+    {
+      "variant_id": "GP01-T1",
+      "identity": "FORMULA_VARIANT",
+      "role": "field_line_dilution_with_environmental_reset",
+      "status": "EXECUTABLE_SYNTHETIC_TRANSPORT_ONLY",
+      "general_three_dimensional_theory": false,
+      "response_scoring_eligible": false
+    },
+    {
+      "variant_id": "GP01-T2",
+      "identity": "FORMULA_VARIANT",
+      "role": "field_line_finite_length_relaxation",
+      "status": "EXECUTABLE_SYNTHETIC_TRANSPORT_ONLY",
+      "general_three_dimensional_theory": false,
+      "response_scoring_eligible": false
+    },
+    {
+      "variant_id": "GP01-ELLIPTIC",
+      "identity": "FORMULA_VARIANT",
+      "role": "bounded_gain_spatial_field_contract",
+      "status": "PDE_CONTRACT_SYNTHETIC_PREFLIGHT",
+      "general_three_dimensional_theory": false,
+      "response_scoring_eligible": false
+    },
+    {
+      "variant_id": "GP01-TELEGRAPH",
+      "identity": "FORMULA_VARIANT",
+      "role": "preferred_slice_finite_speed_response_contract",
+      "status": "NECESSARY_CAUSAL_CHECK_ONLY",
+      "general_three_dimensional_theory": false,
+      "response_scoring_eligible": false
+    },
+    {
+      "variant_id": "GP01-ACTION_PLACEHOLDER",
+      "identity": "INCOMPLETE_QUARANTINE",
+      "role": "uncompleted_nonrelativistic_action_seed",
+      "status": "ACTION_PLACEHOLDER_QUARANTINED",
+      "general_three_dimensional_theory": false,
+      "response_scoring_eligible": false
+    }
+  ],
+  "equations": {
+    "baryon_source": "nabla^2 Phi_b = 4*pi*G*rho_b; g_b = -nabla Phi_b; f = |g_b|; y = f/a_star",
+    "gain_definition": "A_g = exp(Gamma) > 0; ordinary gravity is Gamma = 0",
+    "local_nu": "nu_n(y) = (1 + y^(-n))^(1/(2*n))",
+    "local_radial_control": "g_alg = nu_n(|g_b|/a_star) * g_b",
+    "local_limits": "nu_n -> 1 for y -> infinity; |g_alg| -> sqrt(a_star*|g_b|) for y -> 0",
+    "spherical_predictions": "g = sqrt(G*M_b*a_star)/r; v_f^4 = G*M_b*a_star; r_t = sqrt(G*M_b/a_star)",
+    "aqual_equation": "nabla dot [mu_n(|nabla Phi|/a_star) nabla Phi] = 4*pi*G*rho_b",
+    "aqual_parametric_mapping": "x(y) = y*nu_n(y); mu_n(x(y)) = y/x(y) = 1/nu_n(y)",
+    "t1": "n^i D_i Gamma = -beta*W*n^i D_i ln(f) - ((1-W)/L_reset)*Gamma",
+    "t2": "n^i D_i Gamma = (Gamma_target-Gamma)/L_g",
+    "field_direction": "n^i = D^i Phi_b/sqrt(D_j Phi_b D^j Phi_b), defined only for f > 0",
+    "path_independence_gate": "closed integral W d ln(f) = 0 whenever path independence is claimed",
+    "tidal_invariant": "T_b = sqrt(T_ij T^ij); T_ij = D_i D_j Phi_b - (1/3) h_ij D^2 Phi_b",
+    "environment_gate": "W = [1 + (rho_b/rho_star)^q + (T_b/T_star)^r]^(-1)",
+    "bounded_target": "Gamma_target = W*Gamma_max*tanh(ln(1+(a_star/f)^n)/(2*n*Gamma_max))",
+    "exact_null_target": "Gamma_target(f=0) = W*Gamma_max by continuous limit",
+    "coupled_potential": "nabla dot [exp(-Gamma) nabla Phi] = 4*pi*G*rho_b; g = -nabla Phi",
+    "quasi_static_gain": "(1-L_g^2 D^2) Gamma = Gamma_target",
+    "telegraph_gain": "tau_g^2 D_t^2 Gamma + tau_g D_t Gamma - L_g^2 D^2 Gamma + Gamma = Gamma_target",
+    "necessary_characteristic_speed": "c_Gamma = L_g/tau_g <= c",
+    "action_target_state": "Gamma_n(y) = ln(nu_n(y))",
+    "action_target_potential_derivative": "V'_n(Gamma_n(y)) = y^2*nu_n(y)",
+    "action_phi_euler_lagrange": "nabla dot [exp(-Gamma) nabla Phi] = 4*pi*G*rho_b",
+    "action_gamma_euler_lagrange": "exp(-Gamma)|nabla Phi|^2 - a_star^2 V'(Gamma) - 2*a_star^2*tau_g^2 D_t^2 Gamma + 2*a_star^2*L_g^2 D^2 Gamma = 0 in the frozen flat preferred-frame seed"
+  },
+  "dimensions": {
+    "Gamma_A_g_W_nu_mu_x_y_beta_n_q_r": "dimensionless",
+    "Phi_and_Phi_b": "m^2 s^-2",
+    "g_and_g_b_and_a_star": "m s^-2",
+    "rho_b_and_rho_star": "kg m^-3",
+    "T_b_and_T_star": "s^-2",
+    "L_g_L_reset_R_b": "m",
+    "L_g_over_R_b_and_L_reset_over_R_b": "dimensionless",
+    "tau_g": "s",
+    "D_t": "s^-1",
+    "D_i": "m^-1",
+    "elliptic_equation_each_side": "s^-2",
+    "telegraph_equation_each_term": "dimensionless",
+    "V_and_V_prime": "dimensionless"
+  },
+  "parameters": {
+    "beta_principal": 0.5,
+    "free_beta_branch": "IDEA_RESERVOIR_NOT_EXECUTABLE_IN_v1",
+    "a_star_m_s2": 1.2e-10,
+    "a_star_status": "FROZEN_REFERENCE_CELL_NOT_LEARNED_FROM_RESPONSES",
+    "n_grid": [
+      1,
+      2,
+      4
+    ],
+    "R_b_definition": "radius enclosing 90 percent of the declared finite baryonic source mass",
+    "L_g_over_R_b_grid": [
+      0.25,
+      1.0,
+      4.0
+    ],
+    "L_reset_over_R_b_grid": [
+      0.25,
+      1.0,
+      4.0
+    ],
+    "A_max_grid": [
+      2.0,
+      4.0,
+      8.0
+    ],
+    "rho_star_over_source_reference_grid": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "T_star_over_source_reference_grid": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "q_grid": [
+      1,
+      2
+    ],
+    "r_grid": [
+      1,
+      2
+    ],
+    "c_Gamma_over_c_grid": [
+      0.5,
+      1.0
+    ],
+    "synthetic_R_b_m": 1e20,
+    "L_g_zero_control": 0.0,
+    "tau_rule": "L_g_m=(L_g/R_b)*R_b_m and tau_g_s=L_g_m/[(c_Gamma/c)*c_m_s]; equivalently hat_tau=c*tau_g/R_b=(L_g/R_b)/(c_Gamma/c). L_g=0 is the explicit quasi-static local negative control and is rejected as a telegraph cell.",
+    "field_null_tolerance": 1e-12,
+    "object_specific_gravity_parameters": false
+  },
+  "boundaries_and_initial_data": {
+    "GP01-L": "algebraic at each source point; no path or outer fit",
+    "GP01-AQUAL": {
+      "inner": "finite gradient and symmetry regularity",
+      "outer_flux": "integral mu_n(|nabla Phi|/a_star) nabla Phi dot dS = 4*pi*G*M_b",
+      "gauge": "Phi is fixed to zero at one declared reference point",
+      "finite_domain_rule": "boundary shape and Dirichlet/Neumann realization must be frozen before a numerical solve"
+    },
+    "GP01-T1_and_T2": {
+      "orientation": "outward integral curves of +D^i Phi_b",
+      "anchor": "first source-defined high-field surface y = 100, with Gamma equal to Gamma_target there",
+      "unanchored_line": "SOURCE_BLOCKED_UNANCHORED_FIELD_LINE",
+      "field_null": "TRANSPORT_QUARANTINED_AT_NULL",
+      "saddle_separatrix": "TRANSPORT_QUARANTINED_NO_UNIQUE_CONTINUATION",
+      "multiple_anchors": "TRANSPORT_QUARANTINED_MULTIPLE_ANCHORS",
+      "closed_field_line": "TRANSPORT_QUARANTINED_CLOSED_LINE",
+      "domain_exit": "only NONE or DECLARED_OUTER_BOUNDARY is executable; every other exit is quarantined",
+      "route_or_grid_dependence": "INVALID_GENERAL_HISTORY_CLAIM"
+    },
+    "GP01-ELLIPTIC": {
+      "Gamma_inner": "regular finite solution",
+      "Gamma_outer": "Gamma_bg(z=0) = 0 for this synthetic foundation",
+      "Phi_outer": "same total-source flux as the AQUAL comparator plus one gauge point",
+      "exact_null": "use continuous bounded Gamma_target limit"
+    },
+    "GP01-TELEGRAPH": {
+      "slicing": "declared preferred baryon-comoving unit timelike congruence u^mu",
+      "initial_Gamma": "Gamma_target evaluated from the initial synthetic baryonic source",
+      "initial_D_t_Gamma": 0.0,
+      "outer": "Gamma_bg(z=0) = 0",
+      "source_completion": "BLOCKED_INSTANTANEOUS_POISSON_TARGET_NOT_COVARIANT_HYPERBOLIC"
+    }
+  },
+  "theory_filters": [
+    "F01_DIMENSIONS",
+    "F02_HIGH_AND_DEEP_LIMITS",
+    "F03_SPHERICAL_BTF_AND_TRANSITION",
+    "F04_EXACT_AQUAL_MAPPING",
+    "F05_GENERAL_3D_CURL",
+    "F06_PATH_LOCAL_REDUCTION",
+    "F07_ENVIRONMENTAL_CLOSED_PATH",
+    "F08_FIELD_NULL_AND_SEPARATRIX",
+    "F09_CONDITIONAL_BOUNDED_ELLIPTICITY",
+    "F10_TELEGRAPH_NECESSARY_SPEED",
+    "F11_CAUSAL_SOURCE_COMPLETION",
+    "F12_ENERGY_AND_ACTION",
+    "F13_LIGHT_CAPTURE_CLOSURES"
+  ],
+  "synthetic_contract": {
+    "units": "dimensionless test units with G=1, synthetic a_star=0.01, and no mapping to an observed target",
+    "transport_discretization": "piecewise-linear ln(f) with midpoint-constant W for T1 and midpoint-constant Gamma_target for T2; each constant-coefficient segment is propagated analytically",
+    "quasi_static_maximum_principle_conditions": "bounded nonnegative target, nonnegative L_g^2, Dirichlet boundary values in [0,Gamma_max], and a positive M-matrix discretization; this supports a conditional spatial bound only and does not bound telegraph overshoot",
+    "multisource_closed_loop": {
+      "center": [0.15, 0.1],
+      "x_radius": 2.35,
+      "y_radius": 1.75,
+      "points_including_closure": 513,
+      "tidal_reference_rule": "median positive trace-free source-Jacobian norm on the declared loop",
+      "rho_b_on_loop": 0.0,
+      "rho_reference": 1.0,
+      "q": 1,
+      "r": 1
+    },
+    "grid": {
+      "minimum": -3.0,
+      "maximum": 3.0,
+      "points_per_axis": 81,
+      "softening": 0.15
+    },
+    "fixtures": [
+      {
+        "fixture_id": "SYN-GP01-SPHERE",
+        "kind": "isolated_spherical_exterior",
+        "mass": 1.0,
+        "radial_min": 0.1,
+        "radial_max": 100.0,
+        "radial_points": 257,
+        "required_checks": [
+          "local_limits",
+          "transition_root_numerical",
+          "baryonic_tully_fisher",
+          "radial_curl_computed"
+        ]
+      },
+      {
+        "fixture_id": "SYN-GP01-DISK",
+        "kind": "flattened_softened_point_source_disk",
+        "positions": [
+          [-1.2, 0.0],
+          [-0.2, 0.0],
+          [0.9, 0.0]
+        ],
+        "masses": [
+          0.2,
+          0.5,
+          0.3
+        ],
+        "required_checks": [
+          "baryonic_field_curl_analytic_control",
+          "algebraic_gain_induced_curl_computed_counterexample"
+        ]
+      },
+      {
+        "fixture_id": "SYN-GP01-MULTISOURCE",
+        "kind": "unequal_three_source_field",
+        "positions": [
+          [-1.0, 0.0],
+          [1.0, 0.0],
+          [0.0, 1.3]
+        ],
+        "masses": [
+          1.0,
+          0.7,
+          0.4
+        ],
+        "required_checks": [
+          "algebraic_gain_induced_curl_computed_counterexample",
+          "source_derived_environmental_closed_path_computed_failure"
+        ]
+      },
+      {
+        "fixture_id": "SYN-GP01-SADDLE",
+        "kind": "equal_binary_saddle",
+        "positions": [
+          [-1.0, 0.0],
+          [1.0, 0.0]
+        ],
+        "masses": [
+          1.0,
+          1.0
+        ],
+        "required_checks": [
+          "exact_center_field_null",
+          "source_derived_W_and_bounded_target_at_null",
+          "transport_null_refusal_observed"
+        ]
+      },
+      {
+        "fixture_id": "SYN-GP01-VOID",
+        "kind": "sparse_center_inside_baryonic_ring",
+        "ring_radius": 1.5,
+        "ring_source_count": 16,
+        "total_mass": 1.0,
+        "required_checks": [
+          "exact_center_field_null",
+          "source_derived_W_and_bounded_target_at_null",
+          "transport_unanchored_refusal_observed"
+        ]
+      }
+    ]
+  },
+  "closures": {
+    "light": "L0_NO_LIGHT_CLAIM",
+    "capture": "C0_ISOLATED_CONSERVATIVE",
+    "lensing": "NO_DERIVED_PHI_PLUS_PSI",
+    "gravitational_waves": "NO_RELATIVISTIC_PROPAGATING_COMPLETION",
+    "cosmology": "NO_COSMOLOGICAL_COMPLETION"
+  },
+  "action_placeholder": {
+    "label": "ACTION_PLACEHOLDER",
+    "expression": "S_NR = integral dt d^3x [-exp(-Gamma)|nabla Phi|^2/(8*pi*G) + a_star^2*tau_g^2(D_t Gamma)^2/(8*pi*G) - a_star^2*L_g^2|D Gamma|^2/(8*pi*G) - a_star^2*V(Gamma)/(8*pi*G) - rho_b*Phi]",
+    "target_state": "Gamma_n(y)=ln(nu_n(y))",
+    "target_potential_derivative": "V'_n(Gamma_n(y))=y^2*nu_n(y)",
+    "potential_dimension": "dimensionless",
+    "phi_euler_lagrange": "nabla dot [exp(-Gamma) nabla Phi]=4*pi*G*rho_b",
+    "gamma_euler_lagrange": "exp(-Gamma)|nabla Phi|^2-a_star^2 V'(Gamma)-2*a_star^2*tau_g^2 D_t^2 Gamma+2*a_star^2*L_g^2 D^2 Gamma=0 in the frozen flat preferred-frame seed",
+    "high_field_regularity": "As Gamma->0+, V'~(2*n*Gamma)^(-2/n): V diverges by a power for n<2, logarithmically for n=2, and is finite but has divergent nonanalytic derivative for n>2. No n-grid cell is promoted as regular.",
+    "required_missing_definitions": [
+      "physical_preferred_frame_and_covariant_lift",
+      "frozen_regular_potential_V_Gamma",
+      "derivation_of_environment_gate",
+      "damping_bath_or_field_and_energy_ledger",
+      "gain_field_stress_energy",
+      "matter_photon_and_tensor_wave_couplings",
+      "Hamiltonian_and_principal_symbol_audit"
+    ],
+    "executable": false,
+    "response_scoring_eligible": false,
+    "promotion_status": "INCOMPLETE_QUARANTINE"
+  },
+  "claim_boundary": {
+    "local_control_compiled": true,
+    "exact_aqual_mapping_compiled": true,
+    "transport_integrators_are_general_theory": false,
+    "causal_theory_completed": false,
+    "healthy_action_completed": false,
+    "matter_light_unified": false,
+    "capture_mechanism_established": false,
+    "observational_signal_measured": false,
+    "historical_novelty_established": false,
+    "response_scoring_unlocked": false,
+    "confirmation_opened": false
+  },
+  "zero_access": {
+    "observational_files_opened": 0,
+    "predictor_rows_opened": 0,
+    "response_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "formula_scores_computed": 0,
+    "likelihood_calls": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "gpu_calls": 0
+  },
+  "output_path": "runs/gravity/theory/gain-persistence-gp01-foundation-v1.json"
+}
