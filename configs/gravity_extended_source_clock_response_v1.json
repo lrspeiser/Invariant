@@ -1,0 +1,121 @@
+{
+  "schema_version": "invariant-gravity-extended-source-clock-response-config-1.0",
+  "analysis_id": "gravity-extended-source-clock-response-v1",
+  "status": "frozen_synthetic_proof_of_concept_no_real_rows",
+  "purpose": "Test the smallest distance/density-dependent clock-susceptibility law that preserves the successful exterior-galaxy RAR limit, becomes Newtonian outside compact high-acceleration Solar-System sources, and adds an extended-source channel capable of carrying the frozen analytic cluster control.",
+  "predecessor_binding": {
+    "git_commit": "78a9742bd87efee93db404a26b0d2025db89602d",
+    "artifacts": [
+      {
+        "path": "src/sigma_theory_compiler/gpu_baryonic_lensing_cluster_screen.py",
+        "file_sha256": "c0d93954599155123cb55a0dd6cd2e165a02e9258ce9c54eb063578cc4974336"
+      },
+      {
+        "path": "tests/test_gpu_baryonic_lensing_cluster_screen.py",
+        "file_sha256": "bac45c6a8415689d9a849cc4a80fffb5c380b898d5851a03e927f512f62e3c07"
+      },
+      {
+        "path": "runs/gpu-baryonic-screen/lensing-cluster-v1.json",
+        "file_sha256": "9dce867bf32f860e5541bbf4d5eebe37d6acc356a8d3c5183f52bfd2373c638a"
+      }
+    ],
+    "receipt_path": "runs/gpu-baryonic-screen/lensing-cluster-v1.json",
+    "receipt_schema_version": "invariant-gpu-baryonic-lensing-cluster-screen-result-1.0",
+    "receipt_content_sha256": "2db3edaa6a4c7a407a1db7067351d030d73956b7e0f4b887c7851c23cbfd222f",
+    "receipt_decision": "SCREENED-SEALED-NEGATIVE: no processed candidate passes the lensing and cluster gates jointly; closest cluster approach deviation 1.698465275e-01 against tolerance 15e-2"
+  },
+  "clock_hypothesis": {
+    "acceleration_variable": "y=g_b/a0, with one universal a0 and g_b computed from baryons before opening any response",
+    "extended_source_variable": "eta_+=max[0,d ln M_b(<r)/d ln r]=max[0,4 pi r^3 rho_b(r)/M_b(<r)]=max[0,3 rho_b(r)/rho_bar_b(<r)]",
+    "galaxy_channel": "nu_RAR(y)=1/[1-exp(-sqrt(y))]",
+    "extended_source_channel": "nu_ext(eta_+)=2 eta_+",
+    "combined_response": "nu_clock(y,eta_+)=max[nu_RAR(y),nu_ext(eta_+)]",
+    "clock_ratio": "C=d tau_matter/d t_field=nu_clock^(-1/2)",
+    "dynamical_mapping": "g_pred=g_b/C^2=nu_clock g_b",
+    "interpretation": "C is a phenomenological matter-clock or inertial-susceptibility ratio relative to the field-time parameter. It is not yet derived from a covariant metric, action, or field equation.",
+    "normalization_disclosure": "The factor 2 in nu_ext is frozen after inspecting only the inherited analytic beta-model control, where the hydrostatic-to-baryonic acceleration ratio is exactly 2 eta. It is a preregistered exploratory normalization for later real-data testing, not an independently derived constant.",
+    "nonsmoothness_disclosure": "The max operation gives a continuous but generally nondifferentiable channel boundary. A smooth action-level completion has not been derived."
+  },
+  "source_geometry_contract": {
+    "compact_exterior": "Outside a compact spherical source rho_b=0 and M_b is constant, so eta_+=0. At y>>1, nu_RAR tends to 1 and C tends to 1; planetary and binary motion in the exterior Solar-System regime therefore recovers Newtonian dynamics.",
+    "outer_galaxy": "When the baryonic equivalent enclosed mass is asymptotically constant or decreasing under the declared spherical-equivalent diagnostic, eta_+=0 and the law is exactly the empirical RAR. This is an equivalence result, not new galaxy evidence.",
+    "extended_cluster": "When baryonic mass continues to accumulate with radius, eta_+ is positive and the extended-source clock channel can dominate even at the same y that was insufficient for a one-variable acceleration law.",
+    "target_independence": "Both y and eta_+ must be constructed only from frozen baryonic density/mass/radius predictors. Observed velocities, pressure, temperature, lensing, dynamical mass, and fitted response residuals are forbidden inputs.",
+    "failure_action": "If absolute baryonic acceleration or a stable baryonic mass-slope cannot be constructed before response access, the real-object score is blocked rather than inferred from the target."
+  },
+  "synthetic_control_contract": {
+    "galaxy_disk_profile": "Use the predecessor exponential-disk acceleration probes. The equivalent spherical eta=d ln(r^2 g_b)/d ln r is negative at every frozen outer radius, so eta_+=0 and the candidate is exactly nu_RAR there.",
+    "lensing_profile": "Use the predecessor Hernquist profile M(<r)=M r^2/(r+1)^2. Its eta=2/(r+1), and all frozen path radii r>=8 have 2 eta<1<nu_RAR, so the candidate is exactly nu_RAR throughout the inherited lensing calculation.",
+    "cluster_profile": "Use the predecessor beta=2/3 gas sphere rho proportional to (1+r^2)^(-1), M=9(r-atan r), g_b=M/r^2, and g_dyn=18r/(1+r^2). Then eta=r^3/[(1+r^2)(r-atan r)] and g_dyn/g_b=2 eta exactly.",
+    "galaxy_thresholds": {
+      "outer_speed_fractional_spread_max": 0.06,
+      "btfr_slope_absolute_error_max": 0.3
+    },
+    "lensing_thresholds": {
+      "flatness_max": 0.08,
+      "consistency_max": 0.15
+    },
+    "cluster_thresholds": {
+      "max_fractional_deviation": 0.15
+    },
+    "real_observational_rows_authorized": false
+  },
+  "light_and_gravity_contract": {
+    "pure_conformal_warning": "A positive conformal clock rescaling preserves the local photon null cone and does not by itself create the additional lensing associated with nu_clock.",
+    "time_only_metric_warning": "If photons literally propagate more slowly than gravitational waves in the same local background, multimessenger speed constraints become a severe gate. This package does not claim such a split is viable.",
+    "minimal_future_requirement": "A successor must derive one universal physical metric or an equivalent covariant matter coupling in which massive matter and photons reproduce the declared response while the tensor and photon characteristic cones satisfy the frozen GW bound.",
+    "inherited_lensing_use": "The synthetic lensing result uses the predecessor assumption that photons feel the same g_pred with the standard weak-field factor 2. It is a plumbing control, not a derivation or empirical lensing pass.",
+    "gravitational_waves_unaffected_literal_claim": false,
+    "same_action_lensing_derived": false,
+    "common_photon_tensor_cone_derived": false
+  },
+  "adjudication": {
+    "acceleration_only_clock_is_empirical_rar_rewrite": true,
+    "extended_source_variable_is_target_independent_in_declared_profiles": true,
+    "solar_compact_exterior_limit_passed": true,
+    "synthetic_outer_galaxy_gate_passed": true,
+    "synthetic_lensing_gate_passed_under_inherited_assumption": true,
+    "synthetic_cluster_gate_passed": true,
+    "cluster_pass_is_post_hoc_real_data_evidence": false,
+    "real_cluster_score_executed": false,
+    "real_galaxy_score_executed": false,
+    "covariant_clock_theory_derived": false,
+    "lensing_theory_derived": false,
+    "scientific_claim_allowed": false,
+    "overall_decision": "EXTENDED_SOURCE_CLOCK_RESPONSE_PASSES_FROZEN_SYNTHETIC_GALAXY_LENSING_AND_CLUSTER_CONTROLS_REAL_DATA_AND_COVARIANT_LIGHT_GRAVITY_COMPLETION_NOT_RUN"
+  },
+  "claim_boundary": {
+    "proof_of_concept_formula_frozen": true,
+    "synthetic_controls_only": true,
+    "empirical_rar_relabelled_as_new_galaxy_law": false,
+    "real_cluster_compatibility_established": false,
+    "real_galaxy_improvement_established": false,
+    "absolute_cluster_prediction_established": false,
+    "same_action_matter_lensing_completion_established": false,
+    "Solar_System_viability_established": false,
+    "gravitational_wave_viability_established": false,
+    "cosmological_viability_established": false,
+    "dark_matter_eliminated": false,
+    "alternative_to_GR_established": false,
+    "historical_novelty_established": false,
+    "publication_readiness_changed": false
+  },
+  "next_test_contract": {
+    "smallest_real_test": "Before opening responses, compute y(r) and eta_+(r) from absolute baryonic gas+stellar density and enclosed-mass predictors for the eight frozen X-COP development clusters; then compare the no-refit clock law, empirical RAR, gas-only Newtonian, and the existing candidate under identical pressure/temperature nuisance and covariance treatment.",
+    "required_predictor_gap": "The current normalized X-COP shape bridge does not supply absolute g_b/a0 or a complete stellar enclosed-mass profile, so this score remains blocked pending a frozen predictor-side mass reconstruction.",
+    "selection_rule": "Do not tune the factor 2, transition rule, a0, or per-cluster parameters after any real response is opened. Retain all clusters and both wins and failures.",
+    "lensing_followup": "Only after a matter/metric completion is derived should the same frozen law be tested on lensing; do not assume the inherited factor-2 prescription as evidence."
+  },
+  "zero_access_and_compute": {
+    "real_observational_files_opened": 0,
+    "real_observational_rows_opened": 0,
+    "real_target_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "gpu_calls": 0
+  },
+  "output_path": "runs/gravity/theory/extended-source-clock-response-v1.json"
+}
