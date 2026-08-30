@@ -1,0 +1,129 @@
+{
+  "schema_version": "invariant-gravity-shared-quadrature-lensing-backreaction-config-1.0",
+  "analysis_id": "gravity-shared-quadrature-lensing-backreaction-v1",
+  "status": "frozen_no_data_restricted_exterior_lensing_backreaction_derivation",
+  "purpose": "Compute the leading weak-field metric and lensing response sourced by the committed quadrature scalar stress, compare it with the exact scalar force, and determine whether universal conformal coupling closes the motion-lensing gap on the isolated exterior branch.",
+  "predecessor_binding": {
+    "binding_id": "shared_quadrature_covariant_action",
+    "git_commit": "28c5d95c8ddc263cfdbd6c83f99b177a2a282b4f",
+    "artifacts": [
+      {
+        "path": "configs/gravity_shared_quadrature_covariant_action_v1.json",
+        "file_sha256": "dca011dce2390ea37a853a44b501d24865185c83a7f7ecf6ab3e0eeaf69fdc64"
+      },
+      {
+        "path": "src/sigma_theory_compiler/gravity_shared_quadrature_covariant_action.py",
+        "file_sha256": "570d6cab120c9a0c5cf7456a2f2579579acc0388e1efcddaf3bad80fad793197"
+      },
+      {
+        "path": "tests/test_gravity_shared_quadrature_covariant_action.py",
+        "file_sha256": "9519cb28f89f5565f1d3b2a2766352a31212914b809f94410447d04516e84d82"
+      },
+      {
+        "path": "runs/gravity/theory/shared-quadrature-covariant-action-v1.json",
+        "file_sha256": "229187d3780c7996906b9021a401dabaa02b38e55d39e40f3861ec641e341069"
+      }
+    ],
+    "receipt_path": "runs/gravity/theory/shared-quadrature-covariant-action-v1.json",
+    "receipt_content_sha256": "7503b0b833eef1e84f3db97245abcaa7f3f1b6fde1aa6b3678d04e4f155e5398",
+    "receipt_schema_version": "invariant-gravity-shared-quadrature-covariant-action-receipt-1.0",
+    "receipt_decision": "RESTRICTED_QUADRATURE_UNIVERSAL_CONFORMAL_ACTION_DERIVED_EXACT_MOTION_LAW_AND_STRESS_ESTABLISHED_DIRECT_LENSING_CANCELS_CAUSAL_ENDPOINT_GLOBAL_AND_QUANTITATIVE_LENSING_GATES_FAIL"
+  },
+  "frozen_scope": {
+    "signature": "(-,+,+,+)",
+    "metric": "ds^2=-(1+2 Phi_E)dt^2+(1-2 Psi_E)delta_ij dx^i dx^j",
+    "regime": "static linearized Einstein gravity outside a compact spherical baryonic source, with the committed scalar on 0<s<1/2",
+    "planck_convention": "Mpl^2=1/(8 pi G)",
+    "exterior_source": "g_N=G M_b/r^2, r_M=sqrt(G M_b/a0), x=r_M^2/r^2, s=sqrt(x^2+x)-x",
+    "matching_radius": "R is any fixed radius outside the compact baryonic source; O(1/r^2) integration constants are inherited from interior matching.",
+    "exclusions": "No target rows, halo fit, lensing data, external-field cutoff, cosmological boundary, nonspherical solution, nonlinear metric solution, or independent photon multiplier is used."
+  },
+  "linearized_lensing_contract": {
+    "einstein_00": "nabla^2 Psi_E=4 pi G rho",
+    "einstein_spatial_trace": "nabla^2(Phi_E-Psi_E)=4 pi G(p_r+2 p_t)",
+    "lensing_poisson": "nabla^2(Phi_E+Psi_E)=4 pi G(2 rho+p_r+2 p_t)",
+    "quadrature_stress": "rho=2 Mpl^2 a0^2(-p), p_r=2 Mpl^2 a0^2[p+s^3/(1-2s)], p_t=2 Mpl^2 a0^2 p",
+    "scalar_lensing_source": "2 rho+p_r+2 p_t=p_r",
+    "direct_conformal_shift": "Phi_tilde+Psi_tilde=Phi_E+Psi_E; the alpha phi/Mpl shifts cancel exactly.",
+    "interpretation": "The scalar can affect lensing only through its stress sourcing the Einstein metric on this universal conformal branch."
+  },
+  "asymptotic_contract": {
+    "large_radius_branch": "s=r_M/r+O(r^-2), p=-s^3/3+O(s^4)",
+    "energy_density": "rho_phi=(2/3)Mpl^2 a0^2 r_M^3/r^3+O(r^-4)",
+    "lensing_source": "Sigma_phi=2rho+p_r+2p_t=(4/3)Mpl^2 a0^2 r_M^3/r^3+O(r^-4)",
+    "scalar_energy": "M_phi(r)=M_phi(R)+[a0^2 r_M^3/(3G)]ln(r/R)+O(1)",
+    "lensing_gradient": "d_r(Phi_E+Psi_E)_phi=C_R/r^2+[2 a0^2 r_M^3/(3r^2)]ln(r/R)+O(r^-2)",
+    "motion_scalar_force": "g_phi=a0 s=a0 r_M/r+O(r^-2)",
+    "backreaction_to_motion_ratio": "g_lens,phi/g_phi=[2/3](G M_b/r)ln(r/R)+O(GM_b/r)",
+    "backreaction_to_gr_equivalent_ratio": "g_lens,phi/(2g_phi)=[1/3](G M_b/r)ln(r/R)+O(GM_b/r)",
+    "consequence": "Asymptotically in the weak-field exterior, the same scalar stress is compactness-suppressed relative to the motion enhancement, while its total scalar energy has no finite isolated limit; finite-radius matching is not adjudicated as a general no-go."
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy-1.14",
+    "required_symbolic_checks": [
+      "S01_LINEARIZED_G00",
+      "S02_LINEARIZED_SPATIAL_TRACE",
+      "S03_LENSING_POISSON_COMBINATION",
+      "S04_SCALAR_LENSING_SOURCE_EQUALS_RADIAL_PRESSURE",
+      "S05_KINETIC_DENSITY_CUBIC_LIMIT",
+      "S06_ENERGY_DENSITY_CUBIC_LIMIT",
+      "S07_LENSING_SOURCE_CUBIC_LIMIT",
+      "S08_QUADRATURE_INVERSE_RELATION",
+      "S09_EXTERIOR_BRANCH_LIMIT",
+      "S10_ENERGY_DENSITY_RADIAL_COEFFICIENT",
+      "S11_LENSING_SOURCE_RADIAL_COEFFICIENT",
+      "S12_SCALAR_ENERGY_LOG_COEFFICIENT",
+      "S13_LENSING_GRADIENT_LOG_COEFFICIENT",
+      "S14_BACKREACTION_TO_MOTION_RATIO",
+      "S15_BACKREACTION_TO_GR_EQUIVALENT_RATIO",
+      "S16_DIRECT_CONFORMAL_LENSING_CANCELLATION"
+    ],
+    "numeric_x_probes": [0.01, 0.0001, 0.000001, 0.00000001],
+    "numeric_tolerance": 1e-12
+  },
+  "adjudication": {
+    "restricted_linearized_metric_backreaction_derived": true,
+    "direct_conformal_lensing_shift_cancels": true,
+    "scalar_stress_lensing_source_nonzero": true,
+    "scalar_lensing_backreaction_compactness_suppressed": true,
+    "finite_isolated_scalar_energy": false,
+    "standard_finite_ADM_mass_established": false,
+    "same_action_lensing_matches_scalar_motion_enhancement_asymptotically": false,
+    "external_field_or_cosmological_cutoff_derived": false,
+    "quantitative_observable_lensing_prediction_complete": false,
+    "unconditional_all_architecture_no_go_established": false,
+    "separate_photon_adjustment_present": false,
+    "CP11_4_complete": false,
+    "CP11_8_complete": false,
+    "CP11_10_complete": false,
+    "overall_decision": "RESTRICTED_QUADRATURE_LENSING_BACKREACTION_DERIVED_DIRECT_CONFORMAL_SHIFT_CANCELS_SCALAR_STRESS_LENSING_IS_ASYMPTOTICALLY_COMPACTNESS_SUPPRESSED_AND_ISOLATED_ENERGY_LOG_DIVERGES_GLOBAL_QUANTITATIVE_LENSING_REMAINS_BLOCKED"
+  },
+  "claim_boundary": {
+    "restricted_exterior_lensing_backreaction_derived": true,
+    "same_action_quantitative_lensing_success": false,
+    "healthy_global_action_established": false,
+    "causality_established": false,
+    "finite_total_energy_established": false,
+    "Solar_System_completion_established": false,
+    "gravitational_wave_completion_established": false,
+    "cosmological_completion_established": false,
+    "observational_support": false,
+    "historical_novelty_established": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "observational_rows_opened": 0,
+    "predictor_rows_opened": 0,
+    "response_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "network_calls": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/shared-quadrature-lensing-backreaction-v1.json"
+}
