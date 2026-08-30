@@ -47,6 +47,7 @@ SOURCE_IDS = (
     "matter_lensing_covariant_field_equations",
     "matter_lensing_adm_constraint_propagation",
     "matter_lensing_scalar_hamiltonian_necessary_conditions",
+    "matter_lensing_deep_aqual_transition_tradeoff",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -203,6 +204,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     covariant = sources["matter_lensing_covariant_field_equations"]
     adm_constraints = sources["matter_lensing_adm_constraint_propagation"]
     scalar_hamiltonian = sources["matter_lensing_scalar_hamiltonian_necessary_conditions"]
+    deep_aqual_transition = sources["matter_lensing_deep_aqual_transition_tradeoff"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -967,6 +969,72 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         }
     ):
         raise GravityClusterManuscriptPackageError("scalar Hamiltonian ceiling changed")
+    if (
+        deep_aqual_transition["status"]
+        != "conditional_exact_deep_aqual_transition_no_go_and_regulated_tradeoff_derived_full_cp11_4_blocked"
+        or deep_aqual_transition["decision"]
+        != "CONDITIONAL_EXACT_DEEP_AQUAL_TRANSITION_NO_GO_DERIVED_REGULATED_ESCAPE_HAS_ACCURACY_CONE_AND_UNIFORMITY_COSTS_CP11_4_BLOCKED"
+        or deep_aqual_transition["config_binding"]
+        != {
+            "content_sha256": "8d613b3c1d641fa221fc878918b5e989e421e0679264bc89ac6f567a9cde2aa0",
+            "file_sha256": "2d5a67b6231c5fafabffdef5b369e9a42c73e179fd943c2c2925373a0c270277",
+            "path": "configs/gravity_matter_lensing_deep_aqual_transition_tradeoff_v1.json",
+        }
+        or deep_aqual_transition["implementation_binding"]
+        != {
+            "source_file_sha256": "fe68cc6ded344e0723b1aaa77addc3443ddb6dc24c7ea092ca96ab53b1b8f442",
+            "source_path": "src/sigma_theory_compiler/gravity_matter_lensing_deep_aqual_transition_tradeoff.py",
+            "test_file_sha256": "78d887264be449dad5771f4c4c768fe6f4192bfa535a59387b72bedcac767cfe",
+            "test_path": "tests/test_gravity_matter_lensing_deep_aqual_transition_tradeoff.py",
+        }
+        or deep_aqual_transition["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "symbolic_checks": 24,
+            "symbolic_checks_passed": 24,
+        }
+        or deep_aqual_transition["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "causality_established": False,
+            "cutoff_established": False,
+            "exact_deep_aqual_transition_conditional_no_go_derived": True,
+            "exact_deep_aqual_transition_is_C2": False,
+            "exact_deep_aqual_transition_is_uniformly_nondegenerate": False,
+            "healthy_action": False,
+            "observational_support": False,
+            "on_shell_solution_established": False,
+            "overall_decision": "CONDITIONAL_EXACT_DEEP_AQUAL_TRANSITION_NO_GO_DERIVED_REGULATED_ESCAPE_HAS_ACCURACY_CONE_AND_UNIFORMITY_COSTS_CP11_4_BLOCKED",
+            "positive_floor_regulator_preserves_exact_low_gradient_aqual": False,
+            "positive_floor_regulator_removes_transition_degeneracy": True,
+            "regulated_example_has_finite_timelike_positive_principal_coefficients": True,
+            "regulated_example_has_global_unbounded_domain_lower_bound": False,
+            "regulated_example_is_subluminal_relative_to_conformal_matter_cone": False,
+        }
+        or deep_aqual_transition["claim_boundary"]
+        != {
+            "causality_established": False,
+            "conditional_exact_transition_no_go_established": True,
+            "exact_phenomenological_mapping_derived": False,
+            "full_gradient_stability_established": False,
+            "full_hyperbolicity_established": False,
+            "full_no_ghost_result_established": False,
+            "healthy_action_established": False,
+            "motion_and_lensing_jointly_predicted": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "regulated_transition_example_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(deep_aqual_transition["zero_access_and_compute"].values()) != {0}
+    ):
+        raise GravityClusterManuscriptPackageError("deep-AQUAL transition ceiling changed")
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -1009,6 +1077,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     covariant = sources["matter_lensing_covariant_field_equations"]
     adm_constraints = sources["matter_lensing_adm_constraint_propagation"]
     scalar_hamiltonian = sources["matter_lensing_scalar_hamiltonian_necessary_conditions"]
+    deep_aqual_transition = sources["matter_lensing_deep_aqual_transition_tradeoff"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -1651,6 +1720,34 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "scalar_causality_established": scalar_hamiltonian["claim_boundary"][
                 "causality_established"
             ],
+            "deep_aqual_transition_decision": deep_aqual_transition["decision"],
+            "conditional_exact_transition_no_go_established": deep_aqual_transition[
+                "claim_boundary"
+            ]["conditional_exact_transition_no_go_established"],
+            "exact_deep_aqual_transition_is_C2": deep_aqual_transition["adjudication"][
+                "exact_deep_aqual_transition_is_C2"
+            ],
+            "exact_deep_aqual_transition_is_uniformly_nondegenerate": deep_aqual_transition[
+                "adjudication"
+            ]["exact_deep_aqual_transition_is_uniformly_nondegenerate"],
+            "positive_floor_regulator_removes_transition_degeneracy": deep_aqual_transition[
+                "adjudication"
+            ]["positive_floor_regulator_removes_transition_degeneracy"],
+            "positive_floor_regulator_preserves_exact_low_gradient_aqual": deep_aqual_transition[
+                "adjudication"
+            ]["positive_floor_regulator_preserves_exact_low_gradient_aqual"],
+            "regulated_example_is_subluminal_relative_to_conformal_matter_cone": deep_aqual_transition[
+                "adjudication"
+            ]["regulated_example_is_subluminal_relative_to_conformal_matter_cone"],
+            "regulated_example_has_global_unbounded_domain_lower_bound": deep_aqual_transition[
+                "adjudication"
+            ]["regulated_example_has_global_unbounded_domain_lower_bound"],
+            "deep_aqual_transition_CP11_4_complete": deep_aqual_transition["adjudication"][
+                "CP11_4_complete"
+            ],
+            "deep_aqual_transition_healthy_action": deep_aqual_transition["adjudication"][
+                "healthy_action"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -1694,6 +1791,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The covariant successor machine-derives the scalar stress tensor and same-action exchange identity, but treats the Einstein-Hilbert curvature variation as a standard stored contract; its own receipt predates the separately assessed ADM successor.",
                 "The ADM successor completes CP11.3 only for the frozen standard trace-reversed ADM representative and conditionally on solved scalar-matter equations, smooth coefficients, initial constraints, and suitable boundary data; full H2, physical Hamiltonian positivity, full-system hyperbolicity, global propagation, physical solutions, observations, and lensing remain blocked.",
                 "The scalar Hamiltonian successor derives the exact scalar ADM Legendre block and local slice conditions but also preserves a positive-principal negative-energy case; the full metric-matter Hamiltonian, lower bound, boundary flux, cutoff, and CP11.4 health proof remain blocked.",
+                "The deep-AQUAL transition theorem is conditional on exact scaling reaching X=0; its positive-floor escape is only asymptotically AQUAL, widens the scalar cone, lacks an unbounded-domain lower coefficient bound, and does not complete CP11.4.",
             }
         ),
         "counts": {
@@ -1775,6 +1873,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "scalar_hamiltonian_designed_failures_preserved": scalar_hamiltonian["counts"][
                 "designed_failures_preserved"
+            ],
+            "deep_aqual_transition_symbolic_checks_passed": deep_aqual_transition["counts"][
+                "symbolic_checks_passed"
+            ],
+            "deep_aqual_transition_numeric_cases_passed": deep_aqual_transition["counts"][
+                "numeric_cases_passed"
             ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][

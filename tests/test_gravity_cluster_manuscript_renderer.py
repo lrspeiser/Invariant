@@ -159,6 +159,15 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     assert any(
         row[:3]
         == [
+            "matter_lensing_deep_aqual_transition",
+            "conditional_exact_transition_no_go_established",
+            "true",
+        ]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
             "matter_lensing_kinetic_gate",
             "conditional_timelike_mixing_no_go",
             "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES",
@@ -303,6 +312,24 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         == [
             "matter_lensing_theory_boundary",
             "positive_principal_negative_energy_case_preserved",
+            "true",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "deep_aqual_transition_CP11_4_complete",
+            "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "positive_floor_regulator_removes_transition_degeneracy",
             "true",
         ]
         for row in table_6[1:]

@@ -315,6 +315,11 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             lambda value: value["adjudication"].__setitem__("physical_hamiltonian_positive", True),
             "scalar Hamiltonian",
         ),
+        (
+            "matter_lensing_deep_aqual_transition_tradeoff",
+            lambda value: value["adjudication"].__setitem__("CP11_4_complete", True),
+            "deep-AQUAL transition",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -341,7 +346,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 45,
+        "bound_evidence_receipts": 46,
         "independent_target_rows_opened": 0,
     }
 

@@ -247,11 +247,25 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["scalar_full_gradient_stability"] is False
     assert theory["scalar_full_hyperbolicity"] is False
     assert theory["scalar_causality_established"] is False
+    assert theory["deep_aqual_transition_decision"].startswith(
+        "CONDITIONAL_EXACT_DEEP_AQUAL_TRANSITION_NO_GO"
+    )
+    assert theory["conditional_exact_transition_no_go_established"] is True
+    assert theory["exact_deep_aqual_transition_is_C2"] is False
+    assert theory["exact_deep_aqual_transition_is_uniformly_nondegenerate"] is False
+    assert theory["positive_floor_regulator_removes_transition_degeneracy"] is True
+    assert theory["positive_floor_regulator_preserves_exact_low_gradient_aqual"] is False
+    assert theory["regulated_example_is_subluminal_relative_to_conformal_matter_cone"] is False
+    assert theory["regulated_example_has_global_unbounded_domain_lower_bound"] is False
+    assert theory["deep_aqual_transition_CP11_4_complete"] is False
+    assert theory["deep_aqual_transition_healthy_action"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
     assert receipt["counts"]["scalar_hamiltonian_numeric_cases_passed"] == 4
     assert receipt["counts"]["scalar_hamiltonian_designed_failures_preserved"] == 2
+    assert receipt["counts"]["deep_aqual_transition_symbolic_checks_passed"] == 24
+    assert receipt["counts"]["deep_aqual_transition_numeric_cases_passed"] == 4
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -390,6 +404,11 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
                 "full_no_ghost_result_established", True
             ),
             "scalar Hamiltonian",
+        ),
+        (
+            "matter_lensing_deep_aqual_transition_tradeoff",
+            lambda value: value["claim_boundary"].__setitem__("healthy_action_established", True),
+            "deep-AQUAL transition",
         ),
     ],
 )

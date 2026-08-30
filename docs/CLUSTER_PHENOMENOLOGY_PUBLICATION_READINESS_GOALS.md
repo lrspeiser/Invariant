@@ -675,6 +675,16 @@ Legendre/principal coefficients but negative energy. Because the global `P(X)`, 
 physical backgrounds, metric-matter Hamiltonian, cutoff, and boundary flux are not fixed,
 this is partial CP11.4 evidence only; CP11.4 remains open.
 
+The transition successor sharpens a separate CP11.4 obstruction. If exact deep-AQUAL
+scaling `P_X=A sqrt(-X)` is required arbitrarily close to the spacelike-to-timelike
+boundary `X=0`, then both scalar principal coefficients, the homogeneous Legendre
+coefficient, and the effective determinant vanish there, while `P_XX` diverges. A
+machine-checked positive-floor continuation removes the transition degeneracy, but it is
+only asymptotically AQUAL, widens the scalar cone relative to the purely conformal
+matter/photon cone, and has no uniform lower coefficient bound on an unbounded timelike
+domain. This is a conditional transition theorem and quantified design tradeoff, not a
+healthy completed action; CP11.4 remains open.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

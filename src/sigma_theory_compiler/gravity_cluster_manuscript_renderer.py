@@ -699,6 +699,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["restricted_scalar_canonical_hamiltonian_derived"],
             f"CP11.4={theory['scalar_hamiltonian_CP11_4_complete']}; positive Hamiltonian={theory['scalar_physical_hamiltonian_positive']}",
         ),
+        (
+            "matter_lensing_deep_aqual_transition",
+            "conditional_exact_transition_no_go_established",
+            theory["conditional_exact_transition_no_go_established"],
+            f"exact C2={theory['exact_deep_aqual_transition_is_C2']}; regulated subluminal={theory['regulated_example_is_subluminal_relative_to_conformal_matter_cone']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

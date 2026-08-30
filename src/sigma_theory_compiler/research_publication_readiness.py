@@ -412,6 +412,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matter_lensing_covariant_field_equations",
         "matter_lensing_adm_constraint_propagation",
         "matter_lensing_scalar_hamiltonian_necessary_conditions",
+        "matter_lensing_deep_aqual_transition_tradeoff",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -492,6 +493,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     covariant = evidence["matter_lensing_covariant_field_equations"]
     adm_constraints = evidence["matter_lensing_adm_constraint_propagation"]
     scalar_hamiltonian = evidence["matter_lensing_scalar_hamiltonian_necessary_conditions"]
+    deep_aqual_transition = evidence["matter_lensing_deep_aqual_transition_tradeoff"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -1754,6 +1756,72 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         }
     ):
         raise ResearchPublicationReadinessError("scalar Hamiltonian evidence changed")
+    if (
+        deep_aqual_transition["status"]
+        != "conditional_exact_deep_aqual_transition_no_go_and_regulated_tradeoff_derived_full_cp11_4_blocked"
+        or deep_aqual_transition["decision"]
+        != "CONDITIONAL_EXACT_DEEP_AQUAL_TRANSITION_NO_GO_DERIVED_REGULATED_ESCAPE_HAS_ACCURACY_CONE_AND_UNIFORMITY_COSTS_CP11_4_BLOCKED"
+        or deep_aqual_transition["config_binding"]
+        != {
+            "content_sha256": "8d613b3c1d641fa221fc878918b5e989e421e0679264bc89ac6f567a9cde2aa0",
+            "file_sha256": "2d5a67b6231c5fafabffdef5b369e9a42c73e179fd943c2c2925373a0c270277",
+            "path": "configs/gravity_matter_lensing_deep_aqual_transition_tradeoff_v1.json",
+        }
+        or deep_aqual_transition["implementation_binding"]
+        != {
+            "source_file_sha256": "fe68cc6ded344e0723b1aaa77addc3443ddb6dc24c7ea092ca96ab53b1b8f442",
+            "source_path": "src/sigma_theory_compiler/gravity_matter_lensing_deep_aqual_transition_tradeoff.py",
+            "test_file_sha256": "78d887264be449dad5771f4c4c768fe6f4192bfa535a59387b72bedcac767cfe",
+            "test_path": "tests/test_gravity_matter_lensing_deep_aqual_transition_tradeoff.py",
+        }
+        or deep_aqual_transition["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "symbolic_checks": 24,
+            "symbolic_checks_passed": 24,
+        }
+        or deep_aqual_transition["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "causality_established": False,
+            "cutoff_established": False,
+            "exact_deep_aqual_transition_conditional_no_go_derived": True,
+            "exact_deep_aqual_transition_is_C2": False,
+            "exact_deep_aqual_transition_is_uniformly_nondegenerate": False,
+            "healthy_action": False,
+            "observational_support": False,
+            "on_shell_solution_established": False,
+            "overall_decision": "CONDITIONAL_EXACT_DEEP_AQUAL_TRANSITION_NO_GO_DERIVED_REGULATED_ESCAPE_HAS_ACCURACY_CONE_AND_UNIFORMITY_COSTS_CP11_4_BLOCKED",
+            "positive_floor_regulator_preserves_exact_low_gradient_aqual": False,
+            "positive_floor_regulator_removes_transition_degeneracy": True,
+            "regulated_example_has_finite_timelike_positive_principal_coefficients": True,
+            "regulated_example_has_global_unbounded_domain_lower_bound": False,
+            "regulated_example_is_subluminal_relative_to_conformal_matter_cone": False,
+        }
+        or deep_aqual_transition["claim_boundary"]
+        != {
+            "causality_established": False,
+            "conditional_exact_transition_no_go_established": True,
+            "exact_phenomenological_mapping_derived": False,
+            "full_gradient_stability_established": False,
+            "full_hyperbolicity_established": False,
+            "full_no_ghost_result_established": False,
+            "healthy_action_established": False,
+            "motion_and_lensing_jointly_predicted": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "regulated_transition_example_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(deep_aqual_transition["zero_access_and_compute"].values()) != {0}
+    ):
+        raise ResearchPublicationReadinessError("deep-AQUAL transition evidence changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
