@@ -52,6 +52,7 @@ SOURCE_IDS = (
     "shared_quadrature_covariant_action",
     "shared_quadrature_lensing_backreaction",
     "shared_quadrature_universal_vector_metric",
+    "shared_quadrature_aether_mode_conditions",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -213,6 +214,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     quadrature_action = sources["shared_quadrature_covariant_action"]
     quadrature_lensing = sources["shared_quadrature_lensing_backreaction"]
     quadrature_vector = sources["shared_quadrature_universal_vector_metric"]
+    quadrature_aether = sources["shared_quadrature_aether_mode_conditions"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -1328,6 +1330,79 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         or set(quadrature_vector["zero_access_and_compute"].values()) != {0}
     ):
         raise GravityClusterManuscriptPackageError("quadrature vector-metric ceiling changed")
+    if (
+        quadrature_aether["status"]
+        != "restricted_aether_modes_and_ppn_necessary_conditions_derived_no_data"
+        or quadrature_aether["decision"]
+        != "RESTRICTED_AETHER_MODE_AND_PPN_CONDITIONS_DERIVED_EXACT_GW_AND_PPN_ZERO_INTERSECTION_IS_SINGULAR_FINITE_TOLERANCE_ALL_LUMINAL_LOCUS_EXISTS_FULL_VECTOR_SCALAR_THEORY_BLOCKED"
+        or quadrature_aether["config_binding"]
+        != {
+            "content_sha256": "afee6845e2ed891c47f536140426141881f11c314342bece2eb20e789a75918d",
+            "file_sha256": "0090fd57c93bcae073c14c1c5406fe07c38fa555cde440ef2b9b16e4933491f1",
+            "path": "configs/gravity_shared_quadrature_aether_mode_necessary_conditions_v1.json",
+        }
+        or quadrature_aether["implementation_binding"]
+        != {
+            "source_file_sha256": "f836c96f5f12a4021aab3832a2647d2a75723954a38c5bc49123741e79e4d7ce",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_aether_mode_necessary_conditions.py",
+            "test_file_sha256": "5ee61198dcd23ca4588f03f34d9c319f64b55f23dda839ad49b2a09fef7526ad",
+            "test_path": "tests/test_gravity_shared_quadrature_aether_mode_necessary_conditions.py",
+        }
+        or quadrature_aether["counts"]
+        != {
+            "epsilon_cases": 3,
+            "epsilon_cases_passed": 3,
+            "gpu_calls": 0,
+            "inherited_pure_aether_modes": 5,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 7,
+            "predecessor_bindings": 2,
+            "symbolic_checks": 25,
+            "symbolic_checks_passed": 25,
+        }
+        or quadrature_aether["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_5_complete": False,
+            "CP11_6_complete": False,
+            "GW_physical_gate_passed": False,
+            "Solar_System_gate_passed": False,
+            "c13_zero_tensor_condition_specialized": True,
+            "cosmological_gate_passed": False,
+            "exact_c13_alpha1_alpha2_zero_is_regular": False,
+            "finite_locus_alpha1_zero": False,
+            "finite_locus_alpha2_zero": True,
+            "finite_positive_all_g_luminal_locus_exists": True,
+            "full_quadrature_scalar_vector_metric_principal_system_established": False,
+            "nonlinear_vector_health_established": False,
+            "overall_decision": "RESTRICTED_AETHER_MODE_AND_PPN_CONDITIONS_DERIVED_EXACT_GW_AND_PPN_ZERO_INTERSECTION_IS_SINGULAR_FINITE_TOLERANCE_ALL_LUMINAL_LOCUS_EXISTS_FULL_VECTOR_SCALAR_THEORY_BLOCKED",
+            "physical_photon_and_all_pure_aether_cones_align_at_varphi_infinity_zero": True,
+            "pure_aether_five_mode_formulas_bound_and_rechecked": True,
+            "quantitative_lensing_gate_passed": False,
+            "uniform_positive_kinetic_margin_as_alpha1_tolerance_goes_zero": False,
+        }
+        or quadrature_aether["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "cosmological_viability_established": False,
+            "exact_preferred_frame_free_healthy_limit_established": False,
+            "finite_tolerance_luminal_parameter_locus_established": True,
+            "full_covariant_health_established": False,
+            "global_hyperbolicity_established": False,
+            "gravitational_wave_viability_established": False,
+            "historical_novelty_established": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "restricted_pure_aether_mode_specialization_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_aether["zero_access_and_compute"].values()) != {0}
+    ):
+        raise GravityClusterManuscriptPackageError("quadrature aether-mode ceiling changed")
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -1375,6 +1450,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     quadrature_action = sources["shared_quadrature_covariant_action"]
     quadrature_lensing = sources["shared_quadrature_lensing_backreaction"]
     quadrature_vector = sources["shared_quadrature_universal_vector_metric"]
+    quadrature_aether = sources["shared_quadrature_aether_mode_conditions"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -2199,6 +2275,28 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "quadrature_vector_metric_CP11_10_complete": quadrature_vector["adjudication"][
                 "CP11_10_complete"
             ],
+            "quadrature_aether_mode_decision": quadrature_aether["decision"],
+            "quadrature_aether_five_mode_formulas_rechecked": quadrature_aether["adjudication"][
+                "pure_aether_five_mode_formulas_bound_and_rechecked"
+            ],
+            "quadrature_aether_finite_luminal_locus_exists": quadrature_aether["adjudication"][
+                "finite_positive_all_g_luminal_locus_exists"
+            ],
+            "quadrature_aether_exact_gw_ppn_zero_regular": quadrature_aether["adjudication"][
+                "exact_c13_alpha1_alpha2_zero_is_regular"
+            ],
+            "quadrature_aether_uniform_kinetic_margin": quadrature_aether["adjudication"][
+                "uniform_positive_kinetic_margin_as_alpha1_tolerance_goes_zero"
+            ],
+            "quadrature_aether_full_coupled_health": quadrature_aether["claim_boundary"][
+                "full_covariant_health_established"
+            ],
+            "quadrature_aether_Solar_gate": quadrature_aether["adjudication"][
+                "Solar_System_gate_passed"
+            ],
+            "quadrature_aether_GW_gate": quadrature_aether["adjudication"][
+                "GW_physical_gate_passed"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -2246,6 +2344,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The restricted quadrature action exactly embeds the dimensionless motion law in one universal conformal matter/photon metric and derives its scalar stress, but direct conformal lensing shifts cancel, metric backreaction is unsolved, the scalar cone is superluminal, the low-gradient branch is degenerate, the finite-gradient endpoint is singular, and no timelike cosmological branch is defined.",
                 "The restricted exterior backreaction calculation finds a nonzero scalar-stress lensing source, but its large-radius response is compactness-suppressed relative to the scalar motion force and the isolated scalar energy grows logarithmically; finite-radius matching and other same-action architectures are not ruled out, while global quantitative lensing remains blocked.",
                 "The universal vector-metric successor uses one physical metric for matter and photons and matches the leading scalar motion/lensing relation while repairing only the frozen-aether scalar cone; dynamical vector-metric mixing, endpoints, Solar, physical GW, cosmology, and quantitative lensing remain blocked.",
+                "The restricted aether-mode successor has a finite positive all-luminal pure-aether locus, but exact GW-cone and preferred-frame cancellation lies on a singular spin-1/spin-0 kinetic surface; the full coupled vector-scalar-metric system and every physical gate remain blocked.",
             }
         ),
         "counts": {
@@ -2360,6 +2459,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "quadrature_vector_metric_numeric_cases_passed": quadrature_vector["counts"][
                 "numeric_cases_passed"
+            ],
+            "quadrature_aether_symbolic_checks_passed": quadrature_aether["counts"][
+                "symbolic_checks_passed"
+            ],
+            "quadrature_aether_epsilon_cases_passed": quadrature_aether["counts"][
+                "epsilon_cases_passed"
             ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][

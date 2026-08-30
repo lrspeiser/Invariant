@@ -76,6 +76,21 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
         ]
         is False
     )
+    assert (
+        receipt["automatic_findings"]["shared_quadrature_aether_finite_luminal_locus_exists"]
+        is True
+    )
+    assert receipt["automatic_findings"]["shared_quadrature_exact_gw_ppn_zero_regular"] is False
+    assert (
+        receipt["automatic_findings"]["shared_quadrature_uniform_kinetic_margin_at_ppn_zero"]
+        is False
+    )
+    assert (
+        receipt["automatic_findings"][
+            "shared_quadrature_full_aether_scalar_vector_health_established"
+        ]
+        is False
+    )
     assert receipt["readiness"]["independent_cluster_data"]["next_gate"] == "CP3"
     assert receipt["readiness"]["independent_cluster_data"]["ready"] is False
     assert receipt["readiness"]["observational_authorization"] is False
@@ -387,6 +402,13 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             ),
             "quadrature vector-metric",
         ),
+        (
+            "shared_quadrature_aether_mode_conditions",
+            lambda value: value["adjudication"].__setitem__(
+                "exact_c13_alpha1_alpha2_zero_is_regular", True
+            ),
+            "quadrature aether-mode",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -413,7 +435,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 50,
+        "bound_evidence_receipts": 51,
         "independent_target_rows_opened": 0,
     }
 

@@ -733,6 +733,18 @@ finite-gradient endpoint, Solar-System behavior, the physical gravitational-wave
 cosmology, and quantitative lensing observables all remain open. No CP11 checkbox is
 advanced.
 
+The restricted aether-mode successor now tests the dynamical-vector bottleneck on the
+committed aligned-Minkowski Einstein-aether mode system. It finds a finite one-parameter
+locus on which all five pure-aether modes are luminal relative to the Einstein metric
+and have positive linear residues. However, exact tensor-cone alignment together with
+exact cancellation of both preferred-frame PPN parameters forces `c14=c123=0`, where
+the spin-1 and spin-0 kinetic normalizations are singular. Approaching exact PPN
+cancellation along the finite locus also sends both residue margins to zero. This is a
+precise necessary-condition obstruction, not a full vector-scalar-metric no-go: coupled
+quadrature backgrounds, nonlinear constraints, strong coupling, Solar-System matching,
+physical GW propagation, cosmology, and lensing remain unproved. No CP11 checkbox is
+advanced.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

@@ -323,6 +323,16 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["quadrature_vector_metric_CP11_6_complete"] is False
     assert theory["quadrature_vector_metric_CP11_8_complete"] is False
     assert theory["quadrature_vector_metric_CP11_10_complete"] is False
+    assert theory["quadrature_aether_mode_decision"].startswith(
+        "RESTRICTED_AETHER_MODE_AND_PPN_CONDITIONS_DERIVED"
+    )
+    assert theory["quadrature_aether_five_mode_formulas_rechecked"] is True
+    assert theory["quadrature_aether_finite_luminal_locus_exists"] is True
+    assert theory["quadrature_aether_exact_gw_ppn_zero_regular"] is False
+    assert theory["quadrature_aether_uniform_kinetic_margin"] is False
+    assert theory["quadrature_aether_full_coupled_health"] is False
+    assert theory["quadrature_aether_Solar_gate"] is False
+    assert theory["quadrature_aether_GW_gate"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
@@ -339,6 +349,8 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert receipt["counts"]["quadrature_lensing_numeric_probes_passed"] == 4
     assert receipt["counts"]["quadrature_vector_metric_symbolic_checks_passed"] == 21
     assert receipt["counts"]["quadrature_vector_metric_numeric_cases_passed"] == 4
+    assert receipt["counts"]["quadrature_aether_symbolic_checks_passed"] == 25
+    assert receipt["counts"]["quadrature_aether_epsilon_cases_passed"] == 3
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -508,6 +520,13 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             "shared_quadrature_universal_vector_metric",
             lambda value: value["adjudication"].__setitem__("gw_physical_gate_passed", True),
             "quadrature vector-metric",
+        ),
+        (
+            "shared_quadrature_aether_mode_conditions",
+            lambda value: value["claim_boundary"].__setitem__(
+                "full_covariant_health_established", True
+            ),
+            "quadrature aether-mode",
         ),
     ],
 )

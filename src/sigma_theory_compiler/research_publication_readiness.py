@@ -417,6 +417,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "shared_quadrature_covariant_action",
         "shared_quadrature_lensing_backreaction",
         "shared_quadrature_universal_vector_metric",
+        "shared_quadrature_aether_mode_conditions",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -502,6 +503,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     quadrature_action = evidence["shared_quadrature_covariant_action"]
     quadrature_lensing = evidence["shared_quadrature_lensing_backreaction"]
     quadrature_vector = evidence["shared_quadrature_universal_vector_metric"]
+    quadrature_aether = evidence["shared_quadrature_aether_mode_conditions"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -2116,6 +2118,79 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     ):
         raise ResearchPublicationReadinessError("quadrature vector-metric evidence changed")
     if (
+        quadrature_aether["status"]
+        != "restricted_aether_modes_and_ppn_necessary_conditions_derived_no_data"
+        or quadrature_aether["decision"]
+        != "RESTRICTED_AETHER_MODE_AND_PPN_CONDITIONS_DERIVED_EXACT_GW_AND_PPN_ZERO_INTERSECTION_IS_SINGULAR_FINITE_TOLERANCE_ALL_LUMINAL_LOCUS_EXISTS_FULL_VECTOR_SCALAR_THEORY_BLOCKED"
+        or quadrature_aether["config_binding"]
+        != {
+            "content_sha256": "afee6845e2ed891c47f536140426141881f11c314342bece2eb20e789a75918d",
+            "file_sha256": "0090fd57c93bcae073c14c1c5406fe07c38fa555cde440ef2b9b16e4933491f1",
+            "path": "configs/gravity_shared_quadrature_aether_mode_necessary_conditions_v1.json",
+        }
+        or quadrature_aether["implementation_binding"]
+        != {
+            "source_file_sha256": "f836c96f5f12a4021aab3832a2647d2a75723954a38c5bc49123741e79e4d7ce",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_aether_mode_necessary_conditions.py",
+            "test_file_sha256": "5ee61198dcd23ca4588f03f34d9c319f64b55f23dda839ad49b2a09fef7526ad",
+            "test_path": "tests/test_gravity_shared_quadrature_aether_mode_necessary_conditions.py",
+        }
+        or quadrature_aether["counts"]
+        != {
+            "epsilon_cases": 3,
+            "epsilon_cases_passed": 3,
+            "gpu_calls": 0,
+            "inherited_pure_aether_modes": 5,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 7,
+            "predecessor_bindings": 2,
+            "symbolic_checks": 25,
+            "symbolic_checks_passed": 25,
+        }
+        or quadrature_aether["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_5_complete": False,
+            "CP11_6_complete": False,
+            "GW_physical_gate_passed": False,
+            "Solar_System_gate_passed": False,
+            "c13_zero_tensor_condition_specialized": True,
+            "cosmological_gate_passed": False,
+            "exact_c13_alpha1_alpha2_zero_is_regular": False,
+            "finite_locus_alpha1_zero": False,
+            "finite_locus_alpha2_zero": True,
+            "finite_positive_all_g_luminal_locus_exists": True,
+            "full_quadrature_scalar_vector_metric_principal_system_established": False,
+            "nonlinear_vector_health_established": False,
+            "overall_decision": "RESTRICTED_AETHER_MODE_AND_PPN_CONDITIONS_DERIVED_EXACT_GW_AND_PPN_ZERO_INTERSECTION_IS_SINGULAR_FINITE_TOLERANCE_ALL_LUMINAL_LOCUS_EXISTS_FULL_VECTOR_SCALAR_THEORY_BLOCKED",
+            "physical_photon_and_all_pure_aether_cones_align_at_varphi_infinity_zero": True,
+            "pure_aether_five_mode_formulas_bound_and_rechecked": True,
+            "quantitative_lensing_gate_passed": False,
+            "uniform_positive_kinetic_margin_as_alpha1_tolerance_goes_zero": False,
+        }
+        or quadrature_aether["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "cosmological_viability_established": False,
+            "exact_preferred_frame_free_healthy_limit_established": False,
+            "finite_tolerance_luminal_parameter_locus_established": True,
+            "full_covariant_health_established": False,
+            "global_hyperbolicity_established": False,
+            "gravitational_wave_viability_established": False,
+            "historical_novelty_established": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "restricted_pure_aether_mode_specialization_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_aether["zero_access_and_compute"].values()) != {0}
+    ):
+        raise ResearchPublicationReadinessError("quadrature aether-mode evidence changed")
+    if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
         or numerical["claims"]["independent_replication"] is not False
@@ -2315,6 +2390,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "shared_quadrature_fixed_aether_scalar_causal": True,
             "shared_quadrature_full_vector_metric_health_established": False,
             "shared_quadrature_vector_metric_quantitative_lensing_predicted": False,
+            "shared_quadrature_aether_finite_luminal_locus_exists": True,
+            "shared_quadrature_exact_gw_ppn_zero_regular": False,
+            "shared_quadrature_uniform_kinetic_margin_at_ppn_zero": False,
+            "shared_quadrature_full_aether_scalar_vector_health_established": False,
         },
         "readiness": {
             "independent_cluster_data": predata,

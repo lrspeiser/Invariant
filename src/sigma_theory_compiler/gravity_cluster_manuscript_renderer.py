@@ -729,6 +729,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["quadrature_vector_metric_same_action_architecture"],
             f"universal metric={theory['quadrature_vector_metric_universal_matter_photon_metric']}; photon adjustment={theory['quadrature_vector_metric_separate_photon_adjustment']}; leading relation={theory['quadrature_vector_metric_leading_motion_lensing_relation']}; fixed-aether causal={theory['quadrature_vector_metric_fixed_aether_scalar_causal']}; full causal={theory['quadrature_vector_metric_full_causality']}; quantitative lensing={theory['quadrature_vector_metric_quantitative_lensing']}",
         ),
+        (
+            "shared_quadrature_aether_mode_conditions",
+            "finite_positive_all_luminal_pure_aether_locus",
+            theory["quadrature_aether_finite_luminal_locus_exists"],
+            f"five-mode formulas={theory['quadrature_aether_five_mode_formulas_rechecked']}; exact GW+PPN zero regular={theory['quadrature_aether_exact_gw_ppn_zero_regular']}; uniform kinetic margin={theory['quadrature_aether_uniform_kinetic_margin']}; full coupled health={theory['quadrature_aether_full_coupled_health']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(
