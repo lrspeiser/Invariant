@@ -1,0 +1,281 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:invariant:open-gravity:mechanism-card:1.0",
+  "title": "Invariant Open Gravity Typed Mechanism Card v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "card_id",
+    "stable_concept_id",
+    "semantic_version",
+    "identity_class",
+    "parents",
+    "author_agent",
+    "provenance",
+    "lay_mechanism",
+    "novelty_claim",
+    "ontology",
+    "scientific_status",
+    "operational_variables",
+    "source",
+    "coupling",
+    "action_or_equations",
+    "initial_conditions",
+    "boundaries",
+    "degrees_of_freedom",
+    "propagation",
+    "state_rule",
+    "closures",
+    "ledgers",
+    "structure",
+    "dimensions",
+    "parameter_cells",
+    "priors",
+    "screens",
+    "limiting_cases",
+    "source_only_data_contract",
+    "synthetic_falsifier",
+    "real_data_discriminator",
+    "prior_art",
+    "equivalence_fingerprint",
+    "version_change",
+    "hashes"
+  ],
+  "properties": {
+    "schema_version": {"const": "invariant-open-gravity-mechanism-card-1.0"},
+    "card_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]*@[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "stable_concept_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]*$"},
+    "semantic_version": {"$ref": "#/$defs/semver"},
+    "identity_class": {
+      "enum": [
+        "NEW_CONCEPT",
+        "FORMULA_VARIANT",
+        "PARAMETER_CELL",
+        "IMPLEMENTATION",
+        "KNOWN_REWRITE",
+        "EMPIRICALLY_DEGENERATE"
+      ]
+    },
+    "parents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["card_id", "card_sha256", "relation"],
+        "properties": {
+          "card_id": {"type": "string", "minLength": 1},
+          "card_sha256": {"$ref": "#/$defs/sha256"},
+          "relation": {"enum": ["DERIVED_FROM", "SUPERSEDES", "REPAIRS", "REWRITES", "COMPOSES"]}
+        }
+      }
+    },
+    "author_agent": {"type": "string", "minLength": 1},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["created_at_utc", "origin_timing", "origin_artifacts", "residual_access_lineage"],
+      "properties": {
+        "created_at_utc": {"type": "string", "format": "date-time"},
+        "origin_timing": {"enum": ["PRE_RESPONSE", "ADAPTIVE_DEVELOPMENT"]},
+        "origin_artifacts": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "residual_access_lineage": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "lay_mechanism": {"type": "string", "minLength": 1},
+    "novelty_claim": {"type": "string", "minLength": 1},
+    "ontology": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^(QG(0[1-9]|1[0-3])|TWELL-400-v2|GAIN-PERSISTENCE-01|WILDCARD)$"}
+    },
+    "scientific_status": {
+      "enum": ["E_ESTABLISHED", "C_CONTROLLED_UNOBSERVED_SIGNATURE", "H_HYPOTHESIS", "A_ANALOGY"]
+    },
+    "operational_variables": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["symbol", "operational_definition", "dimension", "observable_or_latent"],
+        "properties": {
+          "symbol": {"type": "string", "minLength": 1},
+          "operational_definition": {"type": "string", "minLength": 1},
+          "dimension": {"type": "string", "minLength": 1},
+          "observable_or_latent": {"enum": ["OBSERVABLE", "SOURCE_DERIVED", "LATENT_FIELD"]}
+        }
+      }
+    },
+    "source": {"type": "string", "minLength": 1},
+    "coupling": {"type": "string", "minLength": 1},
+    "action_or_equations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "exact_expressions", "executable"],
+      "properties": {
+        "kind": {"enum": ["ACTION", "FIELD_EQUATIONS", "EFFECTIVE_LAW", "ACTION_PLACEHOLDER"]},
+        "exact_expressions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "executable": {"type": "boolean"}
+      }
+    },
+    "initial_conditions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "boundaries": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "degrees_of_freedom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fields", "spin_helicity", "mass", "statistics", "state", "quantum_applicability"],
+      "properties": {
+        "fields": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "spin_helicity": {"type": "string", "minLength": 1},
+        "mass": {"type": "string", "minLength": 1},
+        "statistics": {"type": "string", "minLength": 1},
+        "state": {"type": "string", "minLength": 1},
+        "quantum_applicability": {"enum": ["NOT_APPLICABLE", "CLASSICAL_LIMIT_ONLY", "QUANTUM_DEFINED"]}
+      }
+    },
+    "propagation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["speed", "dispersion", "polarization", "attenuation", "range", "static_limit"],
+      "properties": {
+        "speed": {"type": "string", "minLength": 1},
+        "dispersion": {"type": "string", "minLength": 1},
+        "polarization": {"type": "string", "minLength": 1},
+        "attenuation": {"type": "string", "minLength": 1},
+        "range": {"type": "string", "minLength": 1},
+        "static_limit": {"type": "string", "minLength": 1}
+      }
+    },
+    "state_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "exact_rule"],
+      "properties": {
+        "mode": {"enum": ["NONE", "LOCAL", "SPATIAL_HISTORY", "TEMPORAL_MEMORY", "RETARDED", "PHASE", "FEEDBACK", "STOCHASTIC"]},
+        "exact_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "closures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["matter", "photon", "gravitational_wave", "quantum_laboratory", "capture", "cosmology"],
+      "properties": {
+        "matter": {"type": "string", "minLength": 1},
+        "photon": {"enum": ["L0_NO_LIGHT_CLAIM", "L1_SINGLE_METRIC", "L2_ACTION_DERIVED_SLIP", "L3_EVOLVING_PATH_SHIFT", "LQ_SPLIT_CONE_QUARANTINE"]},
+        "gravitational_wave": {"type": "string", "minLength": 1},
+        "quantum_laboratory": {"type": "string", "minLength": 1},
+        "capture": {"enum": ["C0_ISOLATED_CONSERVATIVE", "C1_CONSERVATIVE_SUBSYSTEM_EXCHANGE", "C2_BARYONIC_DISSIPATION", "C3_TIME_DEPENDENT_POTENTIAL", "C4_FIELD_EXCHANGE", "C5_STOCHASTIC_DISSIPATIVE"]},
+        "cosmology": {"type": "string", "minLength": 1}
+      }
+    },
+    "ledgers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["energy", "momentum", "entropy", "information"],
+      "properties": {
+        "energy": {"type": "string", "minLength": 1},
+        "momentum": {"type": "string", "minLength": 1},
+        "entropy": {"type": "string", "minLength": 1},
+        "information": {"type": "string", "minLength": 1}
+      }
+    },
+    "structure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["symmetries", "covariance_or_frame", "equivalence_behavior", "causal_structure"],
+      "properties": {
+        "symmetries": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "covariance_or_frame": {"type": "string", "minLength": 1},
+        "equivalence_behavior": {"type": "string", "minLength": 1},
+        "causal_structure": {"type": "string", "minLength": 1}
+      }
+    },
+    "dimensions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "parameter_cells": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cell_id", "parameter", "value", "unit", "frozen"],
+        "properties": {
+          "cell_id": {"type": "string", "minLength": 1},
+          "parameter": {"type": "string", "minLength": 1},
+          "value": {},
+          "unit": {"type": "string", "minLength": 1},
+          "frozen": {"const": true}
+        }
+      }
+    },
+    "priors": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "screens": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "limiting_cases": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "source_only_data_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_inputs", "forbidden_response_inputs", "construction_before_response", "missing_data_action"],
+      "properties": {
+        "allowed_inputs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "forbidden_response_inputs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "construction_before_response": {"const": true},
+        "missing_data_action": {"const": "SOURCE_BLOCKED"}
+      }
+    },
+    "synthetic_falsifier": {"type": "string", "minLength": 1},
+    "real_data_discriminator": {"type": "string", "minLength": 1},
+    "prior_art": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["citation", "relationship"],
+        "properties": {
+          "citation": {"type": "string", "minLength": 1},
+          "relationship": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "equivalence_fingerprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_symbolic_sha256", "analytic_limits_sha256", "synthetic_fingerprint_sha256", "observable_fingerprint_sha256"],
+      "properties": {
+        "canonical_symbolic_sha256": {"$ref": "#/$defs/sha256"},
+        "analytic_limits_sha256": {"$ref": "#/$defs/sha256"},
+        "synthetic_fingerprint_sha256": {"$ref": "#/$defs/sha256"},
+        "observable_fingerprint_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "version_change": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "previous_card_id", "previous_card_sha256", "changed_facets", "prior_result_retained", "replay_all_affected"],
+      "properties": {
+        "kind": {"enum": ["INITIAL_REGISTRATION", "MAJOR", "MINOR", "PATCH", "METADATA_ONLY"]},
+        "previous_card_id": {"type": ["string", "null"]},
+        "previous_card_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "changed_facets": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "prior_result_retained": {"type": "boolean"},
+        "replay_all_affected": {"type": "boolean"}
+      }
+    },
+    "hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code_sha256", "data_sha256", "environment_sha256", "configuration_sha256", "formula_sha256"],
+      "properties": {
+        "code_sha256": {"$ref": "#/$defs/sha256"},
+        "data_sha256": {"$ref": "#/$defs/sha256"},
+        "environment_sha256": {"$ref": "#/$defs/sha256"},
+        "configuration_sha256": {"$ref": "#/$defs/sha256"},
+        "formula_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "$defs": {
+    "semver": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}
