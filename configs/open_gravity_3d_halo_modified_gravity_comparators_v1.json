@@ -1,0 +1,85 @@
+{
+  "schema": "invariant-open-gravity-3d-halo-modified-gravity-comparators-1.0",
+  "package_id": "open-gravity-3d-halo-modified-gravity-comparators-v1",
+  "status": "FROZEN_TARGET_FREE_3D_COMPARATOR_MECHANICS",
+  "purpose": "Provide independent target-free three-dimensional halo and modified-gravity comparator mechanics so future GP01 candidates cannot win against weak or mislabeled controls.",
+  "bindings": [
+    {
+      "role": "NEWTON_AQUAL_QUMOND_BASELINES",
+      "commit": "fe9d3da6233827fdf8ac624fe6223bf629293454",
+      "artifacts": [
+        {"path": "configs/open_gravity_3d_newton_aqual_qumond_baselines_v1.json", "sha256": "cf2e19a8e19d73f855e3efcbff514098ffed07a578187e94f9b7a6b66a8a51d0"},
+        {"path": "src/sigma_theory_compiler/open_gravity_3d_newton_aqual_qumond_baselines_v1.py", "sha256": "5aeed2d338e995f934407df4590272197344666c593bb137bd445a83a1335f2c"},
+        {"path": "runs/gravity/open-gravity-3d-newton-aqual-qumond-baselines-v1/receipt.json", "sha256": "b0e84fe4323838d8687384b9ca6a2db63b401d5584a369521e29316906582fdb"}
+      ]
+    },
+    {
+      "role": "THEORY_CARDS",
+      "commit": "b6a6e56326f369fa7dacc42cff051a2cffdfcd26",
+      "artifacts": [
+        {"path": "configs/open_gravity_gravity_light_quantum_cards_v1.json", "sha256": "7750e3cb496a39cba89a215d2471f1c1bb658ab5e30effd980657fe8ade70348"},
+        {"path": "runs/gravity/open-gravity-gravity-light-quantum-cards-v1/receipt.json", "sha256": "2e0effb63f35740e64428c0f63706e510ff6e0957bb339a6c85e3d4e161e42ef"}
+      ]
+    }
+  ],
+  "primary_sources": [
+    {"id": "NFW", "title": "A Universal Density Profile from Hierarchical Clustering", "url": "https://arxiv.org/abs/astro-ph/9611107"},
+    {"id": "BURKERT", "title": "The Structure of Dark Matter Haloes in Dwarf Galaxies", "url": "https://arxiv.org/abs/astro-ph/9504041"},
+    {"id": "EINASTO_COMPARISON", "title": "Empirical models for Dark Matter Halos I", "url": "https://arxiv.org/abs/astro-ph/0509417"},
+    {"id": "MOG_WEAK_FIELD", "title": "The MOG weak field approximation and observational test of galaxy rotation curves", "url": "https://arxiv.org/abs/1306.6383"},
+    {"id": "REFRACTED_GRAVITY", "title": "Dynamics of galaxies and clusters in refracted gravity", "url": "https://arxiv.org/abs/1603.04943"},
+    {"id": "REFRACTED_GRAVITY_COVARIANT", "title": "Covariant formulation of refracted gravity", "url": "https://arxiv.org/abs/2109.11217"}
+  ],
+  "comparators": [
+    {
+      "id": "HALO_NFW", "kind": "dark_matter_density", "equation": "rho=rho_s/[x(1+x)^2], x=r/r_s", "parameters": ["rho_s", "r_s"], "three_d_completion": "rho evaluated from Euclidean radius on a Cartesian source grid; central cell volume-averaged", "source_id": "NFW", "status": "TARGET_FREE_EXECUTABLE"
+    },
+    {
+      "id": "HALO_BURKERT", "kind": "dark_matter_density", "equation": "rho=rho_0/[(1+x)(1+x^2)], x=r/r_0", "parameters": ["rho_0", "r_0"], "three_d_completion": "rho evaluated from Euclidean radius on a Cartesian source grid", "source_id": "BURKERT", "status": "TARGET_FREE_EXECUTABLE"
+    },
+    {
+      "id": "HALO_EINASTO", "kind": "dark_matter_density", "equation": "rho=rho_minus2 exp[-(2/alpha)((r/r_minus2)^alpha-1)]", "parameters": ["rho_minus2", "r_minus2", "alpha"], "three_d_completion": "rho evaluated from Euclidean radius on a Cartesian source grid", "source_id": "EINASTO_COMPARISON", "status": "TARGET_FREE_EXECUTABLE"
+    },
+    {
+      "id": "MOG_WEAK_FIELD", "kind": "modified_gravity", "equation": "Phi=(1+alpha)Phi_N-alpha Phi_Y; lap Phi_N=4pi rho; (lap-mu^2)Phi_Y=4pi rho", "parameters": ["alpha", "mu"], "three_d_completion": "independent Cartesian Poisson and Helmholtz solves for the same arbitrary baryonic density", "source_id": "MOG_WEAK_FIELD", "status": "TARGET_FREE_EXECUTABLE_WEAK_FIELD_ONLY"
+    },
+    {
+      "id": "REFRACTED_GRAVITY", "kind": "modified_gravity", "equation": "div[epsilon(rho) grad Phi]=4pi rho; epsilon=epsilon_0+(1-epsilon_0)(1+tanh[Q ln(rho/rho_c)])/2", "parameters": ["epsilon_0", "rho_c", "Q"], "three_d_completion": "conservative face-flux Cartesian variable-coefficient elliptic solve", "source_id": "REFRACTED_GRAVITY", "status": "TARGET_FREE_EXECUTABLE_NONCOVARIANT_WEAK_FIELD_ONLY"
+    }
+  ],
+  "numerical_contract": {
+    "units": "normalized target-free G=1 only",
+    "grid_nodes": 13,
+    "half_width": 1.0,
+    "boundary": "Dirichlet values declared per manufactured or zero-box fixture",
+    "halo_central_cell_rule": "NFW uses the exact spherical-cell volume average over radius h/2; Burkert and Einasto use their finite r=0 limits",
+    "refracted_parameters": {"epsilon_0": 0.2, "rho_c": 0.1, "Q": 1.5},
+    "mog_parameters": {"alpha": 1.3, "mu": 0.7}
+  },
+  "required_target_free_gates": [
+    "HALO_POSITIVITY_MONOTONICITY_AND_MASS",
+    "NFW_ANALYTIC_ENCLOSED_MASS",
+    "HALO_CUSP_CORE_DISTINCTION",
+    "POISSON_HALO_RESIDUAL",
+    "HELMHOLTZ_MANUFACTURED",
+    "MOG_POINT_KERNEL_LIMITS",
+    "MOG_ROTATION_COVARIANCE",
+    "REFRACTED_CONSTANT_EPSILON_LIMIT",
+    "REFRACTED_DISK_SPHERE_GEOMETRY_DISCRIMINATOR",
+    "REFRACTED_ROTATION_COVARIANCE",
+    "DESIGNED_NEGATIVE_PARAMETER_FAILURES",
+    "ZERO_RESPONSE_ACCESS"
+  ],
+  "blocked_comparators": [
+    {"id": "FULL_COVARIANT_MOG", "reason": "weak-field kernel does not substitute for the full constrained scalar-tensor-vector action"},
+    {"id": "FULL_COVARIANT_REFRACTED_GRAVITY", "reason": "the density-permittivity elliptic equation does not substitute for the covariant scalar-tensor theory"},
+    {"id": "PUBLISHED_NONLOCAL_GRAVITY", "reason": "exact published reciprocal kernel and boundary contract are not implemented in this package"},
+    {"id": "EMOND", "reason": "potential-dependent action and external boundary are not implemented in this package"}
+  ],
+  "access_contract": {"scientific_source_files": 0, "scientific_response_files": 0, "scientific_rows": 0, "scores": 0, "network_calls_by_builder": 0, "model_calls": 0, "paid_calls": 0},
+  "claim_boundary": {
+    "establishes": ["independent target-free 3-D mechanics for three halo profiles, weak-field MOG, and noncovariant refracted gravity", "geometry and limiting controls required before real scoring"],
+    "does_not_establish": ["a halo fit", "a modified-gravity fit", "parameter universality", "full covariant theory health", "lensing closure", "observational preference", "novelty"]
+  },
+  "output_path": "runs/gravity/open-gravity-3d-halo-modified-gravity-comparators-v1/receipt.json"
+}
