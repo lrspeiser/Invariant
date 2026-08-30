@@ -1,0 +1,158 @@
+{
+  "schema_version": "invariant-gravity-shared-quadrature-reduced-principal-factorization-config-1.0",
+  "analysis_id": "gravity-shared-quadrature-reduced-principal-factorization-v1",
+  "status": "frozen_no_data_static_branch_reduced_principal_factorization",
+  "purpose": "Determine whether the quadrature scalar changes the highest-derivative Einstein-aether physical-mode block on the frozen static W=0 branch, combine the two independently derived reduced symbols only where derivative-order factorization is exact, and retain every gauge, constraint, endpoint, strong-coupling, background, and observational blocker.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "quadrature_universal_vector_metric",
+      "git_commit": "38b1d4a66f79a6275098e4505b6fb55275079378",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_universal_vector_metric_v1.json", "file_sha256": "424cbece2339c9ec0dc83c8f8dd7679822dfcba95e4a60cb4e1938587ac631af"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_universal_vector_metric.py", "file_sha256": "41c4e9dcbc05532db698f74f2b7c7deb61d279bc1858f5768748eee427a3306a"},
+        {"path": "tests/test_gravity_shared_quadrature_universal_vector_metric.py", "file_sha256": "7b22dc7fb157ce59552c68c760b735424257a4fb4abc57d5b4dbe304761abedf"},
+        {"path": "runs/gravity/theory/shared-quadrature-universal-vector-metric-v1.json", "file_sha256": "7a4a7120c1885b86abaf667bd9bc846ca3cb5e608205e81d9a9cd3b37203e0ed"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-universal-vector-metric-v1.json",
+      "receipt_content_sha256": "833f6ba3e1413271c3d70701e4928552fd4680be9421989b0cc014abe8ebdd2e",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-universal-vector-metric-receipt-1.0",
+      "receipt_decision": "RESTRICTED_QUADRATURE_UNIVERSAL_VECTOR_METRIC_ACTION_DERIVED_LEADING_MOTION_LENSING_RELATION_AND_FIXED_AETHER_SCALAR_CAUSALITY_PASS_GLOBAL_VECTOR_ENDPOINT_SOLAR_GW_COSMOLOGY_GATES_BLOCKED"
+    },
+    {
+      "binding_id": "quadrature_aether_mode_necessary_conditions",
+      "git_commit": "ead58bed02739464fbdd6e76c5472e731ff91e73",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_aether_mode_necessary_conditions_v1.json", "file_sha256": "0090fd57c93bcae073c14c1c5406fe07c38fa555cde440ef2b9b16e4933491f1"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_aether_mode_necessary_conditions.py", "file_sha256": "f836c96f5f12a4021aab3832a2647d2a75723954a38c5bc49123741e79e4d7ce"},
+        {"path": "tests/test_gravity_shared_quadrature_aether_mode_necessary_conditions.py", "file_sha256": "5ee61198dcd23ca4588f03f34d9c319f64b55f23dda839ad49b2a09fef7526ad"},
+        {"path": "runs/gravity/theory/shared-quadrature-aether-mode-necessary-conditions-v1.json", "file_sha256": "46aba9df98baeb95df21463f3d5f044192a530ecc61d5a5738424a5c38ca1de8"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-aether-mode-necessary-conditions-v1.json",
+      "receipt_content_sha256": "68b2039468ede40e97516d71cceeef91e367ca8e023cb8d8b62829d859378682",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-aether-mode-necessary-conditions-receipt-1.0",
+      "receipt_decision": "RESTRICTED_AETHER_MODE_AND_PPN_CONDITIONS_DERIVED_EXACT_GW_AND_PPN_ZERO_INTERSECTION_IS_SINGULAR_FINITE_TOLERANCE_ALL_LUMINAL_LOCUS_EXISTS_FULL_VECTOR_SCALAR_THEORY_BLOCKED"
+    }
+  ],
+  "frozen_background_contract": {
+    "metric": "constant local Einstein-frame Minkowski metric with signature (-,+,+,+)",
+    "aether": "constant aligned unit timelike Ubar^mu=(1,0,0,0)",
+    "scalar_jet": "constant spacelike v_mu=partial_mu phibar orthogonal to Ubar, with Wbar=Ubar^mu v_mu/(Mpl a0)=0 and 0<s=alpha sqrt(Zbar)<1/2",
+    "matter": "vacuum principal sector; physical matter and photons define the comparison cone but contribute no background derivative block",
+    "coefficient_freeze": "all background coefficients are frozen locally when extracting the homogeneous degree-two derivative symbol",
+    "solution_status": "the constant nonzero scalar jet is a local off-shell coefficient probe unless separate background equations and boundary data are solved"
+  },
+  "derivative_order_audit": {
+    "scalar_density": "L_phi=F(Z)+B(Z,varphi)W^2 with Z=(g^munu+U^mu U^nu)partial_mu phi partial_nu phi/Lambda^2 and W=U^mu partial_mu phi/Lambda",
+    "scalar_derivative_dependencies": "L_phi contains first derivatives of phi but no derivatives of g_munu or U^mu; g and U enter Z and W algebraically",
+    "static_branch_quadratic_result": "At Wbar=0, the degree-two derivative Hessian has a scalar-scalar block but exactly zero scalar-to-partial-U and scalar-to-partial-g blocks. Terms involving delta U, delta g, or derivatives of them carry at most one perturbation derivative and are lower principal order.",
+    "einstein_aether_dependency": "The Einstein-Hilbert plus Einstein-aether derivative block contains the known metric-vector mixing but no scalar derivative, so the scalar adds no reciprocal degree-two derivative block.",
+    "factorization_scope": "After applying the already committed pure-aether gauge/constraint reduction, the physical principal determinant factors into its five-mode determinant times the one-scalar factor on this frozen branch.",
+    "exclusions": "This does not prove factorization at Wbar nonzero, across varying coefficients, in a matter derivative background, or for an unreduced gauge/constraint formulation."
+  },
+  "reduced_principal_factorization": {
+    "scalar_factor": "P_phi=-A omega^2+K k_parallel^2+C k_perp^2",
+    "scalar_coefficients": "C=alpha^2 s/(1-2s), K=2 alpha^2 s(1-s)/(1-2s)^2, A=exp(-4varphi)K",
+    "aether_factor": "P_EA is the committed product of two spin-2, two spin-1, and one spin-0 gauge/constraint-reduced physical factors",
+    "combined_factor": "P_reduced=P_EA*P_phi, up to nonzero frozen normalization factors",
+    "physical_mode_count": 6,
+    "strong_hyperbolicity_boundary": "Diagonalizable physical factors with positive kinetic coefficients establish only the restricted constant-coefficient reduced physical sector; the full gauge-fixed PDE and constraint subsystem are not established."
+  },
+  "finite_locus_contract": {
+    "aether_locus": "0<epsilon<1/2, c1=epsilon, c2=epsilon/(1-2epsilon), c3=-epsilon, c4=0",
+    "aether_result": "all five pure-aether squared speeds are one and their reduced kinetic/energy coefficients are positive",
+    "physical_alignment": "varphi=0 makes the universal physical photon cone equal to the local Einstein cone",
+    "scalar_result": "c_parallel^2=1 and c_perp^2=(1-2s)/(2(1-s)) lies strictly between zero and one for 0<s<1/2",
+    "combined_result": "all six reduced physical modes have real positive characteristic speeds no larger than the physical photon speed on the finite locus",
+    "exact_limit": "epsilon to zero approaches exact preferred-frame cancellation but removes the spin-1 and spin-0 kinetic margin"
+  },
+  "obstruction_contract": {
+    "preferred_frame": "exact c13=alpha1=alpha2=0 remains on c14=c123=0 and is singular",
+    "scalar_low_gradient": "A, K, and C vanish as s approaches zero, so the scalar principal block degenerates",
+    "scalar_endpoint": "A, K, and C diverge as s approaches one half, so the finite-gradient endpoint is not regular",
+    "background": "no global static, Solar, compact-object, lensing, or FLRW solution realizes the frozen coefficient patch",
+    "constraints": "the unreduced metric-vector gauge and constraint evolution, nonlinear caustics, shock formation, and a common global Cauchy surface remain unproved",
+    "cutoff": "no uniform strong-coupling or EFT cutoff stays positive as epsilon or s approaches its singular limits",
+    "observations": "no observational row is opened and no Solar, GW, binary-pulsar, cosmology, or lensing likelihood is evaluated"
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy-1.14",
+    "required_symbolic_checks": [
+      "S01_SCALAR_DERIVATIVE_HESSIAN",
+      "S02_SCALAR_TO_DERIVATIVE_AETHER_ZERO",
+      "S03_SCALAR_TO_DERIVATIVE_METRIC_ZERO",
+      "S04_AETHER_TO_DERIVATIVE_SCALAR_ZERO",
+      "S05_METRIC_TO_DERIVATIVE_SCALAR_ZERO",
+      "S06_STATIC_W_QUADRATIC_TIME_COEFFICIENT",
+      "S07_STATIC_Z_LONGITUDINAL_COEFFICIENT",
+      "S08_STATIC_Z_TRANSVERSE_COEFFICIENT",
+      "S09_REDUCED_DETERMINANT_FACTORIZATION",
+      "S10_AETHER_LUMINAL_MULTIPLICITY",
+      "S11_SCALAR_LONGITUDINAL_PHOTON_ALIGNMENT",
+      "S12_SCALAR_TRANSVERSE_RATIO",
+      "S13_SCALAR_TRANSVERSE_POSITIVE_PARAMETERIZATION",
+      "S14_SCALAR_TRANSVERSE_SUBLUMINAL_PARAMETERIZATION",
+      "S15_SIX_REDUCED_MODE_COUNT",
+      "S16_FINITE_LOCUS_POSITIVE_AETHER_KINETIC",
+      "S17_FINITE_BRANCH_POSITIVE_SCALAR_TIME_COEFFICIENT",
+      "S18_FINITE_BRANCH_POSITIVE_SCALAR_SPATIAL_COEFFICIENTS",
+      "S19_EPSILON_ZERO_VECTOR_MARGIN",
+      "S20_S_ZERO_SCALAR_MARGIN",
+      "S21_EXACT_PPN_INTERSECTION_SINGULAR",
+      "S22_PHYSICAL_CONE_RATIO_AT_VARPHI_ZERO"
+    ],
+    "numeric_cases": [
+      {"epsilon": "1/100", "s": "1/100"},
+      {"epsilon": "1/1000", "s": "1/10"},
+      {"epsilon": "1/10000", "s": "1/4"},
+      {"epsilon": "1/1000000", "s": "49/100"}
+    ],
+    "numeric_tolerance": 1e-12
+  },
+  "adjudication": {
+    "static_W_zero_scalar_to_aether_metric_principal_mixing_present": false,
+    "restricted_reduced_physical_principal_factorization_established": true,
+    "finite_locus_six_reduced_modes_causal_relative_to_physical_photons": true,
+    "exact_preferred_frame_free_limit_regular": false,
+    "unreduced_gauge_constraint_system_strongly_hyperbolic": false,
+    "nonzero_W_or_varying_background_factorization_established": false,
+    "nonlinear_vector_scalar_health_established": false,
+    "uniform_cutoff_established": false,
+    "Solar_System_gate_passed": false,
+    "GW_physical_gate_passed": false,
+    "cosmological_gate_passed": false,
+    "quantitative_lensing_gate_passed": false,
+    "CP11_4_complete": false,
+    "CP11_5_complete": false,
+    "CP11_6_complete": false,
+    "overall_decision": "RESTRICTED_STATIC_BRANCH_REDUCED_PRINCIPAL_FACTORIZATION_DERIVED_SIX_PHYSICAL_MODES_CAUSAL_ON_FINITE_LOCUS_EXACT_PPN_LIMIT_AND_GLOBAL_HEALTH_BLOCKED"
+  },
+  "claim_boundary": {
+    "restricted_static_branch_reduced_principal_factorization_established": true,
+    "restricted_six_mode_local_causality_established": true,
+    "full_covariant_health_established": false,
+    "global_hyperbolicity_established": false,
+    "healthy_action_established": false,
+    "Solar_System_viability_established": false,
+    "gravitational_wave_viability_established": false,
+    "cosmological_viability_established": false,
+    "quantitative_lensing_observables_predicted": false,
+    "observational_support": false,
+    "historical_novelty_established": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "observational_rows_opened": 0,
+    "Solar_rows_opened": 0,
+    "GW_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "network_calls_by_builder": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/shared-quadrature-reduced-principal-factorization-v1.json"
+}
