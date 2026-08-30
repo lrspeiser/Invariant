@@ -293,6 +293,18 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["quadrature_action_CP11_1_complete"] is False
     assert theory["quadrature_action_CP11_4_complete"] is False
     assert theory["quadrature_action_CP11_8_complete"] is False
+    assert theory["quadrature_lensing_decision"].startswith(
+        "RESTRICTED_QUADRATURE_LENSING_BACKREACTION_DERIVED"
+    )
+    assert theory["quadrature_restricted_lensing_backreaction_derived"] is True
+    assert theory["quadrature_scalar_stress_lensing_source_nonzero"] is True
+    assert theory["quadrature_lensing_backreaction_compactness_suppressed"] is True
+    assert theory["quadrature_asymptotic_motion_lensing_match"] is False
+    assert theory["quadrature_finite_isolated_scalar_energy"] is False
+    assert theory["quadrature_standard_finite_ADM_mass_established"] is False
+    assert theory["quadrature_global_quantitative_lensing_success"] is False
+    assert theory["quadrature_lensing_CP11_8_complete"] is False
+    assert theory["quadrature_lensing_CP11_10_complete"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
@@ -305,6 +317,8 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert receipt["counts"]["formula_kinetic_rar_witness_points"] == 2
     assert receipt["counts"]["quadrature_action_symbolic_checks_passed"] == 24
     assert receipt["counts"]["quadrature_action_numeric_branch_probes_passed"] == 4
+    assert receipt["counts"]["quadrature_lensing_symbolic_checks_passed"] == 16
+    assert receipt["counts"]["quadrature_lensing_numeric_probes_passed"] == 4
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -462,6 +476,13 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
                 "quantitative_lensing_prediction_established", True
             ),
             "quadrature action",
+        ),
+        (
+            "shared_quadrature_lensing_backreaction",
+            lambda value: value["adjudication"].__setitem__(
+                "same_action_lensing_matches_scalar_motion_enhancement_asymptotically", True
+            ),
+            "quadrature lensing",
         ),
     ],
 )

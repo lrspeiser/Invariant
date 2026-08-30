@@ -50,6 +50,7 @@ SOURCE_IDS = (
     "matter_lensing_deep_aqual_transition_tradeoff",
     "shared_formula_scalar_kinetic_reconstruction",
     "shared_quadrature_covariant_action",
+    "shared_quadrature_lensing_backreaction",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -209,6 +210,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     deep_aqual_transition = sources["matter_lensing_deep_aqual_transition_tradeoff"]
     formula_kinetic = sources["shared_formula_scalar_kinetic_reconstruction"]
     quadrature_action = sources["shared_quadrature_covariant_action"]
+    quadrature_lensing = sources["shared_quadrature_lensing_backreaction"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -1182,6 +1184,73 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         or set(quadrature_action["zero_access_and_compute"].values()) != {0}
     ):
         raise GravityClusterManuscriptPackageError("quadrature action ceiling changed")
+    if (
+        quadrature_lensing["status"]
+        != "restricted_exterior_quadrature_lensing_backreaction_derived_no_data_quantitative_lensing_failed"
+        or quadrature_lensing["decision"]
+        != "RESTRICTED_QUADRATURE_LENSING_BACKREACTION_DERIVED_DIRECT_CONFORMAL_SHIFT_CANCELS_SCALAR_STRESS_LENSING_IS_ASYMPTOTICALLY_COMPACTNESS_SUPPRESSED_AND_ISOLATED_ENERGY_LOG_DIVERGES_GLOBAL_QUANTITATIVE_LENSING_REMAINS_BLOCKED"
+        or quadrature_lensing["config_binding"]
+        != {
+            "content_sha256": "d68b84e112933c36d26fe4461fe8e48bdfdac79b8a499b3712ae76b0ffb50b04",
+            "file_sha256": "3eb1558be624966fb861e860d6f590d8c76ad7862ae25cc29c43489d499bc55a",
+            "path": "configs/gravity_shared_quadrature_lensing_backreaction_v1.json",
+        }
+        or quadrature_lensing["implementation_binding"]
+        != {
+            "source_file_sha256": "98d3c1c21cf667ad02e4b657b10446c24ce54f7647bc39d829a7a15c0c1f96f5",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_lensing_backreaction.py",
+            "test_file_sha256": "05bbfd6865816ba46d0cfe315ab816fec9321dfbdaec3f20b0590df014a480ff",
+            "test_path": "tests/test_gravity_shared_quadrature_lensing_backreaction.py",
+        }
+        or quadrature_lensing["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_probes": 4,
+            "numeric_probes_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 4,
+            "symbolic_checks": 16,
+            "symbolic_checks_passed": 16,
+        }
+        or quadrature_lensing["adjudication"]
+        != {
+            "CP11_10_complete": False,
+            "CP11_4_complete": False,
+            "CP11_8_complete": False,
+            "direct_conformal_lensing_shift_cancels": True,
+            "external_field_or_cosmological_cutoff_derived": False,
+            "finite_isolated_scalar_energy": False,
+            "overall_decision": "RESTRICTED_QUADRATURE_LENSING_BACKREACTION_DERIVED_DIRECT_CONFORMAL_SHIFT_CANCELS_SCALAR_STRESS_LENSING_IS_ASYMPTOTICALLY_COMPACTNESS_SUPPRESSED_AND_ISOLATED_ENERGY_LOG_DIVERGES_GLOBAL_QUANTITATIVE_LENSING_REMAINS_BLOCKED",
+            "quantitative_observable_lensing_prediction_complete": False,
+            "restricted_linearized_metric_backreaction_derived": True,
+            "same_action_lensing_matches_scalar_motion_enhancement_asymptotically": False,
+            "scalar_lensing_backreaction_compactness_suppressed": True,
+            "scalar_stress_lensing_source_nonzero": True,
+            "separate_photon_adjustment_present": False,
+            "standard_finite_ADM_mass_established": False,
+            "unconditional_all_architecture_no_go_established": False,
+        }
+        or quadrature_lensing["claim_boundary"]
+        != {
+            "Solar_System_completion_established": False,
+            "causality_established": False,
+            "cosmological_completion_established": False,
+            "finite_total_energy_established": False,
+            "gravitational_wave_completion_established": False,
+            "healthy_global_action_established": False,
+            "historical_novelty_established": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "restricted_exterior_lensing_backreaction_derived": True,
+            "same_action_quantitative_lensing_success": False,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_lensing["zero_access_and_compute"].values()) != {0}
+    ):
+        raise GravityClusterManuscriptPackageError("quadrature lensing ceiling changed")
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -1227,6 +1296,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     deep_aqual_transition = sources["matter_lensing_deep_aqual_transition_tradeoff"]
     formula_kinetic = sources["shared_formula_scalar_kinetic_reconstruction"]
     quadrature_action = sources["shared_quadrature_covariant_action"]
+    quadrature_lensing = sources["shared_quadrature_lensing_backreaction"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -1977,6 +2047,34 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "quadrature_action_CP11_8_complete": quadrature_action["adjudication"][
                 "CP11_8_complete"
             ],
+            "quadrature_lensing_decision": quadrature_lensing["decision"],
+            "quadrature_restricted_lensing_backreaction_derived": quadrature_lensing[
+                "adjudication"
+            ]["restricted_linearized_metric_backreaction_derived"],
+            "quadrature_scalar_stress_lensing_source_nonzero": quadrature_lensing["adjudication"][
+                "scalar_stress_lensing_source_nonzero"
+            ],
+            "quadrature_lensing_backreaction_compactness_suppressed": quadrature_lensing[
+                "adjudication"
+            ]["scalar_lensing_backreaction_compactness_suppressed"],
+            "quadrature_asymptotic_motion_lensing_match": quadrature_lensing["adjudication"][
+                "same_action_lensing_matches_scalar_motion_enhancement_asymptotically"
+            ],
+            "quadrature_finite_isolated_scalar_energy": quadrature_lensing["adjudication"][
+                "finite_isolated_scalar_energy"
+            ],
+            "quadrature_standard_finite_ADM_mass_established": quadrature_lensing["adjudication"][
+                "standard_finite_ADM_mass_established"
+            ],
+            "quadrature_global_quantitative_lensing_success": quadrature_lensing["claim_boundary"][
+                "same_action_quantitative_lensing_success"
+            ],
+            "quadrature_lensing_CP11_8_complete": quadrature_lensing["adjudication"][
+                "CP11_8_complete"
+            ],
+            "quadrature_lensing_CP11_10_complete": quadrature_lensing["adjudication"][
+                "CP11_10_complete"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -2022,6 +2120,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The scalar Hamiltonian successor derives the exact scalar ADM Legendre block and local slice conditions but also preserves a positive-principal negative-energy case; the full metric-matter Hamiltonian, lower bound, boundary flux, cutoff, and CP11.4 health proof remain blocked.",
                 "The deep-AQUAL transition theorem is conditional on exact scaling reaching X=0; its positive-floor escape is only asymptotically AQUAL, widens the scalar cone, lacks an unbounded-domain lower coefficient bound, and does not complete CP11.4.",
                 "The restricted quadrature action exactly embeds the dimensionless motion law in one universal conformal matter/photon metric and derives its scalar stress, but direct conformal lensing shifts cancel, metric backreaction is unsolved, the scalar cone is superluminal, the low-gradient branch is degenerate, the finite-gradient endpoint is singular, and no timelike cosmological branch is defined.",
+                "The restricted exterior backreaction calculation finds a nonzero scalar-stress lensing source, but its large-radius response is compactness-suppressed relative to the scalar motion force and the isolated scalar energy grows logarithmically; finite-radius matching and other same-action architectures are not ruled out, while global quantitative lensing remains blocked.",
             }
         ),
         "counts": {
@@ -2124,6 +2223,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "quadrature_action_numeric_branch_probes_passed": quadrature_action["counts"][
                 "numeric_branch_probes_passed"
+            ],
+            "quadrature_lensing_symbolic_checks_passed": quadrature_lensing["counts"][
+                "symbolic_checks_passed"
+            ],
+            "quadrature_lensing_numeric_probes_passed": quadrature_lensing["counts"][
+                "numeric_probes_passed"
             ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][

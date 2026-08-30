@@ -709,6 +709,17 @@ cone, a singular finite-gradient endpoint, and no timelike cosmological branch.
 Accordingly it establishes a restricted same-action architecture but does not complete
 CP11.1, CP11.4, or CP11.8.
 
+The exterior backreaction successor then evaluates the lensing route that remains after
+that direct conformal cancellation. Linearized Einstein equations give the scalar
+lensing source `2 rho+p_r+2 p_t=p_r`. For an isolated point-source exterior the source
+falls as `r^-3`: it produces a logarithmically growing scalar energy and a lensing-force
+correction suppressed relative to the scalar motion force by the weak-field compactness
+`G M/r` (up to the derived logarithm). This is an asymptotic failure of the restricted
+universal-conformal branch, not a no-go for all same-action architectures or a substitute
+for finite-radius matching. It leaves quantitative lensing, CP11.8, and CP11.10 open and
+strengthens the requirement for a different universal metric or additional covariant
+stress channel rather than a photon-only adjustment.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.
