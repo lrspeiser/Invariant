@@ -1,0 +1,162 @@
+{
+  "access_accounting": {
+    "model_calls": 0,
+    "network_calls_by_builder": 0,
+    "paid_calls": 0,
+    "scientific_response_files": 0,
+    "scientific_rows": 0,
+    "scientific_source_files": 0
+  },
+  "bindings": {
+    "config": {
+      "content_sha256": "3725f938173d9b527704248cb4ee21c44b2741774c2fa4e777dd2a78d966a1b0",
+      "path": "configs/open_gravity_3d_newton_aqual_qumond_baselines_v1.json",
+      "sha256": "cf2e19a8e19d73f855e3efcbff514098ffed07a578187e94f9b7a6b66a8a51d0"
+    },
+    "foundation": {
+      "artifacts": [
+        {
+          "path": "configs/open_gravity_3d_source_geometry_contract_v1.json",
+          "sha256": "b652414f96fd93c9ba140217692076e0d1c24236e28f3a8d1b79f95817247bed"
+        },
+        {
+          "path": "src/sigma_theory_compiler/open_gravity_3d_source_geometry_contract_v1.py",
+          "sha256": "a93a677deb2b72d4d2a55b57a08f326db77fc3e1b7a80512ef02535eb52b5b2c"
+        },
+        {
+          "path": "tests/test_open_gravity_3d_source_geometry_contract_v1.py",
+          "sha256": "dbf0e8f70873a45150f2193fde8ca25ef485232b3557ddc33f9aca6e1606c639"
+        },
+        {
+          "path": "runs/gravity/open-gravity-3d-source-geometry-contract-v1/receipt.json",
+          "sha256": "a7cd3313c8b3383ee48c32be8be4597bf9310ca3a4ba76034dd8977e4d34665c"
+        }
+      ],
+      "commit": "95a8d3d85bc1f064d3dd654e7c430d07786113c9"
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_3d_newton_aqual_qumond_baselines_v1.py",
+      "sha256": "5aeed2d338e995f934407df4590272197344666c593bb137bd445a83a1335f2c"
+    },
+    "test": {
+      "path": "tests/test_open_gravity_3d_newton_aqual_qumond_baselines_v1.py",
+      "sha256": "ed1766ba127be0149132920e8c8fba5678a1427c3ea5c160e3065008725a2cef"
+    }
+  },
+  "claim_boundary": {
+    "does_not_establish": [
+      "continuum proof beyond the declared discretization and convergence suite",
+      "a relativistic completion, lensing law, cosmology, or quantum theory",
+      "fit to any galaxy or cluster",
+      "observational preference, novelty, or publication readiness"
+    ],
+    "may_establish": [
+      "the three frozen discrete solver programs satisfy their target-free numerical gates",
+      "AQUAL and QUMOND are operationally distinct on nonspherical or external-field fixtures"
+    ]
+  },
+  "content_sha256": "2e6295a79d2871c80917adf885ccf417f49ed3217b4e383ad1a6ae911948289e",
+  "equations": {
+    "AQUAL": "div(mu(|grad(Phi_A)|/a0)*grad(Phi_A))=4*pi*G*rho",
+    "NEWTON": "div(grad(Phi_N))=4*pi*G*rho",
+    "QUMOND_STAGE_1": "Laplacian(Phi_N)=4*pi*G*rho",
+    "QUMOND_STAGE_2": "Laplacian(Phi_Q)=div(nu(|grad(Phi_N)|/a0)*grad(Phi_N))",
+    "aqual_numerical_floor": 1e-06,
+    "floor_scope": "elliptic regularization only; every promoted result must converge as the floor is reduced",
+    "mu": "mu(x)=x/(1+x)",
+    "nu": "nu(y)=1/2+sqrt(1/4+1/y)",
+    "qumond_nu_argument_floor": 1e-06,
+    "sign_convention": "g=-grad(Phi); Laplacian(Phi)=4*pi*G*rho",
+    "spherical_relation": "y=x*mu(x) and nu(y)=x/y for the frozen pair"
+  },
+  "independence_contract": {
+    "aqual": "nonlinear flux-form equation solved directly; must not call the QUMOND source builder",
+    "comparison": "AQUAL and QUMOND may agree in high symmetry but are not equivalence-linked in general 3-D geometry",
+    "newton": "one linear source-to-potential solve",
+    "qumond": "Newton solve plus independently constructed nu-weighted divergence and second linear solve; must not call the AQUAL nonlinear solver"
+  },
+  "package_id": "open-gravity-3d-newton-aqual-qumond-baselines-v1",
+  "primary_sources": [
+    {
+      "authors": "Jacob Bekenstein and Mordehai Milgrom",
+      "bound_claim": "nonlinear Poisson equation from an action, conservation laws, and external-field dependence",
+      "doi": "10.1086/162570",
+      "theory": "AQUAL",
+      "title": "Does the Missing Mass Problem Signal the Breakdown of Newtonian Gravity?",
+      "url": "https://articles.adsabs.harvard.edu/pdf/1984ApJ...286....7B",
+      "year": 1984
+    },
+    {
+      "arxiv": "0911.5464",
+      "author": "Mordehai Milgrom",
+      "bound_claim": "two linear Poisson solves separated by one nonlinear algebraic source construction",
+      "theory": "QUMOND",
+      "title": "Quasi-linear formulation of MOND",
+      "url": "https://arxiv.org/abs/0911.5464",
+      "year": 2010
+    },
+    {
+      "arxiv": "2201.02109",
+      "authors": "Kyu-Hyun Chae and Mordehai Milgrom",
+      "bound_claim": "AQUAL and QUMOND are distinct nonspherical theories and require numerical external-field solutions",
+      "theory": "AQUAL_AND_QUMOND_EXTERNAL_FIELD",
+      "title": "Numerical Solutions of the External Field Effect on the Radial Acceleration in Disk Galaxies",
+      "url": "https://arxiv.org/abs/2201.02109",
+      "year": 2022
+    }
+  ],
+  "schema": "invariant-open-gravity-3d-newton-aqual-qumond-receipt-1.0",
+  "section_sha256": {
+    "access_contract": "c7e3a464061eff0e80bd21b170108564b3152b8f1b1372ae12cc0cbdb83f3c68",
+    "boundary_contract": "caa288f3de41d9c3b12cacf486712e33f3562597e94dbb7abab930d31fbd15e5",
+    "claim_boundary": "844ff4654beb4bd93e1903066274fc6f9855408f3244414af82df044d4040c4f",
+    "equation_contract": "0087752ea97f3342ecef7272571557032353d0590e13dd7be884b9611eaff34d",
+    "fixture_contract": "e8d967838daedd4d008f43a9bc352b2affa324221e80d97bf416c4296d8c5bb1",
+    "foundation_binding": "0e34016d80e754e929fad5eb795a18353c63ecb04e8eeb34acc4a853bf574438",
+    "gate_contract": "389a7ddd84e982d5764180bce305bfb89db6774818065709fff868507e7bf49f",
+    "grid_contract": "8bb1299490f3d33fae9fcc6a3e8454ae35ae7acfb5afbfa6b2bf5861a5105ae2",
+    "independence_contract": "cb611133fde4c778e652942bebbb333635b7185990ff32cf4ee6f42eed4d7acf",
+    "normalized_units": "9594e4924c383605d7d1644a80102a8b6f836f3b81536e633fdafb8a1ed0a7dc",
+    "primary_sources": "eed0526772d45bfb9596573296c5fca41d9df1ec2f44a86ccf18e6c362c3a969"
+  },
+  "status": "PASS_TARGET_FREE_NEWTON_AQUAL_QUMOND_3D_BASELINES",
+  "synthetic_suite": {
+    "all_pass": true,
+    "checks": {
+      "B3D01_NEWTON_MANUFACTURED": true,
+      "B3D02_AQUAL_MANUFACTURED": true,
+      "B3D03_SPHERE": true,
+      "B3D04_SHELL": true,
+      "B3D05_DISK": true,
+      "B3D06_BAR_TRIAXIAL": true,
+      "B3D07_PAIR_SADDLE": true,
+      "B3D08_EXTERNAL_FIELD": true,
+      "B3D09_HIGH_ACCELERATION": true,
+      "B3D10_RESOLUTION": true
+    },
+    "metrics": {
+      "aqual_iterations": 13,
+      "aqual_manufactured_relative_error": 5.6235393992990544e-11,
+      "aqual_relative_residual": 6.4006386157323535e-09,
+      "bar_rotation_relative_error": 4.2822221631828457e-16,
+      "external_field_internal_relative_change": 0.35627005318272126,
+      "high_acceleration_aqual_newton_relative_difference": 0.00019544902310980592,
+      "high_acceleration_qumond_newton_relative_difference": 0.0001943727325328834,
+      "newton_linear_relative_residual": 2.1721691312678357e-14,
+      "newton_manufactured_relative_error": 1.1679373553889373e-15,
+      "nonspherical_disk_aqual_qumond_relative_difference": 0.021566575629957115,
+      "pair_centre_acceleration": 1.963841825004102e-16,
+      "qumond_external_field_internal_relative_change": 0.3160966168908961,
+      "qumond_linear_relative_residual_max": 4.080257101112008e-15,
+      "resolution_relative_errors": {
+        "13": 0.005731203248820949,
+        "17": 0.0032189644400799,
+        "9": 0.012950746721879134
+      },
+      "shell_centre_acceleration": 1.6983146601011033e-15,
+      "spherical_aqual_qumond_relative_difference": 0.013065208774143595
+    },
+    "passed": 10,
+    "total": 10
+  }
+}

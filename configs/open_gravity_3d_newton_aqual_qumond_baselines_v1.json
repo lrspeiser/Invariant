@@ -1,0 +1,147 @@
+{
+  "schema": "invariant-open-gravity-3d-newton-aqual-qumond-baselines-1.0",
+  "package_id": "open-gravity-3d-newton-aqual-qumond-baselines-v1",
+  "status": "TARGET_FREE_SYNTHETIC_SOLVER_PREFLIGHT",
+  "purpose": "Implement and distinguish three-dimensional Newton/Poisson, AQUAL, and QUMOND boundary-value problems before any real source or response campaign.",
+  "foundation_binding": {
+    "commit": "95a8d3d85bc1f064d3dd654e7c430d07786113c9",
+    "artifacts": [
+      {"path": "configs/open_gravity_3d_source_geometry_contract_v1.json", "sha256": "b652414f96fd93c9ba140217692076e0d1c24236e28f3a8d1b79f95817247bed"},
+      {"path": "src/sigma_theory_compiler/open_gravity_3d_source_geometry_contract_v1.py", "sha256": "a93a677deb2b72d4d2a55b57a08f326db77fc3e1b7a80512ef02535eb52b5b2c"},
+      {"path": "tests/test_open_gravity_3d_source_geometry_contract_v1.py", "sha256": "dbf0e8f70873a45150f2193fde8ca25ef485232b3557ddc33f9aca6e1606c639"},
+      {"path": "runs/gravity/open-gravity-3d-source-geometry-contract-v1/receipt.json", "sha256": "a7cd3313c8b3383ee48c32be8be4597bf9310ca3a4ba76034dd8977e4d34665c"}
+    ]
+  },
+  "primary_sources": [
+    {
+      "theory": "AQUAL",
+      "title": "Does the Missing Mass Problem Signal the Breakdown of Newtonian Gravity?",
+      "authors": "Jacob Bekenstein and Mordehai Milgrom",
+      "year": 1984,
+      "doi": "10.1086/162570",
+      "url": "https://articles.adsabs.harvard.edu/pdf/1984ApJ...286....7B",
+      "bound_claim": "nonlinear Poisson equation from an action, conservation laws, and external-field dependence"
+    },
+    {
+      "theory": "QUMOND",
+      "title": "Quasi-linear formulation of MOND",
+      "author": "Mordehai Milgrom",
+      "year": 2010,
+      "arxiv": "0911.5464",
+      "url": "https://arxiv.org/abs/0911.5464",
+      "bound_claim": "two linear Poisson solves separated by one nonlinear algebraic source construction"
+    },
+    {
+      "theory": "AQUAL_AND_QUMOND_EXTERNAL_FIELD",
+      "title": "Numerical Solutions of the External Field Effect on the Radial Acceleration in Disk Galaxies",
+      "authors": "Kyu-Hyun Chae and Mordehai Milgrom",
+      "year": 2022,
+      "arxiv": "2201.02109",
+      "url": "https://arxiv.org/abs/2201.02109",
+      "bound_claim": "AQUAL and QUMOND are distinct nonspherical theories and require numerical external-field solutions"
+    }
+  ],
+  "equation_contract": {
+    "sign_convention": "g=-grad(Phi); Laplacian(Phi)=4*pi*G*rho",
+    "NEWTON": "div(grad(Phi_N))=4*pi*G*rho",
+    "AQUAL": "div(mu(|grad(Phi_A)|/a0)*grad(Phi_A))=4*pi*G*rho",
+    "QUMOND_STAGE_1": "Laplacian(Phi_N)=4*pi*G*rho",
+    "QUMOND_STAGE_2": "Laplacian(Phi_Q)=div(nu(|grad(Phi_N)|/a0)*grad(Phi_N))",
+    "mu": "mu(x)=x/(1+x)",
+    "nu": "nu(y)=1/2+sqrt(1/4+1/y)",
+    "spherical_relation": "y=x*mu(x) and nu(y)=x/y for the frozen pair",
+    "aqual_numerical_floor": 1e-6,
+    "qumond_nu_argument_floor": 1e-6,
+    "floor_scope": "elliptic regularization only; every promoted result must converge as the floor is reduced"
+  },
+  "normalized_units": {
+    "G": 1.0,
+    "a0": 1.0,
+    "box_half_width": 1.0,
+    "meaning": "dimensionless target-free solver units; no astronomical parameter inference"
+  },
+  "grid_contract": {
+    "layout": "uniform cell-centred Cartesian cube including Dirichlet boundary nodes",
+    "primary_nodes_per_axis": 13,
+    "convergence_nodes_per_axis": [9, 13, 17],
+    "discrete_operator": "second-order conservative face-flux finite volume / seven-point stencil",
+    "linear_solver": "scipy sparse direct solve",
+    "aqual_solver": "damped Picard iteration over face-centred mu",
+    "aqual_damping": 0.7,
+    "aqual_max_iterations": 300,
+    "aqual_delta_tolerance": 1e-9,
+    "aqual_residual_tolerance": 2e-7
+  },
+  "boundary_contract": {
+    "isolated_fixture_proxy": "declared finite-box Dirichlet potential, never mislabeled as an infinite-domain solution",
+    "manufactured": "exact boundary values from the manufactured potential",
+    "external_field": "linear boundary potential -g_ext dot x applied to the total field",
+    "periodic_forbidden": true,
+    "response_fitted_boundary_forbidden": true
+  },
+  "fixture_contract": [
+    {"id": "B3D01_NEWTON_MANUFACTURED", "gate": "exact recovery of a discrete manufactured solution"},
+    {"id": "B3D02_AQUAL_MANUFACTURED", "gate": "nonlinear flux residual and manufactured recovery"},
+    {"id": "B3D03_SPHERE", "gate": "rotation covariance and AQUAL/QUMOND spherical comparison"},
+    {"id": "B3D04_SHELL", "gate": "interior field suppression and flux accounting"},
+    {"id": "B3D05_DISK", "gate": "nonspherical AQUAL/QUMOND distinction"},
+    {"id": "B3D06_BAR_TRIAXIAL", "gate": "orientation covariance under a 90-degree grid rotation"},
+    {"id": "B3D07_PAIR_SADDLE", "gate": "midpoint acceleration symmetry"},
+    {"id": "B3D08_EXTERNAL_FIELD", "gate": "constant external field changes internal MOND solution without changing rho"},
+    {"id": "B3D09_HIGH_ACCELERATION", "gate": "Newtonian limit for both modified solvers"},
+    {"id": "B3D10_RESOLUTION", "gate": "three-grid convergence ledger without tuned thresholds"}
+  ],
+  "gate_contract": {
+    "linear_relative_residual_max": 1e-10,
+    "aqual_relative_residual_max": 2e-7,
+    "manufactured_relative_error_max": 2e-6,
+    "rotation_relative_error_max": 1e-9,
+    "pair_centre_acceleration_max": 1e-10,
+    "shell_centre_acceleration_max": 1e-10,
+    "spherical_aqual_qumond_relative_difference_max": 0.2,
+    "nonspherical_aqual_qumond_minimum_difference": 1e-5,
+    "external_field_minimum_internal_change": 1e-5,
+    "high_acceleration_newton_relative_difference_max": 0.02,
+    "resolution_requires_strict_improvement": true
+  },
+  "independence_contract": {
+    "newton": "one linear source-to-potential solve",
+    "aqual": "nonlinear flux-form equation solved directly; must not call the QUMOND source builder",
+    "qumond": "Newton solve plus independently constructed nu-weighted divergence and second linear solve; must not call the AQUAL nonlinear solver",
+    "comparison": "AQUAL and QUMOND may agree in high symmetry but are not equivalence-linked in general 3-D geometry"
+  },
+  "access_contract": {
+    "scientific_source_files": 0,
+    "scientific_response_files": 0,
+    "scientific_rows": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "may_establish": [
+      "the three frozen discrete solver programs satisfy their target-free numerical gates",
+      "AQUAL and QUMOND are operationally distinct on nonspherical or external-field fixtures"
+    ],
+    "does_not_establish": [
+      "continuum proof beyond the declared discretization and convergence suite",
+      "a relativistic completion, lensing law, cosmology, or quantum theory",
+      "fit to any galaxy or cluster",
+      "observational preference, novelty, or publication readiness"
+    ]
+  },
+  "output_path": "runs/gravity/open-gravity-3d-newton-aqual-qumond-baselines-v1/receipt.json",
+  "section_sha256": {
+    "access_contract": "c7e3a464061eff0e80bd21b170108564b3152b8f1b1372ae12cc0cbdb83f3c68",
+    "boundary_contract": "caa288f3de41d9c3b12cacf486712e33f3562597e94dbb7abab930d31fbd15e5",
+    "claim_boundary": "844ff4654beb4bd93e1903066274fc6f9855408f3244414af82df044d4040c4f",
+    "equation_contract": "0087752ea97f3342ecef7272571557032353d0590e13dd7be884b9611eaff34d",
+    "fixture_contract": "e8d967838daedd4d008f43a9bc352b2affa324221e80d97bf416c4296d8c5bb1",
+    "foundation_binding": "0e34016d80e754e929fad5eb795a18353c63ecb04e8eeb34acc4a853bf574438",
+    "gate_contract": "389a7ddd84e982d5764180bce305bfb89db6774818065709fff868507e7bf49f",
+    "grid_contract": "8bb1299490f3d33fae9fcc6a3e8454ae35ae7acfb5afbfa6b2bf5861a5105ae2",
+    "independence_contract": "cb611133fde4c778e652942bebbb333635b7185990ff32cf4ee6f42eed4d7acf",
+    "normalized_units": "9594e4924c383605d7d1644a80102a8b6f836f3b81536e633fdafb8a1ed0a7dc",
+    "primary_sources": "eed0526772d45bfb9596573296c5fca41d9df1ec2f44a86ccf18e6c362c3a969"
+  }
+}
