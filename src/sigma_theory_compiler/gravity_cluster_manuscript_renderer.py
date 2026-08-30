@@ -753,6 +753,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["quadrature_cherenkov_phase_space"],
             f"ultrarelativistic scalar source nonzero={theory['quadrature_cherenkov_ultrarelativistic_source_nonzero']}; fixed-s alpha decoupling={theory['quadrature_cherenkov_fixed_s_alpha_decoupling']}; radiation rate derived={theory['quadrature_cherenkov_rate_derived']}; observational exclusion={theory['quadrature_cherenkov_observational_exclusion']}",
         ),
+        (
+            "shared_quadrature_scalar_cherenkov_cutoff_rate",
+            "restricted_stationary_cutoff_dependent_rate",
+            theory["quadrature_cherenkov_restricted_stationary_rate_derived"],
+            f"conditional cutoff bound={theory['quadrature_cherenkov_conditional_cutoff_bound_derived']}; physical cutoff={theory['quadrature_cherenkov_physical_cutoff_established']}; formation/recoil={theory['quadrature_cherenkov_formation_recoil_rate_derived']}; background={theory['quadrature_cherenkov_background_established']}; survival={theory['quadrature_cherenkov_survival_passed']}; observational exclusion={theory['quadrature_cherenkov_cutoff_rate_observational_exclusion']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

@@ -240,6 +240,18 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     assert any(
         row[:3]
         == [
+            "shared_quadrature_scalar_cherenkov_cutoff_rate",
+            "restricted_stationary_cutoff_dependent_rate",
+            "true",
+        ]
+        and "physical cutoff=False" in row[3]
+        and "survival=False" in row[3]
+        and "observational exclusion=False" in row[3]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
             "matter_lensing_kinetic_gate",
             "conditional_timelike_mixing_no_go",
             "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES",

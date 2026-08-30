@@ -56,6 +56,7 @@ SOURCE_IDS = (
     "shared_quadrature_reduced_principal_factorization",
     "shared_quadrature_combined_tetrad_hyperbolicity",
     "shared_quadrature_scalar_cherenkov_obstruction",
+    "shared_quadrature_scalar_cherenkov_cutoff_rate",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -221,6 +222,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     quadrature_factorization = sources["shared_quadrature_reduced_principal_factorization"]
     quadrature_combined = sources["shared_quadrature_combined_tetrad_hyperbolicity"]
     quadrature_cherenkov = sources["shared_quadrature_scalar_cherenkov_obstruction"]
+    quadrature_cherenkov_rate = sources["shared_quadrature_scalar_cherenkov_cutoff_rate"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -1635,6 +1637,79 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         raise GravityClusterManuscriptPackageError(
             "quadrature scalar Cherenkov obstruction ceiling changed"
         )
+    if (
+        quadrature_cherenkov_rate["status"]
+        != "restricted_stationary_W_zero_scalar_cherenkov_cutoff_rate_no_data"
+        or quadrature_cherenkov_rate["decision"]
+        != "RESTRICTED_STATIONARY_W_ZERO_QUADRATURE_SCALAR_CHERENKOV_CUTOFF_RATE_DERIVED_PHYSICAL_CUTOFF_BACKGROUND_FORMATION_OBSERVATION_AND_FULL_GATE_BLOCKED"
+        or quadrature_cherenkov_rate["config_binding"]
+        != {
+            "content_sha256": "fdb34209df1f49237fe453e70b0095e8ace0176d7b165e0cabfd2414e85293eb",
+            "file_sha256": "6e90c16c9a719c4589e9eb0efb5e619e85a8d868d9e01d54a01a09c7da2f0069",
+            "path": "configs/gravity_shared_quadrature_scalar_cherenkov_cutoff_rate_v1.json",
+        }
+        or quadrature_cherenkov_rate["implementation_binding"]
+        != {
+            "source_file_sha256": "1c8da482b9dc7e4fbb824077694bf238f57796226d8c3b11fa85484672db731a",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_scalar_cherenkov_cutoff_rate.py",
+            "test_file_sha256": "a2e0a9b2995e09d22781ec2392ef49978532d21f567ea6508f0e5f5e8a00cb23",
+            "test_path": "tests/test_gravity_shared_quadrature_scalar_cherenkov_cutoff_rate.py",
+        }
+        or quadrature_cherenkov_rate["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 4,
+            "predecessor_bindings": 1,
+            "primary_sources": 1,
+            "symbolic_checks": 25,
+            "symbolic_checks_passed": 25,
+        }
+        or quadrature_cherenkov_rate["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_6_complete": False,
+            "all_mode_cherenkov_safety": False,
+            "anisotropic_threshold_and_directional_rate_derived": True,
+            "cosmic_ray_survival_test_passed": False,
+            "exact_conditional_cutoff_survival_inequality_derived": True,
+            "finite_formation_and_recoil_rate_derived": False,
+            "fixed_s_alpha_decoupling_available": False,
+            "full_covariant_health_established": False,
+            "observational_scalar_cherenkov_exclusion_established": False,
+            "on_shell_propagation_background_established": False,
+            "overall_decision": "RESTRICTED_STATIONARY_W_ZERO_QUADRATURE_SCALAR_CHERENKOV_CUTOFF_RATE_DERIVED_PHYSICAL_CUTOFF_BACKGROUND_FORMATION_OBSERVATION_AND_FULL_GATE_BLOCKED",
+            "physical_UV_cutoff_established": False,
+            "restricted_quadratic_scalar_energy_flux_derived": True,
+            "restricted_stationary_cutoff_dependent_radiation_rate_derived": True,
+        }
+        or quadrature_cherenkov_rate["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "all_mode_cherenkov_safety_established": False,
+            "conditional_cutoff_survival_inequality_established": True,
+            "cosmological_viability_established": False,
+            "gravitational_wave_viability_established": False,
+            "healthy_action_established": False,
+            "historical_novelty_established": False,
+            "observational_scalar_cherenkov_exclusion_established": False,
+            "observational_support": False,
+            "physical_cutoff_established": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "restricted_stationary_scalar_cherenkov_rate_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_cherenkov_rate["zero_access_and_compute"].values()) != {0}
+    ):
+        raise GravityClusterManuscriptPackageError(
+            "quadrature scalar Cherenkov cutoff-rate ceiling changed"
+        )
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -1686,6 +1761,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     quadrature_factorization = sources["shared_quadrature_reduced_principal_factorization"]
     quadrature_combined = sources["shared_quadrature_combined_tetrad_hyperbolicity"]
     quadrature_cherenkov = sources["shared_quadrature_scalar_cherenkov_obstruction"]
+    quadrature_cherenkov_rate = sources["shared_quadrature_scalar_cherenkov_cutoff_rate"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -2583,6 +2659,28 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "quadrature_cherenkov_observational_exclusion": quadrature_cherenkov["claim_boundary"][
                 "observational_scalar_cherenkov_exclusion_established"
             ],
+            "quadrature_cherenkov_cutoff_rate_decision": quadrature_cherenkov_rate["decision"],
+            "quadrature_cherenkov_restricted_stationary_rate_derived": quadrature_cherenkov_rate[
+                "adjudication"
+            ]["restricted_stationary_cutoff_dependent_radiation_rate_derived"],
+            "quadrature_cherenkov_conditional_cutoff_bound_derived": quadrature_cherenkov_rate[
+                "adjudication"
+            ]["exact_conditional_cutoff_survival_inequality_derived"],
+            "quadrature_cherenkov_physical_cutoff_established": quadrature_cherenkov_rate[
+                "adjudication"
+            ]["physical_UV_cutoff_established"],
+            "quadrature_cherenkov_formation_recoil_rate_derived": quadrature_cherenkov_rate[
+                "adjudication"
+            ]["finite_formation_and_recoil_rate_derived"],
+            "quadrature_cherenkov_background_established": quadrature_cherenkov_rate[
+                "adjudication"
+            ]["on_shell_propagation_background_established"],
+            "quadrature_cherenkov_survival_passed": quadrature_cherenkov_rate["adjudication"][
+                "cosmic_ray_survival_test_passed"
+            ],
+            "quadrature_cherenkov_cutoff_rate_observational_exclusion": quadrature_cherenkov_rate[
+                "claim_boundary"
+            ]["observational_scalar_cherenkov_exclusion_established"],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -2615,6 +2713,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The group and ACT/eRASS acquisition paths contain metadata contracts only, with zero catalog or scientific rows and unevaluated population gates.",
                 "The guarded ACT/eRASS executor is unauthorized and unrun; executable safety controls do not provide an overlap, X-COP exclusion, or population result.",
                 "The restricted W=0 combined tetrad-scalar system is symmetric hyperbolic on a finite aether locus satisfying cited aether PPN/speed necessary bounds, but its quadrature scalar remains transversely subluminal, so all-mode Cherenkov safety and global physical health remain blocked.",
+                "The scalar-Cherenkov cutoff-rate successor derives an exact stationary scalar-only point-source power and conditional cutoff survival inequality, but no physical cutoff, finite formation/recoil treatment, solved propagation background, cosmic-ray survival result, or observational exclusion.",
                 "The two-scalar action is a blocked feasibility template: one of ten template/health gates passes and no healthy matter+lensing theory is established.",
                 "The bounded symbolic suite alone verifies only restricted scalar identities and does not independently establish general covariant equations, full H2, metric variation, or joint lensing; the later covariant successor is assessed separately.",
                 "The external-metric principal-symbol result is partial H3/H4 evidence on constant local jets and preserves a negative u>1/3 determinant contribution; it establishes neither healthy backgrounds nor a complete theory.",
@@ -2772,6 +2871,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "quadrature_cherenkov_numeric_cases_passed": quadrature_cherenkov["counts"][
                 "numeric_cases_passed"
             ],
+            "quadrature_cherenkov_cutoff_rate_symbolic_checks_passed": quadrature_cherenkov_rate[
+                "counts"
+            ]["symbolic_checks_passed"],
+            "quadrature_cherenkov_cutoff_rate_numeric_cases_passed": quadrature_cherenkov_rate[
+                "counts"
+            ]["numeric_cases_passed"],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][
                 "new_raw_target_rows_opened"

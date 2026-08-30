@@ -785,6 +785,18 @@ observational exclusion. A matrix element, cutoff, formation length, propagation
 environment, energy-loss rate, and solved background are still absent, so all-mode
 Cherenkov safety, CP11.4, and CP11.6 remain open. No CP11 checkbox is advanced.
 
+The cutoff-rate successor now derives the scalar-only stationary point-source power on
+that same frozen branch. After an exact transverse coordinate rescaling, the anisotropic
+problem reduces to the scalar Franck--Tamm form with a direction-dependent dual speed;
+the resulting energy-loss rate is proportional to the squared frequency-band cutoff and
+is independent of `alpha` at fixed `s`. This supplies an exact conditional upper bound on
+the allowed cutoff for a declared small-loss fraction. It does not yet determine the
+physical cutoff, finite-track formation and recoil corrections, hadronic or nuclear
+source structure, the Galactic/extragalactic propagation background, or any real
+cosmic-ray survival likelihood. It therefore sharpens the obstruction without proving
+either observational exclusion or all-mode Cherenkov safety. CP11.4 and CP11.6 remain
+open, and no CP11 checkbox is advanced.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.
