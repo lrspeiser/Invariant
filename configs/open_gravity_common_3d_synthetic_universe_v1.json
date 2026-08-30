@@ -1,0 +1,113 @@
+{
+  "schema": "invariant-open-gravity-common-3d-synthetic-universe-1.0",
+  "package_id": "open-gravity-common-3d-synthetic-universe-v1",
+  "status": "FROZEN_TARGET_FREE_COMMON_SYNTHETIC_UNIVERSE",
+  "purpose": "Give every executable gravity concept the same compact-body, disk, environmental, time-dependent, ray, clock, wave, and adversarial fixtures before any new observational response access.",
+  "bindings": [
+    {
+      "role": "SOURCE_GEOMETRY_CONTRACT",
+      "commit": "95a8d3d85bc1f064d3dd654e7c430d07786113c9",
+      "artifacts": [
+        {"path": "configs/open_gravity_3d_source_geometry_contract_v1.json", "sha256": "b652414f96fd93c9ba140217692076e0d1c24236e28f3a8d1b79f95817247bed"},
+        {"path": "runs/gravity/open-gravity-3d-source-geometry-contract-v1/receipt.json", "sha256": "a7cd3313c8b3383ee48c32be8be4597bf9310ca3a4ba76034dd8977e4d34665c"}
+      ]
+    },
+    {
+      "role": "NEWTON_AQUAL_QUMOND_BASELINES",
+      "commit": "fe9d3da6233827fdf8ac624fe6223bf629293454",
+      "artifacts": [
+        {"path": "src/sigma_theory_compiler/open_gravity_3d_newton_aqual_qumond_baselines_v1.py", "sha256": "5aeed2d338e995f934407df4590272197344666c593bb137bd445a83a1335f2c"},
+        {"path": "runs/gravity/open-gravity-3d-newton-aqual-qumond-baselines-v1/receipt.json", "sha256": "b0e84fe4323838d8687384b9ca6a2db63b401d5584a369521e29316906582fdb"}
+      ]
+    },
+    {
+      "role": "GRAVITY_LIGHT_QUANTUM_CARDS",
+      "commit": "b6a6e56326f369fa7dacc42cff051a2cffdfcd26",
+      "artifacts": [
+        {"path": "configs/open_gravity_gravity_light_quantum_cards_v1.json", "sha256": "7750e3cb496a39cba89a215d2471f1c1bb658ab5e30effd980657fe8ade70348"},
+        {"path": "runs/gravity/open-gravity-gravity-light-quantum-cards-v1/receipt.json", "sha256": "2e0effb63f35740e64428c0f63706e510ff6e0957bb339a6c85e3d4e161e42ef"}
+      ]
+    },
+    {
+      "role": "HALO_AND_MODIFIED_GRAVITY_COMPARATORS",
+      "commit": "009c2e0d0c7d29b1ce0e00d776f7b8b7d246ccc4",
+      "artifacts": [
+        {"path": "configs/open_gravity_3d_halo_modified_gravity_comparators_v1.json", "sha256": "f590210669b67bd228b2cef9c843f37b0b9dea7c1564d988f492167ab2fd6bab"},
+        {"path": "runs/gravity/open-gravity-3d-halo-modified-gravity-comparators-v1/receipt.json", "sha256": "6e17f3a4626022cc852d6d742c56e4b7a56c4a2ad9dc81b62649e7da598bba0f"}
+      ]
+    },
+    {
+      "role": "GP01_FULL3D_DYNAMICS",
+      "commit": "5283ba0580268ab4e83423d2731a66ca97b58674",
+      "artifacts": [
+        {"path": "configs/open_gravity_gp01_full3d_dynamics_v1.json", "sha256": "153ddc0e5643dce4d0ad0b76738b34c1f9e061450fa67ad2b95460768aff3f4a"},
+        {"path": "runs/gravity/open-gravity-gp01-full3d-dynamics-v1/receipt.json", "sha256": "d6ced8b0baa18697aec64f8734710e6293f794f0ad52af51038c9c8ac73f6b01"}
+      ]
+    }
+  ],
+  "numerical_contract": {
+    "units": "normalized target-free G=c=total_source_mass=1 unless fixture declares density contrast",
+    "grid_nodes": 17,
+    "half_width": 1.0,
+    "history_steps": 257,
+    "history_duration": 4.0,
+    "ray_count": 21,
+    "gw_samples": 513
+  },
+  "fixtures": [
+    {"id": "F01_POINT_MASS", "kind": "SOURCE_3D", "oracle": "unit mass and monopole far-field"},
+    {"id": "F02_CONSTANT_DENSITY_SPHERE", "kind": "SOURCE_3D", "oracle": "unit mass and analytic enclosed-mass law"},
+    {"id": "F03_THIN_SHELL", "kind": "SOURCE_3D", "oracle": "unit mass and central-field cancellation"},
+    {"id": "F04_EXPONENTIAL_DISK", "kind": "SOURCE_3D", "oracle": "unit mass and axis-ratio discriminator"},
+    {"id": "F05_THICK_DISK", "kind": "SOURCE_3D", "oracle": "unit mass and greater vertical second moment than thin disk"},
+    {"id": "F06_BULGE_DISK_GAS", "kind": "SOURCE_3D", "oracle": "component masses sum exactly to unity"},
+    {"id": "F07_BAR_SPIRAL", "kind": "SOURCE_3D", "oracle": "positive density and nonzero quadrupole"},
+    {"id": "F08_TRIAXIAL_GALAXY", "kind": "SOURCE_3D", "oracle": "three unequal principal second moments"},
+    {"id": "F09_GALAXY_PAIR", "kind": "SOURCE_3D", "oracle": "exchange symmetry and unit mass"},
+    {"id": "F10_SATELLITE_EXTERNAL_FIELD", "kind": "SOURCE_3D_ENVIRONMENT", "oracle": "same internal source with a declared uniform external vector"},
+    {"id": "F11_FILAMENT", "kind": "SOURCE_3D", "oracle": "one extended principal axis"},
+    {"id": "F12_WALL", "kind": "SOURCE_3D", "oracle": "two extended principal axes"},
+    {"id": "F13_SPHERICAL_CLUSTER", "kind": "SOURCE_3D", "oracle": "unit mass and equal principal moments"},
+    {"id": "F14_MERGING_CLUSTER", "kind": "SOURCE_3D", "oracle": "two density maxima and broken spherical symmetry"},
+    {"id": "F15_COMPACT_BINARY", "kind": "SOURCE_3D", "oracle": "equal masses, fixed separation, zero center of mass"},
+    {"id": "F16_SADDLE_EXACT_NULL", "kind": "SOURCE_3D", "oracle": "reflection symmetry gives an exact continuum central field null"},
+    {"id": "F17_VOID_CONTRAST", "kind": "DENSITY_CONTRAST_3D", "oracle": "negative central contrast with zero box-integrated contrast"},
+    {"id": "F18_HOMOGENEOUS_EXPANSION", "kind": "BACKGROUND_HISTORY", "oracle": "a(t)=exp(Ht) and H constant"},
+    {"id": "F19_EVOLVING_SOURCE", "kind": "SOURCE_HISTORY", "oracle": "mass-conserving width change"},
+    {"id": "F20_FLYBY", "kind": "SOURCE_HISTORY", "oracle": "time-reversal symmetric prescribed trajectory"},
+    {"id": "F21_MERGER", "kind": "SOURCE_HISTORY", "oracle": "two-to-one topology transition with conserved mass"},
+    {"id": "F22_SWITCH_ON_OFF", "kind": "SOURCE_HISTORY", "oracle": "compact support and distinct retarded state after switch-off"},
+    {"id": "F23_LENSING_RAY_BUNDLE", "kind": "RAY_BUNDLE", "oracle": "weak point-lens deflection proportional to inverse impact parameter"},
+    {"id": "F24_CLOCK_REDSHIFT_PATHS", "kind": "CLOCK_PATHS", "oracle": "static gravitational frequency ratio depends on endpoints, not path length"},
+    {"id": "F25_GW_PACKET_POLARIZATIONS", "kind": "WAVE_PACKET", "oracle": "plus and cross tensors are traceless and transverse"},
+    {"id": "F26_ADVERSARIAL_TRANSFORMS", "kind": "NEGATIVE_CONTROLS", "oracle": "rotation and label shuffle preserve invariants; sign, unit, and chronology corruption are detected"}
+  ],
+  "required_gates": [
+    "FIXTURE_INVENTORY_AND_ORACLES",
+    "SOURCE_MASS_NORMALIZATION",
+    "SPHERE_SHELL_ANALYTIC_IDENTITIES",
+    "DISK_THICKNESS_AND_TRIAXIAL_GEOMETRY",
+    "PAIR_BINARY_AND_SADDLE_SYMMETRIES",
+    "FILAMENT_WALL_CLUSTER_TOPOLOGY",
+    "VOID_ZERO_MEAN_CONTRAST",
+    "HOMOGENEOUS_BACKGROUND_IDENTITY",
+    "SOURCE_HISTORY_CONSERVATION_AND_ORDER",
+    "LENSING_RAY_ORACLE",
+    "CLOCK_ENDPOINT_NOT_PATH_RULE",
+    "GW_TRANSVERSE_TRACELESS_POLARIZATIONS",
+    "ADVERSARIAL_ROTATION_AND_SHUFFLE_INVARIANCE",
+    "ADVERSARIAL_SIGN_UNIT_TIME_CORRUPTION_DETECTED",
+    "ZERO_RESPONSE_ACCESS"
+  ],
+  "anti_leakage": {
+    "scientific_response_inputs": [],
+    "forbidden_construction_inputs": ["rotation residual", "pressure residual", "temperature residual", "lensing mass", "hydrostatic total mass", "candidate score"],
+    "fixture_parameters_chosen_from_response": false
+  },
+  "access_contract": {"scientific_source_files": 0, "scientific_response_files": 0, "scientific_rows": 0, "scores": 0, "network_calls": 0, "model_calls": 0, "paid_calls": 0},
+  "claim_boundary": {
+    "establishes": ["a shared target-free 3-D, history, ray, clock, wave, and adversarial fixture contract", "analytic or independent oracle coverage for every fixture"],
+    "does_not_establish": ["physical realism of every fixture", "observational sensitivity", "matter-light closure", "full GR strong-field recovery", "quantum gravity", "real-data preference"]
+  },
+  "output_path": "runs/gravity/open-gravity-common-3d-synthetic-universe-v1/receipt.json"
+}
