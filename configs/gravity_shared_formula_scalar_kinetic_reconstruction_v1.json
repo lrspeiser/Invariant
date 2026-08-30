@@ -1,0 +1,202 @@
+{
+  "schema_version": "invariant-gravity-shared-formula-scalar-kinetic-reconstruction-config-1.0",
+  "analysis_id": "gravity-shared-formula-scalar-kinetic-reconstruction-v1",
+  "status": "formula_to_minimal_scalar_kinetic_map_derived_three_source_only_classes_adjudicated_full_theory_blocked",
+  "purpose": "Derive the scalar kinetic coefficient implied by a frozen dimensionless acceleration formula in the minimal spherical conformal branch, determine the exact single-valuedness and local health conditions, and apply them structurally to all 60 frozen B+E+N classes without observational-row access.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "ben_synthetic_registry",
+      "git_commit": "e89c86d040b46a2dd0154c25adbeb8a24e3b0bc2",
+      "artifacts": [
+        {"path": "runs/gravity/shared-target-blind-ben-synthetic-execution-v1.json", "file_sha256": "05493ee23a86bd6f16e9eb460e3c175628f30d5946c3b6b6b7441fc31099db64"}
+      ],
+      "receipt_path": "runs/gravity/shared-target-blind-ben-synthetic-execution-v1.json",
+      "receipt_content_sha256": "c5ecdfd36d0b940c3c11c9a92054c0c575ed3551d66034bdcb9d592fa2f702c3",
+      "receipt_schema_version": "invariant-gravity-shared-target-blind-ben-synthetic-receipt-1.0",
+      "receipt_decision": "PASS_SYNTHETIC_BEN_GRAMMAR_CONTROLS_REAL_SCIENTIFIC_EVALUATION_LOCKED"
+    },
+    {
+      "binding_id": "ben_development_executor_v4",
+      "git_commit": "f83c580b0df171e3d529e2e5f3555e1a4b7abd9d",
+      "artifacts": [
+        {"path": "configs/gravity_shared_target_blind_ben_development_executor_v4.json", "file_sha256": "ae209d42b60f7f5f5e0d555763f642835eddd3ad841e596722a0ca02cbfb2d9a"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_target_blind_ben_development_executor_v4.py", "file_sha256": "41fed937b7225d8edcf3e342477de70765557e8516d1d8d812728d79291ec0ba"},
+        {"path": "tests/test_gravity_shared_target_blind_ben_development_executor_v4.py", "file_sha256": "b428eab416802668c31774f51adec420d4fd2455c2cdab51c07d3eb5dfe00de8"},
+        {"path": "runs/gravity/shared-target-blind-ben-development-executor-v4-preflight.json", "file_sha256": "71d51b1342336ad09403dc28ce510ccf0ba8fefa4754b50a81a40117daeb4fa1"}
+      ],
+      "receipt_path": "runs/gravity/shared-target-blind-ben-development-executor-v4-preflight.json",
+      "receipt_content_sha256": "7644bc2fdf56c54621cc90f1e5842abda0941bf9ea413076be2400b0c0894ee9",
+      "receipt_schema_version": "invariant-gravity-ben-development-executor-preflight-4.0",
+      "receipt_decision": "READY_UNAUTHORIZED_ZERO_TARGET_ACCESS"
+    },
+    {
+      "binding_id": "covariant_field_equations",
+      "git_commit": "e33fa4e408ea188a3b282662a9fc51ad6252ca90",
+      "artifacts": [
+        {"path": "runs/gravity/theory/matter-lensing-covariant-field-equations-v1.json", "file_sha256": "98957d5936f25d0469af78de5221561752cc6f609af0bad02e945e0adc0b3737"}
+      ],
+      "receipt_path": "runs/gravity/theory/matter-lensing-covariant-field-equations-v1.json",
+      "receipt_content_sha256": "fa4a566651a5b195f7f5a2cffb87e6228761feabc6e2669fdd86fcc12edea8d5",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-covariant-field-equations-receipt-1.0",
+      "receipt_decision": "PARTIAL_COVARIANT_SCALAR_STRESS_FIELD_EQUATIONS_AND_EXCHANGE_IDENTITY_DERIVED_FULL_METRIC_DYNAMICS_HEALTH_AND_PHYSICS_UNESTABLISHED"
+    },
+    {
+      "binding_id": "deep_aqual_transition_tradeoff",
+      "git_commit": "7b330ab45c41f863c2e84f2c39f01fc0519f013d",
+      "artifacts": [
+        {"path": "runs/gravity/theory/matter-lensing-deep-aqual-transition-tradeoff-v1.json", "file_sha256": "6f51a7294cdaa984a28adfcc6be1a80b1118202e3f1a716210b6342cc697ae97"}
+      ],
+      "receipt_path": "runs/gravity/theory/matter-lensing-deep-aqual-transition-tradeoff-v1.json",
+      "receipt_content_sha256": "2a8007fc24441a78bd2b95638798b557a551a501c271a6ba0c09869fc0bfb6a7",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-deep-aqual-transition-tradeoff-receipt-1.0",
+      "receipt_decision": "CONDITIONAL_EXACT_DEEP_AQUAL_TRANSITION_NO_GO_DERIVED_REGULATED_ESCAPE_HAS_ACCURACY_CONE_AND_UNIFORMITY_COSTS_CP11_4_BLOCKED"
+    }
+  ],
+  "minimal_spherical_mapping_contract": {
+    "source_variable": "x=g_N/a0 equals the frozen SPARC x_source predictor",
+    "formula_output": "y=F(x,p)=g_total/a0 equals the frozen candidate_dimensionless_output; p denotes any auxiliary radial, state, or geometry predictors",
+    "universal_conformal_force": "g_total=g_N+alpha*g_phi with alpha>0 on the attractive branch",
+    "integrated_scalar_equation": "P_X*g_phi=alpha*g_N for a regular spherical source with the same enclosed baryonic mass",
+    "excess": "s=y-x=alpha*g_phi/a0",
+    "spacelike_invariant": "Xbar=-s^2/(2*alpha^2) after measuring the scalar gradient in a0 units",
+    "kinetic_coefficient": "C=P_X=alpha^2*x/s",
+    "longitudinal_coefficient": "For a source-only differentiable branch y(x), K=P_X+2*Xbar*P_XX=alpha^2/(dy/dx-1)=alpha^2/(ds/dx).",
+    "attractive_local_health": "C>0 requires s>0; K>0 requires ds/dx>0; ds/dx=0 is a parametric Legendre/principal singularity.",
+    "single_valuedness": "A minimal P(Xbar) exists only if every equal signed excess s across all predictor states yields the same x/s and hence the same C; injective s(x) is sufficient for a source-only branch.",
+    "scope_limit": "Failure of this minimal reconstruction does not exclude a multi-field theory, but every auxiliary predictor must then be generated by a covariant field and cannot remain an external object/domain label."
+  },
+  "registry_structural_contract": {
+    "registry_content_sha256": "45966eae73d7641ea982a7eea47aad883a9ff344baf121b91b901c32ef819f19",
+    "canonical_classes": 60,
+    "source_only_classes_expected": 3,
+    "auxiliary_dependent_classes_expected": 57,
+    "variable_signature_counts": {
+      "x_source": 3,
+      "x_geometry+x_source": 3,
+      "x_radial+x_source": 6,
+      "x_radial+x_source+x_state": 12,
+      "x_geometry+x_radial+x_source": 18,
+      "x_geometry+x_radial+x_source+x_state": 18
+    },
+    "source_only_class_ids": [
+      "ben.a3da343620d23c63b16a",
+      "ben.cfe53a02a87ccf24af9c",
+      "ben.f9a69717841da3b4e1cc"
+    ],
+    "interpretation": "Only source-only classes can be reconstructed as a minimal P(X) without first supplying covariant dynamics for x_radial, x_state, or x_geometry; this is a structural theory-interface classification, not empirical pruning."
+  },
+  "source_only_adjudication_contract": {
+    "quadrature_class": {
+      "class_id": "ben.a3da343620d23c63b16a",
+      "law": "y=sqrt(x^2+x)",
+      "result": "s is positive and strictly increasing from 0 to 1/2; the minimal kinetic map is single-valued and has C>0 and K>0 for every finite x>0.",
+      "parametric_map": "x=s^2/(1-2s), C=alpha^2*s/(1-2s), K=2*alpha^2*s*(1-s)/(1-2s)^2 for 0<s<1/2",
+      "cone_and_endpoint": "K/C=2(1-s)/(1-2s)>2 and diverges as s approaches 1/2; C and K diverge at the finite scalar-gradient endpoint Xbar=-1/(8*alpha^2).",
+      "adjudication": "PARTIAL_SINGLE_VALUED_POSITIVE_MINIMAL_MAP_WITH_SUPERLUMINAL_AND_FINITE_ENDPOINT_OBSTRUCTIONS"
+    },
+    "rar_like_class": {
+      "class_id": "ben.cfe53a02a87ccf24af9c",
+      "law": "y=x/[1-exp(-sqrt(x))]",
+      "result": "s=x/[exp(sqrt(x))-1] rises and then falls; the minimal kinetic map is multivalued and K changes sign.",
+      "turnover": "With r=sqrt(x), ds/dx has numerator 2*(exp(r)-1)-r*exp(r); its positive root is r*=1.59362426004004, x*=2.53963828218817, s*=0.647610237891915.",
+      "same_excess_witness": "s=0.5 occurs at x=0.548859359305037 and x=8.0807921327933, giving C/alpha^2=1.09771871861007 and 16.1615842655866.",
+      "adjudication": "FAIL_GLOBAL_MINIMAL_SINGLE_FIELD_RECONSTRUCTION_MULTIVALUED_AND_NEGATIVE_K_ABOVE_TURNOVER"
+    },
+    "newtonian_class": {
+      "class_id": "ben.f9a69717841da3b4e1cc",
+      "law": "y=x",
+      "result": "s=0 identically, so there is no nontrivial finite scalar-gradient reconstruction; this is the scalar-off Newtonian control.",
+      "adjudication": "CONTROL_ZERO_SCALAR_EXCESS_NOT_A_NONTRIVIAL_KINETIC_RECONSTRUCTION"
+    }
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy-1.14",
+    "required_symbolic_checks": [
+      "S01_GENERAL_EXCESS",
+      "S02_GENERAL_SPACELIKE_INVARIANT",
+      "S03_GENERAL_KINETIC_COEFFICIENT",
+      "S04_GENERAL_LONGITUDINAL_COEFFICIENT",
+      "S05_QUADRATURE_EXCESS_POSITIVE_IDENTITY",
+      "S06_QUADRATURE_EXCESS_DERIVATIVE_POSITIVE_IDENTITY",
+      "S07_QUADRATURE_PARAMETRIC_INVERSE",
+      "S08_QUADRATURE_C_MAP",
+      "S09_QUADRATURE_K_MAP",
+      "S10_QUADRATURE_SPEED_RATIO",
+      "S11_QUADRATURE_FINITE_EXCESS_ENDPOINT",
+      "S12_RAR_EXCESS",
+      "S13_RAR_EXCESS_DERIVATIVE",
+      "S14_RAR_K_MAP",
+      "S15_RAR_TURNOVER_EQUATION",
+      "S16_NEWTONIAN_ZERO_EXCESS"
+    ],
+    "numeric_tolerance": 1e-12,
+    "quadrature_source_probes": [0.0001, 0.01, 1.0, 100.0, 1000000.0],
+    "rar_turnover_bracket": [1.5, 1.7],
+    "rar_turnover_expected": {
+      "r": 1.59362426004004,
+      "x": 2.53963828218817,
+      "s": 0.647610237891915
+    },
+    "rar_same_excess": 0.5,
+    "rar_same_excess_r_brackets": [[0.5, 1.0], [2.5, 3.2]],
+    "rar_same_excess_expected": [
+      {"x": 0.548859359305037, "C_over_alpha_squared": 1.09771871861007},
+      {"x": 8.0807921327933, "C_over_alpha_squared": 16.1615842655866}
+    ]
+  },
+  "adjudication": {
+    "formula_to_minimal_kinetic_map_derived": true,
+    "all_60_classes_structurally_classified": true,
+    "source_only_classes": 3,
+    "auxiliary_dependent_classes_requiring_covariant_completion": 57,
+    "quadrature_minimal_map_single_valued_and_locally_positive": true,
+    "quadrature_minimal_map_causal_relative_to_conformal_matter_cone": false,
+    "quadrature_minimal_map_has_global_regular_unbounded_domain": false,
+    "rar_like_minimal_map_single_valued_globally": false,
+    "rar_like_minimal_map_gradient_stable_globally": false,
+    "newtonian_control_nontrivial_scalar_map": false,
+    "candidate_selected_by_observations": false,
+    "full_covariant_formula_bridge_derived": false,
+    "CP11_1_complete": false,
+    "CP11_4_complete": false,
+    "healthy_action": false,
+    "observational_support": false,
+    "overall_decision": "MINIMAL_FORMULA_TO_KINETIC_RECONSTRUCTION_DERIVED_ONLY_QUADRATURE_SOURCE_ONLY_CLASS_IS_SINGLE_VALUED_POSITIVE_BUT_CAUSAL_AND_ENDPOINT_GATES_FAIL_FULL_THEORY_BLOCKED"
+  },
+  "claim_boundary": {
+    "minimal_spherical_formula_to_kinetic_map_established": true,
+    "registry_structural_classification_established": true,
+    "one_source_only_class_has_single_valued_positive_minimal_map": true,
+    "surviving_physical_candidate_selected": false,
+    "full_covariant_formula_bridge_established": false,
+    "healthy_action_established": false,
+    "causality_established": false,
+    "global_hyperbolicity_established": false,
+    "motion_and_lensing_jointly_predicted": false,
+    "observational_support": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "remaining_obligations": [
+    "derive x_radial, x_state, and x_geometry from covariant fields or restrict the empirical family before a multi-field action claim",
+    "resolve the quadrature branch's superluminal conformal-cone ratio and finite scalar-gradient endpoint without post-hoc tuning",
+    "derive the full weak-field metric, matter source normalization, boundary conditions, and same-action lensing potentials",
+    "test the reconstructed branch on source-supported Solar, galaxy, cluster, and cosmological solutions",
+    "run the already-frozen development scoring only after explicit authorization and never use its outcome to repair this map"
+  ],
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "observational_rows_opened": 0,
+    "predictor_rows_opened": 0,
+    "response_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "holdout_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "network_calls": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/shared-formula-scalar-kinetic-reconstruction-v1.json"
+}
