@@ -1,0 +1,161 @@
+{
+  "schema_version": "invariant-gravity-shared-quadrature-scalar-full-local-fluctuation-config-1.0",
+  "analysis_id": "gravity-shared-quadrature-scalar-full-local-fluctuation-v1",
+  "status": "frozen_no_data_fixed_metric_aether_full_scalar_quartic_expansion",
+  "purpose": "Complete the scalar-only fixed-metric, fixed-aether fluctuation expansion of the committed universal vector-metric action through fourth perturbative order by restoring the undifferentiated varphi vertices omitted from the derivative-leading cutoff package, canonically normalize every new interaction, and determine whether those additional coefficient scales repair or worsen the endpoint collapse without calling any coefficient scale a physical cutoff.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "quadrature_universal_vector_metric",
+      "git_commit": "38b1d4a66f79a6275098e4505b6fb55275079378",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_universal_vector_metric_v1.json", "file_sha256": "424cbece2339c9ec0dc83c8f8dd7679822dfcba95e4a60cb4e1938587ac631af"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_universal_vector_metric.py", "file_sha256": "41c4e9dcbc05532db698f74f2b7c7deb61d279bc1858f5768748eee427a3306a"},
+        {"path": "tests/test_gravity_shared_quadrature_universal_vector_metric.py", "file_sha256": "7b22dc7fb157ce59552c68c760b735424257a4fb4abc57d5b4dbe304761abedf"},
+        {"path": "runs/gravity/theory/shared-quadrature-universal-vector-metric-v1.json", "file_sha256": "7a4a7120c1885b86abaf667bd9bc846ca3cb5e608205e81d9a9cd3b37203e0ed"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-universal-vector-metric-v1.json",
+      "receipt_content_sha256": "833f6ba3e1413271c3d70701e4928552fd4680be9421989b0cc014abe8ebdd2e",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-universal-vector-metric-receipt-1.0",
+      "receipt_decision": "RESTRICTED_QUADRATURE_UNIVERSAL_VECTOR_METRIC_ACTION_DERIVED_LEADING_MOTION_LENSING_RELATION_AND_FIXED_AETHER_SCALAR_CAUSALITY_PASS_GLOBAL_VECTOR_ENDPOINT_SOLAR_GW_COSMOLOGY_GATES_BLOCKED"
+    },
+    {
+      "binding_id": "quadrature_scalar_local_cutoff_ceiling",
+      "git_commit": "5faee2f4eee462b2e25ceb2f2e4e861bbab2409f",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_scalar_local_cutoff_ceiling_v1.json", "file_sha256": "5a9a58932304b6926063dc3f4709c5f7494b99fef4059e138eb4f6ac0744c710"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_scalar_local_cutoff_ceiling.py", "file_sha256": "26754c8a143a6b9fd5ac43a8384c0edaa2bfc60331afad134780e80b3b91b566"},
+        {"path": "tests/test_gravity_shared_quadrature_scalar_local_cutoff_ceiling.py", "file_sha256": "df8846248aea61da80809190a4a5f7a30a831b94abb350709e0378dd13cdf14a"},
+        {"path": "runs/gravity/theory/shared-quadrature-scalar-local-cutoff-ceiling-v1.json", "file_sha256": "094fe7390e19514b208bfe8ed3ca3b630ce23694946c5fd1d5fa4bf7b7d2a9c1"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-scalar-local-cutoff-ceiling-v1.json",
+      "receipt_content_sha256": "840c05edf758a31c6eba46452160eed571d7afa21c81dc3c895d2245c23dff76",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-scalar-local-cutoff-ceiling-receipt-1.0",
+      "receipt_decision": "RESTRICTED_VECTOR_METRIC_DERIVATIVE_LEADING_LOCAL_SCALAR_COEFFICIENT_SCALES_DERIVED_BOTH_ENDPOINTS_COLLAPSE_PHYSICAL_CUTOFF_UNITARITY_BACKGROUND_OBSERVATION_AND_FULL_GATES_BLOCKED"
+    }
+  ],
+  "primary_source_context": [
+    {
+      "source_id": "ADAMS_ARKANI_HAMED_DUBOVSKY_NICOLIS_RATTAZZI_2006",
+      "url": "https://arxiv.org/abs/hep-th/0602178",
+      "scope": "Primary derivative-EFT context only. The present package performs its own fixed-background Taylor expansion and imports no positivity, unitarity, cutoff, or UV-completion conclusion."
+    }
+  ],
+  "full_scalar_expansion_contract": {
+    "background": "constant Einstein-frame Minkowski metric, Ubar^mu=(1,0,0,0), Wbar=0, varphi_bar=0, alpha>0, 0<s<1/2, d_parallel phibar=Mpl a0 s/alpha, Mpl>0, and Lambda0=sqrt(Mpl a0)>0",
+    "exact_density": "L=2 Lambda0^4 p(s_total)+exp[-4 alpha pi/Mpl] K(s_total)(d_t pi)^2, with s_total=alpha sqrt[(s/alpha+d_parallel pi/Lambda0^2)^2+|grad_perp pi|^2/Lambda0^4]",
+    "quadratic_density": "L2 is unchanged: K[t-r^2]-C u",
+    "cubic_density": "L3=L3_derivative-4 alpha K pi t/Mpl",
+    "quartic_density": "L4=L4_derivative+8 alpha^2 K pi^2 t/Mpl^2-4 alpha^2 K_s pi r t/(Mpl Lambda0^2)",
+    "exact_scope": "This is the full scalar-field Taylor expansion through fourth perturbative order with g and U fixed on the declared constant patch. It is not the full coupled metric-aether-matter fluctuation action; coefficient gradients, constraints, loops, and fifth and higher orders remain excluded."
+  },
+  "canonical_interaction_contract": {
+    "normalization": "Use c_perp^2=(1-2s)/[2(1-s)], d^2x_perp=c_perp^2 d^2Xperp, and chi=sqrt(2C) pi exactly as in the bound derivative-leading package.",
+    "new_cubic": "L3_new=-e3c chi(d_t chi)^2/Mpl with e3c=sqrt[2(1-2s)/s]",
+    "new_quartic_amplitude": "L4_new contains e4c chi^2(d_t chi)^2/Mpl^2 with e4c=2(1-2s)/s=e3c^2",
+    "new_quartic_mixed": "L4_new contains -emix chi(d_parallel chi)(d_t chi)^2/(Mpl Lambda0^2) with emix=1/[s^2(1-s)]",
+    "alpha_cancellation": "All three new canonical coefficients are independent of alpha at fixed s.",
+    "sign_scope": "The displayed signs follow the declared positive-background-gradient orientation; the coefficient scales use magnitudes and do not constitute a stability or positivity theorem."
+  },
+  "coefficient_scale_contract": {
+    "conformal_scale": "LambdaConf=Mpl sqrt[s/(2(1-2s))], shared by the new cubic and amplitude-quartic operators",
+    "mixed_scale": "LambdaMix=[Mpl Lambda0^2 s^2(1-s)]^(1/3)",
+    "derivative_scale": "LambdaDerivative=Lambda0 min{[18s^3(1-s)^2(1-2s)]^(1/4),[8s^2(1-s)(1-2s)/5]^(1/4),[8s^3(1-2s)/(1+s)]^(1/4)}",
+    "full_fixed_scalar_coefficient_ceiling": "LambdaFullCoeff=min(LambdaDerivative,LambdaConf,LambdaMix)",
+    "dimensionless_ratio": "eta=Lambda0/Mpl; LambdaConf/Lambda0=eta^-1 sqrt[s/(2(1-2s))] and LambdaMix/Lambda0=eta^-1/3[s^2(1-s)]^(1/3)",
+    "interpretation": "These are canonically normalized engineering coefficient scales. Their minimum is not a physical cutoff, partial-wave unitarity bound, loop-control proof, strong-coupling theorem, or UV completion."
+  },
+  "endpoint_and_hierarchy_contract": {
+    "low_s": "For every fixed positive eta, LambdaDerivative~8^(1/4)Lambda0 s^(3/4), LambdaConf~Mpl sqrt(s/2), and LambdaMix~(Mpl Lambda0^2)^(1/3)s^(2/3); LambdaDerivative/LambdaConf and LambdaDerivative/LambdaMix both approach zero.",
+    "high_s": "With epsilon=1/2-s, LambdaDerivative~(2/5)^(1/4)Lambda0 epsilon^(1/4), LambdaConf~Mpl/sqrt(8 epsilon), and LambdaMix~(Mpl Lambda0^2/8)^(1/3); both derivative-to-new-scale ratios approach zero.",
+    "interior": "Every displayed scale is finite and positive at every fixed 0<s<1/2 with positive Mpl and Lambda0.",
+    "result": "Restoring the full scalar-only conformal-factor vertices does not repair the endpoint collapse: the derivative scale remains the asymptotic limiter near both endpoints.",
+    "non_no_go": "This is not an unconditional strong-coupling no-go because real solutions may avoid endpoints and the coupled metric-aether constraints, loops, higher operators, and UV completion are not analyzed."
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy-1.14",
+    "required_symbolic_checks": [
+      "S01_FULL_L2",
+      "S02_FULL_L3",
+      "S03_FULL_L4",
+      "S04_CUBIC_DIFFERENCE",
+      "S05_QUARTIC_AMPLITUDE_DIFFERENCE",
+      "S06_QUARTIC_MIXED_DIFFERENCE",
+      "S07_DERIVATIVE_L3_PARITY",
+      "S08_DERIVATIVE_L4_PARITY",
+      "S09_TRANSVERSE_SPEED",
+      "S10_CANONICAL_NORMALIZATION",
+      "S11_CANONICAL_CONFORMAL_CUBIC",
+      "S12_CANONICAL_CONFORMAL_QUARTIC",
+      "S13_SHARED_CONFORMAL_SCALE",
+      "S14_CANONICAL_MIXED_QUARTIC",
+      "S15_ALPHA_CANCELLATION",
+      "S16_DIMENSIONLESS_SCALE_RATIOS",
+      "S17_INTERIOR_COEFFICIENT_IDENTITIES",
+      "S18_LOW_S_DERIVATIVE_SCALE",
+      "S19_LOW_S_CONFORMAL_SCALE",
+      "S20_LOW_S_MIXED_SCALE",
+      "S21_LOW_S_DERIVATIVE_OVER_CONFORMAL",
+      "S22_LOW_S_DERIVATIVE_OVER_MIXED",
+      "S23_ENDPOINT_DERIVATIVE_SCALE",
+      "S24_ENDPOINT_CONFORMAL_SCALE",
+      "S25_ENDPOINT_MIXED_SCALE",
+      "S26_ENDPOINT_DERIVATIVE_OVER_CONFORMAL",
+      "S27_ENDPOINT_DERIVATIVE_OVER_MIXED",
+      "S28_FULL_COUPLED_ACTION_FALSE",
+      "S29_PHYSICAL_CUTOFF_FALSE",
+      "S30_TREE_UNITARITY_FALSE"
+    ],
+    "numeric_s_values": ["1/100", "1/10", "1/6", "1/4", "49/100"],
+    "numeric_eta": "1/1000",
+    "numeric_tolerance": 1e-12
+  },
+  "adjudication": {
+    "fixed_metric_aether_full_scalar_expansion_through_quartic": true,
+    "full_coupled_metric_aether_matter_fluctuation_action": false,
+    "new_conformal_factor_interactions_canonically_normalized": true,
+    "full_fixed_scalar_coefficient_ceiling_derived": true,
+    "derivative_scale_remains_low_s_asymptotic_limiter": true,
+    "derivative_scale_remains_high_s_asymptotic_limiter": true,
+    "uniform_positive_full_scalar_coefficient_scale": false,
+    "physical_UV_cutoff_established": false,
+    "tree_level_unitarity_bound_established": false,
+    "loop_and_radiative_control_established": false,
+    "strong_coupling_theorem_established": false,
+    "observational_scalar_cherenkov_exclusion_established": false,
+    "CP11_4_complete": false,
+    "CP11_6_complete": false,
+    "overall_decision": "RESTRICTED_VECTOR_METRIC_FIXED_BACKGROUND_FULL_SCALAR_QUARTIC_EXPANSION_DERIVED_DERIVATIVE_CEILING_REMAINS_ENDPOINT_LIMITER_METRIC_AETHER_UNITARITY_PHYSICAL_CUTOFF_AND_OBSERVATION_BLOCKED"
+  },
+  "claim_boundary": {
+    "fixed_background_full_scalar_quartic_expansion_established": true,
+    "full_coupled_fluctuation_action_established": false,
+    "local_full_scalar_coefficient_scale_established": true,
+    "physical_cutoff_established": false,
+    "strong_coupling_scale_established": false,
+    "healthy_action_established": false,
+    "all_mode_cherenkov_safety_established": false,
+    "observational_scalar_cherenkov_exclusion_established": false,
+    "Solar_System_viability_established": false,
+    "gravitational_wave_viability_established": false,
+    "cosmological_viability_established": false,
+    "quantitative_lensing_observables_predicted": false,
+    "historical_novelty_established": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "observational_rows_opened": 0,
+    "cosmic_ray_rows_opened": 0,
+    "Solar_rows_opened": 0,
+    "GW_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "network_calls_by_builder": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/shared-quadrature-scalar-full-local-fluctuation-v1.json"
+}
