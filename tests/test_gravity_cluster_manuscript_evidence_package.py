@@ -333,6 +333,15 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["quadrature_aether_full_coupled_health"] is False
     assert theory["quadrature_aether_Solar_gate"] is False
     assert theory["quadrature_aether_GW_gate"] is False
+    assert theory["quadrature_reduced_factorization_decision"].startswith(
+        "RESTRICTED_STATIC_BRANCH_REDUCED_PRINCIPAL_FACTORIZATION_DERIVED"
+    )
+    assert theory["quadrature_reduced_six_mode_factorization"] is True
+    assert theory["quadrature_reduced_six_mode_local_causality"] is True
+    assert theory["quadrature_reduced_principal_scalar_mixing_present"] is False
+    assert theory["quadrature_reduced_nonzero_W_factorization"] is False
+    assert theory["quadrature_reduced_unreduced_constraint_hyperbolicity"] is False
+    assert theory["quadrature_reduced_healthy_action"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
@@ -351,6 +360,8 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert receipt["counts"]["quadrature_vector_metric_numeric_cases_passed"] == 4
     assert receipt["counts"]["quadrature_aether_symbolic_checks_passed"] == 25
     assert receipt["counts"]["quadrature_aether_epsilon_cases_passed"] == 3
+    assert receipt["counts"]["quadrature_reduced_factorization_symbolic_checks_passed"] == 22
+    assert receipt["counts"]["quadrature_reduced_factorization_numeric_cases_passed"] == 4
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -527,6 +538,11 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
                 "full_covariant_health_established", True
             ),
             "quadrature aether-mode",
+        ),
+        (
+            "shared_quadrature_reduced_principal_factorization",
+            lambda value: value["claim_boundary"].__setitem__("healthy_action_established", True),
+            "quadrature reduced-principal",
         ),
     ],
 )

@@ -745,6 +745,18 @@ quadrature backgrounds, nonlinear constraints, strong coupling, Solar-System mat
 physical GW propagation, cosmology, and lensing remain unproved. No CP11 checkbox is
 advanced.
 
+The reduced-principal successor then checks whether the quadrature scalar invalidates
+that pure-aether result at highest derivative order. On a frozen constant-coefficient
+static branch with `W=0`, the scalar depends on the metric and aether algebraically but
+not on their derivatives. Its degree-two derivative Hessian therefore factors from the
+already gauge/constraint-reduced five-mode aether block, even though nonzero lower-order
+mixing remains. At finite `epsilon`, `varphi=0`, and `0<s<1/2`, the five aether modes and
+the scalar longitudinal mode are photon-luminal while the scalar transverse mode lies
+inside the photon cone. This is a six-mode local reduced-sector causality result, not a
+full health proof: the unreduced constraints, varying or nonzero-`W` backgrounds,
+endpoints, exact PPN limit, nonlinear evolution, cutoff, physical solutions, and every
+observational gate remain open. No CP11 checkbox is advanced.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

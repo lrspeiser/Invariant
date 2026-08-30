@@ -418,6 +418,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "shared_quadrature_lensing_backreaction",
         "shared_quadrature_universal_vector_metric",
         "shared_quadrature_aether_mode_conditions",
+        "shared_quadrature_reduced_principal_factorization",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -504,6 +505,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     quadrature_lensing = evidence["shared_quadrature_lensing_backreaction"]
     quadrature_vector = evidence["shared_quadrature_universal_vector_metric"]
     quadrature_aether = evidence["shared_quadrature_aether_mode_conditions"]
+    quadrature_factorization = evidence["shared_quadrature_reduced_principal_factorization"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -2191,6 +2193,79 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     ):
         raise ResearchPublicationReadinessError("quadrature aether-mode evidence changed")
     if (
+        quadrature_factorization["status"]
+        != "restricted_static_branch_reduced_principal_factorization_derived_no_data"
+        or quadrature_factorization["decision"]
+        != "RESTRICTED_STATIC_BRANCH_REDUCED_PRINCIPAL_FACTORIZATION_DERIVED_SIX_PHYSICAL_MODES_CAUSAL_ON_FINITE_LOCUS_EXACT_PPN_LIMIT_AND_GLOBAL_HEALTH_BLOCKED"
+        or quadrature_factorization["config_binding"]
+        != {
+            "content_sha256": "0fc8a64e692fed9f5385ef6e380616d8e42b6d29791999031bb8106b013bf3ea",
+            "file_sha256": "bf9255267a3629a7ef97c3669c5de725984fed56b14615cc8dc98e552ca8d3f8",
+            "path": "configs/gravity_shared_quadrature_reduced_principal_factorization_v1.json",
+        }
+        or quadrature_factorization["implementation_binding"]
+        != {
+            "source_file_sha256": "2069301219d582ba54066c39401cce4f4fc912bea297ec535a645ea5e83a8e16",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_reduced_principal_factorization.py",
+            "test_file_sha256": "30acd7d0ee8affac88cba61420fe3fd80b12d7999721e4f0139e5edab0ce36cd",
+            "test_path": "tests/test_gravity_shared_quadrature_reduced_principal_factorization.py",
+        }
+        or quadrature_factorization["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 8,
+            "predecessor_bindings": 2,
+            "reduced_physical_modes": 6,
+            "symbolic_checks": 22,
+            "symbolic_checks_passed": 22,
+        }
+        or quadrature_factorization["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_5_complete": False,
+            "CP11_6_complete": False,
+            "GW_physical_gate_passed": False,
+            "Solar_System_gate_passed": False,
+            "cosmological_gate_passed": False,
+            "exact_preferred_frame_free_limit_regular": False,
+            "finite_locus_six_reduced_modes_causal_relative_to_physical_photons": True,
+            "nonlinear_vector_scalar_health_established": False,
+            "nonzero_W_or_varying_background_factorization_established": False,
+            "overall_decision": "RESTRICTED_STATIC_BRANCH_REDUCED_PRINCIPAL_FACTORIZATION_DERIVED_SIX_PHYSICAL_MODES_CAUSAL_ON_FINITE_LOCUS_EXACT_PPN_LIMIT_AND_GLOBAL_HEALTH_BLOCKED",
+            "quantitative_lensing_gate_passed": False,
+            "restricted_reduced_physical_principal_factorization_established": True,
+            "static_W_zero_scalar_to_aether_metric_principal_mixing_present": False,
+            "uniform_cutoff_established": False,
+            "unreduced_gauge_constraint_system_strongly_hyperbolic": False,
+        }
+        or quadrature_factorization["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "cosmological_viability_established": False,
+            "full_covariant_health_established": False,
+            "global_hyperbolicity_established": False,
+            "gravitational_wave_viability_established": False,
+            "healthy_action_established": False,
+            "historical_novelty_established": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "restricted_six_mode_local_causality_established": True,
+            "restricted_static_branch_reduced_principal_factorization_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_factorization["zero_access_and_compute"].values()) != {0}
+    ):
+        raise ResearchPublicationReadinessError(
+            "quadrature reduced-principal factorization evidence changed"
+        )
+    if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
         or numerical["claims"]["independent_replication"] is not False
@@ -2394,6 +2469,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "shared_quadrature_exact_gw_ppn_zero_regular": False,
             "shared_quadrature_uniform_kinetic_margin_at_ppn_zero": False,
             "shared_quadrature_full_aether_scalar_vector_health_established": False,
+            "shared_quadrature_reduced_six_mode_factorization_established": True,
+            "shared_quadrature_reduced_six_mode_local_causality_established": True,
+            "shared_quadrature_unreduced_constraint_hyperbolicity_established": False,
+            "shared_quadrature_nonzero_W_factorization_established": False,
         },
         "readiness": {
             "independent_cluster_data": predata,

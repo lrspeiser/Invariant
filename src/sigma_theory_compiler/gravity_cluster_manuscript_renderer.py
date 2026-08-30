@@ -735,6 +735,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["quadrature_aether_finite_luminal_locus_exists"],
             f"five-mode formulas={theory['quadrature_aether_five_mode_formulas_rechecked']}; exact GW+PPN zero regular={theory['quadrature_aether_exact_gw_ppn_zero_regular']}; uniform kinetic margin={theory['quadrature_aether_uniform_kinetic_margin']}; full coupled health={theory['quadrature_aether_full_coupled_health']}",
         ),
+        (
+            "shared_quadrature_reduced_principal_factorization",
+            "static_branch_six_mode_reduced_factorization",
+            theory["quadrature_reduced_six_mode_factorization"],
+            f"local causal={theory['quadrature_reduced_six_mode_local_causality']}; principal scalar mixing={theory['quadrature_reduced_principal_scalar_mixing_present']}; nonzero-W factorization={theory['quadrature_reduced_nonzero_W_factorization']}; unreduced hyperbolicity={theory['quadrature_reduced_unreduced_constraint_hyperbolicity']}; healthy action={theory['quadrature_reduced_healthy_action']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(
