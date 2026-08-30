@@ -1,0 +1,354 @@
+{
+  "authorization_contract": {
+    "approved_at_utc_required": true,
+    "approved_by_nonempty_required": true,
+    "authorization_checked_before_temporary_directory_or_network": true,
+    "authorization_manifest_path": "runs/gravity/publication-readiness/group-scale-xclass-identity-executor-v1/authorization-approved.json",
+    "authorization_schema": "invariant-gravity-group-scale-xclass-identity-authorization-1.0",
+    "authorization_template_exact_keys": [
+      "schema_version",
+      "status",
+      "authorized",
+      "run_id",
+      "authorization_phrase",
+      "approved_by",
+      "approved_at",
+      "scientific_payload_exposure_acknowledged",
+      "source_url",
+      "maximum_get_calls",
+      "maximum_network_bytes",
+      "bindings"
+    ],
+    "authorized_manifest_present_at_freeze": false,
+    "authorized_status": "authorized_for_exactly_one_xclass_identity_get",
+    "binding_keys": [
+      "config_file_sha256",
+      "module_file_sha256",
+      "test_file_sha256",
+      "preflight_receipt_file_sha256",
+      "preflight_receipt_content_sha256",
+      "parent_v3_receipt_file_sha256",
+      "parent_v3_receipt_content_sha256"
+    ],
+    "cli_execute_sentinel": "EXECUTE_XCLASS_IDENTITY_V1_SINGLE_GET",
+    "cli_expected_authorization_sha256_required": true,
+    "current_unauthorized_manifest_path": "runs/gravity/publication-readiness/group-scale-xclass-identity-executor-v1/authorization-current-unauthorized.json",
+    "current_unauthorized_manifest_sha256": "b0e59667b93132cf89a151ae2c7c9fba0d44b63fe618b2cc46e910e21e5a7827",
+    "required_authorization_phrase": "AUTHORIZE RUN XCLASS_IDENTITY_V1_RUN_001: DOWNLOAD EXACTLY ONE 16,895-BYTE 155-ROW X-CLASS TABLED1.DAT MIXED SCIENTIFIC CATALOG AS OPAQUE PRIVATE TEMPORARY BYTES; DECODE ONLY XCLASS, RADEG, DEDEG, AND Z AT FROZEN FIXED-WIDTH BYTES; DELETE RAW BYTES BEFORE SANITIZED OUTPUT; NO REDIRECTS, RETRIES, HEAD, OBSID GUESSING, X-COP OVERLAP, SCIENCE SCORING, MODEL, OR PAID CALLS.",
+    "run_id": "XCLASS_IDENTITY_V1_RUN_001",
+    "scientific_payload_exposure_acknowledged_required": true,
+    "validation_order": [
+      "confine and hash package files",
+      "validate frozen preflight",
+      "validate authorization exact schema and externally supplied hash",
+      "validate authorization phrase and all bindings",
+      "refuse existing result",
+      "create private temporary directory",
+      "perform one GET"
+    ]
+  },
+  "claim_limit": "Guarded executor mechanics only. No authorization, network access, identity rows, ObsID mapping, X-COP overlap, reduction, score, CP10 completion, or publication claim.",
+  "claims": {
+    "CP10_1_complete": false,
+    "CP10_2_complete": false,
+    "authorization_template_frozen": true,
+    "candidate_tested_on_groups": false,
+    "central_readiness_changed": false,
+    "five_object_pilot_unlocked": false,
+    "group_bridge_ready": false,
+    "guarded_executor_implemented": true,
+    "observational_authorization": false,
+    "obsid_mapping_available": false,
+    "publication_claim_supported": false,
+    "scientific_payload_accessed": false,
+    "source_identity_acquired": false,
+    "source_sha256_known": false,
+    "xcop_overlap_known": false
+  },
+  "column_contract": {
+    "coordinates_must_be_finite": true,
+    "decode_allowlist": [
+      "XClass",
+      "RAdeg",
+      "DEdeg",
+      "z"
+    ],
+    "field_format_ascii": {
+      "DEdeg": "F7.4 in exactly 7 bytes",
+      "RAdeg": "F8.4 in exactly 8 bytes",
+      "XClass": "I5 right-aligned decimal integer in exactly 5 bytes",
+      "z": "F5.3 in exactly 5 bytes"
+    },
+    "fixed_width_slices_1_based_inclusive": {
+      "DEdeg": [
+        16,
+        22
+      ],
+      "RAdeg": [
+        7,
+        14
+      ],
+      "XClass": [
+        1,
+        5
+      ],
+      "opaque_suffix": [
+        29,
+        108
+      ],
+      "z": [
+        24,
+        28
+      ]
+    },
+    "fixed_width_slices_zero_based_half_open": {
+      "DEdeg": [
+        15,
+        22
+      ],
+      "RAdeg": [
+        6,
+        14
+      ],
+      "XClass": [
+        0,
+        5
+      ],
+      "opaque_suffix": [
+        28,
+        108
+      ],
+      "z": [
+        23,
+        28
+      ]
+    },
+    "forbidden_named_examples": [
+      "TX",
+      "e_TX",
+      "abundance",
+      "e_abundance",
+      "L500",
+      "e_L500",
+      "R500",
+      "chi2_background"
+    ],
+    "forbidden_rule": "Bytes 29-108 inclusive are opaque. They may be length-checked as raw bytes but may never be split, decoded, converted, logged, compared, selected on, or included in an exception or output.",
+    "numeric_bounds": {
+      "dec_deg_max_inclusive": 90.0,
+      "dec_deg_min_inclusive": -90.0,
+      "ra_deg_max_exclusive": 360.0,
+      "ra_deg_min_inclusive": 0.0,
+      "redshift_max_exclusive": 1.0,
+      "redshift_min_exclusive": 0.0
+    },
+    "opaque_suffix_exact_bytes": 80,
+    "opaque_suffix_required": true,
+    "output_order": "SOURCE_FILE_ORDER",
+    "required_single_space_delimiter_hex": "20",
+    "required_single_space_delimiters_1_based": [
+      6,
+      15,
+      23
+    ],
+    "sanitized_output_names": [
+      "source_object_id",
+      "ra_deg",
+      "dec_deg",
+      "redshift"
+    ],
+    "scientific_values_instantiated": false,
+    "source_object_ids_unique": true,
+    "wire_order_source_names": [
+      "XClass",
+      "RAdeg",
+      "DEdeg",
+      "z"
+    ]
+  },
+  "config_binding": {
+    "content_sha256": "bb32641ad3ff290f70658ec9d426271be8eec425094c83ff255585ce62cece89",
+    "file_sha256": "bd68d4bcf33cb72044866fd894edbc927ab5ada6bb62daa597a23e5637a493f1",
+    "path": "configs/gravity_group_scale_xclass_identity_executor_v1.json"
+  },
+  "content_sha256": "7a9c4c2d689479e7aada3feaa51205178b4c7b251a23360f75a19cf6d9d153c3",
+  "decision": "GUARDED_XCLASS_IDENTITY_EXECUTOR_V1_FROZEN_EXTERNAL_AUTHORIZATION_REQUIRED_ZERO_RUNS",
+  "execution_accounting": {
+    "authorization_manifests_approved": 0,
+    "executor_launches": 0,
+    "get_attempts": 0,
+    "head_calls": 0,
+    "identity_rows_decoded": 0,
+    "model_or_paid_calls": 0,
+    "network_bytes": 0,
+    "obsid_mappings": 0,
+    "raw_payload_files_created": 0,
+    "sanitized_results_published": 0,
+    "scientific_values_decoded": 0,
+    "scores_computed": 0,
+    "xcop_overlap_runs": 0
+  },
+  "executor_id": "gravity-group-scale-xclass-identity-executor-v1",
+  "implementation_binding": {
+    "module_file_sha256": "b6489ea281f411833c1a1d1c50a429fe9b8146d7f00a6236fffec64777444e3a",
+    "module_path": "src/sigma_theory_compiler/gravity_group_scale_xclass_identity_executor_v1.py",
+    "test_file_sha256": "fa5d252d5dd3c2a5de72fddc846db92e82981477837df45144fe4784b94a5bf6",
+    "test_path": "tests/test_gravity_group_scale_xclass_identity_executor_v1.py"
+  },
+  "network_contract": {
+    "allowed_content_encoding": [
+      null,
+      "identity"
+    ],
+    "get_calls": 1,
+    "head_calls": 0,
+    "maximum_http_attempts": 1,
+    "maximum_network_bytes": 16895,
+    "no_redirect_handler_required": true,
+    "no_retry_path_exists": true,
+    "redirect_calls": 0,
+    "request_headers": {
+      "Accept": "text/plain",
+      "Accept-Encoding": "identity",
+      "User-Agent": "Invariant-XCLASS-Identity-V1/1.0"
+    },
+    "required_content_length": 16895,
+    "required_status": 200,
+    "response_final_url_must_equal_request_url": true,
+    "retry_calls": 0,
+    "timeout_seconds": 60,
+    "transfer_encoding_allowed": false
+  },
+  "obsid_contract": {
+    "obsid_guessing_allowed": false,
+    "obsid_mapping_executed": false,
+    "separately_authoritative_source_required": "Registered public X-CLASS database export or another authoritative object-to-XMM-ObsID mapping with its own authorization, bytes, schema, hash, license, and provenance receipt.",
+    "short_name_inference_allowed": false,
+    "successful_identity_output_status": "IDENTITY_ONLY_OBSID_MAPPING_BLOCKED_SEPARATE_AUTHORITATIVE_SOURCE_REQUIRED",
+    "tabled1_obsid_field_available": false
+  },
+  "output_contract": {
+    "access_intent_existing_action": "FAIL_CLOSED_NO_RELAUNCH_OR_RETRY",
+    "access_intent_path": "runs/gravity/publication-readiness/group-scale-xclass-identity-executor-v1/access-intent-run-001.json",
+    "access_intent_present_at_freeze": false,
+    "access_intent_published_after_authorization_before_temporary_or_network": true,
+    "access_intent_retained_on_success_failure_or_interruption": true,
+    "access_intent_schema": "invariant-gravity-group-scale-xclass-identity-access-intent-1.0",
+    "atomic_no_clobber": true,
+    "authorization_receipt_keys": [
+      "path",
+      "file_sha256",
+      "approved_by",
+      "approved_at"
+    ],
+    "exact_top_level_keys": [
+      "schema_version",
+      "run_id",
+      "status",
+      "authorization_receipt",
+      "source_receipt",
+      "records",
+      "obsid_mapping",
+      "xcop_overlap",
+      "accounting",
+      "claim_boundary",
+      "content_sha256"
+    ],
+    "existing_different_result_action": "FAIL_CLOSED",
+    "existing_identical_result_action": "FAIL_CLOSED_REPLAY_PROHIBITED",
+    "get_attempt_marker_accounting_rule": "Count one GET attempt conservatively once the marker is published, even if interruption occurs before the transport invocation can be independently proven.",
+    "get_attempt_marker_existing_action": "FAIL_CLOSED_NO_SECOND_ATTEMPT",
+    "get_attempt_marker_path": "runs/gravity/publication-readiness/group-scale-xclass-identity-executor-v1/get-attempt-run-001.json",
+    "get_attempt_marker_present_at_freeze": false,
+    "get_attempt_marker_published_immediately_before_opener_call": true,
+    "get_attempt_marker_retained_on_success_failure_or_interruption": true,
+    "get_attempt_marker_schema": "invariant-gravity-group-scale-xclass-identity-get-attempt-1.0",
+    "record_count": 155,
+    "record_keys": [
+      "source_object_id",
+      "ra_deg",
+      "dec_deg",
+      "redshift"
+    ],
+    "result_path": "runs/gravity/publication-readiness/group-scale-xclass-identity-executor-v1/identity-sanitized-v1.json",
+    "result_present_at_freeze": false,
+    "result_schema": "invariant-gravity-group-scale-xclass-identity-result-1.0",
+    "same_directory_hard_link_no_replace": true,
+    "source_receipt_keys": [
+      "url",
+      "network_bytes",
+      "row_count",
+      "wire_record_bytes_including_lf",
+      "source_sha256",
+      "license"
+    ]
+  },
+  "parent_v3_binding": {
+    "audit_id": "gravity-group-scale-source-audit-v3",
+    "config_file_sha256": "df36fd618328e07977d44d47a286581702a22ecd8870567ae41321dc3288247e",
+    "config_path": "configs/gravity_group_scale_source_audit_v3.json",
+    "git_commit": "31b229da",
+    "module_file_sha256": "5e5907d5ab61009ec8996cf01cfc0a4a0faf6c72e86f06e2deb4e8e55e9cb24a",
+    "module_path": "src/sigma_theory_compiler/gravity_group_scale_source_audit_v3.py",
+    "receipt_content_sha256": "91f4013f57c6b5c85b7cd80b02f5585b85435edd8f449a07f6cdf2f9dfd9dd96",
+    "receipt_file_sha256": "d76683e1b78bf48483d4a2228700459a0707a7d097a22110150588e46133995c",
+    "receipt_path": "runs/gravity/publication-readiness/group-scale-source-audit-v3.json",
+    "required_parent_decision": "METADATA_SOURCE_AUDIT_V3_SEALED_ZERO_READY_LANES_XCLASS_PREFERRED_EFEDS_BACKUP_NO_ACQUISITION_AUTHORIZED",
+    "test_file_sha256": "2e3187f9deddde6a4e764f5e0f7c676cf860c563e2e1131898a576ee5c19b7ee",
+    "test_path": "tests/test_gravity_group_scale_source_audit_v3.py"
+  },
+  "private_payload_contract": {
+    "archive_extraction_performed": false,
+    "hardlinks_allowed_inside_temporary": false,
+    "path_components_user_controlled": false,
+    "raw_bytes_or_rows_may_appear_in_logs_exceptions_receipts_or_results": false,
+    "raw_filename": "tabled1.dat.opaque",
+    "raw_payload_deleted_before_output_publish": true,
+    "raw_payload_written_before_decode": true,
+    "sanitized_records_built_from_allowlisted_captures_only": true,
+    "symlinks_allowed": false,
+    "temporary_directory_mode_octal": "0700",
+    "temporary_directory_removed_on_success_or_exception": true,
+    "temporary_file_mode_octal": "0600",
+    "temporary_parent": "runs/gravity/publication-readiness/group-scale-xclass-identity-executor-v1/private-temporary"
+  },
+  "schema_version": "invariant-gravity-group-scale-xclass-identity-preflight-receipt-1.0",
+  "source_contract": {
+    "catalog_release": "CDS J/A+A/710/A77",
+    "expected_network_bytes": 16895,
+    "expected_rows": 155,
+    "expected_source_sha256_before_get": null,
+    "host": "cdsarc.cds.unistra.fr",
+    "license": "CC-BY-4.0 verified for CDS J/A+A/710/A77 in the bound V3 audit",
+    "line_ending_hex": "0a",
+    "metadata_retrieved_at": "2026-08-29",
+    "port": 443,
+    "publisher_checksum_available": false,
+    "reported_filename": "tabled1.dat",
+    "request_method": "GET",
+    "schema_observation_method": "official_cds_readme_fixed_width_metadata_review_no_table_body_bound_through_committed_v3_and_independent_executor_review",
+    "schema_retrieved_at": "2026-08-29",
+    "schema_source_url": "https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/J/A%2BA/710/A77?format=html&tex=true",
+    "scheme": "https",
+    "scientific_mixed_row_warning": true,
+    "source_id": "XCLASS_LOWZ_A77_TABLED1",
+    "source_sha256_policy": "COMPUTE_AND_RECORD_FROM_THE_SINGLE_AUTHORIZED_GET; SIZE_AND_STRICT_RECORD_SCHEMA_ARE_THE_PREDECODE_INTEGRITY_GATES",
+    "url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/710/A77/tabled1.dat",
+    "wire_record_bytes_including_lf": 109,
+    "wire_record_content_bytes": 108
+  },
+  "status": "frozen_executor_preflight_external_authorization_required_unrun",
+  "unauthorized_manifest_binding": {
+    "authorized": false,
+    "file_sha256": "b0e59667b93132cf89a151ae2c7c9fba0d44b63fe618b2cc46e910e21e5a7827",
+    "path": "runs/gravity/publication-readiness/group-scale-xclass-identity-executor-v1/authorization-current-unauthorized.json",
+    "status": "not_authorized"
+  },
+  "xcop_overlap_contract": {
+    "coordinate_ledger_bound": false,
+    "future_requirement": "Bind an independent target-blind X-COP alias/coordinate/redshift ledger and a frozen ambiguity policy in a new version before computing overlap.",
+    "overlap_count": null,
+    "overlap_executed": false,
+    "reason": "The bound V3 audit contains names but no independently frozen X-COP coordinate ledger. Name-only or guessed coordinate matching is prohibited."
+  }
+}
