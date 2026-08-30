@@ -1,0 +1,160 @@
+{
+  "schema_version": "invariant-gravity-gain-persistence-gp01-xcop-source-preflight-config-1.0",
+  "preflight_id": "GAIN-PERSISTENCE-01-XCOP-SOURCE-PREFLIGHT-v1",
+  "version": "1.0.0",
+  "status": "FROZEN_SOURCE_ONLY_ZERO_RESPONSE_ACCESS",
+  "purpose": "Determine, before response scoring, which GP01 branches are executable on the eight frozen X-COP development clusters using only density and stellar source profiles.",
+  "upstream_bindings": [
+    {
+      "id": "GP01_CONFIG",
+      "path": "configs/gravity_gain_persistence_gp01_foundation_v1.json",
+      "sha256": "b94d95bafa30a2ae7f0df03565893adf396a5927e0ef60f941a52305300ce3f4"
+    },
+    {
+      "id": "GP01_MODULE",
+      "path": "src/sigma_theory_compiler/gravity_gain_persistence_gp01_foundation.py",
+      "sha256": "ddfc8d039a794b3a461e987b582c007f0894d7796ff3c1c39296120cebb6374b"
+    },
+    {
+      "id": "GP01_TEST",
+      "path": "tests/test_gravity_gain_persistence_gp01_foundation.py",
+      "sha256": "0bdec5b0fe6a7862e1a78598912e64651863f753c70f63d8ac6db5b10bd36ed8"
+    },
+    {
+      "id": "GP01_RECEIPT",
+      "path": "runs/gravity/theory/gain-persistence-gp01-foundation-v1.json",
+      "sha256": "3278ae378808316734207ac7e8649e6040d6cdb64f4ad028a3cc5cc91c3f2579"
+    },
+    {
+      "id": "XCOP_DEVELOPMENT_CONFIG",
+      "path": "configs/gravity_extended_source_clock_xcop_development_v1.json",
+      "sha256": "4036dcce511ed59d6729b1e2519f5b963714c0e4ab2343c98d8bc08fa0a9f483"
+    },
+    {
+      "id": "ITEM59_CONFIG",
+      "path": "configs/gravity_item59_xcop_forward_observable_gate_v1.json",
+      "sha256": "7d17fa71dce7bfb44ab517a47b1cbe0ed17826cc2ffe36f871296b4d8632878b"
+    },
+    {
+      "id": "ITEM59_MODULE",
+      "path": "src/sigma_theory_compiler/gravity_item59_xcop_forward_observable_gate.py",
+      "sha256": "a633622e2833195c05dbe3b95f78121444a7727754f5d73bcbb732f2c0ae7819"
+    },
+    {
+      "id": "ITEM59_SOURCE_RECEIPT",
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1-source/source-receipt.json",
+      "sha256": "819360acdd40c58254cc43b18f9d6613b2c5f908122e134b7fa4b3f346b69aac"
+    }
+  ],
+  "population": {
+    "development_clusters": [
+      "A1644",
+      "A1795",
+      "A2142",
+      "A2255",
+      "A2319",
+      "A3266",
+      "A85",
+      "ZW1215"
+    ],
+    "clusters_with_stellar_profile": [
+      "A1795",
+      "A2142",
+      "A2319",
+      "A85",
+      "ZW1215"
+    ],
+    "clusters_with_shared_missing_stellar_rule": [
+      "A1644",
+      "A2255",
+      "A3266"
+    ],
+    "forbidden_clusters": [
+      "A2029",
+      "A3158",
+      "A644",
+      "RXC1825"
+    ]
+  },
+  "source_contract": {
+    "allowed_roles": [
+      "density",
+      "stellar_mass"
+    ],
+    "forbidden_roles": [
+      "pressure",
+      "temperature",
+      "lensing",
+      "inferred_total_mass",
+      "motion"
+    ],
+    "expected_density_files": 8,
+    "expected_stellar_files": 5,
+    "expected_source_files": 13,
+    "expected_source_bytes": 308160,
+    "density_hdu": 2,
+    "stellar_hdu": 2,
+    "density_columns": [
+      "RW_X",
+      "NE",
+      "ERR_NE_LO",
+      "ERR_NE_HI"
+    ],
+    "stellar_columns": [
+      "RADIUS",
+      "MSTAR",
+      "MSTAR_LO",
+      "MSTAR_HI"
+    ]
+  },
+  "frozen_source_mapping": {
+    "a_star_m_s2": 1.2e-10,
+    "transport_anchor_y": 100.0,
+    "published_stellar_mass_scale": 1.0,
+    "missing_stellar_to_gas_mass_ratio": 0.1,
+    "gas_density": "rho_gas=NE*1e6*mu_e*m_p",
+    "gas_mass": "M_gas(r)=4*pi*integral_0^r rho_gas(s)*s^2 ds with constant-density inner cell and trapezoidal observed shells",
+    "stellar_mass": "published cumulative MSTAR interpolation times one shared scale; where absent, one shared 0.1*M_gas rule",
+    "baryonic_acceleration": "g_b=G*(M_gas+M_star)/r^2",
+    "effective_baryon_density": "rho_b(r)=(4*pi*r^2)^(-1)*d(M_gas+M_star)/dr using numpy.gradient on the frozen increasing source radii, clipped at zero; the innermost value is max of that derivative estimate and 3*M_b(r0)/(4*pi*r0^3)",
+    "source_radius": "R_b is the first observed radius at which cumulative declared baryonic mass reaches 90 percent of its outer observed value",
+    "spherical_tidal_norm": "T_b=sqrt(2/3)*abs(4*pi*G*rho_b-3*g_b/r)",
+    "reference_rules": "rho_ref and T_ref are medians of finite strictly positive source-node values"
+  },
+  "branch_adjudication": {
+    "GP01-L": "SOURCE_READY_ALL_EIGHT_LOCAL_RADIAL_CONTROL",
+    "GP01-AQUAL": "EQUIVALENCE_LINK_TO_GP01_L_IN_SPHERICAL_SYMMETRY_SCORE_ONCE",
+    "GP01-T1": "SOURCE_READY_ONLY_IF_EXACTLY_ONE_OUTWARD_Y100_ANCHOR_EXISTS_OTHERWISE_SOURCE_BLOCKED",
+    "GP01-T2": "SOURCE_READY_ONLY_IF_EXACTLY_ONE_OUTWARD_Y100_ANCHOR_EXISTS_OTHERWISE_SOURCE_BLOCKED",
+    "GP01-ELLIPTIC": "SOURCE_READY_SPHERICAL_RADIAL_PHENOMENOLOGY_PENDING_EXACT_SOLVER",
+    "GP01-TELEGRAPH": "SOURCE_BLOCKED_NO_SOURCE_HISTORY_AND_INSTANTANEOUS_POISSON_TARGET",
+    "GP01-ACTION_PLACEHOLDER": "INCOMPLETE_QUARANTINE"
+  },
+  "claim_boundary": {
+    "source_eligibility_only": true,
+    "response_scoring_authorized": false,
+    "pressure_or_temperature_opened": false,
+    "transport_scientific_failure_claimed": false,
+    "missing_anchor_is_source_blocked_not_empirical_failure": true,
+    "elliptic_solver_completed": false,
+    "general_three_dimensional_history_claimed": false,
+    "observational_signal_claimed": false,
+    "publication_claimed": false
+  },
+  "zero_access": {
+    "pressure_files_opened": 0,
+    "temperature_files_opened": 0,
+    "pressure_rows_opened": 0,
+    "temperature_rows_opened": 0,
+    "motion_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "scientific_scores_computed": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "gpu_calls": 0
+  },
+  "output_path": "runs/gravity/theory/gain-persistence-gp01-xcop-source-preflight-v1.json"
+}
