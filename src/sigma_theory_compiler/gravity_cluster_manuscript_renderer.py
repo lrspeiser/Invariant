@@ -705,6 +705,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["conditional_exact_transition_no_go_established"],
             f"exact C2={theory['exact_deep_aqual_transition_is_C2']}; regulated subluminal={theory['regulated_example_is_subluminal_relative_to_conformal_matter_cone']}",
         ),
+        (
+            "shared_formula_scalar_kinetic_reconstruction",
+            "formula_to_minimal_kinetic_map_derived",
+            theory["formula_to_minimal_kinetic_map_derived"],
+            f"source-only={theory['formula_source_only_classes']}/60; quadrature causal={theory['quadrature_minimal_map_causal_relative_to_conformal_matter_cone']}; full covariant bridge={theory['formula_full_covariant_bridge_derived']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

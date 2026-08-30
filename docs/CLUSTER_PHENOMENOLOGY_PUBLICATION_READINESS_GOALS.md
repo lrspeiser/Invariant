@@ -685,6 +685,18 @@ matter/photon cone, and has no uniform lower coefficient bound on an unbounded t
 domain. This is a conditional transition theorem and quantified design tradeoff, not a
 healthy completed action; CP11.4 remains open.
 
+The shared-formula reconstruction successor now connects the frozen empirical grammar
+to this theory question without using target rows. In the minimal spherical conformal
+branch it derives `Xbar=-s^2/(2 alpha^2)`, `P_X=alpha^2 x/s`, and the longitudinal
+coefficient `K=alpha^2/(ds/dx)`, where `s=F(x)-x`. All 60 canonical formulas are
+structurally classified: only three depend on source acceleration alone, while 57 also
+depend on radial, state, or geometry predictors that need their own covariant dynamics.
+Of the three source-only classes, the quadrature law has a single-valued locally positive
+map but a superluminal conformal-cone ratio and a finite-gradient singular endpoint; the
+RAR-like law is multivalued and changes the sign of `K`; the Newtonian class has zero
+scalar excess. This derives a precise formula-to-theory interface but selects no healthy
+candidate and does not complete CP11.1 or CP11.4.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

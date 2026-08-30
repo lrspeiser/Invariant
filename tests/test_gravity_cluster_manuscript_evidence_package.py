@@ -259,6 +259,22 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["regulated_example_has_global_unbounded_domain_lower_bound"] is False
     assert theory["deep_aqual_transition_CP11_4_complete"] is False
     assert theory["deep_aqual_transition_healthy_action"] is False
+    assert theory["formula_kinetic_reconstruction_decision"].startswith(
+        "MINIMAL_FORMULA_TO_KINETIC_RECONSTRUCTION_DERIVED"
+    )
+    assert theory["formula_to_minimal_kinetic_map_derived"] is True
+    assert theory["formula_registry_classes_classified"] == 60
+    assert theory["formula_source_only_classes"] == 3
+    assert theory["formula_auxiliary_dependent_classes"] == 57
+    assert theory["quadrature_minimal_map_single_valued_and_locally_positive"] is True
+    assert theory["quadrature_minimal_map_causal_relative_to_conformal_matter_cone"] is False
+    assert theory["quadrature_minimal_map_has_global_regular_unbounded_domain"] is False
+    assert theory["rar_like_minimal_map_single_valued_globally"] is False
+    assert theory["rar_like_minimal_map_gradient_stable_globally"] is False
+    assert theory["formula_full_covariant_bridge_derived"] is False
+    assert theory["formula_surviving_physical_candidate_selected"] is False
+    assert theory["formula_kinetic_CP11_1_complete"] is False
+    assert theory["formula_kinetic_CP11_4_complete"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
@@ -266,6 +282,9 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert receipt["counts"]["scalar_hamiltonian_designed_failures_preserved"] == 2
     assert receipt["counts"]["deep_aqual_transition_symbolic_checks_passed"] == 24
     assert receipt["counts"]["deep_aqual_transition_numeric_cases_passed"] == 4
+    assert receipt["counts"]["formula_kinetic_symbolic_checks_passed"] == 16
+    assert receipt["counts"]["formula_kinetic_quadrature_numeric_probes"] == 5
+    assert receipt["counts"]["formula_kinetic_rar_witness_points"] == 2
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -409,6 +428,13 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             "matter_lensing_deep_aqual_transition_tradeoff",
             lambda value: value["claim_boundary"].__setitem__("healthy_action_established", True),
             "deep-AQUAL transition",
+        ),
+        (
+            "shared_formula_scalar_kinetic_reconstruction",
+            lambda value: value["claim_boundary"].__setitem__(
+                "surviving_physical_candidate_selected", True
+            ),
+            "formula kinetic reconstruction",
         ),
     ],
 )

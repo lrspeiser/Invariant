@@ -413,6 +413,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matter_lensing_adm_constraint_propagation",
         "matter_lensing_scalar_hamiltonian_necessary_conditions",
         "matter_lensing_deep_aqual_transition_tradeoff",
+        "shared_formula_scalar_kinetic_reconstruction",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -494,6 +495,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     adm_constraints = evidence["matter_lensing_adm_constraint_propagation"]
     scalar_hamiltonian = evidence["matter_lensing_scalar_hamiltonian_necessary_conditions"]
     deep_aqual_transition = evidence["matter_lensing_deep_aqual_transition_tradeoff"]
+    formula_kinetic = evidence["shared_formula_scalar_kinetic_reconstruction"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -1823,6 +1825,78 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     ):
         raise ResearchPublicationReadinessError("deep-AQUAL transition evidence changed")
     if (
+        formula_kinetic["status"]
+        != "formula_to_minimal_scalar_kinetic_map_derived_three_source_only_classes_adjudicated_full_theory_blocked"
+        or formula_kinetic["decision"]
+        != "MINIMAL_FORMULA_TO_KINETIC_RECONSTRUCTION_DERIVED_ONLY_QUADRATURE_SOURCE_ONLY_CLASS_IS_SINGLE_VALUED_POSITIVE_BUT_CAUSAL_AND_ENDPOINT_GATES_FAIL_FULL_THEORY_BLOCKED"
+        or formula_kinetic["config_binding"]
+        != {
+            "content_sha256": "c53030121ca93220a915241ba34335167a6765afcf6a191e85d0fa92e0263618",
+            "file_sha256": "df1e6236612720f8a0a31b4780fa9beff2d1fa3fc00bc32bf0f969a022d4eb41",
+            "path": "configs/gravity_shared_formula_scalar_kinetic_reconstruction_v1.json",
+        }
+        or formula_kinetic["implementation_binding"]
+        != {
+            "source_file_sha256": "0807449453db372759c5dc711317f7c07c7dc5f13a468387c244c100985b2f26",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_formula_scalar_kinetic_reconstruction.py",
+            "test_file_sha256": "9659ad5d9a36d1072887b54e5afdaf3dc3655b22f50c881c5281b4a23c7de3f9",
+            "test_path": "tests/test_gravity_shared_formula_scalar_kinetic_reconstruction.py",
+        }
+        or formula_kinetic["counts"]
+        != {
+            "auxiliary_dependent_formula_classes": 57,
+            "canonical_formula_classes": 60,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_bindings": 4,
+            "quadrature_numeric_probes": 5,
+            "rar_same_excess_witness_points": 2,
+            "source_only_formula_classes": 3,
+            "symbolic_checks": 16,
+            "symbolic_checks_passed": 16,
+        }
+        or formula_kinetic["adjudication"]
+        != {
+            "CP11_1_complete": False,
+            "CP11_4_complete": False,
+            "all_60_classes_structurally_classified": True,
+            "auxiliary_dependent_classes_requiring_covariant_completion": 57,
+            "candidate_selected_by_observations": False,
+            "formula_to_minimal_kinetic_map_derived": True,
+            "full_covariant_formula_bridge_derived": False,
+            "healthy_action": False,
+            "newtonian_control_nontrivial_scalar_map": False,
+            "observational_support": False,
+            "overall_decision": "MINIMAL_FORMULA_TO_KINETIC_RECONSTRUCTION_DERIVED_ONLY_QUADRATURE_SOURCE_ONLY_CLASS_IS_SINGLE_VALUED_POSITIVE_BUT_CAUSAL_AND_ENDPOINT_GATES_FAIL_FULL_THEORY_BLOCKED",
+            "quadrature_minimal_map_causal_relative_to_conformal_matter_cone": False,
+            "quadrature_minimal_map_has_global_regular_unbounded_domain": False,
+            "quadrature_minimal_map_single_valued_and_locally_positive": True,
+            "rar_like_minimal_map_gradient_stable_globally": False,
+            "rar_like_minimal_map_single_valued_globally": False,
+            "source_only_classes": 3,
+        }
+        or formula_kinetic["claim_boundary"]
+        != {
+            "causality_established": False,
+            "full_covariant_formula_bridge_established": False,
+            "global_hyperbolicity_established": False,
+            "healthy_action_established": False,
+            "minimal_spherical_formula_to_kinetic_map_established": True,
+            "motion_and_lensing_jointly_predicted": False,
+            "observational_support": False,
+            "one_source_only_class_has_single_valued_positive_minimal_map": True,
+            "publication_readiness_changed": False,
+            "registry_structural_classification_established": True,
+            "scientific_observational_claim_allowed": False,
+            "surviving_physical_candidate_selected": False,
+        }
+        or set(formula_kinetic["zero_access_and_compute"].values()) != {0}
+    ):
+        raise ResearchPublicationReadinessError("formula kinetic reconstruction evidence changed")
+    if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
         or numerical["claims"]["independent_replication"] is not False
@@ -2006,6 +2080,9 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "frozen_strata_explain_covariance_flips": False,
             "strata_candidate_absolute_gate_passed": False,
             "strata_candidate_object_win_gate_passed": False,
+            "shared_formula_classes_structurally_mapped_to_minimal_scalar_theory": 60,
+            "shared_formula_source_only_minimal_scalar_classes": 3,
+            "shared_formula_full_covariant_bridge_derived": False,
         },
         "readiness": {
             "independent_cluster_data": predata,

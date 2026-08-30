@@ -37,6 +37,14 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
     assert receipt["automatic_findings"]["CP5_11_predictor_strata_frozen"] is True
     assert receipt["automatic_findings"]["CP5_13_complete"] is False
     assert receipt["automatic_findings"]["frozen_strata_explain_covariance_flips"] is False
+    assert (
+        receipt["automatic_findings"][
+            "shared_formula_classes_structurally_mapped_to_minimal_scalar_theory"
+        ]
+        == 60
+    )
+    assert receipt["automatic_findings"]["shared_formula_source_only_minimal_scalar_classes"] == 3
+    assert receipt["automatic_findings"]["shared_formula_full_covariant_bridge_derived"] is False
     assert receipt["readiness"]["independent_cluster_data"]["next_gate"] == "CP3"
     assert receipt["readiness"]["independent_cluster_data"]["ready"] is False
     assert receipt["readiness"]["observational_authorization"] is False
@@ -320,6 +328,13 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             lambda value: value["adjudication"].__setitem__("CP11_4_complete", True),
             "deep-AQUAL transition",
         ),
+        (
+            "shared_formula_scalar_kinetic_reconstruction",
+            lambda value: value["adjudication"].__setitem__(
+                "full_covariant_formula_bridge_derived", True
+            ),
+            "formula kinetic reconstruction",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -346,7 +361,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 46,
+        "bound_evidence_receipts": 47,
         "independent_target_rows_opened": 0,
     }
 
