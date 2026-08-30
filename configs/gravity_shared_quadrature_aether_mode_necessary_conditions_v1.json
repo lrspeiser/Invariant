@@ -1,0 +1,155 @@
+{
+  "schema_version": "invariant-gravity-shared-quadrature-aether-mode-necessary-conditions-config-1.0",
+  "analysis_id": "gravity-shared-quadrature-aether-mode-necessary-conditions-v1",
+  "status": "frozen_no_data_restricted_aether_mode_and_ppn_necessary_conditions",
+  "purpose": "Specialize the committed Einstein-aether five-mode principal and energy formulas to the universal-vector quadrature metric, distinguish an exact singular GW+PPN cancellation from a finite-tolerance luminal locus, and preserve every coupled scalar, nonlinear, Solar, GW-path, and cosmology blocker.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "quadrature_universal_vector_metric",
+      "git_commit": "38b1d4a66f79a6275098e4505b6fb55275079378",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_universal_vector_metric_v1.json", "file_sha256": "424cbece2339c9ec0dc83c8f8dd7679822dfcba95e4a60cb4e1938587ac631af"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_universal_vector_metric.py", "file_sha256": "41c4e9dcbc05532db698f74f2b7c7deb61d279bc1858f5768748eee427a3306a"},
+        {"path": "tests/test_gravity_shared_quadrature_universal_vector_metric.py", "file_sha256": "7b22dc7fb157ce59552c68c760b735424257a4fb4abc57d5b4dbe304761abedf"},
+        {"path": "runs/gravity/theory/shared-quadrature-universal-vector-metric-v1.json", "file_sha256": "7a4a7120c1885b86abaf667bd9bc846ca3cb5e608205e81d9a9cd3b37203e0ed"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-universal-vector-metric-v1.json",
+      "receipt_content_sha256": "833f6ba3e1413271c3d70701e4928552fd4680be9421989b0cc014abe8ebdd2e",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-universal-vector-metric-receipt-1.0",
+      "receipt_decision": "RESTRICTED_QUADRATURE_UNIVERSAL_VECTOR_METRIC_ACTION_DERIVED_LEADING_MOTION_LENSING_RELATION_AND_FIXED_AETHER_SCALAR_CAUSALITY_PASS_GLOBAL_VECTOR_ENDPOINT_SOLAR_GW_COSMOLOGY_GATES_BLOCKED"
+    },
+    {
+      "binding_id": "committed_einstein_aether_reduced_principal_control",
+      "git_commit": "0d11dae4f5b1a6b4e5d9a8c333b650eb60e611f8",
+      "artifacts": [
+        {"path": "src/sigma_theory_compiler/adm_aether.py", "file_sha256": "b3b55840c051374fcff480d860242d2c58e588851132eec6a903a58d498fed8a"},
+        {"path": "tests/test_adm_aether.py", "file_sha256": "ca1875cbc4426a0bf05ab6ddb8298c6c0bc3e820fc1254b8667db8b4574a766c"},
+        {"path": "runs/formal-controls-v1/generated-action-adm/einstein-aether-principal-ir.json", "file_sha256": "26b0d041257f2231c599bb9a7c31ba40ca3ecdd1a6a18b1a100201a3421a23ab"}
+      ],
+      "runtime_control": "sigma_theory_compiler.adm_aether.einstein_aether_reduced_principal_domain_control",
+      "runtime_energy_control": "sigma_theory_compiler.adm_aether.einstein_aether_linearized_energy_control"
+    }
+  ],
+  "aether_mode_contract": {
+    "definitions": "c13=c1+c3, c14=c1+c4, c123=c1+c2+c3, V1=2*c1-c1^2+c3^2, T=1-c13, R=2+c13+3*c2",
+    "physical_modes": "two spin-2, two spin-1, and one spin-0 gauge/constraint-reduced aligned-Minkowski modes",
+    "speed_squared": "s2^2=1/T; s1^2=V1/(2*c14*T); s0^2=c123*(2-c14)/(c14*T*R)",
+    "energy_coefficients": "E2=1; E1=V1/T; E0=c14*(2-c14), up to the common positive on-shell wave factor",
+    "regular_positive_domain": "T>0, 0<c14<2, V1>0, and c123*R>0",
+    "primary_sources": [
+      "https://arxiv.org/abs/gr-qc/0507059",
+      "https://arxiv.org/abs/gr-qc/0509083"
+    ],
+    "scope": "These are the committed pure Einstein-aether aligned-Minkowski reduced modes. They do not by themselves diagonalize the full quadrature scalar-vector-metric system on an on-shell nonzero-gradient background."
+  },
+  "ppn_contract": {
+    "alpha1": "-8*(c3^2+c1*c4)/(2*c1-c1^2+c3^2)",
+    "alpha2": "alpha1/2-(c1+2*c3-c4)*(2*c1+3*c2+c3+c4)/(c123*(2-c14))",
+    "exact_zero_family": "alpha1=alpha2=0 can be parameterized by c4=-c3^2/c1 and c2=(-2*c1^2-c1*c3+c3^2)/(3*c1) away from singular denominators",
+    "measurement_boundary": "No current Solar-System measurement is loaded or adjudicated here. For any separately frozen tolerance tau_alpha1>0, the finite locus below requires epsilon<=tau_alpha1/4.",
+    "source": "https://arxiv.org/abs/gr-qc/0509083"
+  },
+  "specialization_contract": {
+    "tensor_gw_condition": "c13=0, hence c3=-c1, makes the pure aether spin-2 cone g-null in the adopted convention",
+    "exact_ppn_cancellation_result": "Combining c13=0 with the nonsingular alpha1=alpha2=0 family gives c3=-c1, c4=-c1, c2=0 and therefore c14=0; the vector and scalar reduced kinetic blocks are singular.",
+    "finite_tolerance_luminal_locus": "For 0<epsilon<1/2 choose c1=c14=epsilon, c3=-epsilon, c4=0, c2=epsilon/(1-2*epsilon). Then all five pure-aether squared speeds equal one, E1=2*epsilon>0, E0=epsilon*(2-epsilon)>0, alpha1=-4*epsilon, and alpha2=0.",
+    "singular_limit": "As epsilon approaches zero, both spin-1 kinetic coefficients and the spin-0 kinetic coefficient vanish; satisfying an arbitrarily tight alpha1 tolerance approaches a strong-coupling/degeneracy boundary rather than proving a uniform healthy limit.",
+    "novelty_boundary": "The Einstein-aether formulas and TeVeS-type metric are known structures. This specialization is a project-specific consistency calculation, not a historical novelty claim."
+  },
+  "physical_cone_contract": {
+    "asymptotic_physical_photon_speed_squared": "exp(4*varphi_infinity) in Einstein-frame aether-rest coordinates",
+    "finite_locus_pure_aether_speed_squared": "one for spin-2, spin-1, and spin-0",
+    "mode_to_photon_speed_ratio": "exp(-2*varphi_infinity) for every pure-aether mode on the luminal locus",
+    "exact_alignment_boundary": "varphi_infinity=0 makes every pure-aether mode and the universal physical photon cone coincide algebraically",
+    "scalar_inheritance": "The predecessor fixed-aether quadrature scalar longitudinal cone coincides with the physical photon cone and the transverse cone is inside it on 0<s<1/2.",
+    "full_limit": "No full coupled characteristic determinant, common global Cauchy surface, strong-field path, or multimessenger propagation solution is established."
+  },
+  "obstruction_contract": {
+    "exact_GW_and_PPN_zero": "Exact c13=alpha1=alpha2=0 lies on c14=0 and c123=0 for the nonsingular PPN parameterization, so the reduced spin-1 and spin-0 mode formulas lose their kinetic normalization.",
+    "finite_tolerance": "A nonempty positive luminal locus exists for every epsilon in (0,1/2), but alpha1=-4*epsilon and the epsilon->0 limit is singular.",
+    "scalar_endpoints": "The quadrature scalar low-gradient degeneracy and finite-gradient singular endpoint remain unchanged.",
+    "nonlinear_vector": "Generic twisting reduced-Hamiltonian boundedness, nonlinear constraint evolution, caustics, compact objects, and strong coupling remain unproved.",
+    "observations": "No Solar, GW, binary-pulsar, cosmological, or lensing row is opened; necessary formulas are not an observational pass."
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy-1.14",
+    "required_symbolic_checks": [
+      "S01_COMMITTED_REDUCED_PRINCIPAL_CONTROL",
+      "S02_COMMITTED_LINEAR_ENERGY_CONTROL",
+      "S03_C13_ZERO_C3",
+      "S04_SPIN2_LUMINAL",
+      "S05_VECTOR_NUMERATOR_LOCUS",
+      "S06_SPIN1_LUMINAL_LOCUS",
+      "S07_C123_LOCUS",
+      "S08_SCALAR_TRACE_LOCUS",
+      "S09_SPIN0_LUMINAL_LOCUS",
+      "S10_SPIN1_ENERGY_LOCUS",
+      "S11_SPIN0_ENERGY_LOCUS",
+      "S12_PPN_ALPHA1_C13_ZERO",
+      "S13_PPN_ALPHA1_LUMINAL_LOCUS",
+      "S14_PPN_ALPHA2_LUMINAL_LOCUS",
+      "S15_EXACT_PPN_C4_UNDER_C13_ZERO",
+      "S16_EXACT_PPN_C2_UNDER_C13_ZERO",
+      "S17_EXACT_PPN_C14_SINGULAR",
+      "S18_EXACT_PPN_C123_SINGULAR",
+      "S19_VECTOR_KINETIC_LIMIT_ZERO",
+      "S20_SCALAR_KINETIC_LIMIT_ZERO",
+      "S21_ALPHA1_TOLERANCE_BOUNDARY",
+      "S22_PHYSICAL_CONE_RATIO",
+      "S23_PHYSICAL_CONE_ALIGNMENT",
+      "S24_LUMINAL_LOCUS_POSITIVE_DOMAIN",
+      "S25_NO_UNIFORM_POSITIVE_KINETIC_MARGIN"
+    ],
+    "epsilon_cases": ["1/100", "1/1000", "1/1000000"],
+    "numeric_tolerance": 1e-12
+  },
+  "adjudication": {
+    "pure_aether_five_mode_formulas_bound_and_rechecked": true,
+    "c13_zero_tensor_condition_specialized": true,
+    "exact_c13_alpha1_alpha2_zero_is_regular": false,
+    "finite_positive_all_g_luminal_locus_exists": true,
+    "finite_locus_alpha2_zero": true,
+    "finite_locus_alpha1_zero": false,
+    "uniform_positive_kinetic_margin_as_alpha1_tolerance_goes_zero": false,
+    "physical_photon_and_all_pure_aether_cones_align_at_varphi_infinity_zero": true,
+    "full_quadrature_scalar_vector_metric_principal_system_established": false,
+    "nonlinear_vector_health_established": false,
+    "Solar_System_gate_passed": false,
+    "GW_physical_gate_passed": false,
+    "cosmological_gate_passed": false,
+    "quantitative_lensing_gate_passed": false,
+    "CP11_4_complete": false,
+    "CP11_5_complete": false,
+    "CP11_6_complete": false,
+    "overall_decision": "RESTRICTED_AETHER_MODE_AND_PPN_CONDITIONS_DERIVED_EXACT_GW_AND_PPN_ZERO_INTERSECTION_IS_SINGULAR_FINITE_TOLERANCE_ALL_LUMINAL_LOCUS_EXISTS_FULL_VECTOR_SCALAR_THEORY_BLOCKED"
+  },
+  "claim_boundary": {
+    "restricted_pure_aether_mode_specialization_established": true,
+    "finite_tolerance_luminal_parameter_locus_established": true,
+    "exact_preferred_frame_free_healthy_limit_established": false,
+    "full_covariant_health_established": false,
+    "global_hyperbolicity_established": false,
+    "Solar_System_viability_established": false,
+    "gravitational_wave_viability_established": false,
+    "cosmological_viability_established": false,
+    "quantitative_lensing_observables_predicted": false,
+    "observational_support": false,
+    "historical_novelty_established": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "observational_rows_opened": 0,
+    "Solar_rows_opened": 0,
+    "GW_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "network_calls_by_builder": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/shared-quadrature-aether-mode-necessary-conditions-v1.json"
+}
