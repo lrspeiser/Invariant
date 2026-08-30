@@ -1,0 +1,162 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-universal-conformal-source-config-1.0",
+  "analysis_id": "gravity-matter-lensing-universal-conformal-source-v1",
+  "status": "frozen_no_data_same_action_conformal_source_identity_not_on_shell",
+  "purpose": "Derive Q_chi from the same universal non-derivative conformal metric used by matter and photons, freeze frame factors and exchange signs, compare its absolute trace source to the committed split-gate stability ceiling, and retain all metric-backreaction, on-shell, health, and observational gates as false.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "split_gate_action",
+      "git_commit": "03a652acaded1be4cca9af48782b8d54138e54c3",
+      "receipt_path": "runs/gravity/theory/matter-lensing-split-gate-action-v1.json",
+      "receipt_file_sha256": "a35d52287fd66c47dbcbd0dc86b80d2bcec9069f193ac4353ade3d38ccce6dab",
+      "receipt_content_sha256": "f74275b8a520057a9060eb727ad425412b07f1d92d3b319a7746d2df4ecb569d",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-split-gate-action-receipt-1.0",
+      "receipt_decision": "PARTIAL_SPLIT_GATE_SCALAR_ACTION_DERIVED_KINETIC_MIXING_AVOIDED_TIMELIKE_CHI_AMPLITUDE_RISK_PRESERVED"
+    },
+    {
+      "binding_id": "split_gate_source_bound",
+      "git_commit": "7216ff7319e0f38c7639926b31e7f4e881f9a64a",
+      "receipt_path": "runs/gravity/theory/matter-lensing-split-gate-source-bound-v1.json",
+      "receipt_file_sha256": "4a2a84d0cfe8de44051dd745f7f8175c421dbd71523aefba37e1cf1e49e011d9",
+      "receipt_content_sha256": "b678d68491d7a5f63660d91050b9d904e76e89fadb80499ed53a451fe0ad8b96",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-split-gate-source-bound-receipt-1.0",
+      "receipt_decision": "PARTIAL_STATIC_SPLIT_GATE_SOURCE_CEILING_DERIVED_PHYSICAL_SOURCE_AND_ON_SHELL_BACKGROUND_NOT_ESTABLISHED"
+    }
+  ],
+  "frame_and_variation_conventions": {
+    "dimension_and_signature": "four spacetime dimensions with signature (-,+,+,+)",
+    "universal_matter_action": "S_m[tilde_g,psi] with every massive species and photon coupled to the same tilde_g_munu=A(phi,chi)^2*g_munu",
+    "physical_stress_definition": "delta S_m=(1/2)*integral sqrt(-tilde_g)*Ttilde^munu*delta tilde_g_munu",
+    "einstein_stress_definition": "delta S_m=(1/2)*integral sqrt(-g)*T_E^munu*delta g_munu at fixed phi,chi",
+    "source_definition": "Q_chi=-(1/sqrt(-g))*delta S_m/delta chi",
+    "volume_factor": "sqrt(-tilde_g)=A^4*sqrt(-g)",
+    "stress_frame_factors": "T_E^munu=A^6*Ttilde^munu, T_E^mu_nu=A^4*Ttilde^mu_nu, and T_E=A^4*Ttilde",
+    "exact_source_identity": "Q_chi=-A^4*(d ln A/d chi)*Ttilde=-(d ln A/d chi)*T_E",
+    "forbidden": "No independent photon metric, photon multiplier, fitted lensing factor, or separately inserted baryonic Q_chi is allowed."
+  },
+  "minimal_conformal_factor": {
+    "choice": "A(phi,chi)=A_phi(phi)*exp(alpha*chi/M_Pl)",
+    "parameters": "A_phi(phi)>0, dimensionless alpha, M_Pl>0",
+    "derivative": "d ln A/d chi=alpha/M_Pl",
+    "justification": "This is a standard positive constant-log-slope conformal coupling that keeps the source algebra bounded and non-derivative; it is an illustrative known-form choice compatible with the predecessor universal metric, not a uniqueness or novelty claim.",
+    "novelty_label": "KNOWN_CONFORMAL_FORM_REUSE_NOT_NOVELTY",
+    "not_selected_by": "No data, source profile, Solar constraint, cosmology, or optimization selected alpha or A_phi."
+  },
+  "matter_source_contract": {
+    "perfect_fluid_trace": "Ttilde=-rho+3*p=rho*(-1+3*w)",
+    "dust": "For p=0, Ttilde=-rho and Q_chi=+(alpha/M_Pl)*A^4*rho for alpha>0.",
+    "classical_radiation": "For p=rho/3, Ttilde=0 and the classical conformal Q_chi vanishes.",
+    "general_eos": "Q_chi=(alpha/M_Pl)*A^4*rho*(1-3*w); EOS transitions can suppress or reverse the source and must be solved rather than frozen by analogy.",
+    "trace_anomaly_boundary": "Quantum trace anomalies, masses, interactions, and nonideal stresses can source a nonzero trace; none is computed here.",
+    "sign_regression": "With predecessor E_chi=Y0*box(chi)-m_chi^2*Z*chi and Q_chi=-(1/sqrt(-g))*delta S_m/delta chi, total variation gives E_chi=Q_chi and the frozen static Fourier response is chi_k=-Q_chi,k/(Y0*k^2+m_chi^2*Z)."
+  },
+  "conservation_and_exchange": {
+    "physical_frame": "On matter equations, minimal coupling gives tilde_nabla_mu*Ttilde^mu_nu=0.",
+    "einstein_frame": "For non-derivative A(phi,chi), nabla_mu*T_E^mu_nu=T_E*d_nu(ln A)=-Q_phi*d_nu(phi)-Q_chi*d_nu(chi).",
+    "chi_exchange": "The chi contribution is nabla_mu*T_E^mu_nu|chi=(d ln A/d chi)*T_E*d_nu(chi)=-Q_chi*d_nu(chi).",
+    "total_identity": "The scalar identity contributes +Q_chi*d_nu(chi) on E_chi=Q_chi, canceling the matter exchange in the total same-action stress identity; the phi exchange must be included analogously.",
+    "boundary": "These identities are variational. They do not solve the matter, scalar, or metric equations for any source."
+  },
+  "stability_ceiling_comparison": {
+    "committed_ceiling": "Q_chi,max(X)=m_chi*Z*min[sqrt(2*A0/Z_X),sqrt(2*B0/H)] on the frozen positive-X branch",
+    "general_trace_condition": "|alpha|*|T_E|/M_Pl<Q_chi,max(X), equivalently |alpha|*A^4*|Ttilde|/M_Pl<Q_chi,max(X), is sufficient for the committed frozen R3 source bound.",
+    "dust_density_ceiling": "For alpha!=0, rho<rho_max(X,chi,phi)=M_Pl*Q_chi,max(X)/(|alpha|*A(phi,chi)^4).",
+    "radiation": "The classical ideal-radiation trace automatically satisfies the conformal source ceiling because Q_chi=0, but this is not a health or cosmology proof.",
+    "high_u_conditional_scaling": "If A, alpha, and the asymptotic base coefficients remain finite and nonzero, the allowed physical trace magnitude inherits Q_chi,max proportional to X^(5/2); A(phi,chi) can change this and is not solved here.",
+    "no_rho_X_inference": "No rho(X), w(X), A(X), galaxy, cluster, Solar, or cosmological relation is inferred. The inequality is conditional at each frozen background point."
+  },
+  "lensing_boundary": {
+    "same_metric": "Massive matter and photons use the same tilde_g=A^2*g.",
+    "null_cone": "tilde_g_munu*k^mu*k^nu=A^2*g_munu*k^mu*k^nu, so a positive conformal factor preserves the null cone and unparameterized null paths for a fixed g.",
+    "maxwell_cancellation": "In four dimensions sqrt(-tilde_g)*tilde_g^mu_alpha*tilde_g^nu_beta has conformal factor A^4*A^-2*A^-2=1 for the classical Maxwell kinetic term.",
+    "claim_ceiling": "The leading direct conformal photon effect cancels. Lensing may still change through the solved metric backreaction and scalar stress, which are absent; therefore no lensing prediction or failure is established.",
+    "quantum_boundary": "Quantum trace anomaly and frequency-dependent propagation are not derived."
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy",
+    "symbolic_zero_rule": "sympy.simplify(actual-expected)==0",
+    "required_symbolic_checks": [
+      "S01_FOUR_DIMENSIONAL_VOLUME_FACTOR",
+      "S02_CONFORMAL_METRIC_CHI_VARIATION",
+      "S03_SOURCE_PHYSICAL_FRAME_FACTOR",
+      "S04_EINSTEIN_CONTRAVARIANT_STRESS_FACTOR",
+      "S05_EINSTEIN_TRACE_FACTOR",
+      "S06_SOURCE_EINSTEIN_TRACE_IDENTITY",
+      "S07_EXPONENTIAL_LOG_DERIVATIVE",
+      "S08_DUST_SOURCE_SIGN",
+      "S09_CLASSICAL_RADIATION_TRACE_ZERO",
+      "S10_PERFECT_FLUID_SOURCE",
+      "S11_EINSTEIN_EXCHANGE_EQUALS_MINUS_Q",
+      "S12_TOTAL_CHI_EXCHANGE_CANCELLATION",
+      "S13_MAXWELL_CONFORMAL_FACTOR_CANCELLATION",
+      "S14_NULL_CONE_CONFORMAL_FACTOR",
+      "S15_DUST_DENSITY_CEILING_SATURATION",
+      "S16_PREDECESSOR_STATIC_SOURCE_SIGN",
+      "S17_ZERO_COUPLING_DECOUPLING",
+      "S18_SOURCE_MAGNITUDE_FRAME_EQUIVALENCE"
+    ],
+    "numeric_cases": [
+      {"case_id": "DUST_POSITIVE_ALPHA", "A": 1.2, "alpha": 0.1, "M_Pl": 1.0, "rho": 2.0, "w": 0.0, "expected_sign": "positive"},
+      {"case_id": "RADIATION_TRACE_ZERO", "A": 1.2, "alpha": 0.1, "M_Pl": 1.0, "rho": 2.0, "w": 0.3333333333333333, "expected_sign": "zero"},
+      {"case_id": "STIFF_EOS_NEGATIVE_SOURCE", "A": 1.2, "alpha": 0.1, "M_Pl": 1.0, "rho": 2.0, "w": 1.0, "expected_sign": "negative"},
+      {"case_id": "NEGATIVE_ALPHA_DUST", "A": 1.2, "alpha": -0.1, "M_Pl": 1.0, "rho": 2.0, "w": 0.0, "expected_sign": "negative"}
+    ],
+    "numeric_tolerance": 1e-12
+  },
+  "adjudication": {
+    "same_action_conformal_Q_identity_derived": true,
+    "frame_factors_machine_checked": true,
+    "physical_and_einstein_exchange_consistent": true,
+    "dust_radiation_eos_trace_cases_derived": true,
+    "stability_ceiling_comparison_derived": true,
+    "leading_direct_conformal_lensing_cancellation_derived": true,
+    "physical_source_profile_established": false,
+    "rho_X_relation_established": false,
+    "on_shell_background": false,
+    "metric_backreaction": false,
+    "lensing_prediction": false,
+    "EOS_history": false,
+    "quantum_trace_anomaly": false,
+    "full_H3": false,
+    "full_H4": false,
+    "global_strong_hyperbolicity": false,
+    "Solar_viability": false,
+    "GW_viability": false,
+    "cosmology": false,
+    "observational_support": false,
+    "novelty_established": false,
+    "overall_decision": "PARTIAL_UNIVERSAL_CONFORMAL_SOURCE_IDENTITY_DERIVED_PHYSICAL_SOURCE_PROFILE_METRIC_BACKREACTION_AND_LENSING_NOT_ESTABLISHED"
+  },
+  "claim_boundary": {
+    "universal_conformal_source_identity_established": true,
+    "physical_source_profile_established": false,
+    "rho_X_relation_established": false,
+    "on_shell_solution_established": false,
+    "full_covariant_health_established": false,
+    "metric_backreaction_established": false,
+    "lensing_success_established": false,
+    "EOS_history_established": false,
+    "quantum_trace_anomaly_included": false,
+    "Solar_viability_established": false,
+    "GW_viability_established": false,
+    "cosmology_established": false,
+    "observational_support": false,
+    "novelty_established": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "predictor_rows_opened": 0,
+    "response_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "holdout_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "network_calls": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/matter-lensing-universal-conformal-source-v1.json"
+}
