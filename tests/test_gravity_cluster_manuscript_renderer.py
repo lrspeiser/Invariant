@@ -85,6 +85,13 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     )
     assert any(row[:3] == ["act_erass_executor", "authorized", "false"] for row in table_5[1:])
     assert any(row[:3] == ["act_erass_executor", "catalog_rows_opened", "0"] for row in table_5[1:])
+    assert any(row[:3] == ["group_source_v3", "ready_science_lanes", "0"] for row in table_5[1:])
+    assert any(
+        row[:3] == ["xclass_identity_executor", "authorized", "false"] for row in table_5[1:]
+    )
+    assert any(
+        row[:3] == ["xclass_identity_executor", "identity_rows_opened", "0"] for row in table_5[1:]
+    )
     assert any(
         row[:3] == ["matter_lensing_theory", "template_level_gates_passed", "1"]
         for row in table_5[1:]
@@ -99,6 +106,32 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
             "designed_u_above_one_third_failure_preserved",
             "true",
         ]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
+            "matter_lensing_source_bound",
+            "restricted_static_source_bound_established",
+            "true",
+        ]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
+            "matter_lensing_conformal_source",
+            "universal_conformal_source_identity_established",
+            "true",
+        ]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3] == ["matter_lensing_solar_gw", "necessary_conditions_established", "true"]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3] == ["matter_lensing_flrw", "restricted_flat_flrw_equations_established", "true"]
         for row in table_5[1:]
     )
     assert any(
@@ -162,6 +195,11 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         row == ["group_act_acquisition_boundary", "act_executor_catalog_rows_opened", "0"]
         for row in table_6[1:]
     )
+    assert any(row == ["group_scale_source_boundary", "v3_ready_lanes", "0"] for row in table_6[1:])
+    assert any(
+        row == ["group_act_acquisition_boundary", "xclass_executor_identity_rows", "0"]
+        for row in table_6[1:]
+    )
     assert any(
         row == ["matter_lensing_theory_boundary", "full_H2_passed", "false"] for row in table_6[1:]
     )
@@ -174,6 +212,28 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
             "matter_lensing_theory_boundary",
             "designed_u_above_one_third_failure_preserved",
             "true",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "physical_source_law_established",
+            "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row == ["matter_lensing_theory_boundary", "solar_gate_passed", "false"]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "healthy_late_time_history_exists",
+            "false",
         ]
         for row in table_6[1:]
     )

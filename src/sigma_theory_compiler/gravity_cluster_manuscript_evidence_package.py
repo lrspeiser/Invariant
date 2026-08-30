@@ -29,6 +29,8 @@ SOURCE_IDS = (
     "shared_ben_development_executor_v4",
     "group_scale_source_audit",
     "group_scale_bridge_acquisition_v2",
+    "group_scale_source_audit_v3",
+    "group_scale_xclass_identity_executor_v1",
     "missing_variable_preflight",
     "act_erass_overlap_preflight",
     "act_erass_overlap_executor_v2",
@@ -38,6 +40,10 @@ SOURCE_IDS = (
     "matter_lensing_symbolic_derivation",
     "matter_lensing_external_metric_principal_symbol",
     "matter_lensing_kinetic_gate_conditional_no_go",
+    "matter_lensing_split_gate_source_bound",
+    "matter_lensing_universal_conformal_source",
+    "matter_lensing_solar_gw_necessary_conditions",
+    "matter_lensing_flrw_necessary_conditions",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -178,6 +184,8 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     shape = sources["xcop_shape_bridge_preflight"]
     missing = sources["missing_variable_preflight"]
     group = sources["group_scale_bridge_acquisition_v2"]
+    group_v3 = sources["group_scale_source_audit_v3"]
+    xclass_executor = sources["group_scale_xclass_identity_executor_v1"]
     act = sources["act_erass_overlap_preflight"]
     act_executor = sources["act_erass_overlap_executor_v2"]
     ben_executor = sources["shared_ben_development_executor_v4"]
@@ -185,6 +193,10 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     symbolic = sources["matter_lensing_symbolic_derivation"]
     external_symbol = sources["matter_lensing_external_metric_principal_symbol"]
     kinetic_no_go = sources["matter_lensing_kinetic_gate_conditional_no_go"]
+    source_bound = sources["matter_lensing_split_gate_source_bound"]
+    conformal_source = sources["matter_lensing_universal_conformal_source"]
+    solar_gw = sources["matter_lensing_solar_gw_necessary_conditions"]
+    flrw = sources["matter_lensing_flrw_necessary_conditions"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -529,6 +541,192 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         )
     ):
         raise GravityClusterManuscriptPackageError("conditional kinetic-gate ceiling changed")
+    group_v3_lanes = {row["lane_id"]: row for row in group_v3["lane_readiness"]}
+    if (
+        group_v3["status"] != "frozen_metadata_only_audit_zero_ready_science_lanes"
+        or group_v3["counts"]
+        != {
+            "authoritative_source_records": 14,
+            "blocked_lanes": 7,
+            "catalog_payload_downloads_by_receipt_builder": 0,
+            "future_acquisition_runs": 0,
+            "future_pilot_runs": 0,
+            "lane_records": 11,
+            "model_or_paid_calls": 0,
+            "network_calls_by_receipt_builder": 0,
+            "partial_lanes": 4,
+            "ready_science_lanes": 0,
+            "remote_asset_metadata_records": 17,
+            "scientific_rows_opened_by_receipt_builder": 0,
+            "scores_computed": 0,
+        }
+        or set(group_v3_lanes)
+        != {
+            "XCLASS_LOWZ_155",
+            "EFEDS_542_RAW_REDUCTION",
+            "XGAP_49_XMM",
+            "ERASS1_2MRS_619",
+            "ACCEPT_239",
+            "SUN09_CHANDRA_43",
+            "AXES_GLOBAL_CATALOGS",
+            "EROSITA_DR2_CATALOG_ONLY",
+            "CHEXMATE_CLUSTER_COMPARATOR",
+            "LOCUSS_CLUSTER_COMPARATOR",
+            "EFEDS_STACKS_997",
+        }
+        or group_v3_lanes["XCLASS_LOWZ_155"]["role"] != "PREFERRED_RAW_REDUCTION_COHORT"
+        or group_v3_lanes["EFEDS_542_RAW_REDUCTION"]["role"] != "BACKUP_COMMON_INSTRUMENT_COHORT"
+        or group_v3_lanes["ACCEPT_239"]["documented_objects"] is not None
+        or group_v3_lanes["ACCEPT_239"]["reported_counts"]
+        != {
+            "author_project_overview_sample": 239,
+            "current_heasarc_one_row_per_cluster_table": 240,
+        }
+        or group_v3_lanes["ACCEPT_239"]["population_count_state"]
+        != "UNRESOLVED_239_AUTHOR_SAMPLE_VS_240_CURRENT_HEASARC_ROWS"
+        or group_v3["future_identity_obsid_acquisition"]["authorized"] is not False
+        or group_v3["future_identity_obsid_acquisition"]["executed"] is not False
+        or group_v3["future_xclass_five_object_pilot"]["authorized"] is not False
+        or group_v3["future_xclass_five_object_pilot"]["executed"] is not False
+        or group_v3["xcop_overlap_contract"]["executed"] is not False
+        or group_v3["xcop_overlap_contract"]["overlap_count"] is not None
+        or group_v3["claims"]["metadata_source_audit_complete"] is not True
+        or group_v3["claims"]["observational_authorization"] is not False
+        or group_v3["claims"]["group_bridge_ready"] is not False
+        or group_v3["claims"]["sample_assembled"] is not False
+        or group_v3["claims"]["CP10_1_complete"] is not False
+        or group_v3["claims"]["CP10_2_complete"] is not False
+        or any(value != 0 for key, value in group_v3["access_chronology"].items() if key != "scope")
+    ):
+        raise GravityClusterManuscriptPackageError("group-scale V3 source audit changed")
+    if (
+        xclass_executor["status"]
+        != "frozen_executor_preflight_external_authorization_required_unrun"
+        or xclass_executor["execution_accounting"]
+        != {
+            "authorization_manifests_approved": 0,
+            "executor_launches": 0,
+            "get_attempts": 0,
+            "head_calls": 0,
+            "identity_rows_decoded": 0,
+            "model_or_paid_calls": 0,
+            "network_bytes": 0,
+            "obsid_mappings": 0,
+            "raw_payload_files_created": 0,
+            "sanitized_results_published": 0,
+            "scientific_values_decoded": 0,
+            "scores_computed": 0,
+            "xcop_overlap_runs": 0,
+        }
+        or xclass_executor["source_contract"]["expected_network_bytes"] != 16_895
+        or xclass_executor["source_contract"]["expected_rows"] != 155
+        or xclass_executor["network_contract"]["get_calls"] != 1
+        or xclass_executor["network_contract"]["maximum_network_bytes"] != 16_895
+        or xclass_executor["column_contract"]["decode_allowlist"]
+        != ["XClass", "RAdeg", "DEdeg", "z"]
+        or xclass_executor["authorization_contract"]["authorized_manifest_present_at_freeze"]
+        is not False
+        or xclass_executor["output_contract"]["access_intent_present_at_freeze"] is not False
+        or xclass_executor["output_contract"]["get_attempt_marker_present_at_freeze"] is not False
+        or xclass_executor["output_contract"]["result_present_at_freeze"] is not False
+        or xclass_executor["obsid_contract"]["obsid_mapping_executed"] is not False
+        or xclass_executor["xcop_overlap_contract"]["overlap_executed"] is not False
+        or xclass_executor["claims"]["guarded_executor_implemented"] is not True
+        or any(
+            xclass_executor["claims"][key] is not False
+            for key in (
+                "CP10_1_complete",
+                "CP10_2_complete",
+                "candidate_tested_on_groups",
+                "five_object_pilot_unlocked",
+                "group_bridge_ready",
+                "observational_authorization",
+                "obsid_mapping_available",
+                "publication_claim_supported",
+                "scientific_payload_accessed",
+                "source_identity_acquired",
+                "source_sha256_known",
+                "xcop_overlap_known",
+            )
+        )
+    ):
+        raise GravityClusterManuscriptPackageError("guarded X-CLASS executor changed")
+    if (
+        source_bound["status"]
+        != "restricted_static_source_ceiling_machine_derived_not_physical_on_shell"
+        or source_bound["counts"]["symbolic_checks_passed"] != 17
+        or source_bound["counts"]["source_scaling_cases_passed"] != 4
+        or source_bound["counts"]["finite_k_probes_passed"] != 4
+        or source_bound["adjudication"]["sufficient_source_ceiling_derived"] is not True
+        or source_bound["adjudication"]["physical_Q_chi_derived"] is not False
+        or source_bound["adjudication"]["physical_on_shell_background"] is not False
+        or source_bound["claim_boundary"]["restricted_static_source_bound_established"] is not True
+        or any(
+            source_bound["claim_boundary"][key] is not False
+            for key in source_bound["claim_boundary"]
+            if key != "restricted_static_source_bound_established"
+        )
+        or any(value != 0 for value in source_bound["zero_access_and_compute"].values())
+    ):
+        raise GravityClusterManuscriptPackageError("split-gate source-bound ceiling changed")
+    if (
+        conformal_source["status"]
+        != "same_action_conformal_source_identity_machine_derived_not_on_shell"
+        or conformal_source["counts"]["symbolic_checks_passed"] != 18
+        or conformal_source["counts"]["numeric_cases_passed"] != 4
+        or conformal_source["adjudication"]["same_action_conformal_Q_identity_derived"] is not True
+        or conformal_source["adjudication"]["leading_direct_conformal_lensing_cancellation_derived"]
+        is not True
+        or conformal_source["adjudication"]["physical_source_profile_established"] is not False
+        or conformal_source["adjudication"]["metric_backreaction"] is not False
+        or conformal_source["adjudication"]["lensing_prediction"] is not False
+        or conformal_source["claim_boundary"]["universal_conformal_source_identity_established"]
+        is not True
+        or any(
+            conformal_source["claim_boundary"][key] is not False
+            for key in conformal_source["claim_boundary"]
+            if key != "universal_conformal_source_identity_established"
+        )
+        or any(value != 0 for value in conformal_source["zero_access_and_compute"].values())
+    ):
+        raise GravityClusterManuscriptPackageError("universal conformal-source ceiling changed")
+    if (
+        solar_gw["status"]
+        != "restricted_necessary_conditions_machine_derived_physical_gates_blocked"
+        or solar_gw["counts"]["symbolic_checks_passed"] != 16
+        or solar_gw["counts"]["numeric_yukawa_probes_passed"] != 3
+        or solar_gw["gate_adjudication"]["solar_necessary_inequality_derived"] is not True
+        or solar_gw["gate_adjudication"]["disformal_necessary_inequality_derived"] is not True
+        or solar_gw["gate_adjudication"]["solar_gate_passed"] is not False
+        or solar_gw["gate_adjudication"]["gw_gate_passed"] is not False
+        or solar_gw["claim_boundary"]["restricted_necessary_conditions_established"] is not True
+        or any(
+            solar_gw["claim_boundary"][key] is not False
+            for key in solar_gw["claim_boundary"]
+            if key != "restricted_necessary_conditions_established"
+        )
+        or any(value != 0 for value in solar_gw["zero_access_and_compute"].values())
+    ):
+        raise GravityClusterManuscriptPackageError("Solar/GW necessary-condition ceiling changed")
+    if (
+        flrw["status"] != "exact_flat_flrw_equations_machine_derived_cosmological_history_blocked"
+        or flrw["counts"]["symbolic_checks_passed"] != 25
+        or flrw["counts"]["gate_u_probes_passed"] != 4
+        or flrw["counts"]["disformal_q_probes_passed"] != 4
+        or flrw["adjudication"]["friedmann_raychaudhuri_derived"] is not True
+        or flrw["adjudication"]["gate_limit_obstruction_derived"] is not True
+        or flrw["adjudication"]["healthy_late_time_history_exists"] is not False
+        or flrw["adjudication"]["perturbation_stability_established"] is not False
+        or flrw["adjudication"]["observational_fit_performed"] is not False
+        or flrw["claim_boundary"]["restricted_flat_flrw_equations_established"] is not True
+        or any(
+            flrw["claim_boundary"][key] is not False
+            for key in flrw["claim_boundary"]
+            if key != "restricted_flat_flrw_equations_established"
+        )
+        or any(value != 0 for value in flrw["zero_access_and_compute"].values())
+    ):
+        raise GravityClusterManuscriptPackageError("FLRW necessary-condition ceiling changed")
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -553,6 +751,8 @@ def build_receipt(root: Path) -> dict[str, Any]:
     ben_executor = sources["shared_ben_development_executor_v4"]
     group_source = sources["group_scale_source_audit"]
     group_acquisition = sources["group_scale_bridge_acquisition_v2"]
+    group_source_v3 = sources["group_scale_source_audit_v3"]
+    xclass_executor = sources["group_scale_xclass_identity_executor_v1"]
     missing_variables = sources["missing_variable_preflight"]
     act_overlap = sources["act_erass_overlap_preflight"]
     act_executor = sources["act_erass_overlap_executor_v2"]
@@ -562,6 +762,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
     symbolic_derivation = sources["matter_lensing_symbolic_derivation"]
     external_symbol = sources["matter_lensing_external_metric_principal_symbol"]
     kinetic_no_go = sources["matter_lensing_kinetic_gate_conditional_no_go"]
+    source_bound = sources["matter_lensing_split_gate_source_bound"]
+    conformal_source = sources["matter_lensing_universal_conformal_source"]
+    solar_gw = sources["matter_lensing_solar_gw_necessary_conditions"]
+    flrw = sources["matter_lensing_flrw_necessary_conditions"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -868,6 +1072,28 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "interactive_audit_zero_row_purity"
             ],
             "scientific_result_emitted": group_source["claims"]["scientific_result_emitted"],
+            "v3_decision": group_source_v3["decision"],
+            "v3_candidate_lanes": group_source_v3["counts"]["lane_records"],
+            "v3_partial_lanes": group_source_v3["counts"]["partial_lanes"],
+            "v3_blocked_lanes": group_source_v3["counts"]["blocked_lanes"],
+            "v3_ready_lanes": group_source_v3["counts"]["ready_science_lanes"],
+            "v3_preferred_lane": group_source_v3["future_identity_obsid_acquisition"][
+                "preferred_lane"
+            ],
+            "v3_backup_lane": group_source_v3["future_identity_obsid_acquisition"]["backup_lane"],
+            "v3_accept_author_sample": next(
+                row for row in group_source_v3["lane_readiness"] if row["lane_id"] == "ACCEPT_239"
+            )["reported_counts"]["author_project_overview_sample"],
+            "v3_accept_current_table_rows": next(
+                row for row in group_source_v3["lane_readiness"] if row["lane_id"] == "ACCEPT_239"
+            )["reported_counts"]["current_heasarc_one_row_per_cluster_table"],
+            "v3_accept_count_resolved": False,
+            "v3_scientific_rows_opened": group_source_v3["counts"][
+                "scientific_rows_opened_by_receipt_builder"
+            ],
+            "v3_observational_authorization": group_source_v3["claims"][
+                "observational_authorization"
+            ],
         },
         "group_and_act_acquisition_boundary": {
             "group_acquisition_decision": group_acquisition["decision"],
@@ -907,6 +1133,25 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "act_executor_minimum_192_rule_evaluated": act_executor["claims"][
                 "minimum_192_rule_evaluated"
+            ],
+            "xclass_executor_decision": xclass_executor["decision"],
+            "xclass_executor_authorized": xclass_executor["claims"]["observational_authorization"],
+            "xclass_executor_get_attempts": xclass_executor["execution_accounting"]["get_attempts"],
+            "xclass_executor_network_bytes": xclass_executor["execution_accounting"][
+                "network_bytes"
+            ],
+            "xclass_executor_identity_rows": xclass_executor["execution_accounting"][
+                "identity_rows_decoded"
+            ],
+            "xclass_executor_scientific_values": xclass_executor["execution_accounting"][
+                "scientific_values_decoded"
+            ],
+            "xclass_executor_obsid_mapping_available": xclass_executor["claims"][
+                "obsid_mapping_available"
+            ],
+            "xclass_executor_xcop_overlap_known": xclass_executor["claims"]["xcop_overlap_known"],
+            "xclass_executor_five_object_pilot_unlocked": xclass_executor["claims"][
+                "five_object_pilot_unlocked"
             ],
         },
         "cluster_strata_boundary": {
@@ -1038,6 +1283,46 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "kinetic_gate_observational_support": kinetic_no_go["claim_boundary"][
                 "observational_support"
             ],
+            "source_bound_decision": source_bound["decision"],
+            "restricted_static_source_bound_established": source_bound["claim_boundary"][
+                "restricted_static_source_bound_established"
+            ],
+            "physical_source_law_established": source_bound["claim_boundary"][
+                "physical_source_law_established"
+            ],
+            "physical_on_shell_solution_established": source_bound["claim_boundary"][
+                "physical_on_shell_solution_established"
+            ],
+            "conformal_source_decision": conformal_source["decision"],
+            "universal_conformal_source_identity_established": conformal_source["claim_boundary"][
+                "universal_conformal_source_identity_established"
+            ],
+            "physical_source_profile_established": conformal_source["claim_boundary"][
+                "physical_source_profile_established"
+            ],
+            "metric_backreaction_established": conformal_source["claim_boundary"][
+                "metric_backreaction_established"
+            ],
+            "solar_gw_decision": solar_gw["decision"],
+            "solar_necessary_conditions_established": solar_gw["claim_boundary"][
+                "restricted_necessary_conditions_established"
+            ],
+            "solar_gate_passed": solar_gw["gate_adjudication"]["solar_gate_passed"],
+            "gw_gate_passed": solar_gw["gate_adjudication"]["gw_gate_passed"],
+            "flrw_decision": flrw["decision"],
+            "restricted_flat_flrw_equations_established": flrw["claim_boundary"][
+                "restricted_flat_flrw_equations_established"
+            ],
+            "flrw_gate_limit_obstruction_derived": flrw["adjudication"][
+                "gate_limit_obstruction_derived"
+            ],
+            "healthy_late_time_history_exists": flrw["adjudication"][
+                "healthy_late_time_history_exists"
+            ],
+            "perturbation_stability_established": flrw["adjudication"][
+                "perturbation_stability_established"
+            ],
+            "cosmological_fit_performed": flrw["adjudication"]["observational_fit_performed"],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -1074,6 +1359,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The external-metric principal-symbol result is partial H3/H4 evidence on constant local jets and preserves a negative u>1/3 determinant contribution; it establishes neither healthy backgrounds nor a complete theory.",
                 "The V4 B+E+N executor freezes 60 canonical classes and 180 registered ablations (78 unique ASTs total), but it is unauthorized and unrun, with zero payload access and zero scores; its reference runtime, indifference band, and terminal-state safeguards are preparation evidence only.",
                 "The kinetic-gate theorem is conditional on an unbounded smooth positive gate that is already growing and keeps one timelike mixing term nonnegative; bounded-domain counterexamples remain, no observational data were opened, and no full-action no-go is established.",
+                "The V3 group inventory expands to eleven lanes but still has zero ready science lanes; X-CLASS identity acquisition, ObsID mapping, X-COP overlap, and the five-object pilot are absent.",
+                "The guarded X-CLASS executor is unauthorized and unrun; its exact one-GET privacy contract is preparation evidence, not an acquired group sample or scientific result.",
+                "The split-gate source bound and universal conformal source identity are restricted derivations; no physical source profile, on-shell metric solution, or same-action lensing result is established.",
+                "Solar/GW and FLRW packages derive necessary conditions only; both physical gates, perturbation stability, a healthy accelerating history, and every observational fit remain blocked.",
             }
         ),
         "counts": {
@@ -1106,6 +1395,11 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "shared_ben_v4_scores": ben_executor["scores_computed"],
             "group_scale_ready_lanes": group_source["counts"]["ready_lanes"],
+            "group_scale_v3_ready_lanes": group_source_v3["counts"]["ready_science_lanes"],
+            "group_scale_v3_lane_records": group_source_v3["counts"]["lane_records"],
+            "xclass_identity_rows_opened": xclass_executor["execution_accounting"][
+                "identity_rows_decoded"
+            ],
             "continuous_missing_variable_measurements": missing_variables["counts"][
                 "continuous_measurement_ready_rows"
             ],
@@ -1128,6 +1422,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "kinetic_gate_observational_files_opened": kinetic_no_go["counts"][
                 "observational_files_opened"
             ],
+            "source_bound_symbolic_checks_passed": source_bound["counts"]["symbolic_checks_passed"],
+            "conformal_source_symbolic_checks_passed": conformal_source["counts"][
+                "symbolic_checks_passed"
+            ],
+            "solar_gw_symbolic_checks_passed": solar_gw["counts"]["symbolic_checks_passed"],
+            "flrw_symbolic_checks_passed": flrw["counts"]["symbolic_checks_passed"],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][
                 "new_raw_target_rows_opened"

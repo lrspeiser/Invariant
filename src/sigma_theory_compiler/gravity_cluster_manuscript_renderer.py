@@ -598,6 +598,24 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             f"network calls={acquisition['act_executor_network_calls']}",
         ),
         (
+            "group_source_v3",
+            "ready_science_lanes",
+            evidence["group_scale_source_boundary"]["v3_ready_lanes"],
+            f"of {evidence['group_scale_source_boundary']['v3_candidate_lanes']}; X-CLASS preferred, eFEDS backup",
+        ),
+        (
+            "xclass_identity_executor",
+            "authorized",
+            acquisition["xclass_executor_authorized"],
+            "one 16,895-byte GET prepared; no run",
+        ),
+        (
+            "xclass_identity_executor",
+            "identity_rows_opened",
+            acquisition["xclass_executor_identity_rows"],
+            f"ObsID mapping={acquisition['xclass_executor_obsid_mapping_available']}; X-COP overlap={acquisition['xclass_executor_xcop_overlap_known']}",
+        ),
+        (
             "matter_lensing_theory",
             "template_level_gates_passed",
             theory["template_level_gates_passed"],
@@ -638,6 +656,30 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             "bounded_domain_nonnegative_examples_exist",
             theory["bounded_domain_nonnegative_examples_exist"],
             f"observational files opened={theory['kinetic_gate_observational_files_opened']}",
+        ),
+        (
+            "matter_lensing_source_bound",
+            "restricted_static_source_bound_established",
+            theory["restricted_static_source_bound_established"],
+            f"physical source law={theory['physical_source_law_established']}; on-shell={theory['physical_on_shell_solution_established']}",
+        ),
+        (
+            "matter_lensing_conformal_source",
+            "universal_conformal_source_identity_established",
+            theory["universal_conformal_source_identity_established"],
+            f"physical profile={theory['physical_source_profile_established']}; metric backreaction={theory['metric_backreaction_established']}",
+        ),
+        (
+            "matter_lensing_solar_gw",
+            "necessary_conditions_established",
+            theory["solar_necessary_conditions_established"],
+            f"Solar gate={theory['solar_gate_passed']}; GW gate={theory['gw_gate_passed']}",
+        ),
+        (
+            "matter_lensing_flrw",
+            "restricted_flat_flrw_equations_established",
+            theory["restricted_flat_flrw_equations_established"],
+            f"healthy history={theory['healthy_late_time_history_exists']}; fit={theory['cosmological_fit_performed']}",
         ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:

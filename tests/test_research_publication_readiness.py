@@ -260,6 +260,42 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             lambda value: value["counts"].__setitem__("observational_files_opened", 1),
             "conditional kinetic-gate",
         ),
+        (
+            "group_scale_source_audit_v3",
+            lambda value: value["counts"].__setitem__("ready_science_lanes", 1),
+            "group-scale V3",
+        ),
+        (
+            "group_scale_xclass_identity_executor_v1",
+            lambda value: value["execution_accounting"].__setitem__("identity_rows_decoded", 1),
+            "guarded X-CLASS",
+        ),
+        (
+            "matter_lensing_split_gate_source_bound",
+            lambda value: value["claim_boundary"].__setitem__(
+                "physical_source_law_established", True
+            ),
+            "source-bound",
+        ),
+        (
+            "matter_lensing_universal_conformal_source",
+            lambda value: value["claim_boundary"].__setitem__(
+                "metric_backreaction_established", True
+            ),
+            "conformal-source",
+        ),
+        (
+            "matter_lensing_solar_gw_necessary_conditions",
+            lambda value: value["gate_adjudication"].__setitem__("gw_gate_passed", True),
+            "Solar/GW",
+        ),
+        (
+            "matter_lensing_flrw_necessary_conditions",
+            lambda value: value["adjudication"].__setitem__(
+                "perturbation_stability_established", True
+            ),
+            "FLRW",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -286,7 +322,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 5,
         "blocked_gates": 1,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 36,
+        "bound_evidence_receipts": 42,
         "independent_target_rows_opened": 0,
     }
 

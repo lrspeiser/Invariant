@@ -383,6 +383,8 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "shared_ben_development_executor_v4",
         "group_scale_source_audit",
         "group_scale_bridge_acquisition_v2",
+        "group_scale_source_audit_v3",
+        "group_scale_xclass_identity_executor_v1",
         "missing_variable_preflight",
         "independent_data_contract",
         "act_erass_overlap_preflight",
@@ -403,6 +405,10 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matter_lensing_symbolic_derivation",
         "matter_lensing_external_metric_principal_symbol",
         "matter_lensing_kinetic_gate_conditional_no_go",
+        "matter_lensing_split_gate_source_bound",
+        "matter_lensing_universal_conformal_source",
+        "matter_lensing_solar_gw_necessary_conditions",
+        "matter_lensing_flrw_necessary_conditions",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -454,6 +460,8 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     ben_executor = evidence["shared_ben_development_executor_v4"]
     group_source = evidence["group_scale_source_audit"]
     group_acquisition = evidence["group_scale_bridge_acquisition_v2"]
+    group_source_v3 = evidence["group_scale_source_audit_v3"]
+    xclass_executor = evidence["group_scale_xclass_identity_executor_v1"]
     missing_variables = evidence["missing_variable_preflight"]
     data_contract = evidence["independent_data_contract"]
     act_overlap = evidence["act_erass_overlap_preflight"]
@@ -474,6 +482,10 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     symbolic_derivation = evidence["matter_lensing_symbolic_derivation"]
     external_symbol = evidence["matter_lensing_external_metric_principal_symbol"]
     kinetic_no_go = evidence["matter_lensing_kinetic_gate_conditional_no_go"]
+    source_bound = evidence["matter_lensing_split_gate_source_bound"]
+    conformal_source = evidence["matter_lensing_universal_conformal_source"]
+    solar_gw = evidence["matter_lensing_solar_gw_necessary_conditions"]
+    flrw = evidence["matter_lensing_flrw_necessary_conditions"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -1311,6 +1323,197 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         )
     ):
         raise ResearchPublicationReadinessError("conditional kinetic-gate evidence changed")
+    group_v3_lanes = {row["lane_id"]: row for row in group_source_v3["lane_readiness"]}
+    if (
+        group_source_v3["status"] != "frozen_metadata_only_audit_zero_ready_science_lanes"
+        or group_source_v3["counts"]
+        != {
+            "authoritative_source_records": 14,
+            "blocked_lanes": 7,
+            "catalog_payload_downloads_by_receipt_builder": 0,
+            "future_acquisition_runs": 0,
+            "future_pilot_runs": 0,
+            "lane_records": 11,
+            "model_or_paid_calls": 0,
+            "network_calls_by_receipt_builder": 0,
+            "partial_lanes": 4,
+            "ready_science_lanes": 0,
+            "remote_asset_metadata_records": 17,
+            "scientific_rows_opened_by_receipt_builder": 0,
+            "scores_computed": 0,
+        }
+        or set(group_v3_lanes)
+        != {
+            "XCLASS_LOWZ_155",
+            "EFEDS_542_RAW_REDUCTION",
+            "XGAP_49_XMM",
+            "ERASS1_2MRS_619",
+            "ACCEPT_239",
+            "SUN09_CHANDRA_43",
+            "AXES_GLOBAL_CATALOGS",
+            "EROSITA_DR2_CATALOG_ONLY",
+            "CHEXMATE_CLUSTER_COMPARATOR",
+            "LOCUSS_CLUSTER_COMPARATOR",
+            "EFEDS_STACKS_997",
+        }
+        or group_v3_lanes["XCLASS_LOWZ_155"]["role"] != "PREFERRED_RAW_REDUCTION_COHORT"
+        or group_v3_lanes["EFEDS_542_RAW_REDUCTION"]["role"] != "BACKUP_COMMON_INSTRUMENT_COHORT"
+        or group_v3_lanes["ACCEPT_239"]["documented_objects"] is not None
+        or group_v3_lanes["ACCEPT_239"]["reported_counts"]
+        != {
+            "author_project_overview_sample": 239,
+            "current_heasarc_one_row_per_cluster_table": 240,
+        }
+        or group_v3_lanes["ACCEPT_239"]["population_count_state"]
+        != "UNRESOLVED_239_AUTHOR_SAMPLE_VS_240_CURRENT_HEASARC_ROWS"
+        or group_source_v3["future_identity_obsid_acquisition"]["authorized"] is not False
+        or group_source_v3["future_identity_obsid_acquisition"]["executed"] is not False
+        or group_source_v3["future_xclass_five_object_pilot"]["authorized"] is not False
+        or group_source_v3["future_xclass_five_object_pilot"]["executed"] is not False
+        or group_source_v3["xcop_overlap_contract"]["executed"] is not False
+        or group_source_v3["xcop_overlap_contract"]["overlap_count"] is not None
+        or group_source_v3["claims"]["metadata_source_audit_complete"] is not True
+        or group_source_v3["claims"]["observational_authorization"] is not False
+        or group_source_v3["claims"]["group_bridge_ready"] is not False
+        or group_source_v3["claims"]["sample_assembled"] is not False
+        or group_source_v3["claims"]["CP10_1_complete"] is not False
+        or group_source_v3["claims"]["CP10_2_complete"] is not False
+        or any(
+            value != 0
+            for key, value in group_source_v3["access_chronology"].items()
+            if key != "scope"
+        )
+    ):
+        raise ResearchPublicationReadinessError("group-scale V3 source audit changed")
+    if (
+        xclass_executor["status"]
+        != "frozen_executor_preflight_external_authorization_required_unrun"
+        or xclass_executor["execution_accounting"]
+        != {
+            "authorization_manifests_approved": 0,
+            "executor_launches": 0,
+            "get_attempts": 0,
+            "head_calls": 0,
+            "identity_rows_decoded": 0,
+            "model_or_paid_calls": 0,
+            "network_bytes": 0,
+            "obsid_mappings": 0,
+            "raw_payload_files_created": 0,
+            "sanitized_results_published": 0,
+            "scientific_values_decoded": 0,
+            "scores_computed": 0,
+            "xcop_overlap_runs": 0,
+        }
+        or xclass_executor["source_contract"]["expected_network_bytes"] != 16_895
+        or xclass_executor["source_contract"]["expected_rows"] != 155
+        or xclass_executor["network_contract"]["get_calls"] != 1
+        or xclass_executor["network_contract"]["maximum_network_bytes"] != 16_895
+        or xclass_executor["column_contract"]["decode_allowlist"]
+        != ["XClass", "RAdeg", "DEdeg", "z"]
+        or xclass_executor["column_contract"]["opaque_suffix_exact_bytes"] != 80
+        or xclass_executor["authorization_contract"]["authorized_manifest_present_at_freeze"]
+        is not False
+        or xclass_executor["output_contract"]["access_intent_present_at_freeze"] is not False
+        or xclass_executor["output_contract"]["get_attempt_marker_present_at_freeze"] is not False
+        or xclass_executor["output_contract"]["result_present_at_freeze"] is not False
+        or xclass_executor["obsid_contract"]["obsid_mapping_executed"] is not False
+        or xclass_executor["xcop_overlap_contract"]["overlap_executed"] is not False
+        or xclass_executor["claims"]["guarded_executor_implemented"] is not True
+        or any(
+            xclass_executor["claims"][key] is not False
+            for key in (
+                "CP10_1_complete",
+                "CP10_2_complete",
+                "candidate_tested_on_groups",
+                "five_object_pilot_unlocked",
+                "group_bridge_ready",
+                "observational_authorization",
+                "obsid_mapping_available",
+                "publication_claim_supported",
+                "scientific_payload_accessed",
+                "source_identity_acquired",
+                "source_sha256_known",
+                "xcop_overlap_known",
+            )
+        )
+    ):
+        raise ResearchPublicationReadinessError("guarded X-CLASS executor evidence changed")
+    if (
+        source_bound["status"]
+        != "restricted_static_source_ceiling_machine_derived_not_physical_on_shell"
+        or source_bound["counts"]["symbolic_checks_passed"] != 17
+        or source_bound["counts"]["source_scaling_cases_passed"] != 4
+        or source_bound["counts"]["finite_k_probes_passed"] != 4
+        or source_bound["adjudication"]["sufficient_source_ceiling_derived"] is not True
+        or source_bound["adjudication"]["physical_Q_chi_derived"] is not False
+        or source_bound["adjudication"]["physical_on_shell_background"] is not False
+        or source_bound["claim_boundary"]["restricted_static_source_bound_established"] is not True
+        or any(
+            source_bound["claim_boundary"][key] is not False
+            for key in source_bound["claim_boundary"]
+            if key != "restricted_static_source_bound_established"
+        )
+        or any(value != 0 for value in source_bound["zero_access_and_compute"].values())
+    ):
+        raise ResearchPublicationReadinessError("split-gate source-bound evidence changed")
+    if (
+        conformal_source["status"]
+        != "same_action_conformal_source_identity_machine_derived_not_on_shell"
+        or conformal_source["counts"]["symbolic_checks_passed"] != 18
+        or conformal_source["counts"]["numeric_cases_passed"] != 4
+        or conformal_source["adjudication"]["same_action_conformal_Q_identity_derived"] is not True
+        or conformal_source["adjudication"]["leading_direct_conformal_lensing_cancellation_derived"]
+        is not True
+        or conformal_source["adjudication"]["physical_source_profile_established"] is not False
+        or conformal_source["adjudication"]["metric_backreaction"] is not False
+        or conformal_source["adjudication"]["lensing_prediction"] is not False
+        or conformal_source["claim_boundary"]["universal_conformal_source_identity_established"]
+        is not True
+        or any(
+            conformal_source["claim_boundary"][key] is not False
+            for key in conformal_source["claim_boundary"]
+            if key != "universal_conformal_source_identity_established"
+        )
+        or any(value != 0 for value in conformal_source["zero_access_and_compute"].values())
+    ):
+        raise ResearchPublicationReadinessError("universal conformal-source evidence changed")
+    if (
+        solar_gw["status"]
+        != "restricted_necessary_conditions_machine_derived_physical_gates_blocked"
+        or solar_gw["counts"]["symbolic_checks_passed"] != 16
+        or solar_gw["counts"]["numeric_yukawa_probes_passed"] != 3
+        or solar_gw["gate_adjudication"]["solar_necessary_inequality_derived"] is not True
+        or solar_gw["gate_adjudication"]["disformal_necessary_inequality_derived"] is not True
+        or solar_gw["gate_adjudication"]["solar_gate_passed"] is not False
+        or solar_gw["gate_adjudication"]["gw_gate_passed"] is not False
+        or solar_gw["claim_boundary"]["restricted_necessary_conditions_established"] is not True
+        or any(
+            solar_gw["claim_boundary"][key] is not False
+            for key in solar_gw["claim_boundary"]
+            if key != "restricted_necessary_conditions_established"
+        )
+        or any(value != 0 for value in solar_gw["zero_access_and_compute"].values())
+    ):
+        raise ResearchPublicationReadinessError("Solar/GW necessary-condition evidence changed")
+    if (
+        flrw["status"] != "exact_flat_flrw_equations_machine_derived_cosmological_history_blocked"
+        or flrw["counts"]["symbolic_checks_passed"] != 25
+        or flrw["counts"]["gate_u_probes_passed"] != 4
+        or flrw["counts"]["disformal_q_probes_passed"] != 4
+        or flrw["adjudication"]["friedmann_raychaudhuri_derived"] is not True
+        or flrw["adjudication"]["gate_limit_obstruction_derived"] is not True
+        or flrw["adjudication"]["healthy_late_time_history_exists"] is not False
+        or flrw["adjudication"]["perturbation_stability_established"] is not False
+        or flrw["adjudication"]["observational_fit_performed"] is not False
+        or flrw["claim_boundary"]["restricted_flat_flrw_equations_established"] is not True
+        or any(
+            flrw["claim_boundary"][key] is not False
+            for key in flrw["claim_boundary"]
+            if key != "restricted_flat_flrw_equations_established"
+        )
+        or any(value != 0 for value in flrw["zero_access_and_compute"].values())
+    ):
+        raise ResearchPublicationReadinessError("FLRW necessary-condition evidence changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True

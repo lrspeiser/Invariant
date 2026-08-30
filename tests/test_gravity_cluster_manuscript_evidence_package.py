@@ -126,6 +126,16 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert group["CP10_1_complete"] is False
     assert group["CP10_2_complete"] is False
     assert group["scientific_result_emitted"] is False
+    assert group["v3_candidate_lanes"] == 11
+    assert group["v3_ready_lanes"] == 0
+    assert group["v3_partial_lanes"] == 4
+    assert group["v3_blocked_lanes"] == 7
+    assert group["v3_preferred_lane"] == "XCLASS_LOWZ_155"
+    assert group["v3_backup_lane"] == "EFEDS_542_RAW_REDUCTION"
+    assert group["v3_accept_author_sample"] == 239
+    assert group["v3_accept_current_table_rows"] == 240
+    assert group["v3_accept_count_resolved"] is False
+    assert group["v3_scientific_rows_opened"] == 0
     strata = receipt["cluster_strata_boundary"]
     assert strata["development_clusters"] == 8
     assert strata["CP5_11_predictor_strata_frozen"] is True
@@ -157,6 +167,14 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert acquisition["act_executor_overlap_count_computed"] is False
     assert acquisition["act_executor_xcop_exclusions_computed"] is False
     assert acquisition["act_executor_minimum_192_rule_evaluated"] is False
+    assert acquisition["xclass_executor_authorized"] is False
+    assert acquisition["xclass_executor_get_attempts"] == 0
+    assert acquisition["xclass_executor_network_bytes"] == 0
+    assert acquisition["xclass_executor_identity_rows"] == 0
+    assert acquisition["xclass_executor_scientific_values"] == 0
+    assert acquisition["xclass_executor_obsid_mapping_available"] is False
+    assert acquisition["xclass_executor_xcop_overlap_known"] is False
+    assert acquisition["xclass_executor_five_object_pilot_unlocked"] is False
     theory = receipt["matter_lensing_theory_boundary"]
     assert theory["template_level_gates_passed"] == 1
     assert theory["health_gates_total"] == 10
@@ -182,6 +200,20 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["unconditional_action_no_go_established"] is False
     assert theory["kinetic_gate_observational_files_opened"] == 0
     assert theory["kinetic_gate_observational_support"] is False
+    assert theory["restricted_static_source_bound_established"] is True
+    assert theory["physical_source_law_established"] is False
+    assert theory["physical_on_shell_solution_established"] is False
+    assert theory["universal_conformal_source_identity_established"] is True
+    assert theory["physical_source_profile_established"] is False
+    assert theory["metric_backreaction_established"] is False
+    assert theory["solar_necessary_conditions_established"] is True
+    assert theory["solar_gate_passed"] is False
+    assert theory["gw_gate_passed"] is False
+    assert theory["restricted_flat_flrw_equations_established"] is True
+    assert theory["flrw_gate_limit_obstruction_derived"] is True
+    assert theory["healthy_late_time_history_exists"] is False
+    assert theory["perturbation_stability_established"] is False
+    assert theory["cosmological_fit_performed"] is False
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -265,6 +297,42 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             "matter_lensing_kinetic_gate_conditional_no_go",
             lambda value: value["counts"].__setitem__("observational_files_opened", 1),
             "conditional kinetic-gate",
+        ),
+        (
+            "group_scale_source_audit_v3",
+            lambda value: value["counts"].__setitem__("ready_science_lanes", 1),
+            "group-scale V3",
+        ),
+        (
+            "group_scale_xclass_identity_executor_v1",
+            lambda value: value["execution_accounting"].__setitem__("get_attempts", 1),
+            "guarded X-CLASS",
+        ),
+        (
+            "matter_lensing_split_gate_source_bound",
+            lambda value: value["claim_boundary"].__setitem__(
+                "physical_source_law_established", True
+            ),
+            "source-bound",
+        ),
+        (
+            "matter_lensing_universal_conformal_source",
+            lambda value: value["claim_boundary"].__setitem__(
+                "metric_backreaction_established", True
+            ),
+            "conformal-source",
+        ),
+        (
+            "matter_lensing_solar_gw_necessary_conditions",
+            lambda value: value["gate_adjudication"].__setitem__("solar_gate_passed", True),
+            "Solar/GW",
+        ),
+        (
+            "matter_lensing_flrw_necessary_conditions",
+            lambda value: value["adjudication"].__setitem__(
+                "healthy_late_time_history_exists", True
+            ),
+            "FLRW",
         ),
     ],
 )

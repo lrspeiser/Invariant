@@ -75,6 +75,15 @@ follows the candidate acceleration law.
 - A source-only group-scale audit examined three candidate public lanes and found zero
   lanes ready for direct thermodynamic testing. It opened no payload rows and completes
   neither CP10.1 nor CP10.2.
+- The committed V3 group audit expands that metadata inventory to eleven lanes and still
+  finds zero ready science lanes. X-CLASS is the preferred raw-reduction cohort and eFEDS
+  is the backup, but no identity, thermodynamic, stellar-baryon, mass, or lensing rows were
+  acquired; the ACCEPT 239-author-sample versus 240-current-table discrepancy remains
+  unresolved rather than silently normalized.
+- The guarded X-CLASS executor at commit `d4f9cf23` can make one future, explicitly
+  authorized 16,895-byte identity acquisition while treating the mixed scientific suffix
+  as opaque. It is currently unauthorized and unrun: no network access, identity rows,
+  ObsID mapping, X-COP overlap, five-object pilot unlock, or score exists.
 - A predictor-only X-COP shape bridge now freezes a dimensionless radial-shape mapping
   with response-profiled nuisances. It is unauthorized, has no payload loader or scoring
   executor, opened zero rows, and supports neither an absolute pressure/temperature claim
@@ -103,6 +112,16 @@ follows the candidate acceleration law.
   mixing contribution nonnegative over the entire later unbounded domain. Three bounded-
   domain nonnegative examples remain, no observational files were opened, and the result
   is explicitly not a full-determinant or unconditional action no-go.
+- The source-bound successor at commit `7216ff73` derives only a frozen-background
+  sufficient source ceiling and its conditional high-`u` scaling. The universal
+  conformal-source package at `98589e26` then derives the same-action trace-source
+  identity and leading conformal photon cancellation, but no physical source profile,
+  metric backreaction, on-shell solution, or lensing prediction.
+- The Solar/GW package at `ad11eba2` and FLRW package at `9e85c1d7` establish restricted
+  necessary conditions only. Both Solar and GW physical gates remain blocked. The FLRW
+  mass-gate energy factor `(1+u)(1-7u)` becomes negative above `u=1/7`; no healthy or
+  accelerating cosmological history, perturbation stability, BBN/CMB/growth pass, or
+  observational fit has been demonstrated.
 
 Useful primary context includes the SPARC radial-acceleration relation
 (https://arxiv.org/abs/1609.05917), the documented residual MOND problem in X-ray groups
@@ -570,6 +589,12 @@ the X-GAP alias inventory, direct thermodynamic endpoints, covariance, per-file 
 and X-COP overlap remain unresolved. The bridge therefore has zero ready science lanes,
 and neither group task changes state.
 
+The later V3 source audit retains zero ready lanes across its expanded eleven-lane
+inventory. Its preferred X-CLASS path is now guarded by an exact one-GET executor, but
+that executor remains externally unauthorized and unrun. It has acquired no identity
+rows and cannot supply ObsIDs, X-COP overlap, or a target-blind five-object pilot; CP10.1
+and CP10.2 therefore remain open.
+
 - [ ] **CP10.1** Assemble a source-audited X-ray group sample spanning roughly
   `10^13–10^14` solar masses.
 - [ ] **CP10.2** Freeze whole-group splits and direct thermodynamic endpoints.
@@ -611,6 +636,14 @@ domain. It also retains bounded-domain counterexamples and an explicit stabilizi
 for the other scalar sector or a suppressed background gradient. With no observational
 data, metric constraints, on-shell solution, or full determinant theorem, it changes no
 CP11 task or scientific claim.
+
+The next source, universal-coupling, Solar/GW, and FLRW derivations add restricted
+necessary identities without closing a physical gate. The static source ceiling does
+not derive a baryonic source law; the conformal matter variation does not solve metric
+backreaction or lensing; the Solar and GW inequalities are not observational passes; and
+the FLRW gate contributes negative energy above `u=1/7` unless other sectors compensate.
+No single healthy on-shell history, parameter set, or cosmological fit exists, so every
+GR, lensing, cosmology, and publication claim remains false.
 
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
