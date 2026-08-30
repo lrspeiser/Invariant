@@ -105,6 +105,30 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
     )
     assert (
         receipt["automatic_findings"][
+            "shared_quadrature_restricted_combined_symmetric_hyperbolicity_established"
+        ]
+        is True
+    )
+    assert (
+        receipt["automatic_findings"]["shared_quadrature_common_local_Cauchy_time_established"]
+        is True
+    )
+    assert (
+        receipt["automatic_findings"][
+            "shared_quadrature_aether_literature_necessary_bounds_satisfied"
+        ]
+        is True
+    )
+    assert (
+        receipt["automatic_findings"]["shared_quadrature_all_mode_cherenkov_safety_established"]
+        is False
+    )
+    assert (
+        receipt["automatic_findings"]["shared_quadrature_scalar_transverse_cherenkov_blocked"]
+        is True
+    )
+    assert (
+        receipt["automatic_findings"][
             "shared_quadrature_unreduced_constraint_hyperbolicity_established"
         ]
         is False
@@ -436,6 +460,13 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             lambda value: value["claim_boundary"].__setitem__("healthy_action_established", True),
             "quadrature reduced-principal",
         ),
+        (
+            "shared_quadrature_combined_tetrad_hyperbolicity",
+            lambda value: value["claim_boundary"].__setitem__(
+                "all_mode_cherenkov_safety_established", True
+            ),
+            "quadrature combined symmetric-hyperbolicity",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -462,7 +493,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 52,
+        "bound_evidence_receipts": 53,
         "independent_target_rows_opened": 0,
     }
 

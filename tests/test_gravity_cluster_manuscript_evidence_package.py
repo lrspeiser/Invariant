@@ -342,6 +342,14 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["quadrature_reduced_nonzero_W_factorization"] is False
     assert theory["quadrature_reduced_unreduced_constraint_hyperbolicity"] is False
     assert theory["quadrature_reduced_healthy_action"] is False
+    assert theory["quadrature_combined_decision"].startswith(
+        "RESTRICTED_STATIC_W_ZERO_COMBINED_TETRAD_SCALAR_SYMMETRIC_HYPERBOLICITY"
+    )
+    assert theory["quadrature_combined_symmetric_hyperbolicity"] is True
+    assert theory["quadrature_combined_common_Cauchy_time"] is True
+    assert theory["quadrature_combined_aether_necessary_bounds"] is True
+    assert theory["quadrature_combined_all_mode_cherenkov_safety"] is False
+    assert theory["quadrature_combined_full_health"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
@@ -358,6 +366,8 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert receipt["counts"]["quadrature_lensing_numeric_probes_passed"] == 4
     assert receipt["counts"]["quadrature_vector_metric_symbolic_checks_passed"] == 21
     assert receipt["counts"]["quadrature_vector_metric_numeric_cases_passed"] == 4
+    assert receipt["counts"]["quadrature_combined_symbolic_checks_passed"] == 37
+    assert receipt["counts"]["quadrature_combined_numeric_cases_passed"] == 4
     assert receipt["counts"]["quadrature_aether_symbolic_checks_passed"] == 25
     assert receipt["counts"]["quadrature_aether_epsilon_cases_passed"] == 3
     assert receipt["counts"]["quadrature_reduced_factorization_symbolic_checks_passed"] == 22
@@ -543,6 +553,13 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             "shared_quadrature_reduced_principal_factorization",
             lambda value: value["claim_boundary"].__setitem__("healthy_action_established", True),
             "quadrature reduced-principal",
+        ),
+        (
+            "shared_quadrature_combined_tetrad_hyperbolicity",
+            lambda value: value["claim_boundary"].__setitem__(
+                "all_mode_cherenkov_safety_established", True
+            ),
+            "quadrature combined symmetric-hyperbolicity",
         ),
     ],
 )

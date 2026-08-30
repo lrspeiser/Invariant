@@ -757,6 +757,20 @@ full health proof: the unreduced constraints, varying or nonzero-`W` backgrounds
 endpoints, exact PPN limit, nonlinear evolution, cutoff, physical solutions, and every
 observational gate remain open. No CP11 checkbox is advanced.
 
+The combined-tetrad successor replaces the draft subluminal aether locus with the
+constraint-modified symmetric-hyperbolic family derived in the primary Einstein-aether
+Cauchy analysis. On the exact finite locus `0<Delta<1/40000`, the tensor and aether-scalar
+modes are photon-luminal, the aether-vector mode is superluminal, `alpha1=-4 Delta`, and
+`alpha2=0`; the cited aether PPN and propagation-speed necessary margins are therefore
+positive. The committed `W=0` derivative-order audit makes the full aether-tetrad block
+and the quadrature-scalar first-order block an exact principal direct sum, giving a
+positive combined symmetrizer and a common local Cauchy time. This does not complete
+CP11.4: the quadrature scalar remains strictly subluminal in transverse directions, so
+all-mode cosmic-ray Cherenkov safety is blocked until a matter-coupling emission-rate or
+decoupling theorem is derived. Nonzero `W`, global backgrounds, endpoints, a uniform
+cutoff, nonlinear health, Solar-System solutions, strong fields, cosmology, and
+quantitative lensing also remain open. No CP11 checkbox is advanced.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

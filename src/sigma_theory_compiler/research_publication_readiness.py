@@ -419,6 +419,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "shared_quadrature_universal_vector_metric",
         "shared_quadrature_aether_mode_conditions",
         "shared_quadrature_reduced_principal_factorization",
+        "shared_quadrature_combined_tetrad_hyperbolicity",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -506,6 +507,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     quadrature_vector = evidence["shared_quadrature_universal_vector_metric"]
     quadrature_aether = evidence["shared_quadrature_aether_mode_conditions"]
     quadrature_factorization = evidence["shared_quadrature_reduced_principal_factorization"]
+    quadrature_combined = evidence["shared_quadrature_combined_tetrad_hyperbolicity"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -2266,6 +2268,90 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
             "quadrature reduced-principal factorization evidence changed"
         )
     if (
+        quadrature_combined["status"]
+        != "restricted_static_W_zero_combined_tetrad_scalar_symmetric_hyperbolicity_no_data"
+        or quadrature_combined["decision"]
+        != "RESTRICTED_STATIC_W_ZERO_COMBINED_TETRAD_SCALAR_SYMMETRIC_HYPERBOLICITY_DERIVED_AETHER_CHERENKOV_SAFE_LOCUS_SCALAR_TRANSVERSE_CHERENKOV_AND_GLOBAL_PHYSICAL_GATES_BLOCKED"
+        or quadrature_combined["config_binding"]
+        != {
+            "content_sha256": "7418cb6f0a8c99b552d776a9b069f0819cda54ca68477fdce670aa0b3328386a",
+            "file_sha256": "829b427663bf476f2bc2262a12af1f864399c7b22160ab5e501395377b11c4ec",
+            "path": "configs/gravity_shared_quadrature_combined_tetrad_hyperbolicity_v1.json",
+        }
+        or quadrature_combined["implementation_binding"]
+        != {
+            "source_file_sha256": "de72224b399117291b38221a982dc7eaa24e4f5980859ee57c07732b5f43edf3",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_combined_tetrad_hyperbolicity.py",
+            "test_file_sha256": "c04c0167e77d6c035989af228911ec3507c9f66847909bda95ee403cee54ec0b",
+            "test_path": "tests/test_gravity_shared_quadrature_combined_tetrad_hyperbolicity.py",
+        }
+        or quadrature_combined["counts"]
+        != {
+            "aether_physical_modes": 5,
+            "combined_physical_modes": 6,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 6,
+            "predecessor_bindings": 2,
+            "symbolic_checks": 37,
+            "symbolic_checks_passed": 37,
+        }
+        or quadrature_combined["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_5_complete": False,
+            "CP11_6_complete": False,
+            "GW_physical_gate_passed": False,
+            "Solar_System_gate_passed": False,
+            "aether_modes_not_subluminal": True,
+            "aether_primary_source_PPN_and_speed_necessary_bounds": True,
+            "all_mode_cherenkov_safety": False,
+            "combined_direct_sum_principal_structure": True,
+            "common_local_Cauchy_time": True,
+            "cosmological_gate_passed": False,
+            "exact_preferred_frame_free_limit_regular": False,
+            "exact_tensor_photon_cone_alignment_on_frozen_branch": True,
+            "lower_order_scalar_vector_metric_mixing_retained": True,
+            "nonlinear_health_established": False,
+            "nonzero_W_or_global_background_hyperbolicity": False,
+            "overall_decision": "RESTRICTED_STATIC_W_ZERO_COMBINED_TETRAD_SCALAR_SYMMETRIC_HYPERBOLICITY_DERIVED_AETHER_CHERENKOV_SAFE_LOCUS_SCALAR_TRANSVERSE_CHERENKOV_AND_GLOBAL_PHYSICAL_GATES_BLOCKED",
+            "primary_source_aether_tetrad_symmetric_hyperbolicity": True,
+            "quantitative_lensing_gate_passed": False,
+            "restricted_combined_local_symmetric_hyperbolicity": True,
+            "scalar_symmetric_hyperbolicity": True,
+            "uniform_cutoff_established": False,
+            "universal_matter_characteristics_established": False,
+        }
+        or quadrature_combined["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "aether_literature_necessary_bounds_satisfied_on_locus": True,
+            "all_mode_cherenkov_safety_established": False,
+            "all_mode_photon_cone_causality_established": False,
+            "common_local_Cauchy_time_established": True,
+            "cosmological_viability_established": False,
+            "full_covariant_health_established": False,
+            "global_hyperbolicity_established": False,
+            "gravitational_wave_viability_established": False,
+            "healthy_action_established": False,
+            "historical_novelty_established": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "restricted_combined_tetrad_scalar_symmetric_hyperbolicity_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_combined["zero_access_and_compute"].values()) != {0}
+    ):
+        raise ResearchPublicationReadinessError(
+            "quadrature combined symmetric-hyperbolicity evidence changed"
+        )
+    if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
         or numerical["claims"]["independent_replication"] is not False
@@ -2471,6 +2557,11 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "shared_quadrature_full_aether_scalar_vector_health_established": False,
             "shared_quadrature_reduced_six_mode_factorization_established": True,
             "shared_quadrature_reduced_six_mode_local_causality_established": True,
+            "shared_quadrature_restricted_combined_symmetric_hyperbolicity_established": True,
+            "shared_quadrature_common_local_Cauchy_time_established": True,
+            "shared_quadrature_aether_literature_necessary_bounds_satisfied": True,
+            "shared_quadrature_all_mode_cherenkov_safety_established": False,
+            "shared_quadrature_scalar_transverse_cherenkov_blocked": True,
             "shared_quadrature_unreduced_constraint_hyperbolicity_established": False,
             "shared_quadrature_nonzero_W_factorization_established": False,
         },

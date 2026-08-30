@@ -741,6 +741,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["quadrature_reduced_six_mode_factorization"],
             f"local causal={theory['quadrature_reduced_six_mode_local_causality']}; principal scalar mixing={theory['quadrature_reduced_principal_scalar_mixing_present']}; nonzero-W factorization={theory['quadrature_reduced_nonzero_W_factorization']}; unreduced hyperbolicity={theory['quadrature_reduced_unreduced_constraint_hyperbolicity']}; healthy action={theory['quadrature_reduced_healthy_action']}",
         ),
+        (
+            "shared_quadrature_combined_tetrad_hyperbolicity",
+            "restricted_W_zero_combined_symmetric_hyperbolicity",
+            theory["quadrature_combined_symmetric_hyperbolicity"],
+            f"common Cauchy time={theory['quadrature_combined_common_Cauchy_time']}; aether necessary bounds={theory['quadrature_combined_aether_necessary_bounds']}; all-mode Cherenkov safety={theory['quadrature_combined_all_mode_cherenkov_safety']}; full health={theory['quadrature_combined_full_health']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

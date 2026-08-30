@@ -54,6 +54,7 @@ SOURCE_IDS = (
     "shared_quadrature_universal_vector_metric",
     "shared_quadrature_aether_mode_conditions",
     "shared_quadrature_reduced_principal_factorization",
+    "shared_quadrature_combined_tetrad_hyperbolicity",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -217,6 +218,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     quadrature_vector = sources["shared_quadrature_universal_vector_metric"]
     quadrature_aether = sources["shared_quadrature_aether_mode_conditions"]
     quadrature_factorization = sources["shared_quadrature_reduced_principal_factorization"]
+    quadrature_combined = sources["shared_quadrature_combined_tetrad_hyperbolicity"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -1478,6 +1480,90 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         raise GravityClusterManuscriptPackageError(
             "quadrature reduced-principal factorization ceiling changed"
         )
+    if (
+        quadrature_combined["status"]
+        != "restricted_static_W_zero_combined_tetrad_scalar_symmetric_hyperbolicity_no_data"
+        or quadrature_combined["decision"]
+        != "RESTRICTED_STATIC_W_ZERO_COMBINED_TETRAD_SCALAR_SYMMETRIC_HYPERBOLICITY_DERIVED_AETHER_CHERENKOV_SAFE_LOCUS_SCALAR_TRANSVERSE_CHERENKOV_AND_GLOBAL_PHYSICAL_GATES_BLOCKED"
+        or quadrature_combined["config_binding"]
+        != {
+            "content_sha256": "7418cb6f0a8c99b552d776a9b069f0819cda54ca68477fdce670aa0b3328386a",
+            "file_sha256": "829b427663bf476f2bc2262a12af1f864399c7b22160ab5e501395377b11c4ec",
+            "path": "configs/gravity_shared_quadrature_combined_tetrad_hyperbolicity_v1.json",
+        }
+        or quadrature_combined["implementation_binding"]
+        != {
+            "source_file_sha256": "de72224b399117291b38221a982dc7eaa24e4f5980859ee57c07732b5f43edf3",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_combined_tetrad_hyperbolicity.py",
+            "test_file_sha256": "c04c0167e77d6c035989af228911ec3507c9f66847909bda95ee403cee54ec0b",
+            "test_path": "tests/test_gravity_shared_quadrature_combined_tetrad_hyperbolicity.py",
+        }
+        or quadrature_combined["counts"]
+        != {
+            "aether_physical_modes": 5,
+            "combined_physical_modes": 6,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 6,
+            "predecessor_bindings": 2,
+            "symbolic_checks": 37,
+            "symbolic_checks_passed": 37,
+        }
+        or quadrature_combined["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_5_complete": False,
+            "CP11_6_complete": False,
+            "GW_physical_gate_passed": False,
+            "Solar_System_gate_passed": False,
+            "aether_modes_not_subluminal": True,
+            "aether_primary_source_PPN_and_speed_necessary_bounds": True,
+            "all_mode_cherenkov_safety": False,
+            "combined_direct_sum_principal_structure": True,
+            "common_local_Cauchy_time": True,
+            "cosmological_gate_passed": False,
+            "exact_preferred_frame_free_limit_regular": False,
+            "exact_tensor_photon_cone_alignment_on_frozen_branch": True,
+            "lower_order_scalar_vector_metric_mixing_retained": True,
+            "nonlinear_health_established": False,
+            "nonzero_W_or_global_background_hyperbolicity": False,
+            "overall_decision": "RESTRICTED_STATIC_W_ZERO_COMBINED_TETRAD_SCALAR_SYMMETRIC_HYPERBOLICITY_DERIVED_AETHER_CHERENKOV_SAFE_LOCUS_SCALAR_TRANSVERSE_CHERENKOV_AND_GLOBAL_PHYSICAL_GATES_BLOCKED",
+            "primary_source_aether_tetrad_symmetric_hyperbolicity": True,
+            "quantitative_lensing_gate_passed": False,
+            "restricted_combined_local_symmetric_hyperbolicity": True,
+            "scalar_symmetric_hyperbolicity": True,
+            "uniform_cutoff_established": False,
+            "universal_matter_characteristics_established": False,
+        }
+        or quadrature_combined["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "aether_literature_necessary_bounds_satisfied_on_locus": True,
+            "all_mode_cherenkov_safety_established": False,
+            "all_mode_photon_cone_causality_established": False,
+            "common_local_Cauchy_time_established": True,
+            "cosmological_viability_established": False,
+            "full_covariant_health_established": False,
+            "global_hyperbolicity_established": False,
+            "gravitational_wave_viability_established": False,
+            "healthy_action_established": False,
+            "historical_novelty_established": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "restricted_combined_tetrad_scalar_symmetric_hyperbolicity_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_combined["zero_access_and_compute"].values()) != {0}
+    ):
+        raise GravityClusterManuscriptPackageError(
+            "quadrature combined symmetric-hyperbolicity ceiling changed"
+        )
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -1527,6 +1613,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     quadrature_vector = sources["shared_quadrature_universal_vector_metric"]
     quadrature_aether = sources["shared_quadrature_aether_mode_conditions"]
     quadrature_factorization = sources["shared_quadrature_reduced_principal_factorization"]
+    quadrature_combined = sources["shared_quadrature_combined_tetrad_hyperbolicity"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -2392,6 +2479,22 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "quadrature_reduced_healthy_action": quadrature_factorization["claim_boundary"][
                 "healthy_action_established"
             ],
+            "quadrature_combined_decision": quadrature_combined["decision"],
+            "quadrature_combined_symmetric_hyperbolicity": quadrature_combined["adjudication"][
+                "restricted_combined_local_symmetric_hyperbolicity"
+            ],
+            "quadrature_combined_common_Cauchy_time": quadrature_combined["adjudication"][
+                "common_local_Cauchy_time"
+            ],
+            "quadrature_combined_aether_necessary_bounds": quadrature_combined["adjudication"][
+                "aether_primary_source_PPN_and_speed_necessary_bounds"
+            ],
+            "quadrature_combined_all_mode_cherenkov_safety": quadrature_combined["adjudication"][
+                "all_mode_cherenkov_safety"
+            ],
+            "quadrature_combined_full_health": quadrature_combined["claim_boundary"][
+                "full_covariant_health_established"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -2423,6 +2526,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The missing-variable registry has four executable proxy rows but zero continuous measurements; sixteen applicable rows remain source-blocked.",
                 "The group and ACT/eRASS acquisition paths contain metadata contracts only, with zero catalog or scientific rows and unevaluated population gates.",
                 "The guarded ACT/eRASS executor is unauthorized and unrun; executable safety controls do not provide an overlap, X-COP exclusion, or population result.",
+                "The restricted W=0 combined tetrad-scalar system is symmetric hyperbolic on a finite aether locus satisfying cited aether PPN/speed necessary bounds, but its quadrature scalar remains transversely subluminal, so all-mode Cherenkov safety and global physical health remain blocked.",
                 "The two-scalar action is a blocked feasibility template: one of ten template/health gates passes and no healthy matter+lensing theory is established.",
                 "The bounded symbolic suite alone verifies only restricted scalar identities and does not independently establish general covariant equations, full H2, metric variation, or joint lensing; the later covariant successor is assessed separately.",
                 "The external-metric principal-symbol result is partial H3/H4 evidence on constant local jets and preserves a negative u>1/3 determinant contribution; it establishes neither healthy backgrounds nor a complete theory.",
@@ -2568,6 +2672,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "quadrature_reduced_factorization_numeric_cases_passed": quadrature_factorization[
                 "counts"
             ]["numeric_cases_passed"],
+            "quadrature_combined_symbolic_checks_passed": quadrature_combined["counts"][
+                "symbolic_checks_passed"
+            ],
+            "quadrature_combined_numeric_cases_passed": quadrature_combined["counts"][
+                "numeric_cases_passed"
+            ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][
                 "new_raw_target_rows_opened"
