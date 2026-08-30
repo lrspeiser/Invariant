@@ -107,6 +107,19 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert ben["xcop_predictor_output_mapping_ready"] is False
     assert ben["v2_payload_loader_present"] is False
     assert ben["v2_real_scoring_executed"] is False
+    ben_v4 = receipt["shared_ben_development_executor_v4_boundary"]
+    assert ben_v4["canonical_full_classes"] == 60
+    assert ben_v4["registered_ablations"] == 180
+    assert ben_v4["unique_asts_across_full_and_ablations"] == 78
+    assert ben_v4["production_executed"] is False
+    assert ben_v4["target_files_opened"] == 0
+    assert ben_v4["target_rows_read"] == 0
+    assert ben_v4["scores_computed"] == 0
+    assert ben_v4["comparison_operator"] == "binary64_numerical_indifference_band"
+    assert ben_v4["reference_runtime_is_fully_frozen"] is False
+    assert ben_v4["indifference_band_removes_all_runtime_variation"] is False
+    assert ben_v4["terminal_success_marker_required"] is True
+    assert ben_v4["publication_ready"] is False
     group = receipt["group_scale_source_boundary"]
     assert group["candidate_lanes"] == 3
     assert group["ready_lanes"] == 0
@@ -161,6 +174,14 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["metric_constraints_derived"] is False
     assert theory["on_shell_backgrounds_established"] is False
     assert theory["global_strong_hyperbolicity_established"] is False
+    assert theory["conditional_timelike_mixing_no_go"] == (
+        "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES"
+    )
+    assert theory["bounded_domain_nonnegative_examples_exist"] is True
+    assert theory["full_determinant_no_go"] is False
+    assert theory["unconditional_action_no_go_established"] is False
+    assert theory["kinetic_gate_observational_files_opened"] == 0
+    assert theory["kinetic_gate_observational_support"] is False
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -193,6 +214,32 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             "ACT/eRASS executor",
         ),
         (
+            "shared_ben_development_executor_v4",
+            lambda value: value.__setitem__("scores_computed", 1),
+            r"B\+E\+N V4 executor",
+        ),
+        (
+            "shared_ben_development_executor_v4",
+            lambda value: value["candidate_and_ablation_accounting"].__setitem__(
+                "unique_asts_across_full_and_ablations", 79
+            ),
+            r"B\+E\+N V4 executor",
+        ),
+        (
+            "shared_ben_development_executor_v4",
+            lambda value: value["runtime_environment_contract"].__setitem__(
+                "comparison_operator", "exact_binary64"
+            ),
+            r"B\+E\+N V4 executor",
+        ),
+        (
+            "shared_ben_development_executor_v4",
+            lambda value: value["result_validation_contract"].__setitem__(
+                "terminal_success_marker_required_after_runtime_restoration", False
+            ),
+            r"B\+E\+N V4 executor",
+        ),
+        (
             "matter_lensing_theory_preflight",
             lambda value: value["claim_boundary"].__setitem__("healthy_action_completed", True),
             r"matter\+lensing theory",
@@ -206,6 +253,18 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             "matter_lensing_external_metric_principal_symbol",
             lambda value: value["claim_boundary"].__setitem__("full_H4_passed", True),
             "external-metric principal-symbol",
+        ),
+        (
+            "matter_lensing_kinetic_gate_conditional_no_go",
+            lambda value: value["claim_boundary"].__setitem__(
+                "unconditional_action_no_go_established", True
+            ),
+            "conditional kinetic-gate",
+        ),
+        (
+            "matter_lensing_kinetic_gate_conditional_no_go",
+            lambda value: value["counts"].__setitem__("observational_files_opened", 1),
+            "conditional kinetic-gate",
         ),
     ],
 )

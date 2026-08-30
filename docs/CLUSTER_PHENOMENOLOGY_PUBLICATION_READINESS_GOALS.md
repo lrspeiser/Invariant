@@ -60,6 +60,12 @@ follows the candidate acceleration law.
   Its V2 successor reclassifies all locally accessible SPARC rows as development-only and
   still blocks before payload access because a predictor-only X-COP output projection is
   not defined. No real B+E+N ranking or scientific result exists.
+- The V4 B+E+N successor at commit `f83c580b` freezes exactly 60 canonical full formula
+  classes, 180 registered ablations, and 78 unique ASTs across both inventories. It is
+  unauthorized and unrun: zero payload files or rows were opened and zero scores or
+  selections exist. Its validated reference runtime, numerical indifference band, and
+  terminal-state receipts constrain a future development-only execution; they do not make
+  the runtime fully frozen or create empirical, novelty, covariance, or publication evidence.
 - Relaxation, cool-core, stellar-availability, assembly, and boundary-method labels are
   now frozen for the eight already exposed development clusters. Exploratory retained-score
   comparisons found no Holm-significant stratum that explains the pressure-covariance
@@ -92,6 +98,11 @@ follows the candidate acceleration law.
   the negative `u>1/3` kinetic-determinant contribution; metric constraints, on-shell
   backgrounds, global hyperbolicity, cutoff control, disformal matter, and lensing remain
   unproved.
+- The kinetic-gate successor at commit `19818982` proves a conditional obstruction: a
+  smooth finite positive gate that is already growing cannot keep one active timelike
+  mixing contribution nonnegative over the entire later unbounded domain. Three bounded-
+  domain nonnegative examples remain, no observational files were opened, and the result
+  is explicitly not a full-determinant or unconditional action no-go.
 
 Useful primary context includes the SPARC radial-acceleration relation
 (https://arxiv.org/abs/1609.05917), the documented residual MOND problem in X-ray groups
@@ -592,6 +603,14 @@ determinant contribution. This is a serious designed obstruction, not a no-go th
 a healthy-domain proof. The metric-scalar constraint system, on-shell backgrounds,
 variable-coefficient strong hyperbolicity, cutoff, disformal matter characteristics, and
 lensing are still absent, so CP11 remains blocked.
+
+The later kinetic-gate result sharpens only one part of that obstruction. Under frozen
+timelike, fixed-external-metric hypotheses, it rules out globally nonnegative mixing for
+an everywhere smooth finite gate that is already growing and continues over an unbounded
+domain. It also retains bounded-domain counterexamples and an explicit stabilizing role
+for the other scalar sector or a suppressed background gradient. With no observational
+data, metric constraints, on-shell solution, or full determinant theorem, it changes no
+CP11 task or scientific claim.
 
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.

@@ -62,6 +62,8 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     assert any(
         row[:3] == ["shared_ben_real", "real_scoring_executed", "false"] for row in table_5[1:]
     )
+    assert any(row[:3] == ["shared_ben_v4", "canonical_full_classes", "60"] for row in table_5[1:])
+    assert any(row[:3] == ["shared_ben_v4", "production_executed", "false"] for row in table_5[1:])
     assert any(
         row[:3] == ["cluster_strata", "candidate_absolute_gate_passed", "false"]
         for row in table_5[1:]
@@ -99,6 +101,15 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         ]
         for row in table_5[1:]
     )
+    assert any(
+        row[:3]
+        == [
+            "matter_lensing_kinetic_gate",
+            "conditional_timelike_mixing_no_go",
+            "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES",
+        ]
+        for row in table_5[1:]
+    )
     table_6 = parsed["table-6-access-claims-limitations.csv"]
     assert any(
         row
@@ -122,6 +133,10 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         ]
         for row in table_6[1:]
     )
+    assert any(
+        row == ["shared_ben_v4_boundary", "registered_ablations", "180"] for row in table_6[1:]
+    )
+    assert any(row == ["shared_ben_v4_boundary", "scores_computed", "0"] for row in table_6[1:])
     assert any(
         row
         == [
@@ -159,6 +174,15 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
             "matter_lensing_theory_boundary",
             "designed_u_above_one_third_failure_preserved",
             "true",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "unconditional_action_no_go_established",
+            "false",
         ]
         for row in table_6[1:]
     )

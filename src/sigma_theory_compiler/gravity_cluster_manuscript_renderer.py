@@ -361,6 +361,7 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
     calibration = evidence["quotient_sampler_calibration_and_newtonian_boundary"]
     pressure = evidence["development_pressure_covariance_boundary"]
     ben = evidence["shared_ben_synthetic_and_real_boundary"]
+    ben_v4 = evidence["shared_ben_development_executor_v4_boundary"]
     strata = evidence["cluster_strata_boundary"]
     shape_missing = evidence["predictor_shape_and_missing_variable_boundary"]
     acquisition = evidence["group_and_act_acquisition_boundary"]
@@ -507,6 +508,24 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             "blocked before payload load",
         ),
         (
+            "shared_ben_v4",
+            "canonical_full_classes",
+            ben_v4["canonical_full_classes"],
+            f"registered ablations={ben_v4['registered_ablations']}; unique ASTs={ben_v4['unique_asts_across_full_and_ablations']}",
+        ),
+        (
+            "shared_ben_v4",
+            "production_executed",
+            ben_v4["production_executed"],
+            f"target rows={ben_v4['target_rows_read']}; scores={ben_v4['scores_computed']}",
+        ),
+        (
+            "shared_ben_v4",
+            "comparison_operator",
+            ben_v4["comparison_operator"],
+            "validated reference runtime; indifference band; not a fully frozen runtime",
+        ),
+        (
             "cluster_strata",
             "candidate_full_covariance_score",
             strata["candidate_full_covariance_score"],
@@ -608,6 +627,18 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["designed_u_above_one_third_failure_preserved"],
             "negative determinant contribution retained",
         ),
+        (
+            "matter_lensing_kinetic_gate",
+            "conditional_timelike_mixing_no_go",
+            theory["conditional_timelike_mixing_no_go"],
+            "scope-restricted theorem; not a full-action no-go",
+        ),
+        (
+            "matter_lensing_kinetic_gate",
+            "bounded_domain_nonnegative_examples_exist",
+            theory["bounded_domain_nonnegative_examples_exist"],
+            f"observational files opened={theory['kinetic_gate_observational_files_opened']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(
@@ -637,6 +668,10 @@ def _table_6(evidence: Mapping[str, Any]) -> bytes:
         rows.append(("pressure_covariance_boundary", key, value))
     for section, source in (
         ("shared_ben_boundary", evidence["shared_ben_synthetic_and_real_boundary"]),
+        (
+            "shared_ben_v4_boundary",
+            evidence["shared_ben_development_executor_v4_boundary"],
+        ),
         (
             "shape_missing_variable_boundary",
             evidence["predictor_shape_and_missing_variable_boundary"],

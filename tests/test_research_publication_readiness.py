@@ -166,6 +166,32 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             "real B\\+E\\+N V2",
         ),
         (
+            "shared_ben_development_executor_v4",
+            lambda value: value.__setitem__("scores_computed", 1),
+            r"B\+E\+N V4 executor",
+        ),
+        (
+            "shared_ben_development_executor_v4",
+            lambda value: value["candidate_and_ablation_accounting"].__setitem__(
+                "canonical_full_classes", 61
+            ),
+            r"B\+E\+N V4 executor",
+        ),
+        (
+            "shared_ben_development_executor_v4",
+            lambda value: value["runtime_environment_contract"].__setitem__(
+                "comparison_operator", "exact_binary64"
+            ),
+            r"B\+E\+N V4 executor",
+        ),
+        (
+            "shared_ben_development_executor_v4",
+            lambda value: value["result_validation_contract"].__setitem__(
+                "terminal_success_marker_required_after_runtime_restoration", False
+            ),
+            r"B\+E\+N V4 executor",
+        ),
+        (
             "group_scale_source_audit",
             lambda value: value["counts"].__setitem__("ready_lanes", 1),
             "group-scale",
@@ -222,6 +248,18 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             lambda value: value["claim_boundary"].__setitem__("full_H3_passed", True),
             "external-metric principal symbol",
         ),
+        (
+            "matter_lensing_kinetic_gate_conditional_no_go",
+            lambda value: value["claim_boundary"].__setitem__(
+                "unconditional_action_no_go_established", True
+            ),
+            "conditional kinetic-gate",
+        ),
+        (
+            "matter_lensing_kinetic_gate_conditional_no_go",
+            lambda value: value["counts"].__setitem__("observational_files_opened", 1),
+            "conditional kinetic-gate",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -248,7 +286,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 5,
         "blocked_gates": 1,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 34,
+        "bound_evidence_receipts": 36,
         "independent_target_rows_opened": 0,
     }
 

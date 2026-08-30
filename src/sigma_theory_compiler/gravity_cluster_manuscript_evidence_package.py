@@ -26,6 +26,7 @@ SOURCE_IDS = (
     "xcop_shape_bridge_preflight",
     "mixed_sparc_access_preflight",
     "shared_ben_real_development_preflight_v2",
+    "shared_ben_development_executor_v4",
     "group_scale_source_audit",
     "group_scale_bridge_acquisition_v2",
     "missing_variable_preflight",
@@ -36,6 +37,7 @@ SOURCE_IDS = (
     "matter_lensing_theory_preflight",
     "matter_lensing_symbolic_derivation",
     "matter_lensing_external_metric_principal_symbol",
+    "matter_lensing_kinetic_gate_conditional_no_go",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -178,9 +180,11 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     group = sources["group_scale_bridge_acquisition_v2"]
     act = sources["act_erass_overlap_preflight"]
     act_executor = sources["act_erass_overlap_executor_v2"]
+    ben_executor = sources["shared_ben_development_executor_v4"]
     theory = sources["matter_lensing_theory_preflight"]
     symbolic = sources["matter_lensing_symbolic_derivation"]
     external_symbol = sources["matter_lensing_external_metric_principal_symbol"]
+    kinetic_no_go = sources["matter_lensing_kinetic_gate_conditional_no_go"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -294,6 +298,104 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     ):
         raise GravityClusterManuscriptPackageError("ACT/eRASS executor ceiling changed")
     if (
+        ben_executor["status"] != "frozen_unauthorized_zero_target_access"
+        or ben_executor["decision"] != "READY_UNAUTHORIZED_ZERO_TARGET_ACCESS"
+        or ben_executor["production_executed"] is not False
+        or ben_executor["target_files_opened"] != 0
+        or ben_executor["target_rows_read"] != 0
+        or ben_executor["scores_computed"] != 0
+        or ben_executor["selection_events"] != 0
+        or ben_executor["source_bindings"]
+        != {
+            "config": {
+                "file_sha256": "ae209d42b60f7f5f5e0d555763f642835eddd3ad841e596722a0ca02cbfb2d9a",
+                "path": "configs/gravity_shared_target_blind_ben_development_executor_v4.json",
+            },
+            "source": {
+                "file_sha256": "41fed937b7225d8edcf3e342477de70765557e8516d1d8d812728d79291ec0ba",
+                "path": "src/sigma_theory_compiler/gravity_shared_target_blind_ben_development_executor_v4.py",
+            },
+            "test": {
+                "file_sha256": "b428eab416802668c31774f51adec420d4fd2455c2cdab51c07d3eb5dfe00de8",
+                "path": "tests/test_gravity_shared_target_blind_ben_development_executor_v4.py",
+            },
+        }
+        or ben_executor["candidate_and_ablation_accounting"]
+        != {
+            "ablation_asts_overlapping_full_classes": 33,
+            "canonical_full_classes": 60,
+            "duplicate_registered_ablation_instances": 129,
+            "raw_candidates_frozen": 240,
+            "raw_equivalent_members_scored": 0,
+            "registered_ablations": 180,
+            "registered_variants_flagged_constant_xcop_geometry_domain_switch_risk": 117,
+            "registered_variants_using_x_geometry": 117,
+            "unique_ablation_asts": 51,
+            "unique_asts_across_full_and_ablations": 78,
+        }
+        or ben_executor["config_section_sha256"]["selection_contract"]
+        != "5822a0544e458f3a3e897f55fe281ac63bb1bcc625d3b4e0d9cb846de48573bd"
+        or ben_executor["zero_access_chronology"]
+        != {
+            "ablation_scores": 0,
+            "authorization_artifacts_accepted": 0,
+            "candidate_scores": 0,
+            "contract_frozen_before_target_access": True,
+            "control_scores": 0,
+            "development_payload_file_open_attempts": 0,
+            "development_payload_file_reads_completed": 0,
+            "model_calls": 0,
+            "network_calls": 0,
+            "paid_calls": 0,
+            "selection_events": 0,
+            "sparc_rows_read": 0,
+            "xcop_predictor_rows_read": 0,
+            "xcop_response_rows_read": 0,
+        }
+        or ben_executor["runtime_environment_contract"]["policy_id"]
+        != "ben-development-reference-runtime-indifference-v1"
+        or ben_executor["runtime_environment_contract"]["comparison_operator"]
+        != "binary64_numerical_indifference_band"
+        or ben_executor["runtime_environment_contract"][
+            "reference_environment_validation_required_before_access_intent"
+        ]
+        is not True
+        or ben_executor["runtime_environment_contract"]["tie_rule"]
+        != "differences inside or on the absolute-plus-relative band are not a win"
+        or "1e-12 plus 1e-10"
+        not in ben_executor["authorization_contract"]["required_exact_approval_text"]
+        or ben_executor["claim_ceiling"]["reference_runtime_is_fully_frozen"] is not False
+        or ben_executor["claim_ceiling"][
+            "numerical_indifference_band_removes_all_runtime_variation"
+        ]
+        is not False
+        or ben_executor["claim_ceiling"]["publication_ready"] is not False
+        or ben_executor["claim_ceiling"]["fresh_confirmation"] is not False
+        or ben_executor["claim_ceiling"]["full_covariance"] is not False
+        or ben_executor["claim_ceiling"]["historical_novelty_established"] is not False
+        or ben_executor["claim_ceiling"]["alternative_to_gr_established"] is not False
+        or ben_executor["claim_ceiling"]["dark_matter_eliminated"] is not False
+        or ben_executor["result_validation_contract"][
+            "terminal_success_marker_required_after_runtime_restoration"
+        ]
+        is not True
+        or ben_executor["result_validation_contract"][
+            "check_result_must_hold_exclusive_terminal_state_lock"
+        ]
+        is not True
+        or ben_executor["result_validation_contract"][
+            "reject_if_access_failure_receipt_exists_before_adjudication"
+        ]
+        is not True
+        or ben_executor["interrupted_run_contract"][
+            "write_atomic_no_clobber_failure_receipt_on_any_post_intent_or_runtime_restoration_exception"
+        ]
+        is not True
+        or "runtime_restoration"
+        not in ben_executor["interrupted_run_contract"]["fixed_failure_operation_allowlist"]
+    ):
+        raise GravityClusterManuscriptPackageError("B+E+N V4 executor ceiling changed")
+    if (
         theory["counts"]["health_gates_total"] != 10
         or theory["counts"]["template_level_gates_passed"] != 1
         or theory["counts"]["health_gates_blocked"] != 9
@@ -383,6 +485,50 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         raise GravityClusterManuscriptPackageError(
             "external-metric principal-symbol ceiling changed"
         )
+    if (
+        kinetic_no_go["status"]
+        != "conditional_timelike_kinetic_gate_no_go_machine_verified_scope_restricted"
+        or kinetic_no_go["decision"]
+        != "CONDITIONAL_NO_GO_FOR_GLOBALLY_NONNEGATIVE_TIMELIKE_MIXING_IN_SMOOTH_GROWING_KINETIC_GATES_REMEDIES_PREREGISTERED_NOT_VALIDATED"
+        or kinetic_no_go["counts"]
+        != {
+            "bounded_domain_counterexamples": 3,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 5,
+            "numeric_cases_passed": 5,
+            "observational_files_opened": 0,
+            "remedies_preregistered": 5,
+            "symbolic_checks": 15,
+            "symbolic_checks_passed": 15,
+        }
+        or kinetic_no_go["adjudication"]["conditional_timelike_mixing_no_go"]
+        != "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES"
+        or kinetic_no_go["adjudication"]["bounded_domain_nonnegative_examples_exist"] is not True
+        or kinetic_no_go["adjudication"]["full_determinant_no_go"] is not False
+        or kinetic_no_go["claim_boundary"][
+            "conditional_external_metric_timelike_mixing_theorem_established"
+        ]
+        is not True
+        or kinetic_no_go["claim_boundary"]["unconditional_action_no_go_established"] is not False
+        or kinetic_no_go["claim_boundary"]["healthy_action_established"] is not False
+        or kinetic_no_go["claim_boundary"]["observational_support"] is not False
+        or kinetic_no_go["claim_boundary"]["publication_readiness_changed"] is not False
+        or kinetic_no_go["analytic_contract"]["not_concluded"]
+        != [
+            "The full determinant is negative whenever M is negative.",
+            "The current action has no healthy bounded parameter/background domain.",
+            "Any covariant completion or alternative gate architecture is impossible.",
+            "The metric-scalar-disformal matter system is unhealthy on shell.",
+        ]
+        or any(value != 0 for value in kinetic_no_go["zero_access_and_compute"].values())
+        or any(
+            remedy["healthy_or_working_claim"] is not False
+            for remedy in kinetic_no_go["remedy_preregistration"]
+        )
+    ):
+        raise GravityClusterManuscriptPackageError("conditional kinetic-gate ceiling changed")
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -404,6 +550,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     shape_bridge = sources["xcop_shape_bridge_preflight"]
     sparc_incident = sources["mixed_sparc_access_preflight"]
     ben_real_v2 = sources["shared_ben_real_development_preflight_v2"]
+    ben_executor = sources["shared_ben_development_executor_v4"]
     group_source = sources["group_scale_source_audit"]
     group_acquisition = sources["group_scale_bridge_acquisition_v2"]
     missing_variables = sources["missing_variable_preflight"]
@@ -414,6 +561,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     theory_preflight = sources["matter_lensing_theory_preflight"]
     symbolic_derivation = sources["matter_lensing_symbolic_derivation"]
     external_symbol = sources["matter_lensing_external_metric_principal_symbol"]
+    kinetic_no_go = sources["matter_lensing_kinetic_gate_conditional_no_go"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -636,6 +784,38 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "v2_real_scoring_executed": ben_real_v2["claims"]["real_scoring_executed"],
             "scientific_claim_allowed": False,
         },
+        "shared_ben_development_executor_v4_boundary": {
+            "decision": ben_executor["decision"],
+            "production_executed": ben_executor["production_executed"],
+            "target_files_opened": ben_executor["target_files_opened"],
+            "target_rows_read": ben_executor["target_rows_read"],
+            "scores_computed": ben_executor["scores_computed"],
+            "canonical_full_classes": ben_executor["candidate_and_ablation_accounting"][
+                "canonical_full_classes"
+            ],
+            "registered_ablations": ben_executor["candidate_and_ablation_accounting"][
+                "registered_ablations"
+            ],
+            "unique_asts_across_full_and_ablations": ben_executor[
+                "candidate_and_ablation_accounting"
+            ]["unique_asts_across_full_and_ablations"],
+            "raw_equivalent_members_scored": ben_executor["candidate_and_ablation_accounting"][
+                "raw_equivalent_members_scored"
+            ],
+            "comparison_operator": ben_executor["runtime_environment_contract"][
+                "comparison_operator"
+            ],
+            "reference_runtime_is_fully_frozen": ben_executor["claim_ceiling"][
+                "reference_runtime_is_fully_frozen"
+            ],
+            "indifference_band_removes_all_runtime_variation": ben_executor["claim_ceiling"][
+                "numerical_indifference_band_removes_all_runtime_variation"
+            ],
+            "terminal_success_marker_required": ben_executor["result_validation_contract"][
+                "terminal_success_marker_required_after_runtime_restoration"
+            ],
+            "publication_ready": ben_executor["claim_ceiling"]["publication_ready"],
+        },
         "predictor_shape_and_missing_variable_boundary": {
             "shape_decision": shape_bridge["decision"],
             "shape_predictor_basis_frozen": shape_bridge["claims"][
@@ -841,6 +1021,23 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "global_strong_hyperbolicity_established": external_symbol["claim_boundary"][
                 "global_strong_hyperbolicity_established"
             ],
+            "kinetic_gate_conditional_no_go_decision": kinetic_no_go["decision"],
+            "conditional_timelike_mixing_no_go": kinetic_no_go["adjudication"][
+                "conditional_timelike_mixing_no_go"
+            ],
+            "bounded_domain_nonnegative_examples_exist": kinetic_no_go["adjudication"][
+                "bounded_domain_nonnegative_examples_exist"
+            ],
+            "full_determinant_no_go": kinetic_no_go["adjudication"]["full_determinant_no_go"],
+            "unconditional_action_no_go_established": kinetic_no_go["claim_boundary"][
+                "unconditional_action_no_go_established"
+            ],
+            "kinetic_gate_observational_files_opened": kinetic_no_go["counts"][
+                "observational_files_opened"
+            ],
+            "kinetic_gate_observational_support": kinetic_no_go["claim_boundary"][
+                "observational_support"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -875,6 +1072,8 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The two-scalar action is a blocked feasibility template: one of ten template/health gates passes and no healthy matter+lensing theory is established.",
                 "The bounded symbolic suite verifies only restricted scalar identities; general covariant equations, full H2, metric variation, and joint lensing remain blocked.",
                 "The external-metric principal-symbol result is partial H3/H4 evidence on constant local jets and preserves a negative u>1/3 determinant contribution; it establishes neither healthy backgrounds nor a complete theory.",
+                "The V4 B+E+N executor freezes 60 canonical classes and 180 registered ablations (78 unique ASTs total), but it is unauthorized and unrun, with zero payload access and zero scores; its reference runtime, indifference band, and terminal-state safeguards are preparation evidence only.",
+                "The kinetic-gate theorem is conditional on an unbounded smooth positive gate that is already growing and keeps one timelike mixing term nonnegative; bounded-domain counterexamples remain, no observational data were opened, and no full-action no-go is established.",
             }
         ),
         "counts": {
@@ -896,6 +1095,16 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "equivalence_class_count"
             ],
             "shared_ben_real_scores": 0,
+            "shared_ben_v4_canonical_full_classes": ben_executor[
+                "candidate_and_ablation_accounting"
+            ]["canonical_full_classes"],
+            "shared_ben_v4_registered_ablations": ben_executor["candidate_and_ablation_accounting"][
+                "registered_ablations"
+            ],
+            "shared_ben_v4_unique_asts": ben_executor["candidate_and_ablation_accounting"][
+                "unique_asts_across_full_and_ablations"
+            ],
+            "shared_ben_v4_scores": ben_executor["scores_computed"],
             "group_scale_ready_lanes": group_source["counts"]["ready_lanes"],
             "continuous_missing_variable_measurements": missing_variables["counts"][
                 "continuous_measurement_ready_rows"
@@ -912,6 +1121,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "external_symbolic_checks_passed": external_symbol["counts"]["symbolic_checks_passed"],
             "external_designed_failures_preserved": external_symbol["counts"][
                 "designed_failures_preserved"
+            ],
+            "kinetic_gate_symbolic_checks_passed": kinetic_no_go["counts"][
+                "symbolic_checks_passed"
+            ],
+            "kinetic_gate_observational_files_opened": kinetic_no_go["counts"][
+                "observational_files_opened"
             ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][

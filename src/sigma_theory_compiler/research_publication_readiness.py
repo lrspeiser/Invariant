@@ -380,6 +380,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "xcop_shape_bridge_preflight",
         "mixed_sparc_access_preflight",
         "shared_ben_real_development_preflight_v2",
+        "shared_ben_development_executor_v4",
         "group_scale_source_audit",
         "group_scale_bridge_acquisition_v2",
         "missing_variable_preflight",
@@ -401,6 +402,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matter_lensing_theory_preflight",
         "matter_lensing_symbolic_derivation",
         "matter_lensing_external_metric_principal_symbol",
+        "matter_lensing_kinetic_gate_conditional_no_go",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -449,6 +451,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     shape_bridge = evidence["xcop_shape_bridge_preflight"]
     sparc_incident = evidence["mixed_sparc_access_preflight"]
     ben_real_v2 = evidence["shared_ben_real_development_preflight_v2"]
+    ben_executor = evidence["shared_ben_development_executor_v4"]
     group_source = evidence["group_scale_source_audit"]
     group_acquisition = evidence["group_scale_bridge_acquisition_v2"]
     missing_variables = evidence["missing_variable_preflight"]
@@ -470,6 +473,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     theory_preflight = evidence["matter_lensing_theory_preflight"]
     symbolic_derivation = evidence["matter_lensing_symbolic_derivation"]
     external_symbol = evidence["matter_lensing_external_metric_principal_symbol"]
+    kinetic_no_go = evidence["matter_lensing_kinetic_gate_conditional_no_go"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -613,6 +617,99 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         )
     ):
         raise ResearchPublicationReadinessError("real B+E+N V2 preflight changed")
+    if (
+        ben_executor["status"] != "frozen_unauthorized_zero_target_access"
+        or ben_executor["decision"] != "READY_UNAUTHORIZED_ZERO_TARGET_ACCESS"
+        or ben_executor["production_executed"] is not False
+        or ben_executor["target_files_opened"] != 0
+        or ben_executor["target_rows_read"] != 0
+        or ben_executor["scores_computed"] != 0
+        or ben_executor["selection_events"] != 0
+        or ben_executor["source_bindings"]
+        != {
+            "config": {
+                "file_sha256": "ae209d42b60f7f5f5e0d555763f642835eddd3ad841e596722a0ca02cbfb2d9a",
+                "path": "configs/gravity_shared_target_blind_ben_development_executor_v4.json",
+            },
+            "source": {
+                "file_sha256": "41fed937b7225d8edcf3e342477de70765557e8516d1d8d812728d79291ec0ba",
+                "path": "src/sigma_theory_compiler/gravity_shared_target_blind_ben_development_executor_v4.py",
+            },
+            "test": {
+                "file_sha256": "b428eab416802668c31774f51adec420d4fd2455c2cdab51c07d3eb5dfe00de8",
+                "path": "tests/test_gravity_shared_target_blind_ben_development_executor_v4.py",
+            },
+        }
+        or ben_executor["candidate_and_ablation_accounting"]
+        != {
+            "ablation_asts_overlapping_full_classes": 33,
+            "canonical_full_classes": 60,
+            "duplicate_registered_ablation_instances": 129,
+            "raw_candidates_frozen": 240,
+            "raw_equivalent_members_scored": 0,
+            "registered_ablations": 180,
+            "registered_variants_flagged_constant_xcop_geometry_domain_switch_risk": 117,
+            "registered_variants_using_x_geometry": 117,
+            "unique_ablation_asts": 51,
+            "unique_asts_across_full_and_ablations": 78,
+        }
+        or ben_executor["zero_access_chronology"]["contract_frozen_before_target_access"]
+        is not True
+        or any(
+            value != 0
+            for key, value in ben_executor["zero_access_chronology"].items()
+            if key != "contract_frozen_before_target_access"
+        )
+        or ben_executor["runtime_environment_contract"]["policy_id"]
+        != "ben-development-reference-runtime-indifference-v1"
+        or ben_executor["runtime_environment_contract"]["comparison_operator"]
+        != "binary64_numerical_indifference_band"
+        or ben_executor["runtime_environment_contract"][
+            "reference_environment_validation_required_before_access_intent"
+        ]
+        is not True
+        or ben_executor["runtime_environment_contract"]["tie_rule"]
+        != "differences inside or on the absolute-plus-relative band are not a win"
+        or ben_executor["config_section_sha256"]["selection_contract"]
+        != "5822a0544e458f3a3e897f55fe281ac63bb1bcc625d3b4e0d9cb846de48573bd"
+        or "1e-12 plus 1e-10"
+        not in ben_executor["authorization_contract"]["required_exact_approval_text"]
+        or ben_executor["claim_ceiling"]["reference_runtime_is_fully_frozen"] is not False
+        or ben_executor["claim_ceiling"][
+            "numerical_indifference_band_removes_all_runtime_variation"
+        ]
+        is not False
+        or any(
+            ben_executor["claim_ceiling"][key] is not False
+            for key in (
+                "fresh_confirmation",
+                "full_covariance",
+                "historical_novelty_established",
+                "publication_ready",
+                "alternative_to_gr_established",
+                "dark_matter_eliminated",
+            )
+        )
+        or ben_executor["result_validation_contract"][
+            "terminal_success_marker_required_after_runtime_restoration"
+        ]
+        is not True
+        or ben_executor["result_validation_contract"][
+            "check_result_must_hold_exclusive_terminal_state_lock"
+        ]
+        is not True
+        or ben_executor["result_validation_contract"][
+            "reject_if_access_failure_receipt_exists_before_adjudication"
+        ]
+        is not True
+        or ben_executor["interrupted_run_contract"][
+            "write_atomic_no_clobber_failure_receipt_on_any_post_intent_or_runtime_restoration_exception"
+        ]
+        is not True
+        or "runtime_restoration"
+        not in ben_executor["interrupted_run_contract"]["fixed_failure_operation_allowlist"]
+    ):
+        raise ResearchPublicationReadinessError("B+E+N V4 executor evidence changed")
     if (
         group_source["counts"]["candidate_lanes"] != 3
         or group_source["counts"]["ready_lanes"] != 0
@@ -1170,6 +1267,50 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or any(value != 0 for value in external_symbol["zero_access_and_compute"].values())
     ):
         raise ResearchPublicationReadinessError("external-metric principal symbol changed")
+    if (
+        kinetic_no_go["status"]
+        != "conditional_timelike_kinetic_gate_no_go_machine_verified_scope_restricted"
+        or kinetic_no_go["decision"]
+        != "CONDITIONAL_NO_GO_FOR_GLOBALLY_NONNEGATIVE_TIMELIKE_MIXING_IN_SMOOTH_GROWING_KINETIC_GATES_REMEDIES_PREREGISTERED_NOT_VALIDATED"
+        or kinetic_no_go["counts"]
+        != {
+            "bounded_domain_counterexamples": 3,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 5,
+            "numeric_cases_passed": 5,
+            "observational_files_opened": 0,
+            "remedies_preregistered": 5,
+            "symbolic_checks": 15,
+            "symbolic_checks_passed": 15,
+        }
+        or kinetic_no_go["adjudication"]["conditional_timelike_mixing_no_go"]
+        != "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES"
+        or kinetic_no_go["adjudication"]["bounded_domain_nonnegative_examples_exist"] is not True
+        or kinetic_no_go["adjudication"]["full_determinant_no_go"] is not False
+        or kinetic_no_go["claim_boundary"][
+            "conditional_external_metric_timelike_mixing_theorem_established"
+        ]
+        is not True
+        or kinetic_no_go["claim_boundary"]["unconditional_action_no_go_established"] is not False
+        or kinetic_no_go["claim_boundary"]["healthy_action_established"] is not False
+        or kinetic_no_go["claim_boundary"]["observational_support"] is not False
+        or kinetic_no_go["claim_boundary"]["publication_readiness_changed"] is not False
+        or kinetic_no_go["analytic_contract"]["not_concluded"]
+        != [
+            "The full determinant is negative whenever M is negative.",
+            "The current action has no healthy bounded parameter/background domain.",
+            "Any covariant completion or alternative gate architecture is impossible.",
+            "The metric-scalar-disformal matter system is unhealthy on shell.",
+        ]
+        or any(value != 0 for value in kinetic_no_go["zero_access_and_compute"].values())
+        or any(
+            remedy["healthy_or_working_claim"] is not False
+            for remedy in kinetic_no_go["remedy_preregistration"]
+        )
+    ):
+        raise ResearchPublicationReadinessError("conditional kinetic-gate evidence changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
