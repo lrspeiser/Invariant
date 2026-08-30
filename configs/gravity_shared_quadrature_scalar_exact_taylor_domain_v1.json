@@ -1,0 +1,129 @@
+{
+  "schema_version": "invariant-gravity-shared-quadrature-scalar-exact-taylor-domain-config-1.0",
+  "analysis_id": "gravity-shared-quadrature-scalar-exact-taylor-domain-v1",
+  "status": "frozen_no_data_fixed_background_exact_scalar_jet_taylor_domain",
+  "purpose": "Determine from the exact committed fixed-metric, fixed-aether scalar density whether the endpoint collapse of the quartic coefficient scale is a truncation artifact by locating the nearest longitudinal and transverse jet singularities, mapping the exact local Taylor radii into the canonical variables, and preserving the distinction between a field-space analyticity domain and a physical frequency or energy cutoff.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "quadrature_scalar_full_local_fluctuation",
+      "git_commit": "c2380194b35d317c8945f77255ba0370d918318d",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_scalar_full_local_fluctuation_v1.json", "file_sha256": "0b6a28342ba03e814959c4e0399e831d7740fafc9ca0be352beecf6e079c55d4"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_scalar_full_local_fluctuation.py", "file_sha256": "765e09892dc3a03de18fb9639903a7c9f7105e28aaeffdfef66a72f85081716b"},
+        {"path": "tests/test_gravity_shared_quadrature_scalar_full_local_fluctuation.py", "file_sha256": "340da16e6848d791935c68a819d839d7a45a90af23bba68d9a8ef12850354856"},
+        {"path": "runs/gravity/theory/shared-quadrature-scalar-full-local-fluctuation-v1.json", "file_sha256": "178f5d87a69c3b2b066ac16d50ff3957c525904f92d2d5ec0a36f65c4d354702"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-scalar-full-local-fluctuation-v1.json",
+      "receipt_content_sha256": "90e2aedd8bba2b40b98f00c5cd210c7e47839d24b53a2d5fee2d6833f9cb117a",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-scalar-full-local-fluctuation-receipt-1.0",
+      "receipt_decision": "RESTRICTED_VECTOR_METRIC_FIXED_BACKGROUND_FULL_SCALAR_QUARTIC_EXPANSION_DERIVED_DERIVATIVE_CEILING_REMAINS_ENDPOINT_LIMITER_METRIC_AETHER_UNITARITY_PHYSICAL_CUTOFF_AND_OBSERVATION_BLOCKED"
+    }
+  ],
+  "exact_jet_domain_contract": {
+    "dimensionless_jets": "rho=alpha d_parallel(pi)/Lambda0^2 and upsilon=alpha^2 |grad_perp pi|^2/Lambda0^4",
+    "exact_argument": "s_total=sqrt[(s+rho)^2+upsilon] on the physical nonnegative-norm branch",
+    "real_branch_domain": "For real upsilon>=0 the declared action branch is 0<(s+rho)^2+upsilon<1/4; the origin of the norm is non-differentiable and the outer ellipse is the p/K singular surface s_total=1/2.",
+    "longitudinal_singularities": "At upsilon=0 the physical norm has its zero-gradient kink at rho=-s and the first positive-direction p/K singularity at rho=1/2-s, so the real Taylor representation about rho=0 has radius Rrho=min(s,1/2-s).",
+    "transverse_singularities": "At rho=0 the analytic continuation s_total=sqrt(s^2+upsilon) has a square-root branch point at upsilon=-s^2 and a p/K singularity at upsilon=1/4-s^2, so Rupsilon=min(s^2,1/4-s^2).",
+    "transverse_crossover": "The nearest transverse singularity changes at s=1/(2 sqrt(2)): the complex square-root branch is nearer below it and the physical p/K pole is nearer above it.",
+    "amplitude_direction": "At fixed jet variables the exp[-4 alpha pi/Mpl] coefficient is entire in the undifferentiated fluctuation pi; no finite amplitude singularity is introduced by that factor alone.",
+    "scope": "These are exact local one-variable and real-jet-domain statements for the fixed metric and aether. They do not establish a multivariate maximal holomorphy domain after dynamical constraints, a solution-dependent EFT domain, or an energy cutoff."
+  },
+  "canonical_radius_contract": {
+    "normalization": "Use qL=d_parallel(chi)/Lambda0^2, qT^2=|grad_Xperp chi|^2/Lambda0^4, chi=sqrt(2C)pi, and c_perp^2=(1-2s)/[2(1-s)].",
+    "jet_map": "qL=sqrt[2s/(1-2s)] rho and qT^2=[s/(1-s)] upsilon.",
+    "longitudinal_radius": "RL=sqrt[2s/(1-2s)] min(s,1/2-s).",
+    "transverse_squared_radius": "RT2=[s/(1-s)] min(s^2,1/4-s^2), with RT=sqrt(RT2) for the canonical transverse-gradient magnitude.",
+    "real_transverse_pole_radius": "RT,real=sqrt{[s/(1-s)](1/4-s^2)}; below the crossover this exceeds the complex Taylor radius because the negative-upsilon square-root branch is nearer.",
+    "interpretation": "RL and RT are dimensionless canonical field-gradient radii. They are not frequencies, center-of-mass energies, partial-wave bounds, or physical UV cutoffs."
+  },
+  "endpoint_and_quartic_consistency_contract": {
+    "low_s": "As s->0, RL~sqrt(2)s^(3/2) and RT~s^(3/2). Both exact canonical jet radii collapse.",
+    "high_s": "For epsilon=1/2-s->0+, RL~sqrt(epsilon/2) and RT~sqrt(epsilon). Both exact canonical jet radii collapse.",
+    "quartic_low_s": "The predecessor transverse-quartic coefficient scale obeys lambda4T^2/RT->2 sqrt(2), so its s^(3/4) energy-scale collapse is consistent with the exact s^(3/2) canonical-gradient radius.",
+    "quartic_high_s": "The predecessor longitudinal-quartic coefficient scale obeys lambda4L^2/RL->2/sqrt(5), so its epsilon^(1/4) energy-scale collapse is consistent with the exact epsilon^(1/2) canonical-gradient radius.",
+    "result": "The endpoint collapse is present in the exact scalar jet analyticity domain and is not created solely by truncating the action at quartic order.",
+    "non_no_go": "This remains a fixed-background scalar-jet obstruction, not a proof that every physical solution reaches an endpoint or that no coupled completion, regulated branch, or UV completion exists."
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy-1.14",
+    "required_symbolic_checks": [
+      "S01_DIMENSIONLESS_JET_ARGUMENT",
+      "S02_REAL_BRANCH_ELLIPSE",
+      "S03_LONGITUDINAL_ZERO_GRADIENT_BOUNDARY",
+      "S04_LONGITUDINAL_POLE_BOUNDARY",
+      "S05_LONGITUDINAL_TAYLOR_RADIUS",
+      "S06_TRANSVERSE_SQRT_BRANCH",
+      "S07_TRANSVERSE_POLE",
+      "S08_TRANSVERSE_CROSSOVER",
+      "S09_CANONICAL_LONGITUDINAL_MAP",
+      "S10_CANONICAL_TRANSVERSE_MAP",
+      "S11_CANONICAL_LONGITUDINAL_RADIUS",
+      "S12_CANONICAL_TRANSVERSE_LOW_BRANCH",
+      "S13_CANONICAL_TRANSVERSE_HIGH_BRANCH",
+      "S14_REAL_TRANSVERSE_POLE_RADIUS",
+      "S15_AMPLITUDE_FACTOR_ENTIRE",
+      "S16_LOW_S_LONGITUDINAL_RADIUS",
+      "S17_LOW_S_TRANSVERSE_RADIUS",
+      "S18_HIGH_S_LONGITUDINAL_RADIUS",
+      "S19_HIGH_S_TRANSVERSE_RADIUS",
+      "S20_LOW_S_QUARTIC_RADIUS_CONSISTENCY",
+      "S21_HIGH_S_QUARTIC_RADIUS_CONSISTENCY",
+      "S22_BOTH_ENDPOINTS_COLLAPSE",
+      "S23_FULL_COUPLED_DOMAIN_FALSE",
+      "S24_PHYSICAL_CUTOFF_FALSE",
+      "S25_TREE_UNITARITY_FALSE"
+    ],
+    "numeric_s_values": ["1/100", "1/10", "1/6", "1/4", "49/100"],
+    "numeric_tolerance": 1e-12
+  },
+  "adjudication": {
+    "exact_fixed_background_real_scalar_jet_domain_derived": true,
+    "exact_longitudinal_local_Taylor_radius_derived": true,
+    "exact_transverse_local_Taylor_radius_derived": true,
+    "canonical_jet_radii_derived": true,
+    "quartic_endpoint_scaling_consistent_with_exact_radii": true,
+    "endpoint_collapse_is_quartic_truncation_artifact": false,
+    "full_coupled_metric_aether_matter_analyticity_domain": false,
+    "solution_dependent_EFT_domain_established": false,
+    "physical_UV_cutoff_established": false,
+    "tree_level_unitarity_bound_established": false,
+    "loop_control_established": false,
+    "strong_coupling_theorem_established": false,
+    "CP11_4_complete": false,
+    "CP11_6_complete": false,
+    "overall_decision": "RESTRICTED_FIXED_BACKGROUND_EXACT_SCALAR_JET_TAYLOR_DOMAIN_DERIVED_BOTH_CANONICAL_ENDPOINT_RADII_COLLAPSE_NOT_A_PHYSICAL_CUTOFF_UNITARITY_OR_FULL_COUPLED_HEALTH_RESULT"
+  },
+  "claim_boundary": {
+    "exact_fixed_background_scalar_jet_domain_established": true,
+    "exact_canonical_scalar_jet_radii_established": true,
+    "full_coupled_analyticity_domain_established": false,
+    "physical_cutoff_established": false,
+    "tree_unitarity_established": false,
+    "healthy_action_established": false,
+    "all_mode_cherenkov_safety_established": false,
+    "observational_scalar_cherenkov_exclusion_established": false,
+    "Solar_System_viability_established": false,
+    "gravitational_wave_viability_established": false,
+    "cosmological_viability_established": false,
+    "quantitative_lensing_observables_predicted": false,
+    "historical_novelty_established": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "observational_rows_opened": 0,
+    "cosmic_ray_rows_opened": 0,
+    "Solar_rows_opened": 0,
+    "GW_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "network_calls_by_builder": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/shared-quadrature-scalar-exact-taylor-domain-v1.json"
+}
