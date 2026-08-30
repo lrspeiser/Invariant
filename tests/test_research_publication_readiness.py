@@ -58,6 +58,24 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
         receipt["automatic_findings"]["shared_quadrature_asymptotic_motion_lensing_match"] is False
     )
     assert receipt["automatic_findings"]["shared_quadrature_finite_isolated_scalar_energy"] is False
+    assert (
+        receipt["automatic_findings"]["shared_quadrature_universal_vector_metric_defined"] is True
+    )
+    assert (
+        receipt["automatic_findings"]["shared_quadrature_leading_motion_lensing_relation_matched"]
+        is True
+    )
+    assert receipt["automatic_findings"]["shared_quadrature_fixed_aether_scalar_causal"] is True
+    assert (
+        receipt["automatic_findings"]["shared_quadrature_full_vector_metric_health_established"]
+        is False
+    )
+    assert (
+        receipt["automatic_findings"][
+            "shared_quadrature_vector_metric_quantitative_lensing_predicted"
+        ]
+        is False
+    )
     assert receipt["readiness"]["independent_cluster_data"]["next_gate"] == "CP3"
     assert receipt["readiness"]["independent_cluster_data"]["ready"] is False
     assert receipt["readiness"]["observational_authorization"] is False
@@ -362,6 +380,13 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             ),
             "quadrature lensing",
         ),
+        (
+            "shared_quadrature_universal_vector_metric",
+            lambda value: value["claim_boundary"].__setitem__(
+                "full_covariant_health_established", True
+            ),
+            "quadrature vector-metric",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -388,7 +413,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 49,
+        "bound_evidence_receipts": 50,
         "independent_target_rows_opened": 0,
     }
 

@@ -305,6 +305,24 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["quadrature_global_quantitative_lensing_success"] is False
     assert theory["quadrature_lensing_CP11_8_complete"] is False
     assert theory["quadrature_lensing_CP11_10_complete"] is False
+    assert theory["quadrature_vector_metric_decision"].startswith(
+        "RESTRICTED_QUADRATURE_UNIVERSAL_VECTOR_METRIC_ACTION_DERIVED"
+    )
+    assert theory["quadrature_vector_metric_same_action_architecture"] is True
+    assert theory["quadrature_vector_metric_universal_matter_photon_metric"] is True
+    assert theory["quadrature_vector_metric_separate_photon_adjustment"] is False
+    assert theory["quadrature_vector_metric_leading_motion_lensing_relation"] is True
+    assert theory["quadrature_vector_metric_fixed_aether_scalar_causal"] is True
+    assert theory["quadrature_vector_metric_full_causality"] is False
+    assert theory["quadrature_vector_metric_quantitative_lensing"] is False
+    assert theory["quadrature_vector_metric_gw_physical_gate"] is False
+    assert theory["quadrature_vector_metric_Solar_System_complete"] is False
+    assert theory["quadrature_vector_metric_cosmology_viable"] is False
+    assert theory["quadrature_vector_metric_CP11_1_complete"] is False
+    assert theory["quadrature_vector_metric_CP11_4_complete"] is False
+    assert theory["quadrature_vector_metric_CP11_6_complete"] is False
+    assert theory["quadrature_vector_metric_CP11_8_complete"] is False
+    assert theory["quadrature_vector_metric_CP11_10_complete"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
@@ -319,6 +337,8 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert receipt["counts"]["quadrature_action_numeric_branch_probes_passed"] == 4
     assert receipt["counts"]["quadrature_lensing_symbolic_checks_passed"] == 16
     assert receipt["counts"]["quadrature_lensing_numeric_probes_passed"] == 4
+    assert receipt["counts"]["quadrature_vector_metric_symbolic_checks_passed"] == 21
+    assert receipt["counts"]["quadrature_vector_metric_numeric_cases_passed"] == 4
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -483,6 +503,11 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
                 "same_action_lensing_matches_scalar_motion_enhancement_asymptotically", True
             ),
             "quadrature lensing",
+        ),
+        (
+            "shared_quadrature_universal_vector_metric",
+            lambda value: value["adjudication"].__setitem__("gw_physical_gate_passed", True),
+            "quadrature vector-metric",
         ),
     ],
 )

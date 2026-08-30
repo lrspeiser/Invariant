@@ -195,6 +195,15 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     assert any(
         row[:3]
         == [
+            "shared_quadrature_universal_vector_metric",
+            "restricted_same_metric_motion_lensing_architecture",
+            "true",
+        ]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
             "matter_lensing_kinetic_gate",
             "conditional_timelike_mixing_no_go",
             "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES",
@@ -393,6 +402,15 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         == [
             "matter_lensing_theory_boundary",
             "quadrature_asymptotic_motion_lensing_match",
+            "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "quadrature_vector_metric_full_causality",
             "false",
         ]
         for row in table_6[1:]

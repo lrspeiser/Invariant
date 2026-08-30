@@ -720,6 +720,19 @@ for finite-radius matching. It leaves quantitative lensing, CP11.8, and CP11.10 
 strengthens the requirement for a different universal metric or additional covariant
 stress channel rather than a photon-only adjustment.
 
+The universal-vector-metric successor supplies that different same-metric architecture.
+It couples massive matter and photons to one TeVeS-type physical metric, preserves the
+quadrature static force, and makes the leading scalar shift enter both physical metric
+potentials with the same sign. The resulting lensing-potential shift is exactly twice
+the scalar motion-potential shift without a photon-only coefficient. A frozen-aether
+principal-symbol calculation also places the longitudinal scalar characteristic on the
+physical photon cone and the transverse characteristic inside it. These are restricted
+architecture and local-cone results, not completion of the theory: dynamical vector and
+metric mixing, vector health and constraints, the low-gradient degeneracy, the singular
+finite-gradient endpoint, Solar-System behavior, the physical gravitational-wave gate,
+cosmology, and quantitative lensing observables all remain open. No CP11 checkbox is
+advanced.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

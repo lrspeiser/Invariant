@@ -723,6 +723,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["quadrature_restricted_lensing_backreaction_derived"],
             f"stress source={theory['quadrature_scalar_stress_lensing_source_nonzero']}; compactness suppressed={theory['quadrature_lensing_backreaction_compactness_suppressed']}; asymptotic match={theory['quadrature_asymptotic_motion_lensing_match']}; global lensing={theory['quadrature_global_quantitative_lensing_success']}",
         ),
+        (
+            "shared_quadrature_universal_vector_metric",
+            "restricted_same_metric_motion_lensing_architecture",
+            theory["quadrature_vector_metric_same_action_architecture"],
+            f"universal metric={theory['quadrature_vector_metric_universal_matter_photon_metric']}; photon adjustment={theory['quadrature_vector_metric_separate_photon_adjustment']}; leading relation={theory['quadrature_vector_metric_leading_motion_lensing_relation']}; fixed-aether causal={theory['quadrature_vector_metric_fixed_aether_scalar_causal']}; full causal={theory['quadrature_vector_metric_full_causality']}; quantitative lensing={theory['quadrature_vector_metric_quantitative_lensing']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

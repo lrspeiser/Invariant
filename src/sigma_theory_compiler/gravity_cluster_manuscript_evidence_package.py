@@ -51,6 +51,7 @@ SOURCE_IDS = (
     "shared_formula_scalar_kinetic_reconstruction",
     "shared_quadrature_covariant_action",
     "shared_quadrature_lensing_backreaction",
+    "shared_quadrature_universal_vector_metric",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -211,6 +212,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     formula_kinetic = sources["shared_formula_scalar_kinetic_reconstruction"]
     quadrature_action = sources["shared_quadrature_covariant_action"]
     quadrature_lensing = sources["shared_quadrature_lensing_backreaction"]
+    quadrature_vector = sources["shared_quadrature_universal_vector_metric"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -1251,6 +1253,81 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         or set(quadrature_lensing["zero_access_and_compute"].values()) != {0}
     ):
         raise GravityClusterManuscriptPackageError("quadrature lensing ceiling changed")
+    if (
+        quadrature_vector["status"]
+        != "restricted_universal_vector_metric_quadrature_action_derived_no_data_global_health_blocked"
+        or quadrature_vector["decision"]
+        != "RESTRICTED_QUADRATURE_UNIVERSAL_VECTOR_METRIC_ACTION_DERIVED_LEADING_MOTION_LENSING_RELATION_AND_FIXED_AETHER_SCALAR_CAUSALITY_PASS_GLOBAL_VECTOR_ENDPOINT_SOLAR_GW_COSMOLOGY_GATES_BLOCKED"
+        or quadrature_vector["config_binding"]
+        != {
+            "content_sha256": "e1fbd31ab38f320c84b41d5e052cb6fb852e0f57a82cecf55ade3b62a25daf13",
+            "file_sha256": "424cbece2339c9ec0dc83c8f8dd7679822dfcba95e4a60cb4e1938587ac631af",
+            "path": "configs/gravity_shared_quadrature_universal_vector_metric_v1.json",
+        }
+        or quadrature_vector["implementation_binding"]
+        != {
+            "source_file_sha256": "41c4e9dcbc05532db698f74f2b7c7deb61d279bc1858f5768748eee427a3306a",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_universal_vector_metric.py",
+            "test_file_sha256": "7b22dc7fb157ce59552c68c760b735424257a4fb4abc57d5b4dbe304761abedf",
+            "test_path": "tests/test_gravity_shared_quadrature_universal_vector_metric.py",
+        }
+        or quadrature_vector["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 8,
+            "predecessor_bindings": 2,
+            "symbolic_checks": 21,
+            "symbolic_checks_passed": 21,
+        }
+        or quadrature_vector["adjudication"]
+        != {
+            "CP11_10_complete": False,
+            "CP11_1_complete": False,
+            "CP11_4_complete": False,
+            "CP11_6_complete": False,
+            "CP11_8_complete": False,
+            "Solar_System_completion_established": False,
+            "finite_gradient_endpoint_regular": False,
+            "fixed_aether_scalar_block_causal_relative_to_physical_cone": True,
+            "full_metric_vector_scalar_matter_causality_established": False,
+            "gw_asymptotic_scalar_boundary_condition_derived": True,
+            "gw_physical_gate_passed": False,
+            "historical_novelty_established": False,
+            "leading_scalar_motion_and_lensing_relation_matched": True,
+            "low_gradient_transition_nondegenerate": False,
+            "one_universal_massive_matter_and_photon_metric_defined": True,
+            "overall_decision": "RESTRICTED_QUADRATURE_UNIVERSAL_VECTOR_METRIC_ACTION_DERIVED_LEADING_MOTION_LENSING_RELATION_AND_FIXED_AETHER_SCALAR_CAUSALITY_PASS_GLOBAL_VECTOR_ENDPOINT_SOLAR_GW_COSMOLOGY_GATES_BLOCKED",
+            "quadrature_motion_law_recovered_at_leading_weak_field_order": True,
+            "restricted_vector_scalar_action_defined": True,
+            "separate_photon_adjustment_present": False,
+            "tensor_c13_zero_condition_derived": True,
+            "timelike_cosmological_branch_defined": False,
+            "vector_health_and_constraint_system_established": False,
+        }
+        or quadrature_vector["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "cosmological_viability_established": False,
+            "full_covariant_health_established": False,
+            "global_hyperbolicity_established": False,
+            "gravitational_wave_viability_established": False,
+            "historical_novelty_established": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "restricted_fixed_aether_scalar_causality_established": True,
+            "restricted_same_action_motion_lensing_architecture_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_vector["zero_access_and_compute"].values()) != {0}
+    ):
+        raise GravityClusterManuscriptPackageError("quadrature vector-metric ceiling changed")
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -1297,6 +1374,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     formula_kinetic = sources["shared_formula_scalar_kinetic_reconstruction"]
     quadrature_action = sources["shared_quadrature_covariant_action"]
     quadrature_lensing = sources["shared_quadrature_lensing_backreaction"]
+    quadrature_vector = sources["shared_quadrature_universal_vector_metric"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -2075,6 +2153,52 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "quadrature_lensing_CP11_10_complete": quadrature_lensing["adjudication"][
                 "CP11_10_complete"
             ],
+            "quadrature_vector_metric_decision": quadrature_vector["decision"],
+            "quadrature_vector_metric_same_action_architecture": quadrature_vector[
+                "claim_boundary"
+            ]["restricted_same_action_motion_lensing_architecture_established"],
+            "quadrature_vector_metric_universal_matter_photon_metric": quadrature_vector[
+                "adjudication"
+            ]["one_universal_massive_matter_and_photon_metric_defined"],
+            "quadrature_vector_metric_separate_photon_adjustment": quadrature_vector[
+                "adjudication"
+            ]["separate_photon_adjustment_present"],
+            "quadrature_vector_metric_leading_motion_lensing_relation": quadrature_vector[
+                "adjudication"
+            ]["leading_scalar_motion_and_lensing_relation_matched"],
+            "quadrature_vector_metric_fixed_aether_scalar_causal": quadrature_vector[
+                "adjudication"
+            ]["fixed_aether_scalar_block_causal_relative_to_physical_cone"],
+            "quadrature_vector_metric_full_causality": quadrature_vector["adjudication"][
+                "full_metric_vector_scalar_matter_causality_established"
+            ],
+            "quadrature_vector_metric_quantitative_lensing": quadrature_vector["claim_boundary"][
+                "quantitative_lensing_observables_predicted"
+            ],
+            "quadrature_vector_metric_gw_physical_gate": quadrature_vector["adjudication"][
+                "gw_physical_gate_passed"
+            ],
+            "quadrature_vector_metric_Solar_System_complete": quadrature_vector["adjudication"][
+                "Solar_System_completion_established"
+            ],
+            "quadrature_vector_metric_cosmology_viable": quadrature_vector["claim_boundary"][
+                "cosmological_viability_established"
+            ],
+            "quadrature_vector_metric_CP11_1_complete": quadrature_vector["adjudication"][
+                "CP11_1_complete"
+            ],
+            "quadrature_vector_metric_CP11_4_complete": quadrature_vector["adjudication"][
+                "CP11_4_complete"
+            ],
+            "quadrature_vector_metric_CP11_6_complete": quadrature_vector["adjudication"][
+                "CP11_6_complete"
+            ],
+            "quadrature_vector_metric_CP11_8_complete": quadrature_vector["adjudication"][
+                "CP11_8_complete"
+            ],
+            "quadrature_vector_metric_CP11_10_complete": quadrature_vector["adjudication"][
+                "CP11_10_complete"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -2121,6 +2245,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The deep-AQUAL transition theorem is conditional on exact scaling reaching X=0; its positive-floor escape is only asymptotically AQUAL, widens the scalar cone, lacks an unbounded-domain lower coefficient bound, and does not complete CP11.4.",
                 "The restricted quadrature action exactly embeds the dimensionless motion law in one universal conformal matter/photon metric and derives its scalar stress, but direct conformal lensing shifts cancel, metric backreaction is unsolved, the scalar cone is superluminal, the low-gradient branch is degenerate, the finite-gradient endpoint is singular, and no timelike cosmological branch is defined.",
                 "The restricted exterior backreaction calculation finds a nonzero scalar-stress lensing source, but its large-radius response is compactness-suppressed relative to the scalar motion force and the isolated scalar energy grows logarithmically; finite-radius matching and other same-action architectures are not ruled out, while global quantitative lensing remains blocked.",
+                "The universal vector-metric successor uses one physical metric for matter and photons and matches the leading scalar motion/lensing relation while repairing only the frozen-aether scalar cone; dynamical vector-metric mixing, endpoints, Solar, physical GW, cosmology, and quantitative lensing remain blocked.",
             }
         ),
         "counts": {
@@ -2229,6 +2354,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "quadrature_lensing_numeric_probes_passed": quadrature_lensing["counts"][
                 "numeric_probes_passed"
+            ],
+            "quadrature_vector_metric_symbolic_checks_passed": quadrature_vector["counts"][
+                "symbolic_checks_passed"
+            ],
+            "quadrature_vector_metric_numeric_cases_passed": quadrature_vector["counts"][
+                "numeric_cases_passed"
             ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][
