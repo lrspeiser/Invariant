@@ -1,0 +1,148 @@
+{
+  "schema_version": "invariant-gravity-shared-quadrature-scalar-cherenkov-cutoff-rate-config-1.0",
+  "analysis_id": "gravity-shared-quadrature-scalar-cherenkov-cutoff-rate-v1",
+  "status": "frozen_no_data_restricted_stationary_W_zero_cutoff_dependent_rate",
+  "purpose": "Derive the exact stationary classical scalar-Cherenkov power fixed by the committed quadrature scalar quadratic action and universal matter metric on the frozen W=0 coefficient patch, retain the UV and IR cutoffs symbolically, derive the conditional survival inequality, and refuse any observational exclusion until a physical cutoff, solved background, finite formation calculation, and cosmic-ray evidence protocol are frozen.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "quadrature_scalar_cherenkov_obstruction",
+      "git_commit": "fd5e2deb23a71f2f962961b7442235e4650aae6c",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_scalar_cherenkov_obstruction_v1.json", "file_sha256": "08a86d1a17d52e4e1ca6365c4fe89ce1cb1037983721b7a2c95cd84bb13ac03d"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_scalar_cherenkov_obstruction.py", "file_sha256": "778bfdc92287ac1b2bc5968d59d755cab020bc660214d6c6386389659f400d5e"},
+        {"path": "tests/test_gravity_shared_quadrature_scalar_cherenkov_obstruction.py", "file_sha256": "10538a09220a3e8c1d10ab7e42af549664a2bf7fa6c2670b3fd2f80a0380cc33"},
+        {"path": "runs/gravity/theory/shared-quadrature-scalar-cherenkov-obstruction-v1.json", "file_sha256": "15876328b2d9cc75adcbe8f789a8a882ae24cf64f5c1d7e7bceef22139a6a1a4"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-scalar-cherenkov-obstruction-v1.json",
+      "receipt_content_sha256": "f03a2bbbf72257ca1d963b967a5bd1f4dd0a2c05878420e8f4061a8b5b00f36c",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-scalar-cherenkov-obstruction-receipt-1.0",
+      "receipt_decision": "RESTRICTED_STATIC_W_ZERO_QUADRATURE_SCALAR_CHERENKOV_PHASE_SPACE_AND_NONDECOUPLING_OBSTRUCTION_DERIVED_RADIATION_RATE_BACKGROUND_AND_PHYSICAL_GATE_BLOCKED"
+    }
+  ],
+  "primary_source_context": [
+    {
+      "source_id": "DALANG_FLEURY_LOMBRISER_2021",
+      "url": "https://arxiv.org/abs/2109.10812",
+      "scope": "Primary scalar-Cherenkov Franck-Tamm calculation. Its stationary isotropic point-source result fixes the retarded spectral normalization and quadratic UV-cutoff dependence used as an independent limit check; none of its cosmological model coefficients or observational examples is imported."
+    }
+  ],
+  "frozen_local_action_contract": {
+    "background": "constant local Einstein-frame Minkowski metric, Ubar^mu=(1,0,0,0), varphi=0, constant spacelike scalar gradient along x_parallel, Wbar=0, alpha>0, and 0<s<1/2",
+    "quadratic_density": "L2=A (partial_t pi)^2-A (partial_parallel pi)^2-C |partial_perp pi|^2+J pi, with A=2 alpha^2 s(1-s)/(1-2s)^2 and C=alpha^2 s/(1-2s)",
+    "transverse_speed": "c_perp^2=C/A=(1-2s)/[2(1-s)]",
+    "noether_energy": "u=A pi_t^2+A pi_parallel^2+C |grad_perp pi|^2 and S_parallel=-2A pi_t pi_parallel, S_perp=-2C pi_t grad_perp pi",
+    "source": "J=-(alpha/Mpl)(T+2T_UU); for one physical point particle J amplitude has magnitude j=(alpha/Mpl) E(1+v^2)",
+    "scope": "The scalar-only quadratic Noether current is exact on this frozen external-coefficient block. Lower-order metric-vector mixing, recoil, coefficient gradients, source structure, and covariant gravitational energy are outside the rate theorem."
+  },
+  "anisotropic_rate_contract": {
+    "coordinate_map": "X_parallel=x_parallel, X_perp=x_perp/c_perp maps the scalar action to Pprime[(partial_t pi)^2-|grad_X pi|^2]/2 with Pprime=2 A c_perp^2, transformed source velocity V=(v_parallel,v_perp/c_perp), and unchanged integrated point coupling j",
+    "dual_speed": "V=sqrt[v^2 cos^2(theta)+v^2 sin^2(theta)/c_perp^2]",
+    "emission_gate": "the stationary retarded rate is nonzero only for V>1; V<=1 is assigned exactly zero",
+    "spectral_identity": "for V>1, integral dOmega_n delta(V dot n-1)=2pi/V and integral_{kIR}^{kUV} k dk=(OmegaUV^2-OmegaIR^2)/2",
+    "stationary_power": "dE/dt=-j^2 (OmegaUV^2-OmegaIR^2)/(16 pi Pprime V)=-E^2(1+v^2)^2(OmegaUV^2-OmegaIR^2)(1-2s)/(32 pi Mpl^2 s V)",
+    "power_scope": "This is the infinite-stationary-track, constant-coefficient, classical point-source power with frequency-independent coefficients inside the frozen band. It is not valid above the first EFT, compositeness, recoil, background-variation, or source-coherence cutoff.",
+    "isotropic_normalization_check": "Setting the transformed scalar speed to one reproduces the stationary scalar Franck-Tamm source-action form j^2 DeltaOmega^2/(16 pi P V) of the cited primary calculation."
+  },
+  "survival_contract": {
+    "small_loss_fraction": "F=L E(1+v^2)^2 DeltaOmega^2(1-2s)/(32 pi Mpl^2 s v V) for V>1",
+    "cutoff_inequality": "DeltaOmega^2 <= 32 pi Mpl^2 s v V Fmax/[L E(1+v^2)^2(1-2s)] is necessary for the frozen stationary small-loss model to keep F<=Fmax",
+    "ultrarelativistic_limit": "as v approaches one at fixed nonzero theta, j approaches 2 alpha E/Mpl and F approaches L E DeltaOmega^2(1-2s)/(8 pi Mpl^2 s V)",
+    "low_s_limit": "the dimensionless rate factor (1-2s)/(s V) diverges like 1/[s v sqrt(2-cos^2(theta))]",
+    "endpoint_limit": "for fixed nonzero theta the same rate factor vanishes like 2(1-2s)^(3/2)/[v |sin(theta)|] only at the excluded singular s=1/2 endpoint",
+    "interpretation": "The exact rate turns the earlier kinematic warning into a cutoff-dependent obstruction. It neither excludes the action nor establishes safety until the physical cutoff and path/background are independently fixed."
+  },
+  "validity_and_missing_inputs": {
+    "required_hierarchy": "OmegaIR is above the inverse coefficient-variation and finite-track scales; OmegaUV is below the earliest EFT, strong-coupling, compositeness, recoil, and source-resolution scale; OmegaUV is much smaller than E for the constant-trajectory approximation",
+    "formation": "A finite trajectory smooths the stationary threshold and needs a separate formation-length calculation.",
+    "background": "No solved Galactic, extragalactic, Solar, or cosmological profile supplies s(x), theta(x), U(x), or a propagation length.",
+    "cutoff": "The committed action does not yet provide a validated UV completion or a uniform background-dependent strong-coupling cutoff.",
+    "source_structure": "A point particle is used. Hadronic/nuclear form factors and incoherent constituent emission are not derived.",
+    "observations": "No cosmic-ray event, direction, composition, energy, distance, exposure, or likelihood is opened or used.",
+    "full_system": "The scalar-only rate does not include simultaneous aether, tensor, metric-constraint, or nonlinear mode conversion."
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy-1.14",
+    "required_symbolic_checks": [
+      "S01_PREDECESSOR_CHERENKOV_OBSTRUCTION",
+      "S02_QUADRATIC_NOETHER_ENERGY",
+      "S03_QUADRATIC_NOETHER_FLUX",
+      "S04_TRANSVERSE_SPEED",
+      "S05_ISOTROPIZING_COORDINATE_MAP",
+      "S06_TRANSFORMED_KINETIC_NORMALIZATION",
+      "S07_POINT_PARTICLE_SOURCE_CHARGE",
+      "S08_TRANSFORMED_DUAL_SPEED",
+      "S09_EMISSION_THRESHOLD_PARITY",
+      "S10_ANGULAR_DELTA_INTEGRAL",
+      "S11_RADIAL_SPECTRAL_INTEGRAL",
+      "S12_ISOTROPIC_FRANCK_TAMM_NORMALIZATION",
+      "S13_ANISOTROPIC_STATIONARY_POWER",
+      "S14_ALPHA_CANCELLATION",
+      "S15_EXACT_POWER_SIMPLIFICATION",
+      "S16_LONGITUDINAL_NONEMISSION",
+      "S17_ULTRARELATIVISTIC_SOURCE",
+      "S18_ULTRARELATIVISTIC_POWER",
+      "S19_SMALL_LOSS_FRACTION",
+      "S20_CUTOFF_SURVIVAL_BOUND",
+      "S21_LOW_S_RATE_SCALING",
+      "S22_ENDPOINT_RATE_SCALING",
+      "S23_ZERO_BAND_ZERO_POWER",
+      "S24_RATE_REQUIRES_OPEN_GATE",
+      "S25_OBSERVATIONAL_ADJUDICATION_REMAINS_FALSE"
+    ],
+    "numeric_cases": [
+      {"case_id": "N01_OPEN_GENERIC", "s": "1/10", "v": "999999/1000000", "cos_theta_squared": "99/100", "expected_open": true},
+      {"case_id": "N02_BELOW_THRESHOLD", "s": "1/4", "v": "9/10", "cos_theta_squared": "999/1000", "expected_open": false},
+      {"case_id": "N03_EXACT_LONGITUDINAL", "s": "1/100", "v": "999999/1000000", "cos_theta_squared": "1", "expected_open": false},
+      {"case_id": "N04_NEAR_ENDPOINT", "s": "49/100", "v": "999/1000", "cos_theta_squared": "99/100", "expected_open": true}
+    ],
+    "numeric_tolerance": 1e-12
+  },
+  "adjudication": {
+    "restricted_quadratic_scalar_energy_flux_derived": true,
+    "restricted_stationary_cutoff_dependent_radiation_rate_derived": true,
+    "anisotropic_threshold_and_directional_rate_derived": true,
+    "exact_conditional_cutoff_survival_inequality_derived": true,
+    "fixed_s_alpha_decoupling_available": false,
+    "physical_UV_cutoff_established": false,
+    "finite_formation_and_recoil_rate_derived": false,
+    "on_shell_propagation_background_established": false,
+    "cosmic_ray_survival_test_passed": false,
+    "observational_scalar_cherenkov_exclusion_established": false,
+    "all_mode_cherenkov_safety": false,
+    "full_covariant_health_established": false,
+    "CP11_4_complete": false,
+    "CP11_6_complete": false,
+    "overall_decision": "RESTRICTED_STATIONARY_W_ZERO_QUADRATURE_SCALAR_CHERENKOV_CUTOFF_RATE_DERIVED_PHYSICAL_CUTOFF_BACKGROUND_FORMATION_OBSERVATION_AND_FULL_GATE_BLOCKED"
+  },
+  "claim_boundary": {
+    "restricted_stationary_scalar_cherenkov_rate_established": true,
+    "conditional_cutoff_survival_inequality_established": true,
+    "physical_cutoff_established": false,
+    "observational_scalar_cherenkov_exclusion_established": false,
+    "all_mode_cherenkov_safety_established": false,
+    "healthy_action_established": false,
+    "Solar_System_viability_established": false,
+    "gravitational_wave_viability_established": false,
+    "cosmological_viability_established": false,
+    "quantitative_lensing_observables_predicted": false,
+    "observational_support": false,
+    "historical_novelty_established": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "observational_rows_opened": 0,
+    "cosmic_ray_rows_opened": 0,
+    "Solar_rows_opened": 0,
+    "GW_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "network_calls_by_builder": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/shared-quadrature-scalar-cherenkov-cutoff-rate-v1.json"
+}
