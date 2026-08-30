@@ -1,0 +1,57 @@
+{
+  "schema_version": "invariant-open-gravity-campaign-postrun-adjudicator-1.0",
+  "adjudicator_id": "OPEN-GRAVITY-CAMPAIGN-v1-POSTRUN-ADJUDICATOR-1",
+  "purpose": "Target-free deterministic re-aggregation of the sealed continuation score ledger after byte-exact replay exposed unordered-set floating-point summation.",
+  "source_campaign": {
+    "package_commit": "ccd5eddb921b982208b3ebd9759ec7032f7dec13",
+    "package_files": {
+      "configs/open_gravity_campaign_v1_successor.json": "1cbedc68e6b1570d6e682423b49fdc772d527d489076628695d41722595eadbd",
+      "runs/gravity/open-gravity-campaign-v1-successor/continuation-ledger.json": "bde60295de84f57ca6f3fc349e4b3fe4d34b0ba02b741487aafd19c7c9d47b11",
+      "runs/gravity/open-gravity-campaign-v1-successor/preflight.json": "e208f7e2b66c863d1cc83c52a8e59beaeb8f7ad11f513aebb4ded6e02130e09a",
+      "src/sigma_theory_compiler/open_gravity_campaign_v1_successor.py": "1e1437401a6f6906b34d294c31efb4602380330b861ca74c8074220e72f734da",
+      "tests/test_open_gravity_campaign_v1_successor.py": "9eff2fcf9966b0e24b7eaa579f255d702d887aba1bc8a126ed59375aabe49357"
+    },
+    "access_intent_path": "runs/gravity/open-gravity-campaign-v1-successor/access-intent.json",
+    "access_intent_raw_sha256": "5526979b353884e0f87ed21eb80a54d120e52ea467d70548ed70922c21d5b215",
+    "result_path": "runs/gravity/open-gravity-campaign-v1-successor/result.json",
+    "result_raw_sha256": "e6c9024dd3c3ba88cc3ae3731d3cca17669652b82cda9b153507320c44041874",
+    "result_content_sha256": "9f96c96c4683e3ab5fece7db9e100cc978cfdd616450504da36f1a13cc699c56",
+    "artifact_index_sha256": "592e48676a59a2047e9540080c48fc04b220803d97e16ae7520bb5bb6a30623d",
+    "adjudication_path": "runs/gravity/open-gravity-campaign-v1-successor/adjudication.json",
+    "adjudication_raw_sha256": "4ac55d8af2d915dd05385f0d7dc004097832590dcb63c447a6d66cca1ac47d9b",
+    "adjudication_content_sha256": "c11460d585b916ddd43024d68a4c483368c8abc9be4dea0dab2b2005b4e9261e"
+  },
+  "diagnosis": {
+    "failed_gate": "BYTE_EXACT_ARTIFACT_RECOMPUTATION",
+    "root_cause": "Pilot/full subgroup means iterated Python sets, so fresh processes summed identical binary64 object losses in hash-dependent order.",
+    "repair": "Rebuild every derived adjudication in sorted object-ID order and require recursive equality except for finite binary64 differences within the frozen comparison band.",
+    "absolute_tolerance": 1e-12,
+    "relative_tolerance": 1e-12,
+    "classification_changes_allowed": 0,
+    "formula_changes_allowed": 0,
+    "parameter_changes_allowed": 0
+  },
+  "access_scope": {
+    "raw_scientific_source_files_opened": 0,
+    "raw_response_rows_opened": 0,
+    "formula_evaluations": 0,
+    "new_scores_computed": 0,
+    "selection_events": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0,
+    "allowed_inputs": "Only the exact sealed continuation result, adjudication, artifact index, and 156 canonical result artifacts."
+  },
+  "output_path": "runs/gravity/open-gravity-campaign-v1-successor/postrun-adjudication.json",
+  "claim_ceiling": {
+    "byte_exact_raw_input_replay_established": false,
+    "sealed_object_score_ledger_internally_reaggregated": true,
+    "classification_invariance_required": true,
+    "development_only": true,
+    "confirmation_claim": false,
+    "cross_scale_survivor_claim": false,
+    "novel_theory_claim": false,
+    "physical_time_redshift_capture_or_quantum_claim": false
+  }
+}
