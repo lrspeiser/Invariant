@@ -1,0 +1,150 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-split-gate-source-bound-config-1.0",
+  "analysis_id": "gravity-matter-lensing-split-gate-source-bound-v1",
+  "status": "frozen_no_data_static_constant_coefficient_source_bound_not_physical_on_shell",
+  "purpose": "Derive the exact static constant-coefficient sourced chi response for the split-gate action, compare it to the frozen timelike C/K amplitude ceilings, and obtain a sufficient source ceiling without assuming any baryonic-density relation, physical source law, metric solution, or observational background.",
+  "predecessor_binding": {
+    "binding_id": "split_gate_action",
+    "git_commit": "03a652acaded1be4cca9af48782b8d54138e54c3",
+    "config_path": "configs/gravity_matter_lensing_split_gate_action_v1.json",
+    "config_file_sha256": "f16f1d711762fea34fb7c53de1fa559c69423be6b6bdc938063e313e30a74035",
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_action.py",
+    "module_file_sha256": "9eb16e8378ceb9d0aea9dcbaa19ad3c3ccf47411867f6517b26622afb3ac49f6",
+    "test_path": "tests/test_gravity_matter_lensing_split_gate_action.py",
+    "test_file_sha256": "36402d837fe0d37d647b4ebd959c212d61e3f0c15c4071f6834e28d90e32f1c6",
+    "receipt_path": "runs/gravity/theory/matter-lensing-split-gate-action-v1.json",
+    "receipt_file_sha256": "a35d52287fd66c47dbcbd0dc86b80d2bcec9069f193ac4353ade3d38ccce6dab",
+    "receipt_content_sha256": "f74275b8a520057a9060eb727ad425412b07f1d92d3b319a7746d2df4ecb569d",
+    "receipt_schema_version": "invariant-gravity-matter-lensing-split-gate-action-receipt-1.0",
+    "receipt_decision": "PARTIAL_SPLIT_GATE_SCALAR_ACTION_DERIVED_KINETIC_MIXING_AVOIDED_TIMELIKE_CHI_AMPLITUDE_RISK_PRESERVED"
+  },
+  "frozen_source_problem": {
+    "domain": "R^3 with the Yukawa Green convolution; localized sources select the decaying solution, while the formal k->0 or bounded-source limit is used only for the stated response bound.",
+    "background": "Static constant X>0, constant Y0>0, constant Z(X)>0, and frozen delta_phi for the bare chi response; this is a local coefficient model, not a solved source-supported background.",
+    "sign_convention": "With predecessor E_chi=Y0*box(chi)-m_chi^2*Z*chi and Q_chi=-(1/sqrt(-g))*delta S_m/delta chi, total variation gives E_chi=Q_chi; statically Y0*(nabla^2-m_eff^2)*chi=Q_chi with m_eff^2=m_chi^2*Z/Y0.",
+    "fourier_convention": "f(x)=integral d^3k/(2*pi)^3 exp(i*k.x)*f_k, so nabla^2 maps to -k^2",
+    "fourier_response": "chi_k=-Q_chi,k/[Y0*(k^2+m_eff^2)]=-Q_chi,k/(Y0*k^2+m_chi^2*Z)",
+    "green_response": "For positive G_Y(r)=exp(-m_eff*r)/(4*pi*Y0*r), Y0*(nabla^2-m_eff^2)G_Y=-delta^3, so chi(x)=-integral d^3x' G_Y(|x-x'|)*Q_chi(x').",
+    "long_wavelength_response": "For k^2<<m_eff^2, chi_k approximately -Q_chi,k/(m_chi^2*Z); the k->0 expression is a formal long-wavelength/bounded-source limit rather than a localized decaying mode.",
+    "bare_response_scope": "The response freezes delta_phi. When the predecessor first-derivative d*(v.k) mixing is active, the general coupled poles still obey D_phi*D_chi-d^2*(v.k)^2=0."
+  },
+  "finite_wavelength_contract": {
+    "suppression_factor": "|chi_k|/[|Q_chi,k|/(m_chi^2*Z)]=1/[1+k^2/m_eff^2]",
+    "single_mode_ceiling": "For one Fourier mode, |Q_chi,k|<(m_chi^2*Z+Y0*k^2)*chi_max is sufficient and is weaker than the k=0 ceiling.",
+    "conservative_statement": "For fixed |Q_chi,k|, the k=0 response is the largest single-mode amplitude. Thus the long-wavelength source ceiling is conservative mode by mode.",
+    "sup_norm_statement": "Because the R^3 Yukawa kernel is positive and has L1 norm 1/(m_chi^2*Z), ||chi||_infinity<=||Q_chi||_infinity/(m_chi^2*Z). The k=0 ceiling is therefore also an exact sufficient L-infinity source bound for arbitrary signed bounded sources on this frozen R^3 problem.",
+    "not_claimed": "A modewise or R^3 sup-norm result is not automatically a pointwise bound for different boundaries, spatially varying coefficients, active delta_phi mixing, or a nonlinear source law."
+  },
+  "amplitude_and_source_ceiling": {
+    "definitions": "A0=P_X, B0=P_X+2*X*P_XX, Z=(1+u)^2, u=beta*X^2, Z_X=4*beta*X*(1+u), H=Z_X+2*X*Z_XX=4*beta*X*(3+7*u)",
+    "predecessor_chi_ceiling": "chi_max^2=min[2*A0/(m_chi^2*Z_X),2*B0/(m_chi^2*H)] for X>0, A0>0, B0>0",
+    "exact_sufficient_source_ceiling": "Q_chi,max(X)=m_chi^2*Z(X)*chi_max(X)=m_chi*Z*min[sqrt(2*A0/Z_X),sqrt(2*B0/H)]",
+    "sufficiency": "If ||Q_chi||_infinity<Q_chi,max on the frozen constant-X R^3 problem, then ||chi||_infinity<chi_max and the predecessor C>0 and K>0 inequalities follow.",
+    "finite_k_relaxation": "For a single nonzero-k mode the sufficient ceiling is multiplied by 1+k^2/m_eff^2; using Q_chi,max(X) without this relaxation is conservative.",
+    "high_u_branch_limits": "For finite positive asymptotic A0,B0, Q_C,max/X^(5/2)->m_chi*beta*sqrt(A0/2) and Q_K,max/X^(5/2)->m_chi*beta*sqrt(B0/14).",
+    "high_u_overall_scaling": "Q_chi,max is proportional to X^(5/2), while chi_max^2 is proportional to X^-3 and |chi|_max is proportional to X^-3/2.",
+    "interpretation": "The growing source ceiling does not mean larger baryonic sources are predicted at larger X: the mass gate grows as Z~X^4, so maintaining the shrinking field-amplitude ceiling requires Q_chi to grow more slowly than, or with a sufficiently small coefficient at, X^(5/2)."
+  },
+  "source_scaling_contract": {
+    "family": "|Q_chi(X)|=q0*X^r on the illustrative positive-X branch",
+    "asymptotic_ratio": "|Q_chi|/Q_chi,max is proportional to X^(r-5/2)",
+    "r_below_five_halves": "For r<5/2 the asymptotic ratio tends to zero, conditional on finite positive asymptotic A0,B0.",
+    "r_equal_five_halves": "For r=5/2 the asymptotic ratio approaches a coefficient-dependent constant, so either pass or failure is possible and both are preserved.",
+    "r_above_five_halves": "For r>5/2 any nonzero q0 eventually violates the ceiling under the frozen asymptotic assumptions.",
+    "forbidden_inference": "No relation Q_chi(rho_baryon,X), rho_baryon(X), galaxy environment, or cosmological history is inferred or fitted."
+  },
+  "source_and_lensing_obligations": {
+    "source_definition": "A physical Q_chi must be derived as the chi variation of the same universal matter action, Q_chi=-(1/sqrt(-g))*delta S_m/delta chi in the frozen sign convention, not inserted as a fitted baryonic source.",
+    "minimal_metric_example": "For one non-derivative conformal physical metric tilde_g=A(phi,chi)^2*g, Q_chi is controlled by d ln(A)/d chi and the physical matter stress trace, with frame factors fixed by a full variation; classically traceless radiation is not an independent conformal source.",
+    "required_to_derive_Q_chi": [
+      "freeze the exact universal A(phi,chi) or another single physical metric",
+      "derive the matter stress and scalar exchange identity from the same action",
+      "specify the matter equation of state and conserved physical-frame source",
+      "solve the coupled phi, chi, metric, and matter background equations rather than prescribing constant X"
+    ],
+    "lensing_boundary": "Photons and massive matter must use the same tilde_g. Lensing must follow from the solved metric and scalar stress; no independent photon multiplier or post-fit lensing factor is allowed.",
+    "derivative_metric_warning": "If tilde_g depends on X or derivatives, the source and principal system change and the current frozen Green/source ceiling cannot be promoted without a new same-action derivation."
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy",
+    "symbolic_zero_rule": "sympy.simplify(actual-expected)==0",
+    "required_symbolic_checks": [
+      "S01_FOURIER_RESPONSE",
+      "S02_YUKAWA_RADIAL_GREEN_AWAY_FROM_SOURCE",
+      "S03_YUKAWA_KERNEL_L1_NORM",
+      "S04_LONG_WAVELENGTH_RESPONSE",
+      "S05_FINITE_K_SUPPRESSION_FACTOR",
+      "S06_FINITE_K_RELAXED_SOURCE_CEILING",
+      "S07_C_BRANCH_SOURCE_SATURATION",
+      "S08_K_BRANCH_SOURCE_SATURATION",
+      "S09_HIGH_U_C_SOURCE_SCALING",
+      "S10_HIGH_U_K_SOURCE_SCALING",
+      "S11_R_TWO_RATIO_LIMIT",
+      "S12_R_FIVE_HALVES_RATIO_LIMIT",
+      "S13_R_THREE_RATIO_DIVERGENCE",
+      "S14_CHI_CEILING_HIGH_U_REGRESSION",
+      "S15_SOURCE_CEILING_HIGH_U_REGRESSION",
+      "S16_FULL_COUPLED_DETERMINANT_CAVEAT",
+      "S17_PREDECESSOR_SOURCE_SIGN_REGRESSION"
+    ],
+    "numeric_parameters": "beta=m_chi=Y0=A0=B0=1; exact Q_chi,max uses the minimum C/K branch",
+    "X_probes": [10.0, 20.0, 40.0],
+    "source_scaling_cases": [
+      {"case_id": "R2_SUBCRITICAL", "r": 2.0, "q0": 0.1, "expected": ["pass", "pass", "pass"], "designed_failure": false},
+      {"case_id": "R2P5_LOW_COEFFICIENT", "r": 2.5, "q0": 0.1, "expected": ["pass", "pass", "pass"], "designed_failure": false},
+      {"case_id": "R2P5_HIGH_COEFFICIENT", "r": 2.5, "q0": 0.4, "expected": ["fail", "fail", "fail"], "designed_failure": true},
+      {"case_id": "R3_THRESHOLD_CROSSING", "r": 3.0, "q0": 0.05, "expected": ["pass", "pass", "fail"], "designed_failure": true}
+    ],
+    "finite_k_probes": [0.0, 0.5, 1.0, 2.0]
+  },
+  "adjudication": {
+    "static_constant_coefficient_response_derived": true,
+    "sufficient_source_ceiling_derived": true,
+    "finite_k_long_wavelength_conservatism_derived": true,
+    "high_u_source_scaling_derived": true,
+    "source_scaling_failures_preserved": true,
+    "physical_Q_chi_derived": false,
+    "baryonic_density_X_relation_derived": false,
+    "physical_on_shell_background": false,
+    "metric_constraints": false,
+    "full_H3": false,
+    "full_H4": false,
+    "global_strong_hyperbolicity": false,
+    "Solar_viability": false,
+    "galaxy_viability": false,
+    "cluster_viability": false,
+    "lensing_prediction": false,
+    "cosmology": false,
+    "observational_support": false,
+    "overall_decision": "PARTIAL_STATIC_SPLIT_GATE_SOURCE_CEILING_DERIVED_PHYSICAL_SOURCE_AND_ON_SHELL_BACKGROUND_NOT_ESTABLISHED"
+  },
+  "claim_boundary": {
+    "restricted_static_source_bound_established": true,
+    "physical_source_law_established": false,
+    "physical_on_shell_solution_established": false,
+    "baryonic_relation_established": false,
+    "full_covariant_health_established": false,
+    "Solar_viability_established": false,
+    "galaxy_viability_established": false,
+    "cluster_viability_established": false,
+    "lensing_success_established": false,
+    "cosmology_established": false,
+    "observational_support": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "predictor_rows_opened": 0,
+    "response_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "holdout_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "network_calls": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/matter-lensing-split-gate-source-bound-v1.json"
+}
