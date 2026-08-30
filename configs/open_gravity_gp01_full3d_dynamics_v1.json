@@ -1,0 +1,95 @@
+{
+  "schema": "invariant-open-gravity-gp01-full3d-dynamics-1.0",
+  "package_id": "open-gravity-gp01-full3d-dynamics-v1",
+  "status": "FROZEN_TARGET_FREE_FULL3D_ELLIPTIC_AND_PARTIAL_TELEGRAPH",
+  "purpose": "Promote the GP01 bounded gain field from spherical/radial mechanics to a conservative Cartesian three-dimensional elliptic solver, add a bounded target-free telegraph dynamics control, and retain transport/action obstructions without observational scoring.",
+  "bindings": [
+    {
+      "role": "GP01_FOUNDATION",
+      "commit": "35f70938f158c81971b2e1b838371b09d9fcee2c",
+      "artifacts": [
+        {"path": "configs/gravity_gain_persistence_gp01_foundation_v1.json", "sha256": "b94d95bafa30a2ae7f0df03565893adf396a5927e0ef60f941a52305300ce3f4"},
+        {"path": "src/sigma_theory_compiler/gravity_gain_persistence_gp01_foundation.py", "sha256": "ddfc8d039a794b3a461e987b582c007f0894d7796ff3c1c39296120cebb6374b"},
+        {"path": "runs/gravity/theory/gain-persistence-gp01-foundation-v1.json", "sha256": "3278ae378808316734207ac7e8649e6040d6cdb64f4ad028a3cc5cc91c3f2579"}
+      ]
+    },
+    {
+      "role": "FULL3D_BASELINES",
+      "commit": "fe9d3da6233827fdf8ac624fe6223bf629293454",
+      "artifacts": [
+        {"path": "src/sigma_theory_compiler/open_gravity_3d_newton_aqual_qumond_baselines_v1.py", "sha256": "5aeed2d338e995f934407df4590272197344666c593bb137bd445a83a1335f2c"},
+        {"path": "runs/gravity/open-gravity-3d-newton-aqual-qumond-baselines-v1/receipt.json", "sha256": "b0e84fe4323838d8687384b9ca6a2db63b401d5584a369521e29316906582fdb"}
+      ]
+    },
+    {
+      "role": "COMPARATOR_MECHANICS",
+      "commit": "009c2e0d0c7d29b1ce0e00d776f7b8b7d246ccc4",
+      "artifacts": [
+        {"path": "configs/open_gravity_3d_halo_modified_gravity_comparators_v1.json", "sha256": "f590210669b67bd228b2cef9c843f37b0b9dea7c1564d988f492167ab2fd6bab"},
+        {"path": "runs/gravity/open-gravity-3d-halo-modified-gravity-comparators-v1/receipt.json", "sha256": "6e17f3a4626022cc852d6d742c56e4b7a56c4a2ad9dc81b62649e7da598bba0f"}
+      ]
+    }
+  ],
+  "equations": {
+    "baryonic_field": "lap Phi_b=4*pi*rho_b; f=|grad Phi_b|",
+    "target": "Gamma_target=Gamma_max*tanh[ln(1+(a_star/f)^n)/(2*n*Gamma_max)], with Gamma_target(f=0)=Gamma_max",
+    "quasi_static_gain": "(1-L_g^2 lap)Gamma=Gamma_target with Gamma_outer=0",
+    "coupled_potential": "div[exp(-Gamma) grad Phi]=4*pi*rho_b; g=-grad Phi",
+    "telegraph_gain": "tau_g^2 Gamma_tt+tau_g Gamma_t-L_g^2 lap Gamma+Gamma=Gamma_target",
+    "necessary_speed": "c_Gamma=L_g/tau_g<=c",
+    "action_target": "Gamma_n=ln nu_n(y); V'_n(Gamma_n)=y^2 nu_n(y)"
+  },
+  "numerical_contract": {
+    "units": "normalized target-free G=a_star=c=1",
+    "grid_nodes": 13,
+    "half_width": 1.0,
+    "n_grid": [1, 2, 4],
+    "Gamma_max": 1.5,
+    "L_g_grid": [0.0, 0.15, 0.35],
+    "elliptic_outer_Gamma": 0.0,
+    "telegraph_L_g": 0.2,
+    "telegraph_tau_g": 0.4,
+    "telegraph_dt": 0.002,
+    "telegraph_steps": 600,
+    "telegraph_initial_velocity": 0.0
+  },
+  "branch_dispositions": [
+    {"id": "GP01-L", "status": "CONTROL_ONLY_NONCONSERVATIVE_IN_GENERIC_3D"},
+    {"id": "GP01-AQUAL", "status": "KNOWN_FAMILY_COMPARATOR_NOT_REIMPLEMENTED_HERE"},
+    {"id": "GP01-T1", "status": "BLOCKED_AT_NULLS_SEPARATRICES_AND_ROUTE_CHOICE"},
+    {"id": "GP01-T2", "status": "BLOCKED_AT_NULLS_SEPARATRICES_AND_ROUTE_CHOICE"},
+    {"id": "GP01-ELLIPTIC", "status": "PASS_TARGET_FREE_FULL3D_STATIC_MECHANICS"},
+    {"id": "GP01-TELEGRAPH", "status": "PARTIAL_TARGET_FREE_DYNAMICS_INSTANTANEOUS_SOURCE_REMAINS"},
+    {"id": "GP01-ACTION-PLACEHOLDER", "status": "INCOMPLETE_QUARANTINE"}
+  ],
+  "required_gates": [
+    "ELLIPTIC_MANUFACTURED",
+    "LOCAL_L_ZERO_LIMIT",
+    "ELLIPTIC_MAXIMUM_PRINCIPLE",
+    "COEFFICIENT_ELLIPTICITY",
+    "ROTATION_COVARIANCE",
+    "NONSYMMETRIC_CONSERVATIVE_CURL",
+    "SADDLE_EXACT_NULL_TARGET",
+    "EXTERNAL_FIELD_SENSITIVITY",
+    "SPATIAL_KERNEL_PDE_IDENTITY",
+    "TELEGRAPH_ENERGY_DECAY",
+    "TELEGRAPH_TEMPORAL_PERSISTENCE",
+    "TELEGRAPH_NECESSARY_SPEED",
+    "TRANSPORT_OBSTRUCTIONS_RETAINED",
+    "ACTION_SINGULARITIES_RETAINED",
+    "ZERO_RESPONSE_ACCESS"
+  ],
+  "remaining_blockers": [
+    "Gamma_target still depends on an instantaneous Poisson baryonic field, so the package is not a causal source completion",
+    "T1 and T2 lack a unique invariant route through generic 3-D nulls, saddles, separatrices, and multiple anchors",
+    "the telegraph test is a preferred-slice bounded PDE control, not a covariant common-cone proof",
+    "the action target remains singular or nonanalytic at high field for every n cell",
+    "matter, photon, clock, lensing, radiation, Solar, pulsar, and cosmological closures remain unproved"
+  ],
+  "access_contract": {"scientific_source_files": 0, "scientific_response_files": 0, "scientific_rows": 0, "scores": 0, "network_calls": 0, "model_calls": 0, "paid_calls": 0},
+  "claim_boundary": {
+    "establishes": ["target-free conservative full-3D GP01 elliptic mechanics", "bounded preferred-slice telegraph damping and persistence controls"],
+    "does_not_establish": ["causal source completion", "covariant action health", "physical capture", "lensing or redshift closure", "observational preference", "novelty"]
+  },
+  "output_path": "runs/gravity/open-gravity-gp01-full3d-dynamics-v1/receipt.json"
+}

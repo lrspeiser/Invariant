@@ -1,0 +1,248 @@
+{
+  "access_accounting": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "paid_calls": 0,
+    "scientific_response_files": 0,
+    "scientific_rows": 0,
+    "scientific_source_files": 0,
+    "scores": 0
+  },
+  "bindings": {
+    "config": {
+      "content_sha256": "aa06ef3c90bd7ac590ca40eacf49d37fc70156829a7d38f1748d08308571756e",
+      "path": "configs/open_gravity_gp01_full3d_dynamics_v1.json",
+      "sha256": "153ddc0e5643dce4d0ad0b76738b34c1f9e061450fa67ad2b95460768aff3f4a"
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_gp01_full3d_dynamics_v1.py",
+      "sha256": "b913baf2d7f45fa8773a7f775b0b1a6831db9af287e6791dadfa83614cab89ae"
+    },
+    "predecessors": [
+      {
+        "artifacts": [
+          {
+            "path": "configs/gravity_gain_persistence_gp01_foundation_v1.json",
+            "sha256": "b94d95bafa30a2ae7f0df03565893adf396a5927e0ef60f941a52305300ce3f4"
+          },
+          {
+            "path": "src/sigma_theory_compiler/gravity_gain_persistence_gp01_foundation.py",
+            "sha256": "ddfc8d039a794b3a461e987b582c007f0894d7796ff3c1c39296120cebb6374b"
+          },
+          {
+            "path": "runs/gravity/theory/gain-persistence-gp01-foundation-v1.json",
+            "sha256": "3278ae378808316734207ac7e8649e6040d6cdb64f4ad028a3cc5cc91c3f2579"
+          }
+        ],
+        "commit": "35f70938f158c81971b2e1b838371b09d9fcee2c",
+        "role": "GP01_FOUNDATION"
+      },
+      {
+        "artifacts": [
+          {
+            "path": "src/sigma_theory_compiler/open_gravity_3d_newton_aqual_qumond_baselines_v1.py",
+            "sha256": "5aeed2d338e995f934407df4590272197344666c593bb137bd445a83a1335f2c"
+          },
+          {
+            "path": "runs/gravity/open-gravity-3d-newton-aqual-qumond-baselines-v1/receipt.json",
+            "sha256": "b0e84fe4323838d8687384b9ca6a2db63b401d5584a369521e29316906582fdb"
+          }
+        ],
+        "commit": "fe9d3da6233827fdf8ac624fe6223bf629293454",
+        "role": "FULL3D_BASELINES"
+      },
+      {
+        "artifacts": [
+          {
+            "path": "configs/open_gravity_3d_halo_modified_gravity_comparators_v1.json",
+            "sha256": "f590210669b67bd228b2cef9c843f37b0b9dea7c1564d988f492167ab2fd6bab"
+          },
+          {
+            "path": "runs/gravity/open-gravity-3d-halo-modified-gravity-comparators-v1/receipt.json",
+            "sha256": "6e17f3a4626022cc852d6d742c56e4b7a56c4a2ad9dc81b62649e7da598bba0f"
+          }
+        ],
+        "commit": "009c2e0d0c7d29b1ce0e00d776f7b8b7d246ccc4",
+        "role": "COMPARATOR_MECHANICS"
+      }
+    ],
+    "test": {
+      "path": "tests/test_open_gravity_gp01_full3d_dynamics_v1.py",
+      "sha256": "b18ec628a0e49810a1a1f05a5275fc41b1ea5a47bd51b2527f54faa58a07a85c"
+    }
+  },
+  "branch_dispositions": [
+    {
+      "id": "GP01-L",
+      "status": "CONTROL_ONLY_NONCONSERVATIVE_IN_GENERIC_3D"
+    },
+    {
+      "id": "GP01-AQUAL",
+      "status": "KNOWN_FAMILY_COMPARATOR_NOT_REIMPLEMENTED_HERE"
+    },
+    {
+      "id": "GP01-T1",
+      "status": "BLOCKED_AT_NULLS_SEPARATRICES_AND_ROUTE_CHOICE"
+    },
+    {
+      "id": "GP01-T2",
+      "status": "BLOCKED_AT_NULLS_SEPARATRICES_AND_ROUTE_CHOICE"
+    },
+    {
+      "id": "GP01-ELLIPTIC",
+      "status": "PASS_TARGET_FREE_FULL3D_STATIC_MECHANICS"
+    },
+    {
+      "id": "GP01-TELEGRAPH",
+      "status": "PARTIAL_TARGET_FREE_DYNAMICS_INSTANTANEOUS_SOURCE_REMAINS"
+    },
+    {
+      "id": "GP01-ACTION-PLACEHOLDER",
+      "status": "INCOMPLETE_QUARANTINE"
+    }
+  ],
+  "claim_boundary": {
+    "does_not_establish": [
+      "causal source completion",
+      "covariant action health",
+      "physical capture",
+      "lensing or redshift closure",
+      "observational preference",
+      "novelty"
+    ],
+    "establishes": [
+      "target-free conservative full-3D GP01 elliptic mechanics",
+      "bounded preferred-slice telegraph damping and persistence controls"
+    ]
+  },
+  "content_sha256": "c17118ca901599456d4b46b3d35345b523f13f55cf689586a888e1a71488c9de",
+  "package_id": "open-gravity-gp01-full3d-dynamics-v1",
+  "remaining_blockers": [
+    "Gamma_target still depends on an instantaneous Poisson baryonic field, so the package is not a causal source completion",
+    "T1 and T2 lack a unique invariant route through generic 3-D nulls, saddles, separatrices, and multiple anchors",
+    "the telegraph test is a preferred-slice bounded PDE control, not a covariant common-cone proof",
+    "the action target remains singular or nonanalytic at high field for every n cell",
+    "matter, photon, clock, lensing, radiation, Solar, pulsar, and cosmological closures remain unproved"
+  ],
+  "schema": "invariant-open-gravity-gp01-full3d-dynamics-receipt-1.0",
+  "status": "PASS_FULL3D_ELLIPTIC_PARTIAL_TELEGRAPH_TARGET_FREE_ONLY",
+  "target_free_suite": {
+    "failed": 0,
+    "gates": {
+      "ACTION_SINGULARITIES_RETAINED": {
+        "metrics": {
+          "1": "V_POWER_DIVERGENCE_AND_VPRIME_DIVERGENCE",
+          "2": "V_LOG_DIVERGENCE_AND_VPRIME_DIVERGENCE",
+          "4": "V_FINITE_BUT_VPRIME_DIVERGENT_NONANALYTIC"
+        },
+        "passed": true
+      },
+      "COEFFICIENT_ELLIPTICITY": {
+        "metrics": {
+          "coefficient_minimum": 0.887344393801584,
+          "declared_lower_bound": 0.22313016014842982
+        },
+        "passed": true
+      },
+      "ELLIPTIC_MANUFACTURED": {
+        "metrics": {
+          "maximum_solution_error": 6.106226635438361e-16,
+          "relative_residual": 2.4424906541753444e-15
+        },
+        "passed": true
+      },
+      "ELLIPTIC_MAXIMUM_PRINCIPLE": {
+        "metrics": {
+          "maximum": 0.11952210393262284,
+          "minimum": 0.0
+        },
+        "passed": true
+      },
+      "EXTERNAL_FIELD_SENSITIVITY": {
+        "metrics": {
+          "maximum_target_difference": 0.8400345704860612
+        },
+        "passed": true
+      },
+      "LOCAL_L_ZERO_LIMIT": {
+        "metrics": {
+          "maximum_error": 0.0
+        },
+        "passed": true
+      },
+      "NONSYMMETRIC_CONSERVATIVE_CURL": {
+        "metrics": {
+          "maximum_interior_curl": 2.7465400791133423e-15
+        },
+        "passed": true
+      },
+      "ROTATION_COVARIANCE": {
+        "metrics": {
+          "gamma_relative_error": 7.379899297385839e-11,
+          "potential_relative_error": 1.0776849193739166e-12
+        },
+        "passed": true
+      },
+      "SADDLE_EXACT_NULL_TARGET": {
+        "metrics": {
+          "central_field_magnitude": 1.0741085019148346e-14,
+          "central_target": 1.49999999853955
+        },
+        "passed": true
+      },
+      "SPATIAL_KERNEL_PDE_IDENTITY": {
+        "metrics": {
+          "finite_box_convolution_claimed": false,
+          "maximum_operator_residual": 1.7763568394002505e-15
+        },
+        "passed": true
+      },
+      "TELEGRAPH_ENERGY_DECAY": {
+        "metrics": {
+          "final_energy": 0.00019433428127487172,
+          "final_velocity_norm": 0.4807630479730714,
+          "initial_energy": 0.003089017427521412,
+          "largest_step_increase": 1.3232052922546728e-08
+        },
+        "passed": true
+      },
+      "TELEGRAPH_NECESSARY_SPEED": {
+        "metrics": {
+          "c_gamma_over_c": 0.5,
+          "common_cone_proved": false
+        },
+        "passed": true
+      },
+      "TELEGRAPH_TEMPORAL_PERSISTENCE": {
+        "metrics": {
+          "instantaneous_elliptic_zero_target_maximum": 0.0,
+          "post_source_state_maximum": 0.031102554905385577
+        },
+        "passed": true
+      },
+      "TRANSPORT_OBSTRUCTIONS_RETAINED": {
+        "metrics": {
+          "blocked_branches": 2,
+          "promoted_branches": 0
+        },
+        "passed": true
+      },
+      "ZERO_RESPONSE_ACCESS": {
+        "metrics": {
+          "model_calls": 0,
+          "network_calls": 0,
+          "paid_calls": 0,
+          "scientific_response_files": 0,
+          "scientific_rows": 0,
+          "scientific_source_files": 0,
+          "scores": 0
+        },
+        "passed": true
+      }
+    },
+    "grid_nodes": 13,
+    "instantaneous_baryonic_source_remains": true,
+    "parameter_cells": 9,
+    "passed": 15
+  }
+}
