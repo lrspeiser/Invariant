@@ -1,0 +1,316 @@
+{
+  "schema": "invariant-open-gravity-3d-source-geometry-contract-1.0",
+  "contract_id": "open-gravity-3d-source-geometry-v1",
+  "status": "FROZEN_METADATA_ONLY_ZERO_RESPONSE_ACCESS",
+  "purpose": "Freeze the common source, geometry, uncertainty, boundary, numerical, and dimensionality vocabulary required before any registered mechanism may be promoted from a radial or spherical proxy to an honest full three-dimensional test.",
+  "authority_boundary": {
+    "theory_registration_authority": false,
+    "scientific_response_access_authorized": false,
+    "campaign_execution_authorized": false,
+    "candidate_selection_authorized": false,
+    "source_ready_is_not_data_eligible": true,
+    "metadata_only": true,
+    "allowed_reads": [
+      "the canonical configuration and implementation files of this package",
+      "the committed metadata-only source-availability contract",
+      "the registered mechanism catalog reconstructed by that contract"
+    ],
+    "forbidden_reads": [
+      "rotation-curve response values",
+      "cluster pressure or temperature response values",
+      "lensing or inferred-total-mass products",
+      "confirmation, independent, group, or environment response rows"
+    ]
+  },
+  "predecessor_bindings": [
+    {
+      "role": "REGISTRY",
+      "commit": "74cf64129787163cbead8dccb243fa4faf86fbe1",
+      "artifacts": [
+        {"path": "configs/open_gravity_registry_foundation_v1.json", "sha256": "4b65e4dc919d51462ca78e47c9b1314aa2ac3cf5b8c158b2cc19d758a4214e0d"},
+        {"path": "runs/gravity/open-gravity-registry-foundation-v1/receipt.json", "sha256": "58ae29ad74b982af91c63c4c444af30d8528421cb2e0315dfa2501456ab9c23a"}
+      ]
+    },
+    {
+      "role": "SOURCE_AVAILABILITY_V2",
+      "commit": "d60801ec15884532882e9fee591cf763a99a18f6",
+      "artifacts": [
+        {"path": "configs/open_gravity_source_availability_contract_v2.json", "sha256": "5192fe16d77760907c0be24358f95b8ac1be3fb2f37c7520bcfadb76a91f4543"},
+        {"path": "src/sigma_theory_compiler/open_gravity_source_availability_contract_v2.py", "sha256": "73cc4ed43d1f52f70802dfd1ab2841a4879c39e49f9055ef41db841495be642d"},
+        {"path": "tests/test_open_gravity_source_availability_contract_v2.py", "sha256": "902d9ddf737f1f0831c85bb0e8fbf3fc257066f93520340263414bc75490aca5"},
+        {"path": "runs/gravity/open-gravity-source-availability-contract-v2.json", "sha256": "e865d726f6c1ce9bf2aee1106682628afad208addc3ffc221c8265dc45ea568b"}
+      ]
+    },
+    {
+      "role": "TWELL_400_FINAL",
+      "commit": "c7fe76fb34fb00c62286394c6a1903ae0722efd0",
+      "artifacts": [
+        {"path": "configs/twell_400_v2_typed_compiler_final_v3.json", "sha256": "a4601e556bd4780cb5c61101681d38692554704989f0b5af736867c772f10eae"},
+        {"path": "runs/gravity/twell-400-v2-typed-compiler-final-v3/cards.jsonl", "sha256": "4bd70177bf6f8aabbbf2d106f002575f9c1850cfffb45ca9103165da29b9b44f"},
+        {"path": "runs/gravity/twell-400-v2-typed-compiler-final-v3/receipt.json", "sha256": "02041cc8fc32eca375d8ea33676e90ccb317880b2666764060f33ea5867ffd34"}
+      ]
+    },
+    {
+      "role": "GP01_FOUNDATION",
+      "commit": "35f70938f158c81971b2e1b838371b09d9fcee2c",
+      "artifacts": [
+        {"path": "configs/gravity_gain_persistence_gp01_foundation_v1.json", "sha256": "b94d95bafa30a2ae7f0df03565893adf396a5927e0ef60f941a52305300ce3f4"},
+        {"path": "runs/gravity/theory/gain-persistence-gp01-foundation-v1.json", "sha256": "3278ae378808316734207ac7e8649e6040d6cdb64f4ad028a3cc5cc91c3f2579"}
+      ]
+    },
+    {
+      "role": "STATIC_RADIAL_ADAPTER",
+      "commit": "440ff1fb6d3c2bb586f66466ba6c9fe4c97d3817",
+      "artifacts": [
+        {"path": "configs/open_gravity_static_radial_adapter_v1.json", "sha256": "41402c50951bef27f6c498694aa0f99f5520f19a9148662f546c246a24d8d916"},
+        {"path": "runs/gravity/open-gravity-static-radial-adapter-v1/receipt.json", "sha256": "8238b9fe605d14f3fe637c82068a17463634579d3cf396c7ce09bb2642ebb931"}
+      ]
+    },
+    {
+      "role": "RADIAL_CAMPAIGN_COUNTEREVIDENCE",
+      "commit": "8746bcbba29ad7b6e1ef46672d6e171e9fbaa589",
+      "artifacts": [
+        {"path": "runs/gravity/open-gravity-campaign-v1-successor/postrun-adjudication.json", "sha256": "d2432f3e64b1cfc68dc075425a894c3cfd2e3b00491999add02c6a2e7c9bba1d"}
+      ],
+      "meaning": "The completed radial campaign had zero cross-scale survivors. This is retained as counterevidence and is not reinterpreted as a full-3D test."
+    }
+  ],
+  "coordinate_and_unit_contract": {
+    "spatial_chart": "right-handed Cartesian source coordinates (x,y,z) with object-centred origin",
+    "radial_coordinate": "r=sqrt(x^2+y^2+z^2)",
+    "time_coordinate": "declared separately for dynamical branches; static branches must not smuggle time into a spatial proxy",
+    "length_unit": "metre internally with explicit astronomical conversion metadata",
+    "mass_unit": "kilogram internally",
+    "time_unit": "second internally",
+    "potential_unit": "m^2 s^-2",
+    "acceleration_unit": "m s^-2",
+    "density_unit": "kg m^-3",
+    "surface_density_unit": "kg m^-2",
+    "tidal_tensor_unit": "s^-2",
+    "dimensionless_fields": ["clock gain", "permittivity", "screening", "phase", "slip"],
+    "relativistic_metric_signature": "(-,+,+,+)",
+    "frame_rule": "matter, photons, clocks, and tensor waves must name their metric or effective operator; no implicit frame switching"
+  },
+  "source_field_contract": {
+    "required_primitive_fields": [
+      "rho_b(x,y,z) split into stellar, gas, compact-object, and optional plasma components",
+      "source mask and selection function",
+      "distance, orientation, and coordinate transform",
+      "spatial support and resolution model"
+    ],
+    "derived_source_only_fields": [
+      "Phi_b from an independently specified source equation",
+      "g_b=-grad(Phi_b)",
+      "H_ij=partial_i partial_j Phi_b",
+      "tidal trace-free tensor E_ij=H_ij-delta_ij trace(H)/3",
+      "local density, enclosed mass where symmetry permits, source compactness, and source-only environmental invariants"
+    ],
+    "forbidden_source_leakage": [
+      "observed orbital or rotation velocity",
+      "cluster pressure or temperature response",
+      "hydrostatic or lensing inferred total mass",
+      "fitted residuals, comparator losses, labels, or survivor status"
+    ],
+    "deprojection_rule": "No unique rho_b(x,y,z) may be inferred from a one-dimensional radial curve or a two-dimensional image without a frozen family, nuisance prior, and uncertainty propagation.",
+    "external_environment_rule": "External acceleration, tidal tensor, neighbour density, filament direction, and boundary field are separate source inputs, never fitted from the same response being predicted."
+  },
+  "geometry_and_observation_contract": {
+    "geometry_classes": [
+      "RADIAL_SOURCE_CURVE_ONLY",
+      "SPHERICAL_1D",
+      "AXISYMMETRIC_2D",
+      "PROJECTED_2D",
+      "FULL_CARTESIAN_3D",
+      "SPACETIME_3D_PLUS_TIME"
+    ],
+    "projection_requirements": [
+      "point-spread function or beam",
+      "pixel or radial-bin window",
+      "line-of-sight integration kernel",
+      "inclination and position angle",
+      "distance scaling",
+      "mask and completeness",
+      "observable-specific forward model"
+    ],
+    "uncertainty_requirements": [
+      "distance covariance",
+      "inclination and orientation covariance",
+      "mass-to-light and stellar-population nuisance",
+      "gas conversion and calibration nuisance",
+      "deprojection family uncertainty",
+      "source-map covariance or posterior draws",
+      "shared calibration covariance across objects when applicable"
+    ],
+    "response_separation": "Source reconstruction, forward prediction, and response scoring must be separate artifacts with one-way provenance."
+  },
+  "boundary_and_initial_condition_contract": {
+    "inner": ["regularity at resolved centres", "explicit compact-source treatment", "no hidden singular clipping"],
+    "outer": ["isolated asymptotic condition", "finite-box multipole condition", "or measured external field with uncertainty"],
+    "interfaces": ["field continuity", "flux jump from declared surface sources", "material-interface conditions for medium models"],
+    "periodic": "allowed only for declared cosmological boxes and never substituted for isolated galaxies or clusters",
+    "initial_data": "required for every hyperbolic, retarded, memory, feedback, stochastic, carrier, or wave branch",
+    "gauge_and_constraints": "relativistic or gauge-field branches must declare gauge, constraints, and constraint-preserving boundary treatment"
+  },
+  "numerical_contract": {
+    "representations": ["finite volume", "finite difference", "finite element", "spectral", "particle-mesh"],
+    "minimum_checks": [
+      "manufactured-solution residual",
+      "at least three resolutions with observed convergence order",
+      "flux or Gauss-law balance",
+      "boundary residual",
+      "translation and rotation covariance",
+      "unit-rescaling covariance",
+      "symmetry-reduction regression to analytic spherical or axisymmetric limits",
+      "multipole far-field regression",
+      "independent implementation comparison for promoted comparators"
+    ],
+    "failure_policy": "Every nonconvergence, constraint violation, negative-energy mode, nonfinite value, branch ambiguity, and boundary sensitivity is retained as a counterexample.",
+    "parameter_policy": "No object-by-object retuning; common constants, preregistered nuisance distributions, and explicit indifference bands only."
+  },
+  "synthetic_fixture_contract": [
+    {"id": "S3D01_POINT", "shape": "softened point source", "purpose": "far-field and singular-limit checks"},
+    {"id": "S3D02_SPHERE", "shape": "uniform and cored spheres", "purpose": "analytic spherical regression"},
+    {"id": "S3D03_SHELL", "shape": "thin and thick shells", "purpose": "interior field and jump conditions"},
+    {"id": "S3D04_DISK", "shape": "thin and thick exponential disks", "purpose": "nonspherical curl and deprojection checks"},
+    {"id": "S3D05_BAR", "shape": "barred disk", "purpose": "azimuthal force and pattern asymmetry"},
+    {"id": "S3D06_TRIAXIAL", "shape": "triaxial ellipsoid", "purpose": "orientation and tensor response"},
+    {"id": "S3D07_PAIR", "shape": "two-source system", "purpose": "superposition, nonlinearity, and saddle"},
+    {"id": "S3D08_SATELLITE", "shape": "satellite in external field", "purpose": "external-field discrimination"},
+    {"id": "S3D09_FILAMENT", "shape": "finite filament plus halo environment", "purpose": "path and environment dependence"},
+    {"id": "S3D10_CLUSTER", "shape": "triaxial multi-component cluster", "purpose": "galaxy-to-cluster transfer"},
+    {"id": "S3D11_MERGER", "shape": "offset gas, stars, and compact components", "purpose": "time dependence and component separation"},
+    {"id": "S3D12_VOID", "shape": "compensated underdensity", "purpose": "sign, boundary, and cosmological limit"},
+    {"id": "S3D13_WAVE", "shape": "compact pulse and plane wave", "purpose": "characteristics, dispersion, and radiation"},
+    {"id": "S3D14_LENS", "shape": "multi-plane lens and null rays", "purpose": "photon closure without assuming Psi=Phi"},
+    {"id": "S3D15_CLOCK", "shape": "clock network across static and changing sources", "purpose": "local versus accumulated redshift"}
+  ],
+  "eligibility_vocabulary": [
+    "FULL_3D_SOURCE_READY",
+    "PROJECTED_SOURCE_READY_REQUIRES_FORWARD_PROJECTION",
+    "AXISYMMETRIC_ONLY",
+    "SPHERICAL_ONLY",
+    "SOURCE_BLOCKED_MISSING_DRIVER",
+    "SOURCE_BLOCKED_MISSING_DEPTH",
+    "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+    "SOURCE_BLOCKED_MISSING_HISTORY",
+    "THEORY_ONLY",
+    "INCOMPLETE_QUARANTINE"
+  ],
+  "mechanism_requirement_contract": {
+    "default_static_architectures": ["A01_LAPSE", "A02_CLOCK", "A03_CONFORMAL", "A05_SLIP", "A07_BOUNDARY", "A08_PERMITTIVITY", "A09_ENTROPIC", "A10_DENSITY_SCREEN", "A11_DERIV_SCREEN", "A12_MASSIVE", "A14_PHASE"],
+    "full_3d_operator_architectures": ["A06_SPATIAL_KERNEL"],
+    "spacetime_closure_architectures": ["A04_DISFORMAL", "A13_MIXED_MODE"],
+    "history_architectures": ["A15_RETARDED", "A16_MEMORY", "A17_RESONANCE", "A19_FEEDBACK"],
+    "stochastic_architectures": ["A18_STOCHASTIC"],
+    "environment_drivers": ["D12_ENV"],
+    "history_drivers": ["D17_AGE", "D18_RELAX", "D19_COH", "D20_EPOCH"],
+    "gp01": {
+      "GP01-L": "FULL_3D_LOCAL_SCALAR_SOURCE",
+      "GP01-AQUAL": "FULL_3D_NONLINEAR_ELLIPTIC_BVP",
+      "GP01-T1": "FULL_3D_VECTOR_TOPOLOGY_AND_ANCHORS",
+      "GP01-T2": "FULL_3D_VECTOR_TOPOLOGY_AND_ANCHORS",
+      "GP01-ELLIPTIC": "FULL_3D_COUPLED_ELLIPTIC_BVP",
+      "GP01-TELEGRAPH": "SPACETIME_SOURCE_HISTORY_AND_INITIAL_DATA",
+      "GP01-ACTION_PLACEHOLDER": "INCOMPLETE_ACTION_QUARANTINE"
+    },
+    "ontology": "QG01-QG13 remain THEORY_ONLY until each is expanded into a typed executable card with field content, state space, equations or operator, source coupling, observable closure, units, limits, and falsification tests."
+  },
+  "current_object_source_contract": {
+    "SPARC": {
+      "objects": 139,
+      "maximum_honest_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+      "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+      "missing_inputs": [
+        "source-side stellar surface-brightness maps",
+        "resolved atomic and molecular gas maps",
+        "vertical thickness or a frozen deprojection family",
+        "distance, inclination, orientation, and mass-to-light covariance",
+        "external acceleration vector and tidal/environment map"
+      ]
+    },
+    "XCOP": {
+      "objects": 8,
+      "maximum_honest_geometry": "SPHERICAL_1D",
+      "full_3d_status": "SPHERICAL_ONLY",
+      "stellar_profile_split": {"available": 5, "missing": 3},
+      "missing_inputs": [
+        "two- or three-dimensional gas-density reconstruction and covariance",
+        "two-dimensional stellar, intracluster-light, and member-galaxy baryon maps",
+        "triaxial geometry and orientation posterior",
+        "external environment and boundary field"
+      ],
+      "forbidden_substitutes": ["hydrostatic total mass", "lensing mass", "pressure or temperature as source fields"]
+    }
+  },
+  "dimensionality_matrix_contract": {
+    "mechanisms": 420,
+    "objects": 147,
+    "expected_rows": 61740,
+    "ordering": "mechanism catalog order, then SPARC object order, then XCOP object order",
+    "row_fields": [
+      "mechanism_id",
+      "mechanism_family",
+      "discovery_lane",
+      "architecture",
+      "drivers",
+      "domain",
+      "object_id",
+      "current_source_dimensionality",
+      "mechanism_geometry_requirement",
+      "current_disposition",
+      "missing_inputs",
+      "source_contract_sha256",
+      "data_eligible",
+      "scored"
+    ],
+    "data_eligible": false,
+    "scored": false
+  },
+  "theory_expansion_queue": [
+    "independent Newton/GR Poisson and weak-field metric baselines",
+    "independent AQUAL and QUMOND nonlinear solvers with external-field effect",
+    "NFW, Einasto, baryon-plus-halo, Refracted Gravity, EMOND, MOG/STVG, and nonlocal comparators",
+    "GP01 local, AQUAL, elliptic, transport, kernel, telegraph, and action branches",
+    "principal symbol, constrained degrees of freedom, Hamiltonian boundedness, conservation, hyperbolicity, causality, radiation, strong-coupling, and EFT cutoff gates",
+    "matter, photon, clock, redshift, capture, gravitational-wave, Solar, pulsar, and cosmological closures",
+    "synthetic fixtures before any new response campaign"
+  ],
+  "anti_loop_rules": [
+    "Do not generate more object-wise multipliers of the failed radial family unless a new field equation or falsifiable observable closure changes its equivalence class.",
+    "Do not call a 1-D or spherical proxy a full 3-D test.",
+    "Do not force wave, history, quantum, stochastic, carrier, medium, discrete, emergent, or wildcard ideas into a rotation-curve-only score.",
+    "Do not fit the response into the source map.",
+    "Do not open a new real-data campaign until its theory, source, geometry, boundary, and synthetic gates pass."
+  ],
+  "claim_boundary": {
+    "establishes": [
+      "a common 3-D source and geometry contract",
+      "a deterministic metadata-only mechanism-by-object dimensionality disposition",
+      "an exact inventory of missing source inputs"
+    ],
+    "does_not_establish": [
+      "any full 3-D source reconstruction",
+      "any 3-D field solver",
+      "any theory health or observational pass",
+      "any response score, survivor, novelty, or publication claim"
+    ]
+  },
+  "output_path": "runs/gravity/open-gravity-3d-source-geometry-contract-v1/receipt.json",
+  "section_sha256": {
+    "anti_loop_rules": "e57b2a90cd8c42a0f81b1b5697900fd08b24cec59ed64e4dc2134570d4289474",
+    "authority_boundary": "f26b9140b5185ecfcc11b2d6ba284c8b5608412140c21da99346afcdb2d1e1c6",
+    "boundary_and_initial_condition_contract": "1f63b66d4d86452a47ec2dd78e005839ca4d073462e7f3bb1098d57d140bf244",
+    "claim_boundary": "1fdfda5e284726f242ea9895f69d7545e6d6c583c2a810210f2a9241f4b76156",
+    "coordinate_and_unit_contract": "ed48698171fd5f9c5f5db07aae647e9b4219f975b58feaf7643846562c74f068",
+    "current_object_source_contract": "a1c226b5a0939adc6a61df8aa948134324548066d1adbd74dbf98f0d77af7f28",
+    "dimensionality_matrix_contract": "9475c244a65cd1569024144534028491cb798eb2e4ced90ad1d9a4475f226a0a",
+    "eligibility_vocabulary": "8653ad9a9d978307da404fd99d22176b47f904b736092f87336b2b0f371a5a20",
+    "geometry_and_observation_contract": "1d30fe9ea5185b571daf820fdc58ca119a6c8ca5635d59b7dd183223e9169f00",
+    "mechanism_requirement_contract": "1a980e91e3dcd52bee119295c8d897cdf8f93751a022472a1a9f41f060126ef5",
+    "numerical_contract": "ebd391d27210ac77f86d71e37af341fe67290e41cfc92bdb06efe158bb6f2b74",
+    "predecessor_bindings": "54ad6c2b75b6104dccd0bcf6b5e1ca7a04993fb17dc28a45f88c7270378855ff",
+    "source_field_contract": "26d4c7e6123ff013d39b03a95a87c137df9796fbf5bbdff73f9d92782c3c259f",
+    "synthetic_fixture_contract": "682de07fe79ffb7097639f846f59bd48aa52e74ee638f562746acb58782c297c",
+    "theory_expansion_queue": "b25726387002705769ed6ae14f95eef2df4859777b6eb3d9eee5836bbad9f858"
+  }
+}
