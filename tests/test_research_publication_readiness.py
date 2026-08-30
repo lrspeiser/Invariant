@@ -41,8 +41,8 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
     assert receipt["readiness"]["independent_cluster_data"]["ready"] is False
     assert receipt["readiness"]["observational_authorization"] is False
     assert receipt["readiness"]["independent_target_rows_opened"] == 0
-    assert receipt["counts"]["completed_tasks"] == 60
-    assert receipt["counts"]["open_tasks"] == 62
+    assert receipt["counts"]["completed_tasks"] == 61
+    assert receipt["counts"]["open_tasks"] == 61
     cp3 = next(gate for gate in receipt["gate_ledger"] if gate["gate_id"] == "CP3")
     assert cp3["completed_task_ids"] == [
         "CP3.1",
@@ -66,6 +66,10 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
         "CP12.8",
         "CP12.9",
     ]
+    cp11 = next(gate for gate in receipt["gate_ledger"] if gate["gate_id"] == "CP11")
+    assert cp11["status"] == "PARTIAL"
+    assert cp11["completed_task_ids"] == ["CP11.3"]
+    assert "CP11.3" not in cp11["open_task_ids"]
 
 
 def test_adjacent_domain_failure_does_not_veto_a_complete_bounded_claim() -> None:
@@ -301,6 +305,11 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             lambda value: value["adjudication"].__setitem__("ADM_constraints_derived", True),
             "covariant field-equation",
         ),
+        (
+            "matter_lensing_adm_constraint_propagation",
+            lambda value: value["adjudication"].__setitem__("full_H2", True),
+            "ADM constraint-propagation",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -321,13 +330,13 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "claim_tracks": 3,
         "gates": 13,
         "tasks": 122,
-        "completed_tasks": 60,
-        "open_tasks": 62,
+        "completed_tasks": 61,
+        "open_tasks": 61,
         "pass_gates": 4,
-        "partial_gates": 5,
-        "blocked_gates": 1,
+        "partial_gates": 6,
+        "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 43,
+        "bound_evidence_receipts": 44,
         "independent_target_rows_opened": 0,
     }
 

@@ -687,6 +687,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["covariant_scalar_stress_and_exchange_established"],
             f"full H2={theory['covariant_full_H2']}; ADM constraints={theory['covariant_ADM_constraints_derived']}",
         ),
+        (
+            "matter_lensing_adm_constraints",
+            "CP11_3_complete",
+            theory["CP11_3_complete"],
+            f"standard ADM representative only={theory['standard_adm_representative_only']}; full-system hyperbolicity={theory['full_metric_scalar_matter_system_strongly_hyperbolic']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

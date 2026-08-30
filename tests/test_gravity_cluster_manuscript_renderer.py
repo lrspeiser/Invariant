@@ -144,6 +144,10 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         for row in table_5[1:]
     )
     assert any(
+        row[:3] == ["matter_lensing_adm_constraints", "CP11_3_complete", "true"]
+        for row in table_5[1:]
+    )
+    assert any(
         row[:3]
         == [
             "matter_lensing_kinetic_gate",
@@ -251,6 +255,27 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         == [
             "matter_lensing_theory_boundary",
             "covariant_ADM_constraints_derived",
+            "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row == ["matter_lensing_theory_boundary", "CP11_3_complete", "true"] for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "full_metric_scalar_matter_system_strongly_hyperbolic",
+            "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "physical_hamiltonian_positive",
             "false",
         ]
         for row in table_6[1:]

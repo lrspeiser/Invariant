@@ -220,6 +220,23 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["covariant_full_H2"] is False
     assert theory["covariant_ADM_constraints_derived"] is False
     assert theory["covariant_metric_backreaction_solved"] is False
+    assert theory["CP11_3_complete"] is True
+    assert theory["energy_momentum_exchange_and_constraint_propagation_established"] is True
+    assert theory["hamiltonian_constraint_derived"] is True
+    assert theory["momentum_constraint_derived"] is True
+    assert theory["constraint_principal_subsystem_symmetric_hyperbolic"] is True
+    assert theory["standard_adm_representative_only"] is True
+    assert theory["adm_full_H2"] is False
+    assert theory["adm_full_H3"] is False
+    assert theory["adm_full_H4"] is False
+    assert theory["full_metric_scalar_matter_system_strongly_hyperbolic"] is False
+    assert theory["physical_hamiltonian_positive"] is False
+    assert theory["constraint_preserving_boundary_conditions_instantiated"] is False
+    assert theory["global_constraint_propagation"] is False
+    assert theory["adm_lensing_prediction"] is False
+    assert theory["adm_observational_support"] is False
+    assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
+    assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -344,6 +361,13 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             "matter_lensing_covariant_field_equations",
             lambda value: value["claim_boundary"].__setitem__("lensing_success_established", True),
             "covariant field-equation",
+        ),
+        (
+            "matter_lensing_adm_constraint_propagation",
+            lambda value: value["claim_boundary"].__setitem__(
+                "full_characteristic_system_established", True
+            ),
+            "ADM constraint-propagation",
         ),
     ],
 )

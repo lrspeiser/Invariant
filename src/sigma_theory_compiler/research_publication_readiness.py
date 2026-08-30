@@ -410,6 +410,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matter_lensing_solar_gw_necessary_conditions",
         "matter_lensing_flrw_necessary_conditions",
         "matter_lensing_covariant_field_equations",
+        "matter_lensing_adm_constraint_propagation",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -488,6 +489,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     solar_gw = evidence["matter_lensing_solar_gw_necessary_conditions"]
     flrw = evidence["matter_lensing_flrw_necessary_conditions"]
     covariant = evidence["matter_lensing_covariant_field_equations"]
+    adm_constraints = evidence["matter_lensing_adm_constraint_propagation"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -1570,6 +1572,98 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or any(value != 0 for value in covariant["zero_access_and_compute"].values())
     ):
         raise ResearchPublicationReadinessError("covariant field-equation evidence changed")
+    if (
+        adm_constraints["status"]
+        != "adm_constraint_propagation_derived_conditional_on_scalar_matter_equations_and_standard_trace_reversed_evolution"
+        or adm_constraints["decision"]
+        != "CP11_3_COMPLETED_CONDITIONAL_ADM_CONSTRAINT_PROPAGATION_DERIVED_OTHER_THEORY_AND_PHYSICS_GATES_BLOCKED"
+        or adm_constraints["config_binding"]
+        != {
+            "content_sha256": "33f8a84977417af3018ae491382d2b13208758484f5092409c50fa6ef800cf35",
+            "file_sha256": "5fdfb1ebdcd4fb513668ad67ac6c7fed3de42698e73ab831830224537d8d8661",
+            "path": "configs/gravity_matter_lensing_adm_constraint_propagation_v1.json",
+        }
+        or adm_constraints["implementation_binding"]
+        != {
+            "source_file_sha256": "2784eeec6e0e211cb545e1519e623efa77b52add42131af97223f58217139a4c",
+            "source_path": "src/sigma_theory_compiler/gravity_matter_lensing_adm_constraint_propagation.py",
+            "test_file_sha256": "8e0c13d66dcd331b34650766963590ecd0056554c8e3a06d349fa3ae03a9c8f8",
+            "test_path": "tests/test_gravity_matter_lensing_adm_constraint_propagation.py",
+        }
+        or adm_constraints["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 3,
+            "numeric_cases_passed": 3,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "symbolic_checks": 18,
+            "symbolic_checks_passed": 18,
+        }
+        or adm_constraints["adjudication"]
+        != {
+            "CP11_3_complete": True,
+            "constraint_preserving_boundary_conditions_instantiated": False,
+            "constraint_principal_subsystem_symmetric_hyperbolic": True,
+            "constraint_propagation_system_derived": True,
+            "einstein_hilbert_boundary_variation_machine_verified": False,
+            "full_H2": False,
+            "full_H3": False,
+            "full_H4": False,
+            "full_metric_scalar_matter_system_strongly_hyperbolic": False,
+            "global_constraint_propagation": False,
+            "hamiltonian_constraint_derived": True,
+            "healthy_action": False,
+            "lensing_prediction": False,
+            "momentum_constraint_derived": True,
+            "novelty_established": False,
+            "observational_support": False,
+            "on_shell_physical_background": False,
+            "overall_decision": "CP11_3_COMPLETED_CONDITIONAL_ADM_CONSTRAINT_PROPAGATION_DERIVED_OTHER_THEORY_AND_PHYSICS_GATES_BLOCKED",
+            "physical_hamiltonian_positive": False,
+            "same_action_exchange_identity_inherited_and_rechecked": True,
+            "standard_adm_evolution_representative_derived": True,
+        }
+        or adm_constraints["claim_boundary"]
+        != {
+            "CP11_3_complete": True,
+            "GW_viability_established": False,
+            "Solar_viability_established": False,
+            "closed_healthy_theory_established": False,
+            "constraint_preserving_boundary_problem_solved": False,
+            "cosmology_established": False,
+            "energy_momentum_exchange_and_constraint_propagation_established": True,
+            "full_H2_established": False,
+            "full_characteristic_system_established": False,
+            "global_well_posedness_established": False,
+            "motion_and_lensing_jointly_predicted": False,
+            "novelty_established": False,
+            "observational_support": False,
+            "on_shell_solution_established": False,
+            "physical_hamiltonian_positivity_established": False,
+            "publication_readiness_changed": False,
+            "scientific_observational_claim_allowed": False,
+            "standard_adm_representative_only": True,
+        }
+        or adm_constraints["zero_access_and_compute"]
+        != {
+            "GPU_calls": 0,
+            "LLM_calls": 0,
+            "confirmation_rows_opened": 0,
+            "holdout_rows_opened": 0,
+            "independent_rows_opened": 0,
+            "lensing_rows_opened": 0,
+            "network_calls": 0,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "paid_calls": 0,
+            "predictor_rows_opened": 0,
+            "response_rows_opened": 0,
+        }
+    ):
+        raise ResearchPublicationReadinessError("ADM constraint-propagation evidence changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True

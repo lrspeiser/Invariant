@@ -655,14 +655,19 @@ GR, lensing, cosmology, and publication claim remains false.
 
 The covariant field-equation successor closes one narrower bookkeeping gap: direct local
 inverse-metric variation gives the scalar stress tensor, and its sourced divergence
-cancels the universal conformal matter exchange on shell. This is not CP11.3 completion:
-the independently checked curvature variation, ADM constraints, constraint propagation,
-Hamiltonian health, metric backreaction, and solved universal-metric lensing system are
-still absent. No CP11 checkbox changes.
+cancels the universal conformal matter exchange on shell. By itself it did not complete
+CP11.3. The subsequent ADM successor derives the Hamiltonian and momentum constraints,
+their propagation under the frozen standard trace-reversed ADM representative, and a
+symmetric-hyperbolic local constraint subsystem with normal speeds -1, 0, 0, and +1.
+That completes CP11.3 conditionally on the scalar and universal-matter equations, smooth
+coefficients, suitable initial constraints, and constraint-preserving boundary data.
+It does not establish full H2, physical Hamiltonian positivity, strong hyperbolicity of
+the full metric-scalar-matter system, global well-posedness, a physical background, or
+same-action lensing; those later CP11 gates remain open.
 
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
-- [ ] **CP11.3** Derive energy-momentum conservation and constraint propagation.
+- [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.
 - [ ] **CP11.4** Establish positive energy, no ghosts, no gradient instabilities, and
   hyperbolicity on the declared domain.
 - [ ] **CP11.5** Restore Solar-System and high-acceleration GR limits.
