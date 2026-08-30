@@ -1,0 +1,245 @@
+{
+  "schema_version": "invariant-open-gravity-static-radial-adapter-config-1.0",
+  "adapter_id": "OPEN-GRAVITY-STATIC-RADIAL-ADAPTER-v1",
+  "semantic_version": "1.0.0",
+  "status": "FROZEN_TARGET_BLIND_SOURCE_ONLY_SYNTHETICALLY_VERIFIED",
+  "purpose": "Compile source-only SPARC and spherical X-COP radial drivers and target-blind acceleration factors after source-manifest freeze without opening or scoring any scientific response.",
+  "identity": {
+    "append_only": true,
+    "target_blind": true,
+    "real_adapter_contract": true,
+    "synthetic_execution_in_this_receipt_only": true,
+    "campaign_manifest_authority": false,
+    "scientific_scoring_authority": false
+  },
+  "committed_upstream_bindings": [
+    {
+      "binding_id": "GP01-FOUNDATION-COMMIT",
+      "commit": "35f70938f158c81971b2e1b838371b09d9fcee2c",
+      "files": [
+        {"path": "configs/gravity_gain_persistence_gp01_foundation_v1.json", "sha256": "b94d95bafa30a2ae7f0df03565893adf396a5927e0ef60f941a52305300ce3f4", "role": "CONFIG"},
+        {"path": "src/sigma_theory_compiler/gravity_gain_persistence_gp01_foundation.py", "sha256": "ddfc8d039a794b3a461e987b582c007f0894d7796ff3c1c39296120cebb6374b", "role": "SOURCE"},
+        {"path": "tests/test_gravity_gain_persistence_gp01_foundation.py", "sha256": "0bdec5b0fe6a7862e1a78598912e64651863f753c70f63d8ac6db5b10bd36ed8", "role": "SYNTHETIC_TEST"},
+        {"path": "runs/gravity/theory/gain-persistence-gp01-foundation-v1.json", "sha256": "3278ae378808316734207ac7e8649e6040d6cdb64f4ad028a3cc5cc91c3f2579", "role": "SYNTHETIC_RECEIPT_HASH_ONLY"}
+      ]
+    },
+    {
+      "binding_id": "GP01-XCOP-SOURCE-PREFLIGHT-COMMIT",
+      "commit": "ed2988546fb1165d9efe5e62d52cddebc7b1a79d",
+      "files": [
+        {"path": "configs/gravity_gain_persistence_gp01_xcop_source_preflight_v1.json", "sha256": "4ac4bd034cfd6339dd8bdcb6fd946af06b254da77c2a9eeba682ea0fac50e40d", "role": "CONFIG"},
+        {"path": "src/sigma_theory_compiler/gravity_gain_persistence_gp01_xcop_source_preflight.py", "sha256": "22e96775bc64b5cfc0c5eb8aa829be3ff0a9dcbe4f9484725e0e182869a53c61", "role": "SOURCE"},
+        {"path": "tests/test_gravity_gain_persistence_gp01_xcop_source_preflight.py", "sha256": "e810a1384933d0fa9250b38fc6d32f6744c7c7b00ca7dacf094b96b1c9dcf350", "role": "SOURCE_ONLY_TEST"},
+        {"path": "runs/gravity/theory/gain-persistence-gp01-xcop-source-preflight-v1.json", "sha256": "3d4d83980d1e1cec45ca5a6353ee827370f33940f5cbe1d9510f83e0cc44de34", "role": "SOURCE_ONLY_RECEIPT_HASH_ONLY"}
+      ]
+    }
+  ],
+  "access_contract": {
+    "allowed_inputs": [
+      "THIS_CONFIG_SOURCE_TEST_AND_SYNTHETIC_RECEIPT",
+      "HASH_VERIFICATION_BYTES_FOR_COMMITTED_UPSTREAM_BINDINGS",
+      "IN_MEMORY_SOURCE_ONLY_PHYSICAL_ARRAYS_SUPPLIED_AFTER_MANIFEST_FREEZE",
+      "ANALYTIC_SYNTHETIC_SOURCE_FIXTURES"
+    ],
+    "forbidden_inputs": [
+      "SPARC_VOBS_OR_ANY_MOTION_RESPONSE",
+      "XCOP_PRESSURE_OR_TEMPERATURE",
+      "LENSING_OR_INFERRED_TOTAL_MASS",
+      "RESPONSE_BEARING_RECEIPTS",
+      "RESIDUALS_RANKINGS_SCORES_OR_LIKELIHOODS",
+      "CONFIRMATION_OR_INDEPENDENT_RESPONSES"
+    ],
+    "loader_surface": "NONE_ARRAYS_ONLY",
+    "zero_access": {
+      "observational_files_opened": 0,
+      "response_bearing_receipts_opened": 0,
+      "motion_response_rows_opened": 0,
+      "pressure_rows_opened": 0,
+      "temperature_rows_opened": 0,
+      "lensing_rows_opened": 0,
+      "confirmation_rows_opened": 0,
+      "independent_rows_opened": 0,
+      "scientific_scores_computed": 0,
+      "likelihood_calls": 0,
+      "network_calls": 0,
+      "model_calls": 0,
+      "paid_calls": 0
+    }
+  },
+  "grid_contract": {
+    "coordinate": "xi=r/r_out",
+    "domain": [0.0, 1.0],
+    "primary_points": 257,
+    "convergence_points": 129,
+    "source_interpolation": "piecewise_linear_in_physical_radius_with_regular_origin_rules",
+    "shared_node_rule": "primary[2*i]=convergence[i]",
+    "derivative": "one_sided_at_endpoints_centered_interior",
+    "quadrature": "frozen_trapezoid",
+    "floating_point": "IEEE754_BINARY64"
+  },
+  "driver_contract": {
+    "reference_values_si": {
+      "D01_ACC": 1e-10,
+      "D02_POT": 1e12,
+      "D03_RAD": 3.085677581491367e19,
+      "D04_RHO": 1e-21,
+      "D05_SIG": 1.0,
+      "D06_SLOPE": 1.0,
+      "D07_TIDE": 1e-30,
+      "D13_GASF": 1.0
+    },
+    "normalized_programs": {
+      "D01_ACC": "u=tanh(g_b/(1e-10 m s^-2))",
+      "D02_POT": "u=tanh(abs(Phi_b)/(1e12 m^2 s^-2))",
+      "D03_RAD": "u=tanh(r/(1 kpc))",
+      "D04_RHO": "u=tanh(rho_b/(1e-21 kg m^-3))",
+      "D05_SIG": "u=tanh(Sigma_b/(1 kg m^-2))",
+      "D06_SLOPE": "u=tanh(-d ln(g_b)/d ln(r)) with frozen log derivative and regular origin copy",
+      "D07_TIDE": "u=tanh(T_b/(1e-30 s^-2)); T_b=sqrt(2/3)*abs(4*pi*G*rho_b-3*g_b/r)",
+      "D13_GASF": "u=tanh(M_gas/M_b)"
+    },
+    "sparc": {
+      "available_drivers": ["D01_ACC", "D03_RAD", "D06_SLOPE", "D13_GASF"],
+      "required_source_arrays_si": ["radius_m", "gas_acceleration_m_s2", "stellar_acceleration_m_s2"],
+      "baryonic_acceleration": "g_b=g_gas+g_stellar; component accelerations are source model inputs and never Vobs",
+      "regular_origin": "prepend r=0 and zero component accelerations when absent",
+      "gas_fraction": "f_gas=g_gas/g_b with continuous zero-source value 0",
+      "forbidden_field_names": ["vobs", "observed_velocity", "response", "residual", "score", "likelihood"]
+    },
+    "xcop_spherical": {
+      "available_drivers": ["D01_ACC", "D02_POT", "D03_RAD", "D04_RHO", "D05_SIG", "D06_SLOPE", "D07_TIDE", "D13_GASF"],
+      "required_source_arrays_si": ["radius_m", "gas_density_kg_m3"],
+      "optional_source_array_si": "stellar_enclosed_mass_kg",
+      "missing_stellar_rule": "one shared M_star=0.1*M_gas rule",
+      "gas_mass": "M_gas(r0)=4*pi*rho_gas(r0)*r0^3/3; later observed shells use trapezoid of 4*pi*rho*r^2",
+      "stellar_inner_rule": "M_star(r)=M_star(r0)*(r/r0)^3 below first source radius",
+      "baryonic_acceleration": "g_b=G*M_b(<r)/r^2 with g_b(0)=0",
+      "potential": "abs(Phi_b(r))=integral_r^r_out g_b(s) ds and Phi_b(r_out)=0",
+      "effective_density": "rho_b=(4*pi*r^2)^-1*dM_b/dr clipped at zero; rho_b(0)=3*M_b(r1)/(4*pi*r1^3)",
+      "surface_density": "Sigma_b=M_b/(pi*r^2) with Sigma_b(0)=0; labeled mean enclosed spherical proxy",
+      "source_radius": "R_b is first adapter-grid radius containing at least 90 percent of outer M_b",
+      "reference_rules": "rho_ref and T_ref are medians of finite strictly positive primary-grid values"
+    }
+  },
+  "architecture_programs": [
+    {"id": "A01_LAPSE", "operator": "A=exp(lambda*u)", "parameters": {"lambda": [0.0, 0.25]}},
+    {"id": "A02_CLOCK", "operator": "d_tau/d_t=exp(-lambda*u);A=exp(lambda*u)", "parameters": {"lambda": [0.0, 0.25]}},
+    {"id": "A03_CONFORMAL", "operator": "A=1+lambda*u", "parameters": {"lambda": [0.0, 0.25]}},
+    {"id": "A04_DISFORMAL", "operator": "A=1+lambda*u^2/(1+u^2)", "parameters": {"lambda": [0.0, 0.25]}},
+    {"id": "A05_SLIP", "operator": "A=1+lambda*u/2", "parameters": {"lambda": [0.0, 0.25]}},
+    {"id": "A06_SPATIAL_KERNEL", "operator": "q-ell^2*d2q/dxi2=u;FD Neumann first-difference both ends;A=exp(lambda*q)", "parameters": {"lambda": [0.0, 0.25], "ell": [0.1, 0.25]}},
+    {"id": "A07_BOUNDARY", "operator": "q[N-1]=0;q[i]=q[i+1]+dxi*(u[i]+u[i+1])/2;A=exp(lambda*q)", "parameters": {"lambda": [0.0, 0.25]}},
+    {"id": "A08_PERMITTIVITY", "operator": "epsilon=exp(-lambda*u);A=1/epsilon", "parameters": {"lambda": [0.0, 0.25]}},
+    {"id": "A09_ENTROPIC", "operator": "A=1+lambda*u/(1+abs(u))", "parameters": {"lambda": [0.0, 0.25]}},
+    {"id": "A10_DENSITY_SCREEN", "operator": "S=1/(1+(abs(u)/u_c)^n);A=1+lambda*S", "parameters": {"lambda": [0.0, 0.25], "u_c": [0.25, 0.5], "n": [2]}},
+    {"id": "A11_DERIV_SCREEN", "operator": "s=abs(du/dxi) by frozen derivative;S=1/(1+(s/s_c)^n);A=1+lambda*S", "parameters": {"lambda": [0.0, 0.25], "s_c": [0.5, 1.0], "n": [2]}},
+    {"id": "A12_MASSIVE", "operator": "d2q/dxi2-mu^2*q=-u;FD inner Neumann first difference;outer q=0;A=1+lambda*q", "parameters": {"lambda": [0.0, 0.25], "mu": [1.0, 4.0]}},
+    {"id": "A13_MIXED_MODE", "operator": "q1=u;q2=A06_Neumann_inverse(u);A=1+lambda*(cos(theta)*q1+sin(theta)*q2)", "parameters": {"lambda": [0.0, 0.25], "theta": [0.0, 0.7853981633974483], "ell": [0.25]}},
+    {"id": "A14_PHASE", "operator": "theta(xi)=2*pi*k*xi+phi0;A=1+lambda*u*cos(theta)", "parameters": {"lambda": [0.0, 0.25], "k": [1.0, 2.0], "phi0": [0.0]}},
+    {"id": "A19_FEEDBACK", "operator": "q=tanh(u+kappa*q) from q0=0,128-step maximum,1e-12 tolerance;A=exp(lambda*q)", "parameters": {"lambda": [0.0, 0.25], "kappa": [0.0, 0.5]}}
+  ],
+  "static_real_source_blocks": {
+    "A15_RETARDED": "SOURCE_BLOCKED_STATIC_PROFILE_HAS_NO_RETARDED_SOURCE_HISTORY",
+    "A16_MEMORY": "SOURCE_BLOCKED_STATIC_PROFILE_HAS_NO_TEMPORAL_MEMORY_SOURCE",
+    "A17_RESONANCE": "SOURCE_BLOCKED_STATIC_PROFILE_HAS_NO_ORDERED_PHASE_TIME_SOURCE",
+    "A18_STOCHASTIC": "SOURCE_BLOCKED_STATIC_REAL_ADAPTER_HAS_NO_FROZEN_CAUSAL_NOISE_LEDGER"
+  },
+  "compound_programs": [
+    {"id": "X01", "drivers": ["D01_ACC", "D06_SLOPE"], "architecture": "A02_CLOCK", "operator": "u=clip(u1*(1+u2)/2,-1,1)", "sparc_status": "SOURCE_BLOCKED_NO_HONEST_SPHERICAL_MASS_HISTORY", "xcop_status": "SOURCE_AVAILABLE"},
+    {"id": "X05", "drivers": ["D02_POT", "D06_SLOPE"], "architecture": "A01_LAPSE", "operator": "u=(u1-u2)/2", "sparc_status": "SOURCE_BLOCKED_D02_UNAVAILABLE", "xcop_status": "SOURCE_AVAILABLE"},
+    {"id": "X10", "drivers": ["D01_ACC", "D07_TIDE"], "architecture": "A11_DERIV_SCREEN", "operator": "u=u1/(1+abs(u2))", "sparc_status": "SOURCE_BLOCKED_D07_UNAVAILABLE", "xcop_status": "SOURCE_AVAILABLE"},
+    {"id": "X13", "drivers": ["D02_POT", "D13_GASF"], "architecture": "A08_PERMITTIVITY", "operator": "u=(u1+2*u2)/3", "sparc_status": "SOURCE_BLOCKED_D02_UNAVAILABLE", "xcop_status": "SOURCE_AVAILABLE"},
+    {"id": "X17", "drivers": ["D04_RHO", "D03_RAD"], "architecture": "A12_MASSIVE", "operator": "u=u1/(1+abs(u2))", "sparc_status": "SOURCE_BLOCKED_D04_UNAVAILABLE", "xcop_status": "SOURCE_AVAILABLE"},
+    {"id": "X18", "drivers": ["D01_ACC", "D02_POT"], "architecture": "A13_MIXED_MODE", "operator": "u=(u1+u2)/2", "sparc_status": "SOURCE_BLOCKED_D02_UNAVAILABLE", "xcop_status": "SOURCE_AVAILABLE"}
+  ],
+  "gp01_program": {
+    "a_star_m_s2": 1.2e-10,
+    "n_grid": [1, 2, 4],
+    "A_max_grid": [2.0, 4.0, 8.0],
+    "rho_star_over_reference_grid": [0.1, 1.0, 10.0],
+    "T_star_over_reference_grid": [0.1, 1.0, 10.0],
+    "q_grid": [1, 2],
+    "tide_power_grid": [1, 2],
+    "L_g_over_R_b_grid_including_zero": [0.0, 0.25, 1.0, 4.0],
+    "L_reset_over_R_b_grid": [0.25, 1.0, 4.0],
+    "c_Gamma_over_c_grid": [0.5, 1.0],
+    "exact_cell_count": 1296,
+    "local_gain": "nu_n(y)=(1+y^(-n))^(1/(2*n)) for n in {1,2,4}",
+    "aqual_equation": "nabla dot [mu_n(abs(nabla Phi)/a_star) nabla Phi]=4*pi*G*rho_b; spherical prediction is linked to GP01-L and scored once",
+    "t1_equation": "n^i D_i Gamma=-0.5*W*n^i D_i ln(f)-((1-W)/L_reset)*Gamma with one frozen y=100 anchor",
+    "t2_equation": "n^i D_i Gamma=(Gamma_target-Gamma)/L_g with one frozen y=100 anchor",
+    "environment_gate": "W=[1+(rho_b/rho_star)^q+(T_b/T_star)^tide_power]^-1",
+    "bounded_target": "Gamma_target=W*ln(A_max)*tanh(ln(1+(a_star/g_b)^n)/(2*n*ln(A_max))); exact g_b=0 limit W*ln(A_max)",
+    "elliptic_equation": "(1-L_g^2*(d2/dr2+2/r*d/dr))*Gamma=Gamma_target",
+    "inner_boundary": "Gamma[0]-Gamma[1]=0",
+    "outer_boundary": "Gamma[-1]=0",
+    "coupled_flux": "4*pi*r^2*exp(-Gamma)*g=4*pi*G*M_b(<r), hence g=exp(Gamma)*G*M_b(<r)/r^2",
+    "telegraph_equation": "tau_g^2 D_t^2 Gamma+tau_g D_t Gamma-L_g^2 D^2 Gamma+Gamma=Gamma_target; static source has no history and instantaneous Phi_b source completion remains blocked",
+    "action_placeholder": "exp(-Gamma)*abs(nabla Phi)^2-a_star^2*V_prime(Gamma)-2*a_star^2*tau_g^2*D_t^2 Gamma+2*a_star^2*L_g^2*D^2 Gamma=0; incomplete action and energy ledger quarantined",
+    "prediction_equivalence": "GP01-L and AQUAL are one prediction in spherical symmetry and must be score-linked, never double counted"
+  },
+  "wrong_control_programs": [
+    {"id": "IDENTITY", "operator": "factor_control[i]=factor[i]", "target_free": true},
+    {"id": "RADIAL_FACTOR_REVERSAL", "operator": "factor_control[i]=factor[N-1-i] on increasing source radius", "target_free": true}
+  ],
+  "gate_contract": {
+    "finite_tolerance": 1e-12,
+    "operator_residual_tolerance": 1e-9,
+    "boundary_residual_tolerance": 1e-10,
+    "convergence_max_abs_tolerance": 0.02,
+    "feedback_iteration_limit": 128,
+    "feedback_convergence_tolerance": 1e-12,
+    "required_gates": ["SOURCE_INTERPOLATION", "FINITE", "POSITIVE_FACTOR", "OPERATOR_RESIDUAL", "BOUNDARY", "PRIMARY_VS_CONVERGENCE"]
+  },
+  "twell_rebind_gate": {
+    "status": "DEFERRED_NOT_AUTHORITATIVE_UNTIL_FINAL_HASHES_AND_INDEPENDENT_AUDIT",
+    "repair_paths_may_be_opened_by_this_adapter": false,
+    "current_repair_hashes_authoritative": false,
+    "required_final_fields": ["independent_audit_status", "final_config_sha256", "final_module_sha256", "final_test_sha256", "final_card_stream_sha256", "final_receipt_sha256", "final_formula_program_root_sha256"],
+    "required_independent_audit_status": "PASS_ADAPTER_OPERATOR_EQUIVALENCE_ONLY",
+    "required_formula_root_relation": "final_formula_program_root_sha256 equals this adapter architecture-and-compound program root",
+    "may_authorize_campaign_after_rebind": false
+  },
+  "typed_card_contract": {
+    "schema_version": "invariant-open-gravity-mechanism-card-1.0",
+    "embedded_complete_cards_in_receipt": true,
+    "atomic_architectures": ["A01_LAPSE", "A02_CLOCK", "A03_CONFORMAL", "A04_DISFORMAL", "A05_SLIP", "A06_SPATIAL_KERNEL", "A07_BOUNDARY", "A08_PERMITTIVITY", "A09_ENTROPIC", "A10_DENSITY_SCREEN", "A11_DERIV_SCREEN", "A12_MASSIVE", "A13_MIXED_MODE", "A14_PHASE", "A19_FEEDBACK"],
+    "atomic_drivers": ["D01_ACC", "D02_POT", "D03_RAD", "D04_RHO", "D05_SIG", "D06_SLOPE", "D07_TIDE", "D13_GASF"],
+    "atomic_card_count": 120,
+    "compound_cards": ["X01", "X05", "X10", "X13", "X17", "X18"],
+    "gp01_cards": ["GP01-L", "GP01-AQUAL", "GP01-T1", "GP01-T2", "GP01-ELLIPTIC", "GP01-TELEGRAPH", "GP01-ACTION-PLACEHOLDER"],
+    "gp01_card_count": 7,
+    "provisional_twell_adapter_card_count": 126,
+    "exact_total_card_count": 133,
+    "provisional_twell_cards_manifest_authority_before_rebind": false,
+    "gp01_cards_bound_to_committed_foundation": true,
+    "control_comparators_not_candidate_cards": ["IDENTITY", "RADIAL_FACTOR_REVERSAL"],
+    "campaign_domains": ["GALAXIES", "GROUPS", "CLUSTERS", "LENSING"],
+    "source_domain_mapping": {"GALAXIES": "SPARC", "CLUSTERS": "XCOP_SPHERICAL", "GROUPS": "NOT_IN_ADAPTER", "LENSING": "NOT_IN_ADAPTER"},
+    "available_disposition": "THEORY_ONLY",
+    "blocked_disposition": "SOURCE_BLOCKED",
+    "unmapped_disposition": "NOT_APPLICABLE",
+    "known_rewrite_disposition": "KNOWN_REWRITE_NONINDEPENDENT",
+    "lane_assignment_authority": false,
+    "lane_hints": {"atomic_compound_gp01": "CORE", "blocked_gp01_history": "ADJACENT", "wrong_controls_comparator_only": "RIVALS_CONTROLS"},
+    "orthogonal_or_wildcard_fillers_invented": false
+  },
+  "output_contract": {
+    "path": "runs/gravity/open-gravity-static-radial-adapter-v1/receipt.json",
+    "atomic_no_clobber": true,
+    "deterministic": true,
+    "formula_and_program_hashes_required": true,
+    "prediction_equivalence_and_degeneracy_hashes_required": true
+  },
+  "claim_boundary": {
+    "adapter_mechanics_verified_synthetically": true,
+    "scientific_pass_claimed": false,
+    "campaign_manifest_created": false,
+    "campaign_scoring_authorized": false,
+    "real_response_access_authorized": false,
+    "twell_final_rebind_complete": false,
+    "independent_audit_requested": true,
+    "environment_or_object_shuffle_in_adapter": false,
+    "environment_and_object_shuffles_scope": "CAMPAIGN_LEVEL_SOURCE_LEDGER_ONLY"
+  }
+}
