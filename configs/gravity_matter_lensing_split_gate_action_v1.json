@@ -1,0 +1,206 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-split-gate-action-config-1.0",
+  "analysis_id": "gravity-matter-lensing-split-gate-action-v1",
+  "status": "frozen_no_data_external_metric_split_gate_action_designed_failures_preserved",
+  "purpose": "Advance the conditionally leading split kinetic/mass gate into a bounded action-level derivation, test whether constant Y0 removes the prior kinetic-mixing obstruction, and expose the distinct chi-amplitude degeneration risk without claiming full health, lensing, Solar, or cosmological success.",
+  "predecessor_receipt_bindings": [
+    {
+      "binding_id": "theory_preflight",
+      "git_commit": "27d8cae534e3d75916a41a1ce5209c821559f0ad",
+      "receipt_path": "runs/gravity/theory/matter-lensing-theory-preflight-v1.json",
+      "receipt_file_sha256": "113d28f814a28cdf06dab9d7025c106c3ba458632e352a72dc4d3d35115d52d4",
+      "receipt_content_sha256": "e8537efee368b08e0571565d058754718bf78f70cd5d032740e8560e63cb4768",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-theory-preflight-receipt-1.0",
+      "receipt_decision": "BLOCKED_TWO_SCALAR_COVARIANT_TEMPLATE_DEFINED_HEALTHY_MATTER_LENSING_COMPLETION_NOT_ESTABLISHED"
+    },
+    {
+      "binding_id": "conditional_kinetic_gate_no_go",
+      "git_commit": "198189822f969db0724086881e66fba0b0288c2e",
+      "receipt_path": "runs/gravity/theory/matter-lensing-kinetic-gate-conditional-no-go-v1.json",
+      "receipt_file_sha256": "578552a577ab26ee363d4f781b35816e12d2b2664f4e768a1064f8d0d6cb1dc5",
+      "receipt_content_sha256": "9de3db36d5a8061392abfe13343e9a97380734ae40a56ce2e3d128db51a8e0db",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-kinetic-gate-conditional-no-go-receipt-1.0",
+      "receipt_decision": "CONDITIONAL_NO_GO_FOR_GLOBALLY_NONNEGATIVE_TIMELIKE_MIXING_IN_SMOOTH_GROWING_KINETIC_GATES_REMEDIES_PREREGISTERED_NOT_VALIDATED"
+    },
+    {
+      "binding_id": "remedy_comparison",
+      "git_commit": "f4515a9931d5a7f837aca24ea199fe702b0e37ff",
+      "receipt_path": "runs/gravity/theory/matter-lensing-gate-remedy-comparison-v1.json",
+      "receipt_file_sha256": "f5a638b93eb0dd17a4c7808dd182436b071004dc3b3d44aac5231f1cc48e8fce",
+      "receipt_content_sha256": "9690a06f464856f82d1ef0ad074462f384cf574f5e5987969c1e7b802fd3aab4",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-gate-remedy-comparison-receipt-1.0",
+      "receipt_decision": "STRUCTURAL_REMEDY_COMPARISON_COMPLETE_B_CONSTANT_Y_LEADS_CONDITIONALLY_NO_ARCHITECTURE_HEALTH_OR_NOVELTY_ESTABLISHED"
+    }
+  ],
+  "action_contract": {
+    "signature": "(-,+,+,+)",
+    "invariants": "X=-g^munu*d_mu(phi)*d_nu(phi)/2 and X_chi=-g^munu*d_mu(chi)*d_nu(chi)/2",
+    "scalar_action": "S_scalar=integral sqrt(-g)*[P(X)-V(phi)+Y0*X_chi-m_chi^2*Z(u)*chi^2/2]",
+    "parameters": "Y0>0, m_chi>0, beta>0, u=beta*X^2>=0",
+    "illustrative_gate": "Z(u)=(1+u)^2",
+    "gate_justification": "Positive, smooth, exactly differentiable, recovers Z=1 at X=0, shortens the bare/frozen-delta-phi mediator range at high u, and reuses the predecessor gate solely to isolate the effect of moving it from kinetic normalization to the mass term; it does not establish the general coupled range.",
+    "novelty_label": "KNOWN_FORM_REUSE_AND_STRUCTURAL_RECOMBINATION_NOT_A_NOVELTY_CLAIM",
+    "universal_matter_action": "S_m[tilde_g,Psi_matter,Psi_photon] with one non-derivative tilde_g=A(phi,chi)^2*g for every massive and massless species in the minimal branch.",
+    "forbidden": "No independent photon multiplier, photon-only scalar, post-fit lensing rescaling, or derivative-dependent matter metric is present in this package."
+  },
+  "eom_and_principal_contract": {
+    "Q": "m_chi^2*chi^2/2",
+    "C": "P_X-Q*Z_X",
+    "C_X": "P_XX-Q*Z_XX",
+    "phi_eom": "nabla_mu(C*nabla^mu(phi))-V_phi=0",
+    "chi_eom": "Y0*box(chi)-m_chi^2*Z*chi=0",
+    "phi_principal": "P_phiphi=C*k^2-C_X*(v.k)^2",
+    "chi_principal": "P_chichi=Y0*k^2",
+    "cross_principal": "The second-order blocks P_phichi=P_chiphi=0 exactly because Y_X=0 and the mass gate contains no chi gradient; this does not remove the retained first-derivative mixing on X!=0, chi!=0 backgrounds.",
+    "first_derivative_mixing": "With d=m_chi^2*chi*Z_X, Fourier substitution d_mu->i*k_mu gives off-diagonal entries -i*d*(v.k) in the phi equation and +i*d*(v.k) in the chi equation, up to the frozen common Fourier/Euler sign convention.",
+    "coupled_local_dispersion": "For the frozen constant-coefficient truncation with omitted phi lower-order curvature, D_phi=C*k^2-C_X*(v.k)^2, D_chi=Y0*k^2+m_chi^2*Z, and det(D)=D_phi*D_chi-d^2*(v.k)^2.",
+    "derivation_routes": [
+      "negative exact quadratic gradient Hessian",
+      "independent linearization of Euler-Lagrange fluxes C*nabla(phi) and Y0*nabla(chi)"
+    ],
+    "mass_gate_effect": "The prior second-order kinetic derivative cross block is absent, but -Q*Z_X and -Q*Z_XX remain in the phi self-principal tensor and the first-derivative d coupling remains when X and chi are nonzero."
+  },
+  "range_and_limits": {
+    "bare_dispersion": "omega^2=k^2+m_chi^2*Z/Y0 only for frozen delta_phi, d*(v.k)=0, or another mixing-vanishing limit; the general local dispersion is det(D)=D_phi*D_chi-d^2*(v.k)^2=0.",
+    "bare_range": "ell_bare=sqrt(Y0/Z)/m_chi=sqrt(Y0)/[m_chi*(1+u)] only for frozen delta_phi, d*(v.k)=0, or another mixing-vanishing limit; the full coupled poles are roots of D_phi*D_chi-d^2*(v.k)^2=0.",
+    "high_u_range": "In the bare/frozen-phi limit ell_bare~sqrt(Y0)/(m_chi*u); this is not the full coupled range when d*(v.k)!=0.",
+    "X_to_zero": "Z->1, Z_X->0, d->0, Z_X+2*X*Z_XX->0, the mixing-vanishing ell_bare->sqrt(Y0)/m_chi, and the gate corrections to both phi principal coefficients vanish",
+    "GR_limit": "X->0 alone is not a GR proof. A GR-like limit additionally requires phi and chi stress to be negligible or constant, tilde_g to approach a constant rescaling of g, and the omitted metric equations to approach Einstein gravity.",
+    "high_u_warning": "For finite positive asymptotic A0 and B0 on the timelike X>0 branch, chi_max^2 scales as X^-3 and |chi|_max scales as X^-3/2; high-u bare-range screening can therefore coincide with phi-principal degeneration."
+  },
+  "local_health_contract": {
+    "base_coefficients": "A0=P_X and B0=P_X+2*X*P_XX",
+    "gated_coefficients": "C=A0-Q*Z_X and K=C+2*X*C_X=B0-Q*(Z_X+2*X*Z_XX)",
+    "necessary_external_scalar_conditions": [
+      "Y0>0",
+      "Z>0 and finite bare/frozen-delta-phi mass parameter m_chi^2*Z/Y0",
+      "C>0",
+      "K>0"
+    ],
+    "timelike_interpretation": "For X>0, K is the phi time-kinetic coefficient, C is its spatial-gradient coefficient, and c_phi^2=C/K on the aligned constant jet.",
+    "spacelike_interpretation": "For X<0, C is the phi time/transverse coefficient, K is the longitudinal-gradient coefficient, and c_longitudinal^2=K/C on the aligned constant jet.",
+    "illustrative_derivatives": {
+      "Z_X": "4*beta*X*(1+u)",
+      "Z_XX": "4*beta*(1+3*u)",
+      "H": "Z_X+2*X*Z_XX=4*beta*X*(3+7*u)"
+    },
+    "timelike_amplitude_bounds": "For X>0 with A0>0 and B0>0, C>0 and K>0 require chi^2<min[2*A0/(m_chi^2*Z_X),2*B0/(m_chi^2*H)].",
+    "high_u_amplitude_scaling": "For finite positive asymptotic A0,B0, the two chi^2 ceilings approach A0/(2*m_chi^2*beta^2*X^3) and B0/(14*m_chi^2*beta^2*X^3); hence chi_max^2 proportional to X^-3 and |chi|_max proportional to X^-3/2.",
+    "quasistatic_spacelike_bounds": "For X<0 with A0>0 and B0>0, Z_X<0 and H<0, so this mass-gate correction increases C and K and imposes no upper chi-amplitude bound from these two inequalities alone; superluminality, energy, cutoff, and metric constraints remain untested.",
+    "boundary_risk": "C->0 or K->0 degenerates a principal coefficient. This is a strong-coupling/EFT warning surface, not by itself a proof of the nonlinear strong-coupling scale."
+  },
+  "no_go_adjudication": {
+    "prior_mixing_combination": "M_Y=Y*(Y_X+2*X*Y_XX)-4*X*Y_X^2",
+    "constant_Y_result": "For Y=Y0, Y_X=Y_XX=0 and M_Y=0 identically, so the conditional growing-kinetic-gate no-go does not apply.",
+    "replacement_risk": "The mass gate introduces chi-amplitude-dependent C and K plus retained first-derivative mode mixing d=m_chi^2*chi*Z_X; avoiding the old second-order mixing obstruction does not establish a healthy action.",
+    "verdict": "SPECIFIC_KINETIC_MIXING_NO_GO_AVOIDED_DIFFERENT_TIMELIKE_CHI_AMPLITUDE_DEGENERATION_PRESERVED"
+  },
+  "stress_conservation_and_lensing": {
+    "scalar_stress_tensor": "T_munu=C*d_mu(phi)*d_nu(phi)+Y0*d_mu(chi)*d_nu(chi)+g_munu*L_scalar",
+    "scalar_noether_identity": "nabla_mu(T^mu_nu)=E_phi*d_nu(phi)+E_chi*d_nu(chi) up to the declared Euler-sign convention; it vanishes for the isolated scalar action on shell.",
+    "with_matter": "When S_m depends on phi or chi through one tilde_g, scalar and matter stress tensors exchange energy-momentum; only the total same-action identity is conserved in the Einstein description, while matter is covariantly conserved with respect to tilde_g on its equations.",
+    "same_action_lensing_boundary": "Massive matter and photons see the same tilde_g. A conformal tilde_g has the same null curves as g before metric backreaction, so this split scalar action alone supplies no independent lensing enhancement or prediction.",
+    "required_future_work": [
+      "derive metric constraints and the full coupled scalar-metric-matter principal system",
+      "solve source-supported on-shell Solar, galaxy, cluster, and cosmological backgrounds",
+      "test whether the timelike chi-amplitude bounds are dynamically preserved",
+      "compute the EFT cutoff and nonlinear behavior near C=0 or K=0",
+      "derive lensing only from the same universal metric solution"
+    ]
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy",
+    "symbolic_zero_rule": "sympy.simplify(actual-expected)==0",
+    "required_symbolic_checks": [
+      "S01_HESSIAN_PHI_BLOCK",
+      "S02_HESSIAN_CHI_BLOCK",
+      "S03_HESSIAN_CROSS_BLOCK_ZERO",
+      "S04_FLUX_PHI_BLOCK",
+      "S05_FLUX_CHI_BLOCK",
+      "S06_FLUX_CROSS_BLOCK_ZERO",
+      "S07_C_EXACT",
+      "S08_C_X_EXACT",
+      "S09_CHI_EOM_MASS_TERM",
+      "S10_Z_X_EXACT",
+      "S11_Z_XX_EXACT",
+      "S12_H_EXACT",
+      "S13_BARE_FROZEN_PHI_DISPERSION",
+      "S14_TIMELIKE_C_BOUNDARY",
+      "S15_TIMELIKE_K_BOUNDARY",
+      "S16_X_ZERO_GATE_LIMIT",
+      "S17_X_ZERO_PRINCIPAL_CORRECTION_LIMIT",
+      "S18_BARE_FROZEN_PHI_HIGH_U_RANGE_SCALING",
+      "S19_CONSTANT_Y_NO_GO_COMBINATION_ZERO",
+      "S20_STRESS_COEFFICIENT_FROM_METRIC_RESPONSE",
+      "S21_FIRST_DERIVATIVE_MIXING_COEFFICIENT",
+      "S22_RECIPROCAL_FIRST_DERIVATIVE_MIXING",
+      "S23_COUPLED_DISPERSION_DETERMINANT",
+      "S24_MIXING_VANISHING_LIMIT",
+      "S25_HIGH_U_CHI_SQUARED_SCALING",
+      "S26_HIGH_U_CHI_AMPLITUDE_SCALING"
+    ],
+    "numeric_tolerance": 1e-11,
+    "frozen_numeric_cases": [
+      {"case_id": "TIMELIKE_SMALL_CHI_PASS", "X": 1.0, "chi": 0.1, "expected_C_sign": "positive", "expected_K_sign": "positive", "expected_first_derivative_mixing": "nonzero", "expected_coupled_determinant_sign": "positive", "designed_failure": false},
+      {"case_id": "TIMELIKE_K_ONLY_FAILURE", "X": 1.0, "chi": 0.3, "expected_C_sign": "positive", "expected_K_sign": "negative", "expected_first_derivative_mixing": "nonzero", "expected_coupled_determinant_sign": "positive", "designed_failure": true},
+      {"case_id": "TIMELIKE_BOTH_FAILURE", "X": 1.0, "chi": 0.6, "expected_C_sign": "negative", "expected_K_sign": "negative", "expected_first_derivative_mixing": "nonzero", "expected_coupled_determinant_sign": "negative", "designed_failure": true},
+      {"case_id": "SPACELIKE_LARGE_CHI_LOCAL_PASS", "X": -1.0, "chi": 0.6, "expected_C_sign": "positive", "expected_K_sign": "positive", "expected_first_derivative_mixing": "nonzero", "expected_coupled_determinant_sign": "positive", "designed_failure": false},
+      {"case_id": "HIGH_U_FIXED_CHI_K_FAILURE", "X": 2.0, "chi": 0.1, "expected_C_sign": "positive", "expected_K_sign": "negative", "expected_first_derivative_mixing": "nonzero", "expected_coupled_determinant_sign": "positive", "designed_failure": true},
+      {"case_id": "X_ZERO_ANY_FINITE_CHI_GATE_CORRECTION_ZERO", "X": 0.0, "chi": 10.0, "expected_C_sign": "positive", "expected_K_sign": "positive", "expected_first_derivative_mixing": "zero", "expected_coupled_determinant_sign": "positive", "designed_failure": false}
+    ],
+    "numeric_parameters": "beta=Y0=m_chi=A0=B0=1 and P_XX=0; coupled determinant probes use k^2=1 and (v.k)^2=|X|/2",
+    "high_u_scaling_probes": [10.0, 20.0, 40.0],
+    "high_u_scaled_limits": "X^3*chi_C_max^2->1/2, X^3*chi_K_max^2->1/14, X^(3/2)*|chi_C|max->sqrt(1/2), and X^(3/2)*|chi_K|max->sqrt(1/14) for the frozen unit parameters"
+  },
+  "adjudication": {
+    "exact_action_and_scalar_eom_derived": true,
+    "hessian_flux_principal_routes_agree": true,
+    "specific_kinetic_gate_no_go_avoided": true,
+    "timelike_chi_amplitude_risk_found": true,
+    "first_derivative_mode_mixing_retained": true,
+    "bare_range_is_full_coupled_range": false,
+    "designed_failures_preserved": true,
+    "full_H3": false,
+    "full_H4": false,
+    "metric_constraints": false,
+    "on_shell_backgrounds": false,
+    "Solar_screening": false,
+    "lensing_prediction": false,
+    "cosmology": false,
+    "global_strong_hyperbolicity": false,
+    "EFT_cutoff_established": false,
+    "full_health_established": false,
+    "novelty_established": false,
+    "overall_decision": "PARTIAL_SPLIT_GATE_SCALAR_ACTION_DERIVED_KINETIC_MIXING_AVOIDED_TIMELIKE_CHI_AMPLITUDE_RISK_PRESERVED"
+  },
+  "claim_boundary": {
+    "restricted_external_metric_scalar_derivation_completed": true,
+    "specific_kinetic_mixing_no_go_avoided": true,
+    "healthy_action_established": false,
+    "novelty_established": false,
+    "full_covariant_health_established": false,
+    "GR_limit_established": false,
+    "Solar_viability_established": false,
+    "galaxy_viability_established": false,
+    "cluster_viability_established": false,
+    "cosmology_established": false,
+    "lensing_success_established": false,
+    "observational_support": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "predictor_rows_opened": 0,
+    "response_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "holdout_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "network_calls": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/matter-lensing-split-gate-action-v1.json"
+}
