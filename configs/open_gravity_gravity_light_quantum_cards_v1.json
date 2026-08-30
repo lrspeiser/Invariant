@@ -1,0 +1,186 @@
+{
+  "schema": "invariant-open-gravity-gravity-light-quantum-cards-1.0",
+  "package_id": "open-gravity-gravity-light-quantum-cards-v1",
+  "status": "FROZEN_TYPED_THEORY_CARDS_TARGET_FREE_ONLY",
+  "purpose": "Turn the thirteen registered gravity/light ontology nodes into distinct, falsifiable theory cards with explicit state spaces, operators, limits, observables, synthetic probes, and stop conditions. These are not radial-formula variants and carry no observational authority.",
+  "bindings": [
+    {
+      "role": "REGISTRY",
+      "commit": "74cf64129787163cbead8dccb243fa4faf86fbe1",
+      "artifacts": [
+        {"path": "configs/open_gravity_registry_foundation_v1.json", "sha256": "4b65e4dc919d51462ca78e47c9b1314aa2ac3cf5b8c158b2cc19d758a4214e0d"},
+        {"path": "runs/gravity/open-gravity-registry-foundation-v1/receipt.json", "sha256": "58ae29ad74b982af91c63c4c444af30d8528421cb2e0315dfa2501456ab9c23a"}
+      ]
+    },
+    {
+      "role": "THEORY_GATE_MATRIX",
+      "commit": "b14f8ea0379bde2223a52bbbdd46a40fc21c94fc",
+      "artifacts": [
+        {"path": "configs/open_gravity_theory_gate_matrix_v1.json", "sha256": "2a685edb82163cc56dc90c492c55148b1377c8ca8e66394e18f2d22f67c3ed3c"},
+        {"path": "runs/gravity/open-gravity-theory-gate-matrix-v1/receipt.json", "sha256": "dd9e53d45667c17bc3d305700bdbe3237f568ba207a538a854fae0a81c69b9e4"}
+      ]
+    },
+    {
+      "role": "CLASSICAL_3D_CONTROLS",
+      "commit": "fe9d3da6233827fdf8ac624fe6223bf629293454",
+      "artifacts": [
+        {"path": "configs/open_gravity_3d_newton_aqual_qumond_baselines_v1.json", "sha256": "cf2e19a8e19d73f855e3efcbff514098ffed07a578187e94f9b7a6b66a8a51d0"},
+        {"path": "runs/gravity/open-gravity-3d-newton-aqual-qumond-baselines-v1/receipt.json", "sha256": "b0e84fe4323838d8687384b9ca6a2db63b401d5584a369521e29316906582fdb"}
+      ]
+    }
+  ],
+  "primary_sources": [
+    {"id": "PS01", "title": "Introduction to the Effective Field Theory Description of Gravity", "url": "https://arxiv.org/abs/gr-qc/9512024", "use": "low-energy quantum gravity and massless spin-2 EFT boundary"},
+    {"id": "PS02", "title": "Observation of Gravitational Waves from a Binary Black Hole Merger", "url": "https://arxiv.org/abs/1602.03837", "use": "classical tensor-wave observational control"},
+    {"id": "PS03", "title": "Gravitationally-induced entanglement between two massive particles is sufficient evidence of quantum effects in gravity", "url": "https://arxiv.org/abs/1707.06036", "use": "mediated-entanglement witness proposal"},
+    {"id": "PS04", "title": "Spin Entanglement Witness for Quantum Gravity", "url": "https://arxiv.org/abs/1707.06050", "use": "independent gravitational entanglement proposal"},
+    {"id": "PS05", "title": "Stochastic Gravity: A Primer with Applications", "url": "https://arxiv.org/abs/gr-qc/0211090", "use": "Einstein-Langevin and noise-kernel formalism"},
+    {"id": "PS06", "title": "Massive Gravity", "url": "https://arxiv.org/abs/1401.4173", "use": "massive carrier, extra modes, constraints, screening"},
+    {"id": "PS07", "title": "Scalar-Tensor-Vector Gravity Theory", "url": "https://arxiv.org/abs/gr-qc/0506021", "use": "extra scalar/vector carrier example"},
+    {"id": "PS08", "title": "On the Origin of Gravity and the Laws of Newton", "url": "https://arxiv.org/abs/1001.0785", "use": "emergent and entropic gravity example"},
+    {"id": "PS09", "title": "The causal set approach to quantum gravity", "url": "https://arxiv.org/abs/gr-qc/0601121", "use": "discrete causal geometry example"},
+    {"id": "PS10", "title": "Analogue Gravity", "url": "https://arxiv.org/abs/gr-qc/0505065", "use": "medium and quasiparticle analogues with dynamics caveat"},
+    {"id": "PS11", "title": "Nonlocal Gravity: The General Linear Approximation", "url": "https://arxiv.org/abs/1409.4472", "use": "causal classical nonlocal kernel example"}
+  ],
+  "card_fields": [
+    "id", "name", "registry_status", "card_status", "lay_seed", "ontology", "state_space", "operator_seed", "dimensions", "source_coupling", "classical_limit", "matter_observable", "photon_lensing_observable", "clock_redshift_observable", "radiation_observable", "precision_regimes", "synthetic_probe", "falsifiers", "primary_source_ids", "required_next_artifacts", "claim_boundary"
+  ],
+  "cards": [
+    {
+      "id": "QG01", "name": "classical_spacetime_geometry", "registry_status": "E_ESTABLISHED", "card_status": "ESTABLISHED_EXTERNAL_CONTROL",
+      "lay_seed": "Gravity is curved spacetime; matter and light follow the geometry rather than receiving an ordinary force.",
+      "ontology": ["lorentzian_metric", "connection", "curvature"], "state_space": "A Lorentzian metric modulo diffeomorphisms with constrained initial data.",
+      "operator_seed": "G_mn + Lambda g_mn = 8 pi G T_mn / c^4", "dimensions": "g dimensionless in coordinate convention; curvature L^-2; T energy L^-3.",
+      "source_coupling": "Universal stress-energy coupling through one metric.", "classical_limit": "Newtonian Poisson gravity in weak, slow, static fields.",
+      "matter_observable": "timelike geodesics and self-gravitating fluid motion", "photon_lensing_observable": "null geodesics, convergence, shear, and time delay", "clock_redshift_observable": "proper time and gravitational redshift from the same metric", "radiation_observable": "tensor metric radiation in dynamical solutions",
+      "precision_regimes": ["solar_ppn", "binary_pulsar", "gravitational_wave", "cosmology"], "synthetic_probe": "weak-field lapse recovers Newtonian acceleration and universal clock/photon coupling", "falsifiers": ["nonconserved source", "ill-posed constraints", "different unmotivated matter and photon metrics"], "primary_source_ids": ["PS02"], "required_next_artifacts": ["independent_3plus1_gr_solver", "shared_metric_multisector_closure"], "claim_boundary": "Control only; this package does not rederive or observationally revalidate general relativity."
+    },
+    {
+      "id": "QG02", "name": "classical_tensor_gravitational_waves", "registry_status": "E_ESTABLISHED", "card_status": "ESTABLISHED_EXTERNAL_CONTROL",
+      "lay_seed": "Gravity can propagate as two transverse tensor-wave polarizations at light speed in general relativity.",
+      "ontology": ["classical_tensor_wave", "plus_polarization", "cross_polarization"], "state_space": "Gauge-reduced transverse-traceless perturbations on a declared background.",
+      "operator_seed": "box h_TT_ij = 16 pi G T_TT_ij / c^4", "dimensions": "h_TT dimensionless; omega and c|k| both T^-1.",
+      "source_coupling": "Transverse-traceless projection of dynamical stress-energy.", "classical_limit": "Static sector does not create a propagating wave; radiation vanishes with time variation.",
+      "matter_observable": "tidal strain on separated test masses", "photon_lensing_observable": "time-dependent null-path perturbation", "clock_redshift_observable": "correlated timing residuals", "radiation_observable": "two tensor polarizations with omega^2=c^2 k^2 in vacuum",
+      "precision_regimes": ["binary_pulsar", "interferometer", "pulsar_timing"], "synthetic_probe": "plane transverse-traceless wave has zero trace, zero longitudinal divergence, and omega=c|k|", "falsifiers": ["uncontrolled longitudinal ghost", "wrong vacuum dispersion in the GR limit", "energy loss inconsistent with the source solution"], "primary_source_ids": ["PS02"], "required_next_artifacts": ["wave_extraction_suite", "polarization_and_energy_flux_closure"], "claim_boundary": "Control only; no new wave observation is performed."
+    },
+    {
+      "id": "QG03", "name": "massless_spin2_quantum_field_graviton", "registry_status": "C_CONTROLLED_UNOBSERVED_SIGNATURE", "card_status": "TYPED_QUANTUM_HYPOTHESIS",
+      "lay_seed": "If weak gravitational waves are quantized like light, their smallest excitations are massless spin-2 gravitons.",
+      "ontology": ["massless_spin2_field", "fock_state", "graviton"], "state_space": "Gauge-reduced spin-2 Fock space or low-energy gravitational EFT Hilbert space.",
+      "operator_seed": "H = sum_k,lambda hbar omega_k (a_dagger a + 1/2), omega=c|k|", "dimensions": "hbar omega is energy; occupation is dimensionless.",
+      "source_coupling": "Stress-energy couples to the spin-2 field with Planck-suppressed strength.", "classical_limit": "Large coherent occupation reproduces a classical weak gravitational wave.",
+      "matter_observable": "quantized tidal exchange in a fully specified detector", "photon_lensing_observable": "classical mean metric plus quantum fluctuations", "clock_redshift_observable": "quantum timing-noise correlations", "radiation_observable": "massless helicity plus/minus 2 quanta",
+      "precision_regimes": ["laboratory_quantum", "gravitational_wave"], "synthetic_probe": "number states have nonnegative hbar omega energy and coherent-state relative fluctuations fall as occupation^-1/2", "falsifiers": ["negative-norm physical states", "nonunitary low-energy evolution", "failure of the classical coherent-state limit"], "primary_source_ids": ["PS01"], "required_next_artifacts": ["gauge_fixed_hilbert_space", "unitarity_and_classical_limit_derivation", "operational_observable"], "claim_boundary": "A low-energy theory card, not a graviton detection or a UV-complete quantum gravity theory."
+    },
+    {
+      "id": "QG04", "name": "quantum_states_of_gravity", "registry_status": "C_CONTROLLED_UNOBSERVED_SIGNATURE", "card_status": "TYPED_QUANTUM_HYPOTHESIS",
+      "lay_seed": "The gravitational field may occupy superpositions, become entangled, and decohere rather than always having one classical value.",
+      "ontology": ["gravity_state", "density_operator", "observable_algebra"], "state_space": "Positive trace-one density operators on a declared gravitational Hilbert space.",
+      "operator_seed": "rho_dot = -i[H,rho]/hbar plus only explicitly declared completely-positive decoherence terms", "dimensions": "rho and probabilities dimensionless; H energy.",
+      "source_coupling": "Quantum matter and gravitational degrees couple through a specified joint Hamiltonian.", "classical_limit": "Decohered narrow states yield an effective classical geometry only when demonstrated.",
+      "matter_observable": "state-dependent phase, entanglement, or decoherence", "photon_lensing_observable": "state-conditioned optical phase distribution", "clock_redshift_observable": "proper-time distribution or phase noise", "radiation_observable": "quantum state of radiative gravity modes",
+      "precision_regimes": ["laboratory_quantum", "early_universe"], "synthetic_probe": "two-level unitary evolution preserves Hermiticity, positivity, trace, and purity", "falsifiers": ["negative probabilities", "trace loss without an exchange channel", "undefined measurement or classical limit"], "primary_source_ids": ["PS01", "PS03", "PS04"], "required_next_artifacts": ["specific_hilbert_space", "joint_matter_gravity_hamiltonian", "measurement_protocol"], "claim_boundary": "Formal state grammar only; it does not establish that the observed gravitational field is quantum."
+    },
+    {
+      "id": "QG05", "name": "massive_or_finite_range_carrier", "registry_status": "H_HYPOTHESIS", "card_status": "TYPED_CLASSICAL_OR_QUANTUM_HYPOTHESIS",
+      "lay_seed": "Gravity may include a carrier with mass, so its static influence fades exponentially and its waves disperse.",
+      "ontology": ["massive_spin_mode", "finite_range_field"], "state_space": "A constrained massive field with a declared spin representation and healthy physical modes.",
+      "operator_seed": "(box - m_g^2 c^2/hbar^2) psi = source; omega^2=c^2 k^2+m_g^2 c^4/hbar^2", "dimensions": "m_g mass; lambda_g=hbar/(m_g c) length.",
+      "source_coupling": "Universal or composition-dependent source coupling must be explicit.", "classical_limit": "m_g to zero must recover the intended massless theory without a discontinuity or must state its screening mechanism.",
+      "matter_observable": "Yukawa acceleration and possible fifth-force signature", "photon_lensing_observable": "metric-slip-dependent lensing, never inferred from matter force alone", "clock_redshift_observable": "potential-dependent proper-time shift in a completed metric", "radiation_observable": "frequency-dependent group velocity and extra polarizations if present",
+      "precision_regimes": ["laboratory", "solar_ppn", "binary_pulsar", "gravitational_wave", "cosmology"], "synthetic_probe": "massive dispersion has subluminal group speed and Yukawa kernel tends to inverse radius as mass tends to zero", "falsifiers": ["Boulware-Deser or other ghost", "discontinuous unacceptable massless limit", "wrong wave arrival or Solar limit"], "primary_source_ids": ["PS06"], "required_next_artifacts": ["constraint_count", "vDVZ_and_screening_analysis", "multisector_metric_closure"], "claim_boundary": "Generic carrier seed only; no claim that a particular massive-gravity theory is healthy."
+    },
+    {
+      "id": "QG06", "name": "extra_scalar_vector_or_tensor_modes", "registry_status": "H_HYPOTHESIS", "card_status": "TYPED_CLASSICAL_OR_QUANTUM_HYPOTHESIS",
+      "lay_seed": "Gravity may contain additional scalar, vector, or tensor channels beyond the two tensor waves of general relativity.",
+      "ontology": ["scalar_mode", "vector_mode", "additional_tensor_mode"], "state_space": "Direct sum of explicitly constrained spin sectors on a common background.",
+      "operator_seed": "K_ab box q_b + M_ab q_b = J_a with constraints and kinetic signature derived from one action", "dimensions": "field normalization and every kinetic/mass entry must be declared per model.",
+      "source_coupling": "Trace, current, or anisotropic stress couplings must be action-derived.", "classical_limit": "Extra modes decouple or screen in the declared GR limit.",
+      "matter_observable": "fifth force, preferred-frame effect, or modified growth", "photon_lensing_observable": "metric slip and polarization-dependent propagation if derived", "clock_redshift_observable": "extra scalar/vector contribution to proper time", "radiation_observable": "breathing, longitudinal, vector, or extra tensor polarizations",
+      "precision_regimes": ["solar_ppn", "binary_pulsar", "gravitational_wave", "cosmology"], "synthetic_probe": "toy diagonal kinetic matrix counts modes and rejects a negative kinetic eigenvalue", "falsifiers": ["ghost kinetic eigenvalue", "unclosed constraints", "unscreened precision-regime violation"], "primary_source_ids": ["PS06", "PS07"], "required_next_artifacts": ["model_specific_action", "hamiltonian_constraint_count", "polarization_response"], "claim_boundary": "Mode inventory only; different scalar/vector/tensor theories are not treated as equivalent."
+    },
+    {
+      "id": "QG07", "name": "gravitational_superposition_and_mediated_entanglement", "registry_status": "H_HYPOTHESIS", "card_status": "TYPED_QUANTUM_HYPOTHESIS",
+      "lay_seed": "If gravity can place two test masses into entanglement while remaining the only mediator, the mediator must possess nonclassical degrees of freedom under the proposal assumptions.",
+      "ontology": ["joint_mass_state", "gravity_mediator", "entanglement_witness"], "state_space": "Tensor-product probe Hilbert spaces plus a mediator with two noncommuting observables.",
+      "operator_seed": "branch phases phi_ij = -G m1 m2 t/(hbar r_ij), followed by a preregistered entanglement witness", "dimensions": "phi dimensionless.",
+      "source_coupling": "Branch-dependent gravitational interaction Hamiltonian with all direct electromagnetic/Casimir channels bounded.", "classical_limit": "Incoherent branch mixtures must not generate the same certified witness under the declared assumptions.",
+      "matter_observable": "spin or path entanglement witness", "photon_lensing_observable": "not a default observable", "clock_redshift_observable": "branch-dependent proper-time phase only in a completed model", "radiation_observable": "not required for the tabletop witness",
+      "precision_regimes": ["laboratory_quantum"], "synthetic_probe": "a nonseparable four-branch phase matrix produces nonzero concurrence while additive local phases produce zero", "falsifiers": ["classical side channel can reproduce witness", "decoherence dominates phase", "mediator assumptions are not isolated"], "primary_source_ids": ["PS03", "PS04"], "required_next_artifacts": ["open_system_noise_budget", "witness_assumption_audit", "laboratory_geometry"], "claim_boundary": "Proposal-level discriminator; no experiment is performed and no quantum-gravity conclusion is claimed."
+    },
+    {
+      "id": "QG08", "name": "semiclassical_and_stochastic_gravity", "registry_status": "C_CONTROLLED_UNOBSERVED_SIGNATURE", "card_status": "TYPED_STOCHASTIC_HYPOTHESIS",
+      "lay_seed": "The average quantum stress may curve a classical metric while stress fluctuations add correlated gravitational noise.",
+      "ontology": ["classical_metric", "quantum_stress_expectation", "noise_kernel", "stochastic_metric"], "state_space": "Classical metric histories driven by expectation values and a positive-semidefinite stochastic source covariance.",
+      "operator_seed": "G_mn[g+h] = 8 pi G (<T_mn> + xi_mn)/c^4 with <xi xi>=noise_kernel", "dimensions": "xi has stress-energy dimensions; covariance has stress-energy squared.",
+      "source_coupling": "Mean and symmetrized stress fluctuations of a declared quantum matter state.", "classical_limit": "Noise kernel to zero recovers the semiclassical mean equation; hbar-sensitive terms to zero recover classical sourcing.",
+      "matter_observable": "stochastic tidal or phase correlations", "photon_lensing_observable": "lensing covariance and scintillation-like metric noise", "clock_redshift_observable": "correlated clock noise", "radiation_observable": "stochastic metric perturbation spectrum",
+      "precision_regimes": ["laboratory_quantum", "early_universe", "black_hole"], "synthetic_probe": "a symmetric positive-semidefinite covariance generates reproducible zero-mean samples and its zero-noise limit is deterministic", "falsifiers": ["non-positive covariance", "violation of conservation compatibility", "uncontrolled state-dependent divergence"], "primary_source_ids": ["PS05"], "required_next_artifacts": ["renormalized_noise_kernel", "gauge_invariant_observables", "fluctuation_dissipation_check"], "claim_boundary": "Formal stochastic route only; no astrophysical noise has been detected here."
+    },
+    {
+      "id": "QG09", "name": "emergent_thermodynamic_entropic_information_gravity", "registry_status": "H_HYPOTHESIS", "card_status": "TYPED_EMERGENT_HYPOTHESIS",
+      "lay_seed": "Gravity may be a collective thermodynamic or information response rather than a fundamental microscopic force.",
+      "ontology": ["entropy", "information_state", "temperature", "emergent_geometry"], "state_space": "A declared microscopic or coarse-grained ensemble with entropy and state-counting rules.",
+      "operator_seed": "F Delta x = T Delta S plus a microscopic closure that derives, rather than assumes, the spacetime equations", "dimensions": "T Delta S is energy; entropy and information conventions explicit.",
+      "source_coupling": "Matter changes the ensemble or boundary information according to a specified map.", "classical_limit": "Newton/Einstein behavior must emerge with the correct equivalence and conservation laws.",
+      "matter_observable": "derived inertial/gravitational response", "photon_lensing_observable": "emergent null geometry, not a matter-force copy", "clock_redshift_observable": "emergent proper time from the same state", "radiation_observable": "collective tensor or other modes derived from microscopic dynamics",
+      "precision_regimes": ["solar_ppn", "black_hole", "cosmology"], "synthetic_probe": "the declared Unruh-temperature and entropy-displacement relations algebraically recover F=ma while exposing which relations were assumptions", "falsifiers": ["circular derivation", "no microstate dynamics", "failure to derive light/clock sectors or conservation"], "primary_source_ids": ["PS08"], "required_next_artifacts": ["microscopic_state_model", "coarse_graining_map", "derived_covariant_dynamics"], "claim_boundary": "Neighbor map and algebraic probe only; the heuristic input relations are not counted as a microscopic derivation."
+    },
+    {
+      "id": "QG10", "name": "discrete_or_causal_quantum_geometry", "registry_status": "H_HYPOTHESIS", "card_status": "TYPED_DISCRETE_QUANTUM_HYPOTHESIS",
+      "lay_seed": "Spacetime may be built from discrete causal events rather than a continuous background.",
+      "ontology": ["causal_events", "partial_order", "discrete_history"], "state_space": "Locally finite causal partial orders or another exact discrete geometry with amplitudes or probabilities.",
+      "operator_seed": "sum or path integral over admissible causal histories with a specified discrete action and continuum limit", "dimensions": "event number dimensionless; discreteness scale is a length or four-volume scale.",
+      "source_coupling": "Matter labels or fields on the discrete structure with a local conservation rule.", "classical_limit": "Coarse graining must recover Lorentzian geometry and local field propagation.",
+      "matter_observable": "dispersion, diffusion, or discreteness correlations", "photon_lensing_observable": "emergent null propagation and possible stochastic broadening", "clock_redshift_observable": "proper-time estimator from discrete order", "radiation_observable": "collective radiative modes in the continuum regime",
+      "precision_regimes": ["laboratory_quantum", "gravitational_wave", "cosmology"], "synthetic_probe": "finite causal diamond is irreflexive, acyclic, transitive, and relabeling invariant", "falsifiers": ["preferred-frame artifact", "nonlocality without causal control", "no continuum or classical limit"], "primary_source_ids": ["PS09"], "required_next_artifacts": ["discrete_action", "covariant_sampling_rule", "continuum_limit_observables"], "claim_boundary": "Combinatorial gate only; a toy causal set is not a quantum spacetime solution."
+    },
+    {
+      "id": "QG11", "name": "medium_condensate_and_quasiparticle_gravity", "registry_status": "H_HYPOTHESIS", "card_status": "TYPED_MEDIUM_HYPOTHESIS",
+      "lay_seed": "Gravity or spacetime may behave like a collective mode of an underlying medium, with waves analogous to quasiparticles.",
+      "ontology": ["medium_state", "order_parameter", "quasiparticle", "effective_metric"], "state_space": "Microscopic or hydrodynamic medium variables plus controlled excitations.",
+      "operator_seed": "linearized perturbations obey an effective metric wave equation derived from medium conservation and constitutive laws", "dimensions": "density, sound speed, healing/correlation length, and cutoff explicit.",
+      "source_coupling": "Matter-medium coupling and backreaction must be specified rather than inferred from a wave analogy.", "classical_limit": "Long-wavelength excitations mimic selected kinematics; reproducing Einstein dynamics is a separate requirement.",
+      "matter_observable": "drag, dispersion, defects, or collective force", "photon_lensing_observable": "only if photons couple to the same effective geometry", "clock_redshift_observable": "only if physical clocks share the emergent metric", "radiation_observable": "quasiparticle dispersion and damping",
+      "precision_regimes": ["laboratory_analogue", "gravitational_wave", "cosmology"], "synthetic_probe": "positive medium density and sound speed produce a hyperbolic acoustic metric, while a negative kinetic coefficient is rejected", "falsifiers": ["preferred-frame signal above bounds", "dissipation inconsistent with observations", "kinematic analogy presented as gravitational dynamics"], "primary_source_ids": ["PS10"], "required_next_artifacts": ["microphysical_medium", "backreaction_equations", "universal_coupling_and_lorentz_limit"], "claim_boundary": "Analogue and architecture seed only; analogue kinematics do not establish real gravitational dynamics."
+    },
+    {
+      "id": "QG12", "name": "nonlocal_memory_persistence_and_corpuscular_gravity", "registry_status": "H_HYPOTHESIS", "card_status": "TYPED_NONLOCAL_QUANTUM_HYPOTHESIS",
+      "lay_seed": "Gravity may depend on past or distant source states, or be a collective state of many soft carriers, instead of responding only point by point.",
+      "ontology": ["causal_kernel", "memory_state", "collective_carrier_state"], "state_space": "History-dependent fields or collective occupation states with an explicit causal domain.",
+      "operator_seed": "G(x)=G_local(x)+integral_{J-(x)} K(x,x') S(x') dV' with normalized causal K; corpuscular variants require a many-body Hamiltonian", "dimensions": "kernel times source-volume has the field dimension; memory time and length explicit.",
+      "source_coupling": "Retarded stress/source history through a covariant kernel or a declared constituent coupling.", "classical_limit": "Delta-like kernel or short-memory limit recovers the local theory; large occupation must recover a classical field where claimed.",
+      "matter_observable": "lag, hysteresis, or nonlocal force", "photon_lensing_observable": "retarded/path-dependent lensing from the same completion", "clock_redshift_observable": "local proper time separated from accumulated history effects", "radiation_observable": "dispersive or damped propagation constrained by a causal spectral response",
+      "precision_regimes": ["solar_ppn", "gravitational_wave", "cosmology"], "synthetic_probe": "normalized retarded exponential kernel is causal, preserves a constant input, and tends to the local response as memory time shrinks", "falsifiers": ["advanced support", "negative spectral weight where positivity is required", "history law collapses to a local rewrite", "undefined many-body Hamiltonian"], "primary_source_ids": ["PS01", "PS11"], "required_next_artifacts": ["covariant_kernel_or_hamiltonian", "causal_spectral_analysis", "local_limit_and_energy_ledger"], "claim_boundary": "Several non-equivalent architectures share this registry node; no equivalence or corpuscular validation is claimed."
+    },
+    {
+      "id": "QG13", "name": "wildcard_ontology", "registry_status": "H_HYPOTHESIS", "card_status": "INCOMPLETE_QUARANTINE",
+      "lay_seed": "Reserve room for a genuinely different ontology without letting an undefined idea enter scoring.",
+      "ontology": ["undeclared_future_entity"], "state_space": "UNDEFINED", "operator_seed": "UNDEFINED", "dimensions": "UNDEFINED",
+      "source_coupling": "UNDEFINED", "classical_limit": "MUST_BE_DEFINED_BEFORE_PROMOTION", "matter_observable": "UNDEFINED", "photon_lensing_observable": "UNDEFINED", "clock_redshift_observable": "UNDEFINED", "radiation_observable": "UNDEFINED",
+      "precision_regimes": [], "synthetic_probe": "schema quarantine refuses execution until every required field is replaced by a dimensionally closed definition", "falsifiers": ["attempted execution while undefined", "silent equivalence to an existing card"], "primary_source_ids": [], "required_next_artifacts": ["new_typed_card", "novelty_and_equivalence_audit", "complete_operator_and_observables"], "claim_boundary": "No executable or scientific content."
+    }
+  ],
+  "probe_contract": {
+    "card_count": 13,
+    "executable_target_free_probes": 12,
+    "quarantined_cards": 1,
+    "gate_projection_rows": 325,
+    "real_data_rows": 0,
+    "observational_passes": 0
+  },
+  "status_policy": {
+    "primary_source_binding": "A cited published neighbor is not an independent derivation or validation.",
+    "target_free_probe": "A toy algebraic or numerical invariant can pass while the full theory remains incomplete.",
+    "quantum_language": "Quantum, graviton, state, entanglement, condensate, and corpuscular labels require TG17 before promotion.",
+    "same_completion": "Matter, photon, clock, and radiation observables must ultimately come from one declared completion, not four fitted formulas.",
+    "counterexamples": "Failures stay attached to the exact card and gate; they do not eliminate unrelated ontology families."
+  },
+  "access_contract": {"scientific_source_files": 0, "scientific_response_files": 0, "scientific_rows": 0, "scores": 0, "network_calls_by_builder": 0, "model_calls": 0, "paid_calls": 0},
+  "claim_boundary": {
+    "establishes": ["thirteen typed ontology cards", "twelve bounded target-free consistency probes", "a deterministic 13 by 25 gate projection"],
+    "does_not_establish": ["a new fundamental theory", "quantization of observed gravity", "a graviton detection", "full action health", "real-data preference", "novelty", "publication readiness"]
+  },
+  "output_path": "runs/gravity/open-gravity-gravity-light-quantum-cards-v1/receipt.json"
+}
