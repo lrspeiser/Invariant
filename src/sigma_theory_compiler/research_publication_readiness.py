@@ -411,6 +411,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matter_lensing_flrw_necessary_conditions",
         "matter_lensing_covariant_field_equations",
         "matter_lensing_adm_constraint_propagation",
+        "matter_lensing_scalar_hamiltonian_necessary_conditions",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -490,6 +491,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     flrw = evidence["matter_lensing_flrw_necessary_conditions"]
     covariant = evidence["matter_lensing_covariant_field_equations"]
     adm_constraints = evidence["matter_lensing_adm_constraint_propagation"]
+    scalar_hamiltonian = evidence["matter_lensing_scalar_hamiltonian_necessary_conditions"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -1664,6 +1666,94 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         }
     ):
         raise ResearchPublicationReadinessError("ADM constraint-propagation evidence changed")
+    if (
+        scalar_hamiltonian["status"]
+        != "restricted_scalar_adm_hamiltonian_and_legendre_conditions_derived_full_cp11_4_blocked"
+        or scalar_hamiltonian["decision"]
+        != "PARTIAL_SCALAR_ADM_HAMILTONIAN_AND_LEGENDRE_CONDITIONS_DERIVED_CP11_4_FULL_HEALTH_BLOCKED"
+        or scalar_hamiltonian["config_binding"]
+        != {
+            "content_sha256": "907de84f2e288126b494bdafb087196988ff0a88559c526a595ab9ed529942ed",
+            "file_sha256": "d36cccadd58ed25a44725a5620aad7e455150cdf653bf316915b6bb384a5ae2e",
+            "path": "configs/gravity_matter_lensing_scalar_hamiltonian_necessary_conditions_v1.json",
+        }
+        or scalar_hamiltonian["implementation_binding"]
+        != {
+            "source_file_sha256": "25166fabf605751f204a75ba14a86044534aa21caf4502f8dd2242d380141aa0",
+            "source_path": "src/sigma_theory_compiler/gravity_matter_lensing_scalar_hamiltonian_necessary_conditions.py",
+            "test_file_sha256": "3e8716311db732296967bef81946f4cff94233149093681cec5a48959e118a91",
+            "test_path": "tests/test_gravity_matter_lensing_scalar_hamiltonian_necessary_conditions.py",
+        }
+        or scalar_hamiltonian["counts"]
+        != {
+            "designed_failures_preserved": 2,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "symbolic_checks": 24,
+            "symbolic_checks_passed": 24,
+        }
+        or scalar_hamiltonian["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "boundary_energy_flux_controlled": False,
+            "canonical_stress_energy_identity_derived": True,
+            "causal_cone_compatibility_established": False,
+            "declared_domain_gradient_stability_proved": False,
+            "full_metric_scalar_matter_no_ghost_proof": False,
+            "full_system_strong_hyperbolicity": False,
+            "general_slice_principal_schur_conditions_derived": True,
+            "healthy_action": False,
+            "homogeneous_gate_energy_obstruction_reproduced": True,
+            "invalid_adm_time_slice_case_preserved": True,
+            "legendre_map_and_momentum_convexity_conditions_derived": True,
+            "nonlinear_cutoff_established": False,
+            "observational_support": False,
+            "overall_decision": "PARTIAL_SCALAR_ADM_HAMILTONIAN_AND_LEGENDRE_CONDITIONS_DERIVED_CP11_4_FULL_HEALTH_BLOCKED",
+            "physical_hamiltonian_positive": False,
+            "positive_principal_negative_energy_case_preserved": True,
+            "scalar_canonical_hamiltonian_derived": True,
+        }
+        or scalar_hamiltonian["claim_boundary"]
+        != {
+            "CP11_4_complete": False,
+            "causality_established": False,
+            "full_H2_established": False,
+            "full_gradient_stability_established": False,
+            "full_hyperbolicity_established": False,
+            "full_no_ghost_result_established": False,
+            "healthy_action_established": False,
+            "homogeneous_gate_energy_obstruction_derived": True,
+            "motion_and_lensing_jointly_predicted": False,
+            "necessary_legendre_and_slice_health_conditions_derived": True,
+            "observational_support": False,
+            "on_shell_solution_established": False,
+            "physical_hamiltonian_positivity_established": False,
+            "publication_readiness_changed": False,
+            "restricted_scalar_canonical_hamiltonian_derived": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or scalar_hamiltonian["zero_access_and_compute"]
+        != {
+            "GPU_calls": 0,
+            "LLM_calls": 0,
+            "confirmation_rows_opened": 0,
+            "holdout_rows_opened": 0,
+            "independent_rows_opened": 0,
+            "lensing_rows_opened": 0,
+            "network_calls": 0,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "paid_calls": 0,
+            "predictor_rows_opened": 0,
+            "response_rows_opened": 0,
+        }
+    ):
+        raise ResearchPublicationReadinessError("scalar Hamiltonian evidence changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True

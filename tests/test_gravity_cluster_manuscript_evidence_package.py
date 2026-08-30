@@ -235,8 +235,23 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["global_constraint_propagation"] is False
     assert theory["adm_lensing_prediction"] is False
     assert theory["adm_observational_support"] is False
+    assert theory["scalar_hamiltonian_decision"].startswith("PARTIAL_SCALAR_ADM_HAMILTONIAN")
+    assert theory["restricted_scalar_canonical_hamiltonian_derived"] is True
+    assert theory["necessary_legendre_and_slice_health_conditions_derived"] is True
+    assert theory["homogeneous_gate_energy_obstruction_derived"] is True
+    assert theory["positive_principal_negative_energy_case_preserved"] is True
+    assert theory["invalid_adm_time_slice_case_preserved"] is True
+    assert theory["scalar_hamiltonian_CP11_4_complete"] is False
+    assert theory["scalar_physical_hamiltonian_positive"] is False
+    assert theory["scalar_full_no_ghost_result"] is False
+    assert theory["scalar_full_gradient_stability"] is False
+    assert theory["scalar_full_hyperbolicity"] is False
+    assert theory["scalar_causality_established"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
+    assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
+    assert receipt["counts"]["scalar_hamiltonian_numeric_cases_passed"] == 4
+    assert receipt["counts"]["scalar_hamiltonian_designed_failures_preserved"] == 2
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -368,6 +383,13 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
                 "full_characteristic_system_established", True
             ),
             "ADM constraint-propagation",
+        ),
+        (
+            "matter_lensing_scalar_hamiltonian_necessary_conditions",
+            lambda value: value["claim_boundary"].__setitem__(
+                "full_no_ghost_result_established", True
+            ),
+            "scalar Hamiltonian",
         ),
     ],
 )

@@ -693,6 +693,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["CP11_3_complete"],
             f"standard ADM representative only={theory['standard_adm_representative_only']}; full-system hyperbolicity={theory['full_metric_scalar_matter_system_strongly_hyperbolic']}",
         ),
+        (
+            "matter_lensing_scalar_hamiltonian",
+            "restricted_scalar_canonical_hamiltonian_derived",
+            theory["restricted_scalar_canonical_hamiltonian_derived"],
+            f"CP11.4={theory['scalar_hamiltonian_CP11_4_complete']}; positive Hamiltonian={theory['scalar_physical_hamiltonian_positive']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

@@ -150,6 +150,15 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     assert any(
         row[:3]
         == [
+            "matter_lensing_scalar_hamiltonian",
+            "restricted_scalar_canonical_hamiltonian_derived",
+            "true",
+        ]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
             "matter_lensing_kinetic_gate",
             "conditional_timelike_mixing_no_go",
             "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES",
@@ -277,6 +286,24 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
             "matter_lensing_theory_boundary",
             "physical_hamiltonian_positive",
             "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "scalar_hamiltonian_CP11_4_complete",
+            "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "positive_principal_negative_energy_case_preserved",
+            "true",
         ]
         for row in table_6[1:]
     )

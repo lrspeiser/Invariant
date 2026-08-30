@@ -46,6 +46,7 @@ SOURCE_IDS = (
     "matter_lensing_flrw_necessary_conditions",
     "matter_lensing_covariant_field_equations",
     "matter_lensing_adm_constraint_propagation",
+    "matter_lensing_scalar_hamiltonian_necessary_conditions",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -201,6 +202,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     flrw = sources["matter_lensing_flrw_necessary_conditions"]
     covariant = sources["matter_lensing_covariant_field_equations"]
     adm_constraints = sources["matter_lensing_adm_constraint_propagation"]
+    scalar_hamiltonian = sources["matter_lensing_scalar_hamiltonian_necessary_conditions"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -877,6 +879,94 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         }
     ):
         raise GravityClusterManuscriptPackageError("ADM constraint-propagation ceiling changed")
+    if (
+        scalar_hamiltonian["status"]
+        != "restricted_scalar_adm_hamiltonian_and_legendre_conditions_derived_full_cp11_4_blocked"
+        or scalar_hamiltonian["decision"]
+        != "PARTIAL_SCALAR_ADM_HAMILTONIAN_AND_LEGENDRE_CONDITIONS_DERIVED_CP11_4_FULL_HEALTH_BLOCKED"
+        or scalar_hamiltonian["config_binding"]
+        != {
+            "content_sha256": "907de84f2e288126b494bdafb087196988ff0a88559c526a595ab9ed529942ed",
+            "file_sha256": "d36cccadd58ed25a44725a5620aad7e455150cdf653bf316915b6bb384a5ae2e",
+            "path": "configs/gravity_matter_lensing_scalar_hamiltonian_necessary_conditions_v1.json",
+        }
+        or scalar_hamiltonian["implementation_binding"]
+        != {
+            "source_file_sha256": "25166fabf605751f204a75ba14a86044534aa21caf4502f8dd2242d380141aa0",
+            "source_path": "src/sigma_theory_compiler/gravity_matter_lensing_scalar_hamiltonian_necessary_conditions.py",
+            "test_file_sha256": "3e8716311db732296967bef81946f4cff94233149093681cec5a48959e118a91",
+            "test_path": "tests/test_gravity_matter_lensing_scalar_hamiltonian_necessary_conditions.py",
+        }
+        or scalar_hamiltonian["counts"]
+        != {
+            "designed_failures_preserved": 2,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "symbolic_checks": 24,
+            "symbolic_checks_passed": 24,
+        }
+        or scalar_hamiltonian["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "boundary_energy_flux_controlled": False,
+            "canonical_stress_energy_identity_derived": True,
+            "causal_cone_compatibility_established": False,
+            "declared_domain_gradient_stability_proved": False,
+            "full_metric_scalar_matter_no_ghost_proof": False,
+            "full_system_strong_hyperbolicity": False,
+            "general_slice_principal_schur_conditions_derived": True,
+            "healthy_action": False,
+            "homogeneous_gate_energy_obstruction_reproduced": True,
+            "invalid_adm_time_slice_case_preserved": True,
+            "legendre_map_and_momentum_convexity_conditions_derived": True,
+            "nonlinear_cutoff_established": False,
+            "observational_support": False,
+            "overall_decision": "PARTIAL_SCALAR_ADM_HAMILTONIAN_AND_LEGENDRE_CONDITIONS_DERIVED_CP11_4_FULL_HEALTH_BLOCKED",
+            "physical_hamiltonian_positive": False,
+            "positive_principal_negative_energy_case_preserved": True,
+            "scalar_canonical_hamiltonian_derived": True,
+        }
+        or scalar_hamiltonian["claim_boundary"]
+        != {
+            "CP11_4_complete": False,
+            "causality_established": False,
+            "full_H2_established": False,
+            "full_gradient_stability_established": False,
+            "full_hyperbolicity_established": False,
+            "full_no_ghost_result_established": False,
+            "healthy_action_established": False,
+            "homogeneous_gate_energy_obstruction_derived": True,
+            "motion_and_lensing_jointly_predicted": False,
+            "necessary_legendre_and_slice_health_conditions_derived": True,
+            "observational_support": False,
+            "on_shell_solution_established": False,
+            "physical_hamiltonian_positivity_established": False,
+            "publication_readiness_changed": False,
+            "restricted_scalar_canonical_hamiltonian_derived": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or scalar_hamiltonian["zero_access_and_compute"]
+        != {
+            "GPU_calls": 0,
+            "LLM_calls": 0,
+            "confirmation_rows_opened": 0,
+            "holdout_rows_opened": 0,
+            "independent_rows_opened": 0,
+            "lensing_rows_opened": 0,
+            "network_calls": 0,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "paid_calls": 0,
+            "predictor_rows_opened": 0,
+            "response_rows_opened": 0,
+        }
+    ):
+        raise GravityClusterManuscriptPackageError("scalar Hamiltonian ceiling changed")
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -918,6 +1008,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     flrw = sources["matter_lensing_flrw_necessary_conditions"]
     covariant = sources["matter_lensing_covariant_field_equations"]
     adm_constraints = sources["matter_lensing_adm_constraint_propagation"]
+    scalar_hamiltonian = sources["matter_lensing_scalar_hamiltonian_necessary_conditions"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -1526,6 +1617,40 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "adm_lensing_prediction": adm_constraints["adjudication"]["lensing_prediction"],
             "adm_observational_support": adm_constraints["adjudication"]["observational_support"],
+            "scalar_hamiltonian_decision": scalar_hamiltonian["decision"],
+            "restricted_scalar_canonical_hamiltonian_derived": scalar_hamiltonian["claim_boundary"][
+                "restricted_scalar_canonical_hamiltonian_derived"
+            ],
+            "necessary_legendre_and_slice_health_conditions_derived": scalar_hamiltonian[
+                "claim_boundary"
+            ]["necessary_legendre_and_slice_health_conditions_derived"],
+            "homogeneous_gate_energy_obstruction_derived": scalar_hamiltonian["claim_boundary"][
+                "homogeneous_gate_energy_obstruction_derived"
+            ],
+            "positive_principal_negative_energy_case_preserved": scalar_hamiltonian["adjudication"][
+                "positive_principal_negative_energy_case_preserved"
+            ],
+            "invalid_adm_time_slice_case_preserved": scalar_hamiltonian["adjudication"][
+                "invalid_adm_time_slice_case_preserved"
+            ],
+            "scalar_hamiltonian_CP11_4_complete": scalar_hamiltonian["adjudication"][
+                "CP11_4_complete"
+            ],
+            "scalar_physical_hamiltonian_positive": scalar_hamiltonian["adjudication"][
+                "physical_hamiltonian_positive"
+            ],
+            "scalar_full_no_ghost_result": scalar_hamiltonian["claim_boundary"][
+                "full_no_ghost_result_established"
+            ],
+            "scalar_full_gradient_stability": scalar_hamiltonian["claim_boundary"][
+                "full_gradient_stability_established"
+            ],
+            "scalar_full_hyperbolicity": scalar_hamiltonian["claim_boundary"][
+                "full_hyperbolicity_established"
+            ],
+            "scalar_causality_established": scalar_hamiltonian["claim_boundary"][
+                "causality_established"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -1568,6 +1693,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "Solar/GW and FLRW packages derive necessary conditions only; both physical gates, perturbation stability, a healthy accelerating history, and every observational fit remain blocked.",
                 "The covariant successor machine-derives the scalar stress tensor and same-action exchange identity, but treats the Einstein-Hilbert curvature variation as a standard stored contract; its own receipt predates the separately assessed ADM successor.",
                 "The ADM successor completes CP11.3 only for the frozen standard trace-reversed ADM representative and conditionally on solved scalar-matter equations, smooth coefficients, initial constraints, and suitable boundary data; full H2, physical Hamiltonian positivity, full-system hyperbolicity, global propagation, physical solutions, observations, and lensing remain blocked.",
+                "The scalar Hamiltonian successor derives the exact scalar ADM Legendre block and local slice conditions but also preserves a positive-principal negative-energy case; the full metric-matter Hamiltonian, lower bound, boundary flux, cutoff, and CP11.4 health proof remain blocked.",
             }
         ),
         "counts": {
@@ -1640,6 +1766,15 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "adm_constraint_numeric_cases_passed": adm_constraints["counts"][
                 "numeric_cases_passed"
+            ],
+            "scalar_hamiltonian_symbolic_checks_passed": scalar_hamiltonian["counts"][
+                "symbolic_checks_passed"
+            ],
+            "scalar_hamiltonian_numeric_cases_passed": scalar_hamiltonian["counts"][
+                "numeric_cases_passed"
+            ],
+            "scalar_hamiltonian_designed_failures_preserved": scalar_hamiltonian["counts"][
+                "designed_failures_preserved"
             ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][

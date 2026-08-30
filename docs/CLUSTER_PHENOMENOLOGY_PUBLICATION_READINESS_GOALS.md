@@ -665,6 +665,16 @@ It does not establish full H2, physical Hamiltonian positivity, strong hyperboli
 the full metric-scalar-matter system, global well-posedness, a physical background, or
 same-action lensing; those later CP11 gates remain open.
 
+The scalar-Hamiltonian successor then performs the exact ADM Legendre transform of the
+split-gate scalar block. It derives the canonical momenta, the normal and momentum
+Hamiltonian densities, their equality to the normal stress-energy projection, and the
+general-slice Legendre and principal Schur conditions. It also proves that local positive
+principal coefficients need not imply positive scalar energy: the illustrative gate's
+homogeneous energy contribution changes sign at `u=1/7`, and a retained case has positive
+Legendre/principal coefficients but negative energy. Because the global `P(X)`, `V`,
+physical backgrounds, metric-matter Hamiltonian, cutoff, and boundary flux are not fixed,
+this is partial CP11.4 evidence only; CP11.4 remains open.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.
