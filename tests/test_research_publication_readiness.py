@@ -484,6 +484,11 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             ),
             "quadrature scalar local-cutoff coefficient ceiling",
         ),
+        (
+            "shared_quadrature_scalar_full_local_fluctuation",
+            lambda value: value["claim_boundary"].__setitem__("physical_cutoff_established", True),
+            "quadrature scalar full local-fluctuation",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -510,7 +515,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 56,
+        "bound_evidence_receipts": 57,
         "independent_target_rows_opened": 0,
     }
     assert (
@@ -523,6 +528,18 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
     )
     assert (
         stored["automatic_findings"]["shared_quadrature_physical_scalar_cutoff_established"]
+        is False
+    )
+    assert (
+        stored["automatic_findings"][
+            "shared_quadrature_fixed_background_full_scalar_quartic_established"
+        ]
+        is True
+    )
+    assert (
+        stored["automatic_findings"][
+            "shared_quadrature_full_coupled_fluctuation_action_established"
+        ]
         is False
     )
 

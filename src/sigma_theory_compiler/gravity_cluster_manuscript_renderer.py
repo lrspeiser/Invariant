@@ -765,6 +765,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["quadrature_local_coefficient_scale"],
             f"derivative-leading expansion={theory['quadrature_local_derivative_leading_expansion']}; full fluctuation action={theory['quadrature_local_full_fluctuation_action']}; uniform positive scale={theory['quadrature_local_uniform_positive_scale']}; physical cutoff={theory['quadrature_local_physical_cutoff']}; strong-coupling theorem={theory['quadrature_local_strong_coupling_scale']}",
         ),
+        (
+            "shared_quadrature_scalar_full_local_fluctuation",
+            "fixed_metric_aether_full_scalar_quartic_expansion",
+            theory["quadrature_full_local_scalar_quartic_expansion"],
+            f"new scalar interactions canonicalized={theory['quadrature_full_local_new_interactions_canonicalized']}; derivative endpoint limiter={theory['quadrature_full_local_derivative_endpoint_limiter']}; full coupled action={theory['quadrature_full_local_coupled_action']}; physical cutoff={theory['quadrature_full_local_physical_cutoff']}; tree unitarity={theory['quadrature_full_local_tree_unitarity']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

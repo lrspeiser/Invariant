@@ -368,6 +368,12 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["quadrature_cherenkov_background_established"] is False
     assert theory["quadrature_cherenkov_survival_passed"] is False
     assert theory["quadrature_cherenkov_cutoff_rate_observational_exclusion"] is False
+    assert theory["quadrature_full_local_scalar_quartic_expansion"] is True
+    assert theory["quadrature_full_local_new_interactions_canonicalized"] is True
+    assert theory["quadrature_full_local_derivative_endpoint_limiter"] is True
+    assert theory["quadrature_full_local_coupled_action"] is False
+    assert theory["quadrature_full_local_physical_cutoff"] is False
+    assert theory["quadrature_full_local_tree_unitarity"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
@@ -390,6 +396,8 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert receipt["counts"]["quadrature_cherenkov_numeric_cases_passed"] == 4
     assert receipt["counts"]["quadrature_cherenkov_cutoff_rate_symbolic_checks_passed"] == 25
     assert receipt["counts"]["quadrature_cherenkov_cutoff_rate_numeric_cases_passed"] == 4
+    assert receipt["counts"]["quadrature_full_local_symbolic_checks_passed"] == 30
+    assert receipt["counts"]["quadrature_full_local_numeric_cases_passed"] == 5
     assert receipt["counts"]["quadrature_aether_symbolic_checks_passed"] == 25
     assert receipt["counts"]["quadrature_aether_epsilon_cases_passed"] == 3
     assert receipt["counts"]["quadrature_reduced_factorization_symbolic_checks_passed"] == 22
@@ -601,6 +609,11 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
                 "strong_coupling_scale_established", True
             ),
             "quadrature scalar local-cutoff coefficient ceiling",
+        ),
+        (
+            "shared_quadrature_scalar_full_local_fluctuation",
+            lambda value: value["claim_boundary"].__setitem__("physical_cutoff_established", True),
+            "quadrature scalar full local-fluctuation",
         ),
     ],
 )

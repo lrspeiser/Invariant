@@ -252,6 +252,18 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     assert any(
         row[:3]
         == [
+            "shared_quadrature_scalar_full_local_fluctuation",
+            "fixed_metric_aether_full_scalar_quartic_expansion",
+            "true",
+        ]
+        and "derivative endpoint limiter=True" in row[3]
+        and "full coupled action=False" in row[3]
+        and "physical cutoff=False" in row[3]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
             "matter_lensing_kinetic_gate",
             "conditional_timelike_mixing_no_go",
             "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES",

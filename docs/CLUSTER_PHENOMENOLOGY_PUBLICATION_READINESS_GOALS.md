@@ -810,6 +810,17 @@ tree-unitarity calculation, a loop cutoff, a strong-coupling theorem, a UV compl
 or a physical Cherenkov emission cutoff. No observational row was opened, CP11.4 and
 CP11.6 remain open, and no CP11 checkbox is advanced.
 
+The full-local-fluctuation successor restores the undifferentiated scalar vertices from
+the exact `exp(-4varphi)K(s)W^2` coefficient and recomputes the complete scalar-only
+Taylor expansion through quartic order while the metric and aether remain fixed. The
+new canonically normalized cubic, amplitude-quartic, and mixed-quartic interactions
+define conformal and mixed engineering scales. Neither repairs the endpoint problem:
+the previously derived derivative scale remains asymptotically smaller near both
+`s->0` and `s->1/2`. This closes the scalar-only omission in the preceding calculation,
+but it still excludes metric, aether, matter, constraints, loops, and higher operators;
+it is not a physical cutoff, tree-unitarity bound, or strong-coupling theorem. No data
+were opened, CP11.4 and CP11.6 remain open, and no CP11 checkbox is advanced.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

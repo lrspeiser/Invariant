@@ -58,6 +58,7 @@ SOURCE_IDS = (
     "shared_quadrature_scalar_cherenkov_obstruction",
     "shared_quadrature_scalar_cherenkov_cutoff_rate",
     "shared_quadrature_scalar_local_cutoff_ceiling",
+    "shared_quadrature_scalar_full_local_fluctuation",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -225,6 +226,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     quadrature_cherenkov = sources["shared_quadrature_scalar_cherenkov_obstruction"]
     quadrature_cherenkov_rate = sources["shared_quadrature_scalar_cherenkov_cutoff_rate"]
     quadrature_local_cutoff = sources["shared_quadrature_scalar_local_cutoff_ceiling"]
+    quadrature_full_local = sources["shared_quadrature_scalar_full_local_fluctuation"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -1789,6 +1791,80 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         raise GravityClusterManuscriptPackageError(
             "quadrature scalar local-cutoff coefficient ceiling changed"
         )
+    if (
+        quadrature_full_local["status"]
+        != "restricted_vector_metric_fixed_background_full_scalar_quartic_no_data"
+        or quadrature_full_local["decision"]
+        != "RESTRICTED_VECTOR_METRIC_FIXED_BACKGROUND_FULL_SCALAR_QUARTIC_EXPANSION_DERIVED_DERIVATIVE_CEILING_REMAINS_ENDPOINT_LIMITER_METRIC_AETHER_UNITARITY_PHYSICAL_CUTOFF_AND_OBSERVATION_BLOCKED"
+        or quadrature_full_local["config_binding"]
+        != {
+            "content_sha256": "307938b7bfee044f2b61a26f240ba1baa3e94856738bb8d6272aebb9b44125e3",
+            "file_sha256": "0b6a28342ba03e814959c4e0399e831d7740fafc9ca0be352beecf6e079c55d4",
+            "path": "configs/gravity_shared_quadrature_scalar_full_local_fluctuation_v1.json",
+        }
+        or quadrature_full_local["implementation_binding"]
+        != {
+            "source_file_sha256": "765e09892dc3a03de18fb9639903a7c9f7105e28aaeffdfef66a72f85081716b",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_scalar_full_local_fluctuation.py",
+            "test_file_sha256": "340da16e6848d791935c68a819d839d7a45a90af23bba68d9a8ef12850354856",
+            "test_path": "tests/test_gravity_shared_quadrature_scalar_full_local_fluctuation.py",
+        }
+        or quadrature_full_local["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "numeric_cases": 5,
+            "numeric_cases_passed": 5,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 8,
+            "predecessor_bindings": 2,
+            "primary_sources": 1,
+            "symbolic_checks": 30,
+            "symbolic_checks_passed": 30,
+        }
+        or quadrature_full_local["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_6_complete": False,
+            "derivative_scale_remains_high_s_asymptotic_limiter": True,
+            "derivative_scale_remains_low_s_asymptotic_limiter": True,
+            "fixed_metric_aether_full_scalar_expansion_through_quartic": True,
+            "full_coupled_metric_aether_matter_fluctuation_action": False,
+            "full_fixed_scalar_coefficient_ceiling_derived": True,
+            "loop_and_radiative_control_established": False,
+            "new_conformal_factor_interactions_canonically_normalized": True,
+            "observational_scalar_cherenkov_exclusion_established": False,
+            "overall_decision": "RESTRICTED_VECTOR_METRIC_FIXED_BACKGROUND_FULL_SCALAR_QUARTIC_EXPANSION_DERIVED_DERIVATIVE_CEILING_REMAINS_ENDPOINT_LIMITER_METRIC_AETHER_UNITARITY_PHYSICAL_CUTOFF_AND_OBSERVATION_BLOCKED",
+            "physical_UV_cutoff_established": False,
+            "strong_coupling_theorem_established": False,
+            "tree_level_unitarity_bound_established": False,
+            "uniform_positive_full_scalar_coefficient_scale": False,
+        }
+        or quadrature_full_local["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "all_mode_cherenkov_safety_established": False,
+            "cosmological_viability_established": False,
+            "fixed_background_full_scalar_quartic_expansion_established": True,
+            "full_coupled_fluctuation_action_established": False,
+            "gravitational_wave_viability_established": False,
+            "healthy_action_established": False,
+            "historical_novelty_established": False,
+            "local_full_scalar_coefficient_scale_established": True,
+            "observational_scalar_cherenkov_exclusion_established": False,
+            "physical_cutoff_established": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "scientific_observational_claim_allowed": False,
+            "strong_coupling_scale_established": False,
+        }
+        or set(quadrature_full_local["zero_access_and_compute"].values()) != {0}
+    ):
+        raise GravityClusterManuscriptPackageError(
+            "quadrature scalar full local-fluctuation evidence changed"
+        )
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -1842,6 +1918,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     quadrature_cherenkov = sources["shared_quadrature_scalar_cherenkov_obstruction"]
     quadrature_cherenkov_rate = sources["shared_quadrature_scalar_cherenkov_cutoff_rate"]
     quadrature_local_cutoff = sources["shared_quadrature_scalar_local_cutoff_ceiling"]
+    quadrature_full_local = sources["shared_quadrature_scalar_full_local_fluctuation"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -2780,6 +2857,28 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "quadrature_local_strong_coupling_scale": quadrature_local_cutoff["claim_boundary"][
                 "strong_coupling_scale_established"
             ],
+            "quadrature_full_local_decision": quadrature_full_local["decision"],
+            "quadrature_full_local_scalar_quartic_expansion": quadrature_full_local["adjudication"][
+                "fixed_metric_aether_full_scalar_expansion_through_quartic"
+            ],
+            "quadrature_full_local_new_interactions_canonicalized": quadrature_full_local[
+                "adjudication"
+            ]["new_conformal_factor_interactions_canonically_normalized"],
+            "quadrature_full_local_derivative_endpoint_limiter": quadrature_full_local[
+                "adjudication"
+            ]["derivative_scale_remains_low_s_asymptotic_limiter"]
+            and quadrature_full_local["adjudication"][
+                "derivative_scale_remains_high_s_asymptotic_limiter"
+            ],
+            "quadrature_full_local_coupled_action": quadrature_full_local["adjudication"][
+                "full_coupled_metric_aether_matter_fluctuation_action"
+            ],
+            "quadrature_full_local_physical_cutoff": quadrature_full_local["adjudication"][
+                "physical_UV_cutoff_established"
+            ],
+            "quadrature_full_local_tree_unitarity": quadrature_full_local["adjudication"][
+                "tree_level_unitarity_bound_established"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -2814,6 +2913,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The restricted W=0 combined tetrad-scalar system is symmetric hyperbolic on a finite aether locus satisfying cited aether PPN/speed necessary bounds, but its quadrature scalar remains transversely subluminal, so all-mode Cherenkov safety and global physical health remain blocked.",
                 "The scalar-Cherenkov cutoff-rate successor derives an exact stationary scalar-only point-source power and conditional cutoff survival inequality, but no physical cutoff, finite formation/recoil treatment, solved propagation background, cosmic-ray survival result, or observational exclusion.",
                 "The vector-metric scalar has exact derivative-leading canonical cubic and quartic coefficient scales on the frozen local patch, but their minimum collapses at both branch endpoints; this is neither a full fluctuation action nor a physical cutoff, unitarity bound, strong-coupling theorem, or observational Cherenkov result.",
+                "Restoring the undifferentiated scalar conformal-factor vertices completes the fixed-metric, fixed-aether scalar Taylor expansion through quartic order, but the derivative coefficient scale still limits both endpoints; metric, aether, matter, unitarity, loops, a physical cutoff, and observation remain outside the result.",
                 "The two-scalar action is a blocked feasibility template: one of ten template/health gates passes and no healthy matter+lensing theory is established.",
                 "The bounded symbolic suite alone verifies only restricted scalar identities and does not independently establish general covariant equations, full H2, metric variation, or joint lensing; the later covariant successor is assessed separately.",
                 "The external-metric principal-symbol result is partial H3/H4 evidence on constant local jets and preserves a negative u>1/3 determinant contribution; it establishes neither healthy backgrounds nor a complete theory.",
@@ -2981,6 +3081,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "symbolic_checks_passed"
             ],
             "quadrature_local_cutoff_numeric_cases_passed": quadrature_local_cutoff["counts"][
+                "numeric_cases_passed"
+            ],
+            "quadrature_full_local_symbolic_checks_passed": quadrature_full_local["counts"][
+                "symbolic_checks_passed"
+            ],
+            "quadrature_full_local_numeric_cases_passed": quadrature_full_local["counts"][
                 "numeric_cases_passed"
             ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
