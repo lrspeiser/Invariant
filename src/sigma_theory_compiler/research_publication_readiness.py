@@ -422,6 +422,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "shared_quadrature_combined_tetrad_hyperbolicity",
         "shared_quadrature_scalar_cherenkov_obstruction",
         "shared_quadrature_scalar_cherenkov_cutoff_rate",
+        "shared_quadrature_scalar_local_cutoff_ceiling",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -512,6 +513,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     quadrature_combined = evidence["shared_quadrature_combined_tetrad_hyperbolicity"]
     quadrature_cherenkov = evidence["shared_quadrature_scalar_cherenkov_obstruction"]
     quadrature_cherenkov_rate = evidence["shared_quadrature_scalar_cherenkov_cutoff_rate"]
+    quadrature_local_cutoff = evidence["shared_quadrature_scalar_local_cutoff_ceiling"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -2498,6 +2500,83 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
             "quadrature scalar Cherenkov cutoff-rate evidence changed"
         )
     if (
+        quadrature_local_cutoff["status"]
+        != "restricted_vector_metric_derivative_leading_local_scalar_coefficients_no_data"
+        or quadrature_local_cutoff["decision"]
+        != "RESTRICTED_VECTOR_METRIC_DERIVATIVE_LEADING_LOCAL_SCALAR_COEFFICIENT_SCALES_DERIVED_BOTH_ENDPOINTS_COLLAPSE_PHYSICAL_CUTOFF_UNITARITY_BACKGROUND_OBSERVATION_AND_FULL_GATES_BLOCKED"
+        or quadrature_local_cutoff["config_binding"]
+        != {
+            "content_sha256": "09a1e20cbdc84274b9c93e65e68d470ad01a56c0d99dbd256a946d1f5324128b",
+            "file_sha256": "5a9a58932304b6926063dc3f4709c5f7494b99fef4059e138eb4f6ac0744c710",
+            "path": "configs/gravity_shared_quadrature_scalar_local_cutoff_ceiling_v1.json",
+        }
+        or quadrature_local_cutoff["implementation_binding"]
+        != {
+            "source_file_sha256": "26754c8a143a6b9fd5ac43a8384c0edaa2bfc60331afad134780e80b3b91b566",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_scalar_local_cutoff_ceiling.py",
+            "test_file_sha256": "df8846248aea61da80809190a4a5f7a30a831b94abb350709e0378dd13cdf14a",
+            "test_path": "tests/test_gravity_shared_quadrature_scalar_local_cutoff_ceiling.py",
+        }
+        or quadrature_local_cutoff["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "numeric_cases": 5,
+            "numeric_cases_passed": 5,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 8,
+            "predecessor_bindings": 2,
+            "primary_sources": 2,
+            "symbolic_checks": 33,
+            "symbolic_checks_passed": 33,
+        }
+        or quadrature_local_cutoff["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_6_complete": False,
+            "all_mode_cherenkov_safety": False,
+            "cosmic_ray_survival_test_passed": False,
+            "exact_derivative_leading_scalar_expansion_through_quartic": True,
+            "exact_local_canonical_interaction_coefficients_derived": True,
+            "finite_gradient_endpoint_coefficient_scale_collapses": True,
+            "full_scalar_fluctuation_action_through_quartic": False,
+            "local_NDA_style_coefficient_scale_derived": True,
+            "loop_and_radiative_control_established": False,
+            "low_gradient_coefficient_scale_collapses": True,
+            "metric_aether_matter_interactions_included": False,
+            "observational_scalar_cherenkov_exclusion_established": False,
+            "overall_decision": "RESTRICTED_VECTOR_METRIC_DERIVATIVE_LEADING_LOCAL_SCALAR_COEFFICIENT_SCALES_DERIVED_BOTH_ENDPOINTS_COLLAPSE_PHYSICAL_CUTOFF_UNITARITY_BACKGROUND_OBSERVATION_AND_FULL_GATES_BLOCKED",
+            "physical_UV_cutoff_established": False,
+            "physical_background_solution_established": False,
+            "tree_level_unitarity_bound_established": False,
+            "uniform_positive_local_coefficient_scale_established": False,
+        }
+        or quadrature_local_cutoff["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "all_mode_cherenkov_safety_established": False,
+            "cosmological_viability_established": False,
+            "full_local_scalar_fluctuation_expansion_established": False,
+            "gravitational_wave_viability_established": False,
+            "healthy_action_established": False,
+            "historical_novelty_established": False,
+            "local_coefficient_scale_established": True,
+            "observational_scalar_cherenkov_exclusion_established": False,
+            "physical_cutoff_established": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "restricted_derivative_leading_local_scalar_expansion_established": True,
+            "scientific_observational_claim_allowed": False,
+            "strong_coupling_scale_established": False,
+        }
+        or set(quadrature_local_cutoff["zero_access_and_compute"].values()) != {0}
+    ):
+        raise ResearchPublicationReadinessError(
+            "quadrature scalar local-cutoff coefficient ceiling evidence changed"
+        )
+    if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
         or numerical["claims"]["independent_replication"] is not False
@@ -2710,7 +2789,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "shared_quadrature_scalar_transverse_cherenkov_blocked": True,
             "shared_quadrature_scalar_cherenkov_phase_space_established": True,
             "shared_quadrature_ultrarelativistic_scalar_source_nondecoupling_established": True,
-            "shared_quadrature_scalar_cherenkov_rate_derived": False,
+            "shared_quadrature_scalar_cherenkov_rate_derived": True,
+            "shared_quadrature_local_scalar_coefficient_scale_established": True,
+            "shared_quadrature_uniform_positive_local_coefficient_scale": False,
+            "shared_quadrature_physical_scalar_cutoff_established": False,
             "shared_quadrature_observational_cherenkov_exclusion_established": False,
             "shared_quadrature_unreduced_constraint_hyperbolicity_established": False,
             "shared_quadrature_nonzero_W_factorization_established": False,

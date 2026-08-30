@@ -477,6 +477,13 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             lambda value: value["adjudication"].__setitem__("physical_UV_cutoff_established", True),
             "quadrature scalar Cherenkov cutoff-rate",
         ),
+        (
+            "shared_quadrature_scalar_local_cutoff_ceiling",
+            lambda value: value["claim_boundary"].__setitem__(
+                "strong_coupling_scale_established", True
+            ),
+            "quadrature scalar local-cutoff coefficient ceiling",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -503,9 +510,21 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 55,
+        "bound_evidence_receipts": 56,
         "independent_target_rows_opened": 0,
     }
+    assert (
+        stored["automatic_findings"]["shared_quadrature_local_scalar_coefficient_scale_established"]
+        is True
+    )
+    assert (
+        stored["automatic_findings"]["shared_quadrature_uniform_positive_local_coefficient_scale"]
+        is False
+    )
+    assert (
+        stored["automatic_findings"]["shared_quadrature_physical_scalar_cutoff_established"]
+        is False
+    )
 
 
 def test_semantically_resealed_overclaim_still_fails_against_bound_evidence() -> None:

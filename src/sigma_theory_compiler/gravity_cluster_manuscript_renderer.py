@@ -759,6 +759,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["quadrature_cherenkov_restricted_stationary_rate_derived"],
             f"conditional cutoff bound={theory['quadrature_cherenkov_conditional_cutoff_bound_derived']}; physical cutoff={theory['quadrature_cherenkov_physical_cutoff_established']}; formation/recoil={theory['quadrature_cherenkov_formation_recoil_rate_derived']}; background={theory['quadrature_cherenkov_background_established']}; survival={theory['quadrature_cherenkov_survival_passed']}; observational exclusion={theory['quadrature_cherenkov_cutoff_rate_observational_exclusion']}",
         ),
+        (
+            "shared_quadrature_scalar_local_cutoff_ceiling",
+            "restricted_derivative_leading_local_coefficient_scale",
+            theory["quadrature_local_coefficient_scale"],
+            f"derivative-leading expansion={theory['quadrature_local_derivative_leading_expansion']}; full fluctuation action={theory['quadrature_local_full_fluctuation_action']}; uniform positive scale={theory['quadrature_local_uniform_positive_scale']}; physical cutoff={theory['quadrature_local_physical_cutoff']}; strong-coupling theorem={theory['quadrature_local_strong_coupling_scale']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

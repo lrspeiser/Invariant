@@ -595,6 +595,13 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             lambda value: value["claim_boundary"].__setitem__("physical_cutoff_established", True),
             "quadrature scalar Cherenkov cutoff-rate",
         ),
+        (
+            "shared_quadrature_scalar_local_cutoff_ceiling",
+            lambda value: value["claim_boundary"].__setitem__(
+                "strong_coupling_scale_established", True
+            ),
+            "quadrature scalar local-cutoff coefficient ceiling",
+        ),
     ],
 )
 def test_new_source_semantics_fail_closed(source_id: str, mutation: object, match: str) -> None:

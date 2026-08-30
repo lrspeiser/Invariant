@@ -797,6 +797,19 @@ cosmic-ray survival likelihood. It therefore sharpens the obstruction without pr
 either observational exclusion or all-mode Cherenkov safety. CP11.4 and CP11.6 remain
 open, and no CP11 checkbox is advanced.
 
+The local-cutoff successor then expands the scalar density of the same committed
+universal vector-metric action, rather than the earlier conformal-only action, on the
+frozen `W=0` patch. It derives the exact derivative-leading quadratic, cubic, and
+quartic scalar terms, includes the transverse coordinate Jacobian and canonical field
+normalization, and obtains positive longitudinal-cubic, longitudinal-quartic, and
+transverse-quartic coefficient scales at every fixed interior `0<s<1/2` background.
+Their minimum nevertheless approaches zero at both branch endpoints. Thus there is no
+uniform positive local coefficient scale over the whole open branch. This is a useful
+action-specific cutoff obstruction, but it is not the full fluctuation action, a
+tree-unitarity calculation, a loop cutoff, a strong-coupling theorem, a UV completion,
+or a physical Cherenkov emission cutoff. No observational row was opened, CP11.4 and
+CP11.6 remain open, and no CP11 checkbox is advanced.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.
