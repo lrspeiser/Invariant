@@ -1,0 +1,169 @@
+{
+  "schema_version": "invariant-gravity-shared-quadrature-scalar-cherenkov-obstruction-config-1.0",
+  "analysis_id": "gravity-shared-quadrature-scalar-cherenkov-obstruction-v1",
+  "status": "frozen_no_data_restricted_static_W_zero_scalar_cherenkov_kinematics_and_no_decoupling",
+  "purpose": "Determine, on the already frozen static W=0 branch, whether the subluminal transverse quadrature-scalar mode can evade Cherenkov emission by directionality, a vanishing ultrarelativistic matter source, or alpha-to-zero decoupling; derive only exact local kinematics and kinetic-normalized source factors, and retain the missing radiation-rate, cutoff, on-shell-background, propagation, and observational calculations as blockers.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "quadrature_universal_vector_metric",
+      "git_commit": "38b1d4a66f79a6275098e4505b6fb55275079378",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_universal_vector_metric_v1.json", "file_sha256": "424cbece2339c9ec0dc83c8f8dd7679822dfcba95e4a60cb4e1938587ac631af"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_universal_vector_metric.py", "file_sha256": "41c4e9dcbc05532db698f74f2b7c7deb61d279bc1858f5768748eee427a3306a"},
+        {"path": "tests/test_gravity_shared_quadrature_universal_vector_metric.py", "file_sha256": "7b22dc7fb157ce59552c68c760b735424257a4fb4abc57d5b4dbe304761abedf"},
+        {"path": "runs/gravity/theory/shared-quadrature-universal-vector-metric-v1.json", "file_sha256": "7a4a7120c1885b86abaf667bd9bc846ca3cb5e608205e81d9a9cd3b37203e0ed"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-universal-vector-metric-v1.json",
+      "receipt_content_sha256": "833f6ba3e1413271c3d70701e4928552fd4680be9421989b0cc014abe8ebdd2e",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-universal-vector-metric-receipt-1.0",
+      "receipt_decision": "RESTRICTED_QUADRATURE_UNIVERSAL_VECTOR_METRIC_ACTION_DERIVED_LEADING_MOTION_LENSING_RELATION_AND_FIXED_AETHER_SCALAR_CAUSALITY_PASS_GLOBAL_VECTOR_ENDPOINT_SOLAR_GW_COSMOLOGY_GATES_BLOCKED"
+    },
+    {
+      "binding_id": "quadrature_combined_tetrad_hyperbolicity",
+      "git_commit": "dc9859e0541ee578ad9ed82ccc2d9eddac12d998",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_combined_tetrad_hyperbolicity_v1.json", "file_sha256": "829b427663bf476f2bc2262a12af1f864399c7b22160ab5e501395377b11c4ec"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_combined_tetrad_hyperbolicity.py", "file_sha256": "de72224b399117291b38221a982dc7eaa24e4f5980859ee57c07732b5f43edf3"},
+        {"path": "tests/test_gravity_shared_quadrature_combined_tetrad_hyperbolicity.py", "file_sha256": "c04c0167e77d6c035989af228911ec3507c9f66847909bda95ee403cee54ec0b"},
+        {"path": "runs/gravity/theory/shared-quadrature-combined-tetrad-hyperbolicity-v1.json", "file_sha256": "e23c919f729526de81bc23a6c0d5011d77f55dfe8240d748baa045cad98088e7"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-combined-tetrad-hyperbolicity-v1.json",
+      "receipt_content_sha256": "a1f72b71b9b55c3843168290754cf70cc16522619c42f6b879d96d1c61c303b5",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-combined-tetrad-hyperbolicity-receipt-1.0",
+      "receipt_decision": "RESTRICTED_STATIC_W_ZERO_COMBINED_TETRAD_SCALAR_SYMMETRIC_HYPERBOLICITY_DERIVED_AETHER_CHERENKOV_SAFE_LOCUS_SCALAR_TRANSVERSE_CHERENKOV_AND_GLOBAL_PHYSICAL_GATES_BLOCKED"
+    }
+  ],
+  "primary_source_context": [
+    {
+      "source_id": "MOORE_NELSON_2001",
+      "url": "https://arxiv.org/abs/hep-ph/0106220v2",
+      "scope": "Primary gravitational-Cherenkov calculation showing that a propagating gravitational mode slower than the common matter limiting speed can drain ultrahigh-energy cosmic rays; its quoted isotropic galactic bound is context only and is not applied numerically to this anisotropic scalar."
+    },
+    {
+      "source_id": "KOSTELECKY_TASSON_2015",
+      "url": "https://arxiv.org/abs/1508.07007v1",
+      "scope": "Primary orientation-dependent gravitational-Cherenkov analysis establishing that anisotropic propagation requires direction-dependent treatment; no coefficient limit from that paper is imported into this action-specific local calculation."
+    }
+  ],
+  "frozen_branch_contract": {
+    "metric_and_aether": "local Einstein-frame Minkowski metric with signature (-,+,+,+), Ubar^mu=(1,0,0,0), and physical-frame varphi=0",
+    "scalar_background": "constant spacelike scalar gradient along the parallel axis, Wbar=0, and 0<s<1/2",
+    "matter_probe": "one freely moving point-particle stress tensor in the local U-rest frame, used only to derive the linear source charge and emission kinematics",
+    "coefficient_scope": "constant local principal coefficients; no global source, trajectory, cutoff, or on-shell background is assumed",
+    "dispersion": "omega^2=k_parallel^2+c_perp^2 k_perp^2 with c_perp^2=(1-2s)/[2(1-s)]",
+    "time_coefficient": "A=2 alpha^2 s(1-s)/(1-2s)^2 at varphi=0"
+  },
+  "universal_metric_source_contract": {
+    "physical_metric": "gtilde_munu=exp(-2varphi)(g_munu+U_m U_n)-exp(2varphi)U_m U_n",
+    "linear_metric_variation": "at varphi=0 and fixed g,U, partial gtilde_munu/partial varphi=-2(g_munu+2U_m U_n)",
+    "source_combination": "delta S_m/delta varphi is proportional to -(T+2T_UU), where T=g_munu T^munu and T_UU=U_m U_n T^munu",
+    "point_particle_charge": "for local energy E and mass m, T+2T_UU=(2E-m^2/E) delta^3=(E+|p|^2/E) delta^3",
+    "ultrarelativistic_limit": "the charge tends to 2E delta^3 and therefore does not vanish when the stress trace tends to zero",
+    "dust_regression": "for a particle at rest the charge is m delta^3, matching the predecessor's leading nonrelativistic dust source",
+    "boundary": "This is the source of the scalar perturbation on the frozen local branch, not a radiation power or an observational loss rate."
+  },
+  "anisotropic_cherenkov_contract": {
+    "velocity_decomposition": "beta_parallel=beta cos(theta), beta_perp=beta sin(theta)",
+    "existence_criterion": "a nonzero wavevector satisfying omega=beta dot k exists iff beta^2[cos^2(theta)+sin^2(theta)/c_perp^2]>=1; strict inequality is the open Cherenkov kinematic region",
+    "threshold_speed": "beta_threshold^2=1/[cos^2(theta)+sin^2(theta)/c_perp^2]",
+    "threshold_angle": "sin^2(theta)>(beta^-2-1)(1-2s)",
+    "radial_exception": "theta=0 is longitudinal and photon-luminal, so a massive beta<1 particle is below threshold exactly on that direction",
+    "generic_ultrarelativistic_result": "as beta approaches one, every fixed nonzero angle lies in the open emission region for every 0<s<1/2",
+    "not_a_rate": "The criterion proves available on-shell phase space only; it does not compute matrix elements, formation lengths, energy loss, environmental coherence, or survival probabilities."
+  },
+  "kinetic_normalization_contract": {
+    "factor": "lambda_kin^2=alpha^2/A=(1-2s)^2/[2s(1-s)]",
+    "interior": "lambda_kin^2 is strictly positive for every alpha>0 and 0<s<1/2",
+    "alpha_limit": "at fixed branch coordinate s, alpha cancels exactly, so alpha->0 is not a perturbative decoupling limit of the kinetic-normalized local scalar source",
+    "low_gradient": "lambda_kin^2 diverges as s->0 while A->0",
+    "endpoint": "lambda_kin^2 tends to zero only as s->1/2, where c_perp^2->0 and A diverges; the excluded singular endpoint is not an interior decoupling solution",
+    "scope": "lambda_kin is a local source-to-quadratic-kinetic normalization factor, not a complete canonically normalized quantum emission amplitude or a cutoff calculation."
+  },
+  "obstruction_contract": {
+    "kinematic": "Except for exact longitudinal alignment, an ultrarelativistic matter trajectory has scalar-Cherenkov phase space on the frozen branch.",
+    "source": "The universal disformal metric gives ultrarelativistic matter a nonzero scalar source even when the ordinary stress trace vanishes.",
+    "decoupling": "The kinetic-normalized alpha dependence cancels at fixed s; exact interior decoupling is unavailable through alpha->0.",
+    "endpoint": "The only zero of the kinetic-normalized factor is the excluded s=1/2 endpoint where the scalar coefficients are singular and the transverse speed vanishes.",
+    "rate": "No radiation matrix element, power, propagation distance, cosmic-ray environment, or observational likelihood is derived.",
+    "background": "The constant W=0 scalar gradient remains a local coefficient probe rather than a solved global Milky-Way, extragalactic, Solar, or cosmological background.",
+    "remedies": "A successor must change the scalar cone, remove the universal-metric scalar charge without losing the motion/lensing relation, provide a healthy regular decoupling limit, or calculate a cutoff-suppressed emission rate; none is selected here.",
+    "claims": "This is a restricted action-specific obstruction, not an observational exclusion, a full no-go theorem, a completed health gate, or evidence for a replacement theory."
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy-1.14",
+    "required_symbolic_checks": [
+      "S01_PREDECESSOR_UNIVERSAL_METRIC",
+      "S02_PREDECESSOR_COMBINED_HYPERBOLICITY",
+      "S03_PHYSICAL_METRIC_LINEAR_VARIATION",
+      "S04_DUST_SOURCE_REGRESSION",
+      "S05_NULL_PARTICLE_SOURCE_NONZERO",
+      "S06_MASSIVE_PARTICLE_SOURCE_IDENTITY",
+      "S07_TRANSVERSE_SPEED",
+      "S08_TRANSVERSE_SPEED_STRICTLY_SUBLUMINAL",
+      "S09_ANISOTROPIC_DUAL_CONE_MAXIMUM",
+      "S10_CHERENKOV_EXISTENCE_CRITERION",
+      "S11_THRESHOLD_SPEED",
+      "S12_THRESHOLD_ANGLE",
+      "S13_ULTRARELATIVISTIC_GENERIC_ANGLE",
+      "S14_EXACT_LONGITUDINAL_EXCEPTION",
+      "S15_KINETIC_NORMALIZATION_FACTOR",
+      "S16_ALPHA_CANCELLATION",
+      "S17_KINETIC_FACTOR_INTERIOR_POSITIVE",
+      "S18_LOW_GRADIENT_STRONG_COUPLING",
+      "S19_ENDPOINT_KINETIC_FACTOR_ZERO",
+      "S20_ENDPOINT_TIME_COEFFICIENT_DIVERGES",
+      "S21_ENDPOINT_TRANSVERSE_SPEED_ZERO",
+      "S22_NO_REGULAR_INTERIOR_DECOUPLING"
+    ],
+    "numeric_cases": [
+      {"s": "1/100", "beta": "999999999999/1000000000000", "sin_theta_squared": "1/100", "expected_open_emission": true},
+      {"s": "1/10", "beta": "999999999999/1000000000000", "sin_theta_squared": "1/10000000000", "expected_open_emission": true},
+      {"s": "1/4", "beta": "999999999999/1000000000000", "sin_theta_squared": "1/1000000000000", "expected_open_emission": false},
+      {"s": "49/100", "beta": "999/1000", "sin_theta_squared": "1/100", "expected_open_emission": true}
+    ],
+    "numeric_tolerance": 1e-12
+  },
+  "adjudication": {
+    "anisotropic_cherenkov_phase_space_derived": true,
+    "ultrarelativistic_universal_metric_scalar_charge_nonzero": true,
+    "fixed_s_alpha_decoupling_available": false,
+    "regular_interior_decoupling_point_exists": false,
+    "radiation_rate_derived": false,
+    "cosmic_ray_survival_test_passed": false,
+    "all_mode_cherenkov_safety": false,
+    "full_covariant_health_established": false,
+    "CP11_4_complete": false,
+    "CP11_6_complete": false,
+    "overall_decision": "RESTRICTED_STATIC_W_ZERO_QUADRATURE_SCALAR_CHERENKOV_PHASE_SPACE_AND_NONDECOUPLING_OBSTRUCTION_DERIVED_RADIATION_RATE_BACKGROUND_AND_PHYSICAL_GATE_BLOCKED"
+  },
+  "claim_boundary": {
+    "restricted_scalar_cherenkov_kinematic_obstruction_established": true,
+    "restricted_ultrarelativistic_source_nondecoupling_established": true,
+    "observational_scalar_cherenkov_exclusion_established": false,
+    "all_mode_cherenkov_safety_established": false,
+    "healthy_action_established": false,
+    "Solar_System_viability_established": false,
+    "gravitational_wave_viability_established": false,
+    "cosmological_viability_established": false,
+    "quantitative_lensing_observables_predicted": false,
+    "observational_support": false,
+    "historical_novelty_established": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "observational_rows_opened": 0,
+    "cosmic_ray_rows_opened": 0,
+    "Solar_rows_opened": 0,
+    "GW_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "network_calls_by_builder": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/shared-quadrature-scalar-cherenkov-obstruction-v1.json"
+}
