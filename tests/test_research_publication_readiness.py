@@ -296,6 +296,11 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             ),
             "FLRW",
         ),
+        (
+            "matter_lensing_covariant_field_equations",
+            lambda value: value["adjudication"].__setitem__("ADM_constraints_derived", True),
+            "covariant field-equation",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -322,7 +327,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 5,
         "blocked_gates": 1,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 42,
+        "bound_evidence_receipts": 43,
         "independent_target_rows_opened": 0,
     }
 

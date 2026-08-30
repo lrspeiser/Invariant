@@ -681,6 +681,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["restricted_flat_flrw_equations_established"],
             f"healthy history={theory['healthy_late_time_history_exists']}; fit={theory['cosmological_fit_performed']}",
         ),
+        (
+            "matter_lensing_covariant",
+            "scalar_stress_and_exchange_established",
+            theory["covariant_scalar_stress_and_exchange_established"],
+            f"full H2={theory['covariant_full_H2']}; ADM constraints={theory['covariant_ADM_constraints_derived']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

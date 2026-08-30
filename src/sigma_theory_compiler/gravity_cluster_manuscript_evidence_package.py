@@ -44,6 +44,7 @@ SOURCE_IDS = (
     "matter_lensing_universal_conformal_source",
     "matter_lensing_solar_gw_necessary_conditions",
     "matter_lensing_flrw_necessary_conditions",
+    "matter_lensing_covariant_field_equations",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -197,6 +198,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     conformal_source = sources["matter_lensing_universal_conformal_source"]
     solar_gw = sources["matter_lensing_solar_gw_necessary_conditions"]
     flrw = sources["matter_lensing_flrw_necessary_conditions"]
+    covariant = sources["matter_lensing_covariant_field_equations"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -727,6 +729,60 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         or any(value != 0 for value in flrw["zero_access_and_compute"].values())
     ):
         raise GravityClusterManuscriptPackageError("FLRW necessary-condition ceiling changed")
+    if (
+        covariant["status"]
+        != "covariant_scalar_stress_and_exchange_machine_derived_full_metric_health_blocked"
+        or covariant["decision"]
+        != "PARTIAL_COVARIANT_SCALAR_STRESS_FIELD_EQUATIONS_AND_EXCHANGE_IDENTITY_DERIVED_FULL_METRIC_DYNAMICS_HEALTH_AND_PHYSICS_UNESTABLISHED"
+        or covariant["config_binding"]
+        != {
+            "content_sha256": "52febf9a9b74d87e8fff208800b59d92258acea262a97817dfc1dbd499e4c894",
+            "file_sha256": "e0bd786c41779e47a79b08c4182315669751ac291fce84f49fb9c3d8ee918644",
+            "path": "configs/gravity_matter_lensing_covariant_field_equations_v1.json",
+        }
+        or covariant["implementation_binding"]
+        != {
+            "source_file_sha256": "13660c4c7884f86a00a9d2f60a8a3d5edf329b7235337dc33450ae57f4d17504",
+            "source_path": "src/sigma_theory_compiler/gravity_matter_lensing_covariant_field_equations.py",
+            "test_file_sha256": "5878eb4b288eef8c2f321eedd6a3c5e46ff9928d15f971a1686a8402a45f49f7",
+            "test_path": "tests/test_gravity_matter_lensing_covariant_field_equations.py",
+        }
+        or covariant["counts"]
+        != {
+            "gpu_calls": 0,
+            "metric_components_checked": 9,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 3,
+            "numeric_cases_passed": 3,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "symbolic_checks": 21,
+            "symbolic_checks_passed": 21,
+        }
+        or covariant["adjudication"]["scalar_metric_variation_derived"] is not True
+        or covariant["adjudication"]["same_action_exchange_identity_derived"] is not True
+        or covariant["adjudication"]["formal_einstein_equation_frozen"] is not True
+        or covariant["adjudication"]["full_H2"] is not False
+        or covariant["adjudication"]["ADM_constraints_derived"] is not False
+        or covariant["adjudication"]["metric_backreaction_solved"] is not False
+        or covariant["adjudication"]["lensing_prediction"] is not False
+        or covariant["claim_boundary"]["covariant_scalar_stress_and_exchange_established"]
+        is not True
+        or covariant["claim_boundary"]["formal_same_action_field_equation_contract_established"]
+        is not True
+        or any(
+            covariant["claim_boundary"][key] is not False
+            for key in covariant["claim_boundary"]
+            if key
+            not in {
+                "covariant_scalar_stress_and_exchange_established",
+                "formal_same_action_field_equation_contract_established",
+            }
+        )
+        or any(value != 0 for value in covariant["zero_access_and_compute"].values())
+    ):
+        raise GravityClusterManuscriptPackageError("covariant field-equation ceiling changed")
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -766,6 +822,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     conformal_source = sources["matter_lensing_universal_conformal_source"]
     solar_gw = sources["matter_lensing_solar_gw_necessary_conditions"]
     flrw = sources["matter_lensing_flrw_necessary_conditions"]
+    covariant = sources["matter_lensing_covariant_field_equations"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -1323,6 +1380,23 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "perturbation_stability_established"
             ],
             "cosmological_fit_performed": flrw["adjudication"]["observational_fit_performed"],
+            "covariant_field_equation_decision": covariant["decision"],
+            "covariant_scalar_stress_and_exchange_established": covariant["claim_boundary"][
+                "covariant_scalar_stress_and_exchange_established"
+            ],
+            "formal_same_action_field_equation_contract_established": covariant["claim_boundary"][
+                "formal_same_action_field_equation_contract_established"
+            ],
+            "einstein_hilbert_curvature_variation_machine_verified": covariant["adjudication"][
+                "einstein_hilbert_curvature_variation_machine_verified"
+            ],
+            "covariant_full_H2": covariant["adjudication"]["full_H2"],
+            "covariant_ADM_constraints_derived": covariant["adjudication"][
+                "ADM_constraints_derived"
+            ],
+            "covariant_metric_backreaction_solved": covariant["adjudication"][
+                "metric_backreaction_solved"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -1355,7 +1429,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The group and ACT/eRASS acquisition paths contain metadata contracts only, with zero catalog or scientific rows and unevaluated population gates.",
                 "The guarded ACT/eRASS executor is unauthorized and unrun; executable safety controls do not provide an overlap, X-COP exclusion, or population result.",
                 "The two-scalar action is a blocked feasibility template: one of ten template/health gates passes and no healthy matter+lensing theory is established.",
-                "The bounded symbolic suite verifies only restricted scalar identities; general covariant equations, full H2, metric variation, and joint lensing remain blocked.",
+                "The bounded symbolic suite alone verifies only restricted scalar identities and does not independently establish general covariant equations, full H2, metric variation, or joint lensing; the later covariant successor is assessed separately.",
                 "The external-metric principal-symbol result is partial H3/H4 evidence on constant local jets and preserves a negative u>1/3 determinant contribution; it establishes neither healthy backgrounds nor a complete theory.",
                 "The V4 B+E+N executor freezes 60 canonical classes and 180 registered ablations (78 unique ASTs total), but it is unauthorized and unrun, with zero payload access and zero scores; its reference runtime, indifference band, and terminal-state safeguards are preparation evidence only.",
                 "The kinetic-gate theorem is conditional on an unbounded smooth positive gate that is already growing and keeps one timelike mixing term nonnegative; bounded-domain counterexamples remain, no observational data were opened, and no full-action no-go is established.",
@@ -1363,6 +1437,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The guarded X-CLASS executor is unauthorized and unrun; its exact one-GET privacy contract is preparation evidence, not an acquired group sample or scientific result.",
                 "The split-gate source bound and universal conformal source identity are restricted derivations; no physical source profile, on-shell metric solution, or same-action lensing result is established.",
                 "Solar/GW and FLRW packages derive necessary conditions only; both physical gates, perturbation stability, a healthy accelerating history, and every observational fit remain blocked.",
+                "The covariant successor machine-derives the scalar stress tensor and same-action exchange identity, but treats the Einstein-Hilbert curvature variation as a standard stored contract and leaves ADM constraints, full H2, metric backreaction, physical solutions, and lensing blocked.",
             }
         ),
         "counts": {
@@ -1428,6 +1503,8 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "solar_gw_symbolic_checks_passed": solar_gw["counts"]["symbolic_checks_passed"],
             "flrw_symbolic_checks_passed": flrw["counts"]["symbolic_checks_passed"],
+            "covariant_symbolic_checks_passed": covariant["counts"]["symbolic_checks_passed"],
+            "covariant_numeric_cases_passed": covariant["counts"]["numeric_cases_passed"],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][
                 "new_raw_target_rows_opened"

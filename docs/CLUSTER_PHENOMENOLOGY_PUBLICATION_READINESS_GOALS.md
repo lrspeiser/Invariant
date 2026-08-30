@@ -122,6 +122,12 @@ follows the candidate acceleration law.
   mass-gate energy factor `(1+u)(1-7u)` becomes negative above `u=1/7`; no healthy or
   accelerating cosmological history, perturbation stability, BBN/CMB/growth pass, or
   observational fit has been demonstrated.
+- The covariant successor at `e33fa4e4` derives the scalar metric response, covariant
+  stress tensor, sourced scalar equations, and same-action matter-scalar exchange
+  identity. Its 21 symbolic checks and nine finite-difference stress components pass,
+  but the Einstein-Hilbert curvature variation remains a standard stored contract;
+  ADM constraints, full H2, metric backreaction, physical solutions, and lensing are
+  still unproved.
 
 Useful primary context includes the SPARC radial-acceleration relation
 (https://arxiv.org/abs/1609.05917), the documented residual MOND problem in X-ray groups
@@ -615,11 +621,13 @@ the wording attributes the relation to gravity or claims an alternative to dark 
 
 The current two-scalar action is a blocked feasibility template, not a derived healthy
 theory. It declares one universal matter/photon metric and a locally fixed-range channel,
-but passes only one of ten template/health gates. The bounded symbolic follow-up checks
-restricted flat-background scalar identities and local Green-function behavior; it
-explicitly leaves the general covariant scalar equations unverified and full metric
-variation, Noether/Hamiltonian closure, global hyperbolicity, screening, cosmology, and
-joint matter+lensing prediction blocked. No CP11 checkbox or scientific claim changes.
+but passes only one of ten template/health gates. Considered by itself, the bounded
+symbolic follow-up checks restricted flat-background scalar identities and local
+Green-function behavior; it did not derive the general covariant scalar equations or full
+metric variation. The later covariant successor below closes the scalar-equation and
+exchange bookkeeping gap, while Noether/Hamiltonian closure, global hyperbolicity,
+screening, cosmology, and joint matter+lensing prediction remain blocked. No CP11 checkbox
+or scientific claim changes.
 
 The external-metric principal-symbol successor machine-derives the two-scalar block for
 constant local jets and labels H3 and H4 only `PARTIAL`. Its exact factorization changes
@@ -644,6 +652,13 @@ backreaction or lensing; the Solar and GW inequalities are not observational pas
 the FLRW gate contributes negative energy above `u=1/7` unless other sectors compensate.
 No single healthy on-shell history, parameter set, or cosmological fit exists, so every
 GR, lensing, cosmology, and publication claim remains false.
+
+The covariant field-equation successor closes one narrower bookkeeping gap: direct local
+inverse-metric variation gives the scalar stress tensor, and its sourced divergence
+cancels the universal conformal matter exchange on shell. This is not CP11.3 completion:
+the independently checked curvature variation, ADM constraints, constraint propagation,
+Hamiltonian health, metric backreaction, and solved universal-metric lensing system are
+still absent. No CP11 checkbox changes.
 
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.

@@ -409,6 +409,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matter_lensing_universal_conformal_source",
         "matter_lensing_solar_gw_necessary_conditions",
         "matter_lensing_flrw_necessary_conditions",
+        "matter_lensing_covariant_field_equations",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -486,6 +487,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     conformal_source = evidence["matter_lensing_universal_conformal_source"]
     solar_gw = evidence["matter_lensing_solar_gw_necessary_conditions"]
     flrw = evidence["matter_lensing_flrw_necessary_conditions"]
+    covariant = evidence["matter_lensing_covariant_field_equations"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -1514,6 +1516,60 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or any(value != 0 for value in flrw["zero_access_and_compute"].values())
     ):
         raise ResearchPublicationReadinessError("FLRW necessary-condition evidence changed")
+    if (
+        covariant["status"]
+        != "covariant_scalar_stress_and_exchange_machine_derived_full_metric_health_blocked"
+        or covariant["decision"]
+        != "PARTIAL_COVARIANT_SCALAR_STRESS_FIELD_EQUATIONS_AND_EXCHANGE_IDENTITY_DERIVED_FULL_METRIC_DYNAMICS_HEALTH_AND_PHYSICS_UNESTABLISHED"
+        or covariant["config_binding"]
+        != {
+            "content_sha256": "52febf9a9b74d87e8fff208800b59d92258acea262a97817dfc1dbd499e4c894",
+            "file_sha256": "e0bd786c41779e47a79b08c4182315669751ac291fce84f49fb9c3d8ee918644",
+            "path": "configs/gravity_matter_lensing_covariant_field_equations_v1.json",
+        }
+        or covariant["implementation_binding"]
+        != {
+            "source_file_sha256": "13660c4c7884f86a00a9d2f60a8a3d5edf329b7235337dc33450ae57f4d17504",
+            "source_path": "src/sigma_theory_compiler/gravity_matter_lensing_covariant_field_equations.py",
+            "test_file_sha256": "5878eb4b288eef8c2f321eedd6a3c5e46ff9928d15f971a1686a8402a45f49f7",
+            "test_path": "tests/test_gravity_matter_lensing_covariant_field_equations.py",
+        }
+        or covariant["counts"]
+        != {
+            "gpu_calls": 0,
+            "metric_components_checked": 9,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_cases": 3,
+            "numeric_cases_passed": 3,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "symbolic_checks": 21,
+            "symbolic_checks_passed": 21,
+        }
+        or covariant["adjudication"]["scalar_metric_variation_derived"] is not True
+        or covariant["adjudication"]["same_action_exchange_identity_derived"] is not True
+        or covariant["adjudication"]["formal_einstein_equation_frozen"] is not True
+        or covariant["adjudication"]["full_H2"] is not False
+        or covariant["adjudication"]["ADM_constraints_derived"] is not False
+        or covariant["adjudication"]["metric_backreaction_solved"] is not False
+        or covariant["adjudication"]["lensing_prediction"] is not False
+        or covariant["claim_boundary"]["covariant_scalar_stress_and_exchange_established"]
+        is not True
+        or covariant["claim_boundary"]["formal_same_action_field_equation_contract_established"]
+        is not True
+        or any(
+            covariant["claim_boundary"][key] is not False
+            for key in covariant["claim_boundary"]
+            if key
+            not in {
+                "covariant_scalar_stress_and_exchange_established",
+                "formal_same_action_field_equation_contract_established",
+            }
+        )
+        or any(value != 0 for value in covariant["zero_access_and_compute"].values())
+    ):
+        raise ResearchPublicationReadinessError("covariant field-equation evidence changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True

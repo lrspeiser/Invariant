@@ -137,6 +137,15 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     assert any(
         row[:3]
         == [
+            "matter_lensing_covariant",
+            "scalar_stress_and_exchange_established",
+            "true",
+        ]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
             "matter_lensing_kinetic_gate",
             "conditional_timelike_mixing_no_go",
             "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES",
@@ -233,6 +242,15 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         == [
             "matter_lensing_theory_boundary",
             "healthy_late_time_history_exists",
+            "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "covariant_ADM_constraints_derived",
             "false",
         ]
         for row in table_6[1:]

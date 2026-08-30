@@ -214,6 +214,12 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["healthy_late_time_history_exists"] is False
     assert theory["perturbation_stability_established"] is False
     assert theory["cosmological_fit_performed"] is False
+    assert theory["covariant_scalar_stress_and_exchange_established"] is True
+    assert theory["formal_same_action_field_equation_contract_established"] is True
+    assert theory["einstein_hilbert_curvature_variation_machine_verified"] is False
+    assert theory["covariant_full_H2"] is False
+    assert theory["covariant_ADM_constraints_derived"] is False
+    assert theory["covariant_metric_backreaction_solved"] is False
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -333,6 +339,11 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
                 "healthy_late_time_history_exists", True
             ),
             "FLRW",
+        ),
+        (
+            "matter_lensing_covariant_field_equations",
+            lambda value: value["claim_boundary"].__setitem__("lensing_success_established", True),
+            "covariant field-equation",
         ),
     ],
 )
