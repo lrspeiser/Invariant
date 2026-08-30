@@ -771,6 +771,20 @@ decoupling theorem is derived. Nonzero `W`, global backgrounds, endpoints, a uni
 cutoff, nonlinear health, Solar-System solutions, strong fields, cosmology, and
 quantitative lensing also remain open. No CP11 checkbox is advanced.
 
+The scalar-Cherenkov successor sharpens that remaining obstruction without using any
+observational row. On the same frozen local branch, the anisotropic scalar dispersion
+admits on-shell Cherenkov phase space for every fixed non-longitudinal direction as an
+ordinary matter particle becomes ultrarelativistic. Varying the single universal
+matter/photon metric shows why a trace-only decoupling argument does not apply: the
+scalar source is proportional to `T+2 T_UU`, which tends to twice the particle energy
+when the ordinary trace vanishes. The kinetic-normalized factor
+`alpha^2/A=(1-2s)^2/[2s(1-s)]` is positive throughout `0<s<1/2` and independent of
+`alpha` at fixed `s`; it reaches zero only at the already excluded singular endpoint.
+This establishes a restricted kinematic and source-nondecoupling obstruction, not an
+observational exclusion. A matrix element, cutoff, formation length, propagation
+environment, energy-loss rate, and solved background are still absent, so all-mode
+Cherenkov safety, CP11.4, and CP11.6 remain open. No CP11 checkbox is advanced.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

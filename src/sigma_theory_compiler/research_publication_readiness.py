@@ -420,6 +420,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "shared_quadrature_aether_mode_conditions",
         "shared_quadrature_reduced_principal_factorization",
         "shared_quadrature_combined_tetrad_hyperbolicity",
+        "shared_quadrature_scalar_cherenkov_obstruction",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -508,6 +509,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     quadrature_aether = evidence["shared_quadrature_aether_mode_conditions"]
     quadrature_factorization = evidence["shared_quadrature_reduced_principal_factorization"]
     quadrature_combined = evidence["shared_quadrature_combined_tetrad_hyperbolicity"]
+    quadrature_cherenkov = evidence["shared_quadrature_scalar_cherenkov_obstruction"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -2352,6 +2354,75 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
             "quadrature combined symmetric-hyperbolicity evidence changed"
         )
     if (
+        quadrature_cherenkov["status"]
+        != "restricted_static_W_zero_scalar_cherenkov_kinematics_no_data"
+        or quadrature_cherenkov["decision"]
+        != "RESTRICTED_STATIC_W_ZERO_QUADRATURE_SCALAR_CHERENKOV_PHASE_SPACE_AND_NONDECOUPLING_OBSTRUCTION_DERIVED_RADIATION_RATE_BACKGROUND_AND_PHYSICAL_GATE_BLOCKED"
+        or quadrature_cherenkov["config_binding"]
+        != {
+            "content_sha256": "54309e4e7dcb9ce28d876d8c7fb3cf6d6e279b880988ae38ad37d6f5433e259d",
+            "file_sha256": "08a86d1a17d52e4e1ca6365c4fe89ce1cb1037983721b7a2c95cd84bb13ac03d",
+            "path": "configs/gravity_shared_quadrature_scalar_cherenkov_obstruction_v1.json",
+        }
+        or quadrature_cherenkov["implementation_binding"]
+        != {
+            "source_file_sha256": "778bfdc92287ac1b2bc5968d59d755cab020bc660214d6c6386389659f400d5e",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_scalar_cherenkov_obstruction.py",
+            "test_file_sha256": "10538a09220a3e8c1d10ab7e42af549664a2bf7fa6c2670b3fd2f80a0380cc33",
+            "test_path": "tests/test_gravity_shared_quadrature_scalar_cherenkov_obstruction.py",
+        }
+        or quadrature_cherenkov["counts"]
+        != {
+            "designed_nonemission_cases": 1,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "numeric_cases": 4,
+            "numeric_cases_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 8,
+            "predecessor_bindings": 2,
+            "primary_sources": 2,
+            "symbolic_checks": 22,
+            "symbolic_checks_passed": 22,
+        }
+        or quadrature_cherenkov["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_6_complete": False,
+            "all_mode_cherenkov_safety": False,
+            "anisotropic_cherenkov_phase_space_derived": True,
+            "cosmic_ray_survival_test_passed": False,
+            "fixed_s_alpha_decoupling_available": False,
+            "full_covariant_health_established": False,
+            "overall_decision": "RESTRICTED_STATIC_W_ZERO_QUADRATURE_SCALAR_CHERENKOV_PHASE_SPACE_AND_NONDECOUPLING_OBSTRUCTION_DERIVED_RADIATION_RATE_BACKGROUND_AND_PHYSICAL_GATE_BLOCKED",
+            "radiation_rate_derived": False,
+            "regular_interior_decoupling_point_exists": False,
+            "ultrarelativistic_universal_metric_scalar_charge_nonzero": True,
+        }
+        or quadrature_cherenkov["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "all_mode_cherenkov_safety_established": False,
+            "cosmological_viability_established": False,
+            "gravitational_wave_viability_established": False,
+            "healthy_action_established": False,
+            "historical_novelty_established": False,
+            "observational_scalar_cherenkov_exclusion_established": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "restricted_scalar_cherenkov_kinematic_obstruction_established": True,
+            "restricted_ultrarelativistic_source_nondecoupling_established": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_cherenkov["zero_access_and_compute"].values()) != {0}
+    ):
+        raise ResearchPublicationReadinessError(
+            "quadrature scalar Cherenkov obstruction evidence changed"
+        )
+    if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
         or numerical["claims"]["independent_replication"] is not False
@@ -2562,6 +2633,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "shared_quadrature_aether_literature_necessary_bounds_satisfied": True,
             "shared_quadrature_all_mode_cherenkov_safety_established": False,
             "shared_quadrature_scalar_transverse_cherenkov_blocked": True,
+            "shared_quadrature_scalar_cherenkov_phase_space_established": True,
+            "shared_quadrature_ultrarelativistic_scalar_source_nondecoupling_established": True,
+            "shared_quadrature_scalar_cherenkov_rate_derived": False,
+            "shared_quadrature_observational_cherenkov_exclusion_established": False,
             "shared_quadrature_unreduced_constraint_hyperbolicity_established": False,
             "shared_quadrature_nonzero_W_factorization_established": False,
         },

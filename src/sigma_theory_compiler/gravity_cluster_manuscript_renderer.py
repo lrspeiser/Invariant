@@ -747,6 +747,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["quadrature_combined_symmetric_hyperbolicity"],
             f"common Cauchy time={theory['quadrature_combined_common_Cauchy_time']}; aether necessary bounds={theory['quadrature_combined_aether_necessary_bounds']}; all-mode Cherenkov safety={theory['quadrature_combined_all_mode_cherenkov_safety']}; full health={theory['quadrature_combined_full_health']}",
         ),
+        (
+            "shared_quadrature_scalar_cherenkov_obstruction",
+            "restricted_kinematic_and_source_nondecoupling_obstruction",
+            theory["quadrature_cherenkov_phase_space"],
+            f"ultrarelativistic scalar source nonzero={theory['quadrature_cherenkov_ultrarelativistic_source_nonzero']}; fixed-s alpha decoupling={theory['quadrature_cherenkov_fixed_s_alpha_decoupling']}; radiation rate derived={theory['quadrature_cherenkov_rate_derived']}; observational exclusion={theory['quadrature_cherenkov_observational_exclusion']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

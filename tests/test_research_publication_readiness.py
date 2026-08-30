@@ -467,6 +467,11 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             ),
             "quadrature combined symmetric-hyperbolicity",
         ),
+        (
+            "shared_quadrature_scalar_cherenkov_obstruction",
+            lambda value: value["adjudication"].__setitem__("radiation_rate_derived", True),
+            "quadrature scalar Cherenkov obstruction",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -493,7 +498,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 53,
+        "bound_evidence_receipts": 54,
         "independent_target_rows_opened": 0,
     }
 
