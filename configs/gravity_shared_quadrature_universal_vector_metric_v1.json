@@ -1,0 +1,165 @@
+{
+  "schema_version": "invariant-gravity-shared-quadrature-universal-vector-metric-config-1.0",
+  "analysis_id": "gravity-shared-quadrature-universal-vector-metric-v1",
+  "status": "frozen_no_data_restricted_universal_vector_metric_action",
+  "purpose": "Construct the smallest covariant same-metric vector-scalar architecture that preserves the quadrature static force, gives matter and photons the same leading lensing shift, and repairs the fixed-aether scalar cone without hiding the remaining vector, endpoint, Solar, GW, and cosmological gates.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "shared_quadrature_covariant_action",
+      "git_commit": "28c5d95c8ddc263cfdbd6c83f99b177a2a282b4f",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_covariant_action_v1.json", "file_sha256": "dca011dce2390ea37a853a44b501d24865185c83a7f7ecf6ab3e0eeaf69fdc64"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_covariant_action.py", "file_sha256": "570d6cab120c9a0c5cf7456a2f2579579acc0388e1efcddaf3bad80fad793197"},
+        {"path": "tests/test_gravity_shared_quadrature_covariant_action.py", "file_sha256": "9519cb28f89f5565f1d3b2a2766352a31212914b809f94410447d04516e84d82"},
+        {"path": "runs/gravity/theory/shared-quadrature-covariant-action-v1.json", "file_sha256": "229187d3780c7996906b9021a401dabaa02b38e55d39e40f3861ec641e341069"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-covariant-action-v1.json",
+      "receipt_content_sha256": "7503b0b833eef1e84f3db97245abcaa7f3f1b6fde1aa6b3678d04e4f155e5398",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-covariant-action-receipt-1.0",
+      "receipt_decision": "RESTRICTED_QUADRATURE_UNIVERSAL_CONFORMAL_ACTION_DERIVED_EXACT_MOTION_LAW_AND_STRESS_ESTABLISHED_DIRECT_LENSING_CANCELS_CAUSAL_ENDPOINT_GLOBAL_AND_QUANTITATIVE_LENSING_GATES_FAIL"
+    },
+    {
+      "binding_id": "shared_quadrature_lensing_backreaction",
+      "git_commit": "99e4744c4e639b715e86fd07d4ded9c0b0fe0ca8",
+      "artifacts": [
+        {"path": "configs/gravity_shared_quadrature_lensing_backreaction_v1.json", "file_sha256": "3eb1558be624966fb861e860d6f590d8c76ad7862ae25cc29c43489d499bc55a"},
+        {"path": "src/sigma_theory_compiler/gravity_shared_quadrature_lensing_backreaction.py", "file_sha256": "98d3c1c21cf667ad02e4b657b10446c24ce54f7647bc39d829a7a15c0c1f96f5"},
+        {"path": "tests/test_gravity_shared_quadrature_lensing_backreaction.py", "file_sha256": "05bbfd6865816ba46d0cfe315ab816fec9321dfbdaec3f20b0590df014a480ff"},
+        {"path": "runs/gravity/theory/shared-quadrature-lensing-backreaction-v1.json", "file_sha256": "bf350a02bcc92249d9f1dc558afd0e9fbd8d785247ac808c37f2ef8af994d255"}
+      ],
+      "receipt_path": "runs/gravity/theory/shared-quadrature-lensing-backreaction-v1.json",
+      "receipt_content_sha256": "13fa7462642d67893d625363391b978100bed444cb15873415a3f68e46c3e4c7",
+      "receipt_schema_version": "invariant-gravity-shared-quadrature-lensing-backreaction-receipt-1.0",
+      "receipt_decision": "RESTRICTED_QUADRATURE_LENSING_BACKREACTION_DERIVED_DIRECT_CONFORMAL_SHIFT_CANCELS_SCALAR_STRESS_LENSING_IS_ASYMPTOTICALLY_COMPACTNESS_SUPPRESSED_AND_ISOLATED_ENERGY_LOG_DIVERGES_GLOBAL_QUANTITATIVE_LENSING_REMAINS_BLOCKED"
+    }
+  ],
+  "restricted_action_contract": {
+    "signature": "(-,+,+,+)",
+    "fields": "Einstein metric g_munu, unit timelike vector U^mu with g_munu U^mu U^nu=-1, scalar phi, Lagrange multiplier lambda_U, and universally coupled matter/photon fields",
+    "projector": "h^munu=g^munu+U^mu U^nu",
+    "scalar_invariants": "Z=h^munu nabla_mu(phi)nabla_nu(phi)/(Mpl^2 a0^2), W=U^mu nabla_mu(phi)/(Mpl a0), s=alpha sqrt(Z), varphi=alpha phi/Mpl",
+    "scalar_density": "L_phi=2 Mpl^2 a0^2 p(-Z/2)+Mpl^2 a0^2 A(s,varphi) W^2",
+    "kinetic_functions": "p(s)=s^2/4+s/4+ln(1-2s)/8; C(s)=alpha^2 s/(1-2s); K(s)=2 alpha^2 s(1-s)/(1-2s)^2; A(s,varphi)=exp(-4varphi)K(s)",
+    "vector_density": "L_U=-(Mpl^2/2) K^{ab}_{mn}(c1,c2,c3,c4) nabla_a U^m nabla_b U^n+lambda_U(U^2+1)",
+    "einstein_frame_action": "S=integral sqrt(-g)[Mpl^2 R/2+L_U+L_phi]+S_m[gtilde,Psi_matter,Psi_photon]",
+    "branch_domain": "alpha>0, 0<s<1/2, finite real varphi, and a static U-orthogonal scalar gradient for the exact force branch",
+    "novelty_boundary": "This is a known TeVeS-type universal vector-metric architecture specialized to the frozen quadrature kinetic map; no historical novelty is claimed."
+  },
+  "universal_metric_contract": {
+    "physical_metric": "gtilde_munu=exp(-2varphi)(g_munu+U_m U_n)-exp(2varphi)U_m U_n=exp(-2varphi)g_munu-2sinh(2varphi)U_m U_n",
+    "inverse_metric": "gtilde^munu=exp(2varphi)(g^munu+U^mu U^nu)-exp(-2varphi)U^mu U^nu",
+    "volume": "sqrt(-gtilde)=exp(-2varphi)sqrt(-g) in four dimensions",
+    "universality": "The same gtilde is used for massive matter, clocks, photons, and every lensing observable; no photon-only factor or post-fit lensing rescaling exists.",
+    "weak_field_potentials": "For U aligned with static time, Phi_tilde=Phi_E+varphi and Psi_tilde=Psi_E+varphi at first order.",
+    "motion_lensing_relation": "g_phi=d_r varphi=a0 s and d_r[(Phi_tilde+Psi_tilde)-(Phi_E+Psi_E)]=2g_phi, exactly the leading GR-equivalent lensing shift for the same scalar motion enhancement.",
+    "source_scope": "The nonrelativistic dust variation gives Q_phi=alpha rho/Mpl at leading weak-field order; no exact strong-field matter-source identity is claimed."
+  },
+  "fixed_aether_scalar_principal_contract": {
+    "scope": "constant local g and U, static W=0 background, frozen vector perturbations, and scalar perturbations resolved parallel/transverse to the spatial background gradient",
+    "principal_equation": "-A partial_t^2 delta_phi+K partial_parallel^2 delta_phi+C partial_transverse^2 delta_phi=0",
+    "physical_photon_speed": "c_photon^2=exp(4varphi) in the local Einstein-frame U-rest coordinates",
+    "scalar_speeds": "c_parallel^2=K/A=exp(4varphi); c_transverse^2=C/A=exp(4varphi)(1-2s)/[2(1-s)]",
+    "conditional_result": "The fixed-aether scalar block is causal relative to the physical photon cone on 0<s<1/2: longitudinal characteristics coincide and transverse characteristics lie strictly inside.",
+    "full_system_limit": "Vector perturbations couple through Z and W, so this does not establish the characteristic cone, constraints, or strong hyperbolicity of the full metric-vector-scalar-matter system."
+  },
+  "gw_solar_cosmology_contract": {
+    "tensor_condition": "The Einstein-aether tensor cone is g-null only after the necessary c13=c1+c3=0 specialization in the adopted convention.",
+    "asymptotic_cone_ratio": "With c13=0, c_GW/c_photon=exp(-2varphi_infinity) in the U-rest frame.",
+    "inherited_gw_tolerance": 1e-15,
+    "required_varphi_interval": "-ln(1+delta_GW)/2 <= varphi_infinity <= -ln(1-delta_GW)/2",
+    "boundary_choice": "varphi_infinity=0 passes the local algebraic cone condition but is not an on-shell cosmological solution or a proof that the bound holds along a real multimessenger path.",
+    "remaining_gates": "Vector spin-1/spin-0 health, PPN preferred-frame parameters, Solar screening, strong fields, a global scalar endpoint completion, FLRW evolution, cutoff, and joint observational viability remain unproved."
+  },
+  "obstruction_contract": {
+    "low_gradient": "C,K,A vanish as s approaches zero, so the exact deep-gradient branch remains strongly degenerate.",
+    "finite_gradient_endpoint": "C,K,A diverge as s approaches one half, so the high-source endpoint remains singular.",
+    "cosmology": "A homogeneous Z=0 scalar background sits on the degenerate s=0 boundary; no healthy timelike cosmological scalar branch is supplied.",
+    "vector_mixing": "The fixed-aether cone calculation omits principal mixing with the dynamical unit vector and metric constraints.",
+    "interpretation": "The architecture repairs the leading motion-lensing relation and the frozen-vector scalar cone, but is not a completed healthy gravity theory."
+  },
+  "machine_check_contract": {
+    "symbolic_engine": "sympy-1.14",
+    "required_symbolic_checks": [
+      "S01_PHYSICAL_METRIC_EQUIVALENT_FORMS",
+      "S02_PHYSICAL_METRIC_INVERSE",
+      "S03_PHYSICAL_VOLUME_FACTOR",
+      "S04_WEAK_TIME_POTENTIAL",
+      "S05_WEAK_SPACE_POTENTIAL",
+      "S06_SCALAR_MOTION_SHIFT",
+      "S07_SCALAR_LENSING_SHIFT",
+      "S08_GR_EQUIVALENT_MOTION_LENSING_RELATION",
+      "S09_KINETIC_DENSITY_DERIVATIVE",
+      "S10_SPATIAL_TRANSVERSE_COEFFICIENT",
+      "S11_SPATIAL_LONGITUDINAL_COEFFICIENT",
+      "S12_TIME_COEFFICIENT",
+      "S13_LONGITUDINAL_PHYSICAL_CONE_MATCH",
+      "S14_TRANSVERSE_PHYSICAL_CONE_RATIO",
+      "S15_TRANSVERSE_CONE_STRICT_INTERIOR",
+      "S16_LOW_GRADIENT_C_ZERO",
+      "S17_LOW_GRADIENT_K_ZERO",
+      "S18_FINITE_ENDPOINT_K_DIVERGENCE",
+      "S19_TENSOR_C13_G_NULL_CONDITION",
+      "S20_GW_VARPHI_INTERVAL_ENDPOINTS",
+      "S21_WEAK_DUST_SOURCE_NORMALIZATION"
+    ],
+    "numeric_cases": [
+      {"s": 0.01, "varphi": -0.000001},
+      {"s": 0.1, "varphi": 0.0},
+      {"s": 0.25, "varphi": 0.000001},
+      {"s": 0.49, "varphi": 0.0}
+    ],
+    "numeric_tolerance": 1e-12
+  },
+  "adjudication": {
+    "restricted_vector_scalar_action_defined": true,
+    "one_universal_massive_matter_and_photon_metric_defined": true,
+    "separate_photon_adjustment_present": false,
+    "quadrature_motion_law_recovered_at_leading_weak_field_order": true,
+    "leading_scalar_motion_and_lensing_relation_matched": true,
+    "fixed_aether_scalar_block_causal_relative_to_physical_cone": true,
+    "full_metric_vector_scalar_matter_causality_established": false,
+    "tensor_c13_zero_condition_derived": true,
+    "gw_asymptotic_scalar_boundary_condition_derived": true,
+    "gw_physical_gate_passed": false,
+    "vector_health_and_constraint_system_established": false,
+    "low_gradient_transition_nondegenerate": false,
+    "finite_gradient_endpoint_regular": false,
+    "timelike_cosmological_branch_defined": false,
+    "Solar_System_completion_established": false,
+    "historical_novelty_established": false,
+    "CP11_1_complete": false,
+    "CP11_4_complete": false,
+    "CP11_6_complete": false,
+    "CP11_8_complete": false,
+    "CP11_10_complete": false,
+    "overall_decision": "RESTRICTED_QUADRATURE_UNIVERSAL_VECTOR_METRIC_ACTION_DERIVED_LEADING_MOTION_LENSING_RELATION_AND_FIXED_AETHER_SCALAR_CAUSALITY_PASS_GLOBAL_VECTOR_ENDPOINT_SOLAR_GW_COSMOLOGY_GATES_BLOCKED"
+  },
+  "claim_boundary": {
+    "restricted_same_action_motion_lensing_architecture_established": true,
+    "restricted_fixed_aether_scalar_causality_established": true,
+    "full_covariant_health_established": false,
+    "global_hyperbolicity_established": false,
+    "quantitative_lensing_observables_predicted": false,
+    "Solar_System_viability_established": false,
+    "gravitational_wave_viability_established": false,
+    "cosmological_viability_established": false,
+    "observational_support": false,
+    "historical_novelty_established": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "observational_rows_opened": 0,
+    "predictor_rows_opened": 0,
+    "response_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "network_calls": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/shared-quadrature-universal-vector-metric-v1.json"
+}
