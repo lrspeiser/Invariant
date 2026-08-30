@@ -414,6 +414,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matter_lensing_scalar_hamiltonian_necessary_conditions",
         "matter_lensing_deep_aqual_transition_tradeoff",
         "shared_formula_scalar_kinetic_reconstruction",
+        "shared_quadrature_covariant_action",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -496,6 +497,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     scalar_hamiltonian = evidence["matter_lensing_scalar_hamiltonian_necessary_conditions"]
     deep_aqual_transition = evidence["matter_lensing_deep_aqual_transition_tradeoff"]
     formula_kinetic = evidence["shared_formula_scalar_kinetic_reconstruction"]
+    quadrature_action = evidence["shared_quadrature_covariant_action"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -1897,6 +1899,77 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     ):
         raise ResearchPublicationReadinessError("formula kinetic reconstruction evidence changed")
     if (
+        quadrature_action["status"]
+        != "restricted_spacelike_universal_conformal_quadrature_action_derived_motion_exact_lensing_unsolved_causal_and_endpoint_gates_failed"
+        or quadrature_action["decision"]
+        != "RESTRICTED_QUADRATURE_UNIVERSAL_CONFORMAL_ACTION_DERIVED_EXACT_MOTION_LAW_AND_STRESS_ESTABLISHED_DIRECT_LENSING_CANCELS_CAUSAL_ENDPOINT_GLOBAL_AND_QUANTITATIVE_LENSING_GATES_FAIL"
+        or quadrature_action["config_binding"]
+        != {
+            "content_sha256": "9467ccf6c7bd2d5512f537eaa3f323a46b861fa10d8ad3b0b1133d8962ea240b",
+            "file_sha256": "dca011dce2390ea37a853a44b501d24865185c83a7f7ecf6ab3e0eeaf69fdc64",
+            "path": "configs/gravity_shared_quadrature_covariant_action_v1.json",
+        }
+        or quadrature_action["implementation_binding"]
+        != {
+            "source_file_sha256": "570d6cab120c9a0c5cf7456a2f2579579acc0388e1efcddaf3bad80fad793197",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_covariant_action.py",
+            "test_file_sha256": "9519cb28f89f5565f1d3b2a2766352a31212914b809f94410447d04516e84d82",
+            "test_path": "tests/test_gravity_shared_quadrature_covariant_action.py",
+        }
+        or quadrature_action["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_branch_probes": 4,
+            "numeric_branch_probes_passed": 4,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_bindings": 4,
+            "symbolic_checks": 24,
+            "symbolic_checks_passed": 24,
+        }
+        or quadrature_action["adjudication"]
+        != {
+            "CP11_1_complete": False,
+            "CP11_4_complete": False,
+            "CP11_8_complete": False,
+            "direct_conformal_lensing_shift_cancels": True,
+            "finite_gradient_endpoint_regular": False,
+            "local_static_energy_density_positive": True,
+            "local_static_radial_and_tangential_NEC_nonnegative": True,
+            "low_gradient_transition_nondegenerate": False,
+            "overall_decision": "RESTRICTED_QUADRATURE_UNIVERSAL_CONFORMAL_ACTION_DERIVED_EXACT_MOTION_LAW_AND_STRESS_ESTABLISHED_DIRECT_LENSING_CANCELS_CAUSAL_ENDPOINT_GLOBAL_AND_QUANTITATIVE_LENSING_GATES_FAIL",
+            "quadrature_motion_law_recovered_exactly": True,
+            "restricted_spacelike_covariant_action_defined": True,
+            "same_action_quantitative_lensing_solution_derived": False,
+            "scalar_cone_causal_relative_to_conformal_matter_cone": False,
+            "scalar_stress_tensor_derived": True,
+            "separate_photon_adjustment_present": False,
+            "surviving_empirical_candidate_selected": False,
+            "timelike_cosmological_branch_defined": False,
+            "universal_massive_matter_and_photon_metric_defined": True,
+        }
+        or quadrature_action["claim_boundary"]
+        != {
+            "Solar_System_completion_established": False,
+            "causality_established": False,
+            "cosmological_completion_established": False,
+            "global_hyperbolicity_established": False,
+            "gravitational_wave_completion_established": False,
+            "healthy_global_action_established": False,
+            "historical_novelty_established": False,
+            "observational_support": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_prediction_established": False,
+            "restricted_quadrature_action_embedding_established": True,
+            "same_action_motion_and_lensing_architecture_defined": True,
+            "scientific_observational_claim_allowed": False,
+        }
+        or set(quadrature_action["zero_access_and_compute"].values()) != {0}
+    ):
+        raise ResearchPublicationReadinessError("quadrature action evidence changed")
+    if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
         or numerical["claims"]["independent_replication"] is not False
@@ -2083,6 +2156,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "shared_formula_classes_structurally_mapped_to_minimal_scalar_theory": 60,
             "shared_formula_source_only_minimal_scalar_classes": 3,
             "shared_formula_full_covariant_bridge_derived": False,
+            "shared_quadrature_restricted_action_defined": True,
+            "shared_quadrature_exact_motion_law_recovered": True,
+            "shared_quadrature_quantitative_lensing_derived": False,
+            "shared_quadrature_scalar_cone_causal": False,
         },
         "readiness": {
             "independent_cluster_data": predata,

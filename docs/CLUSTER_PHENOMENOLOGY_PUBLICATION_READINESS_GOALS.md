@@ -697,6 +697,18 @@ RAR-like law is multivalued and changes the sign of `K`; the Newtonian class has
 scalar excess. This derives a precise formula-to-theory interface but selects no healthy
 candidate and does not complete CP11.1 or CP11.4.
 
+The restricted quadrature-action successor goes one step further and supplies an exact
+dimensionful covariant embedding for that source-only law. It uses one universal
+conformal metric for massive matter and photons, recovers the quadrature acceleration
+law without a fitted coefficient, and derives the scalar stress tensor. The direct
+conformal scalar shifts cancel from the weak-field lensing-potential sum, so lensing can
+arise only through the scalar stress backreacting on the Einstein metric; that
+quantitative metric solution has not been derived. The same action also retains the
+deep-gradient degeneracy, a superluminal scalar cone relative to the conformal matter
+cone, a singular finite-gradient endpoint, and no timelike cosmological branch.
+Accordingly it establishes a restricted same-action architecture but does not complete
+CP11.1, CP11.4, or CP11.8.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

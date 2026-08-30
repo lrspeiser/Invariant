@@ -45,6 +45,10 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
     )
     assert receipt["automatic_findings"]["shared_formula_source_only_minimal_scalar_classes"] == 3
     assert receipt["automatic_findings"]["shared_formula_full_covariant_bridge_derived"] is False
+    assert receipt["automatic_findings"]["shared_quadrature_restricted_action_defined"] is True
+    assert receipt["automatic_findings"]["shared_quadrature_exact_motion_law_recovered"] is True
+    assert receipt["automatic_findings"]["shared_quadrature_quantitative_lensing_derived"] is False
+    assert receipt["automatic_findings"]["shared_quadrature_scalar_cone_causal"] is False
     assert receipt["readiness"]["independent_cluster_data"]["next_gate"] == "CP3"
     assert receipt["readiness"]["independent_cluster_data"]["ready"] is False
     assert receipt["readiness"]["observational_authorization"] is False
@@ -335,6 +339,13 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             ),
             "formula kinetic reconstruction",
         ),
+        (
+            "shared_quadrature_covariant_action",
+            lambda value: value["adjudication"].__setitem__(
+                "same_action_quantitative_lensing_solution_derived", True
+            ),
+            "quadrature action",
+        ),
     ],
 )
 def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
@@ -361,7 +372,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 47,
+        "bound_evidence_receipts": 48,
         "independent_target_rows_opened": 0,
     }
 

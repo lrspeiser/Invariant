@@ -711,6 +711,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["formula_to_minimal_kinetic_map_derived"],
             f"source-only={theory['formula_source_only_classes']}/60; quadrature causal={theory['quadrature_minimal_map_causal_relative_to_conformal_matter_cone']}; full covariant bridge={theory['formula_full_covariant_bridge_derived']}",
         ),
+        (
+            "shared_quadrature_covariant_action",
+            "restricted_quadrature_action_embedding_established",
+            theory["restricted_quadrature_action_defined"],
+            f"exact motion={theory['quadrature_motion_law_recovered_exactly']}; direct conformal cancellation={theory['quadrature_direct_conformal_lensing_shift_cancels']}; quantitative lensing={theory['quadrature_quantitative_lensing_solution_derived']}; causal={theory['quadrature_scalar_cone_causal']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

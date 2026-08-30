@@ -275,6 +275,24 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["formula_surviving_physical_candidate_selected"] is False
     assert theory["formula_kinetic_CP11_1_complete"] is False
     assert theory["formula_kinetic_CP11_4_complete"] is False
+    assert theory["quadrature_action_decision"].startswith(
+        "RESTRICTED_QUADRATURE_UNIVERSAL_CONFORMAL_ACTION_DERIVED"
+    )
+    assert theory["restricted_quadrature_action_defined"] is True
+    assert theory["quadrature_motion_law_recovered_exactly"] is True
+    assert theory["quadrature_universal_matter_photon_metric_defined"] is True
+    assert theory["quadrature_separate_photon_adjustment_present"] is False
+    assert theory["quadrature_scalar_stress_tensor_derived"] is True
+    assert theory["quadrature_direct_conformal_lensing_shift_cancels"] is True
+    assert theory["quadrature_quantitative_lensing_solution_derived"] is False
+    assert theory["quadrature_local_static_energy_density_positive"] is True
+    assert theory["quadrature_scalar_cone_causal"] is False
+    assert theory["quadrature_low_gradient_transition_nondegenerate"] is False
+    assert theory["quadrature_finite_gradient_endpoint_regular"] is False
+    assert theory["quadrature_timelike_cosmological_branch_defined"] is False
+    assert theory["quadrature_action_CP11_1_complete"] is False
+    assert theory["quadrature_action_CP11_4_complete"] is False
+    assert theory["quadrature_action_CP11_8_complete"] is False
     assert receipt["counts"]["adm_constraint_symbolic_checks_passed"] == 18
     assert receipt["counts"]["adm_constraint_numeric_cases_passed"] == 3
     assert receipt["counts"]["scalar_hamiltonian_symbolic_checks_passed"] == 24
@@ -285,6 +303,8 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert receipt["counts"]["formula_kinetic_symbolic_checks_passed"] == 16
     assert receipt["counts"]["formula_kinetic_quadrature_numeric_probes"] == 5
     assert receipt["counts"]["formula_kinetic_rar_witness_points"] == 2
+    assert receipt["counts"]["quadrature_action_symbolic_checks_passed"] == 24
+    assert receipt["counts"]["quadrature_action_numeric_branch_probes_passed"] == 4
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -435,6 +455,13 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
                 "surviving_physical_candidate_selected", True
             ),
             "formula kinetic reconstruction",
+        ),
+        (
+            "shared_quadrature_covariant_action",
+            lambda value: value["claim_boundary"].__setitem__(
+                "quantitative_lensing_prediction_established", True
+            ),
+            "quadrature action",
         ),
     ],
 )
