@@ -1,0 +1,168 @@
+{
+  "analysis_id": "GRAVITY-MATTER-LENSING-KINETIC-GATE-PUBLICATION-CANDIDATE-v1",
+  "binding_receipt_content_sha256": {
+    "BOUNDED_ON_SHELL_WITNESS": "69a5c135e00c2b636c1a189968728aec186bfcb0cfc1c4dedd7623bb8705ac5a",
+    "CONDITIONAL_THEOREM": "9de3db36d5a8061392abfe13343e9a97380734ae40a56ce2e3d128db51a8e0db",
+    "CONSTANT_KINETIC_ESCAPE": "f74275b8a520057a9060eb727ad425412b07f1d92d3b319a7746d2df4ecb569d",
+    "DYNAMIC_RANGE_COROLLARY": "f68f61956b35fde1ed83b134712bfd82a64df5e197b928375288b5f47b304c8b"
+  },
+  "checks": {
+    "P01_EXACT_BINDINGS": true,
+    "P02_M_IDENTITY": true,
+    "P03_RICCATI_SOLUTION": true,
+    "P04_FINITE_RANGE_BOUND": true,
+    "P05_SHIFTED_POWER_THRESHOLD": true,
+    "P06_ON_SHELL_WITNESS": true,
+    "P07_EINSTEIN_CONSTRAINT_MAPPING": true,
+    "P08_SUPERLUMINAL_WARNING": true,
+    "P09_ESCAPE_OUTSIDE_HYPOTHESES": true,
+    "P10_LITERATURE_SCOPE": true,
+    "P11_CLAIM_CEILING": true
+  },
+  "checks_passed": 11,
+  "claim_boundary": {
+    "candidate_original_mathematical_result": true,
+    "causal_healthy_cosmology": false,
+    "full_action_no_go": false,
+    "historical_novelty_established": false,
+    "independent_expert_review_passed": false,
+    "modified_gravity_success": false,
+    "observational_support": false,
+    "publication_ready": false
+  },
+  "content_sha256": "17975d63329997fed8fb758c6945da84e7bd7d9e756a0d7d7c79644011dea9f9",
+  "corollary_status": "PASS_EXACT_QUANTITATIVE_DYNAMIC_RANGE_COROLLARY_SCOPE_RESTRICTED",
+  "counterexample_pair": {
+    "bounded_same_architecture": "The exact Einstein-plus-two-scalar FLRW solution with Z=(1+u)^2 remains on 0<u<=0.3<1/3, has positive constrained high-frequency scalar kinetic and gradient matrices, and evolves toward smaller u.",
+    "retained_failure": "The bounded witness has max scalar c_s^2=1.5979982339788423 relative to the Einstein metric and is not a causal or realistic cosmology.",
+    "structural_escape": "A constant positive chi kinetic coefficient with the environmental gate moved to a lower-order mass term has the targeted Z_X and Z_XX kinetic-mixing combination identically zero, while retaining separate amplitude and first-derivative risks."
+  },
+  "decision": "PROMISING_ORIGINAL_THEOREM_CANDIDATE_REQUIRES_EXPERT_AND_NOVELTY_REVIEW_BEFORE_PREPRINT",
+  "draft_abstract": "For a two-scalar kinetic sector P=P0(X)+Z(beta X^2)Y, we isolate the kinetic-mixing combination M=Z(Z_X+2XZ_XX)-4XZ_X^2 on aligned timelike backgrounds. Writing q=d ln Z/d ln u, M>=0 implies a Riccati inequality and yields the strict finite-range bound U/u0<[1+1/(4q0)]^4 whenever q(u0)=q0>0. We give exact shifted-power thresholds, a coupled Einstein-scalar FLRW solution that remains healthy in the constrained high-frequency scalar block on a bounded interval, and a constant-kinetic split-gate architecture outside the theorem's hypotheses. The result is a design obstruction, not an unconditional no-go; the explicit witness retains a superluminal scalar mode.",
+  "dynamic_range_design_table": [
+    {
+      "q0": 1.0,
+      "strict_maximum_U_over_u0": 2.44140625,
+      "strict_maximum_decades": 0.3876400520322257
+    },
+    {
+      "q0": 0.5,
+      "strict_maximum_U_over_u0": 5.0625,
+      "strict_maximum_decades": 0.704365036222725
+    },
+    {
+      "q0": 0.25,
+      "strict_maximum_U_over_u0": 16.0,
+      "strict_maximum_decades": 1.2041199826559248
+    },
+    {
+      "q0": 0.1,
+      "strict_maximum_U_over_u0": 150.0625,
+      "strict_maximum_decades": 2.1762721774011027
+    },
+    {
+      "q0": 0.05,
+      "strict_maximum_U_over_u0": 1296.0,
+      "strict_maximum_decades": 3.1126050015345745
+    },
+    {
+      "q0": 0.01,
+      "strict_maximum_U_over_u0": 456976.0,
+      "strict_maximum_decades": 5.659893391883272
+    }
+  ],
+  "implementation_binding": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_publication_candidate.py",
+    "module_sha256": "aab22fe65491c58c09ee84ef71ea36bb9714330544f510432919bfead2ce9f0c",
+    "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_publication_candidate.py",
+    "test_sha256": "4a3ba1d0782f7a4113240cfe08ad284ae4a95c0a6ae6dbbe8acb49ec4081a38f"
+  },
+  "maximal_theorem": {
+    "action_slice": "P=P0(X)+Z(u)Y on aligned timelike backgrounds, with u=beta X^2, X>0, beta>0, Z>0 and C2",
+    "conclusion": "U/u0 < [1+1/(4q0)]^4",
+    "definitions": "q=d ln Z/d ln u and M=Z(Z_X+2X Z_XX)-4X Z_X^2",
+    "hypotheses": "q(u0)=q0>0 and M>=0 throughout the closed interval [u0,U]",
+    "identity": "M=(2 Z^2/X)[4 dq/d ln u-q-4q^2]",
+    "proof_route": "M>=0 gives dq/dlnu>=q/4+q^2. Riccati comparison from q0 has a denominator zero after Delta ln u=4 ln[1+1/(4q0)], so a finite C2 gate cannot reach that boundary while preserving the hypotheses.",
+    "strict_scope": "This is a bound on one active two-field kinetic-mixing contribution. It is not a full-action instability theorem and does not exclude bounded intervals, a compensating P0 sector, suppressed Y, or different architectures."
+  },
+  "primary_literature_positioning": [
+    {
+      "arxiv": "0806.0336",
+      "relation": "supplies the established ADM framework and exact kinetic/gradient matrix mapping",
+      "topic": "general P(X^IJ,phi^K) constrained cosmological perturbations"
+    },
+    {
+      "arxiv": "2105.13992",
+      "relation": "neighboring nonlinear hyperbolicity problem, not the logarithmic-slope bound",
+      "topic": "kinetic-screening characteristic-speed breakdown"
+    },
+    {
+      "arxiv": "2107.00010",
+      "relation": "neighboring UV constraint, not the finite-range theorem",
+      "topic": "kinetic screening versus positivity and UV completion"
+    },
+    {
+      "arxiv": "2304.12364",
+      "relation": "different dependence on fields rather than the derivative invariant X",
+      "topic": "field-dependent two-scalar kinetic metrics"
+    }
+  ],
+  "publication_adjudication": {
+    "blocking_assets": [
+      "no independent human mathematical review",
+      "primary-literature search is targeted rather than demonstrably exhaustive",
+      "the explicit witness is superluminal relative to the metric cone",
+      "lower-order perturbation evolution and radiative stability are incomplete",
+      "no realistic matter, photon, galaxy, cluster, Solar, or cosmological prediction"
+    ],
+    "decision": "PROMISING_ORIGINAL_THEOREM_CANDIDATE_REQUIRES_EXPERT_AND_NOVELTY_REVIEW_BEFORE_PREPRINT",
+    "known_scaffolding": "General multi-field P(X^IJ,phi^K) perturbation theory, kinetic-mixing stability matrices, characteristic-speed pathologies, and UV-positivity constraints are established literature.",
+    "positive_assets": [
+      "exact symbolic theorem and quantitative design table",
+      "strict theorem scope with bounded counterexamples",
+      "coupled on-shell Einstein-scalar witness",
+      "exact constrained high-frequency scalar perturbation mapping",
+      "explicit non-theorem architecture"
+    ],
+    "potentially_original_core": "The explicit logarithmic-slope dynamic-range inequality and its exact shifted-power thresholds within the declared two-scalar kinetic-gate slice.",
+    "recommended_format": "A short mathematical modified-gravity note centered on theorem, proof, sharp shifted-power examples, bounded on-shell witness, and escape taxonomy; do not market it as a successful replacement for dark matter or GR."
+  },
+  "schema_version": "invariant-gravity-matter-lensing-kinetic-gate-publication-candidate-receipt-1.0",
+  "shifted_power_table": [
+    {
+      "positive_M_upper_u": 1.0,
+      "power": 0.5
+    },
+    {
+      "positive_M_upper_u": 0.6,
+      "power": 1.0
+    },
+    {
+      "positive_M_upper_u": 0.3333333333333333,
+      "power": 2.0
+    },
+    {
+      "positive_M_upper_u": 0.17647058823529413,
+      "power": 4.0
+    }
+  ],
+  "status": "PROMISING_ORIGINAL_THEOREM_CANDIDATE_NOT_PREPRINT_READY",
+  "witness_summary": {
+    "kinetic_min_eigenvalue": 0.8165304316440314,
+    "sound_speed_squared_max": 1.5979982339788423,
+    "sound_speed_squared_min": 0.6528475788600138,
+    "status": "PASS_COUPLED_EINSTEIN_SCALAR_ON_SHELL_POSITIVE_BLOCK_WITNESS_SUPERLUMINAL_WARNING",
+    "trajectory_sha256": "4aa5f21a6e4ff82a6b5d9e88bc93fd90fb1f9156d8f44b298ad84d6866cc5f56",
+    "u_max": 0.3000000000000002,
+    "u_min": 3.7442137461383976e-13
+  },
+  "zero_access": {
+    "gpu_calls": 0,
+    "model_calls": 0,
+    "network_calls_by_builder": 0,
+    "observational_files": 0,
+    "observational_rows": 0,
+    "paid_calls": 0
+  }
+}
