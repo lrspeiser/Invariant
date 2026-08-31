@@ -1,0 +1,80 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-kinetic-gate-dynamic-range-bound-1.0",
+  "analysis_id": "GRAVITY-MATTER-LENSING-KINETIC-GATE-DYNAMIC-RANGE-BOUND-v1",
+  "status": "APPEND_ONLY_QUANTITATIVE_COROLLARY",
+  "purpose": "Convert the committed conditional kinetic-gate blow-up theorem into an explicit maximum healthy dynamic-range bound and design table.",
+  "predecessor": {
+    "commit": "19818982",
+    "config_path": "configs/gravity_matter_lensing_kinetic_gate_conditional_no_go_v1.json",
+    "config_sha256": "333f2ef850138c7e4fb6d509d0fcf16a769620c79cf7a8eb8cef002337812608",
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_conditional_no_go.py",
+    "module_sha256": "a350ebf7d55580f66947c5a419a6ba59684938e1f854b06017dba45541fdaee9",
+    "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_conditional_no_go.py",
+    "test_sha256": "ffbcffb5db08a3cd70908b547ffd82cc084313b36315acf906e7d54532867022",
+    "receipt_path": "runs/gravity/theory/matter-lensing-kinetic-gate-conditional-no-go-v1.json",
+    "receipt_sha256": "578552a577ab26ee363d4f781b35816e12d2b2664f4e768a1064f8d0d6cb1dc5",
+    "receipt_content_sha256": "9de3db36d5a8061392abfe13343e9a97380734ae40a56ce2e3d128db51a8e0db"
+  },
+  "definitions": {
+    "u": "positive dimensionless kinetic-gate argument",
+    "t": "ln(u)",
+    "Z": "positive C2 kinetic normalization",
+    "q": "d ln(Z)/d ln(u)",
+    "M": "Z*(Z_X+2*X*Z_XX)-4*X*Z_X^2",
+    "branch": "X>0, beta>0, u=beta*X^2"
+  },
+  "corollary": {
+    "hypotheses": [
+      "Z is positive, finite, and C2 for u in [u0,U]",
+      "q(u0)=q0>0",
+      "the active timelike mixing contribution obeys M>=0 throughout [u0,U]"
+    ],
+    "comparison_inequality": "dq/dlnu >= q/4 + q^2",
+    "maximum_ratio": "U/u0 < (1+1/(4*q0))^4",
+    "maximum_log10_decades": "log10(U/u0) < 4*log10(1+1/(4*q0))",
+    "inverse_initial_slope_bound": "q0 < 1/[4*((U/u0)^(1/4)-1)]",
+    "gate_lower_bound": "Z(u)>=Z0/[1+4*q0*(1-(u/u0)^(1/4))] before the comparison blow-up",
+    "interpretation": "A gate required to remain healthy over a wide timelike kinetic range must begin extremely flat; an order-one initial logarithmic slope permits only an order-one range."
+  },
+  "frozen_design_points": {
+    "initial_log_slopes": [1.0, 0.5, 0.25, 0.1, 0.05, 0.01],
+    "required_dynamic_ranges": [10.0, 100.0, 10000.0, 100000000.0]
+  },
+  "claim_boundary": {
+    "quantitative_corollary_machine_verified": true,
+    "unconditional_action_no_go": false,
+    "full_determinant_instability": false,
+    "on_shell_background_excluded": false,
+    "bounded_domain_gate_excluded": false,
+    "alternative_architecture_excluded": false,
+    "observational_support": false,
+    "historical_novelty_established": false,
+    "publication_ready": false
+  },
+  "publication_value": {
+    "candidate_title": "A dynamic-range obstruction for growing kinetic gates in two-scalar modified gravity",
+    "core_result": "Exact finite-range tradeoff between initial gate slope and the largest interval on which the active timelike mixing contribution can remain nonnegative.",
+    "closest_known_topics": [
+      "multi-field k-essence hyperbolicity",
+      "kinetic screening and Tricomi/Keldysh breakdown",
+      "disformal kinetic mixing",
+      "scalar-tensor stability"
+    ],
+    "novelty_search_status": "TARGETED_SEARCH_FOUND_NEIGHBORING_INSTABILITY_LITERATURE_BUT_NO_EXACT_MATCH_TO_THIS_LOG_SLOPE_DYNAMIC_RANGE_COROLLARY",
+    "required_before_preprint": [
+      "independent line-by-line mathematical review",
+      "systematic primary-literature search",
+      "covariant statement of the exact action class",
+      "one on-shell bounded-domain example",
+      "one explicit alternative architecture escaping the hypotheses"
+    ]
+  },
+  "zero_access": {
+    "observational_rows": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "gpu_calls": 0
+  },
+  "output_path": "runs/gravity/theory/matter-lensing-kinetic-gate-dynamic-range-bound-v1.json"
+}

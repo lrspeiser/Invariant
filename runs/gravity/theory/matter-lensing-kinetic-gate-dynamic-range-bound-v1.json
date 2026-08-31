@@ -1,0 +1,118 @@
+{
+  "analysis_id": "GRAVITY-MATTER-LENSING-KINETIC-GATE-DYNAMIC-RANGE-BOUND-v1",
+  "claim_boundary": {
+    "alternative_architecture_excluded": false,
+    "bounded_domain_gate_excluded": false,
+    "full_determinant_instability": false,
+    "historical_novelty_established": false,
+    "observational_support": false,
+    "on_shell_background_excluded": false,
+    "publication_ready": false,
+    "quantitative_corollary_machine_verified": true,
+    "unconditional_action_no_go": false
+  },
+  "content_sha256": "f68f61956b35fde1ed83b134712bfd82a64df5e197b928375288b5f47b304c8b",
+  "corollary": {
+    "comparison_inequality": "dq/dlnu >= q/4 + q^2",
+    "gate_lower_bound": "Z(u)>=Z0/[1+4*q0*(1-(u/u0)^(1/4))] before the comparison blow-up",
+    "hypotheses": [
+      "Z is positive, finite, and C2 for u in [u0,U]",
+      "q(u0)=q0>0",
+      "the active timelike mixing contribution obeys M>=0 throughout [u0,U]"
+    ],
+    "interpretation": "A gate required to remain healthy over a wide timelike kinetic range must begin extremely flat; an order-one initial logarithmic slope permits only an order-one range.",
+    "inverse_initial_slope_bound": "q0 < 1/[4*((U/u0)^(1/4)-1)]",
+    "maximum_log10_decades": "log10(U/u0) < 4*log10(1+1/(4*q0))",
+    "maximum_ratio": "U/u0 < (1+1/(4*q0))^4"
+  },
+  "initial_slope_table": [
+    {
+      "maximum_log10_decades_strict_upper_boundary": 0.3876400520322257,
+      "maximum_ratio_strict_upper_boundary": 2.44140625,
+      "q0": 1.0
+    },
+    {
+      "maximum_log10_decades_strict_upper_boundary": 0.704365036222725,
+      "maximum_ratio_strict_upper_boundary": 5.0625,
+      "q0": 0.5
+    },
+    {
+      "maximum_log10_decades_strict_upper_boundary": 1.2041199826559248,
+      "maximum_ratio_strict_upper_boundary": 16.0,
+      "q0": 0.25
+    },
+    {
+      "maximum_log10_decades_strict_upper_boundary": 2.1762721774011027,
+      "maximum_ratio_strict_upper_boundary": 150.0625,
+      "q0": 0.1
+    },
+    {
+      "maximum_log10_decades_strict_upper_boundary": 3.1126050015345745,
+      "maximum_ratio_strict_upper_boundary": 1296.0,
+      "q0": 0.05
+    },
+    {
+      "maximum_log10_decades_strict_upper_boundary": 5.659893391883272,
+      "maximum_ratio_strict_upper_boundary": 456976.0,
+      "q0": 0.01
+    }
+  ],
+  "machine_checks": {
+    "D1_Q1_RANGE": true,
+    "D2_QHALF_RANGE": true,
+    "D3_FOUR_DECADE_SLOPE": true,
+    "D4_EIGHT_DECADE_SLOPE": true,
+    "D5_INVERSE_MAP": true,
+    "D6_COMPARISON_Q_POSITIVE": true,
+    "D7_COMPARISON_Z_GROWS": true,
+    "D8_STRICT_MONOTONIC_TRADEOFF": true,
+    "D9_CLAIM_CEILING": true
+  },
+  "machine_checks_passed": 9,
+  "predecessor_receipt_content_sha256": "9de3db36d5a8061392abfe13343e9a97380734ae40a56ce2e3d128db51a8e0db",
+  "publication_value": {
+    "candidate_title": "A dynamic-range obstruction for growing kinetic gates in two-scalar modified gravity",
+    "closest_known_topics": [
+      "multi-field k-essence hyperbolicity",
+      "kinetic screening and Tricomi/Keldysh breakdown",
+      "disformal kinetic mixing",
+      "scalar-tensor stability"
+    ],
+    "core_result": "Exact finite-range tradeoff between initial gate slope and the largest interval on which the active timelike mixing contribution can remain nonnegative.",
+    "novelty_search_status": "TARGETED_SEARCH_FOUND_NEIGHBORING_INSTABILITY_LITERATURE_BUT_NO_EXACT_MATCH_TO_THIS_LOG_SLOPE_DYNAMIC_RANGE_COROLLARY",
+    "required_before_preprint": [
+      "independent line-by-line mathematical review",
+      "systematic primary-literature search",
+      "covariant statement of the exact action class",
+      "one on-shell bounded-domain example",
+      "one explicit alternative architecture escaping the hypotheses"
+    ]
+  },
+  "required_range_table": [
+    {
+      "maximum_allowed_initial_log_slope_strict": 0.32122139783641096,
+      "required_ratio": 10.0
+    },
+    {
+      "maximum_allowed_initial_log_slope_strict": 0.11561882389356608,
+      "required_ratio": 100.0
+    },
+    {
+      "maximum_allowed_initial_log_slope_strict": 0.027777777777777776,
+      "required_ratio": 10000.0
+    },
+    {
+      "maximum_allowed_initial_log_slope_strict": 0.0025252525252525255,
+      "required_ratio": 100000000.0
+    }
+  ],
+  "schema_version": "invariant-gravity-matter-lensing-kinetic-gate-dynamic-range-receipt-1.0",
+  "status": "PASS_EXACT_QUANTITATIVE_DYNAMIC_RANGE_COROLLARY_SCOPE_RESTRICTED",
+  "zero_access": {
+    "gpu_calls": 0,
+    "model_calls": 0,
+    "network_calls_by_builder": 0,
+    "observational_rows": 0,
+    "paid_calls": 0
+  }
+}
