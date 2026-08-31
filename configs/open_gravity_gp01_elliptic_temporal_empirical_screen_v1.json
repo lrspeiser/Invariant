@@ -1,0 +1,104 @@
+{
+  "schema": "invariant-open-gravity-gp01-elliptic-temporal-empirical-screen-1.0",
+  "package_id": "open-gravity-gp01-elliptic-temporal-empirical-screen-v1",
+  "status": "RETROSPECTIVE_DEVELOPMENT_SCREEN_NOT_CONFIRMATION",
+  "purpose": "Inspect the already-sealed eight-cluster development scores before using incomplete theory gates as vetoes, quantify the conservative GP01 elliptic fit, and look for a dynamical-state pattern that can motivate—but not substitute for—a genuine temporal-history test.",
+  "sealed_result_binding": {
+    "commit": "8746bcbba29ad7b6e1ef46672d6e171e9fbaa589",
+    "path": "runs/gravity/open-gravity-campaign-v1-successor/artifacts/global-cell-ledger.json",
+    "sha256": "5888947bd4b675dbbb7bf534e3f5cc9dfe3bd82d8a85b152b59c81917719b813"
+  },
+  "primary_source_metadata": [
+    {
+      "id": "GHIRARDINI_2019_XCOP_THERMODYNAMIC",
+      "title": "Universal thermodynamic properties of the intracluster medium over two decades in radius in the X-COP sample",
+      "arxiv": "1805.00042",
+      "doi": "10.1051/0004-6361/201833325",
+      "used_fields": ["K0_KEV_CM2", "COOL_CORE_K0_LT_30"],
+      "values": {
+        "A1644": {"K0_KEV_CM2": 19.0, "cool_core": true},
+        "A1795": {"K0_KEV_CM2": 19.0, "cool_core": true},
+        "A2142": {"K0_KEV_CM2": 68.1, "cool_core": false},
+        "A2255": {"K0_KEV_CM2": 529.1, "cool_core": false},
+        "A2319": {"K0_KEV_CM2": 270.2, "cool_core": false},
+        "A3266": {"K0_KEV_CM2": 72.5, "cool_core": false},
+        "A85": {"K0_KEV_CM2": 12.5, "cool_core": true},
+        "ZW1215": {"K0_KEV_CM2": 163.2, "cool_core": false}
+      }
+    },
+    {
+      "id": "DUPOURQUE_2023_XCOP_FLUCTUATIONS",
+      "title": "Investigating the turbulent hot gas in X-COP galaxy clusters",
+      "arxiv": "2303.15102",
+      "doi": "10.1051/0004-6361/202245779",
+      "used_fields": ["C_SB", "CENTROID_SHIFT_X1E3", "GINI", "C_Z"],
+      "values": {
+        "A1644": {"C_SB": 0.114, "CENTROID_SHIFT_X1E3": 13.761, "GINI": 0.699, "C_Z": 1.0},
+        "A1795": {"C_SB": 0.52, "CENTROID_SHIFT_X1E3": 2.36, "GINI": 0.823, "C_Z": 0.477},
+        "A2142": {"C_SB": 0.408, "CENTROID_SHIFT_X1E3": 4.51, "GINI": 0.771, "C_Z": 0.391},
+        "A2255": {"C_SB": 0.078, "CENTROID_SHIFT_X1E3": 31.391, "GINI": 0.694, "C_Z": 0.389},
+        "A2319": {"C_SB": 0.215, "CENTROID_SHIFT_X1E3": 33.069, "GINI": 0.68, "C_Z": 0.946},
+        "A3266": {"C_SB": 0.17, "CENTROID_SHIFT_X1E3": 30.837, "GINI": 0.665, "C_Z": 0.79},
+        "A85": {"C_SB": 0.417, "CENTROID_SHIFT_X1E3": 3.85, "GINI": 0.767, "C_Z": 0.711},
+        "ZW1215": {"C_SB": 0.205, "CENTROID_SHIFT_X1E3": 3.731, "GINI": 0.703, "C_Z": 0.328}
+      }
+    }
+  ],
+  "analysis_contract": {
+    "domain": "CLUSTERS",
+    "objects": ["A1644", "A1795", "A2142", "A2255", "A2319", "A3266", "A85", "ZW1215"],
+    "elliptic_concept": "GP01-ELLIPTIC",
+    "equilibrium_control_cell": "GP01L-n1",
+    "object_comparison_scenario": "XCOP-SOURCE-NOMINAL",
+    "global_elliptic_selection": "minimum robust_loss over every valid frozen GP01-ELLIPTIC cell",
+    "object_metric": "nominal elliptic loss divided by nominal GP01L-n1 loss for the one globally selected elliptic cell",
+    "rank_tests": ["CENTROID_SHIFT_X1E3", "C_Z", "LOG_K0_KEV_CM2"],
+    "rank_statistic": "Spearman correlation with average ranks for ties",
+    "rank_p_value": "exact two-sided permutation over all 8! outcome-rank permutations",
+    "cool_core_test": "difference in mean loss ratio, exact two-sided enumeration of all choose(8,3) partitions",
+    "retrospective": true,
+    "parameter_extension_is_future_preregistered_work": true,
+    "no_per_object_parameter_selection_for_claims": true
+  },
+  "required_checks": [
+    "SEALED_LEDGER_BOUND_BEFORE_READ",
+    "EXACT_EIGHT_OBJECTS_AND_1296_ELLIPTIC_CELLS",
+    "GLOBAL_BEST_ELLIPTIC_CELL_REPRODUCED",
+    "ELLIPTIC_VALID_BUT_WORSE_ON_EVERY_OBJECT",
+    "BOUNDARY_OPTIMUM_REQUIRES_SEPARATE_EXTENSION",
+    "DYNAMICAL_PROXY_SCREEN_REPRODUCED",
+    "TEMPORAL_LAG_NOT_IDENTIFIED_FROM_STATIC_SNAPSHOTS",
+    "NO_NEW_RAW_RESPONSE_OR_MODEL_ACCESS"
+  ],
+  "next_experiments": {
+    "elliptic": "Freeze a new development-only boundary-extension grid before reopening raw responses; keep one shared cell across all eight clusters and compare against GP01L, Newton, AQUAL/QUMOND-equivalent spherical control, NFW/Einasto, MOG, and Refracted Gravity.",
+    "temporal": "Obtain an independently frozen dynamical-history proxy or simulation-derived past-source ensemble, then fit one shared relaxation time and propagation speed; a static morphology correlation is not a telegraph-equation fit.",
+    "joint": "Test whether one frozen memory parameter explains the dynamical-state dependence of the elliptic residual without per-cluster tuning, and require leave-one-cluster-out prediction."
+  },
+  "access_accounting": {
+    "sealed_response_derived_ledgers_read": 1,
+    "raw_scientific_response_files_read": 0,
+    "raw_scientific_response_rows_read": 0,
+    "new_scores_from_raw_rows": 0,
+    "primary_source_metadata_tables_consulted": 2,
+    "package_build_network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "establishes": [
+      "the existing spherical GP01 elliptic development fit is valid and reproducible",
+      "the best frozen elliptic cell sits on multiple parameter boundaries",
+      "a small-sample retrospective association exists between elliptic relative loss and central entropy/cool-core class"
+    ],
+    "does_not_establish": [
+      "that GP01 elliptic fits better than the equilibrium control",
+      "a direct temporal-memory or telegraph fit",
+      "causation by dynamical history",
+      "an independent or confirmation result",
+      "a successful theory of gravity",
+      "permission to tune each cluster independently"
+    ]
+  },
+  "output_path": "runs/gravity/open-gravity-gp01-elliptic-temporal-empirical-screen-v1/receipt.json"
+}
