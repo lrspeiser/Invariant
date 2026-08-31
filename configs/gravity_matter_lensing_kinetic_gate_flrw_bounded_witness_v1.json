@@ -1,0 +1,187 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-kinetic-gate-flrw-bounded-witness-1.0",
+  "analysis_id": "GRAVITY-MATTER-LENSING-KINETIC-GATE-FLRW-BOUNDED-WITNESS-v1",
+  "status": "APPEND_ONLY_COUPLED_ON_SHELL_BOUNDED_DOMAIN_WITNESS",
+  "purpose": "Construct an explicit expanding flat-FLRW solution of the Einstein plus two-scalar equations whose growing kinetic gate remains inside a bounded positive-kinetic and positive-gradient domain of the committed dynamic-range theorem, retain any metric-cone violation, and bind an already-derived constant-kinetic split-gate architecture that escapes the theorem's hypotheses.",
+  "implementation": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_flrw_bounded_witness.py",
+    "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_flrw_bounded_witness.py"
+  },
+  "predecessors": [
+    {
+      "id": "KINETIC_GATE_DYNAMIC_RANGE_BOUND",
+      "commit": "44db59602bbf67e6932b04197daa06d4f5ec6498",
+      "config_path": "configs/gravity_matter_lensing_kinetic_gate_dynamic_range_bound_v1.json",
+      "config_sha256": "c4b41d71263adfb6066f6760495e580bf67a9fa50a90457c07dcecb4aacd3c9f",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_dynamic_range_bound.py",
+      "module_sha256": "e28b51e426fc712c601f20b3dcd28aac17c93ed9e0f68cbbd4b1b84af53fcf80",
+      "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_dynamic_range_bound.py",
+      "test_sha256": "c67d78f4e2abdc2e35582e73e1ffb8ed62ad038bbc8dc10fd55012b8bce2c46c",
+      "receipt_path": "runs/gravity/theory/matter-lensing-kinetic-gate-dynamic-range-bound-v1.json",
+      "receipt_sha256": "181a7c04caf86e0e1c416f1aeebec858b650d647569b7109a85486f3e5e8ec4a",
+      "receipt_content_sha256": "f68f61956b35fde1ed83b134712bfd82a64df5e197b928375288b5f47b304c8b"
+    },
+    {
+      "id": "CONSTANT_KINETIC_SPLIT_GATE_ESCAPE",
+      "commit": "03a652acaded1be4cca9af48782b8d54138e54c3",
+      "config_path": "configs/gravity_matter_lensing_split_gate_action_v1.json",
+      "config_sha256": "f16f1d711762fea34fb7c53de1fa559c69423be6b6bdc938063e313e30a74035",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_action.py",
+      "module_sha256": "9eb16e8378ceb9d0aea9dcbaa19ad3c3ccf47411867f6517b26622afb3ac49f6",
+      "test_path": "tests/test_gravity_matter_lensing_split_gate_action.py",
+      "test_sha256": "36402d837fe0d37d647b4ebd959c212d61e3f0c15c4071f6834e28d90e32f1c6",
+      "receipt_path": "runs/gravity/theory/matter-lensing-split-gate-action-v1.json",
+      "receipt_sha256": "a35d52287fd66c47dbcbd0dc86b80d2bcec9069f193ac4353ade3d38ccce6dab",
+      "receipt_content_sha256": "f74275b8a520057a9060eb727ad425412b07f1d92d3b319a7746d2df4ecb569d"
+    }
+  ],
+  "covariant_action": {
+    "signature": "(-,+,+,+)",
+    "action": "S=integral d^4x sqrt(-g)[M_Pl^2 R/2 + X + Z(u)Y]",
+    "invariants": "X=-g^munu partial_mu(phi) partial_nu(phi)/2; Y=-g^munu partial_mu(chi) partial_nu(chi)/2; u=beta X^2",
+    "gate": "Z(u)=(1+u)^2",
+    "branch": "M_Pl>0, beta>0, X>0, Y>0, 0<u<1/3",
+    "specialization": "This witness sets the potentials, masses, ordinary matter, and direct matter metric couplings to zero. It is an exact member of the theorem's covariant action class, not a phenomenological force insertion.",
+    "scope": "The metric and both scalar backgrounds are on shell. The exact high-frequency scalar kinetic/gradient block after Einstein lapse/shift constraints is mapped to the general P(X^IJ,phi^K) ADM result and is positive on the homogeneous trajectory, while the observed superluminal scalar eigenvalue is retained. No claim is made for causal metric-cone containment, the lower-order mass/mixing sector, late-time cosmology, radiative stability, or matter and photon phenomenology."
+  },
+  "flrw_reduction": {
+    "metric": "ds^2=-dt^2+a(t)^2 dvec(x)^2",
+    "homogeneous_invariants": "X=phidot^2/2 and Y=chidot^2/2",
+    "C": "1+Y Z_X",
+    "scalar_currents": "J_phi=a^3 C sqrt(2X) and J_chi=a^3 Z sqrt(2Y), both constant",
+    "pressure": "p=X+Z Y",
+    "energy_density": "rho=X+Z Y+2 X Y Z_X",
+    "friedmann": "3 M_Pl^2 H^2=rho on the expanding branch",
+    "raychaudhuri": "M_Pl^2 Hdot=-(X C+Y Z)",
+    "continuity": "d rho/d ln(a)=-3(rho+p)",
+    "reconstruction": "At each declared scale factor, eliminate Y=J_chi^2/[2 a^6 Z(X)^2] and solve the remaining J_phi equation only on 0<X<sqrt[1/(3 beta)]. On M>0 its derivative is [1+A M/Z^3]/sqrt(2X)>0 with A=J_chi^2/(2a^6)>0, proving at most one root in the healthy interval; the frozen upper-end sign check proves existence there before bisection."
+  },
+  "principal_health": {
+    "Z_X": "4 beta X(1+u)",
+    "Z_XX": "4 beta(1+3u)",
+    "M": "Z(Z_X+2X Z_XX)-4X Z_X^2=12u(1+u)^2(1-3u)/X",
+    "gradient_matrix": "G=diag(C,Z)",
+    "kinetic_matrix": "K=[[1+Y(Z_X+2X Z_XX), 2 Z_X sqrt(XY)],[2 Z_X sqrt(XY),Z]]",
+    "kinetic_determinant": "det(K)=Z+Y M",
+    "bounded_health_statement": "For 0<u<1/3 and X,Y>0, Z,C,det(K) are strictly positive; the explicit trajectory additionally checks that both generalized scalar sound-speed-squared eigenvalues remain positive at every grid point. This is a ghost/gradient and constant-coefficient hyperbolicity statement, not a metric-cone causality statement.",
+    "metric_cone_warning": "The frozen witness has max(c_s^2)>1 and therefore does not establish that every scalar characteristic lies inside the g-null cone.",
+    "einstein_constraint_mapping": "For minimally coupled Einstein gravity plus P(X^IJ,phi^K), the constraint-reduced quadratic action has K_IJ=P_<IJ>+2 P_<MJ>,<IK> X^MK and spatial matrix P_<IJ>. Substitution of P=X+Z(X)Y gives exactly the frozen K and G, so lapse/shift constraints do not remove this high-frequency mixing or its superluminal eigenvalue.",
+    "theorem_relation": "The witness does not evade the dynamic-range theorem. It occupies a bounded positive-M interval and expands toward smaller u; extending the same gate through u=1/3 changes the sign of M."
+  },
+  "primary_literature_positioning": {
+    "general_multifield_perturbations": {
+      "citation": "Langlois, Renaux-Petel, Steer, and Tanaka, Phys. Rev. D 78, 063523 (2008)",
+      "arxiv": "https://arxiv.org/abs/0806.0336",
+      "doi": "https://doi.org/10.1103/PhysRevD.78.063523",
+      "relation": "Establishes the general P(X^IJ,phi^K) background equations and constraint-reduced quadratic scalar action used for the exact W21 mapping; it does not state the frozen q(u) dynamic-range corollary."
+    },
+    "kinetic_screening_characteristics": {
+      "citation": "Bezares et al., Phys. Rev. D 104, 044022 (2021)",
+      "arxiv": "https://arxiv.org/abs/2105.13992",
+      "doi": "https://doi.org/10.1103/PhysRevD.104.044022",
+      "relation": "Demonstrates diverging scalar characteristic speeds in nonlinear k-essence collapse; it is neighboring breakdown evidence, not the two-scalar logarithmic-slope theorem."
+    },
+    "screening_and_uv_constraints": {
+      "citation": "Davis and Melville, JCAP 11 (2021) 012",
+      "arxiv": "https://arxiv.org/abs/2107.00010",
+      "doi": "https://doi.org/10.1088/1475-7516/2021/11/012",
+      "relation": "Constrains kinetic screening using resummation and positivity; it is a distinct UV-completion analysis and does not supply the frozen finite-range inequality."
+    },
+    "field_dependent_kinetic_neighbors": {
+      "citation": "De Angelis and van de Bruck, JCAP 10 (2023) 023",
+      "arxiv": "https://arxiv.org/abs/2304.12364",
+      "doi": "https://doi.org/10.1088/1475-7516/2023/10/023",
+      "relation": "Studies a field-dependent two-field metric F(phi,chi), unlike the derivative-dependent normalization Z(X) analyzed here."
+    },
+    "novelty_status": "FOUR_PRIMARY_NEIGHBOR_CLASSES_CHECKED_NO_EXACT_LOG_SLOPE_DYNAMIC_RANGE_BOUND_FOUND_CANDIDATE_NOVELTY_NOT_ESTABLISHED"
+  },
+  "frozen_witness": {
+    "units": "dimensionless Planck units used only as an exact mathematical existence witness",
+    "M_Pl": 1.0,
+    "beta": 1.0,
+    "initial_scale_factor": 1.0,
+    "final_scale_factor": 10.0,
+    "grid_points": 81,
+    "initial_u": 0.3,
+    "initial_Y": 0.02,
+    "root_iterations": 180,
+    "residual_tolerance": 1e-10,
+    "strict_health_margin": 1e-12,
+    "expected": {
+      "u_strictly_decreases": true,
+      "maximum_u_below_one_third": true,
+      "both_currents_constant": true,
+      "friedmann_and_raychaudhuri_pass": true,
+      "continuity_pass": true,
+      "gradient_and_kinetic_matrices_positive": true,
+      "sound_speed_squared_eigenvalues_positive": true,
+      "all_sound_speeds_metric_subluminal": false,
+      "accelerated_expansion_claim": false
+    }
+  },
+  "escape_architecture": {
+    "architecture": "S_scalar=integral sqrt(-g)[P(X)-V(phi)+Y0 Y-m_chi^2 Z(X)chi^2/2] with constant Y0>0",
+    "reason_it_escapes": "The theorem's growing kinetic normalization is replaced by a constant chi kinetic coefficient, so Y_X=Y_XX=0 and the targeted second-order kinetic mixing combination is identically zero. The separately bound split-gate analysis retains its different amplitude and first-derivative risks.",
+    "healthy_complete_theory_claim": false
+  },
+  "required_checks": [
+    "W01_PREDECESSOR_BYTES_AND_RECEIPTS",
+    "W02_COVARIANT_TO_FLRW_STRESS",
+    "W03_SCALAR_CURRENT_REDUCTION",
+    "W04_EXACT_GATE_DERIVATIVES",
+    "W05_EXACT_M_FACTOR",
+    "W06_INITIAL_DATA_RECONSTRUCTION",
+    "W07_CURRENT_CONSERVATION",
+    "W08_CONTINUITY_EQUATION",
+    "W09_FRIEDMANN_EQUATION",
+    "W10_RAYCHAUDHURI_EQUATION",
+    "W11_BOUNDED_POSITIVE_M_DOMAIN",
+    "W12_GRADIENT_MATRIX_POSITIVE",
+    "W13_KINETIC_MATRIX_POSITIVE",
+    "W14_SOUND_SPEED_EIGENVALUES_POSITIVE",
+    "W15_EXPANDING_BRANCH_MOVES_AWAY_FROM_THRESHOLD",
+    "W16_CONSTANT_KINETIC_ESCAPE_BOUND",
+    "W17_CLAIM_CEILING",
+    "W18_SUPERLUMINAL_WARNING_RETAINED",
+    "W19_UNIQUE_POSITIVE_CURRENT_BRANCH",
+    "W20_INDEPENDENT_QUADRATIC_HESSIAN",
+    "W21_GENERAL_MULTIFIELD_ADM_MAPPING"
+  ],
+  "claim_boundary": {
+    "coupled_metric_and_scalar_background_on_shell": true,
+    "bounded_domain_positive_scalar_kinetic_gradient_witness": true,
+    "einstein_constrained_high_frequency_scalar_principal_block": true,
+    "dynamic_range_theorem_evaded": false,
+    "unbounded_growing_gate_healthy": false,
+    "global_strong_hyperbolicity": false,
+    "metric_scalar_perturbation_health": false,
+    "metric_cone_subluminality": false,
+    "accelerating_cosmology": false,
+    "realistic_cosmological_history": false,
+    "matter_or_photon_prediction": false,
+    "Solar_galaxy_or_cluster_success": false,
+    "observational_support": false,
+    "historical_novelty_established": false,
+    "publication_ready": false
+  },
+  "publication_value": {
+    "candidate_title": "A finite dynamic-range obstruction for growing kinetic gates in two-scalar cosmology",
+    "advance": "The committed obstruction is supplemented by an explicit coupled Einstein-scalar on-shell witness on a bounded positive-kinetic/gradient interval, an explicit retained superluminal scalar warning, and a bound escape architecture, separating a finite-range design theorem from an unconditional no-go.",
+    "remaining_before_preprint": [
+      "independent line-by-line mathematical review",
+      "systematic primary-literature novelty search",
+      "complete the lower-order scalar mass/mixing sector and its evolution",
+      "causal-cone analysis or a subluminal alternative witness",
+      "state the maximal theorem and counterexample pair in journal notation"
+    ]
+  },
+  "zero_access": {
+    "observational_files": 0,
+    "observational_rows": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "gpu_calls": 0
+  },
+  "output_path": "runs/gravity/theory/matter-lensing-kinetic-gate-flrw-bounded-witness-v1.json"
+}
