@@ -1,0 +1,3100 @@
+{
+  "access_accounting": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "paid_calls": 0,
+    "scientific_response_files": 0,
+    "scientific_rows": 0,
+    "scientific_source_files": 0,
+    "scores": 0
+  },
+  "authority": {
+    "campaign_manifest_authorized": false,
+    "confirmation_group_lensing_access_authorized": false,
+    "network_acquisition_authorized": false,
+    "response_access_authorized": false
+  },
+  "bindings": {
+    "config": {
+      "content_sha256": "04c6e91e681ce2fcdc43e6902f9c9edfb4116789353deecc701701d76acec004",
+      "path": "configs/open_gravity_3d_source_acquisition_environment_v1.json",
+      "sha256": "4f9e2f1435cf02107c42176625513c0e0e17015a8e6dd6118823de829509a829"
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_3d_source_acquisition_environment_v1.py",
+      "sha256": "1d7714fed64a23fef177e84d1ed6f01f2101a9aff954251dec71687299386124"
+    },
+    "predecessors": [
+      {
+        "artifacts": [
+          {
+            "path": "configs/open_gravity_source_availability_contract_v2.json",
+            "sha256": "5192fe16d77760907c0be24358f95b8ac1be3fb2f37c7520bcfadb76a91f4543"
+          },
+          {
+            "path": "src/sigma_theory_compiler/open_gravity_source_availability_contract_v2.py",
+            "sha256": "73cc4ed43d1f52f70802dfd1ab2841a4879c39e49f9055ef41db841495be642d"
+          },
+          {
+            "path": "runs/gravity/open-gravity-source-availability-contract-v2.json",
+            "sha256": "e865d726f6c1ce9bf2aee1106682628afad208addc3ffc221c8265dc45ea568b"
+          }
+        ],
+        "commit": "d60801ec15884532882e9fee591cf763a99a18f6",
+        "role": "SOURCE_AVAILABILITY_V2"
+      },
+      {
+        "artifacts": [
+          {
+            "path": "configs/open_gravity_3d_source_geometry_contract_v1.json",
+            "sha256": "b652414f96fd93c9ba140217692076e0d1c24236e28f3a8d1b79f95817247bed"
+          },
+          {
+            "path": "src/sigma_theory_compiler/open_gravity_3d_source_geometry_contract_v1.py",
+            "sha256": "a93a677deb2b72d4d2a55b57a08f326db77fc3e1b7a80512ef02535eb52b5b2c"
+          },
+          {
+            "path": "runs/gravity/open-gravity-3d-source-geometry-contract-v1/receipt.json",
+            "sha256": "a7cd3313c8b3383ee48c32be8be4597bf9310ca3a4ba76034dd8977e4d34665c"
+          }
+        ],
+        "commit": "95a8d3d85bc1f064d3dd654e7c430d07786113c9",
+        "role": "FULL3D_SOURCE_GEOMETRY"
+      }
+    ],
+    "test": {
+      "path": "tests/test_open_gravity_3d_source_acquisition_environment_v1.py",
+      "sha256": "748732d8b0db6e37c2c85fe3eb7490654a863c754faa860fac88f32fb13f7278"
+    }
+  },
+  "claim_boundary": {
+    "does_not_establish": [
+      "availability or license of every product",
+      "a measured 3-D source for any current object",
+      "an environment effect",
+      "a history effect",
+      "campaign readiness",
+      "observational support"
+    ],
+    "establishes": [
+      "an object-by-object 3-D source, environment, and history gap ledger",
+      "minimal response-independent acquisition requirements",
+      "a matched-environment and negative-control design"
+    ]
+  },
+  "cluster_products": [
+    {
+      "id": "HOT_GAS_IMAGING",
+      "minimum": "two-dimensional gas-density imaging likelihood with PSF, background, mask, and deprojection covariance",
+      "role": "SOURCE"
+    },
+    {
+      "id": "STELLAR_AND_ICL_MAP",
+      "minimum": "two-dimensional brightest-galaxy, satellite-galaxy, and intracluster-light baryon map with mass-to-light covariance",
+      "role": "SOURCE"
+    },
+    {
+      "id": "MEMBER_GALAXY_BARYONS",
+      "minimum": "membership probabilities, stellar masses, masks, and completeness",
+      "role": "SOURCE"
+    },
+    {
+      "id": "TRIAXIAL_GEOMETRY",
+      "minimum": "axis ratios, orientation posterior, centroid uncertainty, substructure and morphology indicators",
+      "role": "SOURCE_MODEL"
+    },
+    {
+      "id": "CLUSTER_ENVIRONMENT",
+      "minimum": "neighbor structures, merger-state source descriptors, external acceleration and tidal boundary posterior",
+      "role": "SOURCE_ENVIRONMENT"
+    }
+  ],
+  "content_sha256": "332cdc5578532731ffdd59324ada1e966ad33eb49da66b1b893298fa8f2621e9",
+  "environment_history_contract": {
+    "continuous_fields": [
+      "external_acceleration_vector",
+      "trace_free_tidal_tensor",
+      "neighbor_completeness",
+      "environment_extent",
+      "topology_probability"
+    ],
+    "history_fields": [
+      "source_time_series_or_simulation_id",
+      "lookback_grid",
+      "trajectory_or_mass_history",
+      "initial_state_prior",
+      "model_based_flag"
+    ],
+    "labels_required_before_response": [
+      "ISOLATED",
+      "FILAMENT",
+      "SATELLITE",
+      "GROUP",
+      "CLUSTER",
+      "UNRESOLVED"
+    ],
+    "matched_covariates": [
+      "baryonic_mass",
+      "local_baryonic_acceleration",
+      "geometry",
+      "gas_fraction",
+      "stellar_population",
+      "morphology",
+      "measurement_quality"
+    ],
+    "negative_controls": [
+      "label_shuffle",
+      "source_map_rotation",
+      "randomized_neighbor",
+      "density_only",
+      "radius_only",
+      "external_field_only",
+      "leave_environment_class_out"
+    ],
+    "response_derived_environment_forbidden": true
+  },
+  "galaxy_products": [
+    {
+      "id": "STELLAR_SURFACE_BRIGHTNESS",
+      "minimum": "calibrated two-dimensional image, bandpass, PSF, mask, sky covariance, and population-model uncertainty",
+      "role": "SOURCE"
+    },
+    {
+      "id": "ATOMIC_GAS_MAP",
+      "minimum": "resolved H I moment map or cube with beam, mask, inclination, warp, and flux covariance",
+      "role": "SOURCE"
+    },
+    {
+      "id": "MOLECULAR_GAS_MAP",
+      "minimum": "resolved CO or declared upper-limit map with conversion-factor uncertainty",
+      "role": "SOURCE"
+    },
+    {
+      "id": "VERTICAL_STRUCTURE",
+      "minimum": "measured thickness or frozen deprojection family independent of rotation residuals",
+      "role": "SOURCE_MODEL"
+    },
+    {
+      "id": "GEOMETRY_DISTANCE",
+      "minimum": "distance, inclination, position angle, center, warp, bar, bulge, and covariance",
+      "role": "SOURCE_GEOMETRY"
+    },
+    {
+      "id": "EXTERNAL_ENVIRONMENT",
+      "minimum": "complete neighbor catalog, masses, three-dimensional separations or posteriors, external acceleration, tidal vector, filament and host labels",
+      "role": "SOURCE_ENVIRONMENT"
+    }
+  ],
+  "package_id": "open-gravity-3d-source-acquisition-environment-v1",
+  "schema": "invariant-open-gravity-3d-source-acquisition-environment-receipt-1.0",
+  "status": "PASS_METADATA_ONLY_147_OBJECT_SOURCE_GAP_LEDGER_CAMPAIGN_WITHHELD",
+  "suite": {
+    "campaign_ready": false,
+    "failed": 0,
+    "full_3d_source_ready_objects": 0,
+    "gates": {
+      "ACQUISITION_AUTHORITY_WITHHELD": {
+        "metrics": {
+          "campaign_manifest_authorized": false,
+          "confirmation_group_lensing_access_authorized": false,
+          "network_acquisition_authorized": false,
+          "response_access_authorized": false
+        },
+        "passed": true
+      },
+      "CAMPAIGN_FREEZE_WITHHELD": {
+        "metrics": {
+          "campaign_manifest_authorized": false,
+          "reason": "zero current full-3D-ready objects"
+        },
+        "passed": true
+      },
+      "CLUSTER_PRODUCT_ROLES_COMPLETE": {
+        "metrics": {
+          "products": 5,
+          "roles": [
+            "SOURCE",
+            "SOURCE_ENVIRONMENT",
+            "SOURCE_MODEL"
+          ],
+          "stellar_profile_1d_available": 5,
+          "stellar_profile_1d_missing": 3
+        },
+        "passed": true
+      },
+      "ENVIRONMENT_LABELS_PRE_RESPONSE": {
+        "metrics": {
+          "all_current_labels_available": false,
+          "labels": [
+            "ISOLATED",
+            "FILAMENT",
+            "SATELLITE",
+            "GROUP",
+            "CLUSTER",
+            "UNRESOLVED"
+          ]
+        },
+        "passed": true
+      },
+      "EXACT_147_OBJECT_LEDGER": {
+        "metrics": {
+          "SPARC": 139,
+          "XCOP": 8,
+          "objects": 147
+        },
+        "passed": true
+      },
+      "GALAXY_PRODUCT_ROLES_COMPLETE": {
+        "metrics": {
+          "products": 6,
+          "roles": [
+            "SOURCE",
+            "SOURCE_ENVIRONMENT",
+            "SOURCE_GEOMETRY",
+            "SOURCE_MODEL"
+          ]
+        },
+        "passed": true
+      },
+      "HISTORY_REQUIRES_REAL_HISTORY_OR_DECLARED_SIMULATION": {
+        "metrics": {
+          "currently_history_ready": 0,
+          "history_fields": 5
+        },
+        "passed": true
+      },
+      "MATCHED_COVARIATES_AND_NEGATIVE_CONTROLS": {
+        "metrics": {
+          "matched_covariates": 7,
+          "negative_controls": 7
+        },
+        "passed": true
+      },
+      "OBJECT_STATUS_HASH_ROOT": {
+        "metrics": {
+          "rows": 147,
+          "stream_sha256": "16f899907919ae08ac03c4fe0cf1261728533aa057de0d7866fbf5f22b957810",
+          "unique_row_hashes": 147
+        },
+        "passed": true
+      },
+      "SOURCE_RESPONSE_SEPARATION": {
+        "metrics": {
+          "forbidden_substitutes": 6,
+          "response_derived_source_allowed": false
+        },
+        "passed": true
+      },
+      "ZERO_CURRENT_FULL3D_READY_OBJECTS": {
+        "metrics": {
+          "cluster_spherical_only": 8,
+          "full_3d_source_ready": 0,
+          "galaxy_blocked_depth": 139
+        },
+        "passed": true
+      },
+      "ZERO_RESPONSE_ACCESS": {
+        "metrics": {
+          "model_calls": 0,
+          "network_calls": 0,
+          "paid_calls": 0,
+          "scientific_response_files": 0,
+          "scientific_rows": 0,
+          "scientific_source_files": 0,
+          "scores": 0
+        },
+        "passed": true
+      }
+    },
+    "object_ledger": [
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "CamB",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "0b5711290771a4f482f94440d0f51945c17869306a4cda7de04d0498b7bc09b6",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "D564-8",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "89c50326f2e438d9e175000a0a20c3fee83190c930e7dd00605204a5e8b7c0ee",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "D631-7",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "7eefb4a645205962e6cb196aacaaac5613aa6f55df8f3282045888ccb27ea731",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "DDO064",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "684f04cb5d19b6f9f650ea24b860c75daa9295726e31a1838b8b87f3656ef826",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "DDO161",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "93e1b742afd19dabffd01c43d8b31b8ee9e35d720526b46be89b6f0000b5c746",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "DDO168",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "287b8adaad21a6cf2cf1951ae28d555e757c54a9684afbc3b05a731c8945449f",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "DDO170",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "db6dff5ac387ceda9584399100ae57fa86118b459fd896a17fabbccc246e8587",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "ESO079-G014",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "214e94378a0cafe7bb75ce09e037c007ec92c708f987184079197481d2631e2e",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "ESO116-G012",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "17eb37c205e8c60dfb5da52be53b8694ab846797e2726cfe5d5b07c563704dbd",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "ESO563-G021",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "8492064cdd6141e662dfb7301eef93c88a03e9e080dc8f76cc704968163b48eb",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F561-1",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "26601b613fc3f983b67ef5ce5e88733da270f8b60ae3f429c1767ad71221844e",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F563-1",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "51f988dc17e9ee83362be04346cd56cdd33881ced41884768f4d18419d80531c",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F563-V1",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "d82d0e614c017f8871066e3188882f2fdcb61488c9f535e898654e83d57adc64",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F565-V2",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "c48f0e18c2f6693f1dd48f7efb181ff2ee75b0240b668619ad138dae03927e25",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F567-2",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "a2ecd8a4cd036a1a63f2a043c2332d45ed0d8dfd4390495ad1304212049c0b64",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F568-1",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "c6b4566ad0f9c2a9f3f98708cb39712bfc91aa8edd6ed658b1c0855cdeb098ca",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F568-3",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "2bc7cef0180fcbacf23f398d1130745d59ed79387fef11ac1e8f4191cf1d202b",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F568-V1",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "2ebac773fe7be1fd30fe1cfb575ea05a6973343261d3e14dcfa377d3ce2795d3",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F571-8",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "35c8ca8f9f74af0d192bc6246b34b2a3152f9efdd37e7cb016d74c98a6477982",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F571-V1",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "d798c17e90f76e7ad26de92fef652bc07bf62495292301ab7c1b35fc5f31e463",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F574-2",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "3208d28adbcdd68b266297091555943847da867c50cc86fd21fbbf26e56aab84",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F579-V1",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "5deba756c5ef6fdf3c8ab36ba630e6f2576fdc8a8a1aaa994fe0396b2cf8b3c4",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F583-1",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "d10da2982b7050787de973335e554e2ca18db910ee402bbed85c115006a5029f",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "F583-4",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "a64a15f89a3812299eea5faeeef1cb25f3c154f39f6c0d57d84c47954be8197b",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "KK98-251",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "6c23e5f2693065951f3dac3d7161d860da082356ade3d58cccef22084571ba14",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC0024",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "fff3cb7e716f7054becf2e1fa5e9ffa799ff6c06028aebc6328e11d8ff1b0205",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC0055",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "b81896cc0e3ea0c32983dbb755e746d7cee11c7ca9145791168b16f5638c5bf3",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC0100",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "91e7d7cd70fb27892d443e71ecbe12f16b182f0c90f1cfcb48f691a744ce7748",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC0247",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "669bb943585b29d734c246ef59e47047dcb3dec932361c29aa4970036e3f5694",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC0289",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "2a2b4d3b456e2d3dd33b8d2a00d53259c157325e3dbc4f54d2b3fa1337e07a27",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC0300",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "8b86fa10418e7ec251426d3b5e4ff415d879b8b42243bc1551d4502b9a60e566",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC0801",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "eece13fc713cd0d8fbad51dfa608f14c14a376dbfd2d519a2940cd0cf62daab9",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC0891",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "dc9792b7ba0d0b447a5fb33c974e903bcaeb3101f4e3d24372d40594fa97270c",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC1003",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "4b7580b0df8cb268c81497deb59c378b1d17e820b032ee412ab44279c6a6b82b",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC1090",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "a9492fbd0abf52929320ae061cb7a065d27e0666f092cb70c0f2cf2b8a9cd772",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC1705",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "c441e8fb1c83c17086224ad14818b551f57f7fde8ef1fecef047c271da34d208",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC2403",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "7dd4b62fdbc716e537806ab8671e0fa76000d19c55575472a73887317239c716",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC2683",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "a283fb2c699daa157bc26ff86c342a03466ee2bc7be62da3c48c7505109ff2cf",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC2841",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "33fe47b99a1caea7601e367a0d9a59ccd4dbe587bba43b2533e6657b21bbb228",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC2915",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "22281dca0fae44e8214e4445e97b1cf25a947137708a3cf05d2b297877758296",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC2955",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "6ef52fa958efc3af4de2b1bbbcd3e0b2431438f648cef7034e24ae0c1d89090c",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC2976",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "fa7da0245f5719c48c7cf987e719cb969b2889eb70183de47766f6f497bc9587",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC2998",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "c6d87d16dd178451ea3315b409e39302e2c1660d331527e5254a1fb4e3379f5b",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3109",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "76b1ebfc15e540ea09ff7516e27033831e1a01a1c75d2cbe156e753f4997c016",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3198",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "ec22a32bb111bd1f7fe8da36cd6ded6c74138dccbf209ca982ff580daaf7fed3",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3521",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "8dc7825646e918f73078091f84e23ae9bca2aeafdb71122dc899647ef8b3237e",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3741",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "f63b6bc9e68dd91e4ec02e98a3a1f7410ad0da0522f69bb99fc94a249636d170",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3769",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "c4ef2f56547cab7a396beae7b9ab11df6c81c038d8b326814ff27d0ad149834a",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3877",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "a3939d25a308d79e6c3035b478dbc162cfb115806f97a4d7e5c026d79480a3db",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3893",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "3bd1b2c72f5124b395e3a6f3b21b6ac7dc6f7aaf1e338753661c8664829d9f8d",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3917",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "966c181d479c425d4d5620f2325d9f2d004d117c266f80763d9d3ab9ece9a5d0",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3949",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "f9e4722f4542b4a66a55eef1dd3c6068ed2999034dfdd006e5fba89262116168",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3972",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "b82152a0b43d3a8eb1c553200a6a42fa64458683ef55b56184d7ffff6dec2f37",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC3992",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "f50611e84fca11985a2cc49f94cdf9c14dd533a10f15447fdee630452240e5ac",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC4010",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "d4d8a24fac41caae82ad89095cbd0650fb40759c2e4c42b4767fbfb359e52fa4",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC4051",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "f196dd9e54c8e4aadcff0f4be3418dca85424a7e7df7e554e2b8cf15499905ad",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC4068",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "925ead37e34f34e96a99316964f6b98b39eaa40d01f3536c5e0ed8dfd47690c2",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC4085",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "db4761e5f93a4e74bcbe542fa951e04d805a5c560bffe5587d8e9a90c749f9de",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC4088",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "62522f8d7505292a6d201e36ecd8cfa35076b455a7b9404e89b12232f8d9603f",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC4100",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "69667be7ad64dfbef076135be5d9bc7d27e28e003f0edba80ecae3a689a2c62e",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC4157",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "a6d43ed5996522b9d7ac3d52c0a8d48582f0cc02f1b2d4728fa6e63545cd28b2",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC4183",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "769d9653ea6d860fbb4c48394723cd463eac109e298e817bb2313687abe0e18e",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC5005",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "d39076ec758cada02652e4881e691b324efea0065129b048e755392aab20347e",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC5033",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "fc33851e0c83a9af4ed0dd4f30fbd055df01555ffc85df13a09afb20150f8cb1",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC5371",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "3cd7304785f4ee31f7f435594302fa061a1f4508ec61dd3b2f921e474b46ff5e",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC5585",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "3f3770ca5cd1b82a22f86bc32deac50d55334f52607aa309a990bc9bb975720c",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC5907",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "b1bf330d988105de5335711b8f1268f2548939c3518ea3e7ac83dd3ff3c8c1e2",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC5985",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "8eba1b8b5543f62a86179ac2738c7772f5a56b95599b47eef90026a2286d4aea",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC6015",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "cce986b6afc10bb62e7b1ef1d6f331d963efa6b993c30f2dfc3c21e66d1588d7",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC6195",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "5d276506296e72618f6eaa447b39437679e93c919c76af97b1022ca9b6293352",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC6503",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "385c29a9a54e4be21f46a9f51067c0a75014ea66e4bb4664fd4ffc360f778d01",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC6674",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "f143e120fd50189cd730c0d539cabbd9b5e613529067f8a6e05f29f7ab742b40",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC6789",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "261bf0677fddf0be06ec2b153887a85b40cf363346463d34f5781c2ddb27da60",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC6946",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "848cb2dd14df498241062ca497a6266b14a1589e33949226a6d70e100263fd5d",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC7331",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "b4eaf51966e438edee0d1ff87523227bc508bc8572013e4d75eb667c1f91e721",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "NGC7814",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "1532b130320434636a9ecc95d1b9afd0bdd2f8c932a6b412fef9153e80a03690",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "PGC51017",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "0b616f7fd3657628025f04585720f7c91e329803f1138e73f39d23903358a3c8",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC00128",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "9645d63408f17ddb05cbdc7e55835be603a6332feb2b62423254f51d2a73128c",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC00191",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "5ebeef9f1b57acea0388fa572965c89b77e5f5a54523fe562aa766ca2e43767c",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC00731",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "997f0f4596b8e3bfcf954fab5ad404dfaa884671682a0b3eaf1edfb5a54df1a1",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC00891",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "1e97802e3ef38d7adb0a837c7b9a93028961651435e76552495a02b9fb5f3cbd",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC01230",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "c3896aac84267d208231cbac88b5ff80a0ddaf531ad7aa8c40f217a5626883d0",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC02259",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "3fd1cf7d115438349fd1501bdf4b95fe7c504889937c0cfb6001adb52df0f3fd",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC02487",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "8dbb9ca0360cb04b3398a8e3697c9d7fb7570fab8986c3e96ebe54b81df7dc14",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC02916",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "9b91dd7892dc67981979f1a7a20bc58d5b22d11928d7db855089a0881d9d6d24",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC02953",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "a44c98245b98fd24c1f0b27e62ed87526362b366d062bb9e84db0ad2395a58c3",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC03205",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "b295733596a71fccedc68f280eb8ff44260c17d7678acc2b0947508e8fb50490",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC03580",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "a63dd2fb6b07708a800566e5031150f577c5d770fe320365e5fe776e10885ceb",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC04278",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "3f4314cb72634f50f8e25bdcdc65bd0e30998cd64e073464a3c7305620c11fb2",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC04305",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "b56781f2b3d12c3e64c7869542861897083479f202fb96730e32f8f12e537188",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC04325",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "c0f253f231e84706caf5a2415ce8c06b64a52567aa0f369e78b83220ea2618fd",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC04483",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "98d548e5cc96f71234a63aa5f0c0baeed3184f7794cd3307b4e4c29bf4309c25",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC04499",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "0434fbe43e20d6e1b06fd494d491e811b86fc0969f68f8901769b105f56bfed3",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC05414",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "93a7d043dc609b57157511a0ecb6b55256564352a67523715df6a14a06d5eba5",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC05716",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "56aaf7c0e2aa6ce9e495b2996984a88128ab721320616a33fc233002f7dc684e",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC05750",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "d0406ad0a0c69ffcdf4a23c08a89f18581df6631669d7a79f46f6b885ecf4712",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC05764",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "a8993ba60412ed39607432d366bbc481d4dd11260ac633853db4a22874a0595a",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC05829",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "74658d95dc32ab29a58a06cf2773a39850d44a85f312630cf38c69370072e663",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC05986",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "231b9a0c40702fc6f40ede8e5ee2c3dacbf38520434bb72aac4e80a42c4a6fb2",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC05999",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "883dea80f9676c6eaa8c7d6b26389929d60083b0ec73d442fbf18c16e46675b1",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06399",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "fd3963b7be86786380d7e6e85dab72bb7e1731f5e6f613a5a1dcd96449086dfc",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06614",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "b3af892b18de349b0cbbb876b858d179d3b167fbc053c6f616281339e2ae8f19",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06628",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "4cccc906553988d1e039e08f72d17d386f5346cbdc9851773877cc30b8f5c274",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06667",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "20715b926730e7fcc9eec79ead7ee09661f66a27f05e4e9dbb3ff45795408773",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06786",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "41cb002245e19fd8dc170b7ecd73cd56fa09519072440980227cac31492e6bb5",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06787",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "456e98eb3f775010e9db189bc0b8ef0828bc47c532cad55c5ed3028062dbfca5",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06818",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "5a66db333080a1b5645980f19ed1409f92c4390c4086b82bf42baf4d0067d364",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06917",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "2c88ed52e312e916144d0b07d27142538853c8b2c4cd810eea7a6d5c37f2f445",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06923",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "3f5b07f3b708e60967bdfd5b806c73ac2ffb0428311252fad0a3bd39fd5d48a5",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06973",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "c7df765f9cf05a26856320cb4bc38dc7be1614970b3975509ae7f79dde4654c8",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC06983",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "2a9ab7fc2938049de3804f175593b05f22590fe5231ee0652851b964e64ba5c3",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07089",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "6cae924f6c708d5b1b023e64b6c157944fc52296c660769630e6c8b28ca8cf04",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07125",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "69e9e44c7fbac4af03ee57e666d007bb87189933ed6fa264dd997fdf036e09f7",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07151",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "d4c5a6482648c30aaf171d8c347df01748803015ae2b54ffa32e5bf8c92a9860",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07232",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "836a550cbf9503c4877d0cd15807a68c6eff83001fd95434c63bf9446409f19a",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07261",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "b03c80bec9d323859c1fe4e75ceac114cb8093e297a38da4c24d9effb17b23e3",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07323",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "f759bb7905d534a8c69e820c03881099255708eef6213bcedd8d9614e2baf40b",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07399",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "6180cbda64c4b19a9c56bb23b7734101182c8ba551708718b7f4d02c7a694cca",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07524",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "e82bd92c93360d5ef82276f68418d72eda12594b3c874a8a2a46ce9948b960f3",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07577",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "91f2689ca838f45a62b0fb7b0573d2c439c647d0e628923e35b0c55e50d19695",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07603",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "71bc978fa7fc26bbd4b6294d9127975579aff21f5ecfee3d1ac64aca215b2ee3",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07608",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "21b0259d23bab741983c212187a050c44479df7782b4cc2ef4a45ca2b8ba5256",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC07866",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "717f541b055cd22d851714b2926fdbbe70d390c265aba6bd6eee97fcf9979c67",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC08286",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "b2062d79698b1d8a1b1bda7fe6e89d6a3e7b655b6e4aa2abe53dd61da08cb463",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC08490",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "6a36b6bbad1e05932eacb77d52370945fbe9bff42afbf2ed9754f9060207c51e",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC08550",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "1bdd8d45480d267c881195b2ffd46558d22fe704ea6972767921071f803674c9",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC08699",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "f2a1f3401b36c87fbc8d5606b1b7fcf67c970d0da72c583155adf0712b78cabf",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC08837",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "491eef154206d66235b6570d9ce6c6721890848b79e0689911b961199ab13598",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC09037",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "e241bf8b3cde2bb84f68853fb3852eb5e2851f3bc7994c5c27542b60e8512dd8",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC09133",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "5ed011f99b950e5d56c16a53bd758ea2918605adc9bfcb43939a1e7bcf90ea1a",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC09992",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "551e3b9b2591de5a3d69c88d7d50511380dea5a5333934f82375a2a9eaf5f533",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC10310",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "da9bb4b0cb62bec15ba276a51f5450daa64a45f7968f7c40825c8b0bf2c6a8c6",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC11455",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "bf6d9dd51394d363e3f84e80d910bba29e09cc670f5f15c2a1a10ccbeba0918b",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC11820",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "e6e60a3b758a333a3c67a42c9ec47c87cbabb93318584a090c8bf5ce704508bf",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC11914",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "52d0821152bcc3c51e55c7b72e4510a88e951dec986f26f2f70a6032bc10a4f6",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGC12506",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "47394bf31da2b71468c8af73f5db0d1879556c17b774106da0544e237236ef38",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGCA281",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "5eee7216267ca45953be06a56f9ff1802a940ef6f910f02ea4f345be0337ffab",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGCA442",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "3f0b42610e6fdf7bd97d4a3d2be291eea507e93ae3180c2d31c15a80f2ce2d53",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "RADIAL_SOURCE_CURVE_ONLY",
+        "domain": "SPARC",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SOURCE_BLOCKED_MISSING_DEPTH",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "UGCA444",
+        "required_products": [
+          "STELLAR_SURFACE_BRIGHTNESS",
+          "ATOMIC_GAS_MAP",
+          "MOLECULAR_GAS_MAP",
+          "VERTICAL_STRUCTURE",
+          "GEOMETRY_DISTANCE",
+          "EXTERNAL_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "58fd105a38291850733e1edf1f29d4426b380f708ccf23e014c96aeef9ae235c",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "SPHERICAL_1D",
+        "domain": "XCOP",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SPHERICAL_ONLY",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "A1644",
+        "required_products": [
+          "HOT_GAS_IMAGING",
+          "STELLAR_AND_ICL_MAP",
+          "MEMBER_GALAXY_BARYONS",
+          "TRIAXIAL_GEOMETRY",
+          "CLUSTER_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "160c1b53a83d31fc13b4829d32066332548b35907c9941d952cc678dbebe2d12",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "SPHERICAL_1D",
+        "domain": "XCOP",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SPHERICAL_ONLY",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "A1795",
+        "required_products": [
+          "HOT_GAS_IMAGING",
+          "STELLAR_AND_ICL_MAP",
+          "MEMBER_GALAXY_BARYONS",
+          "TRIAXIAL_GEOMETRY",
+          "CLUSTER_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "f7f70e33f13201f9dea272ad3ba6011d273c00d5743791a38b1da2f677968c31",
+        "stellar_profile_1d_available": true
+      },
+      {
+        "current_geometry": "SPHERICAL_1D",
+        "domain": "XCOP",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SPHERICAL_ONLY",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "A2142",
+        "required_products": [
+          "HOT_GAS_IMAGING",
+          "STELLAR_AND_ICL_MAP",
+          "MEMBER_GALAXY_BARYONS",
+          "TRIAXIAL_GEOMETRY",
+          "CLUSTER_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "0086f088e07090c3b507649e27d9e50a674076ee44dc12f3caf34fdab5d6c518",
+        "stellar_profile_1d_available": true
+      },
+      {
+        "current_geometry": "SPHERICAL_1D",
+        "domain": "XCOP",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SPHERICAL_ONLY",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "A2255",
+        "required_products": [
+          "HOT_GAS_IMAGING",
+          "STELLAR_AND_ICL_MAP",
+          "MEMBER_GALAXY_BARYONS",
+          "TRIAXIAL_GEOMETRY",
+          "CLUSTER_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "3f6c5a0e74240a3c0c43a401a6626d3c2fe9f28350a360224a7cc1979ef7da49",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "SPHERICAL_1D",
+        "domain": "XCOP",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SPHERICAL_ONLY",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "A2319",
+        "required_products": [
+          "HOT_GAS_IMAGING",
+          "STELLAR_AND_ICL_MAP",
+          "MEMBER_GALAXY_BARYONS",
+          "TRIAXIAL_GEOMETRY",
+          "CLUSTER_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "4f78e448c8b517cdfaa05b848b5ce20215f49226e96fcbd11331525392400783",
+        "stellar_profile_1d_available": true
+      },
+      {
+        "current_geometry": "SPHERICAL_1D",
+        "domain": "XCOP",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SPHERICAL_ONLY",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "A3266",
+        "required_products": [
+          "HOT_GAS_IMAGING",
+          "STELLAR_AND_ICL_MAP",
+          "MEMBER_GALAXY_BARYONS",
+          "TRIAXIAL_GEOMETRY",
+          "CLUSTER_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "89b7074f34ee57a0f21b74a4bcc2fdc8f94fe846ab0c66769adcfaf23eac1704",
+        "stellar_profile_1d_available": false
+      },
+      {
+        "current_geometry": "SPHERICAL_1D",
+        "domain": "XCOP",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SPHERICAL_ONLY",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "A85",
+        "required_products": [
+          "HOT_GAS_IMAGING",
+          "STELLAR_AND_ICL_MAP",
+          "MEMBER_GALAXY_BARYONS",
+          "TRIAXIAL_GEOMETRY",
+          "CLUSTER_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "63217b89a768aa49ad6516a6c7878a868d0f5b9296cecca9f26ce5bce085194f",
+        "stellar_profile_1d_available": true
+      },
+      {
+        "current_geometry": "SPHERICAL_1D",
+        "domain": "XCOP",
+        "environment_status": "SOURCE_BLOCKED_MISSING_ENVIRONMENT",
+        "full_3d_status": "SPHERICAL_ONLY",
+        "history_status": "SOURCE_BLOCKED_MISSING_HISTORY",
+        "object_id": "ZW1215",
+        "required_products": [
+          "HOT_GAS_IMAGING",
+          "STELLAR_AND_ICL_MAP",
+          "MEMBER_GALAXY_BARYONS",
+          "TRIAXIAL_GEOMETRY",
+          "CLUSTER_ENVIRONMENT"
+        ],
+        "response_access_authorized": false,
+        "row_sha256": "4207e340c98e1b928f06a6a8ec636ebac9709f1f91ee05ab76ffe853c480c3e2",
+        "stellar_profile_1d_available": true
+      }
+    ],
+    "object_ledger_stream_sha256": "16f899907919ae08ac03c4fe0cf1261728533aa057de0d7866fbf5f22b957810",
+    "objects": 147,
+    "passed": 12
+  }
+}

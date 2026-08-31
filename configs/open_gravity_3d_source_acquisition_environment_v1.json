@@ -1,0 +1,84 @@
+{
+  "schema": "invariant-open-gravity-3d-source-acquisition-environment-1.0",
+  "package_id": "open-gravity-3d-source-acquisition-environment-v1",
+  "status": "FROZEN_METADATA_ONLY_SOURCE_AND_ENVIRONMENT_GAPS",
+  "purpose": "Define the smallest response-independent galaxy, cluster, environment, and history products needed for honest full-3D upgrades, object-by-object, without acquiring data or freezing a response campaign.",
+  "bindings": [
+    {"role": "SOURCE_AVAILABILITY_V2", "commit": "d60801ec15884532882e9fee591cf763a99a18f6", "artifacts": [
+      {"path": "configs/open_gravity_source_availability_contract_v2.json", "sha256": "5192fe16d77760907c0be24358f95b8ac1be3fb2f37c7520bcfadb76a91f4543"},
+      {"path": "src/sigma_theory_compiler/open_gravity_source_availability_contract_v2.py", "sha256": "73cc4ed43d1f52f70802dfd1ab2841a4879c39e49f9055ef41db841495be642d"},
+      {"path": "runs/gravity/open-gravity-source-availability-contract-v2.json", "sha256": "e865d726f6c1ce9bf2aee1106682628afad208addc3ffc221c8265dc45ea568b"}
+    ]},
+    {"role": "FULL3D_SOURCE_GEOMETRY", "commit": "95a8d3d85bc1f064d3dd654e7c430d07786113c9", "artifacts": [
+      {"path": "configs/open_gravity_3d_source_geometry_contract_v1.json", "sha256": "b652414f96fd93c9ba140217692076e0d1c24236e28f3a8d1b79f95817247bed"},
+      {"path": "src/sigma_theory_compiler/open_gravity_3d_source_geometry_contract_v1.py", "sha256": "a93a677deb2b72d4d2a55b57a08f326db77fc3e1b7a80512ef02535eb52b5b2c"},
+      {"path": "runs/gravity/open-gravity-3d-source-geometry-contract-v1/receipt.json", "sha256": "a7cd3313c8b3383ee48c32be8be4597bf9310ca3a4ba76034dd8977e4d34665c"}
+    ]}
+  ],
+  "galaxy_products": [
+    {"id": "STELLAR_SURFACE_BRIGHTNESS", "role": "SOURCE", "minimum": "calibrated two-dimensional image, bandpass, PSF, mask, sky covariance, and population-model uncertainty"},
+    {"id": "ATOMIC_GAS_MAP", "role": "SOURCE", "minimum": "resolved H I moment map or cube with beam, mask, inclination, warp, and flux covariance"},
+    {"id": "MOLECULAR_GAS_MAP", "role": "SOURCE", "minimum": "resolved CO or declared upper-limit map with conversion-factor uncertainty"},
+    {"id": "VERTICAL_STRUCTURE", "role": "SOURCE_MODEL", "minimum": "measured thickness or frozen deprojection family independent of rotation residuals"},
+    {"id": "GEOMETRY_DISTANCE", "role": "SOURCE_GEOMETRY", "minimum": "distance, inclination, position angle, center, warp, bar, bulge, and covariance"},
+    {"id": "EXTERNAL_ENVIRONMENT", "role": "SOURCE_ENVIRONMENT", "minimum": "complete neighbor catalog, masses, three-dimensional separations or posteriors, external acceleration, tidal vector, filament and host labels"}
+  ],
+  "cluster_products": [
+    {"id": "HOT_GAS_IMAGING", "role": "SOURCE", "minimum": "two-dimensional gas-density imaging likelihood with PSF, background, mask, and deprojection covariance"},
+    {"id": "STELLAR_AND_ICL_MAP", "role": "SOURCE", "minimum": "two-dimensional brightest-galaxy, satellite-galaxy, and intracluster-light baryon map with mass-to-light covariance"},
+    {"id": "MEMBER_GALAXY_BARYONS", "role": "SOURCE", "minimum": "membership probabilities, stellar masses, masks, and completeness"},
+    {"id": "TRIAXIAL_GEOMETRY", "role": "SOURCE_MODEL", "minimum": "axis ratios, orientation posterior, centroid uncertainty, substructure and morphology indicators"},
+    {"id": "CLUSTER_ENVIRONMENT", "role": "SOURCE_ENVIRONMENT", "minimum": "neighbor structures, merger-state source descriptors, external acceleration and tidal boundary posterior"}
+  ],
+  "forbidden_source_substitutes": [
+    "rotation residuals or observed velocities",
+    "hydrostatic total mass",
+    "lensing mass, shear, convergence, or magnification",
+    "pressure or temperature response used as gravitating source",
+    "candidate score or best-fit gravity parameters",
+    "group, independent, or confirmation response data"
+  ],
+  "environment_history_contract": {
+    "labels_required_before_response": ["ISOLATED", "FILAMENT", "SATELLITE", "GROUP", "CLUSTER", "UNRESOLVED"],
+    "continuous_fields": ["external_acceleration_vector", "trace_free_tidal_tensor", "neighbor_completeness", "environment_extent", "topology_probability"],
+    "history_fields": ["source_time_series_or_simulation_id", "lookback_grid", "trajectory_or_mass_history", "initial_state_prior", "model_based_flag"],
+    "matched_covariates": ["baryonic_mass", "local_baryonic_acceleration", "geometry", "gas_fraction", "stellar_population", "morphology", "measurement_quality"],
+    "negative_controls": ["label_shuffle", "source_map_rotation", "randomized_neighbor", "density_only", "radius_only", "external_field_only", "leave_environment_class_out"],
+    "response_derived_environment_forbidden": true
+  },
+  "upgrade_rules": {
+    "SPARC_current": "SOURCE_BLOCKED_MISSING_DEPTH",
+    "XCOP_current": "SPHERICAL_ONLY",
+    "full_3d_requires_all_mandatory_products": true,
+    "projected_3d_requires_forward_projection_and_covariance": true,
+    "environment_ready_requires_independent_label_and_field_ledger": true,
+    "history_ready_requires_actual_source_history_or_declared_simulation": true,
+    "missingness_never_imputed_from_response": true
+  },
+  "required_gates": [
+    "EXACT_147_OBJECT_LEDGER",
+    "ZERO_CURRENT_FULL3D_READY_OBJECTS",
+    "GALAXY_PRODUCT_ROLES_COMPLETE",
+    "CLUSTER_PRODUCT_ROLES_COMPLETE",
+    "SOURCE_RESPONSE_SEPARATION",
+    "ENVIRONMENT_LABELS_PRE_RESPONSE",
+    "MATCHED_COVARIATES_AND_NEGATIVE_CONTROLS",
+    "HISTORY_REQUIRES_REAL_HISTORY_OR_DECLARED_SIMULATION",
+    "OBJECT_STATUS_HASH_ROOT",
+    "ACQUISITION_AUTHORITY_WITHHELD",
+    "CAMPAIGN_FREEZE_WITHHELD",
+    "ZERO_RESPONSE_ACCESS"
+  ],
+  "authority": {
+    "network_acquisition_authorized": false,
+    "response_access_authorized": false,
+    "campaign_manifest_authorized": false,
+    "confirmation_group_lensing_access_authorized": false
+  },
+  "access_contract": {"scientific_source_files": 0, "scientific_response_files": 0, "scientific_rows": 0, "scores": 0, "network_calls": 0, "model_calls": 0, "paid_calls": 0},
+  "claim_boundary": {
+    "establishes": ["an object-by-object 3-D source, environment, and history gap ledger", "minimal response-independent acquisition requirements", "a matched-environment and negative-control design"],
+    "does_not_establish": ["availability or license of every product", "a measured 3-D source for any current object", "an environment effect", "a history effect", "campaign readiness", "observational support"]
+  },
+  "output_path": "runs/gravity/open-gravity-3d-source-acquisition-environment-v1/receipt.json"
+}
