@@ -1,0 +1,85 @@
+{
+  "schema": "invariant-open-gravity-3d-synthetic-recovery-falsification-1.0",
+  "package_id": "open-gravity-3d-synthetic-recovery-falsification-v1",
+  "status": "FROZEN_TARGET_FREE_RECOVERY_NULL_FALSIFICATION",
+  "purpose": "Require every currently executable full-3D field mechanism to recover its own injected signature, retain the null, distinguish its nearest implemented alternative where the fixture is informative, and preserve degeneracies and parent failures before any real response campaign.",
+  "bindings": [
+    {
+      "role": "COMMON_SYNTHETIC_UNIVERSE",
+      "commit": "02b1e549a9771afec5ed0e93fea282c6ffe24e53",
+      "artifacts": [
+        {"path": "configs/open_gravity_common_3d_synthetic_universe_v1.json", "sha256": "d74af8797baaf8671844ef4a662682be4dc9af8df6edd3e15b894ddc5b98e57b"},
+        {"path": "src/sigma_theory_compiler/open_gravity_common_3d_synthetic_universe_v1.py", "sha256": "9c8132ab060446a464b3499fd003c62e40ad837dedfdfdcee88dd274c2e25db5"},
+        {"path": "runs/gravity/open-gravity-common-3d-synthetic-universe-v1/receipt.json", "sha256": "4965be01827b56b2efd5b721676dfe8724a4c8661a9cad3fa6e1733714afedfe"}
+      ]
+    },
+    {
+      "role": "NEWTON_AQUAL_QUMOND",
+      "commit": "fe9d3da6233827fdf8ac624fe6223bf629293454",
+      "artifacts": [
+        {"path": "src/sigma_theory_compiler/open_gravity_3d_newton_aqual_qumond_baselines_v1.py", "sha256": "5aeed2d338e995f934407df4590272197344666c593bb137bd445a83a1335f2c"},
+        {"path": "runs/gravity/open-gravity-3d-newton-aqual-qumond-baselines-v1/receipt.json", "sha256": "b0e84fe4323838d8687384b9ca6a2db63b401d5584a369521e29316906582fdb"}
+      ]
+    },
+    {
+      "role": "MOG_REFRACTED",
+      "commit": "009c2e0d0c7d29b1ce0e00d776f7b8b7d246ccc4",
+      "artifacts": [
+        {"path": "src/sigma_theory_compiler/open_gravity_3d_halo_modified_gravity_comparators_v1.py", "sha256": "34ccaac316595664c8337abb04a06c510d57ff4181797a8f8d002413bd65e139"},
+        {"path": "runs/gravity/open-gravity-3d-halo-modified-gravity-comparators-v1/receipt.json", "sha256": "6e17f3a4626022cc852d6d742c56e4b7a56c4a2ad9dc81b62649e7da598bba0f"}
+      ]
+    },
+    {
+      "role": "GP01_FULL3D",
+      "commit": "5283ba0580268ab4e83423d2731a66ca97b58674",
+      "artifacts": [
+        {"path": "src/sigma_theory_compiler/open_gravity_gp01_full3d_dynamics_v1.py", "sha256": "b913baf2d7f45fa8773a7f775b0b1a6831db9af287e6791dadfa83614cab89ae"},
+        {"path": "runs/gravity/open-gravity-gp01-full3d-dynamics-v1/receipt.json", "sha256": "d6ced8b0baa18697aec64f8734710e6293f794f0ad52af51038c9c8ac73f6b01"}
+      ]
+    }
+  ],
+  "mechanisms": [
+    {"id": "NEWTON", "parameters": {}},
+    {"id": "AQUAL", "parameters": {"a0": 1.0, "mu_floor": 0.000001}},
+    {"id": "QUMOND", "parameters": {"a0": 1.0, "nu_floor": 0.000001}},
+    {"id": "MOG_WEAK_FIELD", "parameters": {"alpha": 1.2, "mu": 0.8}},
+    {"id": "REFRACTED_GRAVITY", "parameters": {"epsilon_0": 0.25, "rho_c": 1.0, "q_slope": 1.2}},
+    {"id": "GP01_ELLIPTIC", "parameters": {"n": 2, "Gamma_max": 1.5, "L_g": 0.35}}
+  ],
+  "test_contract": {
+    "primary_fixture": "F04_EXPONENTIAL_DISK",
+    "degeneracy_fixture": "F13_SPHERICAL_CLUSTER",
+    "external_field_fixture": "F10_SATELLITE_EXTERNAL_FIELD",
+    "saddle_fixture": "F16_SADDLE_EXACT_NULL",
+    "injection_relative_noise": 0.00000001,
+    "minimum_distinct_signature_distance": 0.0001,
+    "rotation_tolerance": 0.000000001,
+    "null_tolerance": 0.000000000001
+  },
+  "required_gates": [
+    "ALL_EXECUTABLE_MECHANISMS_RETURN_FINITE_FIELDS",
+    "SELF_INJECTION_NEAREST_SIGNATURE_RECOVERY",
+    "ZERO_SOURCE_NULL_RETAINED",
+    "NONSYMMETRIC_CLOSEST_COMPARATORS_DISTINGUISHED",
+    "SPHERICAL_DEGENERACY_REPORTED_NOT_PROMOTED",
+    "SOURCE_SHUFFLE_BREAKS_SIGNATURE",
+    "ROTATION_COVARIANCE_REPLAY",
+    "HIGH_ACCELERATION_NEWTON_LIMIT_REPLAY",
+    "EXTERNAL_FIELD_AND_SADDLE_REPLAY",
+    "PARENT_COUNTEREXAMPLES_AND_BLOCKS_RETAINED",
+    "ZERO_RESPONSE_ACCESS"
+  ],
+  "blocked_or_nonindependent": [
+    "GP01 local algebraic multiplier is a nonconservative control in generic 3-D",
+    "spherical AQUAL/QUMOND/GP01-like equivalences do not earn independent discovery chances",
+    "GP01-T1 and GP01-T2 remain path/null/separatrix blocked",
+    "GP01 action remains quarantined",
+    "EMOND, full covariant MOG, full covariant refracted gravity, and a published nonlocal solver remain unimplemented"
+  ],
+  "access_contract": {"scientific_source_files": 0, "scientific_response_files": 0, "scientific_rows": 0, "scores": 0, "network_calls": 0, "model_calls": 0, "paid_calls": 0},
+  "claim_boundary": {
+    "establishes": ["target-free self-recovery, null, invariance, and signature-distinction capability for six executable 3-D mechanisms", "explicit retention of high-symmetry degeneracy and parent failures"],
+    "does_not_establish": ["statistical power on real objects", "observational preference", "exact published full-covariant alternatives", "matter-light closure", "healthy common action", "novelty"]
+  },
+  "output_path": "runs/gravity/open-gravity-3d-synthetic-recovery-falsification-v1/receipt.json"
+}
