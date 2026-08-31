@@ -1,0 +1,204 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-split-gate-range-source-tradeoff-config-1.0",
+  "analysis_id": "gravity-matter-lensing-split-gate-range-source-tradeoff-v1",
+  "status": "CANDIDATE_ASYMPTOTIC_TRADEOFF_THEOREM_NOT_PREPRINT_READY",
+  "purpose": "Generalize the committed split mass gate to a differentiably regularly varying high-X class, derive the exact asymptotic tradeoff among mediator range, healthy chi amplitude, and bounded-source capacity, recover the committed p=2 result, and adjudicate whether the result is a credible second publication lead without claiming historical novelty, full action health, or observational success.",
+  "bindings": [
+    {
+      "id": "SPLIT_GATE_ACTION",
+      "commit": "03a652acaded1be4cca9af48782b8d54138e54c3",
+      "config_path": "configs/gravity_matter_lensing_split_gate_action_v1.json",
+      "config_sha256": "f16f1d711762fea34fb7c53de1fa559c69423be6b6bdc938063e313e30a74035",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_action.py",
+      "module_sha256": "9eb16e8378ceb9d0aea9dcbaa19ad3c3ccf47411867f6517b26622afb3ac49f6",
+      "test_path": "tests/test_gravity_matter_lensing_split_gate_action.py",
+      "test_sha256": "36402d837fe0d37d647b4ebd959c212d61e3f0c15c4071f6834e28d90e32f1c6",
+      "receipt_path": "runs/gravity/theory/matter-lensing-split-gate-action-v1.json",
+      "receipt_sha256": "a35d52287fd66c47dbcbd0dc86b80d2bcec9069f193ac4353ade3d38ccce6dab",
+      "receipt_content_sha256": "f74275b8a520057a9060eb727ad425412b07f1d92d3b319a7746d2df4ecb569d"
+    },
+    {
+      "id": "STATIC_SOURCE_BOUND",
+      "commit": "7216ff7319e0f38c7639926b31e7f4e881f9a64a",
+      "config_path": "configs/gravity_matter_lensing_split_gate_source_bound_v1.json",
+      "config_sha256": "a06b6155d46d81bf0d54075ff2a57c7aecfb4b6050267faa27c0b7c1c14c66cd",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_source_bound.py",
+      "module_sha256": "2707e20de7fd6dfd975beb5d8ebe25997e2cac9b347ecb5eb2c34790c58724e5",
+      "test_path": "tests/test_gravity_matter_lensing_split_gate_source_bound.py",
+      "test_sha256": "24cb90fbeaf4ad3831cc61d4cf30f461083b21a7dff1c2b5f15aac6aadca85a8",
+      "receipt_path": "runs/gravity/theory/matter-lensing-split-gate-source-bound-v1.json",
+      "receipt_sha256": "4a2a84d0cfe8de44051dd745f7f8175c421dbd71523aefba37e1cf1e49e011d9",
+      "receipt_content_sha256": "b678d68491d7a5f63660d91050b9d904e76e89fadb80499ed53a451fe0ad8b96"
+    },
+    {
+      "id": "UNIVERSAL_CONFORMAL_SOURCE",
+      "commit": "98589e269c362846154764e6b3e400fa300c2a94",
+      "config_path": "configs/gravity_matter_lensing_universal_conformal_source_v1.json",
+      "config_sha256": "328411ab6d0ef5995dd58c532280bd7df6162871c834f79304fc84a95b8b0130",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_universal_conformal_source.py",
+      "module_sha256": "8a94ac2101ebfe3e9cf79e2af945ecf8c10b7885593a18623c68d72504684925",
+      "test_path": "tests/test_gravity_matter_lensing_universal_conformal_source.py",
+      "test_sha256": "4c7ae3e4a06d5fec5b7acb4babe9f8a2ba574d044d5894b6d7fdfa940a6deb33",
+      "receipt_path": "runs/gravity/theory/matter-lensing-universal-conformal-source-v1.json",
+      "receipt_sha256": "2787cc93c0e1f9541f0a8ab333e24af8956d58b806d2b8882cd4e4517c8ac9a8",
+      "receipt_content_sha256": "881acf0e6b742e54d270ebd4bfb70a4964ad92bb9bda08e84b50865a22a37bff"
+    },
+    {
+      "id": "SOLAR_GW_NECESSARY_CONDITIONS",
+      "commit": "ad11eba2ebfc7c12f107cfbea8b969dfd05de101",
+      "config_path": "configs/gravity_matter_lensing_solar_gw_necessary_conditions_v1.json",
+      "config_sha256": "e4c1c99e2fde3a9305667fb1d749fe035c378232300859bc9e480791fd738b06",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_solar_gw_necessary_conditions.py",
+      "module_sha256": "9b10ad4926736d492fb252c2ce106de57f896b24899a87855cf195ac6a937316",
+      "test_path": "tests/test_gravity_matter_lensing_solar_gw_necessary_conditions.py",
+      "test_sha256": "0cb20b9ce3eb019f5fcb0523748ad63fdb0352320eb215005256bfb29226419c",
+      "receipt_path": "runs/gravity/theory/matter-lensing-solar-gw-necessary-conditions-v1.json",
+      "receipt_sha256": "04a630985ef7a4f021e13818db104b2b2fd4ae2c4ae6d6b72cad71ef9b41f986",
+      "receipt_content_sha256": "f30271e16e2b9e0777260cb550cddfabda707dbbe8e9793bc7a2b50d02532190"
+    }
+  ],
+  "theory_class": {
+    "action_sector": "L=P(X)-V(phi)+Y0*X_chi-(m_chi^2/2)*Z(X)*chi^2 with Y0>0 and m_chi>0",
+    "timelike_branch": "X>0 with A0(X)=P_X->A_infinity>0 and B0(X)=P_X+2*X*P_XX->B_infinity>0",
+    "gate_class": "Z(X)>0 is C2 and differentiably regularly varying: Z/(z*X^s)->1, X*Z_X/Z->s, and X^2*Z_XX/Z->s*(s-1), with z>0 and s>1/2",
+    "frozen_response_scope": "Static constant-X R3 Yukawa response with frozen delta_phi, or the formal homogeneous/long-wavelength limit; spatially varying coefficients and active phi-chi mixing are outside this theorem.",
+    "health_coefficients": "C=A0-(m_chi^2*chi^2/2)*Z_X and K=B0-(m_chi^2*chi^2/2)*(Z_X+2*X*Z_XX)",
+    "source_identity": "For the committed universal conformal metric, Q_chi=-(partial_chi ln A)*T_E; the theorem leaves the physical relation between T_E and X unspecified."
+  },
+  "asymptotic_theorem": {
+    "amplitude_ceiling": "chi_max~min[sqrt(2*A_infinity/(m_chi^2*s*z)),sqrt(2*B_infinity/(m_chi^2*s*(2*s-1)*z))]*X^[-(s-1)/2]",
+    "bare_range": "ell=sqrt(Y0)/(m_chi*sqrt(Z))~sqrt(Y0)/(m_chi*sqrt(z))*X^(-s/2)",
+    "source_ceiling": "Q_max=m_chi^2*Z*chi_max~m_chi*min[sqrt(2*A_infinity*z/s),sqrt(2*B_infinity*z/(s*(2*s-1)))]*X^[(s+1)/2]",
+    "universal_product": "Q_max*ell~sqrt(Y0)*min[sqrt(2*A_infinity/s),sqrt(2*B_infinity/(s*(2*s-1)))]*sqrt(X); its exponent and leading cancellation of m_chi and z are independent of the gate amplitude and power.",
+    "critical_source_exponent": "For a homogeneous/long-wave source |Q_chi|~q*X^r, r_c=(s+1)/2: r<r_c is asymptotically subcritical, r=r_c is coefficient-dependent, and r>r_c is asymptotically supercritical.",
+    "no_free_range_corollary": "To keep a source X^r strictly subcritical by choosing the gate power requires s>2*r-1; the bare range must then shrink faster than X^[-(r-1/2)]. Increasing asymptotic source capacity necessarily increases range suppression.",
+    "sharpness_boundary": "The exponent classification is exact for the homogeneous/formal k=0 response and is a sufficient bounded-source guarantee on the frozen R3 problem. Exceeding the sup-norm ceiling is not a necessary failure condition for arbitrary sign-changing or localized sources.",
+    "full_coupled_boundary": "The bare range is not the general coupled pole when first-derivative phi-chi mixing is active. No full-action causality, hyperbolicity, cutoff, or nonlinear preservation theorem follows."
+  },
+  "shifted_power_family": {
+    "definition": "Z=(1+beta*X^2)^p with beta>0 and p>1/4, so s=2*p",
+    "range_scaling": "ell~X^(-p)",
+    "amplitude_scaling": "chi_max~X^(1/2-p)",
+    "source_scaling": "Q_max~X^(p+1/2)",
+    "critical_exponent": "r_c=p+1/2",
+    "committed_recovery": "p=2 gives ell~X^-2, chi_max~X^-3/2, Q_max~X^5/2, exactly recovering the committed split-gate source-bound package.",
+    "interpretation": "p>1/2 is required if the healthy chi-amplitude ceiling itself is to shrink at high X; p>1/4 is enough for the K-branch asymptotic coefficient to remain positive."
+  },
+  "fifth_force_link": {
+    "restricted_ratio": "epsilon_chi(r)=2*alpha_chi^2*(1+r/ell)*exp(-r/ell)/Y0 for the committed constant-coefficient point-source subcase",
+    "fixed_distance_limit": "For every fixed r>0 and s>0, ell->0 and epsilon_chi(r)->0 as X->infinity.",
+    "tradeoff": "The same s that increases the source ceiling exponent also exponentially suppresses the restricted fifth force at fixed distance.",
+    "not_claimed": "This does not screen phi, solve a material body, prove thin-shell behavior, or establish a Solar-System pass."
+  },
+  "primary_literature_positioning": [
+    {
+      "id": "CHAMELEON",
+      "arxiv": "astro-ph/0309300",
+      "relevance": "Environment-dependent mediator mass and range are established screening concepts, but the mass is controlled by matter density rather than a second field's kinetic invariant."
+    },
+    {
+      "id": "SYMMETRON",
+      "arxiv": "1001.4525",
+      "relevance": "Density-dependent symmetry restoration screens the coupling; it is a distinct mechanism from the derivative-controlled mass gate and does not provide this range-source exponent identity."
+    },
+    {
+      "id": "K_MOUFLAGE",
+      "arxiv": "0905.2943",
+      "relevance": "Nonlinear kinetic self-interactions screen a scalar force; the present class instead keeps chi kinetic normalization constant and gates its mass through X."
+    },
+    {
+      "id": "KINETIC_CONFORMAL_GOLDSTONE",
+      "arxiv": "1611.08279",
+      "relevance": "Kinetically dependent conformal couplings and ultralocal screening are nearby prior art, but not an identified exact rewrite of the split mass-gate range-source theorem."
+    },
+    {
+      "id": "KINETIC_TWO_BODY",
+      "arxiv": "2305.07725",
+      "relevance": "Modern kinetic-screening two-body analyses expose geometry-dependent screened and descreened regions, reinforcing that the frozen constant-coefficient theorem is not a full nonlinear source solution."
+    }
+  ],
+  "novelty_search_scope": {
+    "queries": [
+      "scalar mediator kinetic dependent mass screening",
+      "derivative dependent scalar mass environmental screening",
+      "source ceiling mediator range kinetic gate",
+      "range source tradeoff scalar fifth force"
+    ],
+    "result": "No exact range-source product law or critical exponent theorem was identified in this targeted primary-source search.",
+    "limitation": "This is not an exhaustive historical novelty review and cannot establish priority."
+  },
+  "parameter_probes": {
+    "monomial_powers": [0.5, 1.0, 2.0, 4.0],
+    "source_exponent_offsets": [-0.25, 0.0, 0.25],
+    "X_values": [100.0, 10000.0, 1000000.0],
+    "constants": {
+      "A_infinity": 1.0,
+      "B_infinity": 1.0,
+      "Y0": 1.0,
+      "m_chi": 1.0,
+      "z": 1.0
+    }
+  },
+  "required_checks": [
+    "T01_EXACT_COMMITTED_BINDINGS",
+    "T02_C_BRANCH_AMPLITUDE_LIMIT",
+    "T03_K_BRANCH_AMPLITUDE_LIMIT",
+    "T04_RANGE_LIMIT",
+    "T05_C_SOURCE_LIMIT",
+    "T06_K_SOURCE_LIMIT",
+    "T07_C_PRODUCT_LIMIT",
+    "T08_K_PRODUCT_LIMIT",
+    "T09_CRITICAL_EXPONENT",
+    "T10_SHIFTED_POWER_MAPPING",
+    "T11_COMMITTED_P2_RECOVERY",
+    "T12_FIXED_DISTANCE_SCREENING",
+    "T13_NUMERIC_EXPONENT_CONVERGENCE",
+    "T14_DESIGNED_THRESHOLD_FAILURES",
+    "T15_CLAIM_CEILING"
+  ],
+  "publication_adjudication": {
+    "decision": "PROMISING_SECOND_ANALYTIC_RESULT_REQUIRES_EXPERT_AND_EXHAUSTIVE_NOVELTY_REVIEW",
+    "positive_assets": [
+      "A general exponent theorem rather than one p=2 example",
+      "An exact universal Q_max*ell proportional to sqrt(X) asymptotic product",
+      "A sharp homogeneous source-growth classification",
+      "A no-free-range corollary connecting source tolerance to screening strength",
+      "Direct recovery of the committed action and Solar point-source limit"
+    ],
+    "preprint_blockers": [
+      "Independent expert verification of the regularly varying asymptotics",
+      "Exhaustive literature and priority review",
+      "A full variable-coefficient and coupled-mode analysis",
+      "An on-shell material-source solution and radiative-stability analysis",
+      "A falsifiable galaxy, cluster, Solar, or cosmological prediction"
+    ]
+  },
+  "claim_boundary": {
+    "candidate_original_asymptotic_theorem": true,
+    "historical_novelty_established": false,
+    "independent_expert_review_passed": false,
+    "general_variable_coefficient_bound": false,
+    "full_coupled_range_derived": false,
+    "full_action_health": false,
+    "physical_source_X_scaling_derived": false,
+    "on_shell_material_solution": false,
+    "observational_support": false,
+    "modified_gravity_success": false,
+    "publication_ready": false
+  },
+  "zero_access": {
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "scores_computed": 0
+  },
+  "implementation": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_range_source_tradeoff.py",
+    "module_semantic_sha256": "efe1e7209e6da4d4d2bb45b34bbe381d00cb259a7e6b939d0d9d41ea4760ecb6",
+    "test_path": "tests/test_gravity_matter_lensing_split_gate_range_source_tradeoff.py",
+    "test_sha256": "655a061dcf1fe575ed22ff3d501e573f4d72d89c606bb3a7e06fc00111e9fb99"
+  },
+  "output_path": "runs/gravity/theory/matter-lensing-split-gate-range-source-tradeoff-v1.json"
+}
