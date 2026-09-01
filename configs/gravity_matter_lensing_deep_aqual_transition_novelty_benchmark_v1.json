@@ -1,0 +1,229 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-deep-aqual-transition-novelty-benchmark-1.0",
+  "artifact_id": "gravity-matter-lensing-deep-aqual-transition-novelty-benchmark-v1",
+  "status": "PRIMARY_SOURCE_AND_INDEPENDENT_DERIVATION_PASS_MATHEMATICAL_SUBSTANCE_PREEXISTING",
+  "purpose": "Independently rederive the frozen deep-AQUAL transition obstruction, compare it with primary AQUAL, RAQUAL, and k-essence literature, and decide whether it is a standalone publication candidate without using the field-theory obstruction to reject static AQUAL phenomenology.",
+  "package": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_deep_aqual_transition_novelty_benchmark.py",
+    "test_path": "tests/test_gravity_matter_lensing_deep_aqual_transition_novelty_benchmark.py",
+    "output_path": "runs/gravity/theory/matter-lensing-deep-aqual-transition-novelty-benchmark-v1.json"
+  },
+  "predecessor": {
+    "commit": "7b330ab45c41f863c2e84f2c39f01fc0519f013d",
+    "config_path": "configs/gravity_matter_lensing_deep_aqual_transition_tradeoff_v1.json",
+    "config_sha256": "2d5a67b6231c5fafabffdef5b369e9a42c73e179fd943c2c2925373a0c270277",
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_deep_aqual_transition_tradeoff.py",
+    "module_sha256": "fe68cc6ded344e0723b1aaa77addc3443ddb6dc24c7ea092ca96ab53b1b8f442",
+    "test_path": "tests/test_gravity_matter_lensing_deep_aqual_transition_tradeoff.py",
+    "test_sha256": "78d887264be449dad5771f4c4c768fe6f4192bfa535a59387b72bedcac767cfe",
+    "receipt_path": "runs/gravity/theory/matter-lensing-deep-aqual-transition-tradeoff-v1.json",
+    "receipt_sha256": "6f51a7294cdaa984a28adfcc6be1a80b1118202e3f1a716210b6342cc697ae97",
+    "receipt_content_sha256": "2a8007fc24441a78bd2b95638798b557a551a501c271a6ba0c09869fc0bfb6a7"
+  },
+  "admission_policy": {
+    "path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+    "raw_sha256": "b3518291131b0ece9f05c966e55b40c40e549d5c27e87a2a128b70ad76a864fe",
+    "source_class": "PRIMARY_PAPERS_PLUS_EXACT_ANALYTIC_AND_NUMERIC_BENCHMARKS",
+    "observational_data_required_for_this_theory_only_step": false,
+    "future_observational_promotion_requires_real_source_and_response_data": true,
+    "missing_primary_anchor_action": "SOURCE_BLOCKED",
+    "failed_derivation_action": "BENCHMARK_FAILED_RETAINED_COUNTEREXAMPLE"
+  },
+  "notation_map": {
+    "our_invariant": "X=-g^munu*d_mu(phi)*d_nu(phi)/2; quasistatic gradients have X<0 and homogeneous timelike gradients have X>0.",
+    "raqual_invariant": "s=g^munu*d_mu(phi)*d_nu(phi)=-2X; quasistatic gradients have s>0.",
+    "deep_branch": "mu(s)=f'(s)=A*s^p with A>0 and p=1/2 for exact deep AQUAL.",
+    "principal_coefficients": "C=mu and H=mu+2s*dmu/ds=(1+2p)*mu, equivalent up to the frozen sign/rescaling convention to C=P_X and K=P_X+2X*P_XX.",
+    "effective_determinant": "det proportional to C^3*H=(1+2p)*A^4*s^(4p)."
+  },
+  "independent_benchmarks": [
+    {
+      "id": "B01_NOTATION_AND_PRINCIPAL_MAP",
+      "expected": "s=-2X maps the RAQUAL effective metric eigenvalues to the frozen C and K coefficients up to a positive normalization."
+    },
+    {
+      "id": "B02_GENERIC_DEEP_POWER",
+      "expected": "For mu=A*s^p, H=(1+2p)A*s^p and det=C^3*H=(1+2p)A^4*s^(4p)."
+    },
+    {
+      "id": "B03_ZERO_TRANSITION",
+      "expected": "For every p>0, C, H, and det tend to zero as s approaches zero from the quasistatic side."
+    },
+    {
+      "id": "B04_C2_OBSTRUCTION",
+      "expected": "For 0<p<1, dmu/ds diverges at s=0; exact p=1/2 deep AQUAL is not C2 across the transition."
+    },
+    {
+      "id": "B05_DEEP_AQUAL_SPEED_RATIO",
+      "expected": "At p=1/2 the longitudinal-to-transverse principal ratio H/C is exactly two."
+    },
+    {
+      "id": "B06_POSITIVE_FLOOR_ESCAPE",
+      "expected": "C_reg=sqrt(mu0^2+A^2*s) has C_reg(0)=H_reg(0)=mu0>0 and approaches A*sqrt(s) only asymptotically."
+    },
+    {
+      "id": "B07_REGULATOR_ACCURACY_COST",
+      "expected": "The quasistatic relative error is sqrt(1+1/t)-1 for t=A^2*s/mu0^2 and therefore cannot vanish at finite transition t=0."
+    },
+    {
+      "id": "B08_TIMELIKE_CONE_COST",
+      "expected": "The matched timelike extension has c_phi^2=1+A^2*X/mu0^2>1 for every X>0 relative to the conformal matter cone."
+    },
+    {
+      "id": "B09_NUMERIC_POWER_AND_REGULATOR_PROBES",
+      "expected": "Independent log-slope probes recover p, 4p, and the p<1 derivative divergence while regulator probes retain both transition repair and finite accuracy cost."
+    }
+  ],
+  "primary_literature": [
+    {
+      "id": "DOI:10.1086/162570",
+      "title": "Does the missing mass problem signal the breakdown of Newtonian gravity?",
+      "authors": "J. Bekenstein and M. Milgrom",
+      "year": 1984,
+      "role": "Introduces AQUAL as a Lagrangian nonlinear Poisson theory and fixes the deep-MOND aquadratic ancestry.",
+      "overlap": "FOUNDATIONAL_BRANCH_ANCESTOR",
+      "exact_wording_found": false
+    },
+    {
+      "id": "astro-ph/0403694",
+      "title": "Relativistic gravitation theory for the MOND paradigm",
+      "authors": "J. D. Bekenstein",
+      "year": 2004,
+      "role": "Provides a relativistic MOND scalar sector and a free kinetic function connecting quasistatic and cosmological regimes.",
+      "overlap": "RELATIVISTIC_MODEL_CONTEXT",
+      "exact_wording_found": false
+    },
+    {
+      "id": "astro-ph/0512425",
+      "title": "Refining MOND interpolating function and TeVeS Lagrangian",
+      "authors": "H. Zhao and B. Famaey",
+      "year": 2005,
+      "role": "Shows that interpolation-function choices carry phenomenological transition costs.",
+      "overlap": "INTERPOLATION_TRADEOFF_CONTEXT",
+      "exact_wording_found": false
+    },
+    {
+      "id": "gr-qc/0607055",
+      "title": "On causality and superluminal behavior in classical field theories. Applications to k-essence theories and MOND-like theories of gravity",
+      "authors": "J.-P. Bruneton",
+      "year": 2006,
+      "role": "Derives general causal and Cauchy conditions for k-essence and MOND-like effective metrics.",
+      "overlap": "GENERAL_HYPERBOLICITY_ANCESTOR",
+      "exact_wording_found": false
+    },
+    {
+      "id": "0705.4043",
+      "title": "Field-theoretical formulations of MOND-like gravity",
+      "authors": "J.-P. Bruneton and G. Esposito-Farese",
+      "year": 2007,
+      "role": "States f'(s)>0 and f'(s)+2s f''(s)>0, explicitly discusses f'=0 degenerate hypersurfaces, and notes that monomial models violate strict hyperbolicity at s=0.",
+      "overlap": "DIRECT_MATHEMATICAL_SUBSTANCE",
+      "exact_wording_found": false
+    },
+    {
+      "id": "0708.0561",
+      "title": "k-Essence, superluminal propagation, causality and emergent geometry",
+      "authors": "E. Babichev, V. Mukhanov, and A. Vikman",
+      "year": 2007,
+      "role": "Derives the k-essence effective metric and identifies singular emergent-geometry boundaries when kinetic coefficients vanish.",
+      "overlap": "GENERAL_EFFECTIVE_METRIC_SUBSTANCE",
+      "exact_wording_found": false
+    },
+    {
+      "id": "hep-th/9904176",
+      "title": "Perturbations in k-inflation",
+      "authors": "J. Garriga and V. F. Mukhanov",
+      "year": 1999,
+      "role": "Provides the standard nonlinear-kinetic sound-speed and perturbation framework used by the later RAQUAL analysis.",
+      "overlap": "KINETIC_PERTURBATION_ANCESTOR",
+      "exact_wording_found": false
+    }
+  ],
+  "search_protocol": {
+    "observed_at_utc": "2026-08-31T00:00:00Z",
+    "sources": [
+      "primary journal metadata and DOI record",
+      "arXiv primary abstract and full-text pages",
+      "targeted exact-concept searches"
+    ],
+    "queries": [
+      "AQUAL k-essence X=0 degeneracy MOND scalar kinetic function transition",
+      "MOND scalar action nonanalytic zero gradient AQUAL strong coupling",
+      "RAQUAL f prime zero hypersurface hyperbolicity",
+      "k-essence effective metric degeneracy L_X zero",
+      "TeVeS scalar interpolating function transition"
+    ],
+    "result": "The exact C2-and-uniform-nondegeneracy sentence was not found verbatim, but its mathematical substance is a direct specialization of published RAQUAL conditions and an explicitly identified f'=0 degeneracy. The arbitrary regulator's combined accuracy/cone/uniformity bookkeeping is useful internal analysis, not sufficient standalone novelty.",
+    "limitation": "This bounded search cannot prove exhaustive historical priority; however, direct published overlap is already sufficient to withhold a standalone novelty claim."
+  },
+  "numeric_probes": {
+    "p_values": [0.25, 0.5, 0.75, 1.0, 2.0],
+    "s_values": [1e-12, 1e-9, 1e-6],
+    "regulator": {
+      "mu0": 0.2,
+      "A": 1.0,
+      "spacelike_s_values": [0.0, 0.04, 4.0],
+      "timelike_X_values": [0.0, 0.04, 4.0]
+    },
+    "tolerance": 1e-10
+  },
+  "adjudication": {
+    "paper_anchor_passed": true,
+    "independent_derivation_required": true,
+    "mathematical_substance_preexisting": true,
+    "exact_verbatim_theorem_found": false,
+    "historical_novelty_established": false,
+    "candidate_originality_status": "KNOWN_RAQUAL_K_ESSENCE_DEGENERACY_SPECIALIZATION_WITH_USEFUL_INTERNAL_PACKAGING",
+    "publication_value": "DO_NOT_PROMOTE_AS_STANDALONE_NOTE_USE_AS_CITED_DESIGN_CONSTRAINT",
+    "static_aqual_observational_testing_disposition": "RETAIN_STATIC_AND_3D_AQUAL_TESTS_THIS_SPACETIME_TRANSITION_RESULT_DOES_NOT_REJECT_THEM",
+    "physical_theory_status": "NOT_ESTABLISHED",
+    "next_required_work": [
+      "retain static AQUAL and external-field-effect solvers as empirical comparators",
+      "test finite-floor, multi-field, alternate-invariant, and no-crossing completions rather than rejecting the entire family",
+      "derive any regulator from a complete action and source map rather than selecting it by hand",
+      "bind any future 3D solver to a primary equation source and a real spatial dataset or manufactured solution under the admission policy"
+    ]
+  },
+  "claim_boundary": {
+    "primary_paper_anchored": true,
+    "independent_exact_benchmarks": true,
+    "transition_obstruction_rederived": true,
+    "static_aqual_invalidated": false,
+    "mathematical_substance_preexisting": true,
+    "exact_verbatim_duplicate_found": false,
+    "historical_novelty_established": false,
+    "standalone_publication_candidate": false,
+    "useful_internal_design_constraint": true,
+    "regulated_counterexample_established": true,
+    "regulator_phenomenologically_derived": false,
+    "full_action_health": false,
+    "observational_support": false,
+    "modified_gravity_success": false,
+    "publication_ready": false
+  },
+  "access_ledger": {
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "scores_computed": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "required_checks": [
+    "N01_CONFIG_AND_POLICY_SEALS",
+    "N02_COMMITTED_PREDECESSOR_BYTES",
+    "N03_NOTATION_AND_PRINCIPAL_MAP",
+    "N04_GENERIC_DEEP_POWER",
+    "N05_ZERO_TRANSITION",
+    "N06_C2_OBSTRUCTION",
+    "N07_DEEP_AQUAL_RATIO",
+    "N08_POSITIVE_FLOOR_ESCAPE",
+    "N09_REGULATOR_ACCURACY_COST",
+    "N10_TIMELIKE_CONE_COST",
+    "N11_NUMERIC_POWER_PROBES",
+    "N12_NUMERIC_REGULATOR_PROBES",
+    "N13_PRIMARY_SOURCE_INVENTORY",
+    "N14_PREEXISTING_SUBSTANCE_VERDICT",
+    "N15_STATIC_AQUAL_RETENTION",
+    "N16_ZERO_OBSERVATIONAL_ACCESS"
+  ]
+}

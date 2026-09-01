@@ -1,0 +1,131 @@
+{
+  "schema": "invariant-open-gravity-rg-five-galaxy-fixed-response-score-1.0",
+  "package_id": "open-gravity-rg-five-galaxy-fixed-response-score-v1",
+  "status": "FROZEN_DEVELOPMENT_ONLY_FIXED_RESPONSE_SCORE",
+  "purpose": "Compare the fixed source-only five-galaxy 2.5D refracted-gravity prediction with Newton, the published SPARC RAR, and standard-mu MOND on identical response-blind numerical radii, without fitting, tuning, object removal, or family elimination.",
+  "builder_admission_rule": {
+    "real_public_source_data_required": true,
+    "primary_measurement_or_data_release_paper_required": true,
+    "independent_analytic_manufactured_or_reference_benchmark_required": true,
+    "missing_source_disposition": "SOURCE_BLOCKED",
+    "paper_only_disposition": "THEORY_BENCHMARK_ONLY",
+    "spherical_or_1d_data_validate_general_3d": false,
+    "all_three_requirements_satisfied_by_bound_predecessor": true
+  },
+  "predecessor_binding": {
+    "config_path": "configs/open_gravity_rg_things_heracles_s4g_scoring_resolution_v1.json",
+    "config_raw_sha256": "9c0d94eafa4e7792191ef9962aea45d704ad3e6fce5f61d46096027083e8dcc5",
+    "module_path": "src/sigma_theory_compiler/open_gravity_rg_things_heracles_s4g_scoring_resolution_v1.py",
+    "module_raw_sha256": "c31568da182ff3fd3cc3aa775a80210f692aeea70ac2a29e54c73cf2d4fe8c95",
+    "test_path": "tests/test_open_gravity_rg_things_heracles_s4g_scoring_resolution_v1.py",
+    "test_raw_sha256": "5cfebdc0d2bfc0f977602ca98960172d50d65acbe1a656e9003113611c0d6c0a",
+    "receipt_path": "runs/gravity/open-gravity-rg-things-heracles-s4g-scoring-resolution-v1/receipt.json",
+    "receipt_raw_sha256": "c3568206d26444c57bed5cad0f21a4165649c0a87fbfc8019a8feabc1be58c8f",
+    "receipt_content_sha256": "31c85521bf0ecf26d8971b3d32f50298e291a909f87509bf8e9a4ca6735f5ccf"
+  },
+  "response_binding": {
+    "dataset_path": "configs/sparc_rotation_curves_full_v1.json",
+    "dataset_raw_sha256": "dde80c7fc72974358b1370e1978726b87fe1a4048f0880ae79cf513e260a7cf1",
+    "module_path": "src/sigma_theory_compiler/sparc_full_sample.py",
+    "module_raw_sha256": "0afb71a53524c22e932d58bfb2d4c451c53d479608f23fc84968fe0d1a03bdfa",
+    "test_path": "tests/test_sparc_full_sample.py",
+    "test_raw_sha256": "1586c43c20d9ce1555a79000c5552a89f5673893e2a854a6d440a8c2eeb87327",
+    "container_galaxies_opened": 175,
+    "container_response_rows_opened": 3391,
+    "selected_objects": [
+      "NGC2903",
+      "NGC2976",
+      "NGC3198",
+      "NGC3521",
+      "NGC4214"
+    ],
+    "selected_rows_available": 159,
+    "selection_frozen_before_response_access": true
+  },
+  "control_binding": {
+    "config_path": "configs/open_gravity_matched_acceleration_cross_scale_predictions_v1.json",
+    "config_raw_sha256": "ee21d151c7f2f970c55ca694e5e5b317e6bdcf6a25c844102c8cdda485dff2ec",
+    "module_path": "src/sigma_theory_compiler/open_gravity_matched_acceleration_cross_scale_predictions_v1.py",
+    "module_raw_sha256": "276e943f49266efa5385a9d42f8ebccff990a26d4f6a4ae90ded1ccbe5897212",
+    "test_path": "tests/test_open_gravity_matched_acceleration_cross_scale_predictions_v1.py",
+    "test_raw_sha256": "5fc955c7adfbcf0dc3a53126d4a86b50c24dc4641b1481ffe801f785b7de8367"
+  },
+  "primary_data_and_method_anchors": [
+    {
+      "id": "SPARC_2016_DATA_RELEASE",
+      "url": "https://ui.adsabs.harvard.edu/abs/2016AJ....152..157L/abstract",
+      "role": "published rotation curves, uncertainties, and baryonic mass models for 175 disk galaxies"
+    },
+    {
+      "id": "SPARC_2016_RAR",
+      "url": "https://doi.org/10.1103/PhysRevLett.117.201101",
+      "role": "published radial-acceleration-relation control"
+    },
+    {
+      "id": "BOUND_3D_SOURCE_AND_SOLVER_BENCHMARKS",
+      "url": "BOUND_IN_PREDECESSOR_RECEIPT",
+      "role": "S4G, THINGS, HERACLES source papers plus point-mass, Freeman-disk, thickness, mass-conservation, and grid-convergence benchmarks"
+    }
+  ],
+  "candidate_contract": {
+    "candidate_ids": [
+      "NEWTON_3D_DST",
+      "RAR_2016_ON_NEWTON_3D",
+      "MOND_STANDARD_MU_ON_NEWTON_3D",
+      "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG"
+    ],
+    "primary_candidate_id": "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG",
+    "a0_m_s2": 1.2e-10,
+    "rg_epsilon0": 0.661,
+    "rg_Q": 1.79,
+    "rg_log10_rho_c_kg_m3": -24.54,
+    "per_object_fitted_parameters": 0,
+    "global_fitted_parameters": 0,
+    "retuning_calls": 0
+  },
+  "radius_gate": {
+    "minimum_kpc": 0.5,
+    "maximum_kpc": 15.0,
+    "fine_spacing_kpc": 0.25,
+    "minimum_fine_cells": 3.0,
+    "fine_vs_convergence_maximum_relative_difference": 0.05,
+    "require_all_four_candidate_predictions_converged": true,
+    "interpolation": "LINEAR_ON_FROZEN_SOURCE_PROFILES",
+    "replay_rule": "Apply the preregistered source-only positivity, minimum-cell, range, and fine-versus-convergence tests at each published response radius before reading its velocity or uncertainty.",
+    "velocity_values_used_by_gate": false
+  },
+  "scoring_contract": {
+    "per_radius_loss": "((v_pred-v_obs)/e_v_obs)^2",
+    "per_object_loss": "mean over common eligible radii",
+    "aggregate_loss": "equal mean over five object losses",
+    "minimum_rows_per_object": 3,
+    "candidate_row_parity_required": true,
+    "minimum_material_fractional_improvement": 0.02,
+    "family_elimination_from_this_run": false,
+    "retain_every_failure_and_counterexample": true
+  },
+  "access_scope": {
+    "development_only": true,
+    "response_container_opens": 1,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "group_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0
+  },
+  "claim_boundary": {
+    "five_object_development_fit_tested": true,
+    "source_selection_was_response_blind": true,
+    "model_lifted_2p5d_not_observed_3d": true,
+    "full_source_systematic_score_robustness_established": false,
+    "independent_confirmation": false,
+    "lensing_closure_established": false,
+    "relativistic_completion_established": false,
+    "family_eliminated": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-five-galaxy-fixed-response-score-v1/receipt.json"
+}

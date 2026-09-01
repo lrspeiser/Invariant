@@ -1,0 +1,316 @@
+{
+  "schema_version": "invariant-open-gravity-differential-propagation-gw170817-coherent-config-4.0",
+  "analysis_id": "open-gravity-differential-propagation-gw170817-coherent-v4",
+  "status": "BLOCKED_PRE_RESPONSE_END_TAPER_AUDIT",
+  "purpose": "Retained blocked draft of the physical coherent H1/L1/V1 GW170817 successor. An independent pre-response audit found that the 128-second window places merger inside the Tukey end taper; this draft is never response-authorized.",
+  "pre_response_blocker": {
+    "found_before_prediction_freeze": true,
+    "found_before_new_strain_access": true,
+    "analysis_interval_gps": [1187008756, 1187008884],
+    "coalescence_gps": 1187008882.43,
+    "post_coalescence_margin_seconds": 1.5699999332427979,
+    "tukey_alpha": 0.1,
+    "end_taper_duration_seconds": 6.4,
+    "coalescence_inside_end_taper": true,
+    "decision": "BLOCKED_DO_NOT_RUN_SYNTHETIC_OR_REAL_RESPONSE",
+    "append_only_successor": "open-gravity-differential-propagation-gw170817-coherent-v5"
+  },
+  "freeze_boundary": {
+    "frozen_utc": "2026-08-31T23:45:00Z",
+    "v3_response_previously_opened": true,
+    "v4_strain_values_read_before_freeze": 0,
+    "v4_likelihood_values_computed_before_freeze": 0,
+    "gw190425_status": "SEALED_NOT_ACQUIRED_NOT_OPENED",
+    "other_bns_holdouts_status": "SEALED_NOT_ACQUIRED_NOT_OPENED",
+    "post_freeze_changes_allowed": [
+      "implementation repairs that do not change data, formulae, priors, grids, thresholds, seeds, or decisions",
+      "fail-closed runtime compatibility repairs recorded append-only"
+    ],
+    "post_freeze_scientific_retuning_allowed": false
+  },
+  "predecessor_v3": {
+    "config_path": "configs/open_gravity_differential_propagation_gw170817_response_v3.json",
+    "receipt_path": "runs/gravity/open-gravity-differential-propagation-gw170817-response-v3/receipt.json",
+    "receipt_raw_sha256": "c05ca9f833fe74bf103e666ae7a4f24c71bcf23f0f7f4e7678dfe0a32e095cb7",
+    "retention_rule": "retain the v3 approximate TaylorF2 residual results, thresholds, failures, and caveats byte-for-byte; v4 is a successor, not a replacement"
+  },
+  "package": {
+    "module_path": "src/sigma_theory_compiler/open_gravity_differential_propagation_gw170817_coherent_v4.py",
+    "test_path": "tests/test_open_gravity_differential_propagation_gw170817_coherent_v4.py",
+    "prediction_receipt_path": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v4/prediction-receipt.json",
+    "output_path": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v4/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v4/artifacts",
+    "runtime_path": "work/private/open-gravity-lane2-lalsuite-runtime-v1/bin/python"
+  },
+  "sources": {
+    "strain": [
+      {
+        "detector": "H1",
+        "path": "runs/gravity/open-gravity-differential-propagation-gw170817-response-v3/source/H-H1_LOSC_C00_4_V1-1187006834-4096.hdf5",
+        "bytes": 125217658,
+        "sha256": "9e3f8a3adb966f6d70eeade0bc44bea2344f85b2af5233a3cba34a723984c9e2",
+        "published_md5": "1a1cca3fb28686d5798539468a99dbae"
+      },
+      {
+        "detector": "L1",
+        "path": "runs/gravity/open-gravity-differential-propagation-gw170817-response-v3/source/L-L1_LOSC_C00_4_V1-1187006834-4096.hdf5",
+        "bytes": 124266501,
+        "sha256": "48eedcf12e5c6d5fea68c8c66facae657b72ad65c5d405d543dd87fcdaef5e0b",
+        "published_md5": "dbbde824db6df6a9f653db374fc5c88c"
+      },
+      {
+        "detector": "V1",
+        "path": "runs/gravity/open-gravity-differential-propagation-gw170817-response-v3/source/V-V1_LOSC_C00_4_V1-1187006834-4096.hdf5",
+        "bytes": 129470892,
+        "sha256": "ed723e67105551a051b2758484b5b80a127f6b57f28174b460b17d3ee601b4cf",
+        "published_md5": "8ea80f93257a292d82f0af497e2a4cff"
+      }
+    ],
+    "published_psd": {
+      "path": "work/private/open-gravity-lane2-calibration-source-v1/GW170817_PSDs.dat",
+      "bytes": 14515336,
+      "sha256": "eedbaf2fbcaaa6b0cf5b5314f6469a745a8b8388dda302fe1b627a8bf717fbae",
+      "dcc": "https://dcc.ligo.org/LIGO-P1800061/public"
+    },
+    "calibration_envelopes": {
+      "path": "work/private/open-gravity-lane2-calibration-source-v1/GWTC1_CalEnv.tar.gz",
+      "bytes": 1363426,
+      "sha256": "0fb552271b43d149f62c8972c59d2d9500471b057247bcae7bc8d070a33574ad",
+      "members": {
+        "H1": "./GWTC1_CalEnv/GWTC1_GW170817_CalEnv/GWTC1_GW170817_H_CalEnv.txt",
+        "L1": "./GWTC1_CalEnv/GWTC1_GW170817_CalEnv/GWTC1_GW170817_L_CalEnv.txt",
+        "V1": "./GWTC1_CalEnv/GWTC1_GW170817_CalEnv/GWTC1_GW170817_V_CalEnv.txt"
+      },
+      "dcc": "https://dcc.ligo.org/LIGO-P1900040/public"
+    },
+    "lalsuite": {
+      "version": "7.26.15",
+      "lal_version": "7.7.1",
+      "lalsimulation_version": "6.2.1",
+      "release_source_path": "work/private/open-gravity-lane2-waveform-source-v1/lalsuite-lalsuite-v7.26.15.tar.gz",
+      "release_source_bytes": 240331185,
+      "release_source_sha256": "f2cdd7aa4676f7b1cccb5e4de8513022e4004136e60577fbae8874437d56c042",
+      "release_commit": "2c00d8c200308422036d0a23b7c0394f7c73faad",
+      "runtime_distribution": "PyPI manylinux_2_28 cp312 wheel, exact version 7.26.15",
+      "primary_approximant": "IMRPhenomPv2_NRTidalv2",
+      "published_countermodel_approximant": "IMRPhenomPv2_NRTidal"
+    }
+  },
+  "event": {
+    "event": "GW170817",
+    "event_gps": 1187008882.43,
+    "sky_rule": "fixed to the optical counterpart/NGC 4993 rather than inferred from strain",
+    "right_ascension_degrees": 197.450374,
+    "declination_degrees": -23.381495,
+    "reference_frequency_hz": 100.0,
+    "detectors": ["H1", "L1", "V1"]
+  },
+  "preprocessing": {
+    "analysis_gps_start": 1187008756,
+    "analysis_duration_seconds": 128,
+    "sample_rate_hz": 4096,
+    "time_detrend": "linear",
+    "window": "Tukey alpha=0.1",
+    "l1_glitch_gate": {
+      "center_gps": 1187008881.389,
+      "zero_half_width_seconds": 0.1,
+      "cosine_rolloff_seconds_each_side": 0.5
+    },
+    "required_dq_flags": ["DATA", "CBC_CAT1"],
+    "dq_rate_hz": 1,
+    "frequency_band_hz": [23.0, 2048.0],
+    "frequency_stride_from_128_second_fft": 16,
+    "likelihood_delta_f_hz": 0.125,
+    "notches": [],
+    "primary_psd": "PUBLISHED_GW170817_PSDS",
+    "psd_robustness": [
+      {
+        "id": "OFFSOURCE_EARLY",
+        "gps": [1187007090, 1187007602],
+        "method": "Welch Hann 16 s, 50 percent overlap, constant detrend, median average"
+      },
+      {
+        "id": "OFFSOURCE_LATE",
+        "gps": [1187010162, 1187010674],
+        "method": "Welch Hann 16 s, 50 percent overlap, constant detrend, median average"
+      },
+      {
+        "id": "OFFSOURCE_MEAN",
+        "parents": ["OFFSOURCE_EARLY", "OFFSOURCE_LATE"],
+        "method": "arithmetic mean"
+      }
+    ],
+    "psd_decision_rule": "the published PSD is primary; all three off-source alternatives are mandatory robustness outputs and cannot select a preferred result"
+  },
+  "coherent_likelihood": {
+    "fourier_convention": "numpy rfft exp(-2 pi i f t); a positive detector arrival time multiplies the LAL frequency-domain waveform by exp(-2 pi i f t)",
+    "detector_response": "h_d(f)=[Fplus_d hplus(f)+Fcross_d hcross(f)] exp(-2 pi i f [tc+Delta_t_d]) C_d(f)",
+    "antenna_and_delay": "lal.ComputeDetAMResponse and lal.TimeDelayFromEarthCenter evaluated at the frozen sky and geocentric GPS time",
+    "inner_product": "(a|b)_d=4 Delta_f Re sum a*(f)b(f)/S_d(f) on each detector band",
+    "log_likelihood_ratio": "sum_d [(d|h)_d - (h|h)_d/2]",
+    "event_coherence": "one source, sky, geocentric time, phase, distance, inclination, and polarization for all detectors; no detector-specific complex amplitudes or detector-specific event times",
+    "calibration_model": "C_d(f)=M_d(f) exp[a_d sigma_logM_d(f)+i p_d sigma_phase_d(f)], with linear interpolation of the published event envelope, a_d and p_d standard-normal nuisance truncated at plus/minus 3",
+    "calibration_shape_rule": "sigma_logM=(log upper magnitude-log lower magnitude)/2; sigma_phase=(upper phase-lower phase)/2"
+  },
+  "nuisance_priors": {
+    "chirp_mass_detector_solar": {"distribution": "uniform", "bounds": [1.19, 1.21]},
+    "mass_ratio_m2_over_m1": {"distribution": "uniform", "bounds": [0.7, 1.0]},
+    "spin_1z": {"distribution": "uniform_low_spin", "bounds": [-0.05, 0.05]},
+    "spin_2z": {"distribution": "uniform_low_spin", "bounds": [-0.05, 0.05]},
+    "lambda_1": {"distribution": "uniform", "bounds": [0.0, 5000.0]},
+    "lambda_2": {"distribution": "uniform", "bounds": [0.0, 5000.0]},
+    "cos_inclination": {"distribution": "uniform", "bounds": [-1.0, 1.0]},
+    "polarization_radians": {"distribution": "uniform_periodic", "bounds": [0.0, 3.141592653589793]},
+    "coalescence_phase_radians": {"distribution": "uniform_periodic", "bounds": [0.0, 6.283185307179586]},
+    "geocentric_time_offset_seconds": {"distribution": "uniform", "bounds": [-0.02, 0.02]},
+    "luminosity_distance_mpc": {"distribution": "uniform_in_volume", "bounds": [10.0, 200.0]},
+    "calibration_amplitude_coefficients": {"distribution": "standard_normal_truncated", "bounds": [-3.0, 3.0], "count": 3},
+    "calibration_phase_coefficients": {"distribution": "standard_normal_truncated", "bounds": [-3.0, 3.0], "count": 3},
+    "prior_use": "report both unpenalized maximum log likelihood and MAP log posterior; model comparison uses unpenalized likelihood and the same nuisance count for every branch"
+  },
+  "transfer_branches": [
+    {
+      "id": "GR",
+      "parameters": [],
+      "law": "T(f)=1",
+      "extra_parameter_count": 0
+    },
+    {
+      "id": "DYNAMIC_PHASE",
+      "parameters": [{"name": "beta", "unit": "radian", "bounds": [-4.0, 4.0], "prior": "uniform"}],
+      "law": "T(f)=exp(i beta [(f/f_ref)^(-1)-1])",
+      "gr_limit": "beta=0",
+      "extra_parameter_count": 1
+    },
+    {
+      "id": "ATTENUATION",
+      "parameters": [{"name": "alpha", "unit": "dimensionless", "bounds": [-1.0, 1.0], "prior": "uniform"}],
+      "law": "T(f)=exp(-alpha log(f/f_ref))",
+      "gr_limit": "alpha=0",
+      "extra_parameter_count": 1
+    },
+    {
+      "id": "RESERVOIR",
+      "parameters": [
+        {"name": "r", "unit": "dimensionless", "bounds": [-0.5, 0.5], "prior": "uniform"},
+        {"name": "log10_f_res_hz", "unit": "log10_hertz", "bounds": [1.4771212547196624, 2.6020599913279625], "prior": "uniform"}
+      ],
+      "law": "T(f)=[1+r/(1+i f/f_res)]/[1+r/(1+i f_ref/f_res)]",
+      "gr_limit": "r=0 for every f_res",
+      "extra_parameter_count": 2
+    },
+    {
+      "id": "NONLINEAR_PHASE",
+      "parameters": [{"name": "gamma", "unit": "radian", "bounds": [-1.0, 1.0], "prior": "uniform"}],
+      "law": "T(f)=exp(i gamma [(f/f_ref)^3-1])",
+      "gr_limit": "gamma=0",
+      "extra_parameter_count": 1
+    },
+    {
+      "id": "SCREENED_PHASE",
+      "parameters": [
+        {"name": "beta_s", "unit": "radian", "bounds": [-4.0, 4.0], "prior": "uniform"},
+        {"name": "log10_f_screen_hz", "unit": "log10_hertz", "bounds": [1.4771212547196624, 2.6020599913279625], "prior": "uniform"}
+      ],
+      "law": "T(f)=exp(i beta_s [g(f)-g(f_ref)]), g(f)=(f/f_ref)^(-1)/[1+(f_screen/f)^4]",
+      "gr_limit": "beta_s=0 for every f_screen",
+      "extra_parameter_count": 2
+    }
+  ],
+  "optimizer": {
+    "algorithm": "scipy.optimize.differential_evolution followed by L-BFGS-B polish",
+    "gr_seeds": [260831, 260832, 260833],
+    "branch_seeds": [260841, 260842, 260843],
+    "population_multiplier": 4,
+    "gr_max_iterations": 24,
+    "branch_max_iterations": 18,
+    "relative_tolerance": 0.001,
+    "absolute_tolerance": 0.01,
+    "polish": true,
+    "workers": 1,
+    "convergence_gate": "all objective values finite and best-minus-worst unpenalized 2 log likelihood across the three seeds no greater than 2.0 for GR and every branch",
+    "failure_action": "retain all seed results; label the affected model NONCONVERGED and forbid an empirical-support claim"
+  },
+  "target_free_gates": {
+    "execution_order": ["source_and_runtime_audit", "zero_noise_gr_control", "branch_injection_confusion", "only_then_real_data"],
+    "zero_noise_gr_control": {
+      "network_snr": 32.0,
+      "parameters": {
+        "chirp_mass_detector_solar": 1.1977,
+        "mass_ratio_m2_over_m1": 0.85,
+        "spin_1z": 0.01,
+        "spin_2z": -0.01,
+        "lambda_1": 300.0,
+        "lambda_2": 600.0,
+        "cos_inclination": 0.5,
+        "polarization_radians": 1.0,
+        "coalescence_phase_radians": 2.0,
+        "geocentric_time_offset_seconds": 0.0,
+        "calibration_coefficients": 0.0
+      },
+      "pass": "GR is minimum BIC; chirp mass error <=0.0015 solar mass; geocentric time error <=0.002 s; network recovered SNR fraction >=0.90"
+    },
+    "branch_injections": [
+      {"id": "INJ_DYNAMIC_PHASE", "branch": "DYNAMIC_PHASE", "parameters": {"beta": 0.75}},
+      {"id": "INJ_ATTENUATION", "branch": "ATTENUATION", "parameters": {"alpha": 0.2}},
+      {"id": "INJ_RESERVOIR", "branch": "RESERVOIR", "parameters": {"r": 0.3, "log10_f_res_hz": 2.0}},
+      {"id": "INJ_NONLINEAR", "branch": "NONLINEAR_PHASE", "parameters": {"gamma": 0.15}},
+      {"id": "INJ_SCREENED", "branch": "SCREENED_PHASE", "parameters": {"beta_s": 1.0, "log10_f_screen_hz": 2.0}}
+    ],
+    "branch_injection_rule": "at network SNR 32 and frozen GR source/nuisance parameters, fit all five branch transfer laws plus GR; injected branch must have minimum BIC and its first amplitude-like parameter must be recovered within max(25 percent relative, 0.05 absolute)",
+    "failure_action": "if either injection gate fails, real-data fitting may run as a retained diagnostic but all propagation interpretation is IDENTIFIABILITY_BLOCKED"
+  },
+  "real_data_gr_gate": {
+    "network_matched_snr_min": 12.0,
+    "h1_matched_snr_min": 8.0,
+    "l1_matched_snr_min": 8.0,
+    "chirp_mass_absolute_error_from_1_1977_max": 0.003,
+    "geocentric_time_absolute_offset_max_seconds": 0.02,
+    "convergence_required": true,
+    "failure_action": "retain all results but label every propagation comparison INVALID_GR_CONTROL"
+  },
+  "multiple_comparisons": {
+    "primary_ranking": "BIC=-2 logLmax+k log(n), with n equal to twice the number of retained complex frequency bins across detectors and k equal to 17 common parameters plus branch extras",
+    "familywise_candidates": 5,
+    "likelihood_ratio_diagnostic": "chi-square survival probability with branch extra-parameter count, followed by Bonferroni min(1,5p); marked asymptotic/non-decisive for boundary and nonidentified-null branches",
+    "time_slides": {
+      "count": 31,
+      "rule": "H1 fixed; circularly phase-shift L1 by +0.25 k seconds and V1 by -0.375 k seconds for k=1..31",
+      "fit_rule": "condition intrinsic source and calibration parameters on the primary GR MAP; refit common phase, time, distance, inclination, polarization, and every branch parameter",
+      "statistic": "maximum Delta(2 logL) across all five branches",
+      "familywise_p": "(1+number of slide maxima >= observed maximum)/(31+1)",
+      "interpretation": "conditional empirical familywise diagnostic, not an unconditional event posterior"
+    },
+    "promotion_rule": "requires valid target-free gates, valid real GR gate, convergence, DeltaBIC<=-6 relative to GR, Bonferroni diagnostic p<0.05, conditional time-slide familywise p<0.05, and the same branch sign under every PSD and waveform robustness replay"
+  },
+  "robustness": {
+    "mandatory_psds": ["PUBLISHED_GW170817_PSDS", "OFFSOURCE_EARLY", "OFFSOURCE_LATE", "OFFSOURCE_MEAN"],
+    "mandatory_waveforms": ["IMRPhenomPv2_NRTidalv2", "IMRPhenomPv2_NRTidal"],
+    "replay_rule": "begin from each primary MAP and re-optimize every parameter with deterministic L-BFGS-B; failures retained",
+    "no_substitution": true
+  },
+  "separate_judgments": {
+    "empirical_fit": "calculated likelihood, BIC, PSD/waveform replays, detector contributions, and time-slide statistic only",
+    "identifiability": "target-free confusion matrix, recovery errors, convergence spread, and local finite-difference curvature eigenvalues",
+    "theory_health": "separate audit of covariance, causality, stability, conservation/receiver, GR/static limits, and complete action; empirical fit cannot override it",
+    "novelty": "separate prior-art mapping; the transfer shapes are phenomenological and no historical novelty is presumed",
+    "publication": "no one-event development result is publication-ready without an unchanged independent BNS holdout"
+  },
+  "theory_health_preregistered": {
+    "GR": {"complete_action": true, "covariant": true, "causal": true, "receiver_defined": true},
+    "DYNAMIC_PHASE": {"complete_action": false, "covariant": false, "causal": "UNRESOLVED", "receiver_defined": false},
+    "ATTENUATION": {"complete_action": false, "covariant": false, "causal": "UNRESOLVED", "receiver_defined": false},
+    "RESERVOIR": {"complete_action": false, "covariant": false, "causal": "RETARDED_TRANSFER_ONLY", "receiver_defined": false},
+    "NONLINEAR_PHASE": {"complete_action": false, "covariant": false, "causal": "CUTOFF_UNSPECIFIED", "receiver_defined": false},
+    "SCREENED_PHASE": {"complete_action": false, "covariant": false, "causal": "UNRESOLVED", "receiver_defined": false}
+  },
+  "claim_boundary": {
+    "development_event_only": true,
+    "empirical_fit_is_not_propagation_detection": true,
+    "toy_v3_excess_is_not_confirmatory": true,
+    "calibration_model_is_low_rank_envelope_approximation": true,
+    "no_cosmological_or_fundamental_parameter_posterior": true,
+    "no_paid_or_model_calls": true,
+    "publication_ready": false
+  }
+}

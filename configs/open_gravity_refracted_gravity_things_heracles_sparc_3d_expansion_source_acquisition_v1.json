@@ -1,0 +1,78 @@
+{
+  "schema": "invariant-open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-source-acquisition-1.0",
+  "package_id": "open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-source-acquisition-v1",
+  "status": "SOURCE_ONLY_12_OBJECT_77_FILE_ACQUISITION_AND_FITS_SCHEMA_VALIDATION_PASS",
+  "purpose": "Seal the exact source-only S4G/SINGS, THINGS, and HERACLES bytes and FITS schemas for the 12-galaxy outer-disk replication without opening any rotation response.",
+  "predecessor": {
+    "config_path": "configs/open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_preflight_v1.json",
+    "config_raw_sha256": "32c4dbb7de0d19f2ce2688c8f2764d46ad2ef97464d922e1f9816013e199ed5a",
+    "module_path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_preflight_v1.py",
+    "module_raw_sha256": "08efa4ba1510a537645393890e92732140e18140facf2bd42dc204f39b6cb16e",
+    "test_path": "tests/test_open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_preflight_v1.py",
+    "test_raw_sha256": "0b98edacd71f9470ad10df396d70f294cc0e3593aa113bd87cfb2b24813fedfe",
+    "receipt_path": "runs/gravity/open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-preflight-v1/receipt.json",
+    "receipt_raw_sha256": "d0354e17b875a2aedceb30a2f0902ad1f2070f24dce9987391540f9bacc035d7",
+    "receipt_content_sha256": "6e40237ecb44ba8ac501045bd014e7ad570e4eb155a5327119bd5e9c8db210c5"
+  },
+  "private_source_root": "work/private/open-gravity-rg-12gal-source-only-v1",
+  "inventory_contract": {
+    "objects": ["UGC04305", "NGC2841", "NGC2903", "NGC2976", "NGC3198", "IC2574", "NGC3521", "NGC4214", "DDO154", "NGC5055", "NGC6946", "NGC7331"],
+    "file_count": 77,
+    "compressed_source_bytes": 351461418,
+    "image_pixels_inspected": 87444699,
+    "finite_image_pixels": 60869171,
+    "ordered_file_sha_root_sha256": "d77c7fb451138edcff76ffef14790b34f3a60b594d856d25cdfb7a5a1659e0ec",
+    "ordered_decompressed_sha_root_sha256": "59ee75ba48a4a3f94c850764bfdadad4d266edf9cdff12f3553fd2cf8619a094",
+    "ordered_record_root_sha256": "cefe09ea35ceeb167284eabb311577b78114b544f8d256a84a62703e76e97f7a",
+    "survey_role_counts": {
+      "S4G_P5": 15,
+      "SINGS_IRAC1": 14,
+      "THINGS": 24,
+      "HERACLES": 24
+    }
+  },
+  "transport_accounting": {
+    "successful_source_gets": 77,
+    "failed_gets": 0,
+    "redirects_followed": 0,
+    "retries": 0,
+    "network_body_bytes": 351461418,
+    "response_or_velocity_gets": 0,
+    "paid_cost_usd": 0.0
+  },
+  "fits_contract": {
+    "single_primary_image_hdu_only": true,
+    "s4g": {"ndim": 2, "bunit": "MJy/sr", "ctype1_prefix": "RA---TAN", "ctype2_prefix": "DEC--TAN"},
+    "sings": {"ndim": 2, "bunit": "MJy/sr", "ctype1_prefix": "RA---TAN", "ctype2_prefix": "DEC--TAN", "flux_weight_shape_and_wcs_must_match": true},
+    "things": {"shape": [1, 1, 1024, 1024], "bunit": "JY/B*M/S", "ctype1_prefix": "RA---SIN", "ctype2_prefix": "DEC--SIN", "rest_hz_allowed": [1420405750.0, 1420405752.0], "beam_source": "AIPS_HISTORY"},
+    "heracles": {"ndim": 2, "bunit": "K KM/S", "ctype1_prefix": "RA---TAN", "ctype2_prefix": "DEC--TAN", "rest_hz_if_present": 230538000000.0, "mom0_emom0_shape_and_wcs_must_match": true},
+    "forbidden_filename_tokens": ["MOM1", "MOM2", "VROT", "VELOCITY", ".HANS."]
+  },
+  "builder_admission": {
+    "s4g_objects_builder_ready": 5,
+    "sings_objects_conversion_builder_required": 7,
+    "sings_s4g_overlap_objects_for_source_only_validation": ["NGC2976", "NGC3198", "NGC3521"],
+    "source_download_is_not_builder_validation": true,
+    "response_scoring_allowed_by_this_package": false
+  },
+  "scientific_boundary": {
+    "source_images_opened": true,
+    "source_pixels_inspected": true,
+    "velocity_or_rotation_response_opened": false,
+    "response_rows_opened": 0,
+    "scores_computed": 0,
+    "models_fit": 0,
+    "selection_events": 0,
+    "development_only": true
+  },
+  "claims": {
+    "exact_source_bytes_and_fits_schemas_validated": true,
+    "sings_flux_to_mass_builder_validated": false,
+    "three_dimensional_sources_built": false,
+    "rotation_curves_scored": false,
+    "outer_disk_replication_passed": false,
+    "refracted_gravity_supported": false,
+    "publication_or_discovery_claim": false
+  },
+  "output_path": "runs/gravity/open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-source-acquisition-v1/receipt.json"
+}

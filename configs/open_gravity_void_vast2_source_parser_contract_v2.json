@@ -1,0 +1,44 @@
+{
+  "schema": "invariant-open-gravity-void-vast2-source-parser-contract-successor-2.0",
+  "package_id": "open-gravity-void-vast2-source-parser-contract-v2",
+  "status": "SOURCE_CONTRACT_BINARY_WRITE_SUCCESSOR_AWAIT_DISTINCT_INDEPENDENT_AUDIT",
+  "purpose": "Unique append-only successor to the otherwise scientifically correct v1 VAST2 source/parser contract. v2 retains the exact v1 grammar and source audit but repairs only the Windows text-mode artifact writer by requiring binary append-only writes.",
+  "parser_contract_v1": {
+    "config": {"path": "configs/open_gravity_void_vast2_source_parser_contract_v1.json", "raw_sha256": "0a1bbce3a0c2cd60d846d0fdafc32d6985320b65c44befb51bb47f49a99128b5", "content_sha256": "0c3d1222ee3fd221717380f2407a012c32773bc6e64557b8a99c3ec41f40d76c"},
+    "module": {"path": "src/sigma_theory_compiler/open_gravity_void_vast2_source_parser_contract_v1.py", "raw_sha256": "87eb64ad976ec25a0f1f8866dac95d14e5bc43c633a6fc3065a9475fd3f8c94b", "semantic_sha256": "d56c3c29e78f84722a4b2a4dff4973a46bcd02af2dfb856b0ba9b8bf14ef1786"},
+    "test": {"path": "tests/test_open_gravity_void_vast2_source_parser_contract_v1.py", "raw_sha256": "7cc5b5760c3618f41e0acf68d8dd7c23bf37ddcaf762b839291091cf79749ef8"},
+    "frozen_failed_build_receipt": {"path": "runs/gravity/open-gravity-void-vast2-source-parser-contract-v1/receipt.json", "raw_sha256": "91c3d28255eb8c67c93e52cfd44559c41b34b1b22eed2918388ab4f5f90d5389", "content_sha256": "f122759272cc855a7392ff5519587afa4bee6fd9560bdcb36dc65197b8e35ad3"}
+  },
+  "superseded_v1_build_failure": {
+    "classification": "WINDOWS_TEXT_MODE_CRLF_EXPANSION_ARTIFACT_FREEZE_MISMATCH",
+    "source_or_parser_failure": false,
+    "receipt_self_hash_valid": true,
+    "declared_ledger_bytes": 57890254,
+    "actual_ledger_bytes": 57970334,
+    "actual_ledger_raw_sha256": "8c0dd67bad65c1dc0cfe0028aecbc05f197be941ba7280f7dc6399c6997f0853",
+    "declared_summary_bytes": 14710,
+    "actual_summary_bytes": 15167,
+    "actual_summary_raw_sha256": "1989d2583d02f0d1ecca77b77032abd89960cc6fd4d4981091fee286abe70361",
+    "bytes_added_to_ledger": 80080,
+    "why": "os.open omitted O_BINARY on Windows, expanding each ledger LF to CRLF. No prior file is overwritten; v1 remains preserved as a failed append-only build witness."
+  },
+  "repair_scope": {
+    "allowed": ["new v2 config/module/test/output paths", "binary O_EXCL artifact writes", "v1 source/parser audit reuse under exact frozen hashes"],
+    "forbidden": ["v1 mutation", "scientific executor run", "score", "authorization", "reauthorization", "CF4", "VAST1", "VAST3", "mask", "validation", "confirmation", "Pantheon"]
+  },
+  "authority": {
+    "scoring_authority": false,
+    "development_run_authority": false,
+    "reauthorization_authority": false,
+    "may_mint_or_consume_authorization": false
+  },
+  "output": {
+    "directory": "runs/gravity/open-gravity-void-vast2-source-parser-contract-v2",
+    "row_dispositions": "artifacts/vast2-row-dispositions.jsonl",
+    "source_summary": "artifacts/source-summary.json",
+    "receipt": "receipt.json"
+  },
+  "success_status": "PASS_VAST2_SOURCE_PARSER_CONTRACT_V2_AWAIT_DISTINCT_INDEPENDENT_AUDIT",
+  "decision": "BLOCK_LANE9_REAUTHORIZATION_PENDING_DISTINCT_VAST2_CONTRACT_V2_AUDIT",
+  "next_gate": "A distinct agent must independently audit v2, including its binary artifact hashes, exact row-disposition root, reuse of the frozen v1 parser grammar, v1 failure preservation, and zero authority. v2 is not self-audited and grants no run or Lane 9 reauthorization."
+}

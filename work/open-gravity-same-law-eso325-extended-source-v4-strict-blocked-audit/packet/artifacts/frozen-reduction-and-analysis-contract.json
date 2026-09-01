@@ -1,0 +1,149 @@
+{
+  "analysis_contract": {
+    "black_hole_nuisance": "log10(M_BH/Msun) uniform [8.5,10.5]",
+    "dynamics_nuisance": "inclination uniform in cos(i) over geometrically allowed deprojections; seven beta_z values uniform [-0.8,0.8]; one global template dispersion scale Normal(1,0.022)",
+    "halo_nuisance": "Primary pseudo-NFW is concentric/co-aligned, potential flattening q_pot=1-(1-q_density)/2, scale radius fixed to 10 R_eff, f_DM within 2.95 arcsec uniform [0,0.6], q_density uniform [0.3,1].",
+    "interesting_threshold": "Candidate must improve joint held-out log predictive density by >=10 over GR+stars+NFW, improve each channel by >=2, pass residual calibration, and exclude g=0 at >=3 posterior standard deviations. Otherwise it is not an empirical survivor.",
+    "lensing_nuisance": "external shear magnitude uniform [0,0.08], angle uniform [0,180) degrees, HST sky per connected exposure, fixed empirical correlated-noise scale with one half-normal <=20 percent amplitude nuisance",
+    "likelihood": "HST whitened Gaussian pixel likelihood plus full-covariance Gaussian MUSE (v_los,sigma_los) likelihood. The same density parameters and physical state feed both. Source-plane pixels are linear nuisances; no Student-t change after opening.",
+    "optimizer_and_sampler": "Differential-evolution MAP with seed 325004 and frozen bounds, followed by emcee 256 walkers, >=20000 post-burn draws per walker, split-Rhat <=1.01 and bulk ESS >=1000 for every reported scalar; failure is invalid, not a score.",
+    "physical_health_is_separate": "Even an empirical survivor remains structurally unhealthy unless a nonlinear ghost-free completion, Solar-System screening, and cosmology are supplied. A health failure does not erase an empirical pattern.",
+    "primary_comparator": "GR_PLUS_STARS_PLUS_PSEUDONFW_PLUS_BLACK_HOLE with g=0 in the identical density, nuisance, grids, masks and likelihood",
+    "primary_statistics": [
+      "joint held-out-within-image log predictive density",
+      "Delta log evidence versus GR+stars+NFW",
+      "posterior of g and range",
+      "per-channel standardized residual calibration"
+    ],
+    "retained_countermodels": [
+      "GR plus constant stellar M/L plus generalized NFW inner slope",
+      "GR plus free pseudo-NFW scale radius",
+      "GR plus total MGE mass without a baryon/dark partition",
+      "mass-sheet/external-convergence sensitivity",
+      "anisotropy and inclination sensitivity",
+      "CvD-like global -2.2 percent dispersion-scale sensitivity",
+      "split-state diagnostic with a lens-only coefficient, retained solely as a forbidden identifiability control"
+    ],
+    "stellar_nuisance": "Six monotone non-increasing M/L values for seven luminous MGEs with components 1 and 2 tied; log-uniform [0.5,15] solar units subject to monotonicity.",
+    "theory_priors": "g uniform [-0.5,0.5], log10(range_kpc) uniform [-1,1.5]; GR is the nested point g=0. Priors are frozen before ESO arrays open.",
+    "within_object_holdout": "Before fitting, assign HST mask pixels to five angular sectors by floor(5*angle/2pi); fit sectors 0-3 and predict sector 4. Assign MUSE bins analogously; fit sectors 0-3 and predict sector 4. Rotate the held-out sector once by +2pi/10 as a registered robustness check, not a selection."
+  },
+  "cosmology_and_units": {
+    "H0_km_s_Mpc": 67.74,
+    "Omega_lambda": 0.6911,
+    "Omega_m": 0.3089,
+    "constants": {
+      "G_kpc_km2_s2_Msun": 4.300917270036279e-06,
+      "c_km_s": 299792.458
+    },
+    "cosmology": "Planck 2015 base-flat-LambdaCDM",
+    "distance_algorithm": "numerical integral of c/H0 / sqrt(Omega_m*(1+z)^3+Omega_lambda), scipy quad absolute tolerance 1e-10 Mpc and relative tolerance 1e-10",
+    "distance_uncertainty": "H0 multiplicative nuisance Normal(67.74,0.88) km/s/Mpc; no other cosmological parameter is retuned on ESO",
+    "lens_redshift": 0.035,
+    "source_redshift": 2.1
+  },
+  "reduction_contract": {
+    "fail_closed_rule": "Any absent extension, invalid checksum, inadequate empirical PSF/LSF/noise support, failed registration, non-positive-semidefinite empirical covariance, or target-free gate failure blocks the ESO score. Do not fill a missing covariance with a diagonal guess.",
+    "fits_integrity": {
+      "failure_action": "SOURCE_BLOCKED",
+      "required": [
+        "exact byte count",
+        "exact SHA-256",
+        "FITS block alignment",
+        "all HDUs parse",
+        "CHECKSUM/DATASUM verify when present"
+      ]
+    },
+    "hst": {
+      "arc_image": "F475W minus the PSF-matched F814W lens model multiplied by a radial colour ratio. The ratio is the median F475W/F814W in 0.25-arcsec annuli excluding 2.20-3.70 arcsec, interpolated with a monotone cubic curve. No post-arc tuning.",
+      "astrometric_registration": "Start from archive WCS. Fit one six-parameter affine correction using Gaia DR3 positions of at least three unsaturated common point sources; 3-sigma clipping is one pass only. If fewer than three sources or RMS exceeds 0.03 arcsec, block.",
+      "dq_selector": "matching DQ or context coverage; pixels with nonzero fatal DQ or zero coverage are excluded",
+      "lens_center": "Joint F814W seven-component MGE centroid outside the frozen 2.20-3.70 arcsec arc-exclusion annulus; both filters share that centre.",
+      "lens_light": "Fit seven concentric, co-aligned Gaussian components to F814W outside 2.20-3.70 arcsec, convolved with the frozen F814W PSF. The Gaussian scales and axis ratios start at paper Table S1 but all image-fit nuisance values are inferred only inside the frozen contract.",
+      "lensing_mask": "Finite valid pixels with 1.80 <= elliptical_radius_arcsec <= 4.20, excluding diffraction spikes, saturated pixels, fatal DQ, and foreground objects detected at >=5 connected pixels above 8 robust-sigma outside the arc annulus. The same deterministic mask is used for all models.",
+      "noise_and_covariance": "Start from WHT. Estimate drizzle correlation from 32x32-pixel blank stamps on a fixed detector-coordinate lattice outside 8 arcsec, rejecting a stamp only for DQ or >5 robust-sigma sources. Require >=32 stamps. Use their median normalized 2D autocorrelation truncated where both axes exceed 5 pixels. Whiten the likelihood with this fixed kernel; failure of a positive-semidefinite circulant embedding blocks scoring.",
+      "psf": "Empirical, per filter: median stack of at least two isolated unsaturated field stars after local background subtraction and centroid registration. If fewer than two pass deterministic saturation/isolation cuts, acquire an exposure-matched public ePSF/TinyTim product and hash it before continuing; otherwise block.",
+      "science_selector": "first image HDU with EXTNAME=SCI and positive finite exposure time; ambiguity aborts",
+      "source_plane": "80x80 adaptive square pixels, quadratic-gradient regularization, evidence-selected regularization on a frozen 41-point log grid [-8,8]. The source is solved linearly for each nonlinear state and is never shared with the kinematic channel.",
+      "weight_selector": "matching WHT inverse-variance/weight HDU; absence aborts pixel likelihood",
+      "working_grid": "F475W celestial WCS and native DRC pixel scale; F814W is flux-conservingly reprojected by exact WCS, Lanczos-3 kernel"
+    },
+    "missing_public_inputs_before_decode": [
+      "revision-bound MILES template payloads",
+      "revision-bound Indo-US G/K template subset",
+      "at least two valid empirical HST PSF stars per filter or hashed exposure-matched public PSFs",
+      "three Gaia-registered common point sources or a hash-bound astrometric reference product",
+      "successful empirical MUSE LSF and covariance construction under the frozen rules"
+    ],
+    "mode": "INDEPENDENT_REDUCTION_NOT_PAPER_LIKELIHOOD_REPRODUCTION",
+    "muse": {
+      "continuum": "Additive Legendre polynomial order 6; one frozen robustness rerun at order 8.",
+      "correction_to_prior_plan": "The paper reports 0.6-arcsec square spatial pixels, not Voronoi bins. V4 therefore does not invent a Voronoi table.",
+      "cube_selectors": "Unique DATA and STAT image HDUs with mutually compatible celestial and spectral WCS; ambiguity or missing STAT aborts.",
+      "feature_masks": "Mask pipeline bad wavelengths and a fixed +/-5 Angstrom observed-frame interval around Mg b in the registered sensitivity run; primary retains Mg b.",
+      "kinematics": "Fit v_los and sigma_los jointly in every accepted 0.6-arcsec bin after convolving templates to the empirical LSF. Require sigma above the instrumental resolution and optimizer agreement from three fixed initial points.",
+      "lsf": "Use the wavelength-dependent LSF encoded by the ESO pipeline calibration metadata only if its calibration provenance is present. Otherwise fit a quadratic FWHM(lambda) to at least ten isolated night-sky lines in off-galaxy spaxels; require leave-one-line-out RMS <=0.10 Angstrom. Otherwise block.",
+      "noise_and_covariance": "Use STAT per spectral sample plus a moving-block wild bootstrap of the whitened spectral residuals: block length 8 samples, 512 replicates, Philox seed SHA256(bin_id)[0:16]. Construct each bin's empirical 2x2 covariance for (v_los,sigma_los). Shared-template systematics are a single global 2.2 percent dispersion-scale nuisance. Do not claim cross-bin independence: estimate a spatial correlation kernel from bootstrap residual maps and require a positive-semidefinite block covariance; otherwise block.",
+      "psf": "Fit a circular Moffat profile to the paper-identified nearby unsaturated star in the cube white-light collapse. Require 0.47 <= FWHM <= 0.67 arcsec, finite beta > 1.5, and cube-collapse versus selected archive white-light normalized RMS <=0.02 after affine photometric scaling; otherwise block. The published 0.57 arcsec is a predeclared audit benchmark, not a forced fit.",
+      "quality": "Require >=20 accepted spatial bins, median reduced spectral chi-square in [0.5,2.0], and >=95 percent finite bootstrap fits.",
+      "spatial_bins": "Non-overlapping 0.6x0.6 arcsec squares aligned north/east and centred on the registered lens centre; retain bins whose centres lie within 4.0 arcsec and have >=80 percent valid input spaxels.",
+      "spectral_window_angstrom": [
+        4750.0,
+        5600.0
+      ],
+      "stellar_templates": "Primary MILES empirical library and Indo-US G/K stars as the published cross-check. Every template file and license must be revision/hash bound before response extraction; no synthetic template substitution."
+    },
+    "registered_intersection": "All HST and MUSE coordinates are ICRS degrees. The model centre and position angle are shared. The lens likelihood uses only the HST mask; the kinematic likelihood uses MUSE bin centres within 4 arcsec. Joint eligibility requires both channels pass independently; no pixel-to-bin response matching is asserted."
+  },
+  "shared_physical_state": {
+    "boundary_conditions": "Isolated fields by zero-padding the density by factor two in every dimension, setting the k=0 potential gauge to zero, and cropping the central physical volume. ESO grid must extend to >=10 half-light radii and convergence is checked after doubling the padding and halving the cell size.",
+    "candidate_id": "EXTENDED_GR_PLUS_FIXED_PPN_YUKAWA",
+    "density": "rho_total=rho_stars(MGE times monotone M/L)+rho_pseudoNFW+M_BH*delta3",
+    "field_equations": [
+      "laplacian(U)=4*pi*G*rho_total",
+      "(laplacian-mu^2)Y=4*pi*G*rho_total"
+    ],
+    "forbidden": [
+      "photon_multiplier",
+      "lens_only_g",
+      "lens_only_range",
+      "separate_lensing_mass",
+      "separate_Fermat_coefficient",
+      "post-response transition change"
+    ],
+    "matter_route": "Use only Phi: solve axisymmetric Jeans equations for the MGE tracer with one beta_z per luminous Gaussian, project at the shared inclination, then convolve with the MUSE PSF and integrate over the fixed 0.6-arcsec bins.",
+    "metric_map": [
+      "Phi=U+(4/3)*g*Y",
+      "Psi=U+(2/3)*g*Y",
+      "ds^2=-(1+2*Phi/c^2)c^2dt^2+(1-2*Psi/c^2)dx^2"
+    ],
+    "parameter_status": "Target-free injection values frozen for software recovery only. ESO inference may profile the same g and range jointly under the registered priors, but may not introduce any channel-specific coefficient.",
+    "photon_route": "Use only the same state Phi+Psi: integrate its transverse gradient through the full grid, scale with the frozen angular-diameter distances, ray-trace the 80x80 source, then convolve with the HST PSF.",
+    "scope": "A linear weak-field extended-source comparator, not a nonlinear healthy massive-gravity completion.",
+    "universal_parameters": {
+      "g": 0.18,
+      "mu_kpc_inverse": 0.3333333333333333,
+      "range_kpc": 3.0
+    }
+  },
+  "slacs_confirmation_seal": {
+    "confirmation_response_values_read_by_v4": 0,
+    "development": 45,
+    "eligible": 57,
+    "predictor_manifest": {
+      "path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/predictor-source-manifest.json",
+      "sha256": "af4c7b28e8b4b2a4417746b214f513a6aa56f557e3be3b9be83d248ec17312dd"
+    },
+    "reserved_confirmation": 12,
+    "response_manifest": {
+      "path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/response-source-manifest.json",
+      "sha256": "415911de9ef3ba3e43f3637ed8fe75b5d73304c626235a4e24362948acfc8068"
+    },
+    "rule": "V4 must never open, deserialize, summarize, score, copy or transform a reserved-confirmation response.",
+    "sample_manifest": {
+      "path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/sample-manifest.json",
+      "sha256": "37f33fcbaeb2013db37e07fd51e6aca1a7a04bf617b4cffd0f025be3c6de6971"
+    },
+    "status": "SEALED_UNCHANGED"
+  }
+}

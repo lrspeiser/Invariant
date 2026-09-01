@@ -1,0 +1,64 @@
+{
+  "schema": "invariant-open-gravity-void-geometry-source-completion-1.0",
+  "package_id": "open-gravity-void-geometry-source-completion-v1",
+  "status": "PASS_EXACT_PLANCK2018_SURVEY_MASK_HASHED_ROWS_UNOPENED",
+  "purpose": "Complete the frozen CF4 x VAST path-geometry source bundle with the exact Planck2018 angular/radial survey mask before any scientific response row is decoded.",
+  "predecessor": {
+    "path": "runs/gravity/open-gravity-void-cf4-vast-source-acquisition-v1/receipt.json",
+    "raw_sha256": "f343f555bfac633ee14ab746a84009d6b2a735655a7a638666f9edf9536dfcdb",
+    "content_sha256": "e79225438994a030c9ec74983446404efe91427efcac616a38daef8221c13412",
+    "source_bundle_root_sha256": "17bf5d717822291286b1d69be3c1695f1b5f68774e58eb54400fee59d69023a8"
+  },
+  "mask": {
+    "record": "10.5281/zenodo.11043278",
+    "version": "1.3.1",
+    "published": "2024-04-22",
+    "filename": "NSA_main_mask.pickle",
+    "url": "https://zenodo.org/records/11043278/files/NSA_main_mask.pickle?download=1",
+    "local_path": "work/private/open-gravity-void-source-v2/NSA_main_mask.pickle",
+    "bytes": 65031,
+    "md5": "26795848b686186cf2aa09708097bfad",
+    "sha256": "523372fd0600e833cbfaa04b92109147efdf2af1e13867f232b8e74646c9f8fa",
+    "safe_structure": {
+      "container": "tuple(mask, mask_resolution, dist_limits)",
+      "mask_shape": [360, 180],
+      "mask_dtype": "bool",
+      "true_pixels": 9133,
+      "mask_resolution": 1,
+      "dist_limits_h_inverse_mpc": [0.0, 332.3856506347656]
+    }
+  },
+  "geometry_contract": {
+    "angular_indexing": "Use the official VAST mask semantics at resolution 1; endpoint and every quadrature point must be inside the true RA/Dec pixel and frozen radial limits.",
+    "coordinate_units": "VAST Cartesian sphere coordinates are numeric h^-1 Mpc; an independent CF4 distance D_Mpc maps to radial coordinate h*D_Mpc for the frozen H0 cell.",
+    "primary_union": "Planck2018 VoidFinder table2 spheres belonging to table1 void IDs with edge=0; exact ray-sphere intervals are unioned, never summed.",
+    "path_scope": "Only the portion of the observer-to-group ray inside the official survey mask and radial limits is classified. Unobserved path is not silently labeled matter.",
+    "remaining_before_decode": [
+      "freeze H0/effect/nuisance/error grids and eligibility counts",
+      "freeze the restricted safe mask decoder and coordinate-consistency probes",
+      "freeze mock/RSD revision or label mechanism inference unavailable",
+      "freeze development/validation/confirmation access barriers"
+    ]
+  },
+  "access_accounting": {
+    "http_get_requests": 1,
+    "downloaded_files": 1,
+    "downloaded_bytes": 65031,
+    "metadata_structure_values_inspected": 6,
+    "scientific_rows_decoded": 0,
+    "response_values_inspected": 0,
+    "scores_computed": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "exact_mask_bytes_frozen": true,
+    "path_geometry_source_components_complete": true,
+    "scientific_rows_opened": false,
+    "empirical_executor_frozen": false,
+    "real_data_fit": false,
+    "empirical_signal": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-void-geometry-source-completion-v1/receipt.json"
+}

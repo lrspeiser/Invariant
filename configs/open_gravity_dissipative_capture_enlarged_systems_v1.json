@@ -1,0 +1,305 @@
+{
+  "schema": "invariant-open-gravity-dissipative-capture-enlarged-systems-1.0",
+  "package_id": "open-gravity-dissipative-capture-enlarged-systems-v1",
+  "status": "FROZEN_THEORY_SIGNATURES_AND_TARGET_BLIND_TNG_PREFLIGHT",
+  "purpose": "Replace hand-inserted capture with explicit enlarged systems in which visible orbital energy and momentum flow to a declared receiver, while preserving conservative focusing and static force amplification as mandatory null controls.",
+  "bindings": [
+    {
+      "role": "AUDIT_RECOVERY_PROGRAM",
+      "path": "runs/gravity/open-gravity-audit-recovery-program-v1/receipt.json",
+      "sha256": "d799116f9746c2daf3b481d79b419627f4222b9a0921528d72c0a6e2c6daa251"
+    },
+    {
+      "role": "TEMPORAL_TRANSFER_IDENTIFIABILITY",
+      "path": "runs/gravity/open-gravity-temporal-transfer-identifiability-v1/receipt.json",
+      "sha256": "cbc8336842ca3695971ead7e67e37adbd4323d989c1c6b43cb6bbc0ae1201bd5"
+    },
+    {
+      "role": "MANGA_RELAXATION_MERGERS_COUNTEREXAMPLE",
+      "path": "runs/gravity/roadmap/item-13-synthesis-v1.json",
+      "sha256": "aae352d81042f5017a83fb636b88c4a5b581258caaf2d4d7476934652daf5cd4"
+    }
+  ],
+  "unit_system": {
+    "synthetic": "G=1 dimensionless encounter units except the c=1 weak-field GW fixture",
+    "dimensions": [
+      "[r]=L",
+      "[v]=L T^-1",
+      "[rho]=M L^-3",
+      "[gamma]=M T^-1",
+      "[E]=M L^2 T^-2",
+      "[P]=M L T^-1",
+      "[J]=M L^2 T^-1",
+      "[Qdot]=M L^2 T^-3",
+      "[entropy]=M L^2 T^-2 Theta^-1",
+      "[h]=1",
+      "[tau]=T"
+    ]
+  },
+  "mechanisms": [
+    {
+      "id": "DC00_NEWTONIAN_FOCUSING_CONTROL",
+      "kind": "CONSERVATIVE_CONTROL",
+      "matter_equation": "mu*r_ddot=-G*m1*m2*r/|r|^3",
+      "receiver": "NONE",
+      "energy_rule": "E_orb=mu*|v|^2/2-G*m1*m2/r is constant",
+      "momentum_rule": "P_COM is constant",
+      "angular_momentum_rule": "J_orb=mu*r_cross_v is constant",
+      "entropy_rule": "Delta_S=0",
+      "capture_rule": "A positive-energy orbit remains unbound; deflection is not capture.",
+      "limits": ["exact Newtonian two-body limit", "v_inf>0 implies E_inf>0"],
+      "theory_grade": "COMPLETE_WITHIN_NEWTONIAN_TWO_BODY_DOMAIN",
+      "novelty_grade": "KNOWN_CONTROL"
+    },
+    {
+      "id": "DC01_STATIC_FORCE_AMPLIFICATION_CONTROL",
+      "kind": "CONSERVATIVE_CONTROL",
+      "matter_equation": "mu*r_ddot=-A*G*m1*m2*r/|r|^3 with time-independent A>0",
+      "receiver": "NONE",
+      "energy_rule": "E_A=mu*|v|^2/2-A*G*m1*m2/r is constant",
+      "momentum_rule": "P_COM is constant",
+      "angular_momentum_rule": "J_orb is constant",
+      "entropy_rule": "Delta_S=0",
+      "capture_rule": "A static attractive multiplier increases focusing but cannot turn a positive asymptotic energy into capture.",
+      "limits": ["A=1 recovers Newton", "time-independent A has no receiver flux"],
+      "theory_grade": "COMPLETE_WITHIN_DECLARED_STATIC_DOMAIN",
+      "novelty_grade": "KNOWN_CONTROL"
+    },
+    {
+      "id": "DC02_INELASTIC_CLOUD_SHOCK",
+      "kind": "DISSIPATIVE_KNOWN_CONTROL",
+      "matter_equation": "u_post=-e*u_pre along the collision normal",
+      "receiver": "CLOUD_INTERNAL_HEAT_THEN_PHOTONS",
+      "energy_rule": "Q=(mu/2)*(1-e^2)*u_pre^2 and E_orb_post+Q=E_orb_pre",
+      "momentum_rule": "equal-and-opposite collision impulse preserves total linear momentum",
+      "angular_momentum_rule": "central contact impulse preserves orbital angular momentum; any off-axis torque enters receiver spin",
+      "entropy_rule": "Delta_S_receiver=Q/T_receiver>=0 for 0<=e<=1",
+      "capture_rule": "true capture occurs only when E_orb_pre>0 and E_orb_post<0 with Q>0",
+      "limits": ["e=1 is the elastic no-dissipation limit", "e=0 is maximum normal kinetic-energy loss"],
+      "theory_grade": "COMPLETE_IMPULSE_MODEL",
+      "novelty_grade": "KNOWN_SHOCK_AND_INELASTIC_COLLISION_CONTROL"
+    },
+    {
+      "id": "DC03_CHANDRASEKHAR_WAKE_TRANSFER",
+      "kind": "DISSIPATIVE_KNOWN_CONTROL",
+      "matter_equation": "F_df=-4*pi*G^2*m_p^2*rho*lnLambda*[erf(X)-2X*exp(-X^2)/sqrt(pi)]*v/|v|^3",
+      "receiver": "BACKGROUND_WAKE_BULK_MOMENTUM_INTERNAL_ENERGY_AND_SPIN",
+      "energy_rule": "Delta_Q=K_rel_pre-K_rel_post for an impulse at fixed separation",
+      "momentum_rule": "Delta_p_wake=-Delta_p_perturber",
+      "angular_momentum_rule": "Delta_S_wake=-Delta_J_orb",
+      "entropy_rule": "Delta_S_wake=Delta_Q/T_wake>=0 for a braking impulse",
+      "capture_rule": "the post-impulse orbital energy is evaluated without changing the gravitational potential",
+      "limits": ["rho->0 or lnLambda->0 removes drag", "the homogeneous Maxwellian approximation is not universal"],
+      "theory_grade": "COMPLETE_IMPULSE_LEDGER_WITH_APPROXIMATE_FRICTION_LAW",
+      "novelty_grade": "KNOWN_CHANDRASEKHAR_CONTROL"
+    },
+    {
+      "id": "DC04_GRAVITATIONAL_WAVE_CAPTURE",
+      "kind": "DISSIPATIVE_GR_CONTROL",
+      "matter_equation": "Delta_E_GW=(85*pi/(12*sqrt(2)))*G^(7/2)*m1^2*m2^2*sqrt(m1+m2)/(c^5*r_p^(7/2))",
+      "receiver": "OUTGOING_GRAVITATIONAL_RADIATION",
+      "energy_rule": "E_orb_post+E_GW=E_orb_pre",
+      "momentum_rule": "P_GW=0 for the frozen equal-mass symmetric quadrupole fixture",
+      "angular_momentum_rule": "Delta_J_GW=6*pi*G^3*m1^2*m2^2/(c^5*r_p^2) in the parabolic weak-field approximation",
+      "entropy_rule": "classical outgoing-wave coarse graining supplies an irreversible boundary condition; no microscopic thermodynamic entropy is asserted",
+      "capture_rule": "Delta_E_GW>E_infinity",
+      "limits": ["c->infinity recovers Newtonian no-radiation motion", "requires weak-field slow-motion parabolic approximation"],
+      "theory_grade": "CONTROL_VALID_ONLY_IN_DECLARED_QUADRUPOLE_DOMAIN",
+      "novelty_grade": "KNOWN_GR_CONTROL"
+    },
+    {
+      "id": "DC05_TIMEWELL_SINGLE_MEMORY_BATH",
+      "kind": "HYPOTHESIS_ENLARGED_RECEIVER",
+      "matter_equation": "F_bath=-gamma0*h*(v1-v2); tau*h_dot=A_source-h",
+      "receiver": "COARSE_GRAINED_GRAVITY_ACTIVATED_BATH_WITH_HEAT_MOMENTUM_AND_SPIN",
+      "energy_rule": "Qdot=gamma0*h*|v1-v2|^2 and d(E_orb+Q)/dt=0 during the fixed-separation impulse",
+      "momentum_rule": "F_receiver=-F_matter so total linear momentum is constant",
+      "angular_momentum_rule": "Sdot_receiver=-dJ_orb/dt",
+      "entropy_rule": "Sdot_receiver=Qdot/T_receiver>=0 when gamma0>=0 and h>=0",
+      "capture_rule": "capture can depend on earlier source activation at identical current r and v",
+      "limits": ["gamma0->0 recovers conservative focusing", "tau->0 gives instantaneous drag", "tau->infinity freezes the initial bath state", "A_source->0 causes h to decay"],
+      "theory_grade": "PHENOMENOLOGICAL_BATH_LEDGER_NOT_ACTION_DERIVED",
+      "novelty_grade": "APPLICATION_NOVELTY_UNRESOLVED"
+    },
+    {
+      "id": "DC06_TIMEWELL_BIMODAL_MEMORY_BATH",
+      "kind": "HYPOTHESIS_ENLARGED_RECEIVER",
+      "matter_equation": "F_bath=-gamma0*(w_f*h_f+w_s*h_s)*(v1-v2); tau_i*h_i_dot=A_source-h_i",
+      "receiver": "FAST_AND_SLOW_GRAVITY_ACTIVATED_RESERVOIR_MODES",
+      "energy_rule": "Qdot=gamma0*(w_f*h_f+w_s*h_s)*|v1-v2|^2",
+      "momentum_rule": "equal-and-opposite receiver force preserves total linear momentum",
+      "angular_momentum_rule": "receiver spin stores the negative orbital torque",
+      "entropy_rule": "Sdot_receiver=Qdot/T_receiver>=0 for nonnegative weights, states and gamma0",
+      "capture_rule": "a recent passage and an ancient passage produce separately testable fast and slow persistence tails",
+      "limits": ["w_s=0 reduces to the single-memory bath", "both tau_i->0 reduce to instantaneous drag", "gamma0->0 recovers conservative focusing"],
+      "theory_grade": "PHENOMENOLOGICAL_MULTI_MODE_BATH_NOT_ACTION_DERIVED",
+      "novelty_grade": "STRONGEST_NEW_SIGNATURE_APPLICATION_NOVELTY_UNRESOLVED"
+    },
+    {
+      "id": "DC07_COMPRESSION_GATED_BATH",
+      "kind": "HYPOTHESIS_ENLARGED_RECEIVER",
+      "matter_equation": "F_bath=-gamma0*max(0,-r_hat_dot_v_rel/v0)*v_rel",
+      "receiver": "COMPRESSIVE_MODE_HEAT_MOMENTUM_AND_SPIN",
+      "energy_rule": "Qdot=-F_bath dot v_rel>=0",
+      "momentum_rule": "equal-and-opposite receiver force preserves total linear momentum",
+      "angular_momentum_rule": "receiver spin stores the negative orbital torque",
+      "entropy_rule": "Sdot_receiver=Qdot/T_receiver>=0",
+      "capture_rule": "energy is removed on compression/infall but not on matched expansion/outflow",
+      "limits": ["gamma0->0 recovers conservative focusing", "outflow gives exactly zero drag"],
+      "theory_grade": "PHENOMENOLOGICAL_BULK_DISSIPATION_CLOSURE",
+      "novelty_grade": "LIKELY_DEGENERATE_WITH_SHOCK_OR_BULK_VISCOSITY"
+    }
+  ],
+  "fixtures": {
+    "conservative": {"m1": 1.0, "m2": 4.0, "G": 1.0, "r_peri": 1.0, "v_infinity": 0.8, "amplification": 2.0},
+    "inelastic": {"m1": 1.0, "m2": 1.0, "G": 1.0, "separation": 1.0, "relative_speed": 2.5, "restitution": 0.25, "receiver_temperature": 1.0},
+    "wake": {"m1": 1.0, "m2": 4.0, "G": 1.0, "separation": 1.0, "relative_speed": 3.3, "rho": 0.1, "sigma": 1.0, "coulomb_log": 3.0, "duration": 0.5, "receiver_temperature": 1.0},
+    "gw": {"m1": 1.0, "m2": 1.0, "G": 1.0, "c": 1.0, "r_peri": 20.0, "v_infinity": 0.04},
+    "memory": {"m1": 1.0, "m2": 4.0, "G": 1.0, "separation": 1.0, "initial_orbital_energy": 0.27, "gamma0": 0.04, "tau": 1.0, "dt": 1.0, "receiver_temperature": 1.0, "quiet_history": [0.0, 0.0, 0.0, 1.0], "post_pass_history": [1.0, 1.0, 0.0, 1.0]},
+    "bimodal": {"tau_fast": 0.2, "tau_slow": 12.26342583492362, "fast_weight": 0.788742, "slow_weight": 0.211258, "sample_times_gyr": [0.0, 1.0, 9.5]},
+    "compression": {"inbound_radial_speed": -1.0, "outbound_radial_speed": 1.0, "v0": 1.0, "gamma0": 0.2, "relative_speed": 2.0, "duration": 0.5}
+  },
+  "published_sources": [
+    {
+      "id": "SRC_CHANDRASEKHAR_1943",
+      "citation": "S. Chandrasekhar, Dynamical Friction I, ApJ 97, 255 (1943)",
+      "url": "https://articles.adsabs.harvard.edu/pdf/1943ApJ....97..255C",
+      "role": "wake-transfer control"
+    },
+    {
+      "id": "SRC_PETERS_1964",
+      "citation": "P. C. Peters, Phys. Rev. 136, B1224 (1964)",
+      "doi": "10.1103/PhysRev.136.B1224",
+      "url": "https://journals.aps.org/pr/abstract/10.1103/PhysRev.136.B1224",
+      "role": "GR radiation energy and angular-momentum control"
+    },
+    {
+      "id": "SRC_CALDEIRA_LEGGETT_1983",
+      "citation": "A. O. Caldeira and A. J. Leggett, Annals of Physics 149, 374 (1983)",
+      "doi": "10.1016/0003-4916(83)90202-6",
+      "url": "https://www.sciencedirect.com/science/article/pii/0003491683902026",
+      "role": "closest general enlarged-system bath framework; not evidence of gravitational novelty"
+    },
+    {
+      "id": "SRC_KAHLHOEFER_2014",
+      "citation": "F. Kahlhoefer et al., MNRAS 437, 2865 (2014)",
+      "doi": "10.1093/mnras/stt2097",
+      "url": "https://academic.oup.com/mnras/article/437/3/2865/1033125",
+      "role": "colliding-cluster drag and separation comparator"
+    },
+    {
+      "id": "SRC_TNG_RELEASE_2019",
+      "citation": "D. Nelson et al., Computational Astrophysics and Cosmology 6, 2 (2019)",
+      "doi": "10.1186/s40668-019-0028-x",
+      "url": "https://link.springer.com/article/10.1186/s40668-019-0028-x",
+      "role": "public simulation and API data source"
+    },
+    {
+      "id": "SRC_YOUNG_2018",
+      "citation": "A. M. Young, L. L. R. Williams, and J. Hjorth, JCAP 2018, 033 (2018)",
+      "doi": "10.1088/1475-7516/2018/02/033",
+      "url": "https://arxiv.org/abs/1709.00014",
+      "role": "published two-stage phase-space mixing benchmark"
+    },
+    {
+      "id": "SRC_LOTZ_2008",
+      "citation": "J. M. Lotz et al., MNRAS 391, 1137 (2008)",
+      "doi": "10.1111/j.1365-2966.2008.14004.x",
+      "url": "https://arxiv.org/abs/0805.1246",
+      "role": "published morphology-versus-merger-stage benchmark and nuisance warning"
+    },
+    {
+      "id": "SRC_BOYLAN_KOLCHIN_2008",
+      "citation": "M. Boylan-Kolchin, C.-P. Ma, and E. Quataert, MNRAS 383, 93 (2008)",
+      "doi": "10.1111/j.1365-2966.2007.12530.x",
+      "url": "https://arxiv.org/abs/0707.2960",
+      "role": "mandatory extended-satellite merger-time and dynamical-friction comparator"
+    },
+    {
+      "id": "SRC_FAN_2013_DDDM",
+      "citation": "J. Fan, A. Katz, L. Randall, and M. Reece, Phys. Rev. Lett. 110, 211302 (2013)",
+      "doi": "10.1103/PhysRevLett.110.211302",
+      "url": "https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.110.211302",
+      "role": "dissipative dark-sector cooling and disk-formation neighbor"
+    },
+    {
+      "id": "SRC_HUO_2020",
+      "citation": "R. Huo, H.-B. Yu, and Y.-M. Zhong, JCAP 2020, 051 (2020)",
+      "doi": "10.1088/1475-7516/2020/06/051",
+      "url": "https://arxiv.org/abs/1912.06757",
+      "role": "dissipative-DM cooling and gravothermal-collapse simulation comparator"
+    }
+  ],
+  "real_data_preflight": {
+    "source": "IllustrisTNG TNG100-1 plus TNG100-1-Dark, SubLink trees, the public subhalo_matching_to_dark.hdf5 catalog, and particle cutouts",
+    "source_url": "https://www.tng-project.org/data/",
+    "api_documentation": "https://www.tng-project.org/data/docs/api/",
+    "specification_url": "https://www.tng-project.org/data/docs/specifications/",
+    "response_status": "FROZEN_UNOPENED_BY_THIS_PACKET",
+    "selection": {
+      "redshift_max": 1.0,
+      "descendant_stellar_mass_solar_min": 10000000000.0,
+      "descendant_stellar_mass_solar_max": 316227766016.83795,
+      "major_merger_mass_ratio_min": 0.25,
+      "history_window_gyr": [-1.5, 2.0],
+      "minimum_time_samples": 5,
+      "identity_split": "SHA256(SubhaloID) mod 5; folds 0-3 development, fold 4 sealed confirmation"
+    },
+    "required_group_fields": ["SubhaloID", "SnapNum", "SubhaloPos", "SubhaloVel", "SubhaloMassType", "SubhaloHalfmassRadType", "SubhaloVelDisp", "SubhaloSpin", "SubhaloSFR"],
+    "required_gas_fields": ["Coordinates", "Velocities", "Masses", "Density", "InternalEnergy", "GFM_CoolingRate", "EnergyDissipation", "Machnumber", "Potential", "StarFormationRate"],
+    "required_stellar_fields": ["Coordinates", "Velocities", "Masses", "Potential"],
+    "required_matching_fields": ["SubhaloIndexDark_LHaloTree", "SubhaloIndexDark_SubLink"],
+    "frozen_predictions": [
+      "At fixed mass ratio, pericenter, gas fraction and pre-encounter structure, normalized integrated EnergyDissipation plus radiative cooling predicts a larger decrease in visible relative orbital energy and a shorter coalescence time.",
+      "At matched instantaneous separation, relative speed, mass ratio and gas fraction, post-pericenter systems have a larger residual loss rate than first-infall systems only for a memory bath; an instantaneous shock law has no history residual after its measured gas state is controlled.",
+      "The bimodal bath predicts a fast approximately one-Gyr decay and a distinct slow persistence tail in phase-space distance; the frozen constants are calibrated only to the published one-object Illustris benchmark and must be tested without retuning on TNG100-1.",
+      "Any visible orbital angular-momentum deficit must be balanced by gas/internal spin, outflow or radiative flux within the declared aperture ledger.",
+      "A matched TNG100-1-Dark history can show collisionless mixing and clumping without positive gas receiver flux; morphology or phase-space persistence alone is therefore insufficient evidence for dissipation.",
+      "The candidate must outperform Newtonian time-dependent collisionless evolution, standard shock/cooling, the Boylan-Kolchin extended-satellite merger-time law, dissipative-DM cooling/gravothermal-collapse models, and flexible history controls before a new-gravity interpretation is considered."
+    ],
+    "primary_observables": ["relative orbital energy change", "relative orbital angular-momentum change", "integrated irreversible shock energy", "integrated cooling proxy", "coalescence time", "N(E) distance", "N(L^2) distance", "post-pericenter persistence residual"],
+    "nuisance_controls": ["mass ratio", "gas fraction", "pericenter", "relative orientation", "viewing angle", "dust", "feedback model", "snapshot cadence", "aperture", "resolution", "halo finder"],
+    "missing_data_action": "SOURCE_BLOCKED_NOT_MODEL_FAILURE"
+  },
+  "published_benchmark": {
+    "source_id": "SRC_YOUNG_2018",
+    "observations": [
+      "phase-space mixing distance falls by about 80 percent during the first 1 Gyr after the merger",
+      "the remaining distance falls by about 50 percent over the following 8.5 Gyr"
+    ],
+    "use": "calibrate a two-mode persistence control only; do not claim prediction or independent confirmation"
+  },
+  "ranking_policy": {
+    "axes": ["receiver_closure", "synthetic_discriminator", "empirical_testability", "application_novelty", "theory_health"],
+    "dual_grade_rule": "data fit and theory health remain separate; a theory tension cannot be relabeled as a data rejection",
+    "retain_all_failures": true
+  },
+  "claim_boundary": {
+    "establishes": [
+      "six receiver-bearing capture models and two mandatory conservative controls with explicit energy, momentum, angular-momentum and irreversibility ledgers",
+      "exact frozen examples separating true capture from conservative focusing",
+      "a target-blind public TNG hydrodynamic-versus-collisionless falsification plan",
+      "a novel candidate signature: history-conditioned capture and two-timescale persistence at the same instantaneous encounter state"
+    ],
+    "does_not_establish": [
+      "that any new bath exists in nature",
+      "that morphology or clumping alone is evidence of dissipation",
+      "an action-derived covariant gravity theory",
+      "historical novelty of open-system memory kernels",
+      "historical novelty relative to extended-satellite dynamical-friction fits or dissipative-dark-matter cooling and collapse",
+      "a real-data fit or independent confirmation",
+      "that ordinary cooling, shocks, dynamical friction, violent relaxation or feedback have been excluded"
+    ]
+  },
+  "access_contract": {
+    "raw_scientific_source_files": 0,
+    "raw_scientific_response_files": 0,
+    "raw_scientific_rows": 0,
+    "new_real_data_scores": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "artifact_directory": "runs/gravity/open-gravity-dissipative-capture-enlarged-systems-v1/artifacts",
+  "output_path": "runs/gravity/open-gravity-dissipative-capture-enlarged-systems-v1/receipt.json"
+}

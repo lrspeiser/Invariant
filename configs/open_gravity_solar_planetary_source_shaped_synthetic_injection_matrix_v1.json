@@ -1,0 +1,82 @@
+{
+  "schema": "open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-1.0",
+  "package_id": "open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v1",
+  "version": "v1.0.0",
+  "status": "FROZEN_SYNTHETIC_ONLY_PRE_RESPONSE",
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "experiment_id": "solar.planetary-source-shaped-synthetic.v1",
+  "suite_seed": 26083102,
+  "targets": ["EARTH", "JUPITER", "MARS", "MERCURY", "NEPTUNE", "SATURN", "URANUS", "VENUS"],
+  "epochs_centuries_from_j2000": [0.0, 0.041666666666666664, 0.08333333333333333, 0.125, 0.16666666666666666, 0.20833333333333334, 0.25, 0.2916666666666667, 0.3333333333333333, 0.375, 0.4166666666666667, 0.4583333333333333, 0.5],
+  "refined_epochs_centuries_from_j2000": [0.0, 0.020833333333333332, 0.041666666666666664, 0.0625, 0.08333333333333333, 0.10416666666666667, 0.125, 0.14583333333333334, 0.16666666666666666, 0.1875, 0.20833333333333334, 0.22916666666666666, 0.25, 0.2708333333333333, 0.2916666666666667, 0.3125, 0.3333333333333333, 0.3541666666666667, 0.375, 0.3958333333333333, 0.4166666666666667, 0.4375, 0.4583333333333333, 0.4791666666666667, 0.5],
+  "mechanisms": [
+    "GQNS_GLOBAL_D02_INNER",
+    "GQNS_GLOBAL_D05_EIGHT_PLANETS",
+    "GQNS_GLOBAL_D06_MOON_SPLIT",
+    "GQNS_GLOBAL_D07_ASTEROID_RING",
+    "NEWTON_D07_COMPARATOR"
+  ],
+  "source_domains": [
+    "D02_SUN_INNER_BARYCENTERS",
+    "D05_SUN_EIGHT_PLANETS",
+    "D06_MOON_SPLIT",
+    "D07_ASTEROID_RING"
+  ],
+  "noise_families": ["independent-source-fraction", "orbital-phase-correlated", "zero-noise"],
+  "noise": {
+    "fractional_sigma": 0.02,
+    "floor_fraction_of_truth_rms": 0.0001,
+    "correlation_length_epochs": 2.5
+  },
+  "scoring": {
+    "primary_metric": "profiled_whitened_rmse",
+    "secondary_metric": "relative_rmse",
+    "symmetric_nuisance": "one common multiplicative acceleration scale per target and candidate",
+    "winner_absolute_tolerance": 1e-12,
+    "minimum_whitened_gap_for_distinct_signature": 0.1,
+    "pairwise_degeneracy_relative_rms_max": 1e-8,
+    "no_hand_ranking": true
+  },
+  "geometry_mode": "compact-body-point-source",
+  "time_mode": "orbital-phase-static-snapshots",
+  "coordinate_frame": "JPL-approximate-heliocentric-J2000",
+  "parameter_schema_path": "configs/open_gravity_full3d_phangs_synthetic_adapter_empty_parameters_v1.schema.json",
+  "output_directory": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v1",
+  "upstream_bindings": [
+    {"id": "ADAPTER_REGISTRY", "path": "src/sigma_theory_compiler/open_gravity_formula_adapter_registry_v1.py", "sha256": "072fabb1b6804c8f752086b4b1e683cfcaa069938c8e3cf6178fbbc7712b1a56"},
+    {"id": "DATA_ONTOLOGY", "path": "src/sigma_theory_compiler/open_gravity_data_element_ontology_v1.py", "sha256": "067fd440e2ee59af102aa66214a65e3785d92e8a3124b4ea4d5994aa247a323e"},
+    {"id": "DE440_DESCRIPTION_PDF", "path": "work/private/open-gravity-lane6-ephemeris-source-v1/de440_and_de441.pdf", "sha256": "96c3945deb12e0f0843c2bf0703d3542d950cf85ff903b1fe11a501634f68ee0"},
+    {"id": "DE440_PUBLIC_KERNEL", "path": "work/private/open-gravity-lane6-ephemeris-source-v1/de440.bsp", "sha256": "a4ce9bf9b3282becc9f4b2ac3cebe03a2ae7599981aabd7265fd8482fff7c4b5"},
+    {"id": "EMPTY_PARAMETER_SCHEMA", "path": "configs/open_gravity_full3d_phangs_synthetic_adapter_empty_parameters_v1.schema.json", "sha256": "b1efcc659ad02e6d5dbaf72f3a701312dba918b2367ba23d836e95fca88455e1"},
+    {"id": "FORMULA_EXECUTION_PROTOCOL", "path": "src/sigma_theory_compiler/open_gravity_formula_execution_protocol_v1.py", "sha256": "c4777a4471b21ba4d6c1b5264a9ede2ee45aeceb641955bf989c9901e37ee79a"},
+    {"id": "LANE6_SOLAR_V1_CONFIG", "path": "configs/open_gravity_lane6_gqns_solar_source_domain_v1.json", "sha256": "5d6554ba951c4b36861ddd55edccda4b5e3f8e05754b008b94e5779f9bd5737d"},
+    {"id": "LANE6_SOLAR_V1_MODULE", "path": "src/sigma_theory_compiler/open_gravity_lane6_gqns_solar_source_domain_v1.py", "sha256": "a855f86aef81677b3c2a1c4a6ddffa44f6a60978549bd5028dbb121888f04dff"},
+    {"id": "LANE6_SOLAR_V1_RECEIPT", "path": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v1/receipt.json", "sha256": "0e2c62616608499f54687d93c5bee228165bd8f7acaedbd458cbb93bbdabee43"},
+    {"id": "LANE6_SOLAR_V2_CONFIG", "path": "configs/open_gravity_lane6_gqns_solar_source_domain_v2.json", "sha256": "eb4959abc1bf790b8a595bf523f66c14df3acbfef5cf0fb9ee5f39ea248d249a"},
+    {"id": "LANE6_SOLAR_V2_MODULE", "path": "src/sigma_theory_compiler/open_gravity_lane6_gqns_solar_source_domain_v2.py", "sha256": "c343187a4087136f3668df7619f95280188aaf9340d37a7e6aebffdbcdce4cc1"},
+    {"id": "LANE6_SOLAR_V2_RECEIPT", "path": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v2/receipt.json", "sha256": "2e7d05d87897495cd8800008ff83d96540060847e429b7ab9351d9fda6e8fa64"},
+    {"id": "REPLAY_LEDGER", "path": "src/sigma_theory_compiler/open_gravity_synthetic_replay_ledger_v1.py", "sha256": "7173b652b60837eb8391b2e271ff74c815f331f43ecdc23465eff2a850649a0a"},
+    {"id": "SCENARIO_PACKET", "path": "src/sigma_theory_compiler/open_gravity_synthetic_scenario_packet_v1.py", "sha256": "63b074666985f67b6f087aab908c72387f35b2edcaa92438840fbbd3bb45a57c"}
+  ],
+  "adapter_blocks": [
+    {"formula_id": "AQUAL_SIMPLE_MU", "status": "SOURCE_BLOCKED", "reason": "no frozen compact-body multi-source boundary and self-field adapter exists; the galaxy-grid implementation is not silently substituted"},
+    {"formula_id": "DPEL01_DISK_POLAR_ESCAPE_LOAD", "status": "UNADAPTED", "reason": "disk-only geometry is incompatible with compact Solar point bodies"},
+    {"formula_id": "GP01_ELLIPTIC_N2_L035", "status": "SOURCE_BLOCKED", "reason": "the registered cluster density-grid feature set is absent"},
+    {"formula_id": "MASHHOON_RAHVAR_NLG_Q0", "status": "SOURCE_BLOCKED", "reason": "no audited compact-body finite-source/self-field adapter is registered"},
+    {"formula_id": "NFW_SOURCE_MATCHED_CONTROL", "status": "OUT_OF_REGISTERED_DOMAIN", "reason": "a source-matched halo control has no honest Solar compact-body source definition"},
+    {"formula_id": "QUMOND_SIMPLE_NU", "status": "SOURCE_BLOCKED", "reason": "no frozen compact-body multi-source boundary and self-field adapter exists; the galaxy-grid implementation is not silently substituted"},
+    {"formula_id": "REFRACTED_GRAVITY_DISKMASS_MEDIAN", "status": "SOURCE_BLOCKED", "reason": "the registered disk/cluster density and permittivity feature set is absent"}
+  ],
+  "access_contract": {
+    "de440_kernel_bytes_hash_read": 119799808,
+    "de440_state_values_extracted": 0,
+    "lane6_public_source_config_bytes_read": 11017,
+    "observational_response_files_opened": 0,
+    "observational_response_rows_opened": 0,
+    "observational_residual_values_opened": 0,
+    "response_calibrated_parameters": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

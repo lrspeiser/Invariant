@@ -1,0 +1,97 @@
+{
+  "schema": "invariant-open-gravity-rg-things-matched-pair-2d-pixel-score-1.0",
+  "package_id": "open-gravity-rg-things-matched-pair-2d-pixel-score-v1",
+  "status": "FROZEN_PREREGISTERED_MATCHED_PAIR_THINGS_PIXEL_SCORE",
+  "purpose": "Decode the exact frozen THINGS MOM1/MOM2 response maps only after fixed Newtonian and published-median Refracted Gravity 2.5D predictions exist, then retain every support, failure, and low-inclination counterexample.",
+  "admission_rule": {
+    "real_public_response_data_required": true,
+    "primary_measurement_and_method_papers_required": true,
+    "target_free_operator_and_projection_benchmarks_required": true,
+    "newtonian_and_systemic_only_controls_required": true,
+    "missing_data_disposition": "SOURCE_BLOCKED",
+    "paper_only_disposition": "THEORY_BENCHMARK_ONLY",
+    "model_lifted_vertical_structure_disposition": "MODEL_LIFTED_2P5D",
+    "spherical_or_1d_data_cannot_validate_general_3d": true,
+    "one_failure_never_prunes_family": true
+  },
+  "prediction_binding": {
+    "artifacts": [
+      {"path": "configs/open_gravity_rg_things_matched_pair_2d_source_predictions_v1.json", "sha256": "ce675f417980870dcf74cff18d976d1247f160a3f0fa3f1d1773dd146650eee5"},
+      {"path": "src/sigma_theory_compiler/open_gravity_rg_things_matched_pair_2d_source_predictions_v1.py", "sha256": "20b2990ea4b30787b2a7871fefb4b2a414b9645c2e722ac24df591e7953c67cd"},
+      {"path": "tests/test_open_gravity_rg_things_matched_pair_2d_source_predictions_v1.py", "sha256": "09c1177f5cdfa70afcc02404c891ee074193655ee725814de8c1ffaf6eaa8e2b"},
+      {"path": "runs/gravity/open-gravity-rg-things-matched-pair-2d-source-predictions-v1/receipt.json", "sha256": "23e69259c46347888eeb6636d48482de2c5411dce30fa4bed2495e2d93364e5a"},
+      {"path": "work/private/open-gravity-rg-things-matched-pair-2d-source-predictions-v1/manifest.json", "sha256": "7167ea4e23c6d7ee80cde238d361335cdad492d689cfc13ed40fe62f5e41515a"}
+    ],
+    "receipt_content_sha256": "56904cb529c66a22128ab8f1a419a0a2f115321355fc6c3f69c6b03fb3a4bc7e",
+    "manifest_content_sha256": "0d6c541bf9d0a641a7a3f098ef29c5ea85c908d7464c5d00b7d6489fcf1b041d",
+    "array_count": 18,
+    "array_root_sha256": "5216014b614d0b6a5786b4b6bd13d6c14b24d6a3214d6464b9b6fe4642f0c649"
+  },
+  "primary_sources": [
+    {"id": "THINGS_SURVEY_DATA_RELEASE", "url": "https://arxiv.org/abs/0810.2125", "role": "public H I response maps, beam, masking, sensitivity, and release"},
+    {"id": "THINGS_HIGH_RESOLUTION_KINEMATICS", "url": "https://arxiv.org/abs/0810.2100", "role": "velocity-field construction, tilted-ring limitations, and the explicit NGC4214 caveat"},
+    {"id": "REFRACTED_GRAVITY_ORIGINAL", "url": "https://arxiv.org/abs/1603.04943", "role": "published field equation"},
+    {"id": "REFRACTED_GRAVITY_DISKMASS", "url": "https://arxiv.org/html/2003.07377v2", "role": "published fixed universal-median permittivity parameters"}
+  ],
+  "objects": [
+    {"object_id": "NGC2976", "inference_role": "PRIMARY_MATCHED_PAIR_OBJECT", "standard_rotation_curve_claim_allowed": true},
+    {"object_id": "NGC4214", "inference_role": "LOW_INCLINATION_STRESS_TEST_RETAINED", "standard_rotation_curve_claim_allowed": false}
+  ],
+  "response_contract": {
+    "roles": ["HI_MOM1_NATURAL_VELOCITY_FIELD", "HI_MOM2_NATURAL_VELOCITY_DISPERSION"],
+    "expected_files": 4,
+    "expected_bytes": 16974720,
+    "expected_array_slots": 4194304,
+    "unit": "m/s",
+    "mask": "finite MOM1 and MOM2, MOM2>0, fixed source eligibility, positive finite beam-convolved source intensity",
+    "minimum_dispersion_scale_m_s": 3000.0,
+    "dispersion_metric_is_not_measurement_likelihood": true
+  },
+  "score_contract": {
+    "models": ["NEWTON_3D_DST", "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG"],
+    "rotation_sign": "sign of unweighted covariance between observed MOM1 and fixed source major-axis coordinate on the common mask; computed once per object before model losses",
+    "rotation_sign_shared_by_all_models": true,
+    "opposite_sign_control_retained": true,
+    "systemic_velocity": "one unweighted analytic additive offset per object and model",
+    "primary_metric": "unweighted per-pixel velocity RMSE in m/s on the identical common mask",
+    "secondary_metrics": ["unweighted MAE", "median absolute residual", "MOM2-scaled mean squared residual"],
+    "systemic_only_control": "unweighted observed mean on the common mask",
+    "beam_equivalent_count_reported_not_used_for_p_values": true,
+    "response_tuning_calls": 0,
+    "per_model_sign_selection": false,
+    "source_or_geometry_reselection": false,
+    "p_values_computed": false
+  },
+  "interesting_signal_rule": {
+    "primary_object": "NGC2976",
+    "minimum_primary_rmse_fractional_improvement_over_newton": 0.05,
+    "stress_test_direction_must_be_retained_but_not_required": true,
+    "interesting_signal_is_not_theory_confirmation": true,
+    "publication_candidate_requires_additional_objects_and_comparators": true
+  },
+  "scientific_boundary": {
+    "response_files_opened": 4,
+    "response_array_slots_decoded": 4194304,
+    "objects_scored": 2,
+    "models_scored": 2,
+    "model_object_scores": 4,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0,
+    "general_3d_validated": false,
+    "model_lifted_2p5d_only": true
+  },
+  "claim_boundary": {
+    "real_response_scored": true,
+    "fixed_predictions_scored": true,
+    "ngc4214_standard_rotation_curve_valid": false,
+    "dispersion_metric_is_likelihood": false,
+    "gas_dynamics_solved": false,
+    "general_3d_validated": false,
+    "refracted_gravity_confirmed": false,
+    "unique_theory_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-things-matched-pair-2d-pixel-score-v1/receipt.json"
+}

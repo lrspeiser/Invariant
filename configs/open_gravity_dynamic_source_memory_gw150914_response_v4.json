@@ -1,0 +1,40 @@
+{
+  "schema_version":"invariant-open-gravity-dynamic-source-memory-gw150914-response-config-4.0",
+  "analysis_id":"open-gravity-dynamic-source-memory-gw150914-response-v4",
+  "status":"FROZEN_RESPONSE_BLIND_EXACT_NUISANCE_INJECTION_REPAIR",
+  "purpose":"Supersede only the v3 injection/likelihood implementation before strain access: run the exact H1/L1 time-delay grids and correctly normalized profiled Whittle objective; preserve every v2/v3 scientific choice and claim ceiling.",
+  "predecessor":{
+    "v2_config_sha256":"6712fa11b56322eab83bfed82b63dbdcf89815b990fb8f08bafe684cb137d998",
+    "v2_module_sha256":"54eff7d66519bfa1e6773ba56a33dcf2c5322147c76e25285f29ed646b8ca956",
+    "v2_receipt_sha256":"0dd8ac55ee5e0b131c1f94064eae6fd14cc32d8e4d93299bbc67fc10b63608a1",
+    "v3_config_path":"configs/open_gravity_dynamic_source_memory_gw150914_response_v3.json",
+    "v3_config_sha256":"c324bc0db762df24852c185d8771c2a75c554011e59865a90d3a50823657d635",
+    "v3_module_path":"src/sigma_theory_compiler/open_gravity_dynamic_source_memory_gw150914_response_v3.py",
+    "v3_module_sha256":"11be0a626fa7262a2bef11105d313b9c7dc7eff2ddf621f8d55c4437146d2e47",
+    "v3_source_receipt_path":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/source-receipt.json",
+    "v3_source_receipt_sha256":"97eb652dd4261e9ba1850f643299f67bc5ea65575614caf4611e912654238aac",
+    "v3_schema_receipt_path":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/schema-receipt.json",
+    "v3_schema_receipt_sha256":"79bebdc425f0c33010d40fe12d8847562858f11197ec3a3e94aaaa6de831df3a",
+    "v3_injection_receipt_sha256":"d9f735783e96613f73006402e87c7c6db6274712a846add65ee02f450317006c",
+    "v3_injection_status":"SUPERSEDED_BEFORE_STRAIN_ACCESS_FREQUENCY_SHAPE_ONLY_DID_NOT_PROFILE_DECLARED_TIME_GRIDS"
+  },
+  "package":{
+    "module_path":"src/sigma_theory_compiler/open_gravity_dynamic_source_memory_gw150914_response_v4.py",
+    "test_path":"tests/test_open_gravity_dynamic_source_memory_gw150914_response_v4.py",
+    "intent_receipt":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v4/intent-receipt.json",
+    "injection_receipt":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v4/injection-receipt.json",
+    "result_receipt":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v4/result-receipt.json"
+  },
+  "frozen_reuse":"All sources, kernel parameters, normalization, event placement, preprocessing, PSD definition, frequency band, equivalence families, time grids, countermodels, and claim ceilings are inherited byte-for-byte in meaning from v3.",
+  "injection_repair":{
+    "cells":2688,"detectors":["H1","L1"],"noise":"independent unit-variance circular complex Gaussian per retained frequency bin and detector",
+    "signal":"same normalized injected template in both detectors, amplitude network_snr/sqrt(2), injected t0=0 and delta_LH=0",
+    "profile":"for every candidate and cell maximize the analytic complex-amplitude score over all 411 common times and all 83 L1-H1 delays",
+    "fft_correlation":"exact discrete circular frequency correlation on the 32768-point 8-second grid; declared grids are integer sample offsets",
+    "pass_rule":"zero noncausal early-response detections and >=0.90 correct equivalence-family recovery for every injected kernel at network SNR 20"
+  },
+  "whittle_repair":{"fft_scale":"multiply rFFT by dt","delta_2logL":"4*delta_f*abs(sum(d*q_conj/S))^2/sum(abs(q)^2/S)","null":"zero signal","complex_amplitude":"one independent analytic coefficient per detector"},
+  "calibration_diagnostic":{"log_frequency_pivot_hz":100,"amplitude_slope":[-0.05,0.05],"phase_slope_radians":[-0.05,0.05],"role":"stress test only, not a substitute for missing published uncertainty envelopes"},
+  "claim_ceiling":"DEVELOPMENT_DIAGNOSTIC_ONLY_NOT_MEMORY_EVIDENCE",
+  "response_access_at_freeze":{"opaque_payloads_downloaded_and_hashed":2,"HDF_schema_files_opened":2,"DQ_values_read":64,"strain_values_read":0,"real_scores":0,"post_response_tuning":0}
+}

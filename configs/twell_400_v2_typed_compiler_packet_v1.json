@@ -1,0 +1,259 @@
+{
+  "identity": {
+    "schema_version": "invariant-twell-400-v2-typed-compiler-packet-1.0",
+    "packet_id": "TWELL-400-v2-TYPED-COMPILER-PACKET-v1",
+    "semantic_version": "1.1.0",
+    "status": "FROZEN_TARGET_BLIND_EXACT_CELL_COMPILER_REPAIR_ZERO_RESPONSE_ACCESS",
+    "append_only": true,
+    "frozen_before_response_access": true,
+    "created_at_utc": "2026-08-30T00:00:00Z"
+  },
+  "governance_bindings": {
+    "hard_bound": [
+      {
+        "binding_id": "OPEN-GRAVITY-GOAL",
+        "path": "C:/Users/henry/Documents/Codex/2026-08-21/chec/outputs/invariant-open-gravity-discovery-next-session-goal-2026-08-30.md",
+        "sha256": "f083db7acb27896b7ede7dec3e415c7ebf5e3211dd1781699985c120e2db3106",
+        "kind": "GOVERNANCE_DOCUMENT"
+      },
+      {
+        "binding_id": "TIME-WELL-GOAL",
+        "path": "C:/Users/henry/Documents/Codex/2026-08-21/chec/outputs/invariant-time-well-research-goals-2026-08-30.md",
+        "sha256": "94305ae9e037200dabc098781a31ee060f0296719621ee262440efb5060f9d79",
+        "kind": "GOVERNANCE_DOCUMENT"
+      },
+      {
+        "binding_id": "PRIMARY-SOURCE-PRIOR-ART",
+        "path": "configs/open_gravity_primary_source_comparator_contract_v1.json",
+        "sha256": "8cefb8bf6cf737759b646015ecd5f81857ffc8914049a28252557dad47b490a8",
+        "kind": "PRIOR_ART_METADATA"
+      },
+      {
+        "binding_id": "SOURCE-AVAILABILITY",
+        "path": "configs/open_gravity_source_availability_contract_v1.json",
+        "sha256": "b07e0046ded6fba1b93f5efcc56a795dfacf1cdd016f7a2902f9071ecdcce9d7",
+        "kind": "SOURCE_AVAILABILITY_METADATA"
+      }
+    ],
+    "deferred_informational": [
+      {
+        "binding_id": "MECHANISM-CARD-SCHEMA-FINAL",
+        "path": "configs/open_gravity_mechanism_card_v1.schema.json",
+        "status": "PENDING_REGISTRY_AUDIT_RESEAL_NOT_READ_NOT_HASH_BOUND",
+        "may_authorize_campaign": false
+      },
+      {
+        "binding_id": "REGISTRY-FOUNDATION-FINAL-RECEIPT",
+        "path": "configs/open_gravity_registry_foundation_v1.json",
+        "status": "PENDING_AUDIT_RESEAL_NOT_HASH_BOUND",
+        "may_authorize_campaign": false
+      },
+      {
+        "binding_id": "GP01-FOUNDATION-FINAL-RECEIPT",
+        "path": "configs/gravity_gain_persistence_gp01_foundation_v1.json",
+        "status": "PENDING_REPAIR_NOT_READ_NOT_HASH_BOUND",
+        "may_authorize_campaign": false
+      }
+    ],
+    "campaign_manifest_frozen": false,
+    "registry_or_gp01_final_receipt_claimed": false,
+    "mechanism_schema_final_binding_claimed": false
+  },
+  "access_contract": {
+    "allowed_inputs": [
+      "TWO_HASH_BOUND_GOVERNANCE_DOCUMENTS",
+      "DEFERRED_NON_AUTHORIZING_MECHANISM_SCHEMA_PATH_NOT_READ_OR_HASH_BOUND",
+      "HASH_BOUND_PRIMARY_SOURCE_PRIOR_ART_METADATA",
+      "HASH_BOUND_SOURCE_AVAILABILITY_METADATA",
+      "THIS_CONFIG_MODULE_TEST_AND_CARD_STREAM",
+      "FAILED_COMPILER_CARD_STREAM_COUNTEREVIDENCE_NO_SCIENTIFIC_RESPONSES"
+    ],
+    "forbidden_inputs": [
+      "RUNS_GRAVITY_RESULT_RECEIPTS",
+      "ASTRONOMY_RESPONSE_ROWS",
+      "MOTION_RESPONSE",
+      "PRESSURE_RESPONSE",
+      "TEMPERATURE_RESPONSE",
+      "LENSING_RESPONSE",
+      "REDSHIFT_RESPONSE",
+      "INFERRED_TOTAL_MASS",
+      "RESIDUALS",
+      "PARTIAL_RANKINGS",
+      "CONFIRMATION_ROWS",
+      "INDEPENDENT_ROWS"
+    ],
+    "zero_access": {
+      "scientific_response_files_opened": 0,
+      "scientific_response_rows_opened": 0,
+      "development_response_rows_opened": 0,
+      "group_response_rows_opened": 0,
+      "lensing_response_rows_opened": 0,
+      "confirmation_rows_opened": 0,
+      "independent_rows_opened": 0,
+      "scientific_scores_computed": 0,
+      "network_calls": 0,
+      "model_calls": 0,
+      "paid_calls": 0
+    }
+  },
+  "driver_catalog": [
+    {"id":"D01_ACC","name":"baryonic_acceleration","symbol":"g_b","dimension":"L T^-2","reference_value":1e-10,"reference_unit":"m s^-2","normalized_expression":"u=tanh(g_b/g_ref)","source_definition":"baryonic acceleration constructed without motion response","sparc_source_status":"SOURCE_AVAILABLE","xcop_source_status":"SOURCE_AVAILABLE_SPHERICAL_RADIAL_ONLY"},
+    {"id":"D02_POT","name":"baryonic_potential_depth","symbol":"Phi_b","dimension":"L^2 T^-2","reference_value":1e12,"reference_unit":"m^2 s^-2","normalized_expression":"u=tanh(abs(Phi_b)/Phi_ref)","source_definition":"absolute baryonic potential with a declared zero and outer boundary","sparc_source_status":"UNKNOWN_SOURCE_BLOCKED","xcop_source_status":"SOURCE_AVAILABLE_SPHERICAL_RADIAL_ONLY"},
+    {"id":"D03_RAD","name":"source_radius","symbol":"r","dimension":"L","reference_value":1.0,"reference_unit":"kpc","normalized_expression":"u=tanh(r/r_ref)","source_definition":"source-side physical radius","sparc_source_status":"SOURCE_AVAILABLE","xcop_source_status":"SOURCE_AVAILABLE_SPHERICAL_RADIAL_ONLY"},
+    {"id":"D04_RHO","name":"volume_mass_density","symbol":"rho_b","dimension":"M L^-3","reference_value":1e-21,"reference_unit":"kg m^-3","normalized_expression":"u=tanh(rho_b/rho_ref)","source_definition":"three-dimensional baryonic density or explicitly labeled spherical reduction","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_AVAILABLE_SPHERICAL_RADIAL_ONLY"},
+    {"id":"D05_SIG","name":"surface_mass_density","symbol":"Sigma_b","dimension":"M L^-2","reference_value":1.0,"reference_unit":"kg m^-2","normalized_expression":"u=tanh(Sigma_b/Sigma_ref)","source_definition":"baryonic surface density from source model","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_AVAILABLE_DERIVED_SPHERICAL_MODEL_ONLY"},
+    {"id":"D06_SLOPE","name":"source_log_slope","symbol":"s_b","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(-dln(g_b)/dln(r))","source_definition":"logarithmic source-profile slope using a frozen derivative operator","sparc_source_status":"SOURCE_AVAILABLE","xcop_source_status":"SOURCE_AVAILABLE_SPHERICAL_RADIAL_ONLY"},
+    {"id":"D07_TIDE","name":"baryonic_tidal_invariant","symbol":"T_b","dimension":"T^-2","reference_value":1e-30,"reference_unit":"s^-2","normalized_expression":"u=tanh(T_b/T_ref)","source_definition":"square-root contraction of the source Hessian with frozen geometry","sparc_source_status":"SOURCE_INCOMPLETE","xcop_source_status":"SOURCE_AVAILABLE_SPHERICAL_RADIAL_ONLY"},
+    {"id":"D08_BAL","name":"support_balance","symbol":"B","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(B)","source_definition":"independently measured baryonic support-balance invariant","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_INCOMPLETE"},
+    {"id":"D09_FLAT","name":"source_flattening","symbol":"F","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(F)","source_definition":"source-only geometric flattening invariant","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"},
+    {"id":"D10_MULT","name":"source_multipole","symbol":"Q","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(Q)","source_definition":"normalized baryonic multipole invariant","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"},
+    {"id":"D11_EDGE","name":"source_edge_proximity","symbol":"E_r","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(E_r)","source_definition":"distance to a predeclared baryonic edge divided by its source scale","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"},
+    {"id":"D12_ENV","name":"source_environment","symbol":"E_env","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(E_env)","source_definition":"independent source-side environment invariant with no response-derived mass","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"},
+    {"id":"D13_GASF","name":"baryonic_gas_fraction","symbol":"f_gas","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(f_gas)","source_definition":"baryonic gas fraction with frozen shared stellar nuisance","sparc_source_status":"SOURCE_AVAILABLE","xcop_source_status":"SOURCE_AVAILABLE_WITH_SHARED_GLOBAL_STELLAR_NUISANCE"},
+    {"id":"D14_ION","name":"ionization_state","symbol":"I","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(I)","source_definition":"independent source ionization-state invariant","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"},
+    {"id":"D15_COOL","name":"cooling_ratio","symbol":"chi_cool","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(t_cool/t_dyn)","source_definition":"independent cooling-to-dynamical-time ratio; response-derived construction is forbidden","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"FORBIDDEN_RESPONSE_DERIVATION"},
+    {"id":"D16_NTH","name":"nonthermal_source_fraction","symbol":"f_nth","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(f_nth)","source_definition":"independently measured nonthermal baryonic source fraction","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"},
+    {"id":"D17_AGE","name":"source_age_ratio","symbol":"chi_age","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(t_age/t_dyn)","source_definition":"independent source age divided by frozen dynamical scale","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"},
+    {"id":"D18_RELAX","name":"source_relaxation","symbol":"R_relax","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(R_relax)","source_definition":"independent relaxation-state invariant","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"},
+    {"id":"D19_COH","name":"source_coherence","symbol":"C_src","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(C_src)","source_definition":"independent spatial or phase coherence invariant","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"},
+    {"id":"D20_EPOCH","name":"source_epoch","symbol":"z_src","dimension":"1","reference_value":1.0,"reference_unit":"1","normalized_expression":"u=tanh(z_src)","source_definition":"predeclared source epoch coordinate, never a fitted redshift residual","sparc_source_status":"SOURCE_MISSING","xcop_source_status":"SOURCE_MISSING"}
+  ],
+  "architecture_catalog": [
+    {"id":"A01_LAPSE","name":"local_lapse","qg_nodes":["QG01","QG12"],"kind":"EFFECTIVE_LAW","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","A=exp(lambda*u_D)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"}],"initial_conditions":["no dynamical state"],"boundaries":["A=1 when lambda=0"],"source_needs":["local driver"],"probe_id":"P01_EXP_LOCAL","matter_closure":"radial effective acceleration only","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-GR-1916"],"executable_template":true},
+    {"id":"A02_CLOCK","name":"source_clock_rate","qg_nodes":["QG01","QG12"],"kind":"EFFECTIVE_LAW","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","d_tau/d_t=exp(-lambda*u_D)","g_eff=exp(lambda*u_D)*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"}],"initial_conditions":["tau=t on the reference source-free slice"],"boundaries":["d_tau/d_t=1 when lambda=0"],"source_needs":["local driver","declared reference clock"],"probe_id":"P02_CLOCK_LOCAL","matter_closure":"radial clock-rate phenomenology only","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-GR-1916"],"executable_template":true},
+    {"id":"A03_CONFORMAL","name":"conformal_response","qg_nodes":["QG01","QG06"],"kind":"EFFECTIVE_LAW","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","A=1+lambda*u_D","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"}],"initial_conditions":["no dynamical state"],"boundaries":["A=1 when lambda=0"],"source_needs":["local driver"],"probe_id":"P03_LINEAR_LOCAL","matter_closure":"radial conformal-response phenomenology only","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-GR-1916","SRC-RG-COV-2023"],"executable_template":true},
+    {"id":"A04_DISFORMAL","name":"disformal_gradient_response","qg_nodes":["QG06"],"kind":"EFFECTIVE_LAW","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","A=1+lambda*u_D^2/(1+u_D^2)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"}],"initial_conditions":["no dynamical state"],"boundaries":["A=1 when lambda=0"],"source_needs":["local driver"],"probe_id":"P04_QUADRATIC_LOCAL","matter_closure":"radial disformal analogue only; no metric completion","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-EINSTEIN-AETHER-2001"],"executable_template":true},
+    {"id":"A05_SLIP","name":"two_potential_slip","qg_nodes":["QG06"],"kind":"EFFECTIVE_LAW","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","Phi=(1+lambda*u_D/2)*Phi_b","Psi=(1-lambda*u_D/2)*Phi_b","g_eff=(1+lambda*u_D/2)*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"}],"initial_conditions":["no dynamical state"],"boundaries":["Phi=Psi=Phi_b when lambda=0"],"source_needs":["local driver"],"probe_id":"P05_HALF_LINEAR","matter_closure":"radial matter-potential branch only; photon slip quarantined","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-RG-COV-2023"],"executable_template":true},
+    {"id":"A06_SPATIAL_KERNEL","name":"spatial_kernel","qg_nodes":["QG12"],"kind":"FIELD_EQUATIONS","state_mode":"SPATIAL_HISTORY","canonical_expressions":["u_D=DRIVER_NORMALIZATION","q-ell^2*d2q/dxi2=u_D","FD_INTERIOR:-r*q[i-1]+(1+2*r)*q[i]-r*q[i+1]=u[i],r=ell^2/dxi^2","FD_BOUNDARY:q[1]-q[0]=0;q[N-1]-q[N-2]=0","A=exp(lambda*q)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"ell","values":[0.1,0.25],"unit":"normalized_radius"}],"initial_conditions":["elliptic state has no time initial condition"],"boundaries":["dq/dxi=0 at xi=0 and xi=1 using exact first-difference boundary rows"],"source_needs":["ordered source profile","declared normalized spatial domain"],"probe_id":"P06_EXACT_NEUMANN_HELMHOLTZ","matter_closure":"one-dimensional source-kernel phenomenology","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-NONLOCAL-2012"],"executable_template":true},
+    {"id":"A07_BOUNDARY","name":"outer_boundary_accumulation","qg_nodes":["QG12"],"kind":"FIELD_EQUATIONS","state_mode":"SPATIAL_HISTORY","canonical_expressions":["u_D=DRIVER_NORMALIZATION","dq/dxi=-u_D","FROZEN_TRAPEZOID:q[N-1]=0;q[i]=q[i+1]+dxi*(u[i]+u[i+1])/2","q(1)=0","A=exp(lambda*q)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"}],"initial_conditions":["spatial integration starts at the outer boundary"],"boundaries":["q(xi=1)=0 and integrate inward with the frozen trapezoid operator"],"source_needs":["ordered source profile","outer source boundary"],"probe_id":"P07_EXACT_INWARD_TRAPEZOID","matter_closure":"spherical/radial boundary phenomenology only","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-PENNER-2026","SRC-NONLOCAL-2012"],"executable_template":true},
+    {"id":"A08_PERMITTIVITY","name":"source_permittivity","qg_nodes":["QG06","QG12"],"kind":"EFFECTIVE_LAW","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","epsilon=exp(-lambda*u_D)","FROZEN_CONSTANT_CELL_PROXY:A=1/epsilon=exp(lambda*u_D)","g_eff=A*g_b","THEORY_GATE_OBLIGATION_NOT_EXECUTED_HERE:div(epsilon*grad(Phi))=4*pi*G*rho_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"}],"initial_conditions":["constant-cell proxy has no dynamical state"],"boundaries":["A=1 when lambda=0; constant-cell proxy has no spatial boundary"],"source_needs":["local driver"],"probe_id":"P08_EXACT_CONSTANT_CELL_PERMITTIVITY_PROXY","matter_closure":"exact constant-cell radial acceleration proxy A=1/epsilon; full elliptic PDE remains a nonexecuted theory-gate obligation","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-RG-2016","SRC-RG-COV-2023","SRC-AQUAL-1984"],"executable_template":true},
+    {"id":"A09_ENTROPIC","name":"entropic_response","qg_nodes":["QG09"],"kind":"EFFECTIVE_LAW","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","A=1+lambda*u_D/(1+abs(u_D))","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"}],"initial_conditions":["no dynamical state"],"boundaries":["A=1 when lambda=0"],"source_needs":["local driver"],"probe_id":"P09_SATURATING_LOCAL","matter_closure":"entropic-force formula basis without microstate claim","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-JACOBSON-THERMO-1995","SRC-VERLINDE-2011"],"executable_template":true},
+    {"id":"A10_DENSITY_SCREEN","name":"value_screen","qg_nodes":["QG06"],"kind":"EFFECTIVE_LAW","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","S=1/(1+(abs(u_D)/u_c)^n)","A=1+lambda*S","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"u_c","values":[0.25,0.5],"unit":"1"},{"name":"n","values":[2],"unit":"1"}],"initial_conditions":["no dynamical state"],"boundaries":["A tends to 1 as abs(u_D)/u_c tends to infinity"],"source_needs":["local driver"],"probe_id":"P10_VALUE_SCREEN","matter_closure":"screened radial effective acceleration","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-DRGT-2011","SRC-MOG-2016"],"executable_template":true},
+    {"id":"A11_DERIV_SCREEN","name":"derivative_screen","qg_nodes":["QG06"],"kind":"EFFECTIVE_LAW","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","s=abs(du_D/dxi)","FROZEN_DERIVATIVE:s[0]=abs((u[1]-u[0])/dxi);s[N-1]=abs((u[N-1]-u[N-2])/dxi);s[i]=abs((u[i+1]-u[i-1])/(2*dxi))","S=1/(1+(s/s_c)^n)","A=1+lambda*S","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"s_c","values":[0.5,1.0],"unit":"1"},{"name":"n","values":[2],"unit":"1"}],"initial_conditions":["no dynamical state"],"boundaries":["one-sided frozen derivative at domain ends and centered derivative in the interior"],"source_needs":["ordered source profile","frozen derivative operator"],"probe_id":"P11_EXACT_FROZEN_DERIVATIVE_SCREEN","matter_closure":"derivative-screened radial effective acceleration","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-DRGT-2011"],"executable_template":true},
+    {"id":"A12_MASSIVE","name":"finite_range_field","qg_nodes":["QG05"],"kind":"FIELD_EQUATIONS","state_mode":"LOCAL","canonical_expressions":["u_D=DRIVER_NORMALIZATION","d2q/dxi2-mu^2*q=-u_D","FD_INTERIOR:q[i-1]/dxi^2-(2/dxi^2+mu^2)*q[i]+q[i+1]/dxi^2=-u[i]","FD_BOUNDARY:q[1]-q[0]=0;q[N-1]=0","A=1+lambda*q","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"mu","values":[1.0,4.0],"unit":"inverse_normalized_radius"}],"initial_conditions":["elliptic state has no time initial condition"],"boundaries":["dq/dxi=0 at xi=0 by exact first-difference row and q=0 at xi=1"],"source_needs":["ordered source profile","finite-range boundary"],"probe_id":"P12_EXACT_MIXED_BOUNDARY_HELMHOLTZ","matter_closure":"one-dimensional finite-range effective field","gw_closure":"GW0_REQUIRE_DISPERSION_AND_GR_RECOVERY_BEFORE_PROMOTION","prior_art_source_ids":["SRC-FIERZ-PAULI-1939","SRC-DRGT-2011","SRC-MOG-2016"],"executable_template":true},
+    {"id":"A13_MIXED_MODE","name":"mixed_local_nonlocal_modes","qg_nodes":["QG06"],"kind":"FIELD_EQUATIONS","state_mode":"SPATIAL_HISTORY","canonical_expressions":["u_D=DRIVER_NORMALIZATION","q1=u_D","q2-ell^2*d2q2/dxi2=u_D","K_ell is exactly the A06 Neumann finite-difference inverse on xi in [0,1]","A=1+lambda*(cos(theta)*q1+sin(theta)*q2)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"theta","values":[0.0,0.7853981633974483],"unit":"rad"},{"name":"ell","values":[0.25],"unit":"normalized_radius"}],"initial_conditions":["elliptic mixed state has no time initial condition"],"boundaries":["dq2/dxi=0 at xi=0 and xi=1 using exact first-difference boundary rows"],"source_needs":["ordered source profile"],"probe_id":"P13_EXACT_LOCAL_NEUMANN_MIXED_MODE","matter_closure":"radial mixed-mode phenomenology","gw_closure":"GW0_REQUIRE_MODE_SPEEDS_AND_GR_RECOVERY_BEFORE_PROMOTION","prior_art_source_ids":["SRC-EINSTEIN-AETHER-2001","SRC-RG-COV-2023"],"executable_template":true},
+    {"id":"A14_PHASE","name":"spatial_phase","qg_nodes":["QG02","QG12"],"kind":"EFFECTIVE_LAW","state_mode":"PHASE","canonical_expressions":["u_D=DRIVER_NORMALIZATION","theta(xi)=2*pi*k*xi+phi0","A=1+lambda*u_D*cos(theta)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"k","values":[1.0,2.0],"unit":"cycle_per_normalized_radius"},{"name":"phi0","values":[0.0],"unit":"rad"}],"initial_conditions":["theta(0)=phi0"],"boundaries":["xi is the declared normalized radial coordinate"],"source_needs":["ordered source profile","phase anchor"],"probe_id":"P14_PHASE","matter_closure":"radial phase-modulated acceleration only","gw_closure":"GW0_STATIC_PHASE_IS_NOT_A_GRAVITATIONAL_WAVE","prior_art_source_ids":["SRC-GW150914-2016"],"executable_template":true},
+    {"id":"A15_RETARDED","name":"retarded_source","qg_nodes":["QG02","QG12"],"kind":"FIELD_EQUATIONS","state_mode":"RETARDED","canonical_expressions":["u_D=DRIVER_NORMALIZATION","synthetic delay is exactly one frozen time-grid step delta_t with c_g=1","q[0]=0;q[i]=u[i-1] for i>=1","A=exp(lambda*q)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"c_g","values":[1.0],"unit":"c"}],"initial_conditions":["q[0]=0 before the one-step-delayed synthetic source arrives"],"boundaries":["strictly retarded one-step support; no advanced samples"],"source_needs":["time-resolved independent source history or causal simulation"],"probe_id":"P15_EXACT_ONE_STEP_RETARDED","matter_closure":"causal synthetic template only until real source history exists","gw_closure":"GW0_C_G_EQUALS_C_CELL_ONLY_NO_WAVEFORM_CLAIM","prior_art_source_ids":["SRC-GW170817-2017","SRC-NONLOCAL-2012"],"executable_template":true},
+    {"id":"A16_MEMORY","name":"temporal_memory","qg_nodes":["QG12"],"kind":"FIELD_EQUATIONS","state_mode":"TEMPORAL_MEMORY","canonical_expressions":["u_D=DRIVER_NORMALIZATION","tau*dq/dt+q=u_D with u piecewise constant on each frozen interval","q[0]=0;q[i]=u[i]+(q[i-1]-u[i])*exp(-dt/tau)","A=exp(lambda*q)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"tau","values":[0.1,0.5],"unit":"normalized_time"}],"initial_conditions":["q[0]=0"],"boundaries":["no future-source support"],"source_needs":["independently measured source history"],"probe_id":"P16_EXACT_PIECEWISE_CONSTANT_MEMORY","matter_closure":"causal synthetic memory template only","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-NONLOCAL-2012"],"executable_template":true},
+    {"id":"A17_RESONANCE","name":"driven_resonance","qg_nodes":["QG02","QG11"],"kind":"FIELD_EQUATIONS","state_mode":"PHASE","canonical_expressions":["u_D=DRIVER_NORMALIZATION","v[i]=v[i-1]+dt*(omega^2*(u[i]-q[i-1])-2*zeta*omega*v[i-1])","q[i]=q[i-1]+dt*v[i]","A=1+lambda*q","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"omega","values":[1.0],"unit":"inverse_normalized_time"},{"name":"zeta","values":[0.25],"unit":"1"}],"initial_conditions":["q[0]=0 and v[0]=0"],"boundaries":["finite frozen synthetic time grid with no future support"],"source_needs":["ordered source sequence or causal simulation","phase/time anchor"],"probe_id":"P17_EXACT_SYMPLECTIC_EULER_RESONANCE","matter_closure":"driven effective-state phenomenology","gw_closure":"GW0_RESONANCE_IS_NOT_A_TENSOR_WAVE_CLAIM","prior_art_source_ids":["SRC-UNRUH-1981","SRC-GW150914-2016"],"executable_template":true},
+    {"id":"A18_STOCHASTIC","name":"derived_stochastic_state","qg_nodes":["QG08"],"kind":"FIELD_EQUATIONS","state_mode":"STOCHASTIC","canonical_expressions":["u_D=DRIVER_NORMALIZATION","q[0]=0;q[i]=q[i-1]+dt*(u[i]-q[i-1])/tau+sigma_eff*sqrt(dt)*N_seeded[i]","sigma_eff=sigma_cell for atomic cards and sigma_cell*abs(u2[i]) for X19","A=exp(lambda*q)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"tau","values":[0.25],"unit":"normalized_time"},{"name":"sigma","values":[0.0,0.05],"unit":"inverse_sqrt_normalized_time"}],"initial_conditions":["q[0]=0 and deterministic_seed=40020260830"],"boundaries":["fixed finite synthetic time grid and frozen Gaussian draw order"],"source_needs":["local driver","derived noise law independent of response"],"probe_id":"P18_EXACT_SEEDED_EULER_MARUYAMA","matter_closure":"seeded stochastic effective acceleration distribution","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-HU-MATACZ-1995"],"executable_template":true},
+    {"id":"A19_FEEDBACK","name":"bounded_feedback","qg_nodes":["QG06","QG12"],"kind":"FIELD_EQUATIONS","state_mode":"FEEDBACK","canonical_expressions":["u_D=DRIVER_NORMALIZATION","kappa_eff=kappa_cell for atomic cards and kappa_cell*abs(u1) for X20","q=tanh(u_D+kappa_eff*q)","A=exp(lambda*q)","g_eff=A*g_b"],"parameters":[{"name":"lambda","values":[0.0,0.25],"unit":"1"},{"name":"kappa","values":[0.0,0.5],"unit":"1"}],"initial_conditions":["fixed-point iteration starts q0=0"],"boundaries":["select the stable branch reached from q0=0; fail if not converged in 128 steps"],"source_needs":["local driver"],"probe_id":"P19_EXACT_BOUNDED_FEEDBACK","matter_closure":"bounded fixed-point radial phenomenology","gw_closure":"GW0_REQUIRE_GR_RECOVERY_NO_NEW_WAVE_CLAIM","prior_art_source_ids":["SRC-RG-COV-2023"],"executable_template":true}
+  ],
+  "compound_catalog": [
+    {"id":"X01","drivers":["D01_ACC","D06_SLOPE"],"architecture":"A02_CLOCK","operation":"u=clip(u1*(1+u2)/2,-1,1)","operation_id":"C01_SLOPE_GATED_ACC","sparc_override":"SOURCE_BLOCKED_NO_HONEST_SPHERICAL_MASS_HISTORY","xcop_override":"SOURCE_AVAILABLE_WITH_SHARED_MISSING_STELLAR_RULE"},
+    {"id":"X02","drivers":["D17_AGE","D04_RHO"],"architecture":"A02_CLOCK","operation":"u=u1*u2","operation_id":"C02_AGE_DENSITY_PRODUCT","sparc_override":null,"xcop_override":null},
+    {"id":"X03","drivers":["D01_ACC","D11_EDGE"],"architecture":"A07_BOUNDARY","operation":"u=u1*(1-abs(u2))","operation_id":"C03_EDGE_GATED_ACC","sparc_override":null,"xcop_override":null},
+    {"id":"X04","drivers":["D12_ENV","D04_RHO"],"architecture":"A08_PERMITTIVITY","operation":"u=(u1+u2+u1*u2)/3","operation_id":"C04_ENV_DENSITY_MIX","sparc_override":null,"xcop_override":null},
+    {"id":"X05","drivers":["D02_POT","D06_SLOPE"],"architecture":"A01_LAPSE","operation":"u=(u1-u2)/2","operation_id":"C05_POTENTIAL_SLOPE_CONTRAST","sparc_override":null,"xcop_override":null},
+    {"id":"X06","drivers":["D04_RHO","D15_COOL"],"architecture":"A14_PHASE","operation":"u=u1*u2","operation_id":"C06_DENSITY_COOLING_PHASE","sparc_override":null,"xcop_override":null},
+    {"id":"X07","drivers":["D05_SIG","D13_GASF"],"architecture":"A14_PHASE","operation":"u=sign(u1*u2)*sqrt(abs(u1*u2))","operation_id":"C07_SURFACE_GAS_GEOMEAN","sparc_override":null,"xcop_override":null},
+    {"id":"X08","drivers":["D07_TIDE","D09_FLAT"],"architecture":"A04_DISFORMAL","operation":"u=(u1*u2)/(1+abs(u1*u2))","operation_id":"C08_TIDE_FLATTEN_CROSS","sparc_override":null,"xcop_override":null},
+    {"id":"X09","drivers":["D08_BAL","D03_RAD"],"architecture":"A06_SPATIAL_KERNEL","operation":"u=(2*u1+u2)/3","operation_id":"C09_BALANCE_RADIUS_WEIGHT","sparc_override":null,"xcop_override":null},
+    {"id":"X10","drivers":["D01_ACC","D07_TIDE"],"architecture":"A11_DERIV_SCREEN","operation":"u=u1/(1+abs(u2))","operation_id":"C10_TIDE_SCREENED_ACC","sparc_override":null,"xcop_override":null},
+    {"id":"X11","drivers":["D17_AGE","D18_RELAX"],"architecture":"A16_MEMORY","operation":"u=tanh(u1+u2)","operation_id":"C11_AGE_RELAX_MEMORY","sparc_override":null,"xcop_override":null},
+    {"id":"X12","drivers":["D19_COH","D03_RAD"],"architecture":"A17_RESONANCE","operation":"u=u1*cos(pi*u2)","operation_id":"C12_COHERENCE_RADIUS_RESONANCE","sparc_override":null,"xcop_override":null},
+    {"id":"X13","drivers":["D02_POT","D13_GASF"],"architecture":"A08_PERMITTIVITY","operation":"u=(u1+2*u2)/3","operation_id":"C13_POTENTIAL_GAS_PERMITTIVITY","sparc_override":null,"xcop_override":null},
+    {"id":"X14","drivers":["D06_SLOPE","D16_NTH"],"architecture":"A19_FEEDBACK","operation":"u=u1*(1+u2)/2","operation_id":"C14_SLOPE_NONTHERMAL_FEEDBACK","sparc_override":null,"xcop_override":null},
+    {"id":"X15","drivers":["D20_EPOCH","D02_POT"],"architecture":"A15_RETARDED","operation":"u=u2/(1+abs(u1))","operation_id":"C15_EPOCH_RETARDED_POTENTIAL","sparc_override":null,"xcop_override":null},
+    {"id":"X16","drivers":["D20_EPOCH","D12_ENV"],"architecture":"A06_SPATIAL_KERNEL","operation":"u=u1*u2","operation_id":"C16_EPOCH_ENV_KERNEL","sparc_override":null,"xcop_override":null},
+    {"id":"X17","drivers":["D04_RHO","D03_RAD"],"architecture":"A12_MASSIVE","operation":"u=u1/(1+abs(u2))","operation_id":"C17_DENSITY_RADIUS_RANGE","sparc_override":null,"xcop_override":null},
+    {"id":"X18","drivers":["D01_ACC","D02_POT"],"architecture":"A13_MIXED_MODE","operation":"u=(u1+u2)/2","operation_id":"C18_ACC_POT_MIXED_MODE","sparc_override":null,"xcop_override":null},
+    {"id":"X19","drivers":["D10_MULT","D12_ENV"],"architecture":"A18_STOCHASTIC","operation":"u=u1; sigma_eff=sigma_cell*abs(u2)","operation_id":"C19_MULT_ENV_STOCHASTIC","sparc_override":null,"xcop_override":null},
+    {"id":"X20","drivers":["D15_COOL","D13_GASF"],"architecture":"A19_FEEDBACK","operation":"u=u2; kappa_eff=kappa_cell*abs(u1)","operation_id":"C20_COOL_GAS_FEEDBACK","sparc_override":null,"xcop_override":null}
+  ],
+  "compiler_contract": {
+    "artifact_id": "TWELL-400-v2",
+    "atomic_id_template": "TW2-A{architecture_2d}-D{driver_2d}",
+    "atomic_order": "architecture_major_then_driver_minor",
+    "atomic_count": 380,
+    "compound_count": 20,
+    "total_count": 400,
+    "ordered_concept_ids_sha256": "7388f8982c5014ef6c365d00aa780ba2ecb8b8b3f6786658fb3db36b64c29c5f",
+    "card_schema_version": "invariant-open-gravity-mechanism-card-1.0",
+    "card_semantic_version": "2.1.0",
+    "default_photon_closure": "L0_NO_LIGHT_CLAIM",
+    "default_capture_closure": "C0_ISOLATED_CONSERVATIVE",
+    "default_quantum_closure": "Q0_NO_QUANTUM_LAB_CLAIM",
+    "default_cosmology_closure": "COS0_NO_COSMOLOGY_CLAIM",
+    "forbidden_default_invention": true,
+    "campaign_freeze_authority": false,
+    "scientific_score_authority": false,
+    "deterministic_seed": 40020260830,
+    "environment_descriptor": "CPython>=3.11;stdlib-only;IEEE754-binary64;canonical-json-sort-keys-ascii"
+  },
+  "probe_contract": {
+    "fixture_count_per_card": 3,
+    "fixture_grid_points": 33,
+    "fixtures": ["ZERO_SOURCE","SMOOTH_BOUNDED_SOURCE","STEP_BOUNDED_SOURCE"],
+    "required_checks": ["INTERNAL_TYPED_CARD_CONTRACT","COMPUTED_DIMENSION","FINITE","NULL_PARAMETER_GR_LIMIT","COMPUTED_OPERATOR_RESIDUAL","COMPUTED_BOUNDARY_OR_INITIAL_CONDITION","DETERMINISTIC_REPLAY","COMPUTED_ANALYTIC_LIMIT"],
+    "finite_tolerance": 1e-12,
+    "null_limit_tolerance": 1e-12,
+    "feedback_iteration_limit": 128,
+    "feedback_convergence_tolerance": 1e-12,
+    "equivalence_rule": "KNOWN_REWRITE only when canonical symbolic, analytic limits, synthetic probes, and observable closures all hash identically; matching probes alone are EMPIRICALLY_DEGENERATE.",
+    "operator_residual_tolerance": 1e-10,
+    "boundary_residual_tolerance": 1e-10,
+    "target_free_only": true,
+    "expected_concept_parameter_cell_count": 1184,
+    "base_cartesian_parameter_cell_count": 1182,
+    "compound_override_evidence_cell_count": 2
+  },
+  "status_contract": {
+    "card_compiler_statuses": ["READY_FOR_THEORY_GATES","SOURCE_BLOCKED","INCOMPLETE_QUARANTINE"],
+    "ready_rule": "READY_FOR_THEORY_GATES only when the typed card and synthetic probes pass and at least one domain has every declared source input; it is not DATA_ELIGIBLE.",
+    "source_block_rule": "Any absent, incomplete, forbidden-response-derived, or architecture-required history input produces SOURCE_BLOCKED in that domain; never manufacture or substitute it.",
+    "incomplete_rule": "Any missing typed card field, nonfinite probe, failed limit, unknown compound operation, or nonconvergent fixed point produces INCOMPLETE_QUARANTINE.",
+    "retarded_memory_rule": "A15 and A16 remain real-source blocked in SPARC and X-COP because static profiles are not source histories.",
+    "x01_rule": "X01 is only a typed formula here; SPARC is source blocked and X-COP retains the shared missing-stellar rule. No prior result receipt is opened.",
+    "no_promotion_labels_issued": true
+  },
+  "output_contract": {
+    "cards_path": "runs/gravity/twell-400-v2-typed-compiler-packet-v1/cards-repair-v1.jsonl",
+    "receipt_path": "runs/gravity/twell-400-v2-typed-compiler-packet-v1/receipt-repair-v1.json",
+    "cards_format": "one canonical JSON wrapper per line in frozen concept order",
+    "atomic_no_clobber": true,
+    "full_stream_root_algorithm": "sha256(canonical_json(ordered_line_sha256_list))",
+    "section_root_algorithm": "sha256(canonical_json(section_value))",
+    "failed_packet_retained": {
+      "cards_path": "runs/gravity/twell-400-v2-typed-compiler-packet-v1/cards.jsonl",
+      "cards_sha256": "a95d1f426ff53398bb187c08b9c88d54b7a17d6c4cdc5fcaa87a65e64bf4adef",
+      "receipt_path": "runs/gravity/twell-400-v2-typed-compiler-packet-v1/receipt.json",
+      "receipt_sha256": "accebd67c9765e3673fd26cc8154ad4ff5e113f19949aebd7bf2cff2d965702c",
+      "audit_status": "BLOCKED_SUPERSEDED_RETAINED_AS_COUNTEREVIDENCE"
+    }
+  },
+  "claim_boundary": {
+    "typed_formula_bases_compiled": true,
+    "historical_novelty_claimed": false,
+    "scientific_validity_claimed": false,
+    "real_data_eligibility_claimed": false,
+    "campaign_manifest_frozen": false,
+    "registry_final_receipt_bound": false,
+    "gp01_final_receipt_bound": false,
+    "mechanism_schema_final_bound": false,
+    "confirmation_or_independent_authority": false,
+    "limitations": [
+      "The 400 entries are hypothesis formula bases, not 400 validated theories.",
+      "L0_NO_LIGHT_CLAIM and C0_ISOLATED_CONSERVATIVE are quarantine defaults, not derived closures.",
+      "Radial effective laws do not establish a covariant metric, lensing, redshift, wave, quantum, or cosmological theory.",
+      "Source-blocked cards stay visible and may not be replaced with response-derived proxies.",
+      "Registry, mechanism schema, and GP01 final receipts must be rebound after their independent audits pass.",
+      "The blocked pre-repair stream and receipt remain retained and may not authorize campaign use."
+    ],
+    "receipt_decision": "PASS_INTERIM_TWELL_400_V2_EXACT_CELL_COMPILER_DEFERRED_BINDINGS_ZERO_RESPONSE_ACCESS_NO_CAMPAIGN_AUTHORITY"
+  },
+  "section_seals": {
+    "identity": "2226ed957cf07d488d52c9a173a9e67ef8b36b4c5d4a2c19d2c6ee02c5f5c523",
+    "governance_bindings": "b7adec8590d170daa30bec46e2d17f327db7a1357da267061ed34c027396ecff",
+    "access_contract": "607afdcf2e62ced547ac671291f2e475eddac3adc39c8fb55226d97612646c54",
+    "driver_catalog": "484fec5c2097c72ae30ce68d85c87f1145ab0d37e03e311af29435de31ffde3e",
+    "architecture_catalog": "9a7b1b7620fbeb69c3b2a45f4113b879dc7a0d9dcd0670d3c2b3a94bab0c5d1a",
+    "compound_catalog": "90c6d9ed9fc52fe710fe440ed2983ee4895d6866df1140180675ba5d188c89ab",
+    "compiler_contract": "5a1c2e00aae1475306da715d2c13a23c4b6a98b4313d4898cd2d0dd38b59c372",
+    "probe_contract": "10f39260b2fc1e1939948463c9eac3bfed80f084da4568ad7a2aa9de7b1bb88c",
+    "status_contract": "f706c53f57ce7d1903022d10db3d48faf729158067d9f54009f20cfdd86d6740",
+    "output_contract": "1a5f9c1e24a3c57d0a132548e4338a14ece7374638584401640a8ff1edd3c556",
+    "claim_boundary": "6d5db8a1e0b17ab76c558856d23b08abd2b7b14934ccda5da06c15cc42d8bf03",
+    "unsealed_root_sha256": "c3bc95a6059eecd20c7a1ecde2bbd0014b211c5779fed8580498f472b2a034ae"
+  }
+}

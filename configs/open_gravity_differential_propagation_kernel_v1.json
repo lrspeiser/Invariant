@@ -1,0 +1,202 @@
+{
+  "schema_version": "invariant-open-gravity-differential-propagation-kernel-config-1.0",
+  "analysis_id": "open-gravity-differential-propagation-kernel-v1",
+  "status": "THEORY_AND_TARGET_FREE_SYNTHETIC_ONLY_REAL_BENCHMARKS_FROZEN_NOT_FIT",
+  "purpose": "Test whether a gravitational influence with speed, dispersion, and attenuation distinct from photons and local matter can produce identifiable causal observables, while exposing the exact stationary-source limit and the applicability of existing GW, Solar-System, and binary constraints.",
+  "package": {
+    "module_path": "src/sigma_theory_compiler/open_gravity_differential_propagation_kernel_v1.py",
+    "test_path": "tests/test_open_gravity_differential_propagation_kernel_v1.py",
+    "output_path": "runs/gravity/theory/open-gravity-differential-propagation-kernel-v1.json"
+  },
+  "law": {
+    "field_equation": "d_t^2 Phi + 2 Gamma d_t Phi - c_g^2 Laplacian(Phi) + c_g^2 mu^2 Phi + c_g^2 zeta/k_star^2 Laplacian^2(Phi) = -4 pi G c_g^2 rho",
+    "fourier_denominator": "D(k,omega)=-omega^2-2 i Gamma omega+c_g^2(k^2+mu^2+zeta k^4/k_star^2)",
+    "source_transfer": "Phi/rho=-4 pi G c_g^2/D(k,omega)",
+    "radiative_wavenumber": "q=k^2 is the root continuous at zeta->0 of zeta q^2/k_star^2+q+mu^2-(omega^2+2 i Gamma omega)/c_g^2=0; choose sqrt(q) with Im(k)>=0",
+    "photon_control": "k_gamma=omega/c and t_gamma=D/c",
+    "matter_control": "Matter uses the same coordinate clock t and responds locally through d_t^2 x=-grad(Phi); no c_g, Gamma, mu, or zeta is inserted into photon or matter kinematics.",
+    "parameters": {
+      "c_g": "positive gravity characteristic speed",
+      "Gamma": "nonnegative local damping rate; an open-system bath is mandatory when nonzero",
+      "mu": "nonnegative inverse range, equal to m_g c/hbar only for a tensor massive-graviton interpretation",
+      "zeta": "nonnegative quartic spatial-dispersion coefficient",
+      "k_star": "positive EFT reference wavenumber"
+    }
+  },
+  "assumptions": {
+    "clock": "A single asymptotic observer clock labels source, gravity, photon, and matter observables. This is required before a speed or delay comparison is meaningful.",
+    "source": "rho is a prescribed source; source generation and radiation reaction are not derived.",
+    "linearity": "The packet is a linear scalar transfer-kernel benchmark, not a covariant tensor completion of gravity.",
+    "conservation": "For Gamma=0 and positive c_g^2, mu^2, zeta, k_star^2 the free-field quadratic energy is positive and conserved. For Gamma>0 field energy decreases; total conservation requires an explicit bath not present in this packet.",
+    "causality": "At zeta=0 the local hyperbolic front speed is c_g. At zeta>0 the continuum k^4 branch has no finite front-speed claim and is admitted only below an EFT cutoff.",
+    "gr_limit": "c_g=c, Gamma=mu=zeta=0 recovers a luminal massless retarded scalar kernel and its Poisson near-zone limit, but not the tensor polarizations or nonlinear dynamics of full GR."
+  },
+  "derived_observables": [
+    {
+      "id": "O1_COMMON_SOURCE_ARRIVAL_DELAY",
+      "definition": "Delta t_g_gamma(omega,D)=D*d Re(k_g)/d omega-D/c plus an unknown intrinsic emission offset",
+      "invariant_use": "Frequency differences cancel any frequency-independent source offset."
+    },
+    {
+      "id": "O2_PROPAGATION_PHASE_CURVATURE",
+      "definition": "Delta Psi(omega,D)=D*Re(k_g(omega))-omega*D/c after removing constant and linear phase",
+      "invariant_use": "Nonlinear frequency curvature cannot be absorbed into one emission time and one phase."
+    },
+    {
+      "id": "O3_ATTENUATION_SLOPE",
+      "definition": "A_g/A_control=exp[-D*Im(k_g(omega))] after source-amplitude and geometric-distance calibration",
+      "invariant_use": "Frequency dependence is more identifiable than a single absolute amplitude."
+    },
+    {
+      "id": "O4_SOURCE_FORCE_CROSS_PHASE",
+      "definition": "arg[-4 pi G c_g^2/D(k,omega)] between a measured changing source mode and its local acceleration response",
+      "invariant_use": "Requires a source-history tracer and force-response tracer on the same clock."
+    }
+  ],
+  "theorems_and_falsifiers": {
+    "static_invariance": "At omega=0, Gamma drops out. With mu=zeta=0, Phi/rho=-4 pi G/k^2 exactly, independent of c_g. Propagation speed alone therefore cannot enhance a stationary galaxy or cluster force.",
+    "positive_energy": "The conservative free energy density is [(d_t Phi)^2/c_g^2+|grad Phi|^2+mu^2 Phi^2+zeta(Laplacian Phi)^2/k_star^2]/(8 pi G).",
+    "pole_stability": "At fixed k and zeta>=0, mu>=0, c_g>0, Gamma>=0, the Laplace poles have nonpositive real parts; a zero mode occurs only for k=mu=0.",
+    "attenuation_conservation": "Gamma>0 without a declared bath fails the closed-system conservation gate; it is labeled rather than deleted.",
+    "quartic_front": "zeta>0 fails a finite-front-speed claim in the continuum because omega/k grows without bound at large k; it remains an EFT-cutoff branch.",
+    "arrival_speed": "Any universal radiative branch outside the frozen GW170817 fractional speed interval is falsified under the stated simultaneous-emission assumptions.",
+    "mass": "Any tensor massive-graviton interpretation above the frozen 2026 90% upper limit is falsified; the same number cannot be applied automatically to a screened nonradiative scalar sector.",
+    "solar": "The exact stationary Solar-System field passes the Newtonian limit, but moving-body aberration and PPN predictions are not available without a covariant metric/vector completion.",
+    "binary": "Binary damping cannot be claimed from the propagation kernel alone because emission normalization and radiation reaction are absent; the observed GR agreement is a mandatory future completion gate."
+  },
+  "target_free_injections": [
+    {
+      "id": "INJ_CONSERVATIVE_DISPERSIVE",
+      "c_g": 0.83,
+      "Gamma": 0.0,
+      "mu": 0.07,
+      "zeta": 0.18,
+      "k_star": 3.0,
+      "distance": 5.0,
+      "frequencies": [0.9, 1.15, 1.45, 1.8, 2.2]
+    },
+    {
+      "id": "INJ_ATTENUATING_SUPERLUMINAL",
+      "c_g": 1.12,
+      "Gamma": 0.012,
+      "mu": 0.04,
+      "zeta": 0.0,
+      "k_star": 3.0,
+      "distance": 7.0,
+      "frequencies": [0.8, 1.0, 1.3, 1.7, 2.1]
+    }
+  ],
+  "recovery_grid_fractional_offsets": {
+    "c_g": [-0.08, 0.0, 0.08],
+    "Gamma": [-0.5, 0.0, 0.5],
+    "mu": [-0.4, 0.0, 0.4],
+    "zeta": [-0.5, 0.0, 0.5]
+  },
+  "recovery_zero_scales": {
+    "Gamma": 0.01,
+    "mu": 0.05,
+    "zeta": 0.1
+  },
+  "frozen_published_benchmarks": [
+    {
+      "id": "GW170817_GRB170817A_SPEED",
+      "value": {"delay_seconds": 1.74, "delay_sigma_seconds": 0.05, "delta_c_over_c_min": -3e-15, "delta_c_over_c_max": 7e-16},
+      "source": "LIGO-P1700308-v8; Astrophysical Journal Letters 848 L13 (2017); doi:10.3847/2041-8213/aa920c",
+      "url": "https://dcc.ligo.org/P1700308/public",
+      "scope": "Applies to the universal radiative mode under the paper's emission-delay assumptions."
+    },
+    {
+      "id": "GWTC3_IMPROVED_DISPERSION_2026",
+      "value": {"graviton_mass_90pct_upper_eV_c2": 2.21e-23},
+      "source": "Baka et al., Physical Review D 113, 064064 (2026); doi:10.1103/bgvh-c1wj",
+      "url": "https://doi.org/10.1103/bgvh-c1wj",
+      "scope": "Applies when mu is interpreted as a tensor graviton mass in the tested propagation model."
+    },
+    {
+      "id": "B1913_ORBITAL_DECAY",
+      "value": {"observed_to_gr_ratio": 0.9983, "sigma": 0.0016},
+      "source": "Weisberg and Huang, Astrophysical Journal 829, 55 (2016); arXiv:1606.02744",
+      "url": "https://arxiv.org/abs/1606.02744",
+      "scope": "Mandatory generation/backreaction control; not directly scoreable by a propagation-only kernel."
+    },
+    {
+      "id": "DOUBLE_PULSAR_QUADRUPOLE_DAMPING",
+      "value": {"fractional_validation_95pct": 0.00013},
+      "source": "Kramer et al., Physical Review X 11, 041050 (2021); doi:10.1103/PhysRevX.11.041050",
+      "url": "https://doi.org/10.1103/PhysRevX.11.041050",
+      "scope": "Mandatory strong-field radiation-reaction control; not directly scoreable by a propagation-only kernel."
+    }
+  ],
+  "public_data_preflight": {
+    "state": "SOURCE_READY_NOT_OPENED_BY_BUILDER",
+    "dataset": "GWOSC GW170817-v1 strain data",
+    "dataset_doi": "10.7935/K5B8566F",
+    "event_uid": "GW170817-v1",
+    "event_gps": 1187008882.4,
+    "exact_product": "4096-second 4096-Hz HDF5 calibrated strain before noise subtraction for H1, L1, and V1",
+    "catalog_url": "https://gwosc.org/eventapi/html/O1_O2-Preliminary/GW170817/v1/",
+    "license": "CC BY 4.0",
+    "required_acquisition_receipt": [
+      "resolved direct URL for each HDF5 object",
+      "download timestamp and byte count",
+      "SHA-256 for each file",
+      "HDF5 channel, GPS start, duration, sample rate, and data-quality masks",
+      "explicit L1 C00 glitch handling frozen before any fit",
+      "response-blind injection settings and phase-curvature prediction hash"
+    ],
+    "next_empirical_run": "Acquire and hash the three exact GWOSC HDF5 objects, reproduce the public GR control waveform/arrival result, freeze a propagation-only phase-curvature grid, then score without changing the grid."
+  },
+  "novelty_neighbors": [
+    {
+      "work": "Mirshekari, Yunes, and Will, Physical Review D 85, 024041 (2012)",
+      "doi": "10.1103/PhysRevD.85.024041",
+      "overlap": "Generic modified GW dispersion and waveform dephasing."
+    },
+    {
+      "work": "Nishizawa, Physical Review D 97, 104037 (2018)",
+      "doi": "10.1103/PhysRevD.97.104037",
+      "overlap": "Generalized speed, mass, friction, and source terms in GW propagation."
+    },
+    {
+      "work": "Belgacem et al., Physical Review D 97, 104066 (2018)",
+      "doi": "10.1103/PhysRevD.97.104066",
+      "overlap": "Modified GW amplitude damping and luminosity distance."
+    },
+    {
+      "work": "Baka et al., Physical Review D 113, 064064 (2026)",
+      "doi": "10.1103/bgvh-c1wj",
+      "overlap": "Current group-velocity modified-dispersion inference on GWTC-3."
+    }
+  ],
+  "branch_catalog": [
+    {"id": "GR_KERNEL_CONTROL", "delta_c_over_c": 0.0, "graviton_mass_eV_c2": 0.0, "Gamma": 0.0, "zeta": 0.0, "interpretation": "UNIVERSAL_RADIATIVE"},
+    {"id": "UNIVERSAL_SLOW_1E12", "delta_c_over_c": -1e-12, "graviton_mass_eV_c2": 0.0, "Gamma": 0.0, "zeta": 0.0, "interpretation": "UNIVERSAL_RADIATIVE"},
+    {"id": "UNIVERSAL_FAST_1E12", "delta_c_over_c": 1e-12, "graviton_mass_eV_c2": 0.0, "Gamma": 0.0, "zeta": 0.0, "interpretation": "UNIVERSAL_RADIATIVE"},
+    {"id": "UNIVERSAL_SLOW_1E16", "delta_c_over_c": -1e-16, "graviton_mass_eV_c2": 0.0, "Gamma": 0.0, "zeta": 0.0, "interpretation": "UNIVERSAL_RADIATIVE"},
+    {"id": "UNIVERSAL_MASS_1E22", "delta_c_over_c": 0.0, "graviton_mass_eV_c2": 1e-22, "Gamma": 0.0, "zeta": 0.0, "interpretation": "UNIVERSAL_RADIATIVE_TENSOR_MASS"},
+    {"id": "SCREENED_SLOW_MEMORY", "delta_c_over_c": -0.99, "graviton_mass_eV_c2": 0.0, "Gamma": 0.0, "zeta": 0.0, "interpretation": "SCREENED_NONRADIATIVE_SECTOR"},
+    {"id": "LOSSY_WITHOUT_BATH", "delta_c_over_c": 0.0, "graviton_mass_eV_c2": 0.0, "Gamma": 0.01, "zeta": 0.0, "interpretation": "UNIVERSAL_RADIATIVE"},
+    {"id": "QUARTIC_EFT", "delta_c_over_c": 0.0, "graviton_mass_eV_c2": 0.0, "Gamma": 0.0, "zeta": 0.1, "interpretation": "UNIVERSAL_RADIATIVE_EFT_CUTOFF_REQUIRED"}
+  ],
+  "claim_boundary": {
+    "causal_retarded_kernel_derived": true,
+    "target_free_injection_recovery_passed": true,
+    "static_speed_only_enhancement_falsified": true,
+    "published_benchmarks_frozen_not_fit": true,
+    "real_observational_rows_scored": false,
+    "covariant_tensor_completion": false,
+    "solar_moving_body_prediction": false,
+    "binary_radiation_reaction_prediction": false,
+    "galaxy_or_cluster_anomaly_explained": false,
+    "historical_novelty_established": false,
+    "publication_ready": false
+  },
+  "access_ledger": {
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "real_scores_computed": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

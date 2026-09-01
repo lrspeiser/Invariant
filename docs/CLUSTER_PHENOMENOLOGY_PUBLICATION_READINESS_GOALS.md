@@ -821,6 +821,17 @@ but it still excludes metric, aether, matter, constraints, loops, and higher ope
 it is not a physical cutoff, tree-unitarity bound, or strong-coupling theorem. No data
 were opened, CP11.4 and CP11.6 remain open, and no CP11 checkbox is advanced.
 
+The exact-Taylor-domain successor then removes the remaining concern that this endpoint
+behavior might be created solely by stopping at fourth order. For the full fixed-metric,
+fixed-aether scalar density it locates the nearest longitudinal zero-gradient kink and
+outer `p/K` pole, together with the transverse complex square-root branch and outer pole.
+After canonical normalization, both the longitudinal and transverse gradient radii
+collapse as `s->0` and `s->1/2`; the previously derived quartic scales have the same
+endpoint powers. This is an exact local scalar-jet analyticity result, not a physical
+frequency or energy cutoff, a multivariate coupled-domain proof, a unitarity result, or
+a no-go theorem. No data were opened, CP11.4 and CP11.6 remain open, and no CP11 checkbox
+is advanced.
+
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.
 - [x] **CP11.3** Derive energy-momentum conservation and constraint propagation.

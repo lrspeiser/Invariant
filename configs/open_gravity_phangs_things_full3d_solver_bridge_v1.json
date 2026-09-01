@@ -1,0 +1,143 @@
+{
+  "schema": "invariant-open-gravity-phangs-things-full3d-solver-bridge-1.0",
+  "package_id": "open-gravity-phangs-things-full3d-solver-bridge-v1",
+  "status": "RESPONSE_BLIND_REAL_SOURCE_FULL3D_SOLVER_PREFLIGHT_DEVELOPMENT_ONLY",
+  "purpose": "Apply independently published and target-free benchmarked Newton, AQUAL, and QUMOND solvers to the same frozen model-lifted three-dimensional baryonic source reconstructions for three development-only galaxies, before opening any kinematic response.",
+  "admission_rule": "A new source conversion, three-dimensional lift, boundary condition, or gravity operator is admitted only when a public source dataset and a primary-paper or analytic benchmark can falsify it. Passing this package validates the source-to-field implementation only; it does not establish an observational fit.",
+  "predecessor_bindings": {
+    "source_builder": {
+      "commit": null,
+      "promotion_authority": false,
+      "reason": "The exact mutation-frozen builder packet is present but uncommitted; this bridge is development-only and cannot authorize scoring until that predecessor is independently promoted.",
+      "artifacts": [
+        {"path": "configs/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.json", "sha256": "9360749f561fbe783d7a21d1b179ab947fa2f29214bb4425495dddd3f7465ede"},
+        {"path": "src/sigma_theory_compiler/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py", "sha256": "32c92d615c302426738ea8374657448f14861eee9ea117fcf2059fa9f41bda1c"},
+        {"path": "tests/test_open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py", "sha256": "a90f1c45575320c85a751e41ebe26381ca2caa25953a4bf4d156de3f1b15afbb"},
+        {"path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-source-builder-v1/receipt.json", "sha256": "18c7d20b1ff7413edbd1b0b9277c53e6cbe4d9d05b4bcf55a8c70bc054f8ea82"}
+      ],
+      "receipt_content_sha256": "422df42eb1134620ee5941d5259ac9bc8fc156f3ee59f30cbdd19f98f8d0e004"
+    },
+    "solver_baseline": {
+      "commit": "fe9d3da6233827fdf8ac624fe6223bf629293454",
+      "artifacts": [
+        {"path": "configs/open_gravity_3d_newton_aqual_qumond_baselines_v1.json", "sha256": "cf2e19a8e19d73f855e3efcbff514098ffed07a578187e94f9b7a6b66a8a51d0"},
+        {"path": "src/sigma_theory_compiler/open_gravity_3d_newton_aqual_qumond_baselines_v1.py", "sha256": "5aeed2d338e995f934407df4590272197344666c593bb137bd445a83a1335f2c"},
+        {"path": "tests/test_open_gravity_3d_newton_aqual_qumond_baselines_v1.py", "sha256": "ed1766ba127be0149132920e8c8fba5678a1427c3ea5c160e3065008725a2cef"},
+        {"path": "runs/gravity/open-gravity-3d-newton-aqual-qumond-baselines-v1/receipt.json", "sha256": "b0e84fe4323838d8687384b9ca6a2db63b401d5584a369521e29316906582fdb"}
+      ],
+      "receipt_content_sha256": "2e6295a79d2871c80917adf885ccf417f49ed3217b4e383ad1a6ae911948289e"
+    }
+  },
+  "real_source_anchors": [
+    {"id": "S4G_P5_STELLAR", "url": "https://arxiv.org/abs/1410.0009", "role": "ICA-cleaned stellar surface-brightness, colour, and mask products"},
+    {"id": "S4G_MASS_TO_LIGHT", "url": "https://arxiv.org/abs/1402.5210", "role": "published 3.6 micron mass-to-light conversion and fixed-0.6 control"},
+    {"id": "THINGS_HI", "url": "https://arxiv.org/abs/0810.2125", "role": "atomic-gas integrated-intensity source maps and beam metadata"},
+    {"id": "PHANGS_ALMA_CO21", "url": "https://arxiv.org/abs/2104.07739", "role": "molecular-gas moment and uncertainty source maps"}
+  ],
+  "published_solver_anchors": [
+    {"id": "FREEMAN_DISK", "url": "https://articles.adsabs.harvard.edu/pdf/1970ApJ...160..811F", "role": "analytic thin exponential-disk Newtonian field benchmark"},
+    {"id": "CASERTANO_THICK_DISK", "url": "https://doi.org/10.1093/mnras/203.3.735", "role": "finite-thickness Newtonian disk ordering benchmark"},
+    {"id": "AQUAL", "url": "https://articles.adsabs.harvard.edu/pdf/1984ApJ...286....7B", "role": "nonlinear flux-form field equation and isolated/external-field limits"},
+    {"id": "QUMOND", "url": "https://arxiv.org/abs/0911.5464", "role": "two-Poisson-solve field equation and spherical relation"},
+    {"id": "AQUAL_QUMOND_EFE", "url": "https://arxiv.org/abs/2201.02109", "role": "published numerical evidence that the theories differ for nonspherical sources and external fields"}
+  ],
+  "objects": ["NGC2903", "NGC3351", "NGC3627"],
+  "source_cell": {
+    "beam": "ROBUST_PRIMARY",
+    "stellar_mass_to_light": "FIXED_0P6",
+    "co_source": "WITH_CO",
+    "stellar_height_over_exponential_scale": 0.136986301369863,
+    "gas_height_pc": 200.0,
+    "selection_rule": "Use the source builder's preregistered primary cell for every object; do not select a source systematic using a kinematic response."
+  },
+  "volume_contract": {
+    "coordinate_frame": "right-handed disk Cartesian coordinates",
+    "source_surface_box_kpc": 40.0,
+    "solver_half_box_kpc": 30.0,
+    "primary_nodes_per_axis": 25,
+    "convergence_nodes_per_axis": 21,
+    "surface_mass_deposition": "assign every source-map pixel mass to the nearest interior x-y solver node",
+    "vertical_mass_deposition": "analytically integrate rho=Sigma*sech^2(z/h)/(2h) over each solver slab and renormalize only for finite-box roundoff",
+    "boundary_nodes_have_zero_source": true,
+    "mass_conservation_is_exactly_audited": true,
+    "dimensionality_label": "MODEL_LIFTED_2P5D_SOURCE_IN_A_FULL_3D_FIELD_SOLVER",
+    "direct_volumetric_observation_claim": false
+  },
+  "normalization_contract": {
+    "a0_m_s2": 1.2e-10,
+    "G_pc_km2_s2_msun": 0.00430091727003628,
+    "pc_m": 3.085677581491367e16,
+    "length_scale_pc": 30000.0,
+    "potential_scale": "a0*length_scale",
+    "density_scale": "rho_dimensionless=G*rho_physical*length_scale/a0",
+    "mass_scale": "M_dimensionless=G*M_physical/(a0*length_scale^2)",
+    "equation_units": "G=a0=1 in the inherited finite-volume solvers"
+  },
+  "boundary_contract": {
+    "newton": "finite-box spherical-monopole Dirichlet boundary from the deposited total baryonic mass",
+    "aqual_and_qumond": "finite-box spherical simple-mu MOND boundary obtained by integrating g=nu(g_N/a0)*g_N on the cube boundary",
+    "radial_integral_samples": 100000,
+    "outer_potential_reference": "zero at the most distant cube corner; additive constant has no force meaning",
+    "limitation": "The boundary is a preregistered far-field monopole approximation, not a response-fitted environment or an infinite-domain proof."
+  },
+  "solver_contract": {
+    "operators": ["NEWTON", "AQUAL_SIMPLE_MU", "QUMOND_SIMPLE_NU"],
+    "mu": "mu(x)=x/(1+x)",
+    "nu": "nu(y)=1/2+sqrt(1/4+1/y)",
+    "aqual_damping": 0.5,
+    "aqual_max_iterations": 500,
+    "aqual_delta_tolerance": 1e-8,
+    "aqual_residual_tolerance": 2e-7,
+    "aqual_mu_floor": 1e-6,
+    "qumond_nu_floor": 1e-6,
+    "radial_profile_radii_kpc": [5.0, 10.0, 15.0],
+    "azimuth_samples": 48,
+    "same_density_grid_for_every_operator": true,
+    "response_tuning_forbidden": true
+  },
+  "gate_contract": {
+    "source_builder_benchmarks_must_all_pass": true,
+    "solver_baseline_benchmarks_must_all_pass": true,
+    "dimensionless_mass_relative_error_max": 1e-12,
+    "source_mass_relative_error_max": 2e-9,
+    "linear_relative_residual_max": 1e-12,
+    "aqual_relative_residual_max": 2e-7,
+    "aqual_must_converge": true,
+    "primary_vs_convergence_radial_relative_difference_max": 0.08,
+    "radial_acceleration_must_be_finite_positive": true,
+    "failure_policy": "Any source, unit, mass, boundary, residual, or convergence failure is retained as a counterexample and blocks response scoring; thresholds may not be repaired from response values."
+  },
+  "output_contract": {
+    "public_receipt": "runs/gravity/open-gravity-phangs-things-full3d-solver-bridge-v1/receipt.json",
+    "private_field_cubes": "work/private/open-gravity-phangs-things-full3d-solver-bridge-v1/field-cubes-v1.json",
+    "private_fields": ["density_dimensionless", "newton_potential_dimensionless", "aqual_potential_dimensionless", "qumond_potential_dimensionless"],
+    "public_fields": ["source masses", "solver residuals", "convergence deltas", "fixed-radius source-only radial accelerations", "field hashes"]
+  },
+  "scientific_boundary": {
+    "source_files_opened_per_build": 21,
+    "source_bytes_opened_per_build": 74030400,
+    "response_files_opened": 0,
+    "response_rows_opened": 0,
+    "response_values_opened": 0,
+    "scores_computed": 0,
+    "parameters_fit": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "development_only": true
+  },
+  "claim_boundary": {
+    "real_source_maps_compiled_to_full3d_density": true,
+    "published_newton_aqual_qumond_operators_applied_on_same_grid": true,
+    "source_to_field_numerical_gates_tested": true,
+    "direct_3d_density_observed": false,
+    "kinematic_fit_tested": false,
+    "observational_preference_established": false,
+    "full_source_systematic_grid_solved": false,
+    "external_environment_included": false,
+    "lensing_closure_established": false,
+    "relativistic_completion_established": false,
+    "novelty_established": false,
+    "publication_ready": false
+  }
+}

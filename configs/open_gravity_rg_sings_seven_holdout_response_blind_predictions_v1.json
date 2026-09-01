@@ -1,0 +1,118 @@
+{
+  "schema": "invariant-open-gravity-rg-sings-seven-holdout-response-blind-predictions-1.0",
+  "package_id": "open-gravity-rg-sings-seven-holdout-response-blind-predictions-v1",
+  "status": "FROZEN_RESPONSE_BLIND_FOUR_LAW_FORWARD_PREDICTION_BUILD",
+  "purpose": "Generate Newton, empirical RAR, standard-MOND, and fixed published DiskMass Refracted Gravity radial predictions for every successfully built seven-holdout source cell before any velocity response is opened.",
+  "predecessor_bindings": [
+    {
+      "role": "SEVEN_HOLDOUT_SOURCE_BUILDER",
+      "artifacts": [
+        {"path": "configs/open_gravity_rg_sings_seven_holdout_model_lifted_3d_source_builder_v1.json", "sha256": "fb2f16d3708ee52abd53315ae0562e443fa3f5520a86afc9f2e6fffb98f6ee4b"},
+        {"path": "src/sigma_theory_compiler/open_gravity_rg_sings_seven_holdout_model_lifted_3d_source_builder_v1.py", "sha256": "c1cfd7e614f68f68ec8dc1845287be2c542859052dcf26d62397cca820c895c8"},
+        {"path": "tests/test_open_gravity_rg_sings_seven_holdout_model_lifted_3d_source_builder_v1.py", "sha256": "5608dfaf0d31530fd9ee85af0cdd27912158a4b9966adc497992beaad4cdd912"},
+        {"path": "runs/gravity/open-gravity-rg-sings-seven-holdout-model-lifted-3d-source-builder-v1/receipt.json", "sha256": "e7343abdeec6fc89edc19fcfbae29ce4a26ae2d6248db993d77d21297fec6385"}
+      ],
+      "receipt_content_sha256": "80b12ee3b3e6ff761a86ffb0ae3d4c62a1edc2aeb39fa779635c544214635733"
+    },
+    {
+      "role": "AUDITED_3D_DST_PCG_MECHANICS",
+      "artifacts": [
+        {"path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_phangs_things_scoring_resolution_v1.py", "sha256": "ae0661871b980ffd5b5ce4a73358407b1ecfeef36b65cc8afaa11c2f258c9314"},
+        {"path": "tests/test_open_gravity_refracted_gravity_phangs_things_scoring_resolution_v1.py", "sha256": "c803d3e8e947fd44f61b4f31582040a6eb28c5167d4e914c266a298900f3cc7a"},
+        {"path": "runs/gravity/open-gravity-refracted-gravity-phangs-things-scoring-resolution-v1/receipt.json", "sha256": "120e31bf9a89076889a0c5be6d2eb9fe8ae7da01f78b90844dac4e617eae1fa2"}
+      ],
+      "receipt_content_sha256": "79bade6ae6fc8ba471fda263e0b2a66442187aa1f17ed61954a52068c6ac5b37"
+    },
+    {
+      "role": "PUBLISHED_CONTROL_FORMULAS",
+      "artifacts": [
+        {"path": "configs/open_gravity_matched_acceleration_cross_scale_predictions_v1.json", "sha256": "ee21d151c7f2f970c55ca694e5e5b317e6bdcf6a25c844102c8cdda485dff2ec"},
+        {"path": "src/sigma_theory_compiler/open_gravity_matched_acceleration_cross_scale_predictions_v1.py", "sha256": "276e943f49266efa5385a9d42f8ebccff990a26d4f6a4ae90ded1ccbe5897212"},
+        {"path": "tests/test_open_gravity_matched_acceleration_cross_scale_predictions_v1.py", "sha256": "5fc955c7adfbcf0dc3a53126d4a86b50c24dc4641b1481ffe801f785b7de8367"},
+        {"path": "runs/gravity/open-gravity-matched-acceleration-cross-scale-predictions-v1/receipt.json", "sha256": "f8328383312acb337515906656a9062141b7de1c05047a3f09cd935e0940c3f0"}
+      ],
+      "receipt_content_sha256": "1563a6f15f2c07a4cba5da7f26221a8ded0e83bbab29206cee73a850ef02a211"
+    }
+  ],
+  "candidate_contract": {
+    "candidate_ids": [
+      "NEWTON_3D_DST",
+      "RAR_2016_ON_NEWTON_3D",
+      "MOND_STANDARD_MU_ON_NEWTON_3D",
+      "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG"
+    ],
+    "a0_m_s2": 1.2e-10,
+    "per_object_fitted_parameters": 0,
+    "global_fitted_parameters": 0,
+    "response_parameter_fitting": false,
+    "refracted_gravity_parameters": {
+      "published_parameter_id": "DISKMASS_UNIVERSAL_MEDIAN",
+      "epsilon_0": 0.661,
+      "Q": 1.79,
+      "log10_rho_c_g_cm3": -24.54
+    }
+  },
+  "grid_contract": {
+    "coordinate_system": "uniform right-handed disk Cartesian cube",
+    "solver_half_box_kpc": 30.0,
+    "fine_nodes_per_axis": 241,
+    "fine_spacing_kpc": 0.25,
+    "convergence_nodes_per_axis": 193,
+    "convergence_spacing_kpc": 0.3125,
+    "radial_min_kpc": 0.5,
+    "radial_max_kpc": 15.0,
+    "radial_step_kpc": 0.05,
+    "radial_points": 291,
+    "azimuth_samples": 96,
+    "minimum_fine_cells_per_radius": 2.0
+  },
+  "operator_contract": {
+    "newton_solver": "second-order seven-point Dirichlet finite difference with orthonormal DST-I diagonalization",
+    "refracted_gravity_solver": "face-centred finite-volume div(epsilon grad Phi) solved by DST-I-preconditioned conjugate gradients",
+    "epsilon_face_rule": "arithmetic mean of adjacent cell-centred epsilon",
+    "pcg_relative_tolerance": 1e-10,
+    "pcg_absolute_tolerance": 0.0,
+    "pcg_max_iterations": 100,
+    "newton_boundary": "finite-box spherical monopole from deposited baryonic mass",
+    "refracted_gravity_boundary": "published source-free vacuum flux limit Phi_RG=Phi_Newton/epsilon_0"
+  },
+  "numerical_gate": {
+    "newton_relative_residual_max": 1e-8,
+    "rg_relative_residual_max": 1e-8,
+    "source_mass_relative_error_max": 2e-9,
+    "fine_vs_convergence_relative_difference_max": 0.05,
+    "failed_radius_or_cell_is_retained": true,
+    "response_values_used": false
+  },
+  "execution_contract": {
+    "declared_source_cells": 27,
+    "expected_built_source_cells": 24,
+    "expected_retained_source_failures": 3,
+    "field_solver_runs_per_built_cell": 4,
+    "expected_total_field_solver_runs": 96,
+    "private_prediction_directory": "work/private/open-gravity-rg-sings-seven-holdout-response-blind-predictions-v1",
+    "resume_only_from_exact_validated_cell_artifacts": true,
+    "response_based_cell_or_radius_selection": false
+  },
+  "response_boundary": {
+    "velocity_files_opened": 0,
+    "velocity_rows_opened": 0,
+    "velocity_values_opened": 0,
+    "scores_computed": 0,
+    "selection_events": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0
+  },
+  "claim_boundary": {
+    "real_source_predictions_generated": false,
+    "response_blind_numerical_radius_masks_generated": false,
+    "scientific_response_scored": false,
+    "refracted_gravity_preferred": false,
+    "general_3d_gravity_validated": false,
+    "unique_theory_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-sings-seven-holdout-response-blind-predictions-v1/receipt.json"
+}

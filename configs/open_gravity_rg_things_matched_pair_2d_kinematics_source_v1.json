@@ -1,0 +1,130 @@
+{
+  "schema": "invariant-open-gravity-rg-things-matched-pair-2d-kinematics-source-1.0",
+  "package_id": "open-gravity-rg-things-matched-pair-2d-kinematics-source-v1",
+  "status": "SEALED_REAL_PUBLIC_RESPONSE_BYTES_BENCHMARK_PENDING",
+  "purpose": "Seal the official THINGS first- and second-moment maps for the response-blind NGC2976/NGC4214 matched-pair test without decoding scientific pixel values or claiming the future 2D solver works.",
+  "selection_binding": {
+    "diagnostic_config_path": "configs/open_gravity_rg_five_galaxy_morphology_diagnostic_v1.json",
+    "diagnostic_config_raw_sha256": "f7a46ec3032f50016900fd7191569572c76df4407924477fc42c801861ebd7d1",
+    "diagnostic_module_path": "src/sigma_theory_compiler/open_gravity_rg_five_galaxy_morphology_diagnostic_v1.py",
+    "diagnostic_module_raw_sha256": "7f5aa35bea5a4fb8a7e58612e8f1a3737b08182e6f720a7360ae1a3775769b8c",
+    "diagnostic_test_path": "tests/test_open_gravity_rg_five_galaxy_morphology_diagnostic_v1.py",
+    "diagnostic_test_raw_sha256": "ab570ccc73566165bcf616d3c7f504ae2385a51431d4746feff25fe9241fb591",
+    "diagnostic_receipt_path": "runs/gravity/open-gravity-rg-five-galaxy-morphology-diagnostic-v1/receipt.json",
+    "diagnostic_receipt_raw_sha256": "068a43e3c0466d67e51278cb10c134a96c8b3560945d0f64922df737e4a8300e",
+    "diagnostic_receipt_content_sha256": "c25c210a91576b78dcc7dc6fea76da85cf11749b86585753cb99cfe13442216f",
+    "selected_pair": ["NGC2976", "NGC4214"],
+    "selection_used_things_velocity_pixels": false
+  },
+  "primary_sources": [
+    {
+      "id": "THINGS_SURVEY_DATA_RELEASE",
+      "paper_url": "https://arxiv.org/abs/0810.2125",
+      "citation": "Walter et al. 2008, AJ 136, 2563",
+      "role": "survey observations, reduction, public cubes, moment-0 maps, velocity fields, and velocity-dispersion maps"
+    },
+    {
+      "id": "THINGS_HIGH_RESOLUTION_KINEMATICS",
+      "paper_url": "https://arxiv.org/abs/0810.2100",
+      "citation": "de Blok et al. 2008, AJ 136, 2648",
+      "role": "published THINGS tilted-ring geometry and rotation-curve methodology"
+    }
+  ],
+  "files": [
+    {
+      "object_id": "NGC2976",
+      "role": "HI_MOM1_NATURAL_VELOCITY_FIELD",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_2976_NA_MOM1_THINGS.FITS",
+      "relative_path": "work/private/open-gravity-rg-things-matched-pair-2d-kinematics-v1/NGC2976__THINGS__HI_MOM1_NATURAL.fits",
+      "bytes": 4239360,
+      "sha256": "5651552667a1f78a0b2734ad8ccf3601471a16fe9a973911207984e8276c0253",
+      "beam_major_deg": 0.0020575,
+      "beam_minor_deg": 0.0017844,
+      "beam_position_angle_deg": 71.79
+    },
+    {
+      "object_id": "NGC2976",
+      "role": "HI_MOM2_NATURAL_VELOCITY_DISPERSION",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_2976_NA_MOM2_THINGS.FITS",
+      "relative_path": "work/private/open-gravity-rg-things-matched-pair-2d-kinematics-v1/NGC2976__THINGS__HI_MOM2_NATURAL.fits",
+      "bytes": 4239360,
+      "sha256": "41823241344b18c0953b7ac04475c0a390fdbdb96d1424a78617d6c3d82cd665",
+      "beam_major_deg": 0.0020575,
+      "beam_minor_deg": 0.0017844,
+      "beam_position_angle_deg": 71.79
+    },
+    {
+      "object_id": "NGC4214",
+      "role": "HI_MOM1_NATURAL_VELOCITY_FIELD",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_4214_NA_MOM1_THINGS.FITS",
+      "relative_path": "work/private/open-gravity-rg-things-matched-pair-2d-kinematics-v1/NGC4214__THINGS__HI_MOM1_NATURAL.fits",
+      "bytes": 4248000,
+      "sha256": "34f62d37830d8d7ef733689c9fca731b451fba0657bf40ca72601c15db340a53",
+      "beam_major_deg": 0.0040818,
+      "beam_minor_deg": 0.0038537,
+      "beam_position_angle_deg": -48.25
+    },
+    {
+      "object_id": "NGC4214",
+      "role": "HI_MOM2_NATURAL_VELOCITY_DISPERSION",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_4214_NA_MOM2_THINGS.FITS",
+      "relative_path": "work/private/open-gravity-rg-things-matched-pair-2d-kinematics-v1/NGC4214__THINGS__HI_MOM2_NATURAL.fits",
+      "bytes": 4248000,
+      "sha256": "477f4a102f83b7faab437f220af0f22ab3b68eea38db070867cea1dcc4c4e480",
+      "beam_major_deg": 0.0040818,
+      "beam_minor_deg": 0.0038537,
+      "beam_position_angle_deg": -48.25
+    }
+  ],
+  "fits_header_contract": {
+    "naxis": 4,
+    "naxis1": 1024,
+    "naxis2": 1024,
+    "naxis3": 1,
+    "naxis4": 1,
+    "bitpix": -32,
+    "bunit": "METR/SEC",
+    "ctype1": "RA---SIN",
+    "ctype2": "DEC--SIN",
+    "cdelt1_deg": -0.0004166666768,
+    "cdelt2_deg": 0.0004166666768,
+    "beam_source": "exact single CLEAN BMAJ/BMIN/BPA tuple parsed from publisher FITS HISTORY metadata"
+  },
+  "future_builder_gate": {
+    "real_public_source_data_present": true,
+    "primary_measurement_and_method_papers_present": true,
+    "independent_solver_benchmarks_passed": false,
+    "current_disposition": "SOURCE_BYTES_READY_THEORY_BENCHMARK_PENDING",
+    "required_before_pixel_decode": [
+      "freeze exact tilted-disk line-of-sight projection and sign conventions",
+      "freeze moment-0-weighted beam convolution and mask",
+      "freeze systemic-velocity nuisance identically for all candidates",
+      "pass synthetic tilted-disk recovery",
+      "pass axisymmetric one-dimensional limit",
+      "pass beam convolution and WCS round trip"
+    ],
+    "response_scoring_allowed": false,
+    "general_3d_claim_allowed": false
+  },
+  "access_accounting": {
+    "head_calls": 4,
+    "get_calls": 4,
+    "network_bytes": 16974720,
+    "files_downloaded": 4,
+    "fits_headers_opened": 4,
+    "velocity_pixel_values_decoded": 0,
+    "dispersion_pixel_values_decoded": 0,
+    "scores_computed": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "exact_public_response_bytes_sealed": true,
+    "paper_and_data_availability_established": true,
+    "velocity_pixels_analyzed": false,
+    "solver_validated": false,
+    "scientific_fit_tested": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-things-matched-pair-2d-kinematics-source-v1/receipt.json"
+}

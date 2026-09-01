@@ -1,0 +1,56 @@
+{
+  "schema": "invariant-open-gravity-galileo-e14-source-receipt-1.0",
+  "package_id": "open-gravity-galileo-e14-source-receipt-v1",
+  "status": "FROZEN_SOURCE_ONLY_NO_CLOCK_VALUES_OPENED",
+  "purpose": "Receipt the seven public ESOC GPS-week-2044 orbit and clock products, inspect only CLK headers, derive exact E14 source epochs and circular-control identities from SP3 geometry, and freeze the response parser before any clock value is decoded.",
+  "authorization": {
+    "development_prn": "E14",
+    "holdout_prn": "E18",
+    "holdout_response_access": "FORBIDDEN",
+    "other_prn_response_access": "FORBIDDEN",
+    "clock_value_rows_opened_by_this_package": 0,
+    "network_or_paid_model_calls": 0
+  },
+  "predecessor": {
+    "package_id": "open-gravity-persistent-timewell-redshift-closures-v2",
+    "receipt_path": "runs/gravity/open-gravity-persistent-timewell-redshift-closures-v2/receipt.json",
+    "receipt_sha256": "cdb52cd0b4c5627d6be9154c13ed671701457cb866c2cca80bf77422409b73f2"
+  },
+  "source_directory": "work/private/open-gravity-galileo-e14-source-v1",
+  "files": [
+    {"name":"esoc20440.clk","bytes":62919666,"sha256":"5457cacfd89c95768e404e902e2303d3af12f5ee50aec258f519c28e9f68caf5"},
+    {"name":"esoc20440.sp3","bytes":1148904,"sha256":"1a5d17b80d6e549ebbf426b34ac442306a43a8e0dbf1dbe1da48ca35c7786963"},
+    {"name":"esoc20441.clk","bytes":63612621,"sha256":"14dc24ca1b636a83a6dbe561e2797c81e536f896c81e677d399dcc3e3ed1cb79"},
+    {"name":"esoc20441.sp3","bytes":1148904,"sha256":"6ece1a8b7d400307fb1561f31afc6b7a981b2be879486adc841c33c63c4baa42"},
+    {"name":"esoc20442.clk","bytes":63091872,"sha256":"ee3db6e5b996d213e0a4a2368d3cef67de38b453972c61fb9fe533968741c6af"},
+    {"name":"esoc20442.sp3","bytes":1148904,"sha256":"d872f7ded82e12c009eaf64aeb408eefcf3d352ffdfde08e7f3bbf3cd0d96688"},
+    {"name":"esoc20443.clk","bytes":62845632,"sha256":"a0415628224fa3fa361ab67754a421409aeca17ea707e138d2cea37df4cd6a39"},
+    {"name":"esoc20443.sp3","bytes":1148904,"sha256":"7f3f3f3b58ac037543450350ee2835dacc4071c2beddfb044e034865db154f64"},
+    {"name":"esoc20444.clk","bytes":63048942,"sha256":"8c5021f1459c9f131f1f83c27e8f48a95c2566a1871c2f0b5703768574f50134"},
+    {"name":"esoc20444.sp3","bytes":1148904,"sha256":"d38341fa71bf686cc485fd0ea18be45d1bf20bf3f9257ff8e3ecda471d8e7a15"},
+    {"name":"esoc20445.clk","bytes":63113985,"sha256":"6ebb08b0eb50da0c6d37dc6e90a84fd79edce738b2d1e4a807f9de4518dffa7a"},
+    {"name":"esoc20445.sp3","bytes":1148904,"sha256":"a757048f9c07de3dfa0262506be17c8a92901e1cfc3ef51d12931e12398585a0"},
+    {"name":"esoc20446.clk","bytes":63086607,"sha256":"c7c439d32177e3db871b733017e2cbc306c283f28aded4b0af0c32e4e725fdc1"},
+    {"name":"esoc20446.sp3","bytes":1148904,"sha256":"072e62480848983cfca69508b02363be3ebc6f38a308cb359ec352dc52cc04ba"}
+  ],
+  "format_contract": {
+    "clk": "RINEX CLOCK 2.00; inspect through END OF HEADER only in this package; response successor may parse only records whose first two characters are AS and whose PRN field is exactly E14",
+    "sp3": "SP3 dV; GPS time; 300 s nominal cadence; P coordinates in km; clock column ignored",
+    "epoch_key": "integer UTC-like calendar tuple exactly as printed by both products; products declare GPS time and are matched without conversion or interpolation",
+    "daily_window": "exact E14 SP3 epochs advertised by each daily file; response successor intersects E14 CLK epochs and excludes the first and last common epoch of each day"
+  },
+  "source_only_selection": {
+    "circular_control_rule": "Among non-E14/non-E18 Galileo PRNs present at every SP3 epoch on all seven days, rank ascending by population standard deviation of geocentric radius divided by mean radius; break ties by PRN; freeze the first two. No CLK value rows may be read for this selection.",
+    "orbital_period_rule": "On the continuous E14 geocentric-radius series, retain the earlier daily solution at a duplicated midnight (response edges are excluded later), subtract its mean, compute the positive-lag pair-normalized autocorrelation for lags 100 through 220 samples, and freeze the lag with the largest correlation; break ties toward smaller lag.",
+    "phase_scramble_rule": "After the source-only period is frozen, use circular source-template shifts round(P/8), round(P/4), round(3P/8), and round(P/2), plus their negatives, deduplicated and sorted."
+  },
+  "known_product_correction": {
+    "frozen_fact": "The ESOC preprocessing already includes the standard eccentric relativistic correction 2 r dot v / c^2; the response successor tests a residual causal-memory quadrature and does not call the CLK series uncorrected proper time.",
+    "primary_source": "S. Herrmann et al., Phys. Rev. Lett. 121, 231102 (2018), DOI 10.1103/PhysRevLett.121.231102",
+    "interpretation_boundary": "The seven-day product has no onboard temperature, magnetic-field, clock-identity, attitude, or SLR residual series; those controls remain unavailable rather than imputed."
+  },
+  "outputs": {
+    "receipt": "runs/gravity/open-gravity-galileo-e14-source-receipt-v1/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-galileo-e14-source-receipt-v1/artifacts"
+  }
+}

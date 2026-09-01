@@ -1,0 +1,218 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-kinetic-gate-novelty-benchmark-1.0",
+  "artifact_id": "gravity-matter-lensing-kinetic-gate-novelty-benchmark-v1",
+  "status": "PRIMARY_SOURCE_AND_ANALYTIC_BENCHMARK_AUDIT_CANDIDATE_NOVELTY_NOT_ESTABLISHED",
+  "purpose": "Test whether the frozen kinetic-gate dynamic-range theorem has a paper-anchored derivation, distinguish it from the closest published theories, and add exact functional-family benchmarks without promoting the action to an observationally successful theory.",
+  "package": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_novelty_benchmark.py",
+    "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_novelty_benchmark.py",
+    "output_path": "runs/gravity/theory/matter-lensing-kinetic-gate-novelty-benchmark-v1.json"
+  },
+  "predecessor": {
+    "commit": "8d50d004287e546e37e6edef202a6f841acae9cb",
+    "config_path": "configs/gravity_matter_lensing_kinetic_gate_publication_candidate_v1.json",
+    "config_sha256": "9850c473955f82de3e4bad4478f0ec1a305435748ee7c210931f228daabc6db1",
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_publication_candidate.py",
+    "module_sha256": "aab22fe65491c58c09ee84ef71ea36bb9714330544f510432919bfead2ce9f0c",
+    "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_publication_candidate.py",
+    "test_sha256": "4a3ba1d0782f7a4113240cfe08ad284ae4a95c0a6ae6dbbe8acb49ec4081a38f",
+    "receipt_path": "runs/gravity/theory/matter-lensing-kinetic-gate-publication-candidate-v1.json",
+    "receipt_sha256": "2aed0c84d5fe9f566709d4b0d68af46ff82b85d070d15ee713739ee1162ab9cf",
+    "receipt_content_sha256": "17975d63329997fed8fb758c6945da84e7bd7d9e756a0d7d7c79644011dea9f9"
+  },
+  "source_or_paper_gate": {
+    "rule": "A new builder or theorem promotion requires an existing real dataset or primary paper/analytic benchmark that can falsify its implementation. A genuinely new formula need not already appear in a paper, but its inputs, dimensions, known limits, and closest control must be paper-anchored.",
+    "this_artifact_source_type": "PRIMARY_PAPER_PLUS_EXACT_ANALYTIC_BENCHMARK",
+    "formalism_anchor": "arXiv:0806.0336 equations 45 and 48 give the constraint-reduced kinetic matrix K_IJ=P_<IJ>+2 P_<MJ>,<IK> X^MK and spatial-gradient matrix P_<IJ> for general P(X^IJ,phi^K).",
+    "missing_source_action": "SOURCE_BLOCKED",
+    "failed_benchmark_action": "THEORY_ONLY_RETAINED_NOT_PROMOTED",
+    "observational_promotion_requires_real_data": true
+  },
+  "theorem_slice": {
+    "action": "P=P0(X)+Z(u)Y with u=beta X^2, X>0, beta>0, Z>0 and C2",
+    "definitions": "q=d ln Z/d ln u; M=Z(Z_X+2 X Z_XX)-4 X Z_X^2",
+    "identity": "M=(2 Z^2/X)[4 dq/d ln u-q-4q^2]",
+    "finite_range_result": "If q(u0)=q0>0 and M>=0 on [u0,U], then U/u0<[1+1/(4q0)]^4.",
+    "scope": "Necessary sign condition for one active aligned-timelike two-field mixing contribution; not a full-action no-go, not a causality theorem, and not observational evidence."
+  },
+  "analytic_benchmarks": [
+    {
+      "benchmark_id": "B01_GENERAL_P_XIJ_HESSIAN_MAP",
+      "paper": "0806.0336",
+      "expected": "The published K_IJ and gradient matrices specialize exactly to the predecessor two-field principal block."
+    },
+    {
+      "benchmark_id": "B02_SHIFTED_POWER_GATE",
+      "family": "Z=(1+u)^p",
+      "expected": "M>=0 iff 0<u<=3/(1+4p) for p>0."
+    },
+    {
+      "benchmark_id": "B03_EXPONENTIAL_GATE",
+      "family": "Z=exp(alpha u^p)",
+      "expected": "For alpha,p>0, M>=0 iff q=alpha p u^p<=p-1/4, which is impossible for p<=1/4 and finite-range for p>1/4."
+    },
+    {
+      "benchmark_id": "B04_PURE_POWER_GATE",
+      "family": "Z=u^p",
+      "expected": "For p>0, q=p and M=-(2 Z^2/X)(p+4p^2)<0 everywhere."
+    },
+    {
+      "benchmark_id": "B05_RICCATI_SHARPNESS",
+      "family": "dq/dlnu=q/4+q^2",
+      "expected": "The equality solution reaches a pole exactly at U/u0=[1+1/(4q0)]^4, showing the comparison bound is sharp within the scalar inequality."
+    },
+    {
+      "benchmark_id": "B06_CONSTANT_KINETIC_ESCAPE",
+      "family": "Z=constant",
+      "expected": "q=M=0; the growing-gate hypothesis is absent and the theorem does not apply."
+    }
+  ],
+  "primary_literature": [
+    {
+      "arxiv": "0801.1085",
+      "title": "Perturbations in generalized multi-field inflation",
+      "class": "P(X,phi) with a field-dependent field-space metric",
+      "overlap": "Perturbation scaffolding; more restrictive kinetic dependence than the theorem slice.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "0806.0336",
+      "title": "Primordial perturbations and non-Gaussianities in DBI and general multi-field inflation",
+      "class": "general P(X^IJ,phi^K)",
+      "overlap": "Exact published kinetic/gradient matrix used by benchmark B01.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "0806.4368",
+      "title": "Multiple kinetic k-essence, phantom barrier crossing and stability",
+      "class": "multiple purely kinetic k-essence sources",
+      "overlap": "Multi-field sound-speed stability, without the frozen derivative-dependent normalization theorem.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "0910.1934",
+      "title": "Quintessence dynamics with two scalar fields and mixed kinetic terms",
+      "class": "field-dependent kinetic coupling",
+      "overlap": "Two-field kinetic coupling depends on a scalar field, not the derivative invariant X.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "1404.1265",
+      "title": "A general mechanism for producing scale-invariant perturbations and small non-Gaussianity in ekpyrotic models",
+      "class": "nonlinear-sigma field-dependent kinetic coupling",
+      "overlap": "Established two-field kinetic coupling with no Z(X) derivative gate.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "1609.01272",
+      "title": "Weakening Gravity on Redshift-Survey Scales with Kinetic Matter Mixing",
+      "class": "gradient-dependent disformal scalar-matter mixing",
+      "overlap": "Derivative-dependent kinetic matter mixing in a different scalar-tensor/matter architecture.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "2105.13992",
+      "title": "Kinetic screening in nonlinear stellar oscillations and gravitational collapse",
+      "class": "single-field k-essence screening characteristics",
+      "overlap": "Published characteristic-speed breakdown; neighboring pathology, not the two-field logarithmic-slope inequality.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "2107.00010",
+      "title": "Scalar Fields Near Compact Objects: Resummation versus UV Completion",
+      "class": "P(X) screening and positivity bounds",
+      "overlap": "UV/positivity constraints on kinetic screening, distinct from the active two-field mixing bound.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "2204.05469",
+      "title": "Perturbations and stability conditions of k-essence and kinetic gravity braiding models in two-field measure theory",
+      "class": "two-measure k-essence perturbations",
+      "overlap": "Kinetic-matrix stability in a different measure-theory construction.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "2304.12364",
+      "title": "Adiabatic and isocurvature perturbations in extended theories with kinetic couplings",
+      "class": "two-field metric depending on the fields",
+      "overlap": "Closest modern two-field kinetic-metric analysis; its metric is G_IJ(phi), not G_IJ(X).",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "2402.04460",
+      "title": "A novel two-field pure K-essence for inflation, dark matter, dark energy and black holes",
+      "class": "general pure two-field F(x,y)",
+      "overlap": "Closest published action envelope; studies quotient families and background/perturbation examples rather than the separable Z(x)y finite-range theorem.",
+      "exact_finite_range_theorem_found": false
+    },
+    {
+      "arxiv": "2603.13986v2",
+      "title": "Multi-Field Dilaton Screening Beyond the Thin-Shell Mechanism",
+      "class": "two-field axio-dilaton screening with G_IJ(phi)=diag(1,W(chi)^2)",
+      "overlap": "Closest current screening application with a second-field gradient and a kinetic prefactor. Its prefactor is field-dependent W(chi), and its static charge/energy analysis does not state the derivative-invariant Z(X) logarithmic-slope finite-range theorem.",
+      "exact_finite_range_theorem_found": false
+    }
+  ],
+  "search_protocol": {
+    "observed_at_utc": "2026-08-31T00:00:00Z",
+    "sources": ["arXiv search", "arXiv API", "primary-paper full text where HTML was available"],
+    "queries": [
+      "two scalar kinetic coupling",
+      "multi-field k-essence",
+      "kinetic mixing scalar stability",
+      "derivative-dependent scalar kinetic",
+      "F(X,Y) two-field k-essence",
+      "P(X^IJ,phi^K) ghost gradient stability",
+      "multi-field dilaton screening kinetic coupling"
+    ],
+    "limitation": "Targeted reproducible search, not proof that the complete historical literature contains no equivalent theorem."
+  },
+  "adjudication": {
+    "paper_anchor_passed": true,
+    "analytic_benchmark_passed": true,
+    "exact_theorem_duplicate_found_in_reviewed_set": false,
+    "historical_novelty_established": false,
+    "candidate_originality_status": "PLAUSIBLY_ORIGINAL_EXPLICIT_COROLLARY_REQUIRES_HUMAN_EXPERT_SEARCH",
+    "publication_value": "PROMISING_SHORT_THEORY_NOTE_IF_EXPERT_REVIEW_CONFIRMS_SCOPE_AND_NOVELTY",
+    "physical_theory_status": "NOT_ESTABLISHED",
+    "next_required_work": [
+      "independent human proof review",
+      "citation-chaining and expert novelty search",
+      "lower-order perturbation and radiative-stability analysis",
+      "replace or causally interpret the superluminal bounded witness",
+      "attach a realistic matter/cosmology model and an existing dataset before observational promotion"
+    ]
+  },
+  "claim_boundary": {
+    "paper_anchored_formalism": true,
+    "exact_analytic_benchmarks": true,
+    "candidate_explicit_corollary_not_found_in_reviewed_set": true,
+    "historical_novelty_established": false,
+    "independent_expert_review_passed": false,
+    "full_action_no_go": false,
+    "causal_healthy_model": false,
+    "observational_support": false,
+    "publication_ready": false
+  },
+  "access_ledger": {
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "scores_computed": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "required_checks": [
+    "N01_CONFIG_SEMANTICS",
+    "N02_PREDECESSOR_BYTES_AND_COMMIT",
+    "N03_GENERAL_P_HESSIAN_MAP",
+    "N04_SHIFTED_POWER",
+    "N05_EXPONENTIAL",
+    "N06_PURE_POWER",
+    "N07_RICCATI_SHARPNESS",
+    "N08_CONSTANT_ESCAPE",
+    "N09_PRIMARY_SOURCE_INVENTORY",
+    "N10_SOURCE_OR_PAPER_GATE",
+    "N11_CLAIM_CEILING",
+    "N12_ZERO_OBSERVATIONAL_ACCESS"
+  ]
+}

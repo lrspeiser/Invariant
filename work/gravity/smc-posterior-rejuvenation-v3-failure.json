@@ -1,0 +1,62 @@
+{
+  "status": "candidate_posterior_rejuvenation_v3_failed_frozen_convergence_gates",
+  "promotion": false,
+  "cp5_7_through_cp5_10_completed": false,
+  "newtonian_control_run": false,
+  "reason_newtonian_control_not_run": "candidate did not pass every frozen parameter-completion threshold",
+  "family": "cross_scale_boundary",
+  "likelihood_split": "development_train",
+  "holdout_rows_evaluated": 0,
+  "independent_target_rows_evaluated": 0,
+  "external_model_calls": 0,
+  "frozen_inputs": {
+    "contract": "work/gravity/smc-posterior-rejuvenation-contract-v3.json",
+    "contract_sha256": "ac0cb5eccf399e11a1cbf43c4a67cb00bdae64a95819dbbc1fc3adb687c008ef",
+    "prototype_source": "work/gravity/smc_posterior_rejuvenation_prototype.py",
+    "prototype_source_sha256": "39dfc365b0ffc22363c129d00b3c103f11873af4a9ed2a9bfb4347a5f104c06f",
+    "source_smc_result_sha256": "d39d786b6936be72dcacc185d0393e84e3e05bff965601c2a7493e8a9f074396",
+    "result": "work/gravity/smc-candidate-rejuvenated-v3.npz",
+    "result_sha256": "19758b00d4b26b0b23bec3ade1a4b537ca4c62e033e83f1fbfc91c4adcd0456e",
+    "result_bytes": 7133179
+  },
+  "aggregate": {
+    "replicates": 4,
+    "particle_chains_per_replicate": 512,
+    "retained_snapshots_per_particle_chain": 64,
+    "posterior_draws": 131072,
+    "total_evaluations": 393216,
+    "maximum_rhat": 1.4172635605159771,
+    "minimum_effective_samples": 10089.914213528697,
+    "maximum_standardized_between_replicate_median_spread": 0.5085962688360324,
+    "maximum_standardized_source_to_rejuvenated_median_shift": 0.14390824392104384
+  },
+  "frozen_thresholds": {
+    "maximum_rhat": 1.2,
+    "minimum_effective_samples": 50,
+    "maximum_standardized_between_replicate_median_spread": 0.25,
+    "maximum_standardized_source_to_rejuvenated_median_shift": 0.25,
+    "all_17_parameters_must_pass": true
+  },
+  "failed_between_replicate_parameters": [
+    {"parameter": "nonthermal_radial_power", "standardized_between_replicate_median_spread": 0.282638013998502},
+    {"parameter": "missing_member_fraction", "standardized_between_replicate_median_spread": 0.5085962688360324},
+    {"parameter": "centering_radius_shift", "standardized_between_replicate_median_spread": 0.42176199092163263},
+    {"parameter": "projection_density_scale", "standardized_between_replicate_median_spread": 0.2566837109626864}
+  ],
+  "mechanical_diagnostics": {
+    "all_17_parameters_above_rhat_threshold": true,
+    "effective_sample_gate_passed": true,
+    "mean_retained_acceptance_gate_passed": true,
+    "source_to_rejuvenated_median_shift_gate_passed": true,
+    "between_replicate_gate_passed": false,
+    "rhat_gate_passed": false
+  },
+  "adjudication": {
+    "more_sampling_alone_supported": false,
+    "newtonian_control_locked": true,
+    "holdout_may_select_sampler_or_settings": false,
+    "threshold_relaxation_after_result": false,
+    "next_valid_move": "scientifically justified reparameterization of identifiable combinations or independent calibration priors"
+  },
+  "interpretation": "Full-posterior rejuvenation reduced the worst cross-replicate median spread from 0.648 to 0.509 and shifted the pooled posterior median by at most 0.144 standard deviations, but it did not meet the unchanged convergence gates. This rules out finite-particle sampling volume as a sufficient remedy; it does not prove a unique structural cause."
+}

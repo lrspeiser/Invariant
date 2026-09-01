@@ -1,0 +1,373 @@
+{
+  "schema": "invariant-open-gravity-same-law-matter-photon-closures-1.0",
+  "package_id": "open-gravity-same-law-matter-photon-closures-v1",
+  "status": "FROZEN_RESPONSE_BLIND_CLOSURE_COMPILER_AND_DATA_PREFLIGHT",
+  "purpose": "Compile massive-particle motion, photon characteristics, lensing, delays, redshift, reciprocity, and tensor propagation from the same candidate fields and constants before opening lens or kinematic response rows.",
+  "weak_field_convention": {
+    "metric": "ds^2=-(1+2*Phi/c^2)c^2dt^2+(1-2*Psi/c^2)dx^2",
+    "massive_particle_acceleration": "a=-grad(Phi)",
+    "photon_characteristic_metric": "g_physical^ab k_a k_b=0",
+    "deflection": "alpha=(1/c^2) integral grad_perp(Phi+Psi) d_ell",
+    "shapiro_delay": "Delta_t=-(1/c^3) integral (Phi+Psi) d_ell",
+    "gravitational_redshift_static": "Delta_ln_nu=(Phi_emit-Phi_observe)/c^2",
+    "image_time_delay": "Delta_t_ij=(D_Delta_t/c) Delta[|theta-beta|^2/2-psi_lens]",
+    "lensing_potential_source": "grad_perp^2 psi_lens proportional_to integral grad_perp^2(Phi+Psi) d_ell/c^2",
+    "distance_duality": "D_L=(1+z)^2 D_A only for metric null propagation plus photon-number conservation",
+    "slip_reconstruction": "grad(Psi)=2*g_lens-grad(Phi), where g_lens=grad(Phi+Psi)/2",
+    "no_independent_lensing_multiplier": true
+  },
+  "synthetic_constants": {
+    "lambda_extra": 1.0,
+    "lambda_halo": 1.0,
+    "constitutive_dispersion_exponent": -2.0,
+    "path_opacity_fraction": 0.1,
+    "massive_mode_mu_over_k": 0.75,
+    "memory_tau_over_fixture_period": 0.5
+  },
+  "local_bindings": [
+    {
+      "role": "ITEM60_DIRECT_LENSING_UNDERDEFINITION_AUDIT",
+      "path": "runs/gravity/roadmap/item-60-direct-clash-lensing-gate-v1.json",
+      "sha256": "12ebf32f59ef955d8a0a185044bf9545e8ba944b6ab53ef30225eafddbd57323"
+    },
+    {
+      "role": "ITEM65_LENSING_SLIP_GATE",
+      "path": "runs/gravity/roadmap/item-65-lensing_slip-gate-v1.json",
+      "sha256": "86649d8087ca6b844c2577c04607221dc03cdf796c6ee294ea4db482c5886ab3"
+    },
+    {
+      "role": "TWO_SCALAR_SAME_METRIC_THEORY_PREFLIGHT",
+      "path": "runs/gravity/theory/matter-lensing-theory-preflight-v1.json",
+      "sha256": "113d28f814a28cdf06dab9d7025c106c3ba458632e352a72dc4d3d35115d52d4"
+    },
+    {
+      "role": "PERSISTENT_TIMEWELL_CLOSURE_PARENT",
+      "path": "runs/gravity/open-gravity-persistent-timewell-redshift-closures-v1/receipt.json",
+      "sha256": "70b35cd501d5c50a6f558daed807afab45f2b54bc8463b8e107c78c3125e738e"
+    }
+  ],
+  "channel_names": [
+    "massive_particle_acceleration",
+    "photon_characteristic",
+    "deflection",
+    "shapiro_delay",
+    "gravitational_redshift",
+    "image_time_delay",
+    "distance_duality_and_chromaticity",
+    "tensor_cone"
+  ],
+  "closures": [
+    {
+      "id": "L00_GR_BARYON_METRIC",
+      "family": "null_control_single_metric",
+      "field_law": "Poisson[U_b]=4*pi*G*rho_b; Phi=Psi=U_b",
+      "coefficients": {"phi_extra": 0.0, "psi_extra": 0.0, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_METRIC",
+      "tensor_mode": "DERIVED_GR_NULL_CONE",
+      "same_constants": true,
+      "status": "KNOWN_COMPARATOR",
+      "coverage_mode": "ALL_EIGHT_DERIVED",
+      "health_flags": [],
+      "prior_art": "EINSTEIN_1915_1916"
+    },
+    {
+      "id": "L01_GR_STARS_NFW_DARK_MATTER",
+      "family": "dark_matter_lens_model_comparator",
+      "field_law": "Poisson[U_b+U_h]=4*pi*G*(rho_b+rho_NFW); Phi=Psi=U_b+U_h",
+      "coefficients": {"phi_extra": 0.0, "psi_extra": 0.0, "halo": 1.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_METRIC",
+      "tensor_mode": "DERIVED_GR_NULL_CONE",
+      "same_constants": true,
+      "status": "KNOWN_COMPARATOR",
+      "coverage_mode": "ALL_EIGHT_DERIVED",
+      "health_flags": [],
+      "prior_art": "NAVARRO_FRENK_WHITE_1996_1997"
+    },
+    {
+      "id": "L02_UNIVERSAL_CONFORMAL_SCALAR",
+      "family": "conformal_scalar",
+      "field_law": "g_physical=A(phi)^2*g; weak field Phi=U_b+chi and Psi=U_b-chi",
+      "coefficients": {"phi_extra": 1.0, "psi_extra": -1.0, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_CONFORMAL_METRIC_NULL_PATHS_INVARIANT",
+      "tensor_mode": "BLOCKED_UNTIL_SCALAR_TENSOR_ACTION_BACKGROUND_FIXED",
+      "same_constants": true,
+      "status": "RETAINED_EXACT_COUNTEREXAMPLE",
+      "coverage_mode": "SEVEN_DERIVED_TENSOR_BLOCKED",
+      "health_flags": ["DIRECT_CONFORMAL_SCALAR_FORCE_CANCELS_FROM_PHI_PLUS_PSI", "SCALAR_STRESS_ENERGY_LENSING_NOT_INCLUDED"],
+      "prior_art": "BEKENSTEIN_1993_DISFORMAL_GEOMETRY"
+    },
+    {
+      "id": "L03_SCALAR_SLIP_METRIC",
+      "family": "slip_scalar",
+      "field_law": "Phi=U_b+chi; Psi=U_b with chi sourced by rho_b using the same lambda",
+      "coefficients": {"phi_extra": 1.0, "psi_extra": 0.0, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_METRIC_WITH_DERIVED_SLIP",
+      "tensor_mode": "BLOCKED_NO_ACTION_PRINCIPAL_SYMBOL",
+      "same_constants": true,
+      "status": "OPEN_PHENOMENOLOGICAL_COMPLETION",
+      "coverage_mode": "SEVEN_DERIVED_TENSOR_BLOCKED",
+      "health_flags": ["COVARIANT_ACTION_MISSING", "ANISOTROPIC_STRESS_SOURCE_MISSING"],
+      "prior_art": "PPN_SLIP_NEIGHBOR"
+    },
+    {
+      "id": "L04_TEVES_DISFORMAL_VECTOR_SCALAR",
+      "family": "disformal_scalar_vector_metric",
+      "field_law": "physical metric is the Bekenstein scalar-vector disformal metric; weak quasistatic Phi=Psi=U_b+chi",
+      "coefficients": {"phi_extra": 1.0, "psi_extra": 1.0, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_PHYSICAL_DISFORMAL_METRIC",
+      "tensor_mode": "ACTION_DEPENDENT_CONES_EXPLICITLY_BLOCKED_IN_REDUCED_FIXTURE",
+      "same_constants": true,
+      "status": "KNOWN_RELATIVISTIC_MOND_COMPARATOR",
+      "coverage_mode": "SEVEN_DERIVED_TENSOR_BLOCKED",
+      "health_flags": ["FULL_TEVES_FREE_FUNCTION_AND_BACKGROUND_NOT_IMPLEMENTED", "GW_SPEED_VERSION_DEPENDENT"],
+      "prior_art": "BEKENSTEIN_TEVES_2004"
+    },
+    {
+      "id": "L05_TIED_REFRACTIVE_CONSTITUTIVE",
+      "family": "refractive_constitutive",
+      "field_law": "chi is source generated; matter has Phi=U_b+chi and photon eikonal has n_eff-1=-(2*U_b+chi)/c^2+lambda*chi*(nu_star/nu)^2/c^2",
+      "coefficients": {"phi_extra": 1.0, "psi_extra": 0.0, "halo": 0.0, "photon_direct": 1.0, "opacity": 0.0, "dispersion_power": -2.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "NONMETRIC_CONSTITUTIVE_CHARACTERISTIC_SAME_CHI_AND_LAMBDA",
+      "tensor_mode": "BLOCKED_NO_GRAVITY_ACTION",
+      "same_constants": true,
+      "status": "OPEN_STRONGLY_CONSTRAINED",
+      "coverage_mode": "SEVEN_DERIVED_TENSOR_BLOCKED",
+      "health_flags": ["CHROMATIC", "EQUIVALENCE_PRINCIPLE_RISK", "MEDIUM_ENERGY_MOMENTUM_LEDGER_MISSING"],
+      "prior_art": "GORDON_OPTICAL_METRIC_AND_PLASMA_NEIGHBOR"
+    },
+    {
+      "id": "L06_SPATIAL_NONLOCAL_SINGLE_METRIC",
+      "family": "nonlocal_spatial_metric",
+      "field_law": "W(x)=integral K_L(x,x')rho_b(x')d^3x'; Phi=Psi=U_b+lambda*W",
+      "coefficients": {"phi_extra": 1.0, "psi_extra": 1.0, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_NONLOCAL_METRIC",
+      "tensor_mode": "BLOCKED_UNTIL_CAUSAL_COVARIANT_KERNEL_PRINCIPAL_SYMBOL",
+      "same_constants": true,
+      "status": "ADVANCE_TO_SOURCE_ONLY_3D_PREDICTIONS",
+      "coverage_mode": "SEVEN_DERIVED_TENSOR_BLOCKED",
+      "health_flags": ["COVARIANT_RETARDED_KERNEL_NOT_DERIVED", "BOUNDARY_CONDITIONS_REQUIRED"],
+      "prior_art": "MASHHOON_NONLOCAL_GRAVITY_2014"
+    },
+    {
+      "id": "L07_TIED_PATH_MEMORY_CHARACTERISTIC",
+      "family": "nonlocal_path_memory",
+      "field_law": "tau*Dchi/Dt+chi=S[rho_b]; matter Phi=U_b+lambda*chi; photon eikonal includes the same lambda times integral chi d_ell/L",
+      "coefficients": {"phi_extra": 1.0, "psi_extra": 0.0, "halo": 0.0, "photon_direct": 1.0, "opacity": 0.1, "dispersion_power": 0.0, "memory_dt": 1.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "NONMETRIC_PATH_CHARACTERISTIC_SAME_MEMORY_FIELD_AND_LAMBDA",
+      "tensor_mode": "BLOCKED_NO_ACTION_PRINCIPAL_SYMBOL",
+      "same_constants": true,
+      "status": "OPEN_UNCONVENTIONAL_RETAIN",
+      "coverage_mode": "SEVEN_DERIVED_TENSOR_BLOCKED",
+      "health_flags": ["PHOTON_NUMBER_OR_RESERVOIR_LEDGER_REQUIRED", "ROUND_TRIP_AND_DISTANCE_DUALITY_RISK", "COVARIANCE_NOT_ESTABLISHED"],
+      "prior_art": "DESER_WOODARD_DELAYED_RESPONSE_AND_PERSISTENT_TIMEWELL_PARENT"
+    },
+    {
+      "id": "L08_CAUSAL_METRIC_MEMORY",
+      "family": "causal_metric_memory",
+      "field_law": "tau*Dchi/Dt+chi=S[rho_b]; Phi=Psi=U_b+lambda*chi and all matter and photons use this metric",
+      "coefficients": {"phi_extra": 1.0, "psi_extra": 1.0, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 1.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_CAUSAL_MEMORY_METRIC",
+      "tensor_mode": "BLOCKED_UNTIL_KINETIC_ACTION_AND_PRINCIPAL_SYMBOL",
+      "same_constants": true,
+      "status": "LEAD_CROSS_CHANNEL_CANDIDATE",
+      "coverage_mode": "SEVEN_DERIVED_TENSOR_BLOCKED",
+      "health_flags": ["MEMORY_STRESS_ENERGY_NOT_DERIVED", "FULL_COVARIANT_STATE_EQUATION_MISSING"],
+      "prior_art": "DESER_WOODARD_2007_AND_TIMEWELL_PARENT_SYNTHESIS"
+    },
+    {
+      "id": "L09_MASSIVE_CONFORMAL_SCALAR",
+      "family": "massive_scalar_mediator",
+      "field_law": "(box-mu^2)chi=lambda*T; g_physical=exp(2*lambda*chi)g; Phi=U_b+Yukawa[chi], Psi=U_b-Yukawa[chi]",
+      "coefficients": {"phi_extra": 0.4723665527410147, "psi_extra": -0.4723665527410147, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_CONFORMAL_METRIC",
+      "tensor_mode": "GR_TENSOR_CONE_SCALAR_GROUP_VELOCITY_SEPARATELY_DERIVED",
+      "same_constants": true,
+      "status": "KNOWN_MEDIATOR_COMPARATOR",
+      "coverage_mode": "ALL_EIGHT_DERIVED",
+      "health_flags": ["DIRECT_SCALAR_LENSING_CANCELLATION", "SCREENING_REQUIRED_FOR_LOCAL_TESTS"],
+      "prior_art": "SCALAR_TENSOR_YUKAWA"
+    },
+    {
+      "id": "L10_MASSIVE_VECTOR_SINGLE_METRIC",
+      "family": "massive_vector_mediator",
+      "field_law": "(box-mu_V^2)V_0=lambda*rho_b; physical weak metric Phi=Psi=U_b+lambda*V_0",
+      "coefficients": {"phi_extra": 0.4723665527410147, "psi_extra": 0.4723665527410147, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_PHYSICAL_METRIC_BUILT_FROM_VECTOR_STATE",
+      "tensor_mode": "GR_TENSOR_CONE_VECTOR_GROUP_VELOCITY_SEPARATELY_DERIVED",
+      "same_constants": true,
+      "status": "OPEN_MEDIATOR_COMPLETION",
+      "coverage_mode": "ALL_EIGHT_DERIVED",
+      "health_flags": ["UNIVERSAL_VECTOR_CHARGE_AND_LONGITUDINAL_MODE_HEALTH_NOT_ESTABLISHED"],
+      "prior_art": "EINSTEIN_AETHER_AND_PROCA_NEIGHBORS"
+    },
+    {
+      "id": "L11_MASSIVE_SPIN2_FIXED_SLIP",
+      "family": "massive_tensor_mediator",
+      "field_law": "linear massive spin-2 response h_ab with pure-mode weak slip Psi_extra/Phi_extra=1/2",
+      "coefficients": {"phi_extra": 0.4723665527410147, "psi_extra": 0.23618327637050735, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.75},
+      "photon_mode": "SINGLE_EFFECTIVE_METRIC_WITH_FIXED_SPIN2_SLIP",
+      "tensor_mode": "MASSIVE_GROUP_VELOCITY_AND_LUMINAL_CHARACTERISTIC_CONE_DERIVED",
+      "same_constants": true,
+      "status": "KNOWN_MASSIVE_GRAVITY_COMPARATOR",
+      "coverage_mode": "ALL_EIGHT_DERIVED",
+      "health_flags": ["VDVZ_VAINSHtein_NONLINEAR_COMPLETION_REQUIRED", "GHOST_FREEDOM_NOT_ESTABLISHED_BY_LINEAR_FIXTURE"],
+      "prior_art": "FIERZ_PAULI_1939"
+    },
+    {
+      "id": "L12_PURE_PHOTON_REFRACTION_FAILURE",
+      "family": "negative_same_law_control",
+      "field_law": "matter Phi=Psi=U_b but photons receive a separately adjustable refractive chi term",
+      "coefficients": {"phi_extra": 0.0, "psi_extra": 0.0, "halo": 0.0, "photon_direct": 1.0, "opacity": 0.0, "dispersion_power": -2.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SEPARATE_PHOTON_MULTIPLIER_FORBIDDEN",
+      "tensor_mode": "BLOCKED_NO_GRAVITY_ACTION",
+      "same_constants": false,
+      "status": "RETAINED_FAILURE",
+      "coverage_mode": "SIX_DERIVED_TENSOR_BLOCKED_MASSIVE_DISCONNECTED",
+      "health_flags": ["FAILS_SAME_LAW_GATE", "CHROMATIC", "EQUIVALENCE_PRINCIPLE_RISK"],
+      "prior_art": "TIRED_LIGHT_AND_REFRACTIVE_NEGATIVE_CONTROL"
+    },
+    {
+      "id": "L13_MASSIVE_ONLY_ACCELERATION_FAILURE",
+      "family": "negative_underdefinition_control",
+      "field_law": "a=-grad(U_b+lambda*chi) is declared without a photon metric or characteristic",
+      "coefficients": {"phi_extra": 1.0, "psi_extra": 0.0, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "BLOCKED_NO_PHOTON_CHARACTERISTIC",
+      "tensor_mode": "BLOCKED_NO_ACTION",
+      "same_constants": false,
+      "status": "RETAINED_FAILURE",
+      "coverage_mode": "MASSIVE_ONLY_OTHER_SEVEN_BLOCKED",
+      "health_flags": ["FAILS_ITEM60_UNIQUE_COMPLETION_GATE"],
+      "prior_art": "ITEM60_ITEM65_LOCAL_COUNTEREXAMPLE"
+    },
+    {
+      "id": "L14_EXACT_GRADIENT_PATH_REWRITE",
+      "family": "equivalent_rewrite_control",
+      "field_law": "integral grad(U_b).dx is an endpoint difference; Phi=Psi=U_b",
+      "coefficients": {"phi_extra": 0.0, "psi_extra": 0.0, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "SINGLE_METRIC_EQUIVALENT_TO_GR_CONTROL",
+      "tensor_mode": "DERIVED_GR_NULL_CONE",
+      "same_constants": true,
+      "status": "FAIL_NOT_DISTINCT",
+      "coverage_mode": "ALL_EIGHT_DERIVED",
+      "health_flags": ["OBSERVATIONALLY_IDENTICAL_TO_L00_ON_SIMPLY_CONNECTED_STATIC_FIXTURES"],
+      "prior_art": "FUNDAMENTAL_THEOREM_LINE_INTEGRALS"
+    },
+    {
+      "id": "L15_NONRELATIVISTIC_AQUAL_ONLY",
+      "family": "mond_nonrelativistic_comparator",
+      "field_law": "div[mu(|grad Phi|/a0)grad Phi]=4*pi*G*rho_b; no relativistic photon sector supplied",
+      "coefficients": {"phi_extra": 1.0, "psi_extra": 0.0, "halo": 0.0, "photon_direct": 0.0, "opacity": 0.0, "dispersion_power": 0.0, "memory_dt": 0.0, "tensor_mu_over_k": 0.0},
+      "photon_mode": "BLOCKED_NONRELATIVISTIC_LAW_HAS_NO_NULL_CHARACTERISTIC",
+      "tensor_mode": "BLOCKED_NONRELATIVISTIC_LAW_HAS_NO_TENSOR_SECTOR",
+      "same_constants": false,
+      "status": "KNOWN_INCOMPLETE_COMPARATOR",
+      "coverage_mode": "MASSIVE_ONLY_OTHER_SEVEN_BLOCKED",
+      "health_flags": ["REQUIRES_RELATIVISTIC_COMPLETION_SUCH_AS_TEVES_BEFORE_LENSING"],
+      "prior_art": "BEKENSTEIN_MILGROM_AQUAL_1984"
+    }
+  ],
+  "published_sources": [
+    {"id": "BEKENSTEIN_DISFORMAL_1993", "url": "https://arxiv.org/abs/gr-qc/9211017", "doi": "10.1103/PhysRevD.48.3641", "role": "primary derivation of conformal/disformal physical metric relations"},
+    {"id": "BEKENSTEIN_TEVES_2004", "url": "https://arxiv.org/abs/astro-ph/0403694", "doi": "10.1103/PhysRevD.70.083509", "role": "primary same-potential dynamics and lensing relativistic MOND comparator"},
+    {"id": "JACOBSON_MATTINGLY_2001", "url": "https://arxiv.org/abs/gr-qc/0007031", "doi": "10.1103/PhysRevD.64.024028", "role": "primary dynamical vector and propagation-cone neighbor"},
+    {"id": "MASHHOON_NONLOCAL_2014", "url": "https://arxiv.org/abs/1409.4472", "doi": "10.1103/PhysRevD.90.124031", "role": "primary causal nonlocal field and light-deflection comparator"},
+    {"id": "DESER_WOODARD_2007", "url": "https://arxiv.org/abs/0706.2151", "doi": "10.1103/PhysRevLett.99.111301", "role": "primary delayed-response nonlocal gravity neighbor"},
+    {"id": "ABBOTT_MULTIMESSENGER_2017", "url": "https://arxiv.org/abs/1710.05834", "doi": "10.3847/2041-8213/aa920c", "role": "primary photon/gravity speed and differential-Shapiro benchmark"},
+    {"id": "BOLTON_SLACS_2008", "url": "https://arxiv.org/abs/0805.1931", "doi": "10.1086/589327", "role": "primary 131-candidate, 63-modeled strong-lens plus stellar-kinematics sample"},
+    {"id": "COLLETT_ESO325_2018", "url": "https://arxiv.org/abs/1806.08300", "doi": "10.1126/science.aao2469", "role": "primary joint resolved lensing and stellar-kinematics slip benchmark"},
+    {"id": "KELLY_SN_REFSDAL_2023", "url": "https://arxiv.org/abs/2305.06377", "doi": "10.3847/1538-4357/ac4ccb", "role": "primary multi-image time-delay and magnification benchmark"},
+    {"id": "FIERZ_PAULI_1939", "url": "https://doi.org/10.1098/rspa.1939.0140", "doi": "10.1098/rspa.1939.0140", "role": "primary massive spin-2 comparator"}
+  ],
+  "real_data_preflight": {
+    "stage_1": {
+      "id": "ESO325_G004_JOINT_SLIP_REPRODUCTION",
+      "exact_source": "https://arxiv.org/e-print/1806.08300v1",
+      "required_payloads": ["HST_lensed_arc_imaging", "MUSE_resolved_stellar_kinematics", "lens_light_and_PSF", "published_covariance_and_masks"],
+      "response_status": "NOT_DOWNLOADED_NOT_SCORED",
+      "frozen_test": "Reproduce the registered joint model and report g_lens/g_dyn and reconstructed slip without adding a photon multiplier; use the same stellar mass, anisotropy, distance, external-convergence, and line-of-sight nuisance contract for every closure."
+    },
+    "stage_2": {
+      "id": "SLACS_WHOLE_GALAXY_TRANSFER",
+      "exact_catalog_readme": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/682/964/ReadMe",
+      "exact_catalog_base": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/682/964/",
+      "published_sample": "131 candidates, 70 definite lenses, 63 fitted lens models; use only catalog rows whose required lensing, photometry, redshift, and SDSS dispersion fields pass schema",
+      "split_rule": "Sort canonical SLACS name; SHA256(name) mod 5 equals 4 is untouched confirmation; all object-specific constants and photon coefficients are forbidden.",
+      "response_status": "NOT_DOWNLOADED_NOT_SCORED",
+      "frozen_statistic": "whole-galaxy held-out joint likelihood and signed residuals in Einstein radius and aperture velocity dispersion, with one shared stellar-population nuisance hierarchy"
+    },
+    "stage_3": {
+      "id": "TIME_DELAY_THIRD_CHANNEL",
+      "exact_source": "https://arxiv.org/e-print/2305.06377v1",
+      "response_status": "NOT_DOWNLOADED_NOT_SCORED",
+      "frozen_test": "Using a closure admitted by stages 1 and 2, predict image time-delay ratios from the already fixed Phi+Psi field; do not fit a new Fermat or photon coefficient."
+    },
+    "stage_4": {
+      "id": "CLASH_CLUSTER_GEOMETRY_TRANSFER",
+      "exact_archive": "https://archive.stsci.edu/prepds/clash/",
+      "local_metadata_binding": "ITEM60_DIRECT_LENSING_UNDERDEFINITION_AUDIT",
+      "response_status": "NOT_DOWNLOADED_NOT_SCORED",
+      "frozen_test": "Forward predict image positions, parities, shapes, weak shear, magnification, and any registered time delays from calibrated baryonic light and gas through the unchanged same-law closure."
+    },
+    "acquisition_gate": "Before opening any payload, freeze exact URL, byte count, SHA256, schema, object intersection, masks, covariance, cosmology, PSF, line-spread function, and missing-data action.",
+    "primary_rejection_rules": [
+      "reject empirical universality if a shared closure requires an object-specific photon or lens multiplier",
+      "reject a metric closure if deflection and Shapiro/time-delay require inconsistent Phi+Psi normalizations",
+      "reject a chromatic closure if its frozen nu^-2 differential is absent after plasma and dust controls",
+      "reject a causal-memory closure if the registered lag or hysteresis does not transfer between whole objects",
+      "quarantine rather than erase any empirically interesting closure that later fails covariance, conservation, causality, or health"
+    ]
+  },
+  "mandatory_controls": [
+    "stellar_mass_to_light_ratio_shared_not_lens_specific",
+    "stellar_orbit_anisotropy_and_inclination",
+    "lens_mass_sheet_and_source_position_transform",
+    "external_convergence_and_line_of_sight_structure",
+    "distance_cosmology_and_redshift_uncertainty",
+    "PSF_line_spread_and_astrometric_calibration",
+    "dust_plasma_scattering_absorption_and_microlensing",
+    "source_variability_and_time_delay_alignment",
+    "triaxiality_substructure_and_environment",
+    "GW170817_tensor_photon_cone_bound",
+    "solar_system_PPN_and_equivalence_principle",
+    "whole_object_holdout_and_no_post_response_retuning"
+  ],
+  "ranking": [
+    {"rank": 1, "closure_id": "L08_CAUSAL_METRIC_MEMORY", "reason": "one causal state generates matter, lensing, redshift, and time-delay phase signatures; strongest cross-lane falsifier but action and stress energy remain missing"},
+    {"rank": 2, "closure_id": "L06_SPATIAL_NONLOCAL_SINGLE_METRIC", "reason": "same 3D source convolution changes dynamics and every photon channel without a lens multiplier; causal covariant kernel remains missing"},
+    {"rank": 3, "closure_id": "L07_TIED_PATH_MEMORY_CHARACTERISTIC", "reason": "distinct equal-endpoint/multiple-path signature using the same field and coefficient; severe reciprocity and energy-ledger risks make it a high-information long shot"},
+    {"rank": 4, "closure_id": "L05_TIED_REFRACTIVE_CONSTITUTIVE", "reason": "strong chromatic discriminator and easy falsification; ordinary plasma and equivalence-principle controls are formidable"},
+    {"rank": 5, "closure_id": "L04_TEVES_DISFORMAL_VECTOR_SCALAR", "reason": "known relativistic MOND comparator proving same-law lensing is possible; not a novelty claim"},
+    {"rank": 6, "closure_id": "L11_MASSIVE_SPIN2_FIXED_SLIP", "reason": "known mediator comparator with a fixed slip and wave signature; nonlinear health and local constraints dominate"}
+  ],
+  "claim_boundary": {
+    "establishes": [
+      "an executable closure taxonomy with same-field cross-channel identities",
+      "an exact weak-field slip reconstruction and cross-channel overconstraint",
+      "response-blind source and scoring contracts for existing public lensing and dynamics data"
+    ],
+    "does_not_establish": [
+      "a fit to any lens, galaxy, or cluster",
+      "historical novelty of any physical law",
+      "a healthy covariant completion",
+      "replacement of dark matter, MOND, TeVeS, or general relativity",
+      "a gravity discovery"
+    ],
+    "historical_novelty_established": false,
+    "real_data_scored": false
+  },
+  "access_contract": {
+    "raw_scientific_payloads_downloaded": 0,
+    "scientific_response_rows_opened": 0,
+    "scientific_response_rows_scored": 0,
+    "network_calls_by_builder": 0,
+    "external_model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0,
+    "published_abstract_summary_values_read": 1,
+    "bibliography_network_tool_calls_during_research": 6
+  },
+  "outputs": {
+    "receipt": "runs/gravity/open-gravity-same-law-matter-photon-closures-v1/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-same-law-matter-photon-closures-v1/artifacts"
+  }
+}

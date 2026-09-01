@@ -1,0 +1,87 @@
+{
+  "access_accounting": {
+    "model_calls": 0,
+    "network_calls_by_builder": 0,
+    "new_scores": 0,
+    "paid_calls": 0,
+    "raw_scientific_response_files": 0,
+    "raw_scientific_rows": 0,
+    "raw_scientific_source_files": 0
+  },
+  "artifact_bindings": {
+    "config_sha256": "318c1805ebc93aea72269b566dc67e23e173aaa881fd88c419b8e8a8f4f8564f",
+    "module_sha256": "0a45d3042ffb6131c180246fb3ebe7864a358ebb8155ef34dfb1e9ab323f0d6b",
+    "test_sha256": "4291298ba903dab1305999a37f952048981ad179fb4b7a546af1e1dfd76fad1d"
+  },
+  "bindings": {
+    "EMPIRICAL_SCREEN": "e6fea71cbf35b9dde786fe24b647efb9a190ba9c295b9faff1c6f3fa02bbde39",
+    "GP01_FOUNDATION": "3278ae378808316734207ac7e8649e6040d6cdb64f4ad028a3cc5cc91c3f2579",
+    "STATIC_RADIAL_ADAPTER": "8238b9fe605d14f3fe637c82068a17463634579d3cf396c7ce09bb2642ebb931"
+  },
+  "checks": {
+    "BROADER_DYNAMIC_FAMILY_RETAINED": true,
+    "EMPIRICAL_COUNTEREXAMPLE_RETAINED": true,
+    "EXACT_ERROR_DECOMPOSITION": true,
+    "GLOBAL_ERROR_UPPER_BOUND": true,
+    "MONOTONE_ENVIRONMENT_THRESHOLDS": true,
+    "MONOTONE_GAMMA_MAX": true,
+    "NONNEGATIVE_ORDERING": true,
+    "NUMERIC_COLLAPSE_LIMIT": true,
+    "ZERO_RESPONSE_ACCESS": true
+  },
+  "claim_boundary": {
+    "does_not_establish": [
+      "that every finite-length GP01 field is equivalent to GP01-L",
+      "that every environmental or history extension fails",
+      "a causal action or observationally preferred theory",
+      "historical novelty"
+    ],
+    "establishes": [
+      "the exact zero-length boundary-collapse relation between GP01 elliptic and GP01-L",
+      "that extending the observed winning boundary direction cannot create a distinct asymptotic law",
+      "that dynamic and finite-memory descendants remain separate active hypotheses"
+    ]
+  },
+  "content_sha256": "d1957d18f6f287fb4eded7a147055ff8413ff05ff6662ca38fdb92ea26bc0d16",
+  "decision": {
+    "boundary_extension": "STOP_AS_NOVELTY_SEARCH_RETAINS_ONLY_CONTROL_CONVERGENCE_CHECK",
+    "broader_gp01_history_family": "ACTIVE",
+    "next_empirical_path": "Test an independently measured dynamical/history state with leave-one-object-out prediction; do not extend A_max/rho_star/T_star merely to approach GP01-L.",
+    "next_theory_path": "Complete a causal source-history or route-independent persistence state whose finite-memory limit is not prediction-equivalent to GP01-L."
+  },
+  "empirical_boundary_evidence": {
+    "best_cell": "GP01E-n1-A8-rho10-T10-q2-p2-L0",
+    "boundary_coordinates": [
+      "A_max=max",
+      "rho_ratio=max",
+      "tide_ratio=max",
+      "q=max",
+      "tide_power=max",
+      "L_ratio=min"
+    ],
+    "elliptic_beats_equilibrium_on_objects": 0,
+    "elliptic_to_equilibrium_robust_loss_ratio": 1.6992879699190704,
+    "interpretation": "The observed boundary direction is the analytic collapse direction toward the GP01-L control, not evidence for a distinct large-parameter elliptic mechanism.",
+    "objects": 8
+  },
+  "package_id": "open-gravity-gp01-boundary-collapse-v1",
+  "schema": "invariant-open-gravity-gp01-boundary-collapse-receipt-1.0",
+  "status": "EXACT_BOUNDARY_COLLAPSE_TO_EQUILIBRIUM_CONTROL_DYNAMIC_DESCENDANTS_RETAINED",
+  "suite": {
+    "case_root_sha256": "101f7cc475287055cf37b9016735dffd334e5f56607ef693fd58fae29eb7157c",
+    "maximum_bound_excess": 5.551115123125783e-17,
+    "maximum_decomposition_error": 1.1102230246251565e-15,
+    "maximum_limit_relative_error": 7.069291009197796e-06,
+    "minimum_ordering_margin": 2.500153401441526e-21,
+    "monotone_environment_thresholds": true,
+    "monotone_gamma_max": true,
+    "probe_cases": 10800
+  },
+  "theorem": {
+    "collapse_limit": "As rho_star,T_star,M go to infinity and L_g goes to zero, gamma_E goes to gamma_L and g_eff goes to g_b*nu_n(y).",
+    "error_decomposition": "gamma_L-gamma_E=(1-W)*gamma_L+W*[gamma_L-M*tanh(gamma_L/M)]",
+    "monotonic_boundaries": "At fixed source and exponents, increasing rho_star, T_star, or M moves the zero-length branch monotonically toward GP01-L.",
+    "ordering": "0<=gamma_E<=gamma_L for y>0, n>0, M>0, and 0<=W<=1",
+    "upper_bound": "gamma_L-gamma_E <= (1-W)*gamma_L+W*gamma_L^3/(3M^2)"
+  }
+}

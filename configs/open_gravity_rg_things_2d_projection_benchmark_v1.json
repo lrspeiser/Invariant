@@ -1,0 +1,83 @@
+{
+  "schema": "invariant-open-gravity-rg-things-2d-projection-benchmark-1.0",
+  "package_id": "open-gravity-rg-things-2d-projection-benchmark-v1",
+  "status": "FROZEN_TARGET_FREE_2D_FORWARD_OPERATOR",
+  "purpose": "Freeze and benchmark the quasi-circular local-force to THINGS line-of-sight velocity-field operator, intensity-weighted beam convolution, common nuisance offset, masks, and WCS before any matched-pair velocity or dispersion pixels are decoded.",
+  "source_binding": {
+    "config_path": "configs/open_gravity_rg_things_matched_pair_2d_kinematics_source_v1.json",
+    "config_raw_sha256": "cfe5fed17ee8d19c1bc2ea21bd852a99d29ca603e53d723a0f140aa3e9bf697c",
+    "module_path": "src/sigma_theory_compiler/open_gravity_rg_things_matched_pair_2d_kinematics_source_v1.py",
+    "module_raw_sha256": "cac8866c6f85db68c69f8bd554ad4827acc25e0e8d659b6bf5b28a4078001de0",
+    "test_path": "tests/test_open_gravity_rg_things_matched_pair_2d_kinematics_source_v1.py",
+    "test_raw_sha256": "391a1b3d8b490bdb53af79810d3531c12cac6456e1b34c43353336e684c88df4",
+    "receipt_path": "runs/gravity/open-gravity-rg-things-matched-pair-2d-kinematics-source-v1/receipt.json",
+    "receipt_raw_sha256": "d5c393967ae42d4b216d7d49181725936758618e099dd4721d1d70c7d8ef3de7",
+    "receipt_content_sha256": "3c5d606072ed2ed0fab721590b36595734fe06b3c5072ca4d3917a554d20c79e"
+  },
+  "operator_contract": {
+    "sky_coordinate_convention": "x_east and y_north in a local tangent plane; position angle measured north through east",
+    "disk_transform": "x_major=x_east*sin(PA)+y_north*cos(PA); y_minor=-x_east*cos(PA)+y_north*sin(PA); y_disk=y_minor/cos(i)",
+    "local_radial_acceleration": "g_R=max(0,-g_disk dot e_R)",
+    "quasi_circular_speed": "v_c=sqrt(R*g_R)",
+    "line_of_sight_velocity": "v_los=v_sys+s_rotation*v_c*sin(i)*x_major/R",
+    "rotation_sign_cells": [-1.0, 1.0],
+    "primary_rotation_sign_rule": "Choose the sign from the publisher receding-side convention before scoring; the opposite sign is a retained orientation control, never selected by loss.",
+    "beam_convolution": "B*(I_HI*v_los)/B*I_HI using the publisher elliptical Gaussian CLEAN beam and sealed natural-weight moment-0 intensity map",
+    "beam_fft_padding": "zero-pad to twice each image axis before FFT convolution and crop the central native image",
+    "mask_rule": "finite MOM0, MOM1, MOM2, convolved intensity>0, MOM0>0, MOM2>0, and frozen source-numerical radial eligibility",
+    "systemic_velocity_nuisance": "one analytic weighted additive offset per object and candidate, identical formula and one degree of freedom for every candidate",
+    "primary_loss": "mean squared residual divided by max(MOM2,6000 m/s)^2; descriptive dispersion-scaled shape loss, explicitly not chi-square",
+    "secondary_losses": ["mean absolute residual in m/s", "unweighted root-mean-square residual in m/s"],
+    "response_threshold_tuning": false,
+    "per_pixel_or_radial_parameter_fitting": false
+  },
+  "benchmark_contract": {
+    "synthetic_tilted_disk_max_abs_m_s": 1e-9,
+    "axisymmetric_major_axis_relative_error": 1e-12,
+    "beam_constant_field_max_abs_m_s": 1e-9,
+    "beam_flux_conservation_relative_error": 1e-12,
+    "wcs_roundtrip_max_pixels": 1e-6,
+    "face_on_projected_amplitude_max_m_s": 1e-9,
+    "opposite_rotation_sign_antisymmetry_max_m_s": 1e-9
+  },
+  "synthetic_suite": {
+    "grid_pixels": 129,
+    "pixel_scale_arcsec": 1.5,
+    "inclination_deg": 55.0,
+    "position_angle_deg": 32.0,
+    "systemic_velocity_m_s": 127000.0,
+    "rotation_speed_m_s": 80000.0,
+    "beam_major_arcsec": 9.0,
+    "beam_minor_arcsec": 7.0,
+    "beam_position_angle_deg": 21.0
+  },
+  "builder_admission": {
+    "real_public_data_bound": true,
+    "primary_data_and_kinematic_papers_bound": true,
+    "independent_target_free_benchmarks_required": true,
+    "missing_data_disposition": "SOURCE_BLOCKED",
+    "benchmark_failure_disposition": "BUILDER_BLOCKED_RETAIN_FAILURE",
+    "response_pixel_decode_allowed_only_if_all_benchmarks_pass": true
+  },
+  "scientific_boundary": {
+    "quasi_circular_projection_not_gas_dynamics": true,
+    "moment2_is_not_measurement_uncertainty": true,
+    "primary_loss_is_not_chi_square": true,
+    "noncircular_streaming_predicted": false,
+    "general_3d_motion_predicted": false,
+    "velocity_pixel_values_decoded": 0,
+    "dispersion_pixel_values_decoded": 0,
+    "scientific_scores_computed": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "target_free_operator_benchmarked": true,
+    "scientific_fit_tested": false,
+    "gas_dynamics_solved": false,
+    "new_gravity_law_supported": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-things-2d-projection-benchmark-v1/receipt.json"
+}

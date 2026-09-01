@@ -1,0 +1,132 @@
+{
+  "schema": "invariant-open-gravity-rg-things-five-object-2d-phenotype-1.0",
+  "package_id": "open-gravity-rg-things-five-object-2d-phenotype-v1",
+  "status": "FROZEN_POST_RESPONSE_EXPLORATORY_DIAGNOSTIC",
+  "purpose": "Explain the sealed five-object resolved-velocity outcome using already-sealed source descriptors, without changing the RG law, fitting a classifier, or treating five galaxies as confirmation.",
+  "admission_rule": {
+    "real_source_data": "THINGS moment-1 velocity fields and the sealed THINGS/HERACLES/S4G/SPARC model-lifted source builder",
+    "primary_measurement_papers": [
+      {
+        "citation": "Walter et al. 2008, AJ 136, 2563, THINGS data release",
+        "url": "https://arxiv.org/abs/0810.2125"
+      },
+      {
+        "citation": "de Blok et al. 2008, AJ 136, 2648, THINGS rotation curves and mass models",
+        "url": "https://arxiv.org/abs/0810.2100"
+      },
+      {
+        "citation": "McGaugh, Lelli & Schombert 2016, PRL 117, 201101, radial acceleration relation",
+        "url": "https://arxiv.org/abs/1609.05917"
+      }
+    ],
+    "independent_known_answer_benchmarks": [
+      "sealed Newtonian 3D DST control",
+      "sealed axisymmetric and manufactured Poisson/RG solver benchmarks",
+      "fixed McGaugh-2016 RAR comparator"
+    ],
+    "dimensional_claim": "MODEL_LIFTED_2P5D_SOURCE_PLUS_PROJECTED_2D_VELOCITY_FIELD",
+    "general_3d_validation": false
+  },
+  "bindings": {
+    "source_builder": {
+      "config_path": "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json",
+      "config_raw_sha256": "2cefafadf5eb5992ce75e3dae88dede88c7596d3272139585c716ba083432e0b",
+      "module_path": "src/sigma_theory_compiler/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.py",
+      "module_raw_sha256": "50c78d97bce55ef66a1e592037a1d026a0c53683ef981895a5133591f3938a3b",
+      "test_path": "tests/test_open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.py",
+      "test_raw_sha256": "b7b3fd6aed1675ea4dbb2b87feea17a78616770343f940c5b30e15e32a17b445",
+      "receipt_path": "runs/gravity/open-gravity-rg-things-heracles-s4g-model-lifted-3d-source-builder-v1/receipt.json",
+      "receipt_raw_sha256": "9fed8bc77ecb6452a954f473ee108e4ee03a540542ab40d8ec4e0ab049c02117",
+      "receipt_content_sha256": "a90a3c0f8535c48edf185b866bfc9752505d0fa865993e7b51f7bd7faaed6e5d"
+    },
+    "resolved_score": {
+      "config_path": "configs/open_gravity_rg_things_five_object_2d_expansion_v1.json",
+      "config_raw_sha256": "d0cf1e77723ba7c2643e5249d6854c110018e73e07675fa6ac57db74ccdc9363",
+      "module_path": "src/sigma_theory_compiler/open_gravity_rg_things_five_object_2d_expansion_v1.py",
+      "module_raw_sha256": "5f0368d72d7532eeb186c3d4f4788e0e43dce445bc91c592b8e48d7d8dc27e8e",
+      "test_path": "tests/test_open_gravity_rg_things_five_object_2d_expansion_v1.py",
+      "test_raw_sha256": "28c1cc8e3aacd00fe0cb228ca9c655f0726f16d0e4387321b8e537c4ab6f1121",
+      "receipt_path": "runs/gravity/open-gravity-rg-things-five-object-2d-expansion-v1/receipt.json",
+      "receipt_raw_sha256": "e4cb12064bf92b70ebb7c9d090a8247e4c531a8811bd05c7483cd15577564f5b",
+      "receipt_content_sha256": "00b2146c343eb06b752a3070c0bea501739813fe0faf88ce9c94567b4dfd4ec6"
+    }
+  },
+  "object_order": ["NGC2903", "NGC2976", "NGC3198", "NGC3521", "NGC4214"],
+  "response_axes": [
+    "rg_fractional_improvement_over_newton",
+    "rg_fractional_improvement_over_rar"
+  ],
+  "continuous_feature_ids": [
+    "log10_stellar_mass_msun",
+    "gas_mass_fraction",
+    "log10_rhalf_pc",
+    "log10_rho_midplane_msun_pc3",
+    "log10_sigma_b_msun_pc2",
+    "log10_potential_depth_c2",
+    "log10_g_b_m_s2",
+    "radial_force_rms_asymmetry",
+    "radial_force_fourier_m1_m4",
+    "inclination_deg",
+    "ellipticity"
+  ],
+  "statistical_contract": {
+    "association": "exact two-sided permutation Spearman rank correlation",
+    "permutations_per_test": 120,
+    "feature_count": 11,
+    "response_axis_count": 2,
+    "family_count": 22,
+    "familywise_alpha": 0.05,
+    "multiplicity": "Bonferroni across all 11 source features times both response axes",
+    "new_formula_fit": false,
+    "classifier_fit": false,
+    "threshold_tuning": false,
+    "object_pruning": false
+  },
+  "outcome_partition": {
+    "beats_both": "RG improvement is strictly positive versus Newton and RAR",
+    "beats_newton_only": "RG improvement is positive versus Newton but not RAR",
+    "beats_rar_only": "RG improvement is positive versus RAR but not Newton",
+    "beats_neither": "RG improvement is nonpositive versus both comparators"
+  },
+  "mechanism_diagnostic": {
+    "feature_id": "log10_rho_midplane_msun_pc3",
+    "response_axis": "rg_fractional_improvement_over_newton",
+    "interpretation_if_negative": "The published density-dependent permittivity produces more gain over Newton where the sealed source reconstruction has lower midplane density; this is a mechanism imprint, not independent evidence for RG.",
+    "post_response": true
+  },
+  "next_test_contract": {
+    "source_before_builder": true,
+    "required_real_data": "Additional galaxies with public THINGS-quality resolved velocity fields and admitted H I, CO, and stellar maps, or an explicitly source-blocked disposition",
+    "required_primary_papers": true,
+    "required_independent_benchmarks": true,
+    "fixed_before_new_response": [
+      "object allowlist",
+      "source conversion",
+      "vertical lift cells",
+      "Newton/RG/RAR programs",
+      "pixel mask and systemic-offset nuisance",
+      "density-imprint and RG-versus-RAR decision rules"
+    ],
+    "minimum_new_response_blind_objects": 5,
+    "general_3d_claim_allowed": false
+  },
+  "access_scope": {
+    "new_source_files_opened": 0,
+    "new_response_files_opened": 0,
+    "new_response_pixels_opened": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0
+  },
+  "claim_boundary": {
+    "post_response_exploratory_diagnostic_only": true,
+    "mechanism_imprint_is_novel_evidence": false,
+    "five_objects_establish_a_subclass": false,
+    "source_feature_is_causal": false,
+    "general_3d_validated": false,
+    "new_theory_supported": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-things-five-object-2d-phenotype-v1/receipt.json"
+}

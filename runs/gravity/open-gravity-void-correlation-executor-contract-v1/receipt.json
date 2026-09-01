@@ -1,0 +1,299 @@
+{
+  "access_accounting": {
+    "identifier_rows_decoded": 0,
+    "real_scores": 0,
+    "response_values_inspected": 0,
+    "scientific_rows_decoded": 0
+  },
+  "bindings": {
+    "config_content_sha256": "3b01f0e1d266e647003e9f3349e4eda65ba10a4ac6272d0fabe19301030e9fad",
+    "config_raw_sha256": "458efb549ededa1673cefe8c207b9b2b3462532c8b578364c93a90c014e57c69",
+    "geometry_raw_sha256": "a7777fc5554f5c1ea97709a1a42ef5a02beaf90cb0889689213a01570c8cdc96",
+    "law_raw_sha256": "f8e037382dfd617abd9272f0657dca60b885dff323ab3d904887a681efef37b9",
+    "module_raw_sha256": "eb044ec1fcc8cf8b674a2a95f79ab9c210ae73df177bb40ef9b82df5e7048c54",
+    "module_semantic_sha256": "357e2095896604d43577ae6e385a71a8f41ef9e9135b9e3e1bc4c136e73c586a",
+    "test_raw_sha256": "b8c750c971caf60ffece143bf0d4dbe3c260bb415c1e52e5fe8da98e2780d950"
+  },
+  "content_sha256": "230a6aaa84d2908565937d6687d4e7b06c5800e6ab624eb331c4348ee5be7af8",
+  "decision": "AWAIT_INDEPENDENT_REAUDIT_BEFORE_ANY_ROW_ACCESS",
+  "excluded": {
+    "CF4_TABLE3": "not decoded in the primary screen",
+    "VAST_TABLE3": "not decoded in the primary screen",
+    "claim": "correlation-only; no mechanism, novelty or publication claim",
+    "mechanism_controls": [
+      "mock/RSD calibration",
+      "exact NSA/DR7 membership"
+    ]
+  },
+  "fixed_width_schemas": {
+    "CF4_TABLE4": [
+      {
+        "end": 7,
+        "format": "I7",
+        "name": "1PGC",
+        "required": true,
+        "role": "identifier",
+        "start": 1,
+        "unit": "none"
+      },
+      {
+        "end": 14,
+        "format": "F6.3",
+        "name": "DMzp",
+        "required": true,
+        "role": "distance_check",
+        "start": 9,
+        "unit": "mag"
+      },
+      {
+        "end": 20,
+        "format": "F5.3",
+        "name": "e_DMzp",
+        "required": true,
+        "role": "likelihood",
+        "start": 16,
+        "unit": "mag"
+      },
+      {
+        "end": 26,
+        "format": "F5.1",
+        "name": "Dist",
+        "required": true,
+        "role": "sole_mpc_input",
+        "start": 22,
+        "unit": "Mpc"
+      },
+      {
+        "end": 44,
+        "format": "I5",
+        "name": "V3k",
+        "required": true,
+        "role": "response",
+        "start": 40,
+        "unit": "km/s"
+      },
+      {
+        "end": 91,
+        "format": "F8.4",
+        "name": "RAdeg",
+        "required": true,
+        "role": "geometry",
+        "start": 84,
+        "unit": "deg"
+      },
+      {
+        "end": 100,
+        "format": "F8.4",
+        "name": "DEdeg",
+        "required": true,
+        "role": "geometry",
+        "start": 93,
+        "unit": "deg"
+      }
+    ],
+    "VAST_TABLE1": [
+      {
+        "end": 10,
+        "format": "A10",
+        "name": "Cosmo",
+        "required": true,
+        "start": 1,
+        "unit": "none"
+      },
+      {
+        "end": 31,
+        "format": "F20.15",
+        "name": "x",
+        "required": true,
+        "start": 12,
+        "unit": "h^-1 Mpc"
+      },
+      {
+        "end": 54,
+        "format": "F22.17",
+        "name": "y",
+        "required": true,
+        "start": 33,
+        "unit": "h^-1 Mpc"
+      },
+      {
+        "end": 76,
+        "format": "F21.17",
+        "name": "z",
+        "required": true,
+        "start": 56,
+        "unit": "h^-1 Mpc"
+      },
+      {
+        "end": 95,
+        "format": "F18.15",
+        "name": "Rad",
+        "required": true,
+        "start": 78,
+        "unit": "h^-1 Mpc"
+      },
+      {
+        "end": 100,
+        "format": "I4",
+        "name": "void",
+        "required": true,
+        "start": 97,
+        "unit": "none"
+      },
+      {
+        "end": 102,
+        "format": "I1",
+        "name": "edge",
+        "required": true,
+        "start": 102,
+        "unit": "none"
+      },
+      {
+        "end": 122,
+        "format": "F19.15",
+        "name": "s",
+        "required": true,
+        "start": 104,
+        "unit": "h^-1 Mpc"
+      },
+      {
+        "end": 141,
+        "format": "F18.14",
+        "name": "RAdeg",
+        "required": true,
+        "start": 124,
+        "unit": "deg"
+      },
+      {
+        "end": 162,
+        "format": "F20.17",
+        "name": "DEdeg",
+        "required": true,
+        "start": 143,
+        "unit": "deg"
+      },
+      {
+        "end": 181,
+        "format": "F18.15",
+        "name": "Reff",
+        "required": true,
+        "start": 164,
+        "unit": "h^-1 Mpc"
+      }
+    ],
+    "VAST_TABLE2": [
+      {
+        "end": 10,
+        "format": "A10",
+        "name": "Cosmo",
+        "required": true,
+        "start": 1,
+        "unit": "none"
+      },
+      {
+        "end": 31,
+        "format": "F20.15",
+        "name": "x",
+        "required": true,
+        "start": 12,
+        "unit": "h^-1 Mpc"
+      },
+      {
+        "end": 57,
+        "format": "F25.20",
+        "name": "y",
+        "required": true,
+        "start": 33,
+        "unit": "h^-1 Mpc"
+      },
+      {
+        "end": 80,
+        "format": "F22.18",
+        "name": "z",
+        "required": true,
+        "start": 59,
+        "unit": "h^-1 Mpc"
+      },
+      {
+        "end": 100,
+        "format": "F19.16",
+        "name": "Rad",
+        "required": true,
+        "start": 82,
+        "unit": "h^-1 Mpc"
+      },
+      {
+        "end": 105,
+        "format": "I4",
+        "name": "void",
+        "required": true,
+        "start": 102,
+        "unit": "none"
+      }
+    ]
+  },
+  "flow_nuisance": {
+    "B": "three Cartesian bulk-flow coefficients",
+    "S": "five coefficients of a symmetric trace-free shear tensor",
+    "a_D": "one distance-rate coefficient absorbing H_m*D and distance-scale drift",
+    "design_velocity_units": "a_D*D_path + B dot n + D_path*n^T S n",
+    "priors": "independent zero-mean Gaussian: sigma(a_D)=20 km/s/Mpc, sigma(B_i)=500 km/s, sigma(S_i)=20 km/s/Mpc",
+    "same_design": "identical nuisance columns and priors under null and delta_H alternatives"
+  },
+  "geometry_content_sha256": "948abc576949f9d3872094f390b2828e817b71cc65dbb580366a88c386a0e31a",
+  "geometry_join": {
+    "coordinate_probe": "all Planck2018 table1 rows must reproduce (x,y,z) from (RAdeg,DEdeg,s) within geometry-v2 frozen tolerances before any CF4 response field opens",
+    "cosmology_label": "Planck2018",
+    "full_mask_primary": "RA/Dec mask pixel true, 0<=h*D_path<=332.3856506347656, and L_unobserved=0 exactly within 1e-10 Mpc",
+    "maximal_filter": "VAST_TABLE1 Cosmo=Planck2018 and edge=0",
+    "partial_mask": "retain count and IDs as counterexamples but do not score",
+    "sphere_join": "inner join VAST_TABLE2 to surviving table1 void IDs on exact (Cosmo,void); duplicate sphere rows reject",
+    "union": "analytic ray-sphere intervals are clipped to [0,D_path] and unioned, never summed",
+    "units": "VAST h^-1 Mpc are divided by h=0.674 before law evaluation; D_path is Planck2018 comoving Mpc obtained only from CF4 Dist luminosity Mpc"
+  },
+  "input_hashes": {
+    "CF4_TABLE4": "be91d4fae6fa01552ab3bc85db695411fca3249eeae08b566a712e6ea790bd99",
+    "MASK_U8": "e473e5f71860ab3d8580036c2d41ca637af66bc32a6e8701ceb9fc16444520fa",
+    "VAST_TABLE1": "fe430c4e31f879e5678479b6735d84e2e6ac6c26f5bd71115b56d8d2c1bdbeff",
+    "VAST_TABLE2": "8e2a919f70883a5160b668660a06738d9ac0d091e751ee397431f64d4a77c9bf"
+  },
+  "law_content_sha256": "1c835bbd2634aed540926faccde72e9daf7d6b5e209b825ba5ad8786796a3293",
+  "package_id": "open-gravity-void-correlation-executor-contract-v1",
+  "parse_contract": {
+    "encoding": "strict ASCII",
+    "line_endings": "remove exactly one LF and optional preceding CR before record-length check",
+    "missing": "all-space field maps to missing; every required-field missing value rejects the row; missing is never converted to zero",
+    "numeric": "I fields accept optional leading minus then decimal digits; F fields must parse to finite decimal floats; NaN and infinity reject",
+    "predecode_checks": "verify compressed source SHA256, decompressed record count and every fixed record length",
+    "string": "A fields are right-space-trimmed only"
+  },
+  "response_likelihood": {
+    "baseline": "s_FLRW=ln(1+z_D), where z_D is the frozen Planck2018 inversion of CF4 Dist luminosity Mpc",
+    "derivative": "ds_FLRW/dD_L=1/[(1+z_D)*(D_C+(1+z_D)c/(H0*E(z_D)))]",
+    "distance_check": "DMzp and Dist must pass geometry-v3 dual-rounding identity",
+    "distance_sigma": "sigma_D=(ln(10)/5)*Dist*e_DMzp",
+    "law": "delta_H grid -20 to +20 km/s/Mpc inclusive in 0.25 increments; prediction delta_H*L_void_Mpc/c",
+    "likelihood": "independent Gaussian in s residual conditional on frozen nuisance design; no published Vpec field is parsed",
+    "observed": "s_obs=ln(1+V3k/c), c=299792.458 km/s",
+    "permutation": "10000 development permutations of L_void within ten deterministic equal-count Dist strata; PCG64 seed 902104729",
+    "primary_score": "development profile delta-chi-square versus delta_H=0; validation reports frozen signed delta_H and Gaussian log-likelihood difference",
+    "variance": "sigma_s^2=(ds_FLRW/dD_L*sigma_D)^2+(250/c)^2"
+  },
+  "schema": "invariant-open-gravity-void-correlation-executor-contract-receipt-1.0",
+  "split_and_access": {
+    "CONFIRMATION_OPEN": "not authorized by this contract and requires a new explicit release receipt after validation decision freeze",
+    "DEVELOPMENT_OPEN": "decode full CF4 fields only for development IDs; decode frozen VAST predictor geometry; validation and confirmation CF4 rows retain only hashes and byte offsets",
+    "IDS_PARTITIONED": "decode CF4 bytes 1-7 only; all remaining CF4 bytes stay opaque; VAST still opaque",
+    "SOURCE_HASHED": "no decompression or row fields",
+    "VALIDATION_OPEN": "allowed only after development law/nuisance/grid/parser receipt is immutable; confirmation remains opaque",
+    "abort": "any hash, schema, count, duplicate, coordinate, mask, distance, finite-value or minimum-count failure aborts without scoring",
+    "groupwise": "one 1PGC appears in exactly one role and duplicate 1PGC rows reject",
+    "minimum_primary_counts": {
+      "confirmation": 150,
+      "development": 500,
+      "validation": 150
+    },
+    "split": "SHA256 of canonical positive 1PGC ASCII digits; unsigned big-endian digest[0:8] modulo 10; 0-5 development, 6-7 validation, 8-9 confirmation"
+  },
+  "status": "PASS_FIXED_CONTRACT_ROWS_UNOPENED_AWAIT_INDEPENDENT_REAUDIT"
+}

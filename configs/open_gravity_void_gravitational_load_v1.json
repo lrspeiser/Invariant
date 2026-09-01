@@ -1,0 +1,428 @@
+{
+  "schema": "invariant-open-gravity-void-gravitational-load-1.0",
+  "package_id": "open-gravity-void-gravitational-load-v1",
+  "status": "FROZEN_RESPONSE_UNOPENED_THEORY_AND_EMPIRICAL_PREFLIGHT",
+  "purpose": "Turn the proposed matter-fed, matter-screened gravitational-load idea into eleven dimensionally closed executable branches, preserve orthodox conflicts as separately graded counterexamples, and freeze a target-blind Cosmicflows-4 by SDSS-DR7-void test before observational responses are opened.",
+  "origin": {
+    "user_attachment_sha256": "eb707d2b4f818546153773748a957353d24ba9d645a94cd5b501097bec62031e",
+    "interpretation_rule": "Explore empirical predictions before grading consistency with established physics; neither an orthodox conflict nor a synthetic success is a data rejection or discovery.",
+    "path_measure": "dell=-u_a dx^a>0 for the future-directed baryonic matter congruence u^a with u_a u^a=-1; dt_b=dell/c. A null affine parameter is never used as distance or photon proper time."
+  },
+  "local_bindings": [
+    {
+      "role": "AUDIT_RECOVERY_PROGRAM",
+      "path": "runs/gravity/open-gravity-audit-recovery-program-v1/receipt.json",
+      "sha256": "d799116f9746c2daf3b481d79b419627f4222b9a0921528d72c0a6e2c6daa251"
+    },
+    {
+      "role": "PERSISTENT_TIMEWELL_CLOSURE_TAXONOMY",
+      "path": "runs/gravity/open-gravity-persistent-timewell-redshift-closures-v1/receipt.json",
+      "sha256": "70b35cd501d5c50a6f558daed807afab45f2b54bc8463b8e107c78c3125e738e"
+    }
+  ],
+  "dimensions": {
+    "Q": "1",
+    "q_gamma": "1",
+    "rho_b": "M L^-3",
+    "baryon_column_Sigma_b": "M L^-2",
+    "K_L": "L^-3",
+    "J_g": "T^-1",
+    "A_feed": "L^3 M^-1 T^-1",
+    "A_load": "L^3 M^-1",
+    "Gamma_0": "T^-1",
+    "Gamma_b": "L^3 M^-1 T^-1",
+    "D_g": "L^2 T^-1",
+    "sigma_g": "L^2 M^-1",
+    "eta": "T^-1",
+    "beta": "1",
+    "H_g_H_v_H_m": "T^-1",
+    "photon_memory_a_b0": "T^-1",
+    "photon_memory_b_b": "L^3 M^-1 T^-1",
+    "dell": "L",
+    "dt_b": "T",
+    "delta_ln_nu": "1"
+  },
+  "parameters": {
+    "synthetic_unit_statement": "Numerical fixtures use c=dx=1 and dimensionless numerical densities while retaining the physical dimensions declared above.",
+    "c": 1.0,
+    "dx": 1.0,
+    "eta": 0.012,
+    "beta": 0.3,
+    "Gamma_0": 0.5,
+    "Gamma_b": 0.8,
+    "A_feed": 1.2,
+    "A_load": 1.1,
+    "L_g": 5.0,
+    "D_g": 0.2,
+    "sigma_g": 0.25,
+    "rho_star": 0.2,
+    "inverse_density_n": 1.3,
+    "H_g": 0.01,
+    "H_v": 0.016,
+    "H_m": 0.007,
+    "void_density_threshold_over_mean": 0.65,
+    "photon_a": 0.5,
+    "photon_b0": 0.3,
+    "photon_b_b": 0.4,
+    "photon_eta": 0.018,
+    "reservoir_dt": 0.02,
+    "reservoir_steps": 400
+  },
+  "branches": [
+    {
+      "id": "VQ00_STANDARD_FLRW_PECULIAR_CONTROL",
+      "class": "KNOWN_CONTROL",
+      "field_law": "Q is absent",
+      "photon_law": "ln(1+z)=ln(a_o/a_e)+atanh(v_los/c)",
+      "dimension_check": "1=ln(1)+atanh(1)",
+      "limits": ["v_los=0 gives pure FLRW", "a_o=a_e gives the special-relativistic radial Doppler control"],
+      "equivalences": ["mandatory nuisance/control, not a new load law"]
+    },
+    {
+      "id": "VQ01_DIRECT_LOAD_OPTICAL_DEPTH",
+      "class": "DIRECT_CUMULATIVE_HYPOTHESIS",
+      "field_law": "Q is an externally specified scalar load in the synthetic fixture",
+      "photon_law": "d ln(nu)/dt_b=-eta Q; Delta ln(nu)=-(eta/c) integral Q dell",
+      "dimension_check": "1=(T^-1)/(L T^-1)*integral(1 L)",
+      "limits": ["eta=0 gives no additional redshift", "Q=0 gives no additional redshift"],
+      "equivalences": ["constant Q is exactly degenerate with an exponential distance-redshift law on one distance range"]
+    },
+    {
+      "id": "VQ02_SLOWED_LIGHT_NONLINEAR_EXPOSURE",
+      "class": "DIRECT_SLOWED_PHOTON_HYPOTHESIS",
+      "field_law": "Q is externally specified and must satisfy 1+beta Q>0",
+      "photon_law": "c_eff=c/(1+beta Q); Delta ln(nu)=-(eta/c) integral [Q+beta Q^2] dell",
+      "dimension_check": "L T^-1=(L T^-1)/1; 1=(T^-1)/(L T^-1)*L",
+      "limits": ["beta=0 reduces exactly to VQ01 on the same Q", "eta=0 leaves arrival delay but removes redshift"],
+      "equivalences": ["its first-order beta=0 spectrum is VQ01; the Q^2 morphology term is the discriminator"]
+    },
+    {
+      "id": "VQ03_LOCAL_EQUILIBRIUM_LOAD",
+      "class": "LOCAL_SOURCE_SINK_HYPOTHESIS",
+      "field_law": "Q=J_g/(Gamma_0+Gamma_b rho_b)",
+      "photon_law": "Delta ln(nu)=-(eta/c) integral Q dell",
+      "dimension_check": "1=(T^-1)/(T^-1+L^3 M^-1 T^-1*M L^-3)",
+      "limits": ["Gamma_b=0 removes density screening", "uniform J_g and rho_b produce constant Q"],
+      "equivalences": ["the local steady D_g=0 limit of VQ05"]
+    },
+    {
+      "id": "VQ04_YUKAWA_NONLOCAL_BARYON_FEED",
+      "class": "NONLOCAL_SOURCE_SINK_HYPOTHESIS",
+      "field_law": "J_g(x)=A_feed integral K_L(|x-x'|) rho_b(x') d^3x'; K_L=exp(-r/L_g)/(4 pi L_g^2 r); Q=J_g/(Gamma_0+Gamma_b rho_b)",
+      "photon_law": "Delta ln(nu)=-(eta/c) integral Q dell",
+      "dimension_check": "T^-1=(L^3 M^-1 T^-1)*L^-3*(M L^-3)*L^3",
+      "limits": ["homogeneous density gives J_g=A_feed rho_b for a normalized infinite-domain kernel", "L_g controls smoothing rather than a new photon coupling"],
+      "equivalences": ["reduces to VQ03 when its computed J_g is supplied to the local equilibrium law"]
+    },
+    {
+      "id": "VQ05_DIFFUSIVE_SOURCE_SINK_RESERVOIR",
+      "class": "CAUSAL_RESERVOIR_HYPOTHESIS",
+      "field_law": "partial_t Q=D_g laplacian Q+J_g-(Gamma_0+Gamma_b rho_b)Q",
+      "photon_law": "Delta ln(nu)=-(eta/c) integral Q(t_ray,x_ray) dell",
+      "dimension_check": "T^-1=(L^2 T^-1)L^-2+T^-1-T^-1",
+      "limits": ["D_g=0 at steady state reduces pointwise to VQ03", "uniform steady sources have Q=J_g/(Gamma_0+Gamma_b rho_b)"],
+      "equivalences": ["not distinct from VQ03 in the frozen uniform steady fixture; transient and spatial smoothing fixtures separate them"]
+    },
+    {
+      "id": "VQ06_BARYONIC_COLUMN_ATTENUATION",
+      "class": "ATTENUATED_NONLOCAL_HYPOTHESIS",
+      "field_law": "Q(x)=A_load integral rho_b(x') K_L(r) exp[-sigma_g Sigma_b(x',x)] d^3x'",
+      "photon_law": "Delta ln(nu)=-(eta/c) integral Q dell",
+      "dimension_check": "1=(L^3 M^-1)*(M L^-3); sigma_g Sigma_b=(L^2 M^-1)*(M L^-2)=1",
+      "limits": ["sigma_g=0 gives unattenuated Yukawa load", "A_load=0 gives Q=0"],
+      "equivalences": ["not equivalent to VQ04 because attenuation depends on intervening baryonic column"]
+    },
+    {
+      "id": "VQ07_INVERSE_DENSITY_HUBBLE_MIMIC",
+      "class": "EMPIRICAL_PHENOMENOLOGY",
+      "field_law": "Q=[(rho_bar+rho_star)/(rho_b+rho_star)]^n",
+      "photon_law": "Delta ln(nu)=-(H_g/c) integral Q dell",
+      "dimension_check": "1=(T^-1)/(L T^-1)*L; density ratio is dimensionless",
+      "limits": ["n=0 gives Q=1 and a pure exponential Hubble mimic", "rho_star>0 prevents a void divergence"],
+      "equivalences": ["constant line-of-sight mean Q is observationally degenerate with rescaling H_g"]
+    },
+    {
+      "id": "VQ08_TWO_PHASE_VOID_MATTER",
+      "class": "MINIMAL_EMPIRICAL_DISCRIMINATOR",
+      "field_law": "each path cell is void if rho_b/rho_bar<0.65 and matter-rich otherwise",
+      "photon_law": "Delta ln(nu)=-(H_v L_v+H_m L_m)/c",
+      "dimension_check": "1=(T^-1*L)/(L T^-1)",
+      "limits": ["H_v=H_m gives a path-independent exponential Hubble mimic", "L_v=0 or L_m=0 gives the corresponding single phase"],
+      "equivalences": ["a binary coarse graining of VQ07, not a microscopic explanation"]
+    },
+    {
+      "id": "VQ09_PHOTON_CARRIED_LOAD_MEMORY",
+      "class": "ORDER_SENSITIVE_PHOTON_STATE_HYPOTHESIS",
+      "field_law": "Q=J_g/(Gamma_0+Gamma_b rho_b); dq_gamma/dt_b=a Q-(b_0+b_b rho_b)q_gamma",
+      "photon_law": "d ln(nu)/dt_b=-eta_gamma q_gamma",
+      "dimension_check": "T^-1=T^-1*1-(T^-1+L^3 M^-1 T^-1*M L^-3)*1",
+      "limits": ["a=0 and q_gamma(emit)=0 gives no load", "b_0+b_b rho_b>0 gives finite memory", "eta_gamma=0 decouples frequency from memory"],
+      "equivalences": ["fast relaxation approximates a local Q-weighted optical law; finite relaxation is order-sensitive"]
+    },
+    {
+      "id": "VQ10_RESERVOIR_PLUS_SLOWED_PHOTON",
+      "class": "COMBINED_LEAD_HYPOTHESIS",
+      "field_law": "Q solves VQ05 and must satisfy 1+beta Q>0",
+      "photon_law": "c_eff=c/(1+beta Q); Delta ln(nu)=-(eta/c) integral [Q+beta Q^2] dell",
+      "dimension_check": "VQ05 dimensions plus the dimensionless VQ02 exposure",
+      "limits": ["beta=0 gives VQ01 evaluated on the reservoir Q", "D_g=0 at steady state gives VQ02 evaluated on VQ03", "eta=0 preserves only the travel-time prediction"],
+      "equivalences": ["its steady local beta=0 boundary is not a new branch; joint transient, Q^2, and delay signatures are"]
+    }
+  ],
+  "synthetic_fixtures": [
+    "VF00_HOMOGENEOUS_STEADY",
+    "VF01_VOID_RICH_PATH",
+    "VF02_MATTER_RICH_MATCHED_LENGTH",
+    "VF03_ORDER_VOID_THEN_MATTER",
+    "VF04_ORDER_MATTER_THEN_VOID",
+    "VF05_TRANSIENT_SOURCE_ON",
+    "VF06_ZERO_SOURCE_NULL",
+    "VF07_FLRW_TIME_DILATION_CONTROL",
+    "VF08_REVERSE_PATH_RECIPROCITY"
+  ],
+  "separate_consistency_axes": [
+    "observational_fit_unopened",
+    "receiver_or_action_energy_accounting",
+    "causality_and_initial_value_problem",
+    "common_matter_light_closure",
+    "source_lightcurve_time_dilation",
+    "Etherington_distance_duality_and_photon_number",
+    "arrival_time_delay",
+    "chromaticity",
+    "CMB_blackbody_and_anisotropy",
+    "Tolman_surface_brightness",
+    "historical_novelty"
+  ],
+  "published_neighbors": [
+    {
+      "id": "Zwicky_1929",
+      "citation": "F. Zwicky, On the Red Shift of Spectral Lines through Interstellar Space, PNAS 15, 773 (1929)",
+      "doi": "10.1073/pnas.15.10.773",
+      "url": "https://doi.org/10.1073/pnas.15.10.773",
+      "boundary": "early gravitational/tired-light neighbor; not the matter-fed screened reservoir or the frozen void-crossing statistic"
+    },
+    {
+      "id": "Wiltshire_2007",
+      "citation": "D. L. Wiltshire, Cosmic clocks, cosmic variance and cosmic averages, New J. Phys. 9, 377 (2007)",
+      "doi": "10.1088/1367-2630/9/10/377",
+      "url": "https://arxiv.org/abs/gr-qc/0702082",
+      "boundary": "timescape clock-rate/backreaction neighbor based on GR averaging, not photon energy loss to Q"
+    },
+    {
+      "id": "Buchert_2000",
+      "citation": "T. Buchert, On average properties of inhomogeneous fluids in general relativity I, Gen. Rel. Grav. 32, 105 (2000)",
+      "doi": "10.1023/A:1001800617177",
+      "url": "https://arxiv.org/abs/gr-qc/9906015",
+      "boundary": "scalar averaging/backreaction framework; required inhomogeneous-expansion comparator"
+    },
+    {
+      "id": "Sachs_Wolfe_1967",
+      "citation": "R. K. Sachs and A. M. Wolfe, Perturbations of a Cosmological Model and Angular Variations of the Microwave Background, ApJ 147, 73 (1967)",
+      "doi": "10.1086/148982",
+      "url": "https://doi.org/10.1086/148982",
+      "boundary": "known endpoint and integrated time-varying metric shifts; stationary Q optical depth is not automatically an ISW term"
+    },
+    {
+      "id": "Matsakos_Diaferio_2016",
+      "citation": "T. Matsakos and A. Diaferio, Dynamics of galaxies and clusters in refracted gravity, A&A 591, A34 (2016)",
+      "doi": "10.1051/0004-6361/201527919",
+      "url": "https://arxiv.org/abs/1603.04943",
+      "boundary": "density-dependent gravitational permittivity neighbor; it modifies the field equation rather than accumulating photon redshift through a load reservoir"
+    },
+    {
+      "id": "Mashhoon_2014",
+      "citation": "B. Mashhoon, Nonlocal gravity, Annalen Phys. 17, 705 (2008), updated framework references",
+      "doi": "10.1002/andp.200810305",
+      "url": "https://arxiv.org/abs/0805.2926",
+      "boundary": "nonlocal gravitational-memory neighbor; no novelty is inferred merely from a convolution kernel"
+    },
+    {
+      "id": "Goldhaber_2001",
+      "citation": "G. Goldhaber et al., Timescale Stretch Parameterization of Type Ia Supernova B-band Light Curves, ApJ 558, 359 (2001)",
+      "doi": "10.1086/322460",
+      "url": "https://arxiv.org/abs/astro-ph/0104382",
+      "boundary": "source-clock time-dilation control; a pure tired-light loss law does not generate the observed stretch by itself"
+    },
+    {
+      "id": "Etherington_1933",
+      "citation": "I. M. H. Etherington, On the Definition of Distance in General Relativity, Philos. Mag. 15, 761 (1933)",
+      "doi": "10.1080/14786443309462220",
+      "url": "https://doi.org/10.1007/s10714-006-0355-5",
+      "boundary": "reciprocity/distance-duality control; dissipative photon propagation must state exactly which assumption changes"
+    },
+    {
+      "id": "Lubin_Sandage_2001",
+      "citation": "L. M. Lubin and A. Sandage, The Tolman Surface Brightness Test IV, AJ 122, 1084 (2001)",
+      "doi": "10.1086/322134",
+      "url": "https://arxiv.org/abs/astro-ph/0106566",
+      "boundary": "Tolman surface-brightness control including luminosity evolution; not reducible to a redshift-only fit"
+    },
+    {
+      "id": "Tully_2023_CF4",
+      "citation": "R. B. Tully et al., Cosmicflows-4, ApJ 944, 94 (2023)",
+      "doi": "10.3847/1538-4357/ac94d8",
+      "url": "https://arxiv.org/abs/2209.11238",
+      "boundary": "independent-distance primary data source with heterogeneous methods and substantial peculiar-velocity/systematic uncertainty"
+    },
+    {
+      "id": "Sutter_2012_VIDE",
+      "citation": "P. M. Sutter et al., A public void catalog from the SDSS DR7 Galaxy Redshift Surveys based on the watershed transform (2012)",
+      "url": "https://arxiv.org/abs/1207.2524",
+      "boundary": "original public VIDE/ZOBOV DR7 geometry and mask treatment; redshift-derived geometry creates a circularity control"
+    },
+    {
+      "id": "Douglass_2023_VAST",
+      "citation": "K. A. Douglass et al., Updated Void Catalogs of the SDSS DR7 Main Sample, ApJS 265, 7 (2023)",
+      "doi": "10.3847/1538-4365/acabcf",
+      "url": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJS/265/7",
+      "boundary": "public VAST VoidFinder/VIDE/REVOLVER geometry source; algorithms are separate robustness strata, never interchangeable labels"
+    },
+    {
+      "id": "Brout_2022_PantheonPlus",
+      "citation": "D. Brout et al., The Pantheon+ Analysis: Cosmological Constraints, ApJ 938, 110 (2022)",
+      "doi": "10.3847/1538-4357/ac8e04",
+      "url": "https://arxiv.org/abs/2202.04077",
+      "boundary": "cross-check Hubble diagram with its released covariance, selection, calibration, redshift and peculiar-velocity treatment"
+    },
+    {
+      "id": "Hoffman_2021_Cosmicflows_BGc",
+      "citation": "Y. Hoffman et al., From Cosmicflows distance moduli to unbiased distances and peculiar velocities, MNRAS 505, 3380 (2021)",
+      "doi": "10.1093/mnras/stab1457",
+      "url": "https://arxiv.org/abs/2105.08953",
+      "boundary": "Gaussian distance-modulus errors become lognormal distance and velocity errors; mock-tested bias Gaussianization is a mandatory nuisance control"
+    },
+    {
+      "id": "Chuang_2017_Void_RSD",
+      "citation": "C.-H. Chuang et al., Linear redshift space distortions for cosmic voids based on galaxies in redshift space, Phys. Rev. D 95, 063528 (2017)",
+      "doi": "10.1103/PhysRevD.95.063528",
+      "url": "https://arxiv.org/abs/1605.05352",
+      "boundary": "voids identified from redshift-space galaxies carry a void beta/RSD uncertainty that must be mock calibrated rather than treated as true-space geometry"
+    },
+    {
+      "id": "Tully_2019_Local_Void",
+      "citation": "R. B. Tully et al., Cosmicflows-3: Cosmography of the Local Void, ApJ 880, 24 (2019)",
+      "doi": "10.3847/1538-4357/ab2597",
+      "url": "https://arxiv.org/abs/1905.08329",
+      "boundary": "the Local Void produces an ordinary peculiar-velocity signal of order 200-250 km/s for the Local Group and is a mandatory dynamical comparator, not load evidence"
+    }
+  ],
+  "empirical_preflight": {
+    "contract_status": "SOURCE_BLOCKED_EXACT_PAYLOAD_REVISIONS_AND_SHA256_NOT_RECEIPTED_RESPONSE_UNOPENED",
+    "response_status": "NOT_OPENED_NOT_SCORED",
+    "primary_question": "At independently measured distance and after a frozen peculiar-flow model, does signed redshift residual increase with foreground void path length or continuous low-density exposure?",
+    "sources": [
+      {
+        "id": "COSMICFLOWS4",
+        "landing_url": "https://edd.ifa.hawaii.edu/",
+        "paper_url": "https://arxiv.org/abs/2209.11238",
+        "expected_payload": "exact machine-readable CF4 group/galaxy distance table to be selected by an independent source receipt",
+        "required_fields": ["stable object or group identifier", "RA", "Dec", "heliocentric and CMB-frame redshift or velocity", "distance modulus or metric distance", "uncertainty", "distance method", "group identity"],
+        "revision": null,
+        "sha256": null,
+        "gate": "BLOCKED_UNTIL_EXACT_PUBLIC_PAYLOAD_URL_REVISION_LICENSE_AND_SHA256"
+      },
+      {
+        "id": "SDSS_DR7_VAST_VIDE",
+        "landing_url": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJS/265/7",
+        "catalog_id": "J/ApJS/265/7",
+        "paper_url": "https://doi.org/10.3847/1538-4365/acabcf",
+        "expected_payload": "VAST VIDE zone/member geometry plus survey mask and sample-cosmology metadata; also freeze VoidFinder and REVOLVER tables as algorithmic controls",
+        "required_fields": ["void ID", "algorithm", "RA/Dec or Cartesian center", "effective radius", "member/zone geometry sufficient for line intersection", "edge and mask flags", "sample cosmology"],
+        "revision": null,
+        "sha256": null,
+        "gate": "BLOCKED_UNTIL_EXACT_TABLE_NAMES_REVISION_AND_SHA256"
+      },
+      {
+        "id": "PANTHEON_PLUS_CROSSCHECK",
+        "landing_url": "https://github.com/PantheonPlusSH0ES/DataRelease",
+        "paper_url": "https://arxiv.org/abs/2202.04077",
+        "expected_payload": "Pantheon+ Hubble-diagram table and total covariance from one immutable repository revision",
+        "required_fields": ["CID", "RA", "Dec", "zHD", "zCMB", "zHEL", "distance modulus", "covariance index", "survey and host flags"],
+        "revision": null,
+        "sha256": null,
+        "gate": "BLOCKED_UNTIL_IMMUTABLE_COMMIT_EXACT_FILES_AND_SHA256"
+      }
+    ],
+    "object_join": "Resolve CF4 group coordinates and identifiers without redshift-nearest matching. Deduplicate at group level before splitting. Pantheon+ is an independent cross-check and is never used to tune CF4 coefficients.",
+    "intersection_algorithm": [
+      "Convert observer, target, and void geometry to the catalog's explicitly frozen comoving Cartesian convention using only the catalog cosmology.",
+      "Represent each sightline by x(s)=s*n_hat for 0<s<D_independent; D_independent comes from CF4, never cz/H0.",
+      "Calibrate the mapping from released redshift-space void geometry to true-space chord exposure on frozen survey mocks spanning the Chuang et al. void-beta/RSD uncertainty; carry the resulting exposure error and selection covariance into the likelihood.",
+      "Primary geometry uses the released VIDE member/zone boundary if sufficient. Compute ordered ray/zone boundary intersections and sum only intervals whose midpoint is inside the released void zone and survey mask.",
+      "If released zone topology is insufficient, do not silently use spheres: source-block the primary test. A predeclared robustness approximation may intersect ellipsoids fitted only from released member geometry; the spherical R_eff chord is a labeled tertiary sensitivity test.",
+      "For the spherical sensitivity only, solve |s*n_hat-x_v|^2=R_eff^2, clip roots to [0,D], union overlapping intervals, and never double count nested or overlapping voids.",
+      "Return L_void, f_void=L_void/D, number of crossings, maximum chord, ordered chord vector, edge-clipped fraction, and continuous density exposure if the released geometry supports it.",
+      "Reject targets outside the frozen DR7 angular/radial mask; do not impute zero void exposure beyond catalog coverage."
+    ],
+    "splits": {
+      "unit": "CF4 group, with all member galaxies kept in the same fold",
+      "rule": "SHA256(canonical CF4 group identifier) first 8 bytes mod 10",
+      "development": [0, 1, 2, 3, 4, 5],
+      "validation": [6, 7],
+      "sealed_confirmation": [8, 9],
+      "stratification": "report but do not alter folds by distance method, distance quintile, sky sector, group richness, and VAST algorithm"
+    },
+    "comparators": [
+      "FLRW cosmographic distance-redshift relation with frozen H0,q0 or a declared low-z series",
+      "published CF4 peculiar-flow correction and a no-flow CMB-frame sensitivity",
+      "Hoffman et al. bias Gaussianization and a forward lognormal distance-modulus likelihood",
+      "bulk flow plus shear fit on development folds only",
+      "angular and radial selection-function templates",
+      "local density at target and observer separated from foreground path exposure",
+      "distance-method offsets and intrinsic scatter",
+      "VAST VoidFinder and REVOLVER geometry as algorithmic controls",
+      "random sky rotations preserving distance and mask",
+      "redshift-scrambled void catalogs within survey strata",
+      "mock-calibrated true-space exposure with void-beta/RSD uncertainty and redshift-space-only sensitivity",
+      "Local Void dynamical outflow and reconstructed peculiar velocity following the Cosmicflows Local Void analysis",
+      "ISW/time-varying-potential sign and scale comparator",
+      "timescape/backreaction prediction where quantitatively available"
+    ],
+    "likelihood": "Hierarchical Student-t likelihood for y_i=ln(1+z_CMB)-ln(1+z_FLRW(D_i))-registered peculiar-flow term, with published distance uncertainty propagated in latent D_i, distance-method intercepts, group random effects, sky-sector covariance, and one predeclared exposure coefficient per branch. Pantheon+ uses its full released covariance and a separately frozen intercept; no covariance diagonalization shortcut.",
+    "primary_statistic": "validation and sealed-confirmation log predictive density difference versus the best registered FLRW+flow comparator, together with the sign-consistent standardized coefficient for L_void/D at fixed D",
+    "thresholds": {
+      "advance_interesting_observation": "same predeclared sign in development, validation and sealed confirmation; |z_coefficient|>=3 in sealed confirmation; Delta elpd>=10 versus FLRW+flow; and no random-rotation or redshift-scramble control reaches the observed statistic in more than 1 percent of 1000 frozen permutations",
+      "advance_mechanism_candidate": "interesting-observation gate plus transfer across at least two independent distance-method strata and both VIDE and one other VAST algorithm, while local-density-only, sky-sector, distance-method and flow comparators do not absorb the signal",
+      "falsify_frozen_branch_on_this_test": "sealed coefficient has the opposite sign with |z|>=3 or its 95 percent interval excludes the branch's frozen minimum effect after calibration on development only",
+      "inconclusive": "otherwise; source absence is SOURCE_BLOCKED, never a model failure"
+    },
+    "no_retuning": "Choose nuisance priors, exposure normalization, branch parameter grid and effect threshold from development only; lock a content hash before validation; never alter after any validation or confirmation residual is opened.",
+    "parameter_grid_rule": "The first empirical executor must freeze a finite dimensionful grid from external constraints or development only. This theory packet intentionally supplies no fitted cosmic eta, beta, Gamma, D_g, L_g or H_g values.",
+    "minimum_effect_rule": "A branch cannot be falsified for small amplitude until its nonzero amplitude is fixed independently; zero is retained as a nested null wherever mathematically permitted. Shape/sign tests may still reject a frozen nonzero realization.",
+    "circularity_warning": "The void catalogs are inferred from redshift-space galaxy positions. Independent CF4 distances, mock-calibrated real-space reconstruction with void-beta/RSD uncertainty, random rotations and alternate void finders are mandatory; a correlation with the same redshifts used to build geometry is not independent evidence.",
+    "paid_calls": 0,
+    "model_calls": 0
+  },
+  "decision_policy": {
+    "retain_every_failure": true,
+    "orthodoxy_rule": "Do not discard a branch merely because it conflicts with a standard model. Compute its signature first, then record empirical fit, internal mathematical closure, established-physics consistency, and novelty as separate axes.",
+    "lead_discriminator": "At matched independent distance and endpoints, VQ09 predicts different redshift for the same total void and matter columns when their order is reversed; VQ10 instead predicts a fixed same-field pairing of nonlinear Q^2 redshift exposure and positive arrival-time delay. FLRW plus a static endpoint peculiar velocity predicts neither ordering memory nor that paired propagation-delay relation.",
+    "publication_gate": "A theory/methods note may report the taxonomy, exact equivalences, executable fixtures and frozen discriminator. An observational claim requires receipted payloads, sealed confirmation, independent audit and all registered controls. A gravity discovery additionally requires a receiver/action or common metric/matter/light completion and cross-probe survival."
+  },
+  "access_contract": {
+    "raw_observational_payload_files_opened": 0,
+    "observational_response_rows_opened": 0,
+    "observational_response_rows_scored": 0,
+    "network_calls_by_builder": 0,
+    "external_model_calls_by_packet": 0,
+    "paid_calls_by_packet": 0,
+    "empirical_retuning_events": 0
+  },
+  "claim_boundary": {
+    "executable_theory_branches": true,
+    "dimensions_closed": true,
+    "invariant_baryon_frame_path_measure": true,
+    "synthetic_laws_solved": true,
+    "empirical_contract_frozen": true,
+    "exact_observational_payload_receipts": false,
+    "observational_rows_opened": false,
+    "real_data_fit": false,
+    "historical_novelty_established": false,
+    "covariant_action_established": false,
+    "gravity_discovery": false
+  },
+  "outputs": {
+    "receipt": "runs/gravity/open-gravity-void-gravitational-load-v1/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-void-gravitational-load-v1/artifacts"
+  }
+}

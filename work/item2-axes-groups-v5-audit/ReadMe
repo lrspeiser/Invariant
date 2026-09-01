@@ -1,0 +1,184 @@
+J/A+A/690/A52          AXES-SDSS galaxy groups                  (Damsted+, 2024)
+================================================================================
+AXES-SDSS: Comparison of SDSS galaxy groups with all-sky X-ray extended sources.
+    Damsted S., Finoguenov A., Lietzen H., Mamon G.A., Comparat J., Tempel E.,
+    Dmitrieva I., Clerc N., Collins C., Gozaliasl G., Eckert D.
+    <Astron. Astrophys. 690, A52 (2024)>
+    =2024A&A...690A..52D        (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Clusters, galaxy ; X-ray sources ; Optical
+Keywords: galaxies: clusters: general -
+          galaxies: clusters: intracluster medium - galaxies: groups: general -
+          cosmology: observations - large-scale structure of Universe
+
+Abstract:
+    Advances in cosmological studies require us to improve our
+    understanding of the baryonic content of galaxy groups. The key
+    baryonic components of groups are galaxies and hot gas, while key
+    non-baryonic mass tracers are the velocity dispersion of galaxies and
+    the distribution of galaxies within the group. We revisit the picture
+    of X-ray emission of groups through the study of systematic
+    differences in the optical properties of groups, with and without
+    X-ray emission, and we study the effect of the large-scale density
+    field on scaling relations. We present the identification of X-ray
+    galaxy groups using a combination of ROSAT All Sky Survey (RASS) and
+    Sloan Digital Sky Survey (SDSS) data. We include a new X-ray
+    reanalysis of RASS, covering very extended (up to a size of half a
+    degree) sources, and we account for differences in the limiting
+    sensitivity with respect to compact and very extended X-ray emission.
+    We applied a screening of the identified X-ray sources, based on the
+    optical properties, to achieve 95% clean catalogues. We used a mock
+    SDSS survey to understand the performance of our FoF group finder and
+    applied the Clean algorithm to revise group mass estimates and achieve
+    a clean membership catalogue. X-ray groups exhibit less scatter in the
+    scaling relations and selecting the groups based on the extended X-ray
+    emission leads to an additional scatter reduction. Most of the scatter
+    for the optical groups is associated with a small (6%) fraction of
+    outliers, primarily associated with low optical-luminosity groups
+    found in dense regions of the cosmic web. These groups are primary
+    candidates for the contaminants in the optical group catalogues. We
+    find that removing only those groups from the optical group sample
+    using optically measured properties leads to a substantial reduction
+    in the scatter of the scaling relations of the optical groups. We
+    report a dependence of both the X-ray and optical luminosity of groups
+    {on large-scale density}, which we associate with the assembly bias.
+    These results motivate an introduction of an additional
+    characterisation of galaxy clusters and shed light on the physical
+    origin of the anomalous clustering of galaxy clusters, found by the
+    Dark Energy Survey (DES).
+
+Description:
+    We present catalogues of SDSS groups of galaxies with extended
+    and compact X-ray emission and compare those to the full sample of
+    optical groups matched in terms of the velocity dispersion.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName      Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe            80        .   This file
+tablec1.dat      231     8465   Clean SDSS FoF groups
+tablec2.dat      134     1121   Compact X-ray catalogue of SDSS groups
+tablec3.dat      148      312   Extended X-ray catalogue of SDSS groups
+tablec4.dat       86    77224   Clean members of SDSS FoF groups
+--------------------------------------------------------------------------------
+
+See also:
+           IX/10 : ROSAT All-Sky Bright Source Catalogue (1RXS) (Voges+ 1999)
+           IX/29 : ROSAT All-Sky Survey Faint Source Catalog (Voges+ 2000)
+   J/A+A/461/397 : RASS-SDSS galaxy cluster survey. V. (Popesso+, 2007)
+
+Byte-by-byte Description of file: tablec1.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units                 Label     Explanations
+--------------------------------------------------------------------------------
+   1-  5  I5    ---                   Group     FoF group identification number
+                                                 (GROUP_ID)
+   7- 24 F18.14 deg                   RAdeg     Highest rank galaxy next X-ray
+                                                 peak, right ascension (J2000)
+                                                 (RA_OPT)
+  26- 46 F21.18 deg                   DEdeg     Highest rank galaxy next X-ray
+                                                 peak, declination (J2000)
+                                                 (DEC_OPT)
+  48- 50  I3    ---                   Nmemb     Number of spectroscopic members
+                                                 after the cleaning (NMEM)
+  52- 69 F18.16 ---                   zsp       Group redshift, assigned using
+                                                 median value of clean members
+                                                 (ZSPEC)
+  71- 89 F19.14 km/s                  sigmaGAP  Gapper estimate of the cluster
+                                                 velocity dispersion (VDISP_GAP)
+  91-109 F19.15 km/s                e_sigmaGAP  Error on sigmaGAP (EVDISP_GAP)
+ 111-130 F20.15 km/s                  sigmaMAD  Velocity dispersion from mean
+                                                 absolute deviation (VDISP_MAD)
+ 132-149 F18.13 kpc                   R200c     R200c radius (R_200c)
+ 151-170 F20.16 Lsun                  LR195     ?=-99 Cleaned luminosity in
+                                                 r band, using Mr<-19.5 galaxy
+                                                 sample (z<0.06 groups)
+                                                 (L_R195_CLEAN)
+ 172-194 F23.19 Lsun                e_LR195     ?=-99 Error on LR195
+                                                 (EL_R195_CLEAN)
+ 196-206  F11.8 1022700000Msun/Mpc3   D10       Large-scale density, in
+                                                 0.01227*10^10^M_{sun}/Mpc^3^
+                                                 units (D_10)
+ 208-231 E24.16 1022700000Msun/Mpc3 e_D10       Error on D10, in
+                                                 0.01227*10^10^M_{sun}/Mpc^3^
+                                                 units  (ED_10)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tablec2.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units    Label     Explanations
+--------------------------------------------------------------------------------
+   1-  5  I5    ---      Group     FoF group identification number (GROUP_ID)
+   7- 24 F18.16 ---      zsp       Group redshift, assigned using median value
+                                    of clean members (ZSPEC)
+  26- 30  I5    ---      CODEX     The CODEX cluster candidate unique identifier
+                                    (CODEX)
+  32- 40  F9.5  deg      RAdeg     X-ray detection right ascension (J2000) (RA)
+  42- 49  F8.5  deg      DEdeg     X-ray detection declination (J2000) (DEC)
+  51- 72 E22.16 10-7W    LX0124    Luminosity in the (0.1-2.4)keV band of the
+                                    cluster, aperture R500c (LX0124)
+  74- 95 E22.16 10-7W  e_LX0124    Uncertainty on LX0124 (ELX)
+  97-102  F6.4  deg      R200c     Apparent R200c radius of the galaxy cluster
+                                    (R200C_DEG)
+ 104-113  E10.4 mW/m2    Flux052   Galaxy cluster X-ray flux in the 0.5-2.0keV
+                                    band (FLUX052)
+ 115-124  E10.4 mW/m2  e_Flux052   Uncertainty on FLUX052 (EFLUX052)
+ 126-134  F9.6  arcmin   RE        Apparent radial extent of X-ray emission
+                                    (R_E)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tablec3.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  5  I5    ---     Group     FoF group identification number (GROUP_ID)
+   7- 24 F18.16 ---     zp        Group redshift, assigned using median value
+                                   of clean members (ZSPEC)
+  26- 33  I8    ---     AXES      The AXES cluster candidate unique identifier
+                                   (AXES)
+  35- 43  F9.5  deg     RAdeg     X-ray detection right ascension (J2000) (RA)
+  45- 52  F8.5  deg     DEdeg     X-ray detection declination (J2000) (DEC)
+  54- 75 E22.16 10-7W   LX0124    Luminosity in the (0.1-2.4)keV band of the
+                                   cluster, aperture R500c (LX0124)
+  77- 98 E22.16 10-7W e_LX0124    Uncertainty on LX0124 (ELX)
+ 100-105  F6.4  deg     R200c     Apparent R200c radius of the galaxy cluster
+                                   (R200C_DEG)
+ 107-116  E10.4 mW/m2   Flux052   Galaxy cluster X-ray flux in the 0.5-2.0keV
+                                   band (FLUX052)
+ 118-127  E10.4 mW/m2 e_Flux052   Uncertainty on Flux052 (EFLUX052)
+ 129-136  F8.5  arcmin  RE        Apparent radial extent of X-ray emission (R_E)
+     138  I1    ---     Flag      [1/3] X-ray flux contamination flag (FLAG) (1)
+ 140-143  F4.2  ---     Acor      Ratio between the extrapolated and the
+                                   measured flux (ACOR)
+ 145-148  F4.2  ---     Kcor      K-correction to compute the flux in the
+                                   rest-frame 0.1-2.4keV band (KCOR)
+--------------------------------------------------------------------------------
+Note (1): X-ray flux contamination flag as follows:
+   1 = sources have no contamination
+   2 = We have either changed the flux extraction area to avoid contamination or
+        removed the source from the analysis in cases of strong confusion and
+        where the significance of flux estimate from the uncontaminated area
+        is low (below 95% confidence level)
+   3 = sources where the contamination could not be fully excluded but was
+        also not obvious
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tablec4.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label      Explanations
+--------------------------------------------------------------------------------
+   1-  5  I5    ---     Group      FoF group identification number (GROUP_ID)
+   7- 12  I6    ---     GalID      FoF ID of the galaxy (GALID)
+  14- 32  I19   ---     SpecObjID  SDSS ID of the galaxy (specobjid)
+  34- 46  F13.9 deg     RAdeg      Right ascension (J2000) (RA_GAL)
+  48- 60  E13.5 deg     DEdeg      Declination (J2000) (DEC_GAL)
+  62- 72  F11.9 ---     zsp        Galaxy redshift (ZSPEC)
+  74- 86  E13.5 Lsun    Lr         r-band luminosity (L_R)
+--------------------------------------------------------------------------------
+
+Acknowledgements:
+     Alexis Finoguenov, alexis.finoguenov(at)helsinki.fi
+
+================================================================================
+(End)                                        Patricia Vannier [CDS]  23-Jul-2024

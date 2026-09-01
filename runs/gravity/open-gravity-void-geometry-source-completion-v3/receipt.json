@@ -1,0 +1,74 @@
+{
+  "access_accounting": {
+    "real_scores": 0,
+    "response_values_inspected": 0,
+    "scientific_rows_decoded": 0
+  },
+  "bindings": {
+    "config_content_sha256": "8a389d86254ae1d1fd18f462d540daf937b10b514a8ba7d1f47b01d46f34ace4",
+    "config_raw_sha256": "05a8ec88a9d37db28f3a9e9d991108e5b3388dac2cf55e1017f6b7d431e45c36",
+    "module_raw_sha256": "41139e24dfedd1fa0ff58e65e0d6a8c61661a0277069735179e123b4263976b4",
+    "module_semantic_sha256": "8f0d20a1788322fdb26cce3af17c7e7669aa4f55d894ce9eadabb8249e2e8128",
+    "predecessor_raw_sha256": "7fc6480745138bddc8f1a86948b61cf916448c8b0930750e52ee4f10e9b276a0",
+    "test_raw_sha256": "e68bac67a32aae5e8aee530a66845f0ad3600ef54595966d910711f21bd28771"
+  },
+  "canonical_mask": {
+    "bytes": 64800,
+    "interpretation": "Canonical uint8 mask produced by inspection of the exact pinned pickle opcode stream. No pickle opcode is executed; STACK_GLOBAL, REDUCE and BUILD are inert data seen only by pickletools.genops.",
+    "path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/artifacts/mask-u8.bin",
+    "sha256": "e473e5f71860ab3d8580036c2d41ca637af66bc32a6e8701ceb9fc16444520fa"
+  },
+  "cf4_distance_columns": {
+    "DMzp": {
+      "role": "rounding consistency and uncertainty coordinate only",
+      "type": "F6.3",
+      "unit": "mag"
+    },
+    "Dist": {
+      "role": "sole Mpc input to geometry and FLRW inversion",
+      "type": "F5.1",
+      "unit": "Mpc"
+    },
+    "e_DMzp": {
+      "role": "distance likelihood uncertainty",
+      "type": "F5.3",
+      "unit": "mag"
+    },
+    "identity": "Dist=10^((DMzp-25)/5) Mpc before independent catalog rounding",
+    "tolerance": "abs(Dist-D_formula)<=0.05 Mpc + D_formula*(10^(0.0005/5)-1), covering half of the 0.1 Mpc Dist step and half of the 0.001 mag DMzp step"
+  },
+  "claim_boundary": {
+    "correlation_geometry_ready": true,
+    "mechanism_inference": false,
+    "publication_ready": false,
+    "real_data_fit": false
+  },
+  "content_sha256": "948abc576949f9d3872094f390b2828e817b71cc65dbb580366a88c386a0e31a",
+  "decision": "GEOMETRY_READY_FOR_INDEPENDENT_REAUDIT_BEFORE_EXECUTOR",
+  "gates": [
+    {
+      "check_id": "CF4_DISTANCE_ROUNDING_IDENTITY",
+      "diagnostic": 0.0,
+      "passed": true
+    },
+    {
+      "check_id": "NONFINITE_FAIL_CLOSED",
+      "diagnostic": 5.0,
+      "passed": true
+    },
+    {
+      "check_id": "CODE_PINS_ENFORCED",
+      "diagnostic": 0.0,
+      "passed": true
+    },
+    {
+      "check_id": "ROWS_UNOPENED",
+      "diagnostic": 0.0,
+      "passed": true
+    }
+  ],
+  "package_id": "open-gravity-void-geometry-source-completion-v3",
+  "predecessor_content_sha256": "011a0d2859142b7ed54a72605d72e7429b86d0882bd8ce6ce06c5c7d08ed11b6",
+  "schema": "invariant-open-gravity-void-geometry-source-completion-receipt-3.0",
+  "status": "PASS_DISTANCE_TYPED_FAIL_CLOSED_ROWS_UNOPENED"
+}

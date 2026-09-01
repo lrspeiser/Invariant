@@ -1,0 +1,220 @@
+{
+  "schema": "open-gravity-real-shaped-synthetic-universe-2.0",
+  "suite_id": "open-gravity-real-shaped-synthetic-universe-v2",
+  "version": "v2.0.0-foundation",
+  "status": "SOURCE_ANCHORED_POPULATION_CONTRACT_GENERATORS_PENDING",
+  "purpose": "Define broad, response-blind real-shaped synthetic populations that steer formula exploration without accepting or rejecting theories.",
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "anchor_policy": {
+    "source_only_calibration_allowed": true,
+    "response_calibration_requires_development_only_label": true,
+    "response_calibrated_dataset_forbidden_for_confirmation": true,
+    "latent_truth_visible_to_formula": false,
+    "scoring_response_visible_to_formula": false
+  },
+  "source_anchors": [
+    {
+      "anchor_id": "galaxy.phangs-things-3d.v1",
+      "domain": "galaxy",
+      "path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-source-builder-v1/receipt.json",
+      "sha256": "18c7d20b1ff7413edbd1b0b9277c53e6cbe4d9d05b4bcf55a8c70bc054f8ea82",
+      "calibration_tier": "PUBLIC_SOURCE_ONLY"
+    },
+    {
+      "anchor_id": "cluster.xcop-source.v1",
+      "domain": "cluster",
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1-source/source-receipt.json",
+      "sha256": "819360acdd40c58254cc43b18f9d6613b2c5f908122e134b7fa4b3f346b69aac",
+      "calibration_tier": "PUBLIC_SOURCE_ONLY"
+    },
+    {
+      "anchor_id": "solar.lane6-source-domain.v2",
+      "domain": "solar",
+      "path": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v2/receipt.json",
+      "sha256": "2e7d05d87897495cd8800008ff83d96540060847e429b7ab9351d9fda6e8fa64",
+      "calibration_tier": "PUBLIC_SOURCE_ONLY"
+    },
+    {
+      "anchor_id": "lensing.eso325-source.v5",
+      "domain": "lensing",
+      "path": "runs/gravity/open-gravity-same-law-eso325-extended-source-v5/receipt.json",
+      "sha256": "8bd86bdacfbe856ef9c787548a5c695ca0544229cc83ab5d1edc64ed19e6da17",
+      "calibration_tier": "PUBLIC_SOURCE_ONLY"
+    },
+    {
+      "anchor_id": "clock.galileo-e14-source.v1",
+      "domain": "clock",
+      "path": "runs/gravity/open-gravity-galileo-e14-source-receipt-v1/receipt.json",
+      "sha256": "2cc7a34198b7e35e5f1756f983897126335c354990e73d6421e17cb510a4e69d",
+      "calibration_tier": "PUBLIC_SOURCE_ONLY"
+    },
+    {
+      "anchor_id": "gw.gw170817-source.v1",
+      "domain": "gw",
+      "path": "runs/gravity/open-gravity-differential-propagation-gw170817-source-preflight-v1/receipt.json",
+      "sha256": "f550419b0cd62b9f5dd403f7659beb06a4113bfa5fa0faa9aeb4be92d9a9d772",
+      "calibration_tier": "PUBLIC_SOURCE_ONLY"
+    },
+    {
+      "anchor_id": "void.cf4-vast-source.v1",
+      "domain": "void",
+      "path": "runs/gravity/open-gravity-void-cf4-vast-source-acquisition-v1/receipt.json",
+      "sha256": "f343f555bfac633ee14ab746a84009d6b2a735655a7a638666f9edf9536dfcdb",
+      "calibration_tier": "PUBLIC_SOURCE_ONLY"
+    },
+    {
+      "anchor_id": "simulation.camels-source.v1",
+      "domain": "simulation",
+      "path": "runs/gravity/open-gravity-dissipative-capture-camels-source-preflight-v1/receipt.json",
+      "sha256": "61a82204f27dd4f4eaba714453c164c87c4d6bb67cccd34f855e8e5a311ed649",
+      "calibration_tier": "PUBLIC_SOURCE_ONLY"
+    }
+  ],
+  "domains": [
+    {
+      "domain": "galaxy",
+      "experiment_id": "galaxy.synthetic.v2",
+      "required_features": [
+        "detector.beam.kernel",
+        "environment.vector.external-acceleration",
+        "geometry.scalar.distance",
+        "geometry.vector.disk-normal",
+        "source.scalar.atomic-gas-density",
+        "source.scalar.molecular-gas-density",
+        "source.scalar.radius",
+        "source.scalar.stellar-density",
+        "source.tensor.shape",
+        "source.vector.acceleration"
+      ],
+      "response_features": ["response.scalar.circular-speed", "response.vector.velocity-field"],
+      "population_axes": ["bar-strength", "environment", "inclination", "surface-density", "thickness"],
+      "observation_transforms": ["beam", "distance", "inclination", "line-of-sight", "mask", "velocity-covariance"],
+      "conventional_controls": ["aqual", "newton-nfw", "qumond", "rar"]
+    },
+    {
+      "domain": "cluster",
+      "experiment_id": "cluster.synthetic.v2",
+      "required_features": [
+        "environment.scalar.nonthermal-pressure-fraction",
+        "environment.tensor.line-of-sight-structure",
+        "geometry.scalar.distance",
+        "source.scalar.gas-density",
+        "source.scalar.pressure",
+        "source.scalar.stellar-density",
+        "source.scalar.temperature",
+        "source.tensor.shape"
+      ],
+      "response_features": ["response.scalar.lensing-shear", "response.vector.hydrostatic-acceleration"],
+      "population_axes": ["hydrostatic-bias", "merger-state", "nonthermal-support", "triaxiality"],
+      "observation_transforms": ["beam", "line-of-sight", "pressure-covariance", "selection", "shear-kernel"],
+      "conventional_controls": ["gr-nfw", "hydrostatic-bias", "line-of-sight-mass", "nonthermal-pressure"]
+    },
+    {
+      "domain": "solar",
+      "experiment_id": "solar.synthetic.v2",
+      "required_features": [
+        "detector.scalar.station-clock",
+        "environment.scalar.plasma-delay",
+        "history.vector.body-position",
+        "history.vector.body-velocity",
+        "source.scalar.body-mass",
+        "source.tensor.quadrupole"
+      ],
+      "response_features": ["response.scalar.doppler", "response.scalar.range", "response.vector.astrometry"],
+      "population_axes": ["asteroid-kbo", "cadence", "j2", "plasma", "station-bias"],
+      "observation_transforms": ["light-time", "plasma", "range-bias", "station-clock", "tracking-cadence"],
+      "conventional_controls": ["gr-eih", "j2", "planetary-mass-bias", "plasma-delay"]
+    },
+    {
+      "domain": "lensing",
+      "experiment_id": "lensing.synthetic.v2",
+      "required_features": [
+        "detector.psf.kernel",
+        "geometry.scalar.distance",
+        "photon.scalar.frequency",
+        "photon.vector.ray-path",
+        "source.scalar.lens-density",
+        "source.vector.stellar-kinematics"
+      ],
+      "response_features": ["response.scalar.arc-brightness", "response.scalar.image-delay", "response.scalar.redshift"],
+      "population_axes": ["anisotropy", "line-of-sight", "mass-sheet", "source-morphology"],
+      "observation_transforms": ["astrometry", "lens-light", "lsf", "psf", "ray-trace", "source-reconstruction"],
+      "conventional_controls": ["gr-stars-nfw", "kinematic-anisotropy", "line-of-sight-convergence", "mass-sheet"]
+    },
+    {
+      "domain": "clock",
+      "experiment_id": "clock.synthetic.v2",
+      "required_features": [
+        "detector.scalar.clock-cadence",
+        "environment.scalar.plasma-delay",
+        "environment.scalar.temperature",
+        "history.vector.orbit-state",
+        "source.scalar.potential"
+      ],
+      "response_features": ["response.scalar.clock-residual"],
+      "population_axes": ["clock-noise", "gaps", "orbit-error", "phase", "temperature"],
+      "observation_transforms": ["clock-drift", "gaps", "jumps", "plasma", "sampling"],
+      "conventional_controls": ["gr-endpoint", "orbit-curvature", "phase-shift", "temperature-drift"]
+    },
+    {
+      "domain": "gw",
+      "experiment_id": "gw.synthetic.v2",
+      "required_features": [
+        "detector.scalar.calibration",
+        "detector.scalar.data-quality-mask",
+        "detector.scalar.psd",
+        "detector.tensor.antenna-response",
+        "history.tensor.source-waveform"
+      ],
+      "response_features": ["response.tensor.strain"],
+      "population_axes": ["calibration", "glitch", "network", "source-parameters", "waveform-systematic"],
+      "observation_transforms": ["antenna", "calibration", "frequency-grid", "psd", "window"],
+      "conventional_controls": ["calibration-error", "glitch", "gr-waveform", "psd-uncertainty"]
+    },
+    {
+      "domain": "void",
+      "experiment_id": "void.synthetic.v2",
+      "required_features": [
+        "environment.scalar.flow-velocity",
+        "geometry.scalar.distance",
+        "geometry.scalar.void-path-length",
+        "geometry.vector.sky-position",
+        "selection.scalar.sky-mask",
+        "source.scalar.density-contrast"
+      ],
+      "response_features": ["response.scalar.redshift-residual"],
+      "population_axes": ["distance-error", "malmquist", "mask", "void-exposure"],
+      "observation_transforms": ["distance-error", "flow", "mask", "selection", "void-intersection"],
+      "conventional_controls": ["endpoint-density", "flrw-distance", "peculiar-flow", "selection-bias"]
+    },
+    {
+      "domain": "simulation",
+      "experiment_id": "simulation.synthetic.v2",
+      "required_features": [
+        "history.scalar.cooling-rate",
+        "history.scalar.energy-dissipation",
+        "history.scalar.shock-mach",
+        "history.tree.merger",
+        "selection.scalar.halo-match"
+      ],
+      "response_features": ["response.scalar.capture-state"],
+      "population_axes": ["cadence", "mass-ratio", "matching-failure", "resolution"],
+      "observation_transforms": ["cadence", "halo-matching", "resolution", "tree-interval"],
+      "conventional_controls": ["collisionless-relaxation", "cooling-shock", "dynamical-friction", "gw-loss"]
+    }
+  ],
+  "output_policy": {
+    "retain_invalids": true,
+    "retain_timeouts": true,
+    "retain_equivalences": true,
+    "discovery_statuses": [
+      "AMBIGUOUS_WITH_COMPARATOR",
+      "NUMERICAL_INVALID",
+      "OUT_OF_REGISTERED_DOMAIN",
+      "PROMISING_DISTINCT_SIGNATURE",
+      "SOURCE_ELEMENT_MISSING",
+      "UNDERPOWERED"
+    ],
+    "empirical_support_language_forbidden": true
+  }
+}

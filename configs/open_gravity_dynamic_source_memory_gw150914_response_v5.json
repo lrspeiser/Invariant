@@ -1,0 +1,21 @@
+{
+  "schema_version":"invariant-open-gravity-dynamic-source-memory-gw150914-response-config-5.0",
+  "analysis_id":"open-gravity-dynamic-source-memory-gw150914-response-v5",
+  "status":"FROZEN_RESPONSE_BLIND_FRACTIONAL_GRID_FINAL_REPAIR",
+  "purpose":"Final pre-response repair: evaluate the inherited bounded grids at their exact fractional start using an FFT phase origin, never round a declared time and never evaluate above a declared maximum.",
+  "bindings":{
+    "v4_config_path":"configs/open_gravity_dynamic_source_memory_gw150914_response_v4.json","v4_config_sha256":"e242774533dde5d01cad1cb721b5112f84c5190359b9d16bda188f45c08f5e58",
+    "v4_module_path":"src/sigma_theory_compiler/open_gravity_dynamic_source_memory_gw150914_response_v4.py","v4_module_sha256":"d897daedbf2ecf0ec82205081aeaee36335648ad8144be480cb5a24201b73ff3",
+    "v4_intent_path":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v4/intent-receipt.json","v4_intent_sha256":"fe03eaaacbb9b9b867b97c7a6df82a9061aa021fd04b73eaa66bef7f6b668801",
+    "v4_injection_path":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v4/injection-receipt.json","v4_injection_sha256":"4f535db8243ef0a7fcbc01bb0376efd8dc9f2b8fb8f333debcb193c20692b5a3",
+    "v4_injection_status":"FAILED_K03_114_OF_128_AND_SUPERSEDED_FOR_ROUNDED_TIME_ORIGIN",
+    "v3_source_receipt_path":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/source-receipt.json","v3_source_receipt_sha256":"97eb652dd4261e9ba1850f643299f67bc5ea65575614caf4611e912654238aac",
+    "v3_schema_receipt_path":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/schema-receipt.json","v3_schema_receipt_sha256":"79bebdc425f0c33010d40fe12d8847562858f11197ec3a3e94aaaa6de831df3a"
+  },
+  "package":{"module_path":"src/sigma_theory_compiler/open_gravity_dynamic_source_memory_gw150914_response_v5.py","test_path":"tests/test_open_gravity_dynamic_source_memory_gw150914_response_v5.py","intent_receipt":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v5/intent-receipt.json","injection_receipt":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v5/injection-receipt.json","result_receipt":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v5/result-receipt.json"},
+  "grid_rule":"x_j=min+j*step for every integer j>=0 with x_j<=max; common time has 410 points and L1-H1 delay has 82 points. Correlations multiply by exp(2*pi*i*f*min) then sample the FFT at successive integer lags.",
+  "causality_rule":"inverse-transform every frozen template and require maximum absolute response before the first nonzero NR source sample <=1e-12; retain each maximum",
+  "science":"All v2/v3 kernels, parameters, source normalization, T_star, event anchor, preprocessing, likelihood, 128x7x3 injections, equivalence families, PSD/calibration/source-ringdown countermodels and claim ceiling remain unchanged.",
+  "response_access_at_freeze":{"strain_values_read":0,"real_scores":0,"DQ_values_read":64,"post_response_tuning":0},
+  "claim_ceiling":"DEVELOPMENT_DIAGNOSTIC_ONLY_NOT_MEMORY_EVIDENCE"
+}

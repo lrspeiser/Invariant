@@ -1,0 +1,119 @@
+{
+  "schema": "invariant-open-gravity-rg-sings-stellar-conversion-contract-1.0",
+  "package_id": "open-gravity-rg-sings-stellar-conversion-contract-v1",
+  "status": "FROZEN_SOURCE_ONLY_THREE_CELL_STELLAR_CONVERSION_CONTRACT",
+  "purpose": "Freeze three paper-backed SINGS stellar-map conversions and their S4G overlap behavior before any of the seven new THINGS velocity responses are opened.",
+  "admission": {
+    "source_data": "Public SINGS IRAC1/IRAC2 images and weights, benchmarked against public S4G Pipeline 5 stellar/nonstellar products for three overlap galaxies.",
+    "primary_papers": [
+      {
+        "citation": "Kennicutt et al. 2003, PASP 115, 928, SINGS",
+        "url": "https://arxiv.org/abs/astro-ph/0305437"
+      },
+      {
+        "citation": "Meidt et al. 2012, ApJ 744, 17, ICA separation at 3.6 and 4.5 micron",
+        "url": "https://arxiv.org/abs/1110.2683"
+      },
+      {
+        "citation": "Querejeta et al. 2015, ApJS 219, 5, S4G Pipeline 5 mass maps",
+        "url": "https://arxiv.org/abs/1410.0009"
+      },
+      {
+        "citation": "McGaugh & Schombert 2014, AJ 148, 77, near-IR stellar mass-to-light calibration",
+        "url": "https://arxiv.org/abs/1402.5210"
+      }
+    ],
+    "independent_benchmarks": [
+      "exact two-component mixing-matrix reconstruction",
+      "three real SINGS-S4G overlap galaxies",
+      "fixed-M/L and observed-global-color analytic transformations"
+    ],
+    "response_data_used": false
+  },
+  "bindings": {
+    "source_acquisition": {
+      "config_path": "configs/open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_source_acquisition_v1.json",
+      "config_raw_sha256": "a55b4ae9e262783f0622b59411fe23aaae4ec7ffa56184cc66dca257bde457c1",
+      "module_path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_source_acquisition_v1.py",
+      "module_raw_sha256": "e855540dfadac04d51543923ac7cc09c0b9c9de9cad778c3cac95792def7a4f6",
+      "test_path": "tests/test_open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_source_acquisition_v1.py",
+      "test_raw_sha256": "c80e8f8917b7ee07a96548f0af36ec057c8a5aa4728ade6f2c44e7db3df2f771",
+      "receipt_path": "runs/gravity/open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-source-acquisition-v1/receipt.json",
+      "receipt_raw_sha256": "d75575e1ecbb8e4081434e3879b3f2ca1d6170656ef104b353d01734d9c43fb5",
+      "receipt_content_sha256": "cdc063c777919de5d6af9a53e0f982f2a47b87de00fb60d5a33e150996e20d81"
+    },
+    "irac2_inventory": {
+      "path": "work/rg-sings-irac2-source-download-inventory-v1.json",
+      "raw_sha256": "307f384509c76683e74ec20ab4b3ab20bbb0bc18b5eae8c7926cd160949cd970",
+      "content_sha256": "55af027210ac173ce25398807d8529d0b396a39cc606819edf5b3f1d6a7a0d7b"
+    },
+    "raw_irac1_overlap": {
+      "script_path": "work/analyze_rg_sings_s4g_overlap_source_only.py",
+      "script_raw_sha256": "1c6251c26dada4bc7ece37b8b234ab29940a0640286e6dbb2d765f610a4d02e7",
+      "result_path": "work/rg-sings-s4g-overlap-source-comparison-v3.json",
+      "result_raw_sha256": "b4308429029c37b99a993e8060568a5fbcbfd7df19f627d0f2f72670dfe0c303",
+      "result_content_sha256": "c21c69afa0b0989e9da1f244ebe22bb66b395f4ec7cb0911729508c07118cdb0"
+    },
+    "global_color_overlap": {
+      "script_path": "work/analyze_rg_sings_color_ml_overlap_source_only.py",
+      "script_raw_sha256": "4887e5ba96f6b4b740bf5074783abb6186c7d96e11574d7c1bb3adbdbe615f66",
+      "result_path": "work/rg-sings-color-ml-overlap-source-comparison-v1.json",
+      "result_raw_sha256": "24c0ab589cc357335d251f8e9e528c2c65ae939f7920aece8a3319adc7b0e425",
+      "result_content_sha256": "e1807bf209cfe6cc998cab5742193ebd4707792b1bd22375051c77560122eb0b"
+    },
+    "fastica_overlap": {
+      "script_path": "work/prototype_rg_sings_ica_overlap_source_only.py",
+      "script_raw_sha256": "92d2c8a296a4f777a580498606a6d278eea834d44796ed4e3e9b8324d962e4b3",
+      "result_path": "work/rg-sings-fastica-overlap-source-comparison-prototype-v1.json",
+      "result_raw_sha256": "5c3c3f1aff95fbf1d8c9a73ccac9f067857f87bb0d53f1e94c8b31f0bc143dff"
+    }
+  },
+  "overlap_object_order": ["NGC2976", "NGC3198", "NGC3521"],
+  "holdout_object_order": ["UGC04305", "NGC2841", "IC2574", "DDO154", "NGC5055", "NGC6946", "NGC7331"],
+  "conversion_cells": [
+    {
+      "cell_id": "IRAC1_FIXED_ML0P6",
+      "formula": "Sigma_star=704.04*0.6*max(F36,0) Msun/pc^2",
+      "role": "PUBLISHED_FIXED_ML_BASELINE_WITH_NONSTELLAR_CONTAMINATION_RETAINED"
+    },
+    {
+      "cell_id": "IRAC1_GLOBAL_COLOR_ML",
+      "formula": "color=-2.5*log10((sumF36/sumF45)*(179.7/280.9)); ML=10^(-0.339*color-0.336); Sigma_star=704.04*ML*max(F36,0)",
+      "role": "PUBLISHED_TOTAL_MASS_NORMALIZATION_WITH_LOCAL_NONSTELLAR_MORPHOLOGY_RETAINED"
+    },
+    {
+      "cell_id": "IRAC1_IRAC2_FASTICA36",
+      "formula": "two-band fixed-point FastICA over the frozen 6x6 stellar/dust color seed lattice, followed by exact two-component reconstruction",
+      "role": "EXPERIMENTAL_SPATIAL_CLEANING_SYSTEMATIC_NOT_S4G_BYTE_EQUIVALENT"
+    }
+  ],
+  "response_score_contract": {
+    "primary_cell": null,
+    "all_three_cells_scored": true,
+    "cell_selected_by_response": false,
+    "failure_or_counterexample_prunes_object": false,
+    "stable_sign_label_requires_all_three_cells": true,
+    "minority_cells_retained": true,
+    "new_rg_parameters_fitted": false,
+    "newton_and_rar_controls_identical_across_cells_except_for_changed_stellar_source": true
+  },
+  "access_scope": {
+    "source_files_opened_by_this_contract": 0,
+    "response_files_opened": 0,
+    "response_pixels_opened": 0,
+    "scores_computed": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "source_conversion_uncertainty_frozen": true,
+    "any_conversion_is_s4g_equivalent": false,
+    "fastica_is_published_pipeline_reproduction": false,
+    "stellar_mass_is_directly_observed": false,
+    "general_3d_validated": false,
+    "gravity_result_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-sings-stellar-conversion-contract-v1/receipt.json"
+}

@@ -1,0 +1,130 @@
+{
+  "ESO325_G004": {
+    "hst_products": [
+      {
+        "bytes": 369486720,
+        "data_uri": "mast:HST/product/hst_10429_09_acs_wfc_f814w_j95t09_drc.fits",
+        "filter": "F814W",
+        "instrument": "ACS/WFC",
+        "obs_id": "hst_10429_09_acs_wfc_f814w_j95t09",
+        "product_filename": "hst_10429_09_acs_wfc_f814w_j95t09_drc.fits",
+        "program": "10429",
+        "rights": "PUBLIC"
+      },
+      {
+        "bytes": 367663680,
+        "data_uri": "mast:HST/product/hst_10429_10_acs_wfc_f475w_j95t10_drc.fits",
+        "filter": "F475W",
+        "instrument": "ACS/WFC",
+        "obs_id": "hst_10429_10_acs_wfc_f475w_j95t10",
+        "product_filename": "hst_10429_10_acs_wfc_f475w_j95t10_drc.fits",
+        "program": "10429",
+        "rights": "PUBLIC"
+      }
+    ],
+    "likelihood": {
+      "fixed_theory_parameters": [
+        "universal_coupling_g",
+        "mediator_mass_mu"
+      ],
+      "forbidden": [
+        "photon multiplier",
+        "lens-only coupling",
+        "opacity",
+        "frequency or path coefficient",
+        "separate image-delay normalization"
+      ],
+      "hst_prediction": "PSF-convolved source-plane reconstruction ray-traced through Phi+Psi from the same metric",
+      "joint_log_likelihood": "sum of masked HST pixel Student-t(nu=4) log densities plus sum of MUSE Voronoi-bin bivariate Student-t(nu=4) log densities for (v_los,sigma_los)",
+      "missing_data_action": "SOURCE_BLOCKED_NOT_MODEL_FAILURE",
+      "muse_prediction": "PSF and line-spread convolved axisymmetric Jeans prediction using Phi from the same metric",
+      "primary_statistic": "joint held-out log predictive density and independently reconstructed gamma_extra",
+      "shared_nuisances": [
+        "stellar M/L gradient",
+        "MGE light coefficients",
+        "central black-hole mass",
+        "NFW normalization and scale radius",
+        "inclination",
+        "radial anisotropy profile",
+        "external shear",
+        "external convergence and LOS",
+        "HST sky and correlated-noise scale",
+        "MUSE PSF",
+        "MUSE line-spread function"
+      ]
+    },
+    "metadata_observed_utc": "2026-08-31T20:22:11.9281187Z",
+    "muse_products": [
+      {
+        "access_url": "https://dataportal.eso.org/dataPortal/file/ADP.2016-09-07T12:23:32.515",
+        "bytes": 7378352640,
+        "dp_id": "ADP.2016-09-07T12:23:32.515",
+        "instrument": "MUSE",
+        "obs_id": "1342191",
+        "original_filename": "MU_SCBC_1342191_2016-04-04T04:36:36.497_WFM-NOAO-N_OBJ.fits",
+        "product_type": "cube",
+        "publisher_did": "ivo://eso.org/ID?ADP.2016-09-07T12:23:32.515",
+        "wavelength_m": [
+          4.75017e-07,
+          9.35142e-07
+        ]
+      },
+      {
+        "access_url": "https://dataportal.eso.org/dataPortal/file/ADP.2016-09-07T12:23:32.516",
+        "bytes": 1108800,
+        "category": "ANCILLARY.IMAGE.WHITELIGHT",
+        "dp_id": "ADP.2016-09-07T12:23:32.516",
+        "original_filename": "MU_SIMC_1342191_2016-04-04T04:36:36.497_WFM-NOAO-N_OBJ.fits"
+      }
+    ],
+    "paper": {
+      "arxiv": "1806.08300v1",
+      "doi": "10.1126/science.aao2469",
+      "hst_usage": "F814W lens light and radially rescaled F814W subtraction from F475W arcs",
+      "muse_usage": "resolved stellar velocity and dispersion maps"
+    },
+    "status": "SOURCE_BLOCKED_PAYLOAD_HASHES_MASKS_PSF_AND_REGISTERED_BINNING_UNAVAILABLE",
+    "target": {
+      "dec_deg": -38.176111,
+      "name": "ESO 325-G004",
+      "ra_deg": 205.888333
+    },
+    "unresolved_before_open": [
+      "SHA256 for each payload",
+      "exact HST masks and PSF used by the registered reproduction",
+      "MUSE kinematic Voronoi bin table and covariance",
+      "registered pixel/binned object intersection",
+      "registered cosmology and distance receipt"
+    ]
+  },
+  "SLACS_HOLDOUT": {
+    "catalog_readme": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/682/964/ReadMe",
+    "confirmation_opened": false,
+    "eligible": 57,
+    "exploration": 45,
+    "likelihood": {
+      "decision_rule": "Compare confirmation log predictive density and signed residual calibration against GR+stars+NFW and registered countermodels; no post-response retuning.",
+      "model": "bivariate Student-t(nu=4) using published uncertainties; ray-traced Einstein radius from Phi+Psi and seeing/aperture-convolved spherical Jeans dispersion from Phi",
+      "response": [
+        "Einstein radius",
+        "SDSS aperture velocity dispersion"
+      ],
+      "shared_nuisances": [
+        "one hierarchical stellar IMF/M-L population",
+        "anisotropy population",
+        "HST PSF",
+        "SDSS seeing and fiber aperture",
+        "external convergence/LOS population",
+        "mass-sheet/source-position transform",
+        "ellipticity and inclination"
+      ],
+      "theory_transfer": "Use the unchanged ESO theory parameters and same physical metric; no object-specific gravity or photon coefficient.",
+      "unit": "one pre-existing reserved-confirmation SLACS lens"
+    },
+    "reserved_confirmation": 12,
+    "sample_manifest_path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/sample-manifest.json",
+    "sample_manifest_sha256": "37f33fcbaeb2013db37e07fd51e6aca1a7a04bf617b4cffd0f025be3c6de6971",
+    "split_rule": "Use the pre-existing item-17 stratified role_rank split exactly; do not recompute or substitute a new name hash.",
+    "status": "UNCHANGED_CONFIRMATION_SEALED"
+  }
+}

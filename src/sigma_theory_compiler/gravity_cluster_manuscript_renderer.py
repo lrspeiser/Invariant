@@ -771,6 +771,12 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             theory["quadrature_full_local_scalar_quartic_expansion"],
             f"new scalar interactions canonicalized={theory['quadrature_full_local_new_interactions_canonicalized']}; derivative endpoint limiter={theory['quadrature_full_local_derivative_endpoint_limiter']}; full coupled action={theory['quadrature_full_local_coupled_action']}; physical cutoff={theory['quadrature_full_local_physical_cutoff']}; tree unitarity={theory['quadrature_full_local_tree_unitarity']}",
         ),
+        (
+            "shared_quadrature_scalar_exact_taylor_domain",
+            "fixed_background_exact_scalar_jet_domain",
+            theory["quadrature_taylor_exact_scalar_jet_domain"],
+            f"canonical radii={theory['quadrature_taylor_canonical_radii']}; quartic truncation artifact={theory['quadrature_taylor_quartic_truncation_artifact']}; full coupled domain={theory['quadrature_taylor_full_coupled_domain']}; physical cutoff={theory['quadrature_taylor_physical_cutoff']}; tree unitarity={theory['quadrature_taylor_tree_unitarity']}",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(

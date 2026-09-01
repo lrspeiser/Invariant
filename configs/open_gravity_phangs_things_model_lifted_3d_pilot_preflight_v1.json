@@ -1,0 +1,380 @@
+{
+  "schema": "invariant-open-gravity-phangs-things-model-lifted-3d-pilot-preflight-1.0",
+  "package_id": "open-gravity-phangs-things-model-lifted-3d-pilot-preflight-v1",
+  "status": "READY_SOURCE_ONLY_MODEL_LIFTED_3D_DEVELOPMENT_PILOT",
+  "purpose": "Create response-independent baryonic source volumes for the exhaustive predeclared PHANGS-exploration intersection with public S4G stellar, THINGS H I, and PHANGS-ALMA CO intensity maps, then test whether residual dynamics at matched local acceleration depend on potential depth, curvature, density, or nonaxisymmetric geometry.",
+  "repository_head_at_freeze": "ab54cf4a1eadec793df8cba61ee0fb70002bfb0e",
+  "predecessor_bindings": [
+    {
+      "path": "configs/gravity_item7_baryonic_composition_phangs_v1.json",
+      "sha256": "5685e99fa0af63cff3da2d43a269c31790466da052229d107d1447a605a50b7f",
+      "role": "response-blind PHANGS exploration/confirmation split"
+    },
+    {
+      "path": "runs/gravity/roadmap/item-07-baryonic-composition-v1-source/sample-manifest.json",
+      "sha256": "4a14cc3929dd13256464aa0287a2704f603e462c9ddabbe0fd9d83df3aed81e3",
+      "role": "exact 33 exploration and 12 reserved-confirmation ledger"
+    },
+    {
+      "path": "configs/open_gravity_full3d_roadmap_adjudication_v1.json",
+      "sha256": "42597757d8a9d1b53d65127e44df9037334d5be82e3dba7145533ad382ed0fdd",
+      "role": "theory-first full-3D roadmap"
+    },
+    {
+      "path": "runs/gravity/open-gravity-full3d-roadmap-adjudication-v1/receipt.json",
+      "sha256": "c60b362fb4308fc8bc72ef1f01de944f6c8a0f8c2927f12c77d10ef5e782b29b",
+      "role": "source-blocked roadmap decision"
+    },
+    {
+      "path": "configs/open_gravity_3d_source_geometry_contract_v1.json",
+      "sha256": "b652414f96fd93c9ba140217692076e0d1c24236e28f3a8d1b79f95817247bed",
+      "role": "3-D source geometry requirements"
+    },
+    {
+      "path": "runs/gravity/open-gravity-3d-source-geometry-contract-v1/receipt.json",
+      "sha256": "a7cd3313c8b3383ee48c32be8be4597bf9310ca3a4ba76034dd8977e4d34665c",
+      "role": "geometry contract receipt"
+    },
+    {
+      "path": "configs/open_gravity_3d_source_acquisition_environment_v1.json",
+      "sha256": "4f9e2f1435cf02107c42176625513c0e0e17015a8e6dd6118823de829509a829",
+      "role": "prior zero-ready source inventory"
+    },
+    {
+      "path": "runs/gravity/open-gravity-3d-source-acquisition-environment-v1/receipt.json",
+      "sha256": "72ab5b50153895eea63d7931ace01b75847400650f0deb488a7742b49cc61263",
+      "role": "prior source gap receipt"
+    }
+  ],
+  "selection_contract": {
+    "parent_population": "the exact 33 predeclared PHANGS exploration galaxies; no reserved-confirmation object is eligible",
+    "rule": "set intersection of the parent exploration ledger with a public S4G Pipeline-5 stellar map+ICA mask+color map, THINGS natural+robust MOM0 maps, and PHANGS-ALMA broad MOM0+error map",
+    "eligible_objects": [
+      "NGC2903",
+      "NGC3351",
+      "NGC3627"
+    ],
+    "eligible_count": 3,
+    "reserved_confirmation_objects_opened": 0,
+    "selection_used_rotation_values": false,
+    "replacement_after_failure": "forbidden; retain the object-specific failure",
+    "claim": "This is the exhaustive currently documented intersection under the frozen rule, not a performance-selected subset."
+  },
+  "object_metadata": [
+    {
+      "object_id": "NGC2903",
+      "ra_deg": 143.0421,
+      "dec_deg": 21.5016,
+      "distance_mpc": 8.5,
+      "s4g_outer_pa_deg": 19.4,
+      "s4g_outer_ellipticity": 0.508,
+      "photometric_inclination_rule": "cos2_i=((1-ellipticity)^2-q0^2)/(1-q0^2), clipped to [0,1]",
+      "expected_photometric_inclination_deg": 62.69129057081534,
+      "barred": true
+    },
+    {
+      "object_id": "NGC3351",
+      "ra_deg": 160.9904,
+      "dec_deg": 11.7037,
+      "distance_mpc": 10.0,
+      "s4g_outer_pa_deg": 11.2,
+      "s4g_outer_ellipticity": 0.261,
+      "photometric_inclination_rule": "cos2_i=((1-ellipticity)^2-q0^2)/(1-q0^2), clipped to [0,1]",
+      "expected_photometric_inclination_deg": 43.44024716027847,
+      "barred": true
+    },
+    {
+      "object_id": "NGC3627",
+      "ra_deg": 170.0625,
+      "dec_deg": 12.9916,
+      "distance_mpc": 8.3,
+      "s4g_outer_pa_deg": -17.6,
+      "s4g_outer_ellipticity": 0.398,
+      "photometric_inclination_rule": "cos2_i=((1-ellipticity)^2-q0^2)/(1-q0^2), clipped to [0,1]",
+      "expected_photometric_inclination_deg": 54.583570652458924,
+      "barred": true
+    }
+  ],
+  "metadata_provenance": {
+    "phangs_sample_url": "https://docs.google.com/spreadsheet/ccc?key=1dC6QGEuxoczljVM2C77t806KyQi4wE4Igu77j7w46vE&output=csv",
+    "phangs_allowed_fields": [
+      "Name",
+      "R.A.",
+      "Dec.",
+      "Distance",
+      "ALMA",
+      "VLT/MUSE",
+      "HST"
+    ],
+    "s4g_tap_query": "SELECT object,ra,dec,dmean,sma1_25p5,pa1_25p5,ellip1_25p5,pa,incl,bar,type FROM s4gcat WHERE object IN ('NGC2903','NGC3351','NGC3627') ORDER BY object",
+    "s4g_metadata_role": "outer 3.6 micron photometric orientation and existence only; velocity columns were not queried",
+    "metadata_checked_at_utc_date": "2026-08-30"
+  },
+  "source_files": [
+    {
+      "object_id": "NGC2903",
+      "survey": "S4G_P5",
+      "role": "STELLAR_FLUX",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2903/P5/NGC2903.stellar.fits",
+      "bytes": 5811840
+    },
+    {
+      "object_id": "NGC2903",
+      "survey": "S4G_P5",
+      "role": "STELLAR_ICA_MASK",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2903/P5/NGC2903.ICAmask.fits",
+      "bytes": 5811840
+    },
+    {
+      "object_id": "NGC2903",
+      "survey": "S4G_P5",
+      "role": "STELLAR_COLOR",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2903/P5/NGC2903.colormap.fits",
+      "bytes": 5811840
+    },
+    {
+      "object_id": "NGC2903",
+      "survey": "THINGS",
+      "role": "HI_MOM0_NATURAL_SENSITIVITY",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_2903_NA_MOM0_THINGS.FITS",
+      "bytes": 4253760
+    },
+    {
+      "object_id": "NGC2903",
+      "survey": "THINGS",
+      "role": "HI_MOM0_ROBUST_PRIMARY",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_2903_RO_MOM0_THINGS.FITS",
+      "bytes": 4253760
+    },
+    {
+      "object_id": "NGC2903",
+      "survey": "PHANGS_ALMA",
+      "role": "CO21_BROAD_MOM0",
+      "url": "https://almascience.eso.org/almadata/lp/PHANGS/phangs_groups/group.uid___A001_X1284_X27f6.lp_schinner/group.uid___A001_X1284_X27f6.lp_schinner.ngc2903_12m7mtp_co21_broad_mom0.fits",
+      "bytes": 3591360
+    },
+    {
+      "object_id": "NGC2903",
+      "survey": "PHANGS_ALMA",
+      "role": "CO21_BROAD_EMOM0",
+      "url": "https://almascience.eso.org/almadata/lp/PHANGS/phangs_groups/group.uid___A001_X1284_X27f6.lp_schinner/group.uid___A001_X1284_X27f6.lp_schinner.ngc2903_12m7mtp_co21_broad_emom0.fits",
+      "bytes": 3591360
+    },
+    {
+      "object_id": "NGC3351",
+      "survey": "S4G_P5",
+      "role": "STELLAR_FLUX",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3351/P5/NGC3351.stellar.fits",
+      "bytes": 2770560
+    },
+    {
+      "object_id": "NGC3351",
+      "survey": "S4G_P5",
+      "role": "STELLAR_ICA_MASK",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3351/P5/NGC3351.ICAmask.fits",
+      "bytes": 2773440
+    },
+    {
+      "object_id": "NGC3351",
+      "survey": "S4G_P5",
+      "role": "STELLAR_COLOR",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3351/P5/NGC3351.colormap.fits",
+      "bytes": 2770560
+    },
+    {
+      "object_id": "NGC3351",
+      "survey": "THINGS",
+      "role": "HI_MOM0_NATURAL_SENSITIVITY",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_3351_NA_MOM0_THINGS.FITS",
+      "bytes": 4265280
+    },
+    {
+      "object_id": "NGC3351",
+      "survey": "THINGS",
+      "role": "HI_MOM0_ROBUST_PRIMARY",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_3351_RO_MOM0_THINGS.FITS",
+      "bytes": 4265280
+    },
+    {
+      "object_id": "NGC3351",
+      "survey": "PHANGS_ALMA",
+      "role": "CO21_BROAD_MOM0",
+      "url": "https://almascience.eso.org/almadata/lp/PHANGS/phangs_groups/group.uid___A001_X2fb_X27c.lp_schinner/group.uid___A001_X2fb_X27c.lp_schinner.ngc3351_12m7mtp_co21_broad_mom0.fits",
+      "bytes": 731520
+    },
+    {
+      "object_id": "NGC3351",
+      "survey": "PHANGS_ALMA",
+      "role": "CO21_BROAD_EMOM0",
+      "url": "https://almascience.eso.org/almadata/lp/PHANGS/phangs_groups/group.uid___A001_X2fb_X27c.lp_schinner/group.uid___A001_X2fb_X27c.lp_schinner.ngc3351_12m7mtp_co21_broad_emom0.fits",
+      "bytes": 731520
+    },
+    {
+      "object_id": "NGC3627",
+      "survey": "S4G_P5",
+      "role": "STELLAR_FLUX",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3627/P5/NGC3627.stellar.fits",
+      "bytes": 3951360
+    },
+    {
+      "object_id": "NGC3627",
+      "survey": "S4G_P5",
+      "role": "STELLAR_ICA_MASK",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3627/P5/NGC3627.ICAmask.fits",
+      "bytes": 3951360
+    },
+    {
+      "object_id": "NGC3627",
+      "survey": "S4G_P5",
+      "role": "STELLAR_COLOR",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3627/P5/NGC3627.colormap.fits",
+      "bytes": 3951360
+    },
+    {
+      "object_id": "NGC3627",
+      "survey": "THINGS",
+      "role": "HI_MOM0_NATURAL_SENSITIVITY",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_3627_NA_MOM0_THINGS.FITS",
+      "bytes": 4268160
+    },
+    {
+      "object_id": "NGC3627",
+      "survey": "THINGS",
+      "role": "HI_MOM0_ROBUST_PRIMARY",
+      "url": "https://things.www3.mpia.de/Data_files/NGC_3627_RO_MOM0_THINGS.FITS",
+      "bytes": 4268160
+    },
+    {
+      "object_id": "NGC3627",
+      "survey": "PHANGS_ALMA",
+      "role": "CO21_BROAD_MOM0",
+      "url": "https://almascience.eso.org/almadata/lp/PHANGS/phangs_groups/group.uid___A001_X2fb_X286.lp_schinner/group.uid___A001_X2fb_X286.lp_schinner.ngc3627_12m7mtp_co21_broad_mom0.fits",
+      "bytes": 1103040
+    },
+    {
+      "object_id": "NGC3627",
+      "survey": "PHANGS_ALMA",
+      "role": "CO21_BROAD_EMOM0",
+      "url": "https://almascience.eso.org/almadata/lp/PHANGS/phangs_groups/group.uid___A001_X2fb_X286.lp_schinner/group.uid___A001_X2fb_X286.lp_schinner.ngc3627_12m7mtp_co21_broad_emom0.fits",
+      "bytes": 1103040
+    }
+  ],
+  "future_source_acquisition": {
+    "exact_get_ceiling": 21,
+    "exact_network_byte_ceiling": 74030400,
+    "head_calls_during_payload_acquisition": 0,
+    "redirects": 0,
+    "retries": 0,
+    "learn_sha256_after_exact_byte_download": true,
+    "raw_storage": "private work directory only; publication may contain hashes and derived source volumes, not publisher bytes unless rights are separately verified",
+    "metadata_preflight_already_used_network": true,
+    "metadata_preflight_payload_files_downloaded": 0,
+    "metadata_preflight_scientific_image_pixels_read": 0
+  },
+  "source_transform": {
+    "geometry_is_observed_3d": false,
+    "geometry_label": "MODEL_LIFTED_2P5D_TO_3D",
+    "intrinsic_disk_axis_ratio_q0": 0.2,
+    "orientation_source": "S4G outer 3.6 micron isophote; never a velocity fit",
+    "reference_grid": "THINGS robust MOM0 WCS and beam; other maps are flux-conservingly reprojected and convolved to the common coarsest beam",
+    "stellar_surface_density": "Sigma_star=I_3.6[MJy/sr]*704.04[Lsun/pc2 per MJy/sr]*Upsilon_3.6 with primary Upsilon_3.6=0.6",
+    "stellar_ml_sensitivity": "also evaluate the published S4G color-dependent M/L map without choosing by response",
+    "atomic_surface_density": "derive brightness temperature from Jy/beam using FITS BMAJ/BMIN and rest frequency; N_HI=1.823e18 integral(T_B dv_km_s); multiply H I mass by 1.36 for helium",
+    "molecular_surface_density": "Sigma_mol=4.35*I_CO21/R21 Msun/pc2 with fixed R21=0.65; 4.35 includes helium",
+    "face_on_correction": "multiply optically thin projected surface densities by cos(i) after deprojection",
+    "vertical_profiles": "rho_j(R,phi,z)=Sigma_j(R,phi)*sech2(z/h_j)/(2*h_j)",
+    "stellar_height_over_radial_scale_cells": [
+      0.1,
+      0.136986301369863,
+      0.2
+    ],
+    "gas_height_pc_cells": [
+      100.0,
+      200.0,
+      400.0
+    ],
+    "cell_policy": "score every Cartesian thickness cell; no response-based choice or tuning",
+    "boundary_policy": "embed the observed source field in a padded isolated box; repeat at doubled padding and resolution; retain boundary and convergence failures"
+  },
+  "theory_comparison": {
+    "fixed_mechanisms": [
+      "Newton/GR weak-field baryons",
+      "AQUAL",
+      "QUMOND",
+      "NFW",
+      "Burkert",
+      "Einasto",
+      "weak-field MOG",
+      "noncovariant refracted gravity comparator",
+      "GP01 local",
+      "GP01 elliptic",
+      "potential-depth time/gain law",
+      "curvature/tidal law",
+      "density/permittivity law",
+      "nonaxisymmetric geometry law"
+    ],
+    "primary_discriminator": "Within matched bins of local baryonic Newtonian acceleration, test whether signed held-out dynamical residuals correlate reproducibly with baryonic potential depth, tidal curvature, volume density, or nonaxisymmetric geometry.",
+    "matched_acceleration_variables": [
+      "g_b",
+      "abs(Phi_b)/c^2",
+      "sqrt(T_ij*T_ij)",
+      "rho_b",
+      "nonaxisymmetric Fourier power"
+    ],
+    "same_constants_across_objects": true,
+    "per_object_parameter_fits_for_new_laws": false,
+    "retain_every_failure_and_counterexample": true
+  },
+  "response_boundary": {
+    "development_response": "Lang et al. 2020 PHANGS CO rotation curves for the three exploration objects",
+    "response_was_opened_in_prior_development_work": true,
+    "fresh_confirmation_claim_allowed": false,
+    "source_selection_predated_response_opening": true,
+    "current_preflight_response_rows_opened": 0,
+    "current_preflight_response_values_used": 0,
+    "source_response_instrument_overlap": "PHANGS CO MOM0 and CO rotation response share ALMA observations; primary independence sensitivity omits CO source mass and uses only S4G+THINGS sources",
+    "reserved_confirmation": "all 12 previously reserved PHANGS galaxies remain unopened by this package"
+  },
+  "construction_incident": {
+    "occurred": true,
+    "description": "A line-oriented repository search printed part of the pre-existing one-line Item-7 exploration source manifest, which contains development rotation responses. No response value was used to choose objects, transforms, parameters, formulas, or thresholds; the three-object set had already been determined by source availability.",
+    "consequence": "architect is response-exposed; this packet and any descendant using these objects are development-only and cannot claim target blindness or confirmation"
+  },
+  "forbidden_inputs": [
+    "THINGS MOM1",
+    "THINGS MOM2",
+    "THINGS spectral cubes",
+    "PHANGS mom1 or emom1",
+    "PHANGS velocity cubes",
+    "dynamical mass",
+    "dark-matter mass as a source",
+    "halo fit as a source",
+    "lensing mass",
+    "reserved-confirmation response",
+    "response-based object replacement",
+    "response-based scale-height choice",
+    "response-based formula generation or repair"
+  ],
+  "claims": {
+    "observed_full_3d_mass_map": false,
+    "model_lifted_3d_source_ready_after_download_and_validation": true,
+    "scientific_response_scored": false,
+    "fresh_confirmation": false,
+    "alternative_to_gr": false,
+    "dark_matter_eliminated": false,
+    "historical_novelty": false,
+    "publication_ready": false
+  },
+  "access_state": {
+    "source_payload_files_downloaded": 0,
+    "source_payload_bytes_downloaded": 0,
+    "scientific_image_pixels_read": 0,
+    "response_rows_read_by_this_packet": 0,
+    "scores_computed": 0,
+    "models_fit": 0,
+    "network_cost_usd": 0.0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "output_path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-pilot-preflight-v1/receipt.json"
+}

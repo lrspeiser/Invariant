@@ -1,0 +1,86 @@
+{
+  "schema": "invariant-open-gravity-void-gravitational-load-3.0",
+  "package_id": "open-gravity-void-gravitational-load-v3",
+  "status": "FROZEN_REPAIRED_CORRELATION_LAWS_ROWS_UNOPENED",
+  "purpose": "Repair the v2 diffusion, column, dimension, sphere-union and identifiability defects before a correlation-only CF4 x VAST executor is frozen.",
+  "blocked_predecessor": {
+    "path": "runs/gravity/open-gravity-void-gravitational-load-v2/receipt.json",
+    "raw_sha256": "5612e3bb6241e6d6aceeadaec0659d160ee94f7c393ebf72ed4100ae239e06db",
+    "content_sha256": "1a80ab1b60a512fa591719351fd7f242b592c3ab96919b5715d435dcc1a75066",
+    "counterevidence": [
+      "VQ05 used the word causal for a parabolic diffusion law and short-circuited D_g=0 to equilibrium",
+      "VQ06 documentation did not match endpoint quadrature and self-cell regularization",
+      "VQ08 used a thresholded ray surrogate and silently assigned unobserved distance to matter",
+      "the absolute two-phase rates were not identifiable separately from the distance trend"
+    ]
+  },
+  "geometry_source": {
+    "path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/receipt.json",
+    "raw_sha256": "7fc6480745138bddc8f1a86948b61cf916448c8b0930750e52ee4f10e9b276a0",
+    "content_sha256": "011a0d2859142b7ed54a72605d72e7429b86d0882bd8ce6ce06c5c7d08ed11b6",
+    "status": "PASS_CORRELATION_ONLY_GEOMETRY_CANONICAL_ROWS_UNOPENED"
+  },
+  "dimensions_LMT": {
+    "Q": [0,0,0], "rho_b": [-3,1,0], "J_g": [0,0,-1],
+    "c": [1,0,-1], "dx": [1,0,0], "dt": [0,0,1], "dell": [1,0,0],
+    "eta": [0,0,-1], "beta": [0,0,0], "H_ref": [0,0,-1],
+    "H_g": [0,0,-1], "H_v": [0,0,-1], "H_m": [0,0,-1], "delta_H": [0,0,-1],
+    "D_g": [2,0,-1], "Gamma_0": [0,0,-1], "Gamma_b": [3,-1,-1],
+    "A_feed": [3,-1,-1], "A_load": [3,-1,0], "L_g": [1,0,0], "sigma_g": [2,-1,0],
+    "rho_star": [-3,1,0], "void_threshold": [-3,1,0], "inverse_density_n": [0,0,0],
+    "photon_a": [0,0,-1], "photon_b0": [0,0,-1], "photon_b_b": [3,-1,-1], "photon_eta": [0,0,-1],
+    "L_void": [1,0,0], "L_observed_matter": [1,0,0], "L_unobserved": [1,0,0],
+    "log_redshift": [0,0,0], "velocity_equivalent": [1,0,-1]
+  },
+  "parameters": {
+    "c": 1.0, "D_g": 0.08, "Gamma_0": 0.5, "Gamma_b": 0.8,
+    "A_feed": 1.2, "A_load": 1.1, "L_g": 1.6, "sigma_g": 0.25,
+    "diffusion_dt": 0.01, "diffusion_steps": 2400,
+    "column_midpoint_samples": 12, "self_cell_gauss_order": 10
+  },
+  "repairs": {
+    "VQ05": {
+      "label": "THREE_DIMENSIONAL_PARABOLIC_DYNAMIC_RESERVOIR",
+      "law": "partial_t Q=D_g nabla^2 Q+J_g-(Gamma_0+Gamma_b rho_b)Q",
+      "initial_state": "Q(t=0)=0",
+      "D0_finite_time": "Q(t)=Q_eq[1-exp(-(Gamma_0+Gamma_b rho_b)t)]",
+      "steady_limit": "Only t->infinity, not D_g=0 itself, equals VQ03 equilibrium",
+      "causality_claim": false
+    },
+    "VQ06": {
+      "column_rule": "Exactly N equal-length source-target segments sampled at their midpoints with trilinear density interpolation",
+      "self_kernel": "The point-source self kernel is defined by the frozen even-order tensor Gauss-Legendre average over one cubic voxel; the zero-length self column is zero",
+      "boundary": "finite isolated cube"
+    },
+    "VQ08": {
+      "geometry": "Analytic observer-ray/sphere intersections clipped to the target segment and exact interval union",
+      "partition": "D=L_void+L_observed_matter+L_unobserved",
+      "primary_eligibility": "L_unobserved=0",
+      "primary_parameter": "delta_H=H_v-H_m only",
+      "prediction": "residual ln(1+z)=delta_H L_void/c after the ordinary distance trend absorbs H_m L_observed",
+      "signed_velocity_equivalent": "c residual_ln(1+z)=delta_H L_void; positive delta_H means extra redshift and positive velocity residual"
+    }
+  },
+  "response_contract": {
+    "observed_coordinate": "s_obs=ln(1+V3k/c), treating the catalog velocity column as cz",
+    "baseline": "s_FLRW(D_L) from the same frozen flat Planck2018 luminosity-distance inversion plus frozen nuisance flow",
+    "target": "r=s_obs-s_FLRW-nuisance",
+    "only_fitted_law_parameter": "delta_H",
+    "forbidden": ["independent H_v and H_m fit", "published Vpec response", "cz/H0 target distance", "mechanism claim"]
+  },
+  "split_contract": {
+    "canonical_bytes": "ASCII decimal digits of positive integer 1PGC, with no sign, whitespace or leading zeros",
+    "hash": "SHA256(canonical_bytes)",
+    "bucket": "unsigned big-endian integer represented by digest bytes[0:8], modulo 10",
+    "roles": {"0-5": "development", "6-7": "validation", "8-9": "sealed_confirmation"}
+  },
+  "access_accounting": {
+    "scientific_rows_decoded": 0, "response_values_inspected": 0, "real_scores": 0,
+    "network_calls": 0, "model_calls": 0, "paid_calls": 0
+  },
+  "claim_boundary": {
+    "synthetic_repairs_pass": true, "correlation_executor_ready_to_freeze": true,
+    "real_data_fit": false, "mechanism_inference": false, "novelty": false, "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-void-gravitational-load-v3/receipt.json"
+}

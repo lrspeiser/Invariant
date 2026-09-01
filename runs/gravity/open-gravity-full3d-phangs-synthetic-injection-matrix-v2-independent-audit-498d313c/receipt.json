@@ -1,0 +1,168 @@
+{
+  "schema": "open-gravity-full3d-phangs-synthetic-injection-matrix-v2-independent-audit-receipt-1.0",
+  "package_id": "open-gravity-full3d-phangs-synthetic-injection-matrix-v2-independent-audit-498d313c",
+  "audit_id": "498d313c9a824914abbea8f361aa9b81",
+  "audited_at_utc": "2026-09-01T02:37:47Z",
+  "auditor": {
+    "distinct_from_builder": true,
+    "mode": "strict_independent_read_only_artifact_and_adapter_recomputation"
+  },
+  "status": "PASS_INDEPENDENT_AUDIT_SYNTHETIC_ONLY_NO_EMPIRICAL_AUTHORITY",
+  "decision": "PASS_FROZEN_SYNTHETIC_INJECTION_MATRIX_WITH_CLAIM_CEILINGS_RETAINED",
+  "subject": {
+    "config": {
+      "path": "configs/open_gravity_full3d_phangs_synthetic_injection_matrix_v2.json",
+      "bytes": 1854,
+      "raw_sha256": "da99f52f0852d16bee2170521c3f16b392692f453fd5dae5934a68d6a0ffb2de"
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_full3d_phangs_synthetic_injection_matrix_v2.py",
+      "bytes": 30209,
+      "raw_sha256": "685f9edfce3e40bccbd25d31a4c57d7abe68aa54733a5740787a4a93115aebe5"
+    },
+    "test": {
+      "path": "tests/test_open_gravity_full3d_phangs_synthetic_injection_matrix_v2.py",
+      "bytes": 11824,
+      "raw_sha256": "769b551f2eb2f734ee0ab6d6246bb20846ebf24097ed369f3a7f0be47c05aed6"
+    },
+    "values": {
+      "path": "runs/gravity/open-gravity-full3d-phangs-synthetic-injection-matrix-v2/values.jsonl",
+      "bytes": 9763226,
+      "raw_sha256": "e253de41b046616b87719164d2dff68567b98c8392e7789daff55afd0a8595c1"
+    },
+    "scenarios": {
+      "path": "runs/gravity/open-gravity-full3d-phangs-synthetic-injection-matrix-v2/scenarios.jsonl",
+      "bytes": 573302,
+      "raw_sha256": "1a7e33be3b90e56056ea2722739958590dad509c8422386bb8a01558954fa680"
+    },
+    "ledger": {
+      "path": "runs/gravity/open-gravity-full3d-phangs-synthetic-injection-matrix-v2/ledger.json",
+      "bytes": 754472,
+      "raw_sha256": "7fc3d923ba8601ac36314eaf3d2dd175d462a1ea1d1265b1a41c78fbdd158235"
+    },
+    "receipt": {
+      "path": "runs/gravity/open-gravity-full3d-phangs-synthetic-injection-matrix-v2/receipt.json",
+      "bytes": 22629,
+      "raw_sha256": "4f0b46c2ceeb4478772d22fae2e1df27ba5ac6ace2945024d1774b9bcd20d1d4",
+      "content_sha256": "48eca4386a9d030e90662c2123b9833c26b6fe48ca7523fb15b20e4d79c01ee2"
+    }
+  },
+  "subject_commands": {
+    "pytest": {
+      "command": "python -m pytest -q tests/test_open_gravity_full3d_phangs_synthetic_injection_matrix_v2.py",
+      "passed": 4,
+      "failed": 0
+    },
+    "ruff": {
+      "command": "python -m ruff check src/sigma_theory_compiler/open_gravity_full3d_phangs_synthetic_injection_matrix_v2.py tests/test_open_gravity_full3d_phangs_synthetic_injection_matrix_v2.py",
+      "status": "PASS"
+    },
+    "check": {
+      "command": "python -m sigma_theory_compiler.open_gravity_full3d_phangs_synthetic_injection_matrix_v2 check",
+      "status": "OK"
+    }
+  },
+  "independent_recomputation": {
+    "method": "Parsed only frozen predecessor packets and frozen v2 artifacts; called every frozen predecessor mechanism entrypoint directly without using the v2 derive_release or distance helper; independently reimplemented array, canonical JSON, metric, ledger-entry, and execution-cell hashes.",
+    "objects": 3,
+    "mechanisms": 9,
+    "adapter_fields_recomputed": 27,
+    "adapter_fields_exact_array_equal": 27,
+    "scenarios_expected_and_observed": 27,
+    "distinct_scenario_ids": 27,
+    "distinct_scenario_hashes": 27,
+    "truth_hidden_id_bindings_verified": 27,
+    "response_truth_hash_bindings_verified": 27,
+    "uncertainty_hash_bindings_verified": 27,
+    "seed_lineages_verified": 27,
+    "candidate_execution_records_verified": 243,
+    "distinct_execution_cell_hashes": 243,
+    "unique_completed_cells": 243,
+    "eligible_ledger_entries": 243,
+    "completed_ledger_entries": 243,
+    "ledger_chain_entries_verified": 486,
+    "candidate_distances_recomputed_from_stored_responses": 243,
+    "winner_rows_recomputed": 27,
+    "winner_rows_linked_to_completed_cells": 27,
+    "truth_recovered_rows": 27
+  },
+  "scenario_contract_audit": {
+    "object_mechanism_cartesian_product_exact": true,
+    "objects": [
+      "NGC2903",
+      "NGC3351",
+      "NGC3627"
+    ],
+    "mechanism_count": 9,
+    "injection_id_rule": "zero-based index in the sorted frozen nine-mechanism inventory",
+    "scenario_id_rule": "galaxy.full3d.<object>.primary.truth.<mechanism>.v2",
+    "response_and_prediction_shape": [
+      17,
+      17,
+      17,
+      3
+    ],
+    "response_and_prediction_dtype": "float64",
+    "uncertainty_rule": "constant diagonal variance (1.2e-10 * 1e-3)^2 on every stored field component",
+    "suite_seed": 170327,
+    "nuisance_draw": 0,
+    "operator_draw": 0
+  },
+  "distance_and_winner_audit": {
+    "metric": "sqrt(mean((candidate - stored_response)^2)) / max(sqrt(mean(stored_response^2)), 1e-30)",
+    "winner_rule": "all candidates exactly tied to the minimum under abs_tol=1e-15 and rel_tol=0",
+    "stored_response_used_as_metric_target": true,
+    "candidate_field_and_target_loaded_by_distinct object/mechanism keys": true,
+    "subject_self_distance_or_self_recovered_shortcut_identifiers_present": false,
+    "all_recorded_metrics_bit_exact_to_independent_recomputation": true,
+    "all_recorded_winner_lists_exact": true
+  },
+  "ledger_audit": {
+    "ledger_id": "gravity.synthetic.full3d-phangs-injection-matrix.v2",
+    "sequence_contiguous_zero_through_485": true,
+    "prior_entry_links_exact": true,
+    "all_entry_hashes_independently_recomputed": true,
+    "each_completed_entry_immediately_follows_and_binds_its_eligible_entry": true,
+    "result_metric_diagnostic_seed_and_scenario_bindings_exact": true,
+    "all_execution_cell_hashes_independently_recomputed": true
+  },
+  "provenance_audit": {
+    "predecessor_config_module_receipt_packets_and_ledger_rehashed": 5,
+    "transitive_source_bindings_rehashed": 18,
+    "raw_fits_files_rehashed": 21,
+    "raw_fits_bytes_rehashed": 74030400,
+    "raw_fits_inventory_root_sha256": "ea19789ae1d0a4fe413c6c28f4ee9a3a69b1099552dc31eb6fbe5c1f4e989828",
+    "source_density_hashes_match_predecessor_packets": true,
+    "ngc2903_predecessor_source_gate_pass": false,
+    "ngc3351_predecessor_source_gate_pass": true,
+    "ngc3627_predecessor_source_gate_pass": true,
+    "retained_source_gate_failure_count": 1
+  },
+  "response_leakage_audit": {
+    "scientific_response_files_opened_by_subject": 0,
+    "scientific_response_rows_opened_by_subject": 0,
+    "lensing_response_files_opened_by_subject": 0,
+    "real_scores_computed_by_subject": 0,
+    "response_calibrated": false,
+    "candidate_diagnostics_real_response_used_false": 243,
+    "scoring_response_locators_outside_frozen_synthetic_values_artifact": 0,
+    "static_subject_source_paths_to_real_velocity_or_lensing_responses": 0
+  },
+  "retained_claim_ceilings": {
+    "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+    "scientific_claim": "NONE_SYNTHETIC_POWER_AND_CONFUSION_STEERING_ONLY",
+    "model_lifted_2p5d_is_not_measured_3d_mass": true,
+    "dpel01_boundary": "periodic target-free preflight inherited from DPEL01; isolated empirical boundary remains blocked",
+    "ngc2903_primary_source_numerical_gate_failure_visible": true,
+    "synthetic_recovery_cannot_support_or_reject_gravity_theory": true
+  },
+  "authority": {
+    "empirical_claim_authority": false,
+    "real_response_scoring_authority": false,
+    "lensing_scoring_authority": false,
+    "confirmation_authority": false,
+    "permitted_use": "synthetic directional power and confusion steering only"
+  },
+  "claim_boundary": "PASS validates exact synthetic scenario construction, frozen adapter replay, artifact hashes, ledger linkage, stored-response distances, and winner recovery only. It does not validate observed three-dimensional mass, a real velocity or lensing fit, or any gravity theory.",
+  "content_sha256": "7858c5ee4e9f441a99f26c8b7eaa0f81b902b9e1e967295f66b4804a43ab5c68"
+}

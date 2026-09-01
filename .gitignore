@@ -34,3 +34,22 @@ runs/physics-language/quartic-tc2-d4-p55-checkpointable-materializer/checkpoints
 # Rebuilt from the 139 committed, content-sealed G1 checkpoints; the assembled JSON is
 # larger than GitHub's per-file limit.
 runs/gravity/g1-atlas/galaxy-formula-atlas-v1.json
+
+# Reacquirable external scientific payloads and local analysis caches.
+# Their URLs, sizes, and SHA-256 values live in the committed source manifests
+# and receipts; keeping them outside Git/LFS avoids duplicating public archives.
+work/private/
+work/gravity/*cache/
+work/item*-raw/
+work/**/molino-raw/
+work/**/sfh/
+work/item3-density-v2-audit/xcop-allfiles.tar.gz
+work/gravity/item-09-interior-exterior/profiles.zip
+runs/**/source/
+runs/**/sources/
+
+# Reproducible local runtimes and transient/live database state.
+runs/**/*.sqlite-shm
+runs/**/*.sqlite-wal
+runs/**/*.db-shm
+runs/**/*.db-wal

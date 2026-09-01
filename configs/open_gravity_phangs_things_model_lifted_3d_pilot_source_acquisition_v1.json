@@ -1,0 +1,68 @@
+{
+  "schema": "invariant-open-gravity-phangs-things-model-lifted-3d-pilot-source-acquisition-1.0",
+  "package_id": "open-gravity-phangs-things-model-lifted-3d-pilot-source-acquisition-v1",
+  "status": "SOURCE_ACQUIRED_AND_SCHEMA_VALIDATED_DEVELOPMENT_ONLY",
+  "purpose": "Seal the exact source-only S4G, THINGS, and PHANGS-ALMA images needed to test whether matched-acceleration dynamics depend on potential depth, curvature, density, or geometry.",
+  "predecessor": {
+    "config_path": "configs/open_gravity_phangs_things_model_lifted_3d_pilot_preflight_v1.json",
+    "config_raw_sha256": "667358940eef51c8c0f9c2bea956eaeab73a435f424dab3c82f8dc803df36bda",
+    "module_path": "src/sigma_theory_compiler/open_gravity_phangs_things_model_lifted_3d_pilot_preflight_v1.py",
+    "module_raw_sha256": "0eaef65696a5fe3a205c6652c849ad245f1f8d95b5ab3432931b21a88989d755",
+    "test_path": "tests/test_open_gravity_phangs_things_model_lifted_3d_pilot_preflight_v1.py",
+    "test_raw_sha256": "419c3e12d28d9cc698e0722c5f99b1cf053e565f780d1c03c9e4d391c756af0b",
+    "receipt_path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-pilot-preflight-v1/receipt.json",
+    "receipt_raw_sha256": "f1f56b52fdc1da48f40a11661353e07d7c4df29593d72be9b640cbde434f1d2c",
+    "receipt_content_sha256": "3daa47f889875043830ddea79fe8970ab35d8617b79547ea27693289146a285b"
+  },
+  "private_source_root": "work/private/open-gravity-phangs-things-model-lifted-3d-pilot-v1/source-files",
+  "inventory_contract": {
+    "objects": ["NGC2903", "NGC3351", "NGC3627"],
+    "file_count": 21,
+    "scientific_payload_bytes": 74030400,
+    "image_pixels_inspected": 18026980,
+    "finite_image_pixels": 16452117,
+    "ordered_inventory_root_sha256": "309556d2ead296468845dd444b8c9eb4e044791040a5f69c2f03a935ba71919c",
+    "ordered_file_sha_root_sha256": "571ec3176cf4a159957e03ec9a3d6e116211b4bb0733a99c48d1ec92ac433dd4"
+  },
+  "fits_contract": {
+    "one_primary_image_hdu_only": true,
+    "s4g_bunit": "MJy/sr",
+    "things_bunit": "JY/B*M/S",
+    "things_rest_hz": 1420405750.0,
+    "things_beam_rule": "parse exactly one final AIPS HISTORY card CLEAN BMAJ/BMIN/BPA because standard BMAJ/BMIN cards are absent",
+    "phangs_bunit": "K.km.s-1",
+    "phangs_rest_hz": 230538000000.0,
+    "response_bearing_products_forbidden": ["MOM1", "MOM2", "CUBE", "VROT", "VELOCITY"]
+  },
+  "transport_accounting": {
+    "successful_source_gets": 21,
+    "successful_source_bytes": 74030400,
+    "failed_redirect_gets": 1,
+    "failed_redirect_body_bytes": 252,
+    "total_get_attempts": 22,
+    "total_network_body_bytes": 74030652,
+    "redirects_followed": 0,
+    "retries": 0,
+    "incident": "The first legacy THINGS URL returned a 252-byte HTTP 302 body. Acquisition stopped, preserved the body and prior receipt, replaced all six URLs with direct endpoints, and resumed without following the redirect."
+  },
+  "scientific_boundary": {
+    "source_images_opened": true,
+    "velocity_or_rotation_response_opened_by_this_package": false,
+    "response_rows_opened": 0,
+    "scores_computed": 0,
+    "models_fit": 0,
+    "fresh_confirmation": false,
+    "development_only": true,
+    "raw_publisher_bytes_publication_allowed": false
+  },
+  "claims": {
+    "exact_source_bytes_and_fits_schemas_validated": true,
+    "model_lifted_3d_mass_volume_derived": false,
+    "scientific_response_scored": false,
+    "potential_depth_discriminator_established": false,
+    "alternative_to_gr": false,
+    "dark_matter_eliminated": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-pilot-source-acquisition-v1/receipt.json"
+}

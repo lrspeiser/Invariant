@@ -1,0 +1,214 @@
+{
+  "access_accounting": {
+    "Pantheon_files_opened": 0,
+    "Pantheon_values_decoded": 0,
+    "VAST_fields_decoded": 0,
+    "VAST_files_opened": 0,
+    "adversarial_nonidentifier_mutations": 3,
+    "audit_cf4_decompressed_bytes": 6012374,
+    "audit_cf4_decompression_passes": 1,
+    "audit_cf4_full_rows_framed_and_hashed": 38053,
+    "audit_cf4_source_files_hashed": 1,
+    "identifier_bytes_decoded": 266371,
+    "identifier_decode_calls": 38053,
+    "identifier_rows_decoded": 38053,
+    "nonidentifier_cf4_bytes_semantically_decoded": 0,
+    "nonidentifier_decode_calls": 0,
+    "real_scores": 0,
+    "response_values_inspected": 0,
+    "scientific_rows_decoded": 0
+  },
+  "audit_harness_incidents": [
+    {
+      "classification": "AUDIT_PREDICATE_FALSE_NEGATIVE_NOT_PACKAGE_FAILURE",
+      "disposition": "RETAINED_AND_CORRECTED_BY_DATA_FLOW_INSPECTION",
+      "package_artifacts_changed": false,
+      "scientific_bytes_decoded": 0,
+      "summary": "The first audit harness expected the sole decoder receiver's local variable to be named identifier_token. The isolated parser names its exact seven-byte parameter token. Data-flow inspection confirmed payload[0:7] -> identifier_token -> parse_i7_identifier(token) -> token.decode('ascii'), with a mandatory seven-byte length check and no other decode site."
+    }
+  ],
+  "audited_artifacts": {
+    "config": {
+      "content_sha256": "a16ff0d95515f45c1a4d3dda2ab58877569e8ce2ad9e4f5e85a418235249ff7e",
+      "path": "configs/open_gravity_void_correlation_ids_partition_v1.json",
+      "raw_sha256": "acd8d33b2790d7de6c94d5773cc71c7d3d6d530211a03c9ec3b5ad2f1c41579a"
+    },
+    "failure_ledger": {
+      "content_sha256": "5e41f5b4e0b194882554aa83cabee8ef4656f46b4681d00158e67ee6a90b517e",
+      "path": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/failures.json",
+      "raw_sha256": "3e98612816c5c0e39e8f2b60143f73ec447d603fa9dbebabceb7da5e6e81505e"
+    },
+    "identifier_ledger": {
+      "content_sha256": "78e225783065f0e4e17c00abaf856a4a25e15b8bc7b38a69cf8969b1abd929fd",
+      "path": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/identifier-ledger.jsonl",
+      "raw_sha256": "356442b37f145e9f0f11eaeba57b1737817c02aa0c319c10e2208aecc095db6b",
+      "rows": 38053
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_void_correlation_ids_partition_v1.py",
+      "raw_sha256": "3fc89944a68ff66c9d8b0899b31d48af3c89b5b99ecb398ed26e724cfc9e3b28",
+      "semantic_sha256": "7f2cac92b28a33703553c29d7c9c8c4ea6440e0285bffc091c110a7d05d52f17"
+    },
+    "receipt": {
+      "content_sha256": "5d8f3f4a0e25c4d8a673470b86b6bc0c192df0265382fd04f8101a07720aa951",
+      "path": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/receipt.json",
+      "raw_sha256": "baa80bf8d702802899256aa89d7b82416b62a397aeccaecac4edb3d965c94aaa"
+    },
+    "summary": {
+      "content_sha256": "8710dd49fa41906d9cd5be668aeb4874792ff8d3e29cf5a08db512e295a89096",
+      "path": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/partition-summary.json",
+      "raw_sha256": "fa8491cde4135149b9e1c7b4e80bc9419c64048befcfdb22e17732c591bc6041"
+    },
+    "test": {
+      "path": "tests/test_open_gravity_void_correlation_ids_partition_v1.py",
+      "raw_sha256": "d213dbb44f38c2f323a538ddad3fe3dc1ce88c99331afac65274227de31c6a40"
+    }
+  },
+  "authorization_scope": {
+    "allowed_next_stage": "DEVELOPMENT_RELEASE_ONLY",
+    "scope": "PASS_DEVELOPMENT_RELEASE_ONLY",
+    "successor_requirements": [
+      "A separate append-only successor must bind this audit receipt and all audited raw/content/semantic hashes before opening any development scientific field.",
+      "The executor-v3 normalization, velocity /c conversion, STF basis, exact split, fixed nuisance handling, staged counts, duplicate handling, permutation procedure, +1 correction, and profile solver remain frozen.",
+      "Development eligibility and response access must be explicitly accounted and retained; this receipt itself opens no scientific field and computes no score."
+    ],
+    "validation_confirmation_rule": "Validation and confirmation remain sealed beyond the already frozen identifier and role. No validation or confirmation scientific field is released.",
+    "vast_pantheon_rule": "No VAST or Pantheon+ file is released or opened by this audit."
+  },
+  "bucket_counts": {
+    "0": 3741,
+    "1": 3816,
+    "2": 3850,
+    "3": 3854,
+    "4": 3838,
+    "5": 3798,
+    "6": 3799,
+    "7": 3733,
+    "8": 3774,
+    "9": 3850
+  },
+  "checks": [
+    {
+      "check": "EXACT_IDS_V1_CONFIG_MODULE_TEST_AND_ARTIFACT_PINS",
+      "status": "PASS"
+    },
+    {
+      "check": "EXACT_EXECUTOR_V3_AND_PRIOR_INDEPENDENT_AUDIT_PINS_AND_SELF_HASHES",
+      "status": "PASS"
+    },
+    {
+      "check": "ONE_INDEPENDENT_GZIP_PASS_WITH_EXACT_LF_OR_CRLF_FRAMING_AND_157_BYTE_PAYLOADS",
+      "status": "PASS"
+    },
+    {
+      "check": "ALL_38053_OFFSETS_FRAMED_PAYLOAD_IDENTIFIER_OPAQUE_TAIL_AND_LEAF_HASHES_MATCH",
+      "status": "PASS"
+    },
+    {
+      "check": "STRICT_POSITIVE_I7_GRAMMAR_AND_CANONICAL_ASCII_ISOLATION",
+      "status": "PASS"
+    },
+    {
+      "check": "SHA256_BIG_ENDIAN_BUCKET_ROLE_RECOMPUTATION_FOR_ALL_ROWS",
+      "status": "PASS"
+    },
+    {
+      "check": "38053_UNIQUE_IDENTIFIERS_ZERO_DUPLICATES_AND_ALL_STAGED_MINIMA",
+      "status": "PASS"
+    },
+    {
+      "check": "SOURCE_CANONICAL_ROLE_AND_BUCKET_ROOTS_RECOMPUTED",
+      "status": "PASS"
+    },
+    {
+      "check": "THREE_NONIDENTIFIER_BYTE_MUTATIONS_PRESERVE_ID_BUCKET_ROLE_AND_CHANGE_ONLY_ROW_PAYLOAD_TAIL_LEAF_HASH_SURFACE",
+      "status": "PASS"
+    },
+    {
+      "check": "EXACTLY_ONE_STATIC_BYTE_DECODE_SITE_DATA_FLOWS_ONLY_FROM_PAYLOAD_0_7",
+      "status": "PASS"
+    },
+    {
+      "check": "NO_NAMED_SCIENTIFIC_FIELD_PARSER_OR_READ_SURFACE",
+      "status": "PASS"
+    },
+    {
+      "check": "CHECK_AND_EXISTING_BUILD_CAUSE_ZERO_GZIP_DECOMPRESSION_OPENS",
+      "status": "PASS"
+    },
+    {
+      "check": "VAST_AND_PANTHEON_PATHS_UNOPENED_AND_ZERO_REAL_SCORES",
+      "status": "PASS"
+    }
+  ],
+  "content_sha256": "0e7454add4a8aea6b80cc6316e83fcca30d3546acef05d13f2807876bf530163",
+  "created_utc": "2026-08-31T22:49:02.224Z",
+  "decision": "PASS_INDEPENDENT_IDS_PARTITION_V1_DEVELOPMENT_RELEASE_ONLY",
+  "failures": {
+    "duplicate_identifiers": 0,
+    "minimum_failures": 0,
+    "package_parse_or_framing_failures": 0,
+    "scientific_failures": 0
+  },
+  "package_id": "open-gravity-void-correlation-ids-partition-v1-independent-audit",
+  "prior_release_bindings": {
+    "executor_v3": {
+      "config_content_sha256": "b3b80f518dcb91595a13ff5a1d0ec5943e96a50f16b185640e085fe586cd28b3",
+      "config_raw_sha256": "5ba4e48c444c14b4f355f516ec664d449c4fd8d2a9d332676d0ffbf40f620a04",
+      "module_raw_sha256": "1220eaabfebc77340e5c84c2dc9d4056d9ce6509ebf3df38750e542fa9c90dfe",
+      "module_semantic_sha256": "e7e88c647487a3598418340cb340b88c40d716372f203eb4b3e9bca77f8cfe86",
+      "receipt_content_sha256": "a0dad57f9815c501e640155c87359f2ba8e6b96b33d573afb8d8570e39d291a9",
+      "receipt_raw_sha256": "e64717bf1d1c1dedd4670d864b4f86e1863ac24fc452fb7d45fcea7e55401734",
+      "test_raw_sha256": "edb9e480f7454b9fc8e94ace36aef981d17712718ba8a3424c53afe88ac09540"
+    },
+    "executor_v3_independent_audit": {
+      "content_sha256": "1025428193a0c7b9984f546da5796d46b7c9961f8410da027c3a97c573bed6e1",
+      "raw_sha256": "cd66d98a29ace47f0cbcb4d6fbd714f04d2b8863b3da7053bd077ec1923ae92b"
+    }
+  },
+  "role_counts": {
+    "confirmation": 7624,
+    "development": 22897,
+    "validation": 7532
+  },
+  "roots": {
+    "bucket_roots": {
+      "0": "2e2103e1aea6ffd16e4280a1689052e54b24f0047721a835b1eaea73f21d5e95",
+      "1": "e181cf3a84022b1c96d928841e374454f40e0a437e8419b39849bb329f357a89",
+      "2": "8a97408cac296ecf8591d153bb907787ebac50709a92ae031c8462192e48284d",
+      "3": "d2ea171eef62d5e47cdf889d292f69446d20701e811a51cee278c687a577ae0a",
+      "4": "2bc3b2484b82b9b8b2eff3ec1ac492d6a90adf1a1c1468ba5ebc69841778fbd0",
+      "5": "3120a098052c24dd3a8288b83f1231162d9c28ea1517df3ef4ad816f528d95bb",
+      "6": "7833650e1bab74d9392767f46da91c5bd7947f290a83117cd48e3844ec2b8579",
+      "7": "1dbc5f36e1d1604fa996c87015811a601b4951438cb4e152037a6f1410973683",
+      "8": "75129e99f9db93f9d8691220abef6a652c69754a931462ba4c3a0889b8a32f5b",
+      "9": "32523b5359343e82cc5fd366668aaba634775da72f7e3ef503dd428e477b9f53"
+    },
+    "canonical_id_root": "fe5659554e099d600333d63a3e0019177d9a2fd2fa56b93b89f20ab47fdba95c",
+    "role_roots": {
+      "confirmation": "95e9ecd40b1531dc308617870950ee472065f5dd50c5a97b37769636c9b0615b",
+      "development": "48aef29b61e4d3d298d6fd162d797985b191d73c99821f13d0f84660ff3cc8af",
+      "validation": "b954d62c939ef49eee82a8b97f1357c1735b57725d9acea280db2596541f9955"
+    },
+    "source_order_root": "fe5659554e099d600333d63a3e0019177d9a2fd2fa56b93b89f20ab47fdba95c"
+  },
+  "schema": "invariant-open-gravity-void-correlation-ids-partition-independent-audit-receipt-1.0",
+  "source_binding": {
+    "compressed_bytes": 2528953,
+    "decompressed_bytes": 6012374,
+    "identifier_slice_zero_based_half_open": [
+      0,
+      7
+    ],
+    "path": "work/private/open-gravity-void-source-v2/cf4-table4.dat.gz",
+    "raw_sha256": "be91d4fae6fa01552ab3bc85db695411fca3249eeae08b566a712e6ea790bd99",
+    "records": 38053
+  },
+  "status": "PASS_DEVELOPMENT_RELEASE_ONLY",
+  "test_evidence": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -m pytest -q -p no:cacheprovider tests/test_open_gravity_void_correlation_ids_partition_v1.py",
+    "result": "14 passed",
+    "repository_cache_written": false
+  },
+  "zero_scientific_access_statement": "This independent audit framed and hashed complete CF4 rows but semantically decoded only bytes 0:7 as 1PGC. It decoded no nonidentifier byte, opened no VAST or Pantheon+ file, inspected no response value, and computed no scientific score."
+}

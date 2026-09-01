@@ -1,0 +1,295 @@
+{
+  "access_state": {
+    "authorization": false,
+    "authorized_manifest_present": false,
+    "catalog_rows_opened": 0,
+    "execution_started": false,
+    "files_downloaded": 0,
+    "forbidden_values_decoded_or_logged": 0,
+    "model_or_paid_calls": 0,
+    "network_bytes_downloaded": 0,
+    "network_calls": 0,
+    "result_directory_created": false,
+    "sanitized_ledger_rows_emitted": 0,
+    "scores_computed": 0
+  },
+  "audit_cutoff": "2026-08-29",
+  "catalog_assets": [
+    {
+      "catalog_id": "ACT_DR6_LEGACY_V1_0",
+      "compression": "none",
+      "expected_fits_member": null,
+      "expected_network_bytes": 9705600,
+      "expected_rows": 3747,
+      "filename": "DR6_cluster-legacy-catalog_v1.0.fits",
+      "maximum_decompressed_member_bytes": 9705600,
+      "network_calls": 1,
+      "url": "https://lambda.gsfc.nasa.gov/data/suborbital/ACT/actadv_dr6_cluster_cat/DR6_cluster-legacy-catalog_v1.0.fits"
+    },
+    {
+      "catalog_id": "ERASS1_PRIMARY_V3_2",
+      "compression": "tar_gzip_single_fits_member",
+      "expected_fits_member": "erass1cl_main_v3.2.fits",
+      "expected_network_bytes": 23764095,
+      "expected_rows": 12247,
+      "filename": "erass1cl_primary_v3.2.fits.tgz",
+      "maximum_decompressed_member_bytes": 67108864,
+      "network_calls": 1,
+      "url": "https://erosita.mpe.mpg.de/dr1/AllSkySurveyData_dr1/Catalogues_dr1/BulbulE_DR1/erass1cl_primary_v3.2.fits.tgz"
+    }
+  ],
+  "claims": {
+    "CP3_complete": false,
+    "CP7_complete": false,
+    "authorized_successor_ready_to_execute": false,
+    "catalogs_downloaded": false,
+    "central_readiness_changed": false,
+    "executor_contract_frozen": true,
+    "independent_replication_ready": false,
+    "minimum_192_rule_evaluated": false,
+    "overlap_count_computed": false,
+    "xcop_exclusions_computed": false
+  },
+  "config_binding": {
+    "content_sha256": "2affbaac459019e58c85483eacca274088017bfd263d69d34374907c79bc9e51",
+    "file_sha256": "12b652c3c07fd8c20bbf8c17ba1ade0b15bb79b12ae3a220d56587846dca4609",
+    "path": "configs/gravity_cluster_act_dr6_erass1_overlap_executor_v2.json"
+  },
+  "content_sha256": "5d834e4463e896b2fb4b6211b048b60148f4497f8175396b4be854c967a0fe05",
+  "counts": {
+    "catalog_rows_opened": 0,
+    "files_downloaded": 0,
+    "forbidden_values_decoded_or_logged": 0,
+    "model_or_paid_calls": 0,
+    "network_bytes_downloaded": 0,
+    "network_calls": 0,
+    "sanitized_ledger_rows_emitted": 0,
+    "scores_computed": 0
+  },
+  "current_authorization_binding": {
+    "authorization": false,
+    "file_sha256": "39c29e982d4583d38aec6ce681be2ad1dd39c4832f9673b519c59a1a2f4016d5",
+    "path": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-executor-v2/authorization-current-unauthorized.json",
+    "required_status": "UNAUTHORIZED_EXECUTOR_NOT_RUN"
+  },
+  "decision": "PREPARED_NOT_AUTHORIZED_NOT_EXECUTED",
+  "executor_id": "gravity-cluster-act-dr6-erass1-overlap-executor-v2",
+  "failure_and_publication_contract": {
+    "download_failure_cleanup": "close response and file handles, delete partial bytes, delete the reserved execution directory, retain no receipt",
+    "existing_output_action": "FAIL_BEFORE_NETWORK_WITHOUT_READING_OR_REPLACING_CONTENTS",
+    "file_publication": "same-directory fsynced temporary file plus hard-link no-replace for ledger, receipt, and completion marker",
+    "hash_schema_parse_or_match_failure_cleanup": "delete extracted/raw bytes and the reserved execution directory, retain no ledger or receipt",
+    "logging_rule": "Log only phase names, catalog IDs, byte/row counts, hashes, and sanitized aggregate counts; never log exception values from rows.",
+    "output_reservation": "os.mkdir exact output directory after authorization as an atomic no-replace reservation",
+    "race_loser_action": "FAIL_BEFORE_NETWORK_OR_CLEAN_ONLY_OWN_EXCLUSIVE_RESERVATION",
+    "successful_raw_cleanup": "delete all full publisher and extracted FITS bytes before publishing the completion marker",
+    "temporary_raw_subdirectory": ".private-raw-staging"
+  },
+  "future_execution_contract": {
+    "approved_authorization_path": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-executor-v2/authorization-approved.json",
+    "authorization_gate_order": [
+      "load_and_hash_frozen_config_parent_test_current_unauthorized_manifest_and_preflight_receipt",
+      "validate_exact_authorized_manifest_package_hashes_scope_catalog_specs_approval_and_zero_chronology",
+      "require_exact_cli_authorization_and_output_paths",
+      "atomically_reserve_new_output_directory",
+      "only_then_import_network_client_and_issue_GET"
+    ],
+    "catalog_row_ceiling": 15994,
+    "erass_decompressed_member_byte_ceiling": 67108864,
+    "exact_command": "python -m sigma_theory_compiler.gravity_cluster_act_dr6_erass1_overlap_executor execute --authorization runs/gravity/publication-readiness/act-dr6-erass1-overlap-executor-v2/authorization-approved.json --output-dir runs/gravity/publication-readiness/act-dr6-erass1-overlap-executor-v2-result",
+    "network_byte_ceiling": 33469695,
+    "network_get_call_ceiling": 2,
+    "network_head_call_ceiling": 0,
+    "network_retry_call_ceiling": 0,
+    "no_authorized_manifest_result": "FAIL_BEFORE_OUTPUT_DIRECTORY_NETWORK_OR_PAYLOAD_LOAD",
+    "output_directory": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-executor-v2-result",
+    "preflight_receipt_path": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-executor-v2-preflight.json",
+    "required_authorization_phrase": "AUTHORIZE RUN ACT_DR6_ERASS1_OVERLAP_V2_RUN_001: ACT/eRASS CATALOG-ONLY OVERLAP V2; DOWNLOAD 2 FULL CATALOG FILES AS OPAQUE TEMPORARY BYTES (MAXIMUM 2 GET CALLS, 33,469,695 NETWORK BYTES, 15,994 CATALOG ROWS), DECODE ONLY THE FROZEN ALLOWLIST, AND MAKE NO HEAD OR RETRY CALLS AND NO MAP, PROFILE, THERMODYNAMIC, LENSING, INFERRED-MASS, SCORING, MODEL, OR PAID CALLS.",
+    "required_run_id": "ACT_DR6_ERASS1_OVERLAP_V2_RUN_001",
+    "scores_or_model_call_ceiling": 0
+  },
+  "implementation_binding": {
+    "module_file_sha256": "e3857e7da01cf7aba3551cfb504e7850a4674f7e7ecd85e99337ecb094e31cae",
+    "module_path": "src/sigma_theory_compiler/gravity_cluster_act_dr6_erass1_overlap_executor.py",
+    "test_file_sha256": "988df98074c899572a759f7971c2afa7586336b729125e433b09e632047f1bf5",
+    "test_path": "tests/test_gravity_cluster_act_dr6_erass1_overlap_executor.py"
+  },
+  "limitations": [
+    "This receipt freezes an executor and authorization schema; it is not authorization and no catalog request has occurred.",
+    "The raw publisher files contain scientific columns as opaque bytes, but a future authorized run keeps them temporary, never decodes forbidden values, and deletes them before publication.",
+    "X-COP exclusion is exact-name/alias based; coordinate-only exclusion remains unavailable without a separately frozen X-COP coordinate ledger.",
+    "Even a post-X-COP count at or above 192 is only a catalog population upper bound and does not establish complete thermodynamic/profile packets."
+  ],
+  "parent_binding": {
+    "authorization_file_sha256": "de29475463092498194b42b9825fafe1cbc87ab960dd6c80324f66425acb4060",
+    "authorization_path": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-preflight-v1/authorization-current-unauthorized.json",
+    "commit": "1ce8c666ecb45093738cf80a1fcde90f1f11f1ba",
+    "config_file_sha256": "8ea9fdcf0b7aa36ba277a32d931363b81ed8bc93ecc8034261e0954abe937735",
+    "config_path": "configs/gravity_cluster_act_dr6_erass1_overlap_preflight_v1.json",
+    "module_file_sha256": "7d91fbe8a13aae23addecf969a4a4d58673483842c8ada9602824481ff58c897",
+    "module_path": "src/sigma_theory_compiler/gravity_cluster_act_dr6_erass1_overlap_preflight.py",
+    "receipt_content_sha256": "5b982eed48caacd55a5fefbcda72b1fd7d597c6ae5c1c543d00667d4b5bc06b7",
+    "receipt_file_sha256": "5ed41ff1f6cd8abfa4934596af829cc19f14a7a8de2b564878ddfeff2d3f44fe",
+    "receipt_path": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-preflight-v1.json",
+    "test_file_sha256": "f393a3c237d6f58787bbd1581d9d163938fa6b01ff8d126a53cff9500f047565",
+    "test_path": "tests/test_gravity_cluster_act_dr6_erass1_overlap_preflight.py"
+  },
+  "projection_contract": {
+    "ACT_DR6_LEGACY_V1_0": [
+      "name",
+      "RADeg",
+      "decDeg",
+      "fixed_SNR",
+      "flags",
+      "footprint_eROSITADe",
+      "footprint_Legacy",
+      "eRASS1CL",
+      "redshift",
+      "redshiftErr",
+      "redshiftType",
+      "opt_RADeg",
+      "opt_decDeg",
+      "opt_positionSource",
+      "warnings"
+    ],
+    "ERASS1_PRIMARY_V3_2": [
+      "DETUID",
+      "NAME",
+      "RA",
+      "DEC",
+      "RA_XFIT",
+      "DEC_XFIT",
+      "EXT_LIKE",
+      "DET_LIKE_0",
+      "BEST_Z",
+      "BEST_ZERR",
+      "BEST_Z_TYPE",
+      "PCONT",
+      "MATCH_NAME"
+    ],
+    "archive_rule": "The eRASS tar archive must contain exactly one regular FITS member whose basename is erass1cl_main_v3.2.fits; reject links, traversal, extra regular files, size overflow, or trailing unexpected members.",
+    "forbidden_column_patterns": [
+      "*M500*",
+      "*M200*",
+      "*MGAS*",
+      "*FGAS*",
+      "*YX*",
+      "*KT*",
+      "*L300*",
+      "*L500*",
+      "*CR300*",
+      "*CR500*",
+      "*F300*",
+      "*F500*",
+      "*R500*",
+      "*Y500*",
+      "*theta500*",
+      "*mass_pdf*"
+    ],
+    "opaque_raw_byte_rule": "Full publisher files necessarily contain forbidden columns as opaque source bytes. They may exist only in the private temporary execution directory, are hashed without decoding, and are deleted before successful publication. Final outputs contain no raw catalog bytes.",
+    "parser_rule": "Inspect FITS header/schema metadata, then seek directly to allowlisted fixed-width column slices for each row. Never decode, instantiate, include in an exception, log, or emit a forbidden scientific value.",
+    "schema_failure_action": "DELETE_EXECUTION_DIRECTORY_AND_FAIL_WITH_COLUMN_NAME_OR_COUNT_ONLY_NO_VALUES"
+  },
+  "sanitized_output_contract": {
+    "claim_ceiling": "A version-bound catalog-overlap upper bound and X-COP name/alias exclusion audit only; not profile completeness, independent replication readiness, physical-model evidence, or a CP3/CP7 completion claim.",
+    "completion_marker_filename": "COMPLETE.json",
+    "count_receipt_fields": [
+      "source_file_hashes_and_bytes",
+      "schema_and_row_counts",
+      "selection_match_quarantine_and_xcop_counts",
+      "post_xcop_catalog_upper_bound",
+      "population_gate_classification",
+      "ledger_hash_and_row_count",
+      "zero_scoring_and_model_call_counts",
+      "limitations"
+    ],
+    "count_receipt_filename": "count-receipt.json",
+    "forbidden_output_fields": [
+      "coordinates",
+      "absolute redshifts",
+      "SNR, flags, EXT_LIKE, DET_LIKE, PCONT or warning text",
+      "mass, radius, SZ amplitude, count rate, flux, luminosity, temperature, gas mass, gas fraction or PDFs",
+      "map, profile, thermodynamic, lensing, residual, candidate prediction or score values"
+    ],
+    "ledger_fields": [
+      "canonical_join_id",
+      "act_name",
+      "erass_detuid",
+      "erass_name",
+      "match_state",
+      "match_method",
+      "candidate_ids",
+      "angular_separation_arcmin",
+      "absolute_redshift_difference",
+      "xcop_identity",
+      "xcop_excluded",
+      "eligible_catalog_overlap",
+      "quarantine_reason"
+    ],
+    "ledger_filename": "sanitized-overlap-ledger.jsonl"
+  },
+  "schema_version": "invariant-gravity-cluster-act-dr6-erass1-overlap-executor-preflight-2.0",
+  "selection_match_and_exclusion_contract": {
+    "act_selection": [
+      "Legacy file membership is the frozen fixed_SNR>5.5, flags==0, footprint_Legacy=true base",
+      "footprint_eROSITADe is true",
+      "eRASS1CL is true",
+      "finite nonzero selected position",
+      "finite redshift and 0.01<=z<=0.6",
+      "warnings containing Possible projected system are quarantined"
+    ],
+    "canonical_xcop_objects": [
+      "A1644",
+      "A1795",
+      "A2029",
+      "A2142",
+      "A2255",
+      "A2319",
+      "A3158",
+      "A3266",
+      "A644",
+      "A85",
+      "RXC1825",
+      "ZW1215"
+    ],
+    "coordinate_radius": "theta_match(z)=max(1.22 arcmin, angular size of 0.5 Mpc at ACT z)",
+    "cosmology": {
+      "H0_km_s-1_Mpc-1": 70.0,
+      "Omega_lambda": 0.7,
+      "Omega_m": 0.3,
+      "distance_integrator": "deterministic_Simpson_4096_even_intervals",
+      "model": "flat_LCDM"
+    },
+    "erass_selection": [
+      "nonempty DETUID and NAME",
+      "finite selected position",
+      "EXT_LIKE>3",
+      "finite BEST_Z and 0.01<=BEST_Z<=0.6",
+      "PCONT recorded only for private quality validation and never emitted or thresholded"
+    ],
+    "multiple_candidate_action": "QUARANTINE_ALL_CANDIDATE_IDS",
+    "name_canonicalization": "NFKD, ASCII, uppercase, remove punctuation/whitespace; ABELL/ACO integer aliases map to A{integer}; ZwCl1215 variants map to ZW1215; RXCJ1825 variants map to RXC1825.",
+    "population_gate": {
+      "120_to_191": "UNDERPOWERED_EXPLORATORY_ONLY",
+      "at_least_192": "CATALOG_UPPER_BOUND_SUFFICIENT_PROFILE_READINESS_NOT_ESTABLISHED",
+      "below_120": "PRIMARY_TRIAL_NOT_OPENED",
+      "confirmatory_target_clusters": 192,
+      "underpowered_execution_floor_clusters": 120
+    },
+    "position_priority": {
+      "ACT": [
+        "finite opt_RADeg,opt_decDeg not equal to 0,0",
+        "RADeg,decDeg"
+      ],
+      "ERASS1": [
+        "finite RA_XFIT,DEC_XFIT",
+        "RA,DEC"
+      ]
+    },
+    "redshift_rule": "Record absolute delta-z only as sanitized match evidence; do not impose a post-hoc ACT-eRASS redshift cut.",
+    "unique_match_rule": "Accept exactly one eligible eRASS row inside the radius. A normalized MATCH_NAME token is confirming evidence only and never breaks a positional tie.",
+    "xcop_exclusion_rule": "Before counting eligible overlap, compare canonicalized ACT name, eRASS NAME, and MATCH_NAME tokens to the 12 frozen X-COP identities and aliases. Exclude exact resolved identities; quarantine partial/ambiguous X-COP-like tokens; no coordinate-only X-COP exclusion is claimed without a separately frozen X-COP coordinate ledger.",
+    "zero_candidate_action": "QUARANTINE_NO_CANDIDATE"
+  },
+  "status": "frozen_unauthorized_executor_not_run"
+}

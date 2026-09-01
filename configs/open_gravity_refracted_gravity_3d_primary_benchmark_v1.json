@@ -1,0 +1,163 @@
+{
+  "schema": "invariant-open-gravity-refracted-gravity-3d-primary-benchmark-1.0",
+  "package_id": "open-gravity-refracted-gravity-3d-primary-benchmark-v1",
+  "status": "FROZEN_PRIMARY_PAPER_BOUND_TARGET_FREE_BENCHMARK",
+  "purpose": "Require the noncovariant Refracted Gravity 3-D operator to reproduce primary-paper equations, analytic limits, a manufactured variable-coefficient solution, and the spherical Gauss-law solution before any real-response scoring.",
+  "predecessor_binding": {
+    "role": "TARGET_FREE_3D_REFRACTED_GRAVITY_MECHANICS",
+    "commit": "009c2e0d0c7d29b1ce0e00d776f7b8b7d246ccc4",
+    "artifacts": [
+      {
+        "path": "configs/open_gravity_3d_halo_modified_gravity_comparators_v1.json",
+        "sha256": "f590210669b67bd228b2cef9c843f37b0b9dea7c1564d988f492167ab2fd6bab"
+      },
+      {
+        "path": "src/sigma_theory_compiler/open_gravity_3d_halo_modified_gravity_comparators_v1.py",
+        "sha256": "34ccaac316595664c8337abb04a06c510d57ff4181797a8f8d002413bd65e139"
+      },
+      {
+        "path": "tests/test_open_gravity_3d_halo_modified_gravity_comparators_v1.py",
+        "sha256": "9fe283efaf9c144c22dc4863a80fd3b6da5b42591dc05a0fbe88e54824305dfb"
+      },
+      {
+        "path": "runs/gravity/open-gravity-3d-halo-modified-gravity-comparators-v1/receipt.json",
+        "sha256": "6e17f3a4626022cc852d6d742c56e4b7a56c4a2ad9dc81b62649e7da598bba0f"
+      }
+    ],
+    "receipt_content_sha256": "15456e6b0fd63fd56059b309a24dfd2b6748e294e44b74867f1d001325e63f8d"
+  },
+  "primary_sources": [
+    {
+      "id": "RG_ORIGINAL_2016",
+      "title": "Dynamics of galaxies and clusters in refracted gravity",
+      "url": "https://arxiv.org/abs/1603.04943",
+      "role": "original noncovariant density-dependent gravitational-permittivity proposal and galaxy/cluster phenomenology"
+    },
+    {
+      "id": "RG_DISKMASS_2021_V2",
+      "title": "Dynamics of DiskMass Survey galaxies in refracted gravity",
+      "url": "https://arxiv.org/html/2003.07377v2",
+      "role": "exact weak-field PDE, smooth permittivity law, numerical method, published parameter priors, approximate universal parameter estimate, and adverse RAR evidence"
+    },
+    {
+      "id": "RG_REVIEW_2024",
+      "title": "Refracted Gravity Solutions from Small to Large Scales",
+      "url": "https://arxiv.org/abs/2404.06538",
+      "role": "current theory-scope review; not used as a substitute for the two primary derivations"
+    }
+  ],
+  "published_operator": {
+    "equation": "div[epsilon(rho) grad(phi)] = 4 pi G rho",
+    "expanded_equation": "epsilon_rho grad(rho).grad(phi) + epsilon(rho) laplacian(phi) = 4 pi G rho",
+    "permittivity": "epsilon(rho)=epsilon_0+(1-epsilon_0)/2*{tanh[Q*ln(rho/rho_c)]+1}",
+    "spherical_flux_law": "dphi/dr=G*M(<r)/[epsilon(rho(r))*r^2]",
+    "high_density_limit": "epsilon -> 1 and Newtonian Poisson is recovered",
+    "low_density_limit": "epsilon -> epsilon_0 and the field is enhanced by 1/epsilon_0 for constant epsilon_0",
+    "ellipticity_requirement": "0 < epsilon_0 <= epsilon(rho) <= 1",
+    "functional_form_boundary": "The DiskMass paper explicitly calls the smooth step an arbitrary viability ansatz; benchmark success validates the implementation, not uniqueness or truth of the ansatz."
+  },
+  "published_parameters": {
+    "universal_diskmass_median": {
+      "epsilon_0": 0.661,
+      "epsilon_0_minus": 0.007,
+      "epsilon_0_plus": 0.007,
+      "Q": 1.79,
+      "Q_minus": 0.26,
+      "Q_plus": 0.14,
+      "log10_rho_c_g_cm3": -24.54,
+      "log10_rho_c_minus": 0.07,
+      "log10_rho_c_plus": 0.08,
+      "use": "fixed published forward-control parameters; never refit from PHANGS, THINGS, S4G, SPARC, or X-COP responses"
+    },
+    "diskmass_flat_prior_bounds": {
+      "epsilon_0": [0.1, 1.0],
+      "Q": [0.01, 2.0],
+      "log10_rho_c_g_cm3": [-27.0, -23.0]
+    },
+    "sensitivity_cells": {
+      "construction": "the eight Cartesian corners of the published flat-prior bounds plus the universal median",
+      "count": 9,
+      "role": "predeclared source/operator sensitivity only; not response-fitted alternatives"
+    }
+  },
+  "published_counterevidence": [
+    {
+      "id": "UNIVERSAL_PARAMETERS_WORSEN_SOME_ROTATION_CURVES",
+      "statement": "The DiskMass paper reports that a single approximate universal parameter combination worsens the rotation-curve agreement for a substantial part of its sample."
+    },
+    {
+      "id": "LOW_ACCELERATION_RAR_UNDERESTIMATE",
+      "statement": "The DiskMass paper reports RG acceleration underestimates of roughly 0.1 to 0.3 dex at low Newtonian acceleration."
+    },
+    {
+      "id": "RAR_RESIDUAL_CORRELATIONS",
+      "statement": "The DiskMass paper reports strong residual correlations and non-null model scatter that may be genuine RG failures or sample-specific limitations."
+    }
+  ],
+  "benchmark_contract": {
+    "normalized_units": "Synthetic operator tests use G=1 and dimensionless coordinates/densities; the published rho_c value and unit conversion are separately frozen and tested.",
+    "manufactured_grids": [9, 13, 17],
+    "spherical_grids": [13, 17, 21],
+    "half_width": 1.0,
+    "manufactured_fields": {
+      "phi": "(1-x^2)(1-y^2)(1-z^2)",
+      "rho_over_rho_c": "exp(0.4x+0.2y-0.3z)",
+      "rhs": "analytic div[epsilon(rho) grad(phi)], independently differentiated from the published law"
+    },
+    "spherical_fields": {
+      "rho": "exp[-(r/0.42)^2]",
+      "rho_c": 0.15,
+      "boundary": "radial potential integrated from the published spherical flux law on every Cartesian boundary node"
+    },
+    "required_order": 1.8,
+    "maximum_finest_manufactured_error": 0.00012,
+    "maximum_finest_spherical_potential_error": 0.007,
+    "response_tuning": false,
+    "retain_all_failures": true
+  },
+  "required_gates": [
+    "PUBLISHED_FORMULA_IDENTITY",
+    "PUBLISHED_PHYSICAL_PARAMETER_ANCHOR",
+    "PERMITTIVITY_BOUNDS_MONOTONICITY_AND_DERIVATIVE",
+    "LOW_HIGH_DENSITY_AND_TRANSITION_LIMITS",
+    "NEWTON_EPSILON_ONE_LIMIT",
+    "CONSTANT_EPSILON_FIELD_SCALE",
+    "VARIABLE_COEFFICIENT_MANUFACTURED_SECOND_ORDER",
+    "SPHERICAL_GAUSS_LAW_SECOND_ORDER",
+    "NONSPHERICAL_DENSITY_GRADIENT_TERM_ACTIVE",
+    "ROTATION_COVARIANCE",
+    "POSITIVE_ELLIPTICITY_PUBLISHED_SENSITIVITY_GRID",
+    "PUBLISHED_COUNTEREVIDENCE_RETAINED",
+    "DESIGNED_INVALID_PARAMETER_FAILURES",
+    "ZERO_RESPONSE_ACCESS"
+  ],
+  "access_contract": {
+    "paper_metadata_records_frozen": 3,
+    "scientific_source_files_opened_by_builder": 0,
+    "scientific_response_files_opened": 0,
+    "scientific_rows_opened": 0,
+    "scores_computed": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "admission_rule": {
+    "benchmark_pass": "eligible only for a later real-source, development-response execution using the fixed published control and predeclared sensitivities",
+    "benchmark_failure": "retain exact failure as numerical or theory counterevidence; do not score",
+    "missing_public_source_or_paper": "SOURCE_BLOCKED; do not score",
+    "novel_extension": "may differ from conventional models, but must preserve a known-limit control and pass an independently checkable operator benchmark before response testing"
+  },
+  "claim_boundary": {
+    "published_non_covariant_operator_implemented": true,
+    "target_free_3d_benchmark_attempted": true,
+    "real_galaxy_or_cluster_fit": false,
+    "parameter_universality_established": false,
+    "covariant_completion_established": false,
+    "lensing_closure_established": false,
+    "solar_system_recovery_established": false,
+    "observational_preference_established": false,
+    "novelty_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-refracted-gravity-3d-primary-benchmark-v1/receipt.json"
+}

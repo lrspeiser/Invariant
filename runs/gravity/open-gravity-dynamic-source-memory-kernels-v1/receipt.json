@@ -1,0 +1,667 @@
+{
+  "access_ledger": {
+    "model_calls": 0,
+    "network_calls_by_builder": 0,
+    "observational_response_files_opened": 0,
+    "observational_response_rows_read": 0,
+    "paid_calls": 0,
+    "post_response_formula_changes": 0,
+    "public_simulation_source_files_opened": 1,
+    "public_simulation_source_rows_read": 2769,
+    "real_response_scores_computed": 0
+  },
+  "analysis_id": "open-gravity-dynamic-source-memory-kernels-v1",
+  "artifact_manifest": {
+    "equivalence-and-discriminator-map.csv": {
+      "bytes": 1262,
+      "sha256": "0e0d54956566140a0d81ea7169c8f0ee2caa9f2eea4121b196703e8c8043bd4f"
+    },
+    "gw150914-nr-response-blind-predictions.csv": {
+      "bytes": 1501,
+      "sha256": "411910222ba21e00e69fcd06d6d4f5e4ade1a0eac72d7b08a3d5a140e1025f74"
+    },
+    "kernel-frequency-signatures.csv": {
+      "bytes": 3687,
+      "sha256": "73119df1bc091cf09f1bdc63588bc349ee594ea834c716b5a3eee26ff9b777a7"
+    },
+    "low-rate-loop-discriminator.csv": {
+      "bytes": 2230,
+      "sha256": "6d3cf1a577a30580009fe79a08d24bb4b973d59b43540b8b0d859c4cb62014d2"
+    },
+    "low-rate-loop-discriminator.svg": {
+      "bytes": 2314,
+      "sha256": "d6bd05a2812b0e7106592a0de5cad678f62f695b3927e49b6a691638ce809ba0"
+    },
+    "ranked-leads.md": {
+      "bytes": 4242,
+      "sha256": "772ec7217ff906295fe3899dd5c1f8b72c76a52c678d537360be1553f38f625f"
+    }
+  },
+  "bindings": {
+    "CALIFA_MEMORY_COMPUTE_MANIFEST": "c025b37ea578eafd86b90b01b1e33aa2cccc51c4bfe4f117df7f1b04b16c2ad3",
+    "CALIFA_MEMORY_CONFIG": "a91612efc51d44a7e33016fbc4fff3c31fadce7e2e9c3ce569355799b0f5194a",
+    "CALIFA_MEMORY_RESULT": "a357fb3438dd3bbe15fcf5060481c487fc92b684df18a13d30921af1c403f2aa",
+    "TEMPORAL_TRANSFER_IDENTIFIABILITY": "cbc8336842ca3695971ead7e67e37adbd4323d989c1c6b43cb6bbc0ae1201bd5",
+    "TWELL_400_CARD_STREAM": "4bd70177bf6f8aabbbf2d106f002575f9c1850cfffb45ca9103165da29b9b44f"
+  },
+  "checks": {
+    "CLAIM_BOUNDARY_CONSERVATIVE": true,
+    "EQUIVALENCES_AND_TRUE_DISCRIMINATORS_EXPLICIT": true,
+    "EXACT_80_PREDECESSOR_PLUS_40_NEW_CONCEPTS": true,
+    "FINITE_MEMORY_LTI_LOOP_VANISHES_WITH_RATE": true,
+    "FREQUENCY_FINGERPRINTS_COMPLETE": true,
+    "HYSTERESIS_DISSIPATION_LIMIT": true,
+    "HYSTERESIS_RATE_PERSISTENT": true,
+    "LINEAR_STATE_ENERGY_BALANCES": true,
+    "NO_ADVANCED_MEAN_OR_DETERMINISTIC_RESPONSE": true,
+    "OBSERVATIONAL_RESPONSES_UNOPENED": true,
+    "OU_MEAN_EQUIVALENCE_AND_VARIANCE": true,
+    "PUBLIC_NR_SOURCE_HASH_AND_SHAPE": true,
+    "PURE_DELAY_REMOVED_BY_TIME_NUISANCE": true,
+    "RATE_SWEEP_COMPLETE": true,
+    "RESONANCE_OVERSHOOT": true,
+    "SEVEN_KERNELS_INCLUDING_CONTROL": true,
+    "STATIC_DC_EQUIVALENCE_EXPLICIT": true,
+    "STRONGEST_CALIFA_COUNTEREXAMPLE_RETAINED": true
+  },
+  "checks_passed": 18,
+  "checks_total": 18,
+  "claim_boundary": {
+    "all_80_predecessor_dynamic_concepts_mapped": true,
+    "causal_kernel_fingerprints_derived": true,
+    "covariant_gravity_action_derived": false,
+    "empirical_gravity_discovery": false,
+    "forty_new_dynamic_concepts_added": true,
+    "historical_novelty_established": false,
+    "observational_response_opened": false,
+    "public_NR_source_benchmark_bound": true,
+    "publication_ready_empirical_claim": false,
+    "real_data_fit_performed": false,
+    "receiver_energy_ledger_derived_for_normalized_states": true,
+    "universal_physical_time_scale_derived": false
+  },
+  "concept_coverage": {
+    "candidate_architectures": 6,
+    "drivers_per_architecture": 20,
+    "new_architectures": [
+      "K03_BIEXPONENTIAL",
+      "K05_HYSTERETIC"
+    ],
+    "new_concepts": 40,
+    "predecessor_architectures": [
+      "K01_RETARDED",
+      "K02_EXPONENTIAL",
+      "K04_DAMPED_RESONANCE",
+      "K06_STOCHASTIC_OU"
+    ],
+    "predecessor_concepts": 80,
+    "total_executable_concepts": 120
+  },
+  "content_sha256": "98ed3f6bc3b0d7200ad0a49714db819a72eb168bd9327472f944fcc379c080f2",
+  "equivalence_and_discriminator_map": [
+    {
+      "discriminator": "none from one settled static snapshot; K05 is set-valued",
+      "id": "E01_STATIC_DC",
+      "members": "K00,K01,K02,K03,K04,K06_mean",
+      "status": "EXACT_EQUIVALENCE"
+    },
+    {
+      "discriminator": "independent emission time or distance/source-clock transfer; one free coalescence time absorbs K01",
+      "id": "E02_COMMON_DELAY_TIME_ORIGIN",
+      "members": "K00 versus K01",
+      "status": "EXACT_NONIDENTIFIABILITY"
+    },
+    {
+      "discriminator": "conditional variance, cross-detector coherence, or higher moments",
+      "id": "E03_OU_CONDITIONAL_MEAN",
+      "members": "K02 versus K06 mean",
+      "status": "EXACT_EQUIVALENCE"
+    },
+    {
+      "discriminator": "two distinct timescales and at least three resolved frequencies; tau1=tau2 or weight in {0,1} collapses",
+      "id": "E04_BIEXP_POLE_COLLAPSE",
+      "members": "K03 versus K02",
+      "status": "EXACT_PARAMETER_BOUNDARY"
+    },
+    {
+      "discriminator": "a second frequency, transition, overshoot, variance, or rate sweep",
+      "id": "E05_ONE_FREQUENCY",
+      "members": "all deterministic kernels at one omega",
+      "status": "EXACT_NUISANCE_EQUIVALENCE"
+    },
+    {
+      "discriminator": "nonzero loop-area intercept as omega approaches zero",
+      "id": "D01_RATE_PERSISTENT_LOOP",
+      "members": "K05 versus stable finite-memory LTI kernels",
+      "status": "TRUE_DISCRIMINATOR"
+    },
+    {
+      "discriminator": "gain above unity plus overshoot; source quasinormal ringing is the mandatory countermodel",
+      "id": "D02_RESONANCE_PEAK",
+      "members": "K04 versus K01,K02,K03",
+      "status": "TRUE_DISCRIMINATOR_WITH_COUNTERMODEL"
+    },
+    {
+      "discriminator": "shared astrophysical conditional variance/coherence; independent detector noise is the negative control",
+      "id": "D03_EXCESS_VARIANCE",
+      "members": "K06 versus K02",
+      "status": "TRUE_DISCRIMINATOR_WITH_NOISE_CONTROL"
+    }
+  ],
+  "integrity": {
+    "config_raw_sha256": "2ff3294450973a3409fb73ae5d4ff5d27e8a222e723d637f04c0a734b55f3f9f",
+    "module_raw_sha256": "b911f821eaa3a2b2975611bf59ff9c19100e15a6a7c64cb8ff249b81de0f5b5d",
+    "module_semantic_sha256": "190eaf63a9c03cb613f164f93f0c2f738ee00cca05e8552218a33205cfb9ad05",
+    "test_raw_sha256": "1785cc1e0f4b74a70477243aaa96efe69078070720379fe9695c5f6e389c6612"
+  },
+  "kernel_contracts": [
+    {
+      "causal_support": "local present input only",
+      "class": "control",
+      "energy_accounting": "receiver work is supplied directly by the instantaneous source/field sector",
+      "equation": "q(s)=u(s)",
+      "id": "K00_INSTANTANEOUS",
+      "parameters": {},
+      "static_limit": "q=u",
+      "zero_memory_limit": "self"
+    },
+    {
+      "causal_support": "strict support only at s'<=s-d",
+      "class": "registered_A15",
+      "energy_accounting": "a lossless delay requires a propagating mediator or delay line; its stress energy is not derived here",
+      "equation": "q(s)=u(s-d)",
+      "id": "K01_RETARDED",
+      "parameters": {
+        "delay": 0.244140625
+      },
+      "static_limit": "q=u for a constant source",
+      "zero_memory_limit": "d->0 gives K00"
+    },
+    {
+      "causal_support": "K(s)=exp(-s/tau)/tau for s>=0 and zero otherwise",
+      "class": "registered_A16_known_control",
+      "energy_accounting": "tau*d(q^2/2)/ds+q^2=u*q; q^2 is positive dissipation that requires a receiver/mediator bath",
+      "equation": "tau*q'+q=u",
+      "id": "K02_EXPONENTIAL",
+      "parameters": {
+        "tau": 0.35
+      },
+      "static_limit": "q=u after relaxation",
+      "zero_memory_limit": "tau->0 gives K00"
+    },
+    {
+      "causal_support": "positive weighted sum of two one-sided exponential kernels",
+      "class": "new_TWELL_expansion_known_linear_family",
+      "energy_accounting": "the weighted sum of the two one-pole storage-dissipation identities closes the normalized state ledger",
+      "equation": "tau_i*x_i'+x_i=u; q=w*x_1+(1-w)*x_2",
+      "id": "K03_BIEXPONENTIAL",
+      "parameters": {
+        "tau1": 0.08,
+        "tau2": 1.5,
+        "weight": 0.65
+      },
+      "static_limit": "q=u after both states relax",
+      "zero_memory_limit": "tau1,tau2->0 gives K00; tau1=tau2 collapses exactly to K02"
+    },
+    {
+      "causal_support": "retarded Green function of the stable second-order state equation",
+      "class": "registered_A17",
+      "energy_accounting": "d[(q^2+q'^2/omega0^2)/2]/ds+(2*zeta/omega0)*q'^2=u*q'",
+      "equation": "q''+2*zeta*omega0*q'+omega0^2*q=omega0^2*u",
+      "id": "K04_DAMPED_RESONANCE",
+      "parameters": {
+        "omega0": 7.0,
+        "zeta": 0.18
+      },
+      "static_limit": "q=u",
+      "zero_memory_limit": "omega0->infinity at fixed finite frequency gives K00"
+    },
+    {
+      "causal_support": "branch state uses only past threshold crossings",
+      "class": "new_TWELL_expansion_non_LTI",
+      "energy_accounting": "the quasistatic loop dissipates 4*kappa*h per normalized cycle; branch switching requires a declared reservoir",
+      "equation": "b switches to +1 at u>=h and -1 at u<=-h; tau_h*q'+q=u+kappa*b",
+      "id": "K05_HYSTERETIC",
+      "parameters": {
+        "offset": 0.15,
+        "tau": 0.03,
+        "threshold": 0.25
+      },
+      "static_limit": "set-valued and history dependent: q=u+kappa*b",
+      "zero_memory_limit": "kappa,h,tau_h->0 gives K00"
+    },
+    {
+      "causal_support": "adapted to the past source and Wiener filtration; no future increment enters",
+      "class": "registered_A18",
+      "energy_accounting": "the Ito bath injects tau*sigma^2/2, exactly balancing stationary fluctuation dissipation when u=0",
+      "equation": "dq=(u-q)ds/tau+sigma*dW_s",
+      "id": "K06_STOCHASTIC_OU",
+      "parameters": {
+        "sigma": 0.05,
+        "tau": 0.35
+      },
+      "static_limit": "E[q]=u and Var(q)=sigma^2*tau/2 for a constant source",
+      "zero_memory_limit": "sigma->0 gives K02 in mean; tau->0 and sigma->0 gives K00"
+    }
+  ],
+  "next_empirical_falsifier": {
+    "dataset": "GWOSC GW150914 H1/L1 V2 32-second 4096-Hz calibrated strain",
+    "priority": "Test shared resonance/phase-curvature and cross-detector stochastic coherence; pure delay is a registered nonidentifiability control.",
+    "rule": "Bind this prediction receipt before reading either strain array; reproduce GR, perform frozen injection recovery, project the frozen nuisance space, and fit no per-event kernel scale."
+  },
+  "normalization": {
+    "benchmark_T_star_seconds": 0.01,
+    "memory_response": "q is dimensionless and enters a receiver only through a_eff=a_instantaneous+epsilon*a_star*q; epsilon and a_star are not fitted in this response-blind packet.",
+    "receiver_power": "Delta P_receiver=m*v dot (epsilon*a_star*q). A fundamental completion must balance this with source plus mediator stress energy; a kernel fingerprint alone does not establish conservation.",
+    "source_perturbation": "u=(S-S_ref)/S_star is dimensionless and may be signed; no formula may use a response value to define S_ref or S_star.",
+    "time": "s=t/T_star is dimensionless. T_star must ultimately be derived from the registered physical driver (density, curvature, crossing time, or source dynamics), never chosen per observed response."
+  },
+  "novelty_boundary": {
+    "candidate_methods_contribution": "Exact equivalence classes plus a minimal invariant discriminator and receiver-energy ledger tied to a public evolving-source benchmark.",
+    "known": "Causal convolution, exponential mixtures, damped response, OU noise, and hysteresis are established structures.",
+    "not_established": "Historical novelty, a covariant gravity action, a universal driver-derived scale, or an empirical gravity effect."
+  },
+  "observational_response_preflight": {
+    "event": "GW150914",
+    "event_gps": 1126259462.4,
+    "frozen_nuisance_projection": [
+      "one amplitude and phase per detector constrained by antenna response",
+      "one common geocentric coalescence time plus geometric detector delay",
+      "published calibration envelope",
+      "stationary colored detector-noise likelihood",
+      "GR source masses, spins, sky position, inclination, and distance",
+      "no per-event kernel timescale or threshold"
+    ],
+    "frozen_predictions": [
+      "K01 is exactly absorbed by an unconstrained common emission/coalescence-time shift and cannot be discovered from one event",
+      "K02 and K03 predict smooth multi-frequency attenuation and phase curvature shared by H1 and L1 after projection",
+      "K04 predicts a shared resonance peak near omega0/(2*pi*T_star) and post-source ringing",
+      "K05 predicts rate-persistent branch distortion and odd-harmonic structure, but cannot advance until S_star is derived independently",
+      "K06 has the K02 conditional mean plus a common astrophysical excess-variance component; uncorrelated detector noise is a negative control"
+    ],
+    "products": [
+      {
+        "detector": "H1",
+        "expected_http_bytes": 1040592,
+        "url": "https://gwosc.org/s/events/GW150914/H-H1_LOSC_4_V2-1126259446-32.hdf5"
+      },
+      {
+        "detector": "L1",
+        "expected_http_bytes": 1007420,
+        "url": "https://gwosc.org/s/events/GW150914/L-L1_LOSC_4_V2-1126259446-32.hdf5"
+      }
+    ],
+    "required_acquisition_receipt": [
+      "resolved URL, byte count, SHA-256, and retrieval timestamp for each detector file",
+      "HDF5 strain channel, GPS start, duration, sample rate, and data-quality masks",
+      "independent H1/L1 calibration and noise metadata",
+      "prediction receipt hash predating every response read",
+      "injection recovery for every retained kernel before real scoring"
+    ],
+    "state": "DIRECT_URLS_FROZEN_RESPONSES_NOT_OPENED"
+  },
+  "ou_stochastic_signature": {
+    "analytic_stationary_variance": 0.00043750000000000006,
+    "conditional_mean_equals_K02_exactly": true,
+    "ensemble_final_variance": 0.0004261208163441886,
+    "ensemble_mean_rmse_from_K02": 0.0006109856213615327,
+    "ensemble_to_analytic_variance_ratio": 0.9739904373581452,
+    "noise_bath_injection_power": 0.00043750000000000006,
+    "paths": 1024,
+    "seed": 520260831,
+    "stationary_fluctuation_dissipation": 0.00043750000000000006
+  },
+  "primary_literature": [
+    {
+      "boundary": "Causal constitutive kernels in gravity are established prior art; kernel use alone is not novel.",
+      "citation": "Mashhoon, Nonlocal Gravity, Annalen der Physik 17, 705-727 (2008/2011 arXiv version)",
+      "id": "MASHHOON_NONLOCAL_GRAVITY",
+      "url": "https://arxiv.org/abs/1101.3752"
+    },
+    {
+      "boundary": "Defines the public numerical-relativity benchmark family and waveform format.",
+      "citation": "Boyle et al., The SXS Collaboration catalog of binary black hole simulations, Classical and Quantum Gravity 36, 195006 (2019)",
+      "doi": "10.1088/1361-6382/ab34e2",
+      "id": "SXS_CATALOG",
+      "url": "https://arxiv.org/abs/1904.04831"
+    },
+    {
+      "boundary": "The observed chirp agrees with GR; any response test must reproduce that control before a new-memory claim.",
+      "citation": "Abbott et al., Observation of Gravitational Waves from a Binary Black Hole Merger, Physical Review Letters 116, 061102 (2016)",
+      "doi": "10.1103/PhysRevLett.116.061102",
+      "id": "GW150914_DETECTION",
+      "url": "https://arxiv.org/abs/1602.03837"
+    },
+    {
+      "boundary": "Linear response and stochastic fluctuation-dissipation relations are known; K02/K03/K06 formulas are controls, not historical novelties.",
+      "citation": "Kubo, The fluctuation-dissipation theorem, Reports on Progress in Physics 29, 255 (1966)",
+      "doi": "10.1088/0034-4885/29/1/306",
+      "id": "KUBO_RESPONSE"
+    },
+    {
+      "boundary": "Standard gravitational-wave memory is a lasting radiative metric change and is not the same as the constitutive source-history kernels tested here.",
+      "citation": "Christodoulou, Nonlinear nature of gravitation and gravitational-wave experiments, Physical Review Letters 67, 1486 (1991)",
+      "doi": "10.1103/PhysRevLett.67.1486",
+      "id": "CHRISTODOULOU_GW_MEMORY"
+    }
+  ],
+  "public_NR_benchmark": {
+    "bytes": 142345,
+    "end_seconds": 0.05537714100000002,
+    "observational_response": false,
+    "rows": 2769,
+    "sample_rate_hz": 4096.0,
+    "sha256": "ed49c3e83f90e70ac85386f183031b7de3d3d6aa78e75a7d284e5a53a5cc0b76",
+    "start_seconds": -0.620404109,
+    "strain_peak_abs": 1.2263698655469676e-21
+  },
+  "ranked_leads": [
+    {
+      "blocker": "S_star, T_star, branch reservoir, and covariant coupling are not derived independently of a response.",
+      "kernel_id": "K05_HYSTERETIC",
+      "lead": "rate-persistent causal branch memory",
+      "next_falsifier": "Repeated source cycles at multiple rates with an independently reconstructed source state; loop area must approach a nonzero common intercept.",
+      "rank": 1,
+      "signature": {
+        "switch_off_final_response": 0.1500000000000003,
+        "zero_rate_intercept": 0.14528188952414603
+      },
+      "why": "It is the only tested architecture with a nonzero quasistatic loop-area intercept, so it is not another LTI fading kernel."
+    },
+    {
+      "blocker": "Ordinary source quasinormal ringing can imitate the signature, and omega0 lacks a derived environmental scaling.",
+      "kernel_id": "K04_DAMPED_RESONANCE",
+      "lead": "universal source-history resonance",
+      "next_falsifier": "Transfer one frozen omega0 driver law across dissimilar GW events or merger simulations; do not tune omega0 per event.",
+      "rank": 2,
+      "signature": {
+        "step_overshoot": 0.5627735784757362
+      },
+      "why": "It produces gain above one, step overshoot, and post-source ringing that first-order memory cannot produce."
+    },
+    {
+      "blocker": "Instrumental and source noise are stronger countermodels unless the excess is coherently shared across detectors or probes.",
+      "kernel_id": "K06_STOCHASTIC_OU",
+      "lead": "gravity-sector common stochastic memory",
+      "next_falsifier": "Cross-detector residual coherence after a frozen GR waveform and detector-noise model, then unchanged cross-event transfer.",
+      "rank": 3,
+      "signature": {
+        "variance_required": true
+      },
+      "why": "Its conditional variance is a distinct observable even though its mean is exactly K02."
+    },
+    {
+      "blocker": "It is established linear-response structure and collapses exactly to K02 on broad parameter boundaries.",
+      "kernel_id": "K03_BIEXPONENTIAL",
+      "lead": "two-timescale fading memory",
+      "next_falsifier": "Resolve at least three source frequencies or two separated transitions with the same two timescales.",
+      "rank": 4,
+      "signature": {
+        "two_poles_required": true
+      },
+      "why": "It can create tail curvature unavailable to one exponential."
+    },
+    {
+      "blocker": "Known response law; CALIFA Item 27 provides no positive selection-aware evidence.",
+      "kernel_id": "K02_EXPONENTIAL",
+      "lead": "single causal fading memory control",
+      "next_falsifier": "Broadband source-response cross-spectrum on a fresh time-resolved system.",
+      "rank": 5,
+      "signature": {
+        "known_control": true
+      },
+      "why": "Simple and identifiable from broadband phase plus attenuation."
+    },
+    {
+      "blocker": "Exactly degenerate with a free common emission/coalescence time for one event.",
+      "kernel_id": "K01_RETARDED",
+      "lead": "pure source delay",
+      "next_falsifier": "An independent emission clock or repeated sources with a frozen distance-dependent delay law.",
+      "rank": 6,
+      "signature": {
+        "unit_magnitude": true
+      },
+      "why": "Causal and lossless, but it supplies no amplitude enhancement."
+    }
+  ],
+  "rate_sweep_summary": {
+    "K00_INSTANTANEOUS": {
+      "highest_rate_loop_area": 5.551115123125783e-17,
+      "linear_zero_rate_intercept": 0.0,
+      "low_rate_log_slope": null,
+      "lowest_rate_loop_area": 5.551115123125783e-17
+    },
+    "K01_RETARDED": {
+      "highest_rate_loop_area": 0.3063064022185599,
+      "linear_zero_rate_intercept": 0.00013087061379880792,
+      "low_rate_log_slope": 0.99927962891771,
+      "lowest_rate_loop_area": 0.03834826997333962
+    },
+    "K02_EXPONENTIAL": {
+      "highest_rate_loop_area": 0.4233489686380648,
+      "linear_zero_rate_intercept": -0.005638184048276114,
+      "low_rate_log_slope": 1.0549419726819227,
+      "lowest_rate_loop_area": 0.04714796362361179
+    },
+    "K03_BIEXPONENTIAL": {
+      "highest_rate_loop_area": 0.5430648704251899,
+      "linear_zero_rate_intercept": 0.03787924820405074,
+      "low_rate_log_slope": 0.9068749217168259,
+      "lowest_rate_loop_area": 0.0831320882894998
+    },
+    "K04_DAMPED_RESONANCE": {
+      "highest_rate_loop_area": 0.05677481873002538,
+      "linear_zero_rate_intercept": -0.008159237793258198,
+      "low_rate_log_slope": 2.7968534800598905,
+      "lowest_rate_loop_area": 0.0001284356143235743
+    },
+    "K05_HYSTERETIC": {
+      "highest_rate_loop_area": 0.18634095019871777,
+      "linear_zero_rate_intercept": 0.14528188952414603,
+      "low_rate_log_slope": 0.098933031901307,
+      "lowest_rate_loop_area": 0.15134702776813325
+    },
+    "K06_STOCHASTIC_OU": {
+      "highest_rate_loop_area": 0.4233489686380648,
+      "linear_zero_rate_intercept": -0.005638184048276114,
+      "low_rate_log_slope": 1.0549419726819227,
+      "lowest_rate_loop_area": 0.04714796362361179
+    }
+  },
+  "receiver_energy_ledger": {
+    "K01_RETARDED": {
+      "completion_status": "PROPAGATING_MEDIATOR_STRESS_ENERGY_NOT_DERIVED",
+      "lossless_transfer_magnitude_residual": 0.0
+    },
+    "K02_EXPONENTIAL": {
+      "completion_status": "NORMALIZED_OPEN_SYSTEM_BALANCE_DERIVED",
+      "periodic_average_input_minus_dissipation": 1.1102230246251565e-16
+    },
+    "K03_BIEXPONENTIAL": {
+      "completion_status": "NORMALIZED_OPEN_SYSTEM_BALANCE_DERIVED",
+      "periodic_average_input_minus_dissipation": 1.1102230246251565e-16
+    },
+    "K04_DAMPED_RESONANCE": {
+      "completion_status": "NORMALIZED_DAMPED_OSCILLATOR_BALANCE_DERIVED",
+      "periodic_average_input_minus_dissipation": 1.3877787807814457e-17
+    },
+    "K05_HYSTERETIC": {
+      "completion_status": "BRANCH_RESERVOIR_NOT_DERIVED",
+      "lowest_rate_observed_loop_dissipation": 0.15134702776813325,
+      "quasistatic_expected_loop_dissipation": 0.15,
+      "relative_residual": 0.008980185120888348
+    },
+    "K06_STOCHASTIC_OU": {
+      "completion_status": "NORMALIZED_ITO_BATH_BALANCE_DERIVED",
+      "stationary_bath_injection_equals_variance_dissipation": true
+    },
+    "receiver_boundary": "Every nonzero q can do mechanical work on matter. These normalized balances account for kernel-state storage and dissipation, not a covariant source+field+matter stress tensor."
+  },
+  "schema_version": "invariant-open-gravity-dynamic-source-memory-kernels-receipt-1.0",
+  "scope": "theory, synthetic fixtures, and one public NR source waveform; no observational strain response",
+  "status": "PASS_CAUSAL_DYNAMIC_MEMORY_DISCRIMINATOR_BASIS_PUBLIC_NR_SOURCE_BENCHMARK_RESPONSE_BLIND",
+  "step_pulse_signatures": {
+    "K00_INSTANTANEOUS": {
+      "final_response": 0.0,
+      "overshoot_above_unit": 0.0,
+      "peak": 1.0,
+      "post_off_absolute_area_over_source_area": 0.0,
+      "pre_source_max_abs": 0.0,
+      "response_class": "deterministic",
+      "response_sha256": "5f3cbca97b0a012a9581d905798226a4971f164e1f8382dd68e0a5a3aa8c6e5b",
+      "trough": 0.0
+    },
+    "K01_RETARDED": {
+      "final_response": 0.0,
+      "overshoot_above_unit": 0.0,
+      "peak": 1.0,
+      "post_off_absolute_area_over_source_area": 0.061035156250000056,
+      "pre_source_max_abs": 0.0,
+      "response_class": "deterministic",
+      "response_sha256": "c075cd336691cb4cda6e871b6269a905c690901c44611024f5a0d75298e43375",
+      "trough": 0.0
+    },
+    "K02_EXPONENTIAL": {
+      "final_response": 3.568332626118692e-08,
+      "overshoot_above_unit": 0.0,
+      "peak": 0.9999891198597783,
+      "post_off_absolute_area_over_source_area": 0.08724928568690557,
+      "pre_source_max_abs": 0.0,
+      "response_class": "deterministic",
+      "response_sha256": "f119114a1a397a62fe76883b101526f77dbfaed2a52fedebd2444368972a228f",
+      "trough": 0.0
+    },
+    "K03_BIEXPONENTIAL": {
+      "final_response": 0.005957103678125758,
+      "overshoot_above_unit": 0.0,
+      "peak": 0.9756807920720197,
+      "post_off_absolute_area_over_source_area": 0.13265464706431607,
+      "pre_source_max_abs": 0.0,
+      "response_class": "deterministic",
+      "response_sha256": "878010aa0bbf3e4ccec573e78477ce9622a874859ec05d7cd071b9fb669865c0",
+      "trough": 0.0
+    },
+    "K04_DAMPED_RESONANCE": {
+      "final_response": -0.0005067568833348742,
+      "overshoot_above_unit": 0.5627735784757362,
+      "peak": 1.5627735784757362,
+      "post_off_absolute_area_over_source_area": 0.13179195299832228,
+      "pre_source_max_abs": 0.0,
+      "response_class": "deterministic",
+      "response_sha256": "cd2d783bec928bb95c9aaf42a5ca67c975c4a4ed132f1ec65a66cd70c77cb7c5",
+      "trough": -0.5650346161269234
+    },
+    "K05_HYSTERETIC": {
+      "final_response": 0.1500000000000003,
+      "overshoot_above_unit": 0.1499999999999968,
+      "peak": 1.1499999999999968,
+      "post_off_absolute_area_over_source_area": 0.23232777757203865,
+      "pre_source_max_abs": 0.0,
+      "response_class": "deterministic",
+      "response_sha256": "0c8ca3db0d5d7d0e44c8f1dccf750fea3087e525f203683ce7c9e424795f76d9",
+      "trough": 0.0
+    },
+    "K06_STOCHASTIC_OU": {
+      "final_response": 3.568332626118692e-08,
+      "overshoot_above_unit": 0.0,
+      "peak": 0.9999891198597783,
+      "post_off_absolute_area_over_source_area": 0.08724928568690557,
+      "pre_source_max_abs": 0.0,
+      "response_class": "conditional_mean",
+      "response_sha256": "f119114a1a397a62fe76883b101526f77dbfaed2a52fedebd2444368972a228f",
+      "trough": 0.0
+    }
+  },
+  "strongest_counterexample": {
+    "admissible_candidate_cells": 192661,
+    "formal_status": "INCONCLUSIVE_QUALITY",
+    "improvement_vs_flexible_nuisance": 0.3204305277472748,
+    "improvement_vs_instantaneous_baryonic": -0.286836057342884,
+    "interpretation": "A large static fossil-history search produced a tempting nuisance-relative gain but no selection-aware or instantaneous-baseline evidence. Static fossil histories do not measure phase, rate-persistent hysteresis, resonance, or stochastic coherence.",
+    "minimum_formal_objects": 45,
+    "raw_candidate_cells": 262144,
+    "selection_aware_permutation_p": 0.75,
+    "source": "sealed Item 27 CALIFA memory campaign",
+    "valid_all_annuli_objects": 9,
+    "valid_primary_objects": 26
+  },
+  "waveform_predictions": [
+    {
+      "amplitude_time_projected_mismatch": 0.0,
+      "best_time_shift_seconds": 0.0,
+      "kernel_id": "K00_INSTANTANEOUS",
+      "ou_stationary_excess_variance": 0.0,
+      "output_rms_over_source_rms": 1.0,
+      "peak_time_shift_seconds": 0.0,
+      "post_peak_tail_rms_over_source_tail": 1.0,
+      "prediction_sha256": "b05c7bece98aa1d12d0c6ffdccf8cd334db9b4eee538b0b5284ea8fdfb8131cd",
+      "raw_amplitude_projected_mismatch": 0.0
+    },
+    {
+      "amplitude_time_projected_mismatch": 0.0,
+      "best_time_shift_seconds": 0.00244140625,
+      "kernel_id": "K01_RETARDED",
+      "ou_stationary_excess_variance": 0.0,
+      "output_rms_over_source_rms": 1.0005694280966608,
+      "peak_time_shift_seconds": 0.00244140625,
+      "post_peak_tail_rms_over_source_tail": 1.615763571641515,
+      "prediction_sha256": "62ffa18f62ed1138cd70ab2e9cce675735a7bb33ce93f8d46ef20d9016e269c7",
+      "raw_amplitude_projected_mismatch": 0.5490750817320529
+    },
+    {
+      "amplitude_time_projected_mismatch": 0.11838862956508156,
+      "best_time_shift_seconds": 0.001953125,
+      "kernel_id": "K02_EXPONENTIAL",
+      "ou_stationary_excess_variance": 0.0,
+      "output_rms_over_source_rms": 0.7689358601076172,
+      "peak_time_shift_seconds": -0.019287109375,
+      "post_peak_tail_rms_over_source_tail": 0.17086528373476279,
+      "prediction_sha256": "fc1d9e01e49264dc8e7a66f1c54c5af227d40fcbae39e366e22c4ae56c93354d",
+      "raw_amplitude_projected_mismatch": 0.3823812796493926
+    },
+    {
+      "amplitude_time_projected_mismatch": 0.029809519450856414,
+      "best_time_shift_seconds": 0.000732421875,
+      "kernel_id": "K03_BIEXPONENTIAL",
+      "ou_stationary_excess_variance": 0.0,
+      "output_rms_over_source_rms": 0.6868460317099939,
+      "peak_time_shift_seconds": -0.0029296875,
+      "post_peak_tail_rms_over_source_tail": 0.4028018269709094,
+      "prediction_sha256": "72452d8ff3269c4b7375c2dd69ff37078e637bf234cb18d4c947a74e5b6ee860",
+      "raw_amplitude_projected_mismatch": 0.11080143994617042
+    },
+    {
+      "amplitude_time_projected_mismatch": 0.19475475941216913,
+      "best_time_shift_seconds": 0.001708984375,
+      "kernel_id": "K04_DAMPED_RESONANCE",
+      "ou_stationary_excess_variance": 0.0,
+      "output_rms_over_source_rms": 1.237556656248903,
+      "peak_time_shift_seconds": 0.002197265625,
+      "post_peak_tail_rms_over_source_tail": 5.89108637867709,
+      "prediction_sha256": "6469fd31ac4e5c09a5dceb452c3ad5352c350b776aa0cc390d36a6e77157cc4f",
+      "raw_amplitude_projected_mismatch": 0.39040559123843954
+    },
+    {
+      "amplitude_time_projected_mismatch": 0.08285406077635005,
+      "best_time_shift_seconds": 0.00048828125,
+      "kernel_id": "K05_HYSTERETIC",
+      "ou_stationary_excess_variance": 0.0,
+      "output_rms_over_source_rms": 1.3908584920926588,
+      "peak_time_shift_seconds": 0.000244140625,
+      "post_peak_tail_rms_over_source_tail": 11.749686020293046,
+      "prediction_sha256": "db1dfeecdbf42413f467dc75d9e5b099b3cbee5645ddcc2a59550c522760a969",
+      "raw_amplitude_projected_mismatch": 0.11447549293596193
+    },
+    {
+      "amplitude_time_projected_mismatch": 0.11838862956508156,
+      "best_time_shift_seconds": 0.001953125,
+      "kernel_id": "K06_STOCHASTIC_OU",
+      "ou_stationary_excess_variance": 0.00043750000000000006,
+      "output_rms_over_source_rms": 0.7689358601076172,
+      "peak_time_shift_seconds": -0.019287109375,
+      "post_peak_tail_rms_over_source_tail": 0.17086528373476279,
+      "prediction_sha256": "fc1d9e01e49264dc8e7a66f1c54c5af227d40fcbae39e366e22c4ae56c93354d",
+      "raw_amplitude_projected_mismatch": 0.3823812796493926
+    }
+  ]
+}

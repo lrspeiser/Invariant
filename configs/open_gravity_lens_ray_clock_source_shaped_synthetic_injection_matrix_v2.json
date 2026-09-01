@@ -1,0 +1,202 @@
+{
+  "schema": "open-gravity-lens-ray-clock-source-shaped-synthetic-injection-matrix-2.0",
+  "package_id": "open-gravity-lens-ray-clock-source-shaped-synthetic-injection-matrix-v2",
+  "version": "v1.0.1",
+  "status": "FROZEN_SYNTHETIC_ONLY_PRE_RESPONSE",
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "experiment_id": "lens.ray-clock-source-shaped-synthetic.v1",
+  "suite_seed": 26083103,
+  "lenses": [
+    "SDSS J0832+0404",
+    "SDSS J1226-0006",
+    "SDSS J1320+1644",
+    "SDSS J1335+0118",
+    "SDSS J1349+1227",
+    "SDSS J1455+1447",
+    "SDSS J1515+1511",
+    "SDSS J1620+1203"
+  ],
+  "mechanisms": [
+    "ENDPOINT_LAPSE_CONTROL",
+    "GEOMETRIC_TIME_DELAY_CONTROL",
+    "GR_STARS_NFW_CONTROL",
+    "PATH_AGED_WEYL_CLOCK",
+    "PHI_PSI_SLIP_SAME_STATE"
+  ],
+  "noise_families": [
+    "independent-source-envelope",
+    "shared-mass-clock-nuisance",
+    "zero-noise"
+  ],
+  "law_constants": {
+    "path_alpha": 0.25,
+    "same_state_slip_gamma": 1.2,
+    "slip_path_fraction": 0.1,
+    "stellar_core_over_einstein_radius": 0.25,
+    "nfw_scale_over_einstein_radius": 4.0
+  },
+  "noise": {
+    "absolute_sigma_by_output": {
+      "prediction.scalar.differential-log-redshift": 1e-7,
+      "prediction.scalar.time-delay-days": 0.001,
+      "prediction.vector.endpoint-log-redshift": 1e-5,
+      "prediction.vector.light-potential": 1e-10,
+      "prediction.vector.matter-potential": 1e-10,
+      "prediction.vector.path-exposure": 1e-6
+    },
+    "fractional_sigma": 0.03,
+    "floor_fraction_of_feature_rms": 0.01,
+    "shared_mass_scale_sigma": 0.04,
+    "shared_clock_offset_sigma": 0.002,
+    "shared_residual_fraction": 0.15
+  },
+  "scoring": {
+    "primary_metric": "profiled_whitened_rmse",
+    "secondary_metric": "mean_feature_relative_rmse",
+    "symmetric_nuisances": [
+      "one common lens-amplitude scale per lens and candidate",
+      "one common endpoint-clock offset per lens and candidate"
+    ],
+    "winner_absolute_tolerance": 1e-12,
+    "minimum_whitened_gap_for_distinct_signature": 0.1,
+    "pairwise_degeneracy_profiled_rmse_max": 1e-8,
+    "no_hand_ranking": true
+  },
+  "geometry_mode": "two-image-point-lens-source-lift",
+  "time_mode": "stationary-lens-path-clock",
+  "coordinate_frame": "lens-centered-thin-lens",
+  "parameter_schema_path": "configs/open_gravity_full3d_phangs_synthetic_adapter_empty_parameters_v1.schema.json",
+  "output_directory": "runs/gravity/open-gravity-lens-ray-clock-source-shaped-synthetic-injection-matrix-v2",
+  "predecessor_binding": {
+    "status": "PRESERVED_STATIC_STYLE_ONLY_PREDECESSOR",
+    "config_path": "configs/open_gravity_lens_ray_clock_source_shaped_synthetic_injection_matrix_v1.json",
+    "config_raw_sha256": "301bd095e9eb7d986a2718eb606ebe9d0a274aa0709f0b2e16e0d46c5ec0a5f9",
+    "module_path": "src/sigma_theory_compiler/open_gravity_lens_ray_clock_source_shaped_synthetic_injection_matrix_v1.py",
+    "module_raw_sha256": "1f4235f17afed5faa03df22338096fe8d8a5d17a4418fc24b051e0995ed4e238",
+    "test_path": "tests/test_open_gravity_lens_ray_clock_source_shaped_synthetic_injection_matrix_v1.py",
+    "test_raw_sha256": "01e1af748861e26b3958118a384a0f595aa7d103f8ce321eea094c6f35aae26e",
+    "receipt_path": "runs/gravity/open-gravity-lens-ray-clock-source-shaped-synthetic-injection-matrix-v1/receipt.json",
+    "receipt_raw_sha256": "2b691427820955c14e602ce76959f09033394b787e4f7f56a7a1c77b74e5dd22",
+    "receipt_content_sha256": "d67f0895d3067be96f02a9c45b2694808988c365a9b45eda3d8ae13c4bb6384c"
+  },
+  "source_anchors": [
+    {
+      "id": "LANE1_CONFIG",
+      "path": "configs/open_gravity_path_accumulated_weyl_redshift_v1.json",
+      "sha256": "2d1414fae7bb4c626e0c3ea45acd0f1957f01e7abc37a27682ebca8909e4fbce",
+      "bytes": 16091
+    },
+    {
+      "id": "LANE1_MODULE",
+      "path": "src/sigma_theory_compiler/open_gravity_path_accumulated_weyl_redshift_v1.py",
+      "sha256": "fb0ce705135dd64e55f77ab9fcdd6413a50d08caadb549164dced018fdf75313",
+      "bytes": 48994
+    },
+    {
+      "id": "LANE1_PREDICTIONS",
+      "path": "runs/gravity/open-gravity-path-accumulated-weyl-redshift-v1/artifacts/exploration-lens-predictions.csv",
+      "sha256": "6a0c462d11702445b0fc8cf4f08702e54076e1e3ab901a087d6c7ff479435bdf",
+      "bytes": 5847
+    },
+    {
+      "id": "LANE1_RECEIPT",
+      "path": "runs/gravity/open-gravity-path-accumulated-weyl-redshift-v1/receipt.json",
+      "sha256": "e11048029f44eaca87f25cbcc3172694c7f9b4c83ec8b04edeb2b37e4e94b50c",
+      "bytes": 12908
+    },
+    {
+      "id": "LANE7_LEDGER",
+      "path": "runs/gravity/open-gravity-path-accumulated-weyl-redshift-source-preflight-v1/per-lens-source-ledger.json",
+      "sha256": "f080c5c57b60c00395309855fbf77dc471e9e2c0abdec81489630a7f52641411",
+      "bytes": 27834
+    },
+    {
+      "id": "LANE7_RECEIPT",
+      "path": "runs/gravity/open-gravity-path-accumulated-weyl-redshift-source-preflight-v1/receipt.json",
+      "sha256": "1a2cd489bf9e2555494f2613fc548c48e503d40d46f41878a391cdfa577e52ad",
+      "bytes": 1692
+    }
+  ],
+  "infrastructure_bindings": [
+    {
+      "id": "ADAPTER_REGISTRY",
+      "path": "src/sigma_theory_compiler/open_gravity_formula_adapter_registry_v1.py",
+      "sha256": "072fabb1b6804c8f752086b4b1e683cfcaa069938c8e3cf6178fbbc7712b1a56"
+    },
+    {
+      "id": "DATA_ONTOLOGY",
+      "path": "src/sigma_theory_compiler/open_gravity_data_element_ontology_v1.py",
+      "sha256": "067fd440e2ee59af102aa66214a65e3785d92e8a3124b4ea4d5994aa247a323e"
+    },
+    {
+      "id": "EMPTY_PARAMETER_SCHEMA",
+      "path": "configs/open_gravity_full3d_phangs_synthetic_adapter_empty_parameters_v1.schema.json",
+      "sha256": "b1efcc659ad02e6d5dbaf72f3a701312dba918b2367ba23d836e95fca88455e1"
+    },
+    {
+      "id": "FORMULA_EXECUTION_PROTOCOL",
+      "path": "src/sigma_theory_compiler/open_gravity_formula_execution_protocol_v1.py",
+      "sha256": "c4777a4471b21ba4d6c1b5264a9ede2ee45aeceb641955bf989c9901e37ee79a"
+    },
+    {
+      "id": "REPLAY_LEDGER",
+      "path": "src/sigma_theory_compiler/open_gravity_synthetic_replay_ledger_v1.py",
+      "sha256": "7173b652b60837eb8391b2e271ff74c815f331f43ecdc23465eff2a850649a0a"
+    },
+    {
+      "id": "SCENARIO_PACKET",
+      "path": "src/sigma_theory_compiler/open_gravity_synthetic_scenario_packet_v1.py",
+      "sha256": "63b074666985f67b6f087aab908c72387f35b2edcaa92438840fbbd3bb45a57c"
+    }
+  ],
+  "adapter_blocks": [
+    {
+      "formula_id": "AQUAL_SIMPLE_MU",
+      "status": "SOURCE_BLOCKED",
+      "reason": "no audited two-image same-state Phi/Psi compact lens adapter is frozen"
+    },
+    {
+      "formula_id": "DPEL01_DISK_POLAR_ESCAPE_LOAD",
+      "status": "UNADAPTED",
+      "reason": "disk-only polar geometry is incompatible with the two-image point-lens lift"
+    },
+    {
+      "formula_id": "MASHHOON_RAHVAR_NLG_Q0",
+      "status": "SOURCE_BLOCKED",
+      "reason": "no audited finite-lens nonlocal kernel and boundary prescription is frozen"
+    },
+    {
+      "formula_id": "MICROLENSING_CHROMATIC_SHIFT",
+      "status": "SOURCE_BLOCKED",
+      "reason": "no source-size, microlens-map, or chromatic response anchor is opened"
+    },
+    {
+      "formula_id": "MOVING_LENS_FREQUENCY_SHIFT",
+      "status": "SOURCE_BLOCKED",
+      "reason": "no transverse lens velocity field is present in the sealed source anchors"
+    },
+    {
+      "formula_id": "QUMOND_SIMPLE_NU",
+      "status": "SOURCE_BLOCKED",
+      "reason": "no audited two-image same-state Phi/Psi compact lens adapter is frozen"
+    },
+    {
+      "formula_id": "REFRACTED_GRAVITY_DISKMASS_MEDIAN",
+      "status": "SOURCE_BLOCKED",
+      "reason": "no lens density/permittivity volume is opened and the disk adapter is not substituted"
+    }
+  ],
+  "access_contract": {
+    "sealed_source_anchor_files_opened": 6,
+    "sealed_source_anchor_bytes_opened": 113366,
+    "eso_pixels_decoded": 0,
+    "eso_spectral_rows_decoded": 0,
+    "slacs_confirmation_files_opened": 0,
+    "lens_response_tables_opened": 0,
+    "lens_response_rows_opened": 0,
+    "theory_or_nuisance_tuning_events": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

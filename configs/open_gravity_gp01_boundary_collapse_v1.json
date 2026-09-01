@@ -1,0 +1,95 @@
+{
+  "schema": "invariant-open-gravity-gp01-boundary-collapse-1.0",
+  "package_id": "open-gravity-gp01-boundary-collapse-v1",
+  "status": "EXACT_BOUNDARY_COLLAPSE_TO_EQUILIBRIUM_CONTROL_DYNAMIC_DESCENDANTS_RETAINED",
+  "purpose": "Determine whether extending the frozen GP01 elliptic parameter boundaries explores a distinct mechanism or only converges to the GP01-L equilibrium control.",
+  "bindings": [
+    {
+      "role": "GP01_FOUNDATION",
+      "commit": "35f70938f158c81971b2e1b838371b09d9fcee2c",
+      "path": "runs/gravity/theory/gain-persistence-gp01-foundation-v1.json",
+      "sha256": "3278ae378808316734207ac7e8649e6040d6cdb64f4ad028a3cc5cc91c3f2579"
+    },
+    {
+      "role": "STATIC_RADIAL_ADAPTER",
+      "commit": "440ff1fb6d3c2bb586f66466ba6c9fe4c97d3817",
+      "path": "runs/gravity/open-gravity-static-radial-adapter-v1/receipt.json",
+      "sha256": "8238b9fe605d14f3fe637c82068a17463634579d3cf396c7ce09bb2642ebb931"
+    },
+    {
+      "role": "EMPIRICAL_SCREEN",
+      "commit": "0f14dd1fe5c3e5d586584164e16d4d44185aaf5f",
+      "path": "runs/gravity/open-gravity-gp01-elliptic-temporal-empirical-screen-v1/receipt.json",
+      "sha256": "e6fea71cbf35b9dde786fe24b647efb9a190ba9c295b9faff1c6f3fa02bbde39"
+    }
+  ],
+  "definitions": {
+    "equilibrium_log_gain": "gamma_L(y,n)=ln(1+y^(-n))/(2n)=ln(nu_n(y))",
+    "environment_window": "W=1/[1+(rho/rho_star)^q+(T/T_star)^p]",
+    "bounded_local_target": "gamma_E=W*M*tanh(gamma_L/M), M=ln(A_max)",
+    "zero_length_limit": "L_g=0 implies gamma=gamma_E on the solved interior rows",
+    "gain": "g_eff/g_b=exp(gamma)"
+  },
+  "theorem": {
+    "ordering": "0<=gamma_E<=gamma_L for y>0, n>0, M>0, and 0<=W<=1",
+    "error_decomposition": "gamma_L-gamma_E=(1-W)*gamma_L+W*[gamma_L-M*tanh(gamma_L/M)]",
+    "upper_bound": "gamma_L-gamma_E <= (1-W)*gamma_L+W*gamma_L^3/(3M^2)",
+    "collapse_limit": "As rho_star,T_star,M go to infinity and L_g goes to zero, gamma_E goes to gamma_L and g_eff goes to g_b*nu_n(y).",
+    "monotonic_boundaries": "At fixed source and exponents, increasing rho_star, T_star, or M moves the zero-length branch monotonically toward GP01-L."
+  },
+  "probe_contract": {
+    "n_grid": [1, 2, 4],
+    "y_grid": [0.0001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "gamma_max_grid": [0.6931471805599453, 1.3862943611198906, 2.0794415416798357, 10.0, 100.0, 1000.0],
+    "threshold_ratio_grid": [0.1, 1.0, 10.0, 100.0, 1000000.0],
+    "exponent_grid": [1, 2]
+  },
+  "empirical_boundary_evidence": {
+    "objects": 8,
+    "best_cell": "GP01E-n1-A8-rho10-T10-q2-p2-L0",
+    "elliptic_beats_equilibrium_on_objects": 0,
+    "elliptic_to_equilibrium_robust_loss_ratio": 1.6992879699190704,
+    "boundary_coordinates": ["A_max=max", "rho_ratio=max", "tide_ratio=max", "q=max", "tide_power=max", "L_ratio=min"],
+    "interpretation": "The observed boundary direction is the analytic collapse direction toward the GP01-L control, not evidence for a distinct large-parameter elliptic mechanism."
+  },
+  "decision": {
+    "boundary_extension": "STOP_AS_NOVELTY_SEARCH_RETAINS_ONLY_CONTROL_CONVERGENCE_CHECK",
+    "broader_gp01_history_family": "ACTIVE",
+    "next_empirical_path": "Test an independently measured dynamical/history state with leave-one-object-out prediction; do not extend A_max/rho_star/T_star merely to approach GP01-L.",
+    "next_theory_path": "Complete a causal source-history or route-independent persistence state whose finite-memory limit is not prediction-equivalent to GP01-L."
+  },
+  "required_checks": [
+    "NONNEGATIVE_ORDERING",
+    "EXACT_ERROR_DECOMPOSITION",
+    "GLOBAL_ERROR_UPPER_BOUND",
+    "MONOTONE_GAMMA_MAX",
+    "MONOTONE_ENVIRONMENT_THRESHOLDS",
+    "NUMERIC_COLLAPSE_LIMIT",
+    "EMPIRICAL_COUNTEREXAMPLE_RETAINED",
+    "BROADER_DYNAMIC_FAMILY_RETAINED",
+    "ZERO_RESPONSE_ACCESS"
+  ],
+  "access_contract": {
+    "raw_scientific_source_files": 0,
+    "raw_scientific_response_files": 0,
+    "raw_scientific_rows": 0,
+    "new_scores": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "establishes": [
+      "the exact zero-length boundary-collapse relation between GP01 elliptic and GP01-L",
+      "that extending the observed winning boundary direction cannot create a distinct asymptotic law",
+      "that dynamic and finite-memory descendants remain separate active hypotheses"
+    ],
+    "does_not_establish": [
+      "that every finite-length GP01 field is equivalent to GP01-L",
+      "that every environmental or history extension fails",
+      "a causal action or observationally preferred theory",
+      "historical novelty"
+    ]
+  },
+  "output_path": "runs/gravity/open-gravity-gp01-boundary-collapse-v1/receipt.json"
+}

@@ -1,0 +1,309 @@
+{
+  "schema_version": "invariant-open-gravity-quantum-entity-wave-programs-config-3.0",
+  "analysis_id": "open-gravity-quantum-entity-wave-atlas-v3",
+  "status": "FROZEN_INTERNAL_AST_AND_SOURCE_GATE_REPAIR",
+  "purpose": "Execute reduced target-free gravity phenomenology programs from stored typed ASTs, validate dimensions/shapes/domains/conditions, audit exact parameter mappings, and refuse empirical execution when exact payload provenance is absent.",
+  "predecessors": [
+    {"path": "runs/gravity/theory/open-gravity-quantum-entity-wave-atlas-v1/receipt.json", "raw_sha256": "88dbffe620592f161837f7ebf1514bc01a09e45e148fb39d013e8e2d422b094e", "content_sha256": "6d5296cf27365d95fcab1449f18209fea1a2ae4edc53eba9e771fa1970d11b85", "status": "PRESERVED"},
+    {"path": "runs/gravity/theory/open-gravity-quantum-entity-wave-atlas-v2/receipt.json", "raw_sha256": "73b44a0f19b7ae70dfa82db0430fd542b6de7c1ec8096a6de29dd398cef969a9", "content_sha256": "47f77f3e927b94df15c98bd10117213f908315c17c8f2110f9699073d6f27a86", "status": "PRESERVED_SUPERSEDED_BY_AST_REPAIR"}
+  ],
+  "package": {"module_path": "src/sigma_theory_compiler/open_gravity_quantum_entity_wave_atlas_v3.py", "test_path": "tests/test_open_gravity_quantum_entity_wave_atlas_v3.py", "output_path": "runs/gravity/theory/open-gravity-quantum-entity-wave-atlas-v3/receipt.json", "artifact_directory": "runs/gravity/theory/open-gravity-quantum-entity-wave-atlas-v3/artifacts"},
+  "program_contract": {
+    "unit_basis": ["L", "M", "T"],
+    "unit_representation": "integer exponent triple [L,M,T]",
+    "allowed_types": ["scalar", "vector", "matrix"],
+    "all_variables_declared": true,
+    "all_declared_variables_used": true,
+    "fixtures_execute_stored_AST_only": true,
+    "card_specific_evaluators": false,
+    "domain_shape_unit_assertions_required": true,
+    "initial_and_boundary_condition_status_required": true,
+    "PSD_and_symmetry_checks_required_for_covariance_or_generator_matrices": true
+  },
+  "gaussian_scope": {
+    "claim": "A fixed linear map of a finite-dimensional Gaussian variable plus independent Gaussian noise produces the corresponding Gaussian pushforward only for a fixed commuting Gaussian measurement record.",
+    "required": ["commuting joint output", "fixed model-independent Gaussian POVM or kernel", "independent Gaussian measurement noise", "linear readout", "no unmodeled back-action", "same state preparation and conditioning"],
+    "excluded": ["adaptive POVMs", "noncommuting sequential records", "model-dependent back-action", "higher connected cumulants", "entanglement generation", "number-resolved exchange"],
+    "novelty_claimed": false
+  },
+  "cards": [
+    {
+      "id": "Q00_GR_COHERENT_SPIN2_CONTROL", "implementation_level": "REDUCED_FREE_MODE_DIAGNOSTIC", "claim": "massless free-pole and coherent relative-noise control only",
+      "variables": [
+        {"name": "c", "role": "parameter", "type": "scalar", "shape": [], "unit": [1,0,-1], "domain": {"kind": "positive"}, "fixture": 1.0},
+        {"name": "N", "role": "parameter", "type": "scalar", "shape": [], "unit": [0,0,0], "domain": {"kind": "positive"}, "fixture": 100.0},
+        {"name": "k", "role": "input", "type": "vector", "shape": [3], "unit": [-1,0,0], "domain": {"kind": "all_nonnegative"}, "fixture": [0.5,1.0,2.0]}
+      ],
+      "conditions": {"initial": {"status": "NOT_REQUIRED_ALGEBRAIC_FREE_MODE", "entries": []}, "boundary": {"status": "DECLARED_BY_DOMAINS", "entries": ["c>0", "N>0", "k>=0"]}},
+      "program": {"outputs": [
+        {"name": "omega", "type": "vector", "shape": [3], "unit": [0,0,-1], "ast": {"op": "mul", "args": [{"op":"var","name":"c"},{"op":"var","name":"k"}]}},
+        {"name": "relative_noise", "type": "scalar", "shape": [], "unit": [0,0,0], "ast": {"op":"pow","base":{"op":"var","name":"N"},"exponent":-0.5}}
+      ], "assertions": [{"id":"omega_nonnegative","ast":{"op":"all_nonnegative","arg":{"op":"var","name":"omega"}}}]},
+      "falsifier_manifest": "M01_GWOSC_DISPERSION_BLOCKED", "data_readiness": 2
+    },
+    {
+      "id": "Q01_MASSIVE_SPIN2", "implementation_level": "REDUCED_FREE_POLE_DIAGNOSTIC", "claim": "massive free dispersion and group-delay diagnostic, not a nonlinear spin-2 completion",
+      "variables": [
+        {"name":"c","role":"parameter","type":"scalar","shape":[],"unit":[1,0,-1],"domain":{"kind":"positive"},"fixture":1.0},
+        {"name":"mu","role":"parameter","type":"scalar","shape":[],"unit":[-1,0,0],"domain":{"kind":"nonnegative"},"fixture":0.3},
+        {"name":"D","role":"parameter","type":"scalar","shape":[],"unit":[1,0,0],"domain":{"kind":"positive"},"fixture":10.0},
+        {"name":"k","role":"input","type":"vector","shape":[3],"unit":[-1,0,0],"domain":{"kind":"all_positive"},"fixture":[0.3,0.7,1.4]}
+      ],
+      "conditions": {"initial":{"status":"NOT_REQUIRED_ALGEBRAIC_PACKET","entries":[]},"boundary":{"status":"DECLARED_BY_DOMAINS","entries":["c>0","mu>=0","D>0","k>0"]}},
+      "program": {"outputs": [
+        {"name":"omega","type":"vector","shape":[3],"unit":[0,0,-1],"ast":{"op":"mul","args":[{"op":"var","name":"c"},{"op":"sqrt","arg":{"op":"add","args":[{"op":"pow","base":{"op":"var","name":"k"},"exponent":2},{"op":"pow","base":{"op":"var","name":"mu"},"exponent":2}]}}]}},
+        {"name":"group_velocity","type":"vector","shape":[3],"unit":[1,0,-1],"ast":{"op":"div","num":{"op":"mul","args":[{"op":"var","name":"c"},{"op":"var","name":"k"}]},"den":{"op":"sqrt","arg":{"op":"add","args":[{"op":"pow","base":{"op":"var","name":"k"},"exponent":2},{"op":"pow","base":{"op":"var","name":"mu"},"exponent":2}]}}}},
+        {"name":"delay","type":"vector","shape":[3],"unit":[0,0,1],"ast":{"op":"mul","args":[{"op":"var","name":"D"},{"op":"sub","left":{"op":"div","num":{"op":"const","value":1.0,"unit":[0,0,0]},"den":{"op":"var","name":"group_velocity"}},"right":{"op":"div","num":{"op":"const","value":1.0,"unit":[0,0,0]},"den":{"op":"var","name":"c"}}}]} }
+      ], "assertions":[{"id":"omega_positive","ast":{"op":"all_positive","arg":{"op":"var","name":"omega"}}},{"id":"delay_nonnegative","ast":{"op":"all_nonnegative","arg":{"op":"var","name":"delay"}}}]},
+      "falsifier_manifest":"M01_GWOSC_DISPERSION_BLOCKED","data_readiness":2
+    },
+    {
+      "id":"Q02_SCALAR_VECTOR_TENSOR_MIXTURE","implementation_level":"REDUCED_LINEAR_TRANSFER_DIAGNOSTIC","claim":"three-mode linear algebra fixture only",
+      "variables":[
+        {"name":"K","role":"parameter","type":"matrix","shape":[3,3],"unit":[0,0,0],"domain":{"kind":"symmetric_positive_definite"},"fixture":[[2,0,0],[0,3,0],[0,0,1]]},
+        {"name":"Mmix","role":"parameter","type":"matrix","shape":[3,3],"unit":[0,0,0],"domain":{"kind":"real"},"fixture":[[1,0.2,0],[0,1,0.1],[0.1,0,1]]},
+        {"name":"J","role":"input","type":"vector","shape":[3],"unit":[0,0,0],"domain":{"kind":"real"},"fixture":[1,2,3]}
+      ],
+      "conditions":{"initial":{"status":"NOT_REQUIRED_STATIC_LINEAR_SYSTEM","entries":[]},"boundary":{"status":"EXPLICIT_MATRIX_GATES","entries":["K symmetric positive definite"]}},
+      "program":{"outputs":[
+        {"name":"mixed_source","type":"vector","shape":[3],"unit":[0,0,0],"ast":{"op":"matmul","left":{"op":"var","name":"Mmix"},"right":{"op":"var","name":"J"}}},
+        {"name":"modes","type":"vector","shape":[3],"unit":[0,0,0],"ast":{"op":"matmul","left":{"op":"inverse","arg":{"op":"var","name":"K"}},"right":{"op":"var","name":"mixed_source"}}}
+      ],"assertions":[{"id":"K_symmetric","ast":{"op":"is_symmetric","arg":{"op":"var","name":"K"},"tolerance":1e-12}},{"id":"K_PSD","ast":{"op":"is_psd","arg":{"op":"var","name":"K"},"tolerance":1e-12}}]},
+      "falsifier_manifest":"M02_GWOSC_POLARIZATION_BLOCKED","data_readiness":2
+    },
+    {
+      "id":"Q03_DISCRETE_GRAVITY_IMPULSES","implementation_level":"REDUCED_POISSON_COUNT_DIAGNOSTIC","claim":"finite-rate Poisson count cumulants, without a gravity interaction vertex",
+      "variables":[
+        {"name":"Lambda","role":"parameter","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"positive"},"fixture":25.0},
+        {"name":"a_q","role":"parameter","type":"scalar","shape":[],"unit":[1,0,-2],"domain":{"kind":"real"},"fixture":0.04}
+      ],
+      "conditions":{"initial":{"status":"POISSON_INCREMENT_STARTS_AT_ZERO","entries":["J(0)=0"]},"boundary":{"status":"DECLARED_BY_DOMAINS","entries":["Lambda>0"]}},
+      "program":{"outputs":[
+        {"name":"mean_acceleration","type":"scalar","shape":[],"unit":[1,0,-2],"ast":{"op":"mul","args":[{"op":"var","name":"a_q"},{"op":"var","name":"Lambda"}]}},
+        {"name":"count_cumulants","type":"vector","shape":[4],"unit":[0,0,0],"ast":{"op":"vector","items":[{"op":"var","name":"Lambda"},{"op":"var","name":"Lambda"},{"op":"var","name":"Lambda"},{"op":"var","name":"Lambda"}]}},
+        {"name":"normalized_skewness","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"pow","base":{"op":"var","name":"Lambda"},"exponent":-0.5}}
+      ],"assertions":[]},
+      "falsifier_manifest":"M09_HOLOMETER_TIME_CUMULANTS_BLOCKED","data_readiness":1
+    },
+    {
+      "id":"Q04_CLASSICAL_STOCHASTIC_METRIC","implementation_level":"REDUCED_FIXED_GAUSSIAN_MEASUREMENT_DIAGNOSTIC","claim":"finite Gaussian pushforward under the explicitly narrowed measurement scope",
+      "variables":[
+        {"name":"m","role":"parameter","type":"vector","shape":[3],"unit":[0,0,0],"domain":{"kind":"real"},"fixture":[1,-1,2]},
+        {"name":"C","role":"parameter","type":"matrix","shape":[3,3],"unit":[0,0,0],"domain":{"kind":"symmetric_positive_semidefinite"},"fixture":[[2,1,0],[1,3,1],[0,1,2]]},
+        {"name":"R","role":"parameter","type":"matrix","shape":[2,3],"unit":[0,0,0],"domain":{"kind":"real"},"fixture":[[1,2,0],[0,1,-1]]},
+        {"name":"b","role":"parameter","type":"vector","shape":[2],"unit":[0,0,0],"domain":{"kind":"real"},"fixture":[1,-1]},
+        {"name":"Ncov","role":"parameter","type":"matrix","shape":[2,2],"unit":[0,0,0],"domain":{"kind":"symmetric_positive_semidefinite"},"fixture":[[1,0],[0,2]]}
+      ],
+      "conditions":{"initial":{"status":"FIXED_SINGLE_JOINT_GAUSSIAN_MEASUREMENT","entries":["same state preparation and POVM for compared models"]},"boundary":{"status":"EXPLICIT_PSD_SYMMETRY","entries":["C,Ncov symmetric PSD","commuting output","no unmodeled back-action"]}},
+      "program":{"outputs":[
+        {"name":"output_mean","type":"vector","shape":[2],"unit":[0,0,0],"ast":{"op":"add","args":[{"op":"matmul","left":{"op":"var","name":"R"},"right":{"op":"var","name":"m"}},{"op":"var","name":"b"}]}},
+        {"name":"output_covariance","type":"matrix","shape":[2,2],"unit":[0,0,0],"ast":{"op":"add","args":[{"op":"matmul","left":{"op":"matmul","left":{"op":"var","name":"R"},"right":{"op":"var","name":"C"}},"right":{"op":"transpose","arg":{"op":"var","name":"R"}}},{"op":"var","name":"Ncov"}]}}
+      ],"assertions":[{"id":"C_symmetric","ast":{"op":"is_symmetric","arg":{"op":"var","name":"C"},"tolerance":1e-12}},{"id":"C_PSD","ast":{"op":"is_psd","arg":{"op":"var","name":"C"},"tolerance":1e-12}},{"id":"N_symmetric","ast":{"op":"is_symmetric","arg":{"op":"var","name":"Ncov"},"tolerance":1e-12}},{"id":"N_PSD","ast":{"op":"is_psd","arg":{"op":"var","name":"Ncov"},"tolerance":1e-12}}]},
+      "falsifier_manifest":"M10_STOCHASTIC_ONTOLOGY_BLOCKED","data_readiness":1
+    },
+    {
+      "id":"Q05_SEMICLASSICAL_EXPECTATION_SOURCE","implementation_level":"REDUCED_BRANCH_MEAN_DIAGNOSTIC","claim":"expectation-source arithmetic only",
+      "variables":[
+        {"name":"p","role":"parameter","type":"vector","shape":[2],"unit":[0,0,0],"domain":{"kind":"simplex"},"fixture":[0.25,0.75]},
+        {"name":"F","role":"input","type":"vector","shape":[2],"unit":[1,0,-2],"domain":{"kind":"real"},"fixture":[-2,4]}
+      ],
+      "conditions":{"initial":{"status":"BRANCH_PROBABILITIES_NORMALIZED","entries":["sum p=1"]},"boundary":{"status":"NO_BRANCH_SELECTION_RULE","entries":["fixture does not model collapse or outcome selection"]}},
+      "program":{"outputs":[{"name":"expectation_force","type":"scalar","shape":[],"unit":[1,0,-2],"ast":{"op":"dot","left":{"op":"var","name":"p"},"right":{"op":"var","name":"F"}}}],"assertions":[]},
+      "falsifier_manifest":"M08_PAGE_GEILKER_ROWS_BLOCKED","data_readiness":1
+    },
+    {
+      "id":"Q06_GRAVITATIONAL_COLLAPSE_DECOHERENCE","implementation_level":"REDUCED_EXPONENTIAL_VISIBILITY_DIAGNOSTIC","claim":"one-rate visibility law, not a full Diosi-Penrose master equation",
+      "variables":[
+        {"name":"Gamma","role":"parameter","type":"scalar","shape":[],"unit":[0,0,-1],"domain":{"kind":"nonnegative"},"fixture":0.2},
+        {"name":"t","role":"input","type":"vector","shape":[3],"unit":[0,0,1],"domain":{"kind":"all_nonnegative"},"fixture":[0,1,5]}
+      ],
+      "conditions":{"initial":{"status":"EXPLICIT","entries":["visibility_ratio(0)=1"]},"boundary":{"status":"DECLARED_BY_DOMAINS","entries":["Gamma>=0","t>=0"]}},
+      "program":{"outputs":[{"name":"visibility_ratio","type":"vector","shape":[3],"unit":[0,0,0],"ast":{"op":"exp","arg":{"op":"neg","arg":{"op":"mul","args":[{"op":"var","name":"Gamma"},{"op":"var","name":"t"}]}}}}],"assertions":[{"id":"t_contains_zero","ast":{"op":"contains","value":{"op":"var","name":"t"},"item":0.0}},{"id":"visibility_initial","ast":{"op":"approx_eq","left":{"op":"index","value":{"op":"var","name":"visibility_ratio"},"index":0},"right":{"op":"const","value":1.0,"unit":[0,0,0]},"tolerance":1e-12}}]},
+      "falsifier_manifest":"M03_GRAN_SASSO_PAYLOAD_BLOCKED","data_readiness":2
+    },
+    {
+      "id":"Q07_ENTANGLEMENT_MEDIATED_GRAVITY","implementation_level":"REDUCED_BMV_BRANCH_PHASE_DIAGNOSTIC","claim":"two-qubit pure branch phases and concurrence under BMV isolation assumptions",
+      "variables":[
+        {"name":"scale","role":"parameter","type":"scalar","shape":[],"unit":[1,0,0],"domain":{"kind":"positive"},"fixture":1.0},
+        {"name":"r","role":"input","type":"vector","shape":[4],"unit":[1,0,0],"domain":{"kind":"all_positive"},"fixture":[2,4,4,2]}
+      ],
+      "conditions":{"initial":{"status":"EXPLICIT_SEPARABLE_INPUT","entries":["psi_AB(0)=|+>|+>"]},"boundary":{"status":"CAUSAL_ISOLATION_ASSUMPTION","entries":["no direct quantum A-B channel","no electromagnetic or Casimir mediation"]}},
+      "program":{"outputs":[
+        {"name":"phases","type":"vector","shape":[4],"unit":[0,0,0],"ast":{"op":"neg","arg":{"op":"div","num":{"op":"var","name":"scale"},"den":{"op":"var","name":"r"}}}},
+        {"name":"invariant_phase","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"sub","left":{"op":"add","args":[{"op":"index","value":{"op":"var","name":"phases"},"index":0},{"op":"index","value":{"op":"var","name":"phases"},"index":3}]},"right":{"op":"add","args":[{"op":"index","value":{"op":"var","name":"phases"},"index":1},{"op":"index","value":{"op":"var","name":"phases"},"index":2}]}}},
+        {"name":"concurrence","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"abs","arg":{"op":"sin","arg":{"op":"div","num":{"op":"var","name":"invariant_phase"},"den":{"op":"const","value":2.0,"unit":[0,0,0]}}}}}
+      ],"assertions":[{"id":"concurrence_unit_interval","ast":{"op":"in_interval","value":{"op":"var","name":"concurrence"},"min":0.0,"max":1.0}}]},
+      "falsifier_manifest":"M04_BMV_RESPONSE_BLOCKED","data_readiness":0
+    },
+    {
+      "id":"Q08_EMERGENT_SUPERFLUID_MEDIUM","implementation_level":"REDUCED_PHASE_FRACTION_DIAGNOSTIC","claim":"toy phase-fraction transfer, not the Berezhiani-Khoury action",
+      "variables":[
+        {"name":"x","role":"input","type":"vector","shape":[3],"unit":[0,0,0],"domain":{"kind":"all_nonnegative"},"fixture":[0.5,1,2]},
+        {"name":"a0","role":"parameter","type":"scalar","shape":[],"unit":[1,0,-2],"domain":{"kind":"positive"},"fixture":1.0}
+      ],
+      "conditions":{"initial":{"status":"NOT_REQUIRED_ALGEBRAIC_PHASE_RULE","entries":[]},"boundary":{"status":"EXPLICIT_TOY_TRANSITION","entries":["f_s=0 for x>=1"]}},
+      "program":{"outputs":[
+        {"name":"fraction","type":"vector","shape":[3],"unit":[0,0,0],"ast":{"op":"max","args":[{"op":"const","value":0.0,"unit":[0,0,0]},{"op":"sub","left":{"op":"const","value":1.0,"unit":[0,0,0]},"right":{"op":"pow","base":{"op":"var","name":"x"},"exponent":1.5}}]}},
+        {"name":"extra_acceleration","type":"vector","shape":[3],"unit":[1,0,-2],"ast":{"op":"mul","args":[{"op":"var","name":"a0"},{"op":"var","name":"fraction"}]}}
+      ],"assertions":[{"id":"fraction_unit_interval","ast":{"op":"all_in_interval","value":{"op":"var","name":"fraction"},"min":0.0,"max":1.0}}]},
+      "falsifier_manifest":"M05_SPARC_XCOP_BINDING_BLOCKED","data_readiness":1
+    },
+    {
+      "id":"Q09_DISPERSIVE_GRAVITY_WAVE_PACKET","implementation_level":"REDUCED_FREE_POLE_DIAGNOSTIC","claim":"quadratic-plus-quartic free dispersion inside a declared EFT band",
+      "variables":[
+        {"name":"c","role":"parameter","type":"scalar","shape":[],"unit":[1,0,-1],"domain":{"kind":"positive"},"fixture":1.0},
+        {"name":"mu","role":"parameter","type":"scalar","shape":[],"unit":[-1,0,0],"domain":{"kind":"nonnegative"},"fixture":0.2},
+        {"name":"eta","role":"parameter","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"real"},"fixture":0.1},
+        {"name":"kstar","role":"parameter","type":"scalar","shape":[],"unit":[-1,0,0],"domain":{"kind":"positive"},"fixture":3.0},
+        {"name":"k","role":"input","type":"vector","shape":[3],"unit":[-1,0,0],"domain":{"kind":"all_positive"},"fixture":[0.3,0.7,1.4]}
+      ],
+      "conditions":{"initial":{"status":"NOT_REQUIRED_ALGEBRAIC_PACKET","entries":[]},"boundary":{"status":"EFT_BAND_DECLARED_BY_FIXTURE","entries":["k/kstar<=0.5 in fixture"]}},
+      "program":{"outputs":[
+        {"name":"omega_squared","type":"vector","shape":[3],"unit":[0,0,-2],"ast":{"op":"mul","args":[{"op":"pow","base":{"op":"var","name":"c"},"exponent":2},{"op":"add","args":[{"op":"pow","base":{"op":"var","name":"k"},"exponent":2},{"op":"pow","base":{"op":"var","name":"mu"},"exponent":2},{"op":"div","num":{"op":"mul","args":[{"op":"var","name":"eta"},{"op":"pow","base":{"op":"var","name":"k"},"exponent":4}]},"den":{"op":"pow","base":{"op":"var","name":"kstar"},"exponent":2}}]}]}},
+        {"name":"omega","type":"vector","shape":[3],"unit":[0,0,-1],"ast":{"op":"sqrt","arg":{"op":"var","name":"omega_squared"}}}
+      ],"assertions":[{"id":"omega_squared_nonnegative","ast":{"op":"all_nonnegative","arg":{"op":"var","name":"omega_squared"}}},{"id":"fixture_inside_EFT_band","ast":{"op":"all_lte","left":{"op":"div","num":{"op":"var","name":"k"},"den":{"op":"var","name":"kstar"}},"right":0.5}}]},
+      "falsifier_manifest":"M01_GWOSC_DISPERSION_BLOCKED","data_readiness":2
+    },
+    {
+      "id":"Q10_POLARIZATION_BIREFRINGENT_GRAVITY","implementation_level":"REDUCED_RESPONSE_RANK_DIAGNOSTIC","claim":"network response rank only, not a polarization inference pipeline",
+      "variables":[
+        {"name":"Fresp","role":"input","type":"matrix","shape":[2,6],"unit":[0,0,0],"domain":{"kind":"real"},"fixture":[[1,0,1,0,1,0],[0,1,1,0,0,1]]},
+        {"name":"tol","role":"parameter","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"positive"},"fixture":1e-12}
+      ],
+      "conditions":{"initial":{"status":"NOT_REQUIRED_STATIC_RESPONSE","entries":[]},"boundary":{"status":"RANK_FAILURE_RETAINED","entries":["never infer more modes than rank(Fresp)"]}},
+      "program":{"outputs":[{"name":"response_rank","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"rank","matrix":{"op":"var","name":"Fresp"},"tolerance":{"op":"var","name":"tol"}}}],"assertions":[{"id":"rank_not_above_detectors","ast":{"op":"lte","left":{"op":"var","name":"response_rank"},"right":{"op":"const","value":2.0,"unit":[0,0,0]}}}]},
+      "falsifier_manifest":"M02_GWOSC_POLARIZATION_BLOCKED","data_readiness":2
+    },
+    {
+      "id":"Q11_FINITE_OCCUPATION_COHERENCE","implementation_level":"REDUCED_STATE_MOMENT_DIAGNOSTIC","claim":"coherent/thermal/squeezed moments only; no full detector POVM is instantiated",
+      "variables":[
+        {"name":"nbar","role":"parameter","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"nonnegative"},"fixture":4.0},
+        {"name":"r","role":"parameter","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"real"},"fixture":0.4}
+      ],
+      "conditions":{"initial":{"status":"STATE_FAMILIES_DECLARED_NOT_FULL_DENSITY_MATRICES","entries":["same nbar used for moment comparison"]},"boundary":{"status":"NO_MEASUREMENT_MAP","entries":["cannot instantiate EF03 against Q04 without R,b,Ncov and POVM"]}},
+      "program":{"outputs":[
+        {"name":"coherent_variance","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"var","name":"nbar"}},
+        {"name":"thermal_variance","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"mul","args":[{"op":"var","name":"nbar"},{"op":"add","args":[{"op":"var","name":"nbar"},{"op":"const","value":1.0,"unit":[0,0,0]}]}]}},
+        {"name":"squeezed_variance_ratio","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"exp","arg":{"op":"mul","args":[{"op":"const","value":-2.0,"unit":[0,0,0]},{"op":"var","name":"r"}]}}}
+      ],"assertions":[{"id":"variances_nonnegative","ast":{"op":"gte","left":{"op":"var","name":"thermal_variance"},"right":{"op":"const","value":0.0,"unit":[0,0,0]}}}]},
+      "falsifier_manifest":"M09_HOLOMETER_TIME_CUMULANTS_BLOCKED","data_readiness":1
+    },
+    {
+      "id":"Q12_QUANTIZED_TIMEWELL_MEMORY_MODE","implementation_level":"REDUCED_DAMPED_MEAN_TRANSFER_DIAGNOSTIC","claim":"classical mean transfer and ringdown only; no bath spectral density or CPTP quantum completion is implemented",
+      "variables":[
+        {"name":"omega0","role":"parameter","type":"scalar","shape":[],"unit":[0,0,-1],"domain":{"kind":"positive"},"fixture":1.0},
+        {"name":"Gamma","role":"parameter","type":"scalar","shape":[],"unit":[0,0,-1],"domain":{"kind":"nonnegative"},"fixture":0.2},
+        {"name":"lambda","role":"parameter","type":"scalar","shape":[],"unit":[0,0,-2],"domain":{"kind":"real"},"fixture":1.0},
+        {"name":"omega","role":"input","type":"scalar","shape":[],"unit":[0,0,-1],"domain":{"kind":"nonnegative"},"fixture":0.5},
+        {"name":"t","role":"input","type":"vector","shape":[3],"unit":[0,0,1],"domain":{"kind":"all_nonnegative"},"fixture":[0,1,5]}
+      ],
+      "conditions":{"initial":{"status":"EXPLICIT_MEAN_RINGDOWN","entries":["envelope(0)=1"]},"boundary":{"status":"OPEN_SYSTEM_INCOMPLETE","entries":["Gamma>0 requires an unimplemented bath and noise law","no Q14 CQ mapping claimed"]}},
+      "program":{"outputs":[
+        {"name":"A","type":"scalar","shape":[],"unit":[0,0,-2],"ast":{"op":"sub","left":{"op":"pow","base":{"op":"var","name":"omega0"},"exponent":2},"right":{"op":"pow","base":{"op":"var","name":"omega"},"exponent":2}}},
+        {"name":"B","type":"scalar","shape":[],"unit":[0,0,-2],"ast":{"op":"mul","args":[{"op":"const","value":2.0,"unit":[0,0,0]},{"op":"var","name":"Gamma"},{"op":"var","name":"omega"}]}},
+        {"name":"transfer_real","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"div","num":{"op":"mul","args":[{"op":"var","name":"lambda"},{"op":"var","name":"A"}]},"den":{"op":"add","args":[{"op":"pow","base":{"op":"var","name":"A"},"exponent":2},{"op":"pow","base":{"op":"var","name":"B"},"exponent":2}]}}},
+        {"name":"transfer_imag","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"div","num":{"op":"mul","args":[{"op":"var","name":"lambda"},{"op":"var","name":"B"}]},"den":{"op":"add","args":[{"op":"pow","base":{"op":"var","name":"A"},"exponent":2},{"op":"pow","base":{"op":"var","name":"B"},"exponent":2}]}}},
+        {"name":"phase","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"atan2","y":{"op":"var","name":"B"},"x":{"op":"var","name":"A"}}},
+        {"name":"ringdown","type":"vector","shape":[3],"unit":[0,0,0],"ast":{"op":"exp","arg":{"op":"neg","arg":{"op":"mul","args":[{"op":"var","name":"Gamma"},{"op":"var","name":"t"}]}}}}
+      ],"assertions":[{"id":"t_contains_zero","ast":{"op":"contains","value":{"op":"var","name":"t"},"item":0.0}},{"id":"ringdown_initial","ast":{"op":"approx_eq","left":{"op":"index","value":{"op":"var","name":"ringdown"},"index":0},"right":{"op":"const","value":1.0,"unit":[0,0,0]},"tolerance":1e-12}}]},
+      "falsifier_manifest":"M06_MEMORY_TIMESTREAM_BLOCKED","data_readiness":1
+    },
+    {
+      "id":"Q13_QUANTIZED_CAPTURE_JUMP_MEMORY","implementation_level":"REDUCED_IMMIGRATION_DEATH_DIAGNOSTIC","claim":"classical immigration-death occupation process; no quantum dilation or energy-conserving gravity vertex",
+      "variables":[
+        {"name":"lambda","role":"parameter","type":"scalar","shape":[],"unit":[0,0,-1],"domain":{"kind":"positive"},"fixture":4.0},
+        {"name":"tau","role":"parameter","type":"scalar","shape":[],"unit":[0,0,1],"domain":{"kind":"positive"},"fixture":3.0},
+        {"name":"lags","role":"input","type":"vector","shape":[3],"unit":[0,0,1],"domain":{"kind":"all_nonnegative"},"fixture":[0,3,6]},
+        {"name":"n","role":"input","type":"vector","shape":[7],"unit":[0,0,0],"domain":{"kind":"nonnegative_integers"},"fixture":[0,1,2,3,4,5,6]},
+        {"name":"one_to_six","role":"input","type":"vector","shape":[6],"unit":[0,0,0],"domain":{"kind":"positive_integers"},"fixture":[1,2,3,4,5,6]}
+      ],
+      "conditions":{"initial":{"status":"STATIONARY_FIXTURE","entries":["N distributed Poisson(lambda tau) before lag evaluation"]},"boundary":{"status":"TRUE_JUMP_LAW_DECLARED","entries":["dN=dJ_plus-dJ_minus","E[dJ_plus|N]/dt=lambda","E[dJ_minus|N]/dt=N/tau"]}},
+      "program":{"outputs":[
+        {"name":"mean","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"mul","args":[{"op":"var","name":"lambda"},{"op":"var","name":"tau"}]}},
+        {"name":"probabilities","type":"vector","shape":[7],"unit":[0,0,0],"ast":{"op":"poisson_pmf","mean":{"op":"var","name":"mean"},"n":{"op":"var","name":"n"}}},
+        {"name":"balance_residuals","type":"vector","shape":[6],"unit":[0,0,-1],"ast":{"op":"sub","left":{"op":"mul","args":[{"op":"var","name":"lambda"},{"op":"slice","value":{"op":"var","name":"probabilities"},"start":0,"stop":6}]},"right":{"op":"div","num":{"op":"mul","args":[{"op":"var","name":"one_to_six"},{"op":"slice","value":{"op":"var","name":"probabilities"},"start":1,"stop":7}]},"den":{"op":"var","name":"tau"}}}},
+        {"name":"balance_max_abs","type":"scalar","shape":[],"unit":[0,0,-1],"ast":{"op":"max_abs","arg":{"op":"var","name":"balance_residuals"}}},
+        {"name":"ordinary_cumulants","type":"vector","shape":[4],"unit":[0,0,0],"ast":{"op":"vector","items":[{"op":"var","name":"mean"},{"op":"var","name":"mean"},{"op":"var","name":"mean"},{"op":"var","name":"mean"}]}},
+        {"name":"autocovariance","type":"vector","shape":[3],"unit":[0,0,0],"ast":{"op":"mul","args":[{"op":"var","name":"mean"},{"op":"exp","arg":{"op":"neg","arg":{"op":"div","num":{"op":"abs","arg":{"op":"var","name":"lags"}},"den":{"op":"var","name":"tau"}}}}]}}
+      ],"assertions":[{"id":"detailed_balance","ast":{"op":"lte","left":{"op":"var","name":"balance_max_abs"},"right":{"op":"const","value":1e-12,"unit":[0,0,-1]}}}]},
+      "falsifier_manifest":"M06_MEMORY_TIMESTREAM_BLOCKED","data_readiness":1
+    },
+    {
+      "id":"Q14_POSTQUANTUM_CLASSICAL_QUANTUM_GRAVITY","implementation_level":"REDUCED_DIAGNOSTIC_NOT_CQ_GENERATOR","claim":"normalized 2x2 positivity diagnostic only; no Oppenheim drift, Lindblad, backreaction, diffusion generator, or physical parameter map is implemented",
+      "variables":[
+        {"name":"D0","role":"parameter","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"nonnegative"},"fixture":2.0},
+        {"name":"D1","role":"parameter","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"real"},"fixture":1.0},
+        {"name":"D2","role":"parameter","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"nonnegative"},"fixture":0.5},
+        {"name":"D2_bad","role":"input","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"nonnegative"},"fixture":0.4}
+      ],
+      "conditions":{"initial":{"status":"NOT_A_DYNAMICAL_GENERATOR","entries":[]},"boundary":{"status":"REDUCED_NORMALIZED_MATRIX_ONLY","entries":["does not impersonate full CQ theory","D matrix symmetry and PSD checked"]}},
+      "program":{"outputs":[
+        {"name":"Mdiag","type":"matrix","shape":[2,2],"unit":[0,0,0],"ast":{"op":"matrix","rows":[[{"op":"var","name":"D0"},{"op":"var","name":"D1"}],[{"op":"var","name":"D1"},{"op":"var","name":"D2"}]]}},
+        {"name":"determinant","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"sub","left":{"op":"mul","args":[{"op":"var","name":"D0"},{"op":"var","name":"D2"}]},"right":{"op":"pow","base":{"op":"var","name":"D1"},"exponent":2}}},
+        {"name":"bad_determinant","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"sub","left":{"op":"mul","args":[{"op":"var","name":"D0"},{"op":"var","name":"D2_bad"}]},"right":{"op":"pow","base":{"op":"var","name":"D1"},"exponent":2}}}
+      ],"assertions":[{"id":"M_symmetric","ast":{"op":"is_symmetric","arg":{"op":"var","name":"Mdiag"},"tolerance":1e-12}},{"id":"M_PSD","ast":{"op":"is_psd","arg":{"op":"var","name":"Mdiag"},"tolerance":1e-12}},{"id":"bad_rejected","ast":{"op":"lt","left":{"op":"var","name":"bad_determinant"},"right":{"op":"const","value":0.0,"unit":[0,0,0]}}}]},
+      "falsifier_manifest":"M07_CQ_PHYSICAL_MAP_BLOCKED","data_readiness":1
+    },
+    {
+      "id":"Q15_KTM_CLASSICAL_CHANNEL_BOUNDARY","implementation_level":"REDUCED_DIAGNOSTIC_NOT_FEEDBACK_MASTER_EQUATION","claim":"dimensionless AM-GM noise-cost diagnostic only; no measurement record, feedback map, master equation, or physical gravity coefficient conversion is implemented",
+      "variables":[
+        {"name":"g","role":"parameter","type":"scalar","shape":[],"unit":[0,0,0],"domain":{"kind":"positive"},"fixture":0.5},
+        {"name":"gamma","role":"input","type":"vector","shape":[4],"unit":[0,0,0],"domain":{"kind":"all_positive"},"fixture":[0.125,0.25,0.5,1.0]}
+      ],
+      "conditions":{"initial":{"status":"NOT_A_CHANNEL_SIMULATION","entries":[]},"boundary":{"status":"REDUCED_NORMALIZATION_ONLY","entries":["does not impersonate full KTM channel","LOCC entangling capacity statement is literature boundary, not program output"]}},
+      "program":{"outputs":[
+        {"name":"noise_cost","type":"vector","shape":[4],"unit":[0,0,0],"ast":{"op":"add","args":[{"op":"var","name":"gamma"},{"op":"div","num":{"op":"pow","base":{"op":"var","name":"g"},"exponent":2},"den":{"op":"mul","args":[{"op":"const","value":4.0,"unit":[0,0,0]},{"op":"var","name":"gamma"}]}}]}},
+        {"name":"minimum_grid_cost","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"min","arg":{"op":"var","name":"noise_cost"}}},
+        {"name":"analytic_bound","type":"scalar","shape":[],"unit":[0,0,0],"ast":{"op":"abs","arg":{"op":"var","name":"g"}}}
+      ],"assertions":[{"id":"AM_GM_bound","ast":{"op":"all_gte","left":{"op":"var","name":"noise_cost"},"right":{"op":"var","name":"analytic_bound"}}}]},
+      "falsifier_manifest":"M11_KTM_PHYSICAL_MAP_BLOCKED","data_readiness":0
+    }
+  ],
+  "parameter_mappings": [
+    {
+      "id":"MAP_Q00_TO_Q09_MASSLESS_POLE","source_card":"Q00_GR_COHERENT_SPIN2_CONTROL","target_card":"Q09_DISPERSIVE_GRAVITY_WAVE_PACKET","status":"EXACT_REDUCED_OUTPUT_MAPPING","compare_output":"omega",
+      "source_classification":{"c":"mapped","N":"dropped_state_statistic","k":"mapped_input"},
+      "target_assignments":{
+        "c":{"op":"var","name":"c"},
+        "mu":{"op":"const","value":0.0,"unit":[-1,0,0]},
+        "eta":{"op":"const","value":0.0,"unit":[0,0,0]},
+        "kstar":{"op":"const","value":10.0,"unit":[-1,0,0]},
+        "k":{"op":"var","name":"k"}
+      },
+      "scope":"free omega(k) only; coherent state statistics N are deliberately outside the target"
+    },
+    {
+      "id":"MAP_Q01_TO_Q09_MASSIVE_POLE","source_card":"Q01_MASSIVE_SPIN2","target_card":"Q09_DISPERSIVE_GRAVITY_WAVE_PACKET","status":"EXACT_REDUCED_OUTPUT_MAPPING","compare_output":"omega",
+      "source_classification":{"c":"mapped","mu":"mapped","D":"dropped_delay_observable","k":"mapped_input"},
+      "target_assignments":{
+        "c":{"op":"var","name":"c"},
+        "mu":{"op":"var","name":"mu"},
+        "eta":{"op":"const","value":0.0,"unit":[0,0,0]},
+        "kstar":{"op":"const","value":10.0,"unit":[-1,0,0]},
+        "k":{"op":"var","name":"k"}
+      },
+      "scope":"free omega(k) only; D-dependent delay, spin, helicity, and vertices are outside the target"
+    }
+  ],
+  "equivalence_boundaries": [
+    {"id":"EF03_GAUSSIAN_SCOPE","status":"SCOPED_EXISTENCE_NOT_INSTANTIATED","cards":["Q04_CLASSICAL_STOCHASTIC_METRIC","Q11_FINITE_OCCUPATION_COHERENCE"],"reason":"Q11 implements state moments but no full R,b,Ncov or fixed POVM, so arbitrary Q11-to-Q04 maps must reject; Q14 is not included."},
+    {"id":"EF04_MEMORY_SCOPE","status":"NO_PARAMETER_EQUIVALENCE_CLAIMED","cards":["Q12_QUANTIZED_TIMEWELL_MEMORY_MODE","Q13_QUANTIZED_CAPTURE_JUMP_MEMORY"],"reason":"Q12 is a reduced second-order mean transfer with no bath implementation; Q13 is a classical jump process. Similar exponential means do not supply an exact model map."},
+    {"id":"EF05_CHANNEL_SCOPE","status":"LITERATURE_BOUNDARY_NOT_EXECUTABLE_EQUIVALENCE","cards":["Q07_ENTANGLEMENT_MEDIATED_GRAVITY","Q14_POSTQUANTUM_CLASSICAL_QUANTUM_GRAVITY","Q15_KTM_CLASSICAL_CHANNEL_BOUNDARY"],"reason":"Q14/Q15 are reduced algebraic diagnostics, not CQ/KTM generators; no parameter equivalence or entangling-capacity computation is claimed."}
+  ],
+  "source_manifests": [
+    {"id":"M01_GWOSC_DISPERSION_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q00_GR_COHERENT_SPIN2_CONTROL","Q01_MASSIVE_SPIN2","Q09_DISPERSIVE_GRAVITY_WAVE_PACKET"],"metadata":{"events":["GW150914-v3","GW170814-v3","GW170817-v3"],"catalog":"GWOSC GWTC-1 confident"},"missing":["exact resolved per-detector product URLs","payload byte counts and SHA-256","channel and segment receipts","frozen waveform implementation/version and source-generation model","cosmological distance/redshift prescription","calibration marginalization implementation","sampler and convergence contract","validated injection suite"],"response_status":"NOT_OPENED_NOT_SCORED"},
+    {"id":"M02_GWOSC_POLARIZATION_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q02_SCALAR_VECTOR_TENSOR_MIXTURE","Q10_POLARIZATION_BIREFRINGENT_GRAVITY"],"metadata":{"events":["GW170814-v3"],"catalog":"GWOSC GWTC-1 confident"},"missing":["exact resolved H1/L1/V1 product URLs and hashes","source waveform and polarization basis implementation/version","sky and calibration statistical implementation","injection and coverage validation","rank-conditioned likelihood implementation"],"response_status":"NOT_OPENED_NOT_SCORED"},
+    {"id":"M03_GRAN_SASSO_PAYLOAD_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q06_GRAVITATIONAL_COLLAPSE_DECOHERENCE"],"missing":["exact spreadsheet URL, hash, sheet/range schema, and full collapse-spectrum program"],"response_status":"NOT_OPENED_NOT_SCORED"},
+    {"id":"M04_BMV_RESPONSE_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q07_ENTANGLEMENT_MEDIATED_GRAVITY"],"missing":["public gravity-mediated entanglement response does not exist"],"response_status":"NO_GRAVITY_RESPONSE_EXISTS"},
+    {"id":"M05_SPARC_XCOP_BINDING_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q08_EMERGENT_SUPERFLUID_MEDIUM"],"missing":["exact local hashes, full physical superfluid action/solver, lensing source, and frozen object holdout"],"response_status":"NOT_OPENED_NOT_SCORED"},
+    {"id":"M06_MEMORY_TIMESTREAM_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q12_QUANTIZED_TIMEWELL_MEMORY_MODE","Q13_QUANTIZED_CAPTURE_JUMP_MEMORY"],"missing":["exact source-modulation time streams, auxiliary channels, hashes, and physical coupling maps"],"response_status":"NOT_OPENED_NOT_SCORED"},
+    {"id":"M07_CQ_PHYSICAL_MAP_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q14_POSTQUANTUM_CLASSICAL_QUANTUM_GRAVITY"],"missing":["actual CQ drift/Lindblad/backreaction/diffusion generator","physical parameter/unit map","exact response payload"],"response_status":"REDUCED_DIAGNOSTIC_ONLY"},
+    {"id":"M08_PAGE_GEILKER_ROWS_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q05_SEMICLASSICAL_EXPECTATION_SOURCE"],"missing":["event-level apparatus rows and reusable payload hash"],"response_status":"PUBLISHED_RESULT_ONLY"},
+    {"id":"M09_HOLOMETER_TIME_CUMULANTS_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q03_DISCRETE_GRAVITY_IMPULSES","Q11_FINITE_OCCUPATION_COHERENCE"],"missing":["raw time streams and auxiliaries supporting the declared cumulant test"],"reason":"released averaged cross-spectral products cannot substitute for time-domain third/fourth connected cumulants","response_status":"AGGREGATE_UNSUITABLE"},
+    {"id":"M10_STOCHASTIC_ONTOLOGY_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q04_CLASSICAL_STOCHASTIC_METRIC"],"missing":["an observable outside the fixed Gaussian measurement equivalence class with exact payload receipt"],"response_status":"NONIDENTIFYING_PSD_ONLY"},
+    {"id":"M11_KTM_PHYSICAL_MAP_BLOCKED","status":"SOURCE_BLOCKED","cards":["Q15_KTM_CLASSICAL_CHANNEL_BOUNDARY"],"missing":["measurement-record model","feedback map","master equation","physical coefficient/unit conversion","exact response payload"],"response_status":"REDUCED_DIAGNOSTIC_ONLY"}
+  ],
+  "provenance": {"repository_state":"UNCOMMITTED_WORKTREE_FILES","commit_sha":null,"scope":"Integrity is established only by file/content hashes in the receipt; no committed VCS provenance is claimed."},
+  "access_contract":{"observational_payloads_opened":0,"observational_rows_read":0,"real_scores_computed":0,"network_downloads_by_builder":0,"model_calls":0,"paid_calls":0,"parameter_tuning_calls":0},
+  "claim_boundary":{"AST_programs_validated":true,"target_free_fixtures_only":true,"reduced_diagnostics_not_full_theories":true,"source_execution_ready":false,"real_observational_rows_scored":false,"any_branch_empirically_supported":false,"historical_novelty_established":false,"quantum_nature_of_gravity_established":false,"publication_ready":false,"strict_reaudit_submission_ready":true}
+}

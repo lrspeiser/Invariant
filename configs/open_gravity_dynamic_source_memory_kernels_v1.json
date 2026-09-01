@@ -1,0 +1,270 @@
+{
+  "schema_version": "invariant-open-gravity-dynamic-source-memory-kernels-config-1.0",
+  "analysis_id": "open-gravity-dynamic-source-memory-kernels-v1",
+  "status": "FROZEN_CAUSAL_MEMORY_KERNEL_DISCRIMINATORS_PUBLIC_NR_SOURCE_BENCHMARK_RESPONSE_BLIND",
+  "purpose": "Extend the 80 registered TWELL dynamic concepts into executable retarded, exponential, two-timescale, resonant, hysteretic, and stochastic source-history laws; identify exact equivalences and real dynamic discriminators before opening observational response data.",
+  "package": {
+    "module_path": "src/sigma_theory_compiler/open_gravity_dynamic_source_memory_kernels_v1.py",
+    "test_path": "tests/test_open_gravity_dynamic_source_memory_kernels_v1.py",
+    "output_path": "runs/gravity/open-gravity-dynamic-source-memory-kernels-v1/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-dynamic-source-memory-kernels-v1/artifacts",
+    "benchmark_source_path": "runs/gravity/open-gravity-dynamic-source-memory-kernels-v1/source/GW150914_4_NR_waveform.txt"
+  },
+  "bindings": [
+    {
+      "role": "TWELL_400_CARD_STREAM",
+      "path": "runs/gravity/twell-400-v2-typed-compiler-final-v3/cards.jsonl",
+      "sha256": "4bd70177bf6f8aabbbf2d106f002575f9c1850cfffb45ca9103165da29b9b44f"
+    },
+    {
+      "role": "TEMPORAL_TRANSFER_IDENTIFIABILITY",
+      "path": "runs/gravity/open-gravity-temporal-transfer-identifiability-v1/receipt.json",
+      "sha256": "cbc8336842ca3695971ead7e67e37adbd4323d989c1c6b43cb6bbc0ae1201bd5"
+    },
+    {
+      "role": "CALIFA_MEMORY_CONFIG",
+      "path": "configs/gravity_item27_gravitational_memory_v1.json",
+      "sha256": "a91612efc51d44a7e33016fbc4fff3c31fadce7e2e9c3ce569355799b0f5194a"
+    },
+    {
+      "role": "CALIFA_MEMORY_RESULT",
+      "path": "runs/gravity/roadmap/item-27-gravitational-memory-v1.json",
+      "sha256": "a357fb3438dd3bbe15fcf5060481c487fc92b684df18a13d30921af1c403f2aa"
+    },
+    {
+      "role": "CALIFA_MEMORY_COMPUTE_MANIFEST",
+      "path": "runs/gravity/roadmap/item-27-gravitational-memory-v1-source/compute-manifest.json",
+      "sha256": "c025b37ea578eafd86b90b01b1e33aa2cccc51c4bfe4f117df7f1b04b16c2ad3"
+    }
+  ],
+  "normalization": {
+    "source_perturbation": "u=(S-S_ref)/S_star is dimensionless and may be signed; no formula may use a response value to define S_ref or S_star.",
+    "memory_response": "q is dimensionless and enters a receiver only through a_eff=a_instantaneous+epsilon*a_star*q; epsilon and a_star are not fitted in this response-blind packet.",
+    "time": "s=t/T_star is dimensionless. T_star must ultimately be derived from the registered physical driver (density, curvature, crossing time, or source dynamics), never chosen per observed response.",
+    "benchmark_T_star_seconds": 0.01,
+    "receiver_power": "Delta P_receiver=m*v dot (epsilon*a_star*q). A fundamental completion must balance this with source plus mediator stress energy; a kernel fingerprint alone does not establish conservation."
+  },
+  "kernels": [
+    {
+      "id": "K00_INSTANTANEOUS",
+      "class": "control",
+      "equation": "q(s)=u(s)",
+      "parameters": {},
+      "static_limit": "q=u",
+      "zero_memory_limit": "self",
+      "causal_support": "local present input only",
+      "energy_accounting": "receiver work is supplied directly by the instantaneous source/field sector"
+    },
+    {
+      "id": "K01_RETARDED",
+      "class": "registered_A15",
+      "equation": "q(s)=u(s-d)",
+      "parameters": {"delay": 0.244140625},
+      "static_limit": "q=u for a constant source",
+      "zero_memory_limit": "d->0 gives K00",
+      "causal_support": "strict support only at s'<=s-d",
+      "energy_accounting": "a lossless delay requires a propagating mediator or delay line; its stress energy is not derived here"
+    },
+    {
+      "id": "K02_EXPONENTIAL",
+      "class": "registered_A16_known_control",
+      "equation": "tau*q'+q=u",
+      "parameters": {"tau": 0.35},
+      "static_limit": "q=u after relaxation",
+      "zero_memory_limit": "tau->0 gives K00",
+      "causal_support": "K(s)=exp(-s/tau)/tau for s>=0 and zero otherwise",
+      "energy_accounting": "tau*d(q^2/2)/ds+q^2=u*q; q^2 is positive dissipation that requires a receiver/mediator bath"
+    },
+    {
+      "id": "K03_BIEXPONENTIAL",
+      "class": "new_TWELL_expansion_known_linear_family",
+      "equation": "tau_i*x_i'+x_i=u; q=w*x_1+(1-w)*x_2",
+      "parameters": {"tau1": 0.08, "tau2": 1.5, "weight": 0.65},
+      "static_limit": "q=u after both states relax",
+      "zero_memory_limit": "tau1,tau2->0 gives K00; tau1=tau2 collapses exactly to K02",
+      "causal_support": "positive weighted sum of two one-sided exponential kernels",
+      "energy_accounting": "the weighted sum of the two one-pole storage-dissipation identities closes the normalized state ledger"
+    },
+    {
+      "id": "K04_DAMPED_RESONANCE",
+      "class": "registered_A17",
+      "equation": "q''+2*zeta*omega0*q'+omega0^2*q=omega0^2*u",
+      "parameters": {"omega0": 7.0, "zeta": 0.18},
+      "static_limit": "q=u",
+      "zero_memory_limit": "omega0->infinity at fixed finite frequency gives K00",
+      "causal_support": "retarded Green function of the stable second-order state equation",
+      "energy_accounting": "d[(q^2+q'^2/omega0^2)/2]/ds+(2*zeta/omega0)*q'^2=u*q'"
+    },
+    {
+      "id": "K05_HYSTERETIC",
+      "class": "new_TWELL_expansion_non_LTI",
+      "equation": "b switches to +1 at u>=h and -1 at u<=-h; tau_h*q'+q=u+kappa*b",
+      "parameters": {"threshold": 0.25, "offset": 0.15, "tau": 0.03},
+      "static_limit": "set-valued and history dependent: q=u+kappa*b",
+      "zero_memory_limit": "kappa,h,tau_h->0 gives K00",
+      "causal_support": "branch state uses only past threshold crossings",
+      "energy_accounting": "the quasistatic loop dissipates 4*kappa*h per normalized cycle; branch switching requires a declared reservoir"
+    },
+    {
+      "id": "K06_STOCHASTIC_OU",
+      "class": "registered_A18",
+      "equation": "dq=(u-q)ds/tau+sigma*dW_s",
+      "parameters": {"tau": 0.35, "sigma": 0.05},
+      "static_limit": "E[q]=u and Var(q)=sigma^2*tau/2 for a constant source",
+      "zero_memory_limit": "sigma->0 gives K02 in mean; tau->0 and sigma->0 gives K00",
+      "causal_support": "adapted to the past source and Wiener filtration; no future increment enters",
+      "energy_accounting": "the Ito bath injects tau*sigma^2/2, exactly balancing stationary fluctuation dissipation when u=0"
+    }
+  ],
+  "driver_ids": [
+    "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10",
+    "D11", "D12", "D13", "D14", "D15", "D16", "D17", "D18", "D19", "D20"
+  ],
+  "concept_mapping": {
+    "predecessor_architectures": ["K01_RETARDED", "K02_EXPONENTIAL", "K04_DAMPED_RESONANCE", "K06_STOCHASTIC_OU"],
+    "new_architectures": ["K03_BIEXPONENTIAL", "K05_HYSTERETIC"],
+    "candidate_architectures": 6,
+    "drivers_per_architecture": 20,
+    "predecessor_concepts": 80,
+    "new_concepts": 40,
+    "total_executable_concepts": 120
+  },
+  "fixtures": {
+    "step_pulse": {"dt": 0.002, "duration": 12.0, "on": 2.0, "off": 6.0},
+    "rate_sweep_omegas": [0.05, 0.1, 0.2, 0.4],
+    "frequency_grid_omega": [0.0, 0.25, 0.5, 1.0, 2.0, 4.0, 7.0, 10.0],
+    "ou_ensemble_paths": 1024,
+    "ou_seed": 520260831
+  },
+  "public_simulation_benchmark": {
+    "id": "GWOSC_GW150914_4_NR_WAVEFORM",
+    "role": "public numerical-relativity source waveform; not an observational response",
+    "source_url": "https://gwosc.org/s/events/GW150914/GW150914_4_NR_waveform.txt",
+    "expected_sha256": "ed49c3e83f90e70ac85386f183031b7de3d3d6aa78e75a7d284e5a53a5cc0b76",
+    "expected_bytes": 142345,
+    "expected_rows": 2769,
+    "expected_sample_rate_hz": 4096.0,
+    "provenance": "GWOSC GW150914 tutorial numerical-relativity waveform associated with SXS:BBH:0305",
+    "license_and_access": "public GWOSC educational event product; acquisition records exact bytes and SHA-256"
+  },
+  "observational_response_preflight": {
+    "state": "DIRECT_URLS_FROZEN_RESPONSES_NOT_OPENED",
+    "event": "GW150914",
+    "event_gps": 1126259462.4,
+    "products": [
+      {
+        "detector": "H1",
+        "url": "https://gwosc.org/s/events/GW150914/H-H1_LOSC_4_V2-1126259446-32.hdf5",
+        "expected_http_bytes": 1040592
+      },
+      {
+        "detector": "L1",
+        "url": "https://gwosc.org/s/events/GW150914/L-L1_LOSC_4_V2-1126259446-32.hdf5",
+        "expected_http_bytes": 1007420
+      }
+    ],
+    "frozen_nuisance_projection": [
+      "one amplitude and phase per detector constrained by antenna response",
+      "one common geocentric coalescence time plus geometric detector delay",
+      "published calibration envelope",
+      "stationary colored detector-noise likelihood",
+      "GR source masses, spins, sky position, inclination, and distance",
+      "no per-event kernel timescale or threshold"
+    ],
+    "frozen_predictions": [
+      "K01 is exactly absorbed by an unconstrained common emission/coalescence-time shift and cannot be discovered from one event",
+      "K02 and K03 predict smooth multi-frequency attenuation and phase curvature shared by H1 and L1 after projection",
+      "K04 predicts a shared resonance peak near omega0/(2*pi*T_star) and post-source ringing",
+      "K05 predicts rate-persistent branch distortion and odd-harmonic structure, but cannot advance until S_star is derived independently",
+      "K06 has the K02 conditional mean plus a common astrophysical excess-variance component; uncorrelated detector noise is a negative control"
+    ],
+    "required_acquisition_receipt": [
+      "resolved URL, byte count, SHA-256, and retrieval timestamp for each detector file",
+      "HDF5 strain channel, GPS start, duration, sample rate, and data-quality masks",
+      "independent H1/L1 calibration and noise metadata",
+      "prediction receipt hash predating every response read",
+      "injection recovery for every retained kernel before real scoring"
+    ]
+  },
+  "primary_literature": [
+    {
+      "id": "MASHHOON_NONLOCAL_GRAVITY",
+      "citation": "Mashhoon, Nonlocal Gravity, Annalen der Physik 17, 705-727 (2008/2011 arXiv version)",
+      "url": "https://arxiv.org/abs/1101.3752",
+      "boundary": "Causal constitutive kernels in gravity are established prior art; kernel use alone is not novel."
+    },
+    {
+      "id": "SXS_CATALOG",
+      "citation": "Boyle et al., The SXS Collaboration catalog of binary black hole simulations, Classical and Quantum Gravity 36, 195006 (2019)",
+      "doi": "10.1088/1361-6382/ab34e2",
+      "url": "https://arxiv.org/abs/1904.04831",
+      "boundary": "Defines the public numerical-relativity benchmark family and waveform format."
+    },
+    {
+      "id": "GW150914_DETECTION",
+      "citation": "Abbott et al., Observation of Gravitational Waves from a Binary Black Hole Merger, Physical Review Letters 116, 061102 (2016)",
+      "doi": "10.1103/PhysRevLett.116.061102",
+      "url": "https://arxiv.org/abs/1602.03837",
+      "boundary": "The observed chirp agrees with GR; any response test must reproduce that control before a new-memory claim."
+    },
+    {
+      "id": "KUBO_RESPONSE",
+      "citation": "Kubo, The fluctuation-dissipation theorem, Reports on Progress in Physics 29, 255 (1966)",
+      "doi": "10.1088/0034-4885/29/1/306",
+      "boundary": "Linear response and stochastic fluctuation-dissipation relations are known; K02/K03/K06 formulas are controls, not historical novelties."
+    },
+    {
+      "id": "CHRISTODOULOU_GW_MEMORY",
+      "citation": "Christodoulou, Nonlinear nature of gravitation and gravitational-wave experiments, Physical Review Letters 67, 1486 (1991)",
+      "doi": "10.1103/PhysRevLett.67.1486",
+      "boundary": "Standard gravitational-wave memory is a lasting radiative metric change and is not the same as the constitutive source-history kernels tested here."
+    }
+  ],
+  "strongest_counterexample": {
+    "source": "sealed Item 27 CALIFA memory campaign",
+    "raw_candidate_cells": 262144,
+    "admissible_candidate_cells": 192661,
+    "valid_primary_objects": 26,
+    "valid_all_annuli_objects": 9,
+    "minimum_formal_objects": 45,
+    "improvement_vs_flexible_nuisance": 0.3204305277472748,
+    "improvement_vs_instantaneous_baryonic": -0.286836057342884,
+    "selection_aware_permutation_p": 0.75,
+    "formal_status": "INCONCLUSIVE_QUALITY",
+    "interpretation": "A large static fossil-history search produced a tempting nuisance-relative gain but no selection-aware or instantaneous-baseline evidence. Static fossil histories do not measure phase, rate-persistent hysteresis, resonance, or stochastic coherence."
+  },
+  "decision_rules": {
+    "static": "Unit DC gain is an equivalence, not evidence for or against any linear memory architecture.",
+    "delay": "A pure common delay is not identifiable when emission/coalescence time is free.",
+    "one_frequency": "One complex frequency response is absorbable into one amplitude and phase; at least two frequencies or a resolved transition are required.",
+    "stochastic": "K06 and K02 are exactly equal in conditional mean; variance/coherence is mandatory.",
+    "hysteresis": "A nonzero loop-area intercept as drive rate approaches zero distinguishes rate-persistent hysteresis from stable finite-memory LTI lag.",
+    "resonance": "A magnitude peak above unity distinguishes underdamped K04 from K01/K02/K03, but source ringdown is the mandatory countermodel.",
+    "conservation": "A dissipative or stochastic kernel remains a phenomenological open-system law until its bath/source stress energy is explicit; it is retained, not silently rejected.",
+    "publication": "A methods/theory note may report the exact equivalence classes and discriminator basis. An empirical gravity claim requires unchanged cross-event transfer and a derived T_star/S_star, not per-event retuning."
+  },
+  "access_ledger": {
+    "public_simulation_source_files_allowed": 1,
+    "public_simulation_source_rows_expected": 2769,
+    "observational_response_files_opened": 0,
+    "observational_response_rows_read": 0,
+    "real_response_scores_computed": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "post_response_formula_changes": 0
+  },
+  "claim_boundary": {
+    "all_80_predecessor_dynamic_concepts_mapped": true,
+    "forty_new_dynamic_concepts_added": true,
+    "causal_kernel_fingerprints_derived": true,
+    "receiver_energy_ledger_derived_for_normalized_states": true,
+    "public_NR_source_benchmark_bound": true,
+    "observational_response_opened": false,
+    "real_data_fit_performed": false,
+    "covariant_gravity_action_derived": false,
+    "universal_physical_time_scale_derived": false,
+    "historical_novelty_established": false,
+    "empirical_gravity_discovery": false,
+    "publication_ready_empirical_claim": false
+  }
+}

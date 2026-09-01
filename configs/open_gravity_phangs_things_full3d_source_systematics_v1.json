@@ -1,0 +1,98 @@
+{
+  "schema": "invariant-open-gravity-phangs-things-full3d-source-systematics-1.0",
+  "package_id": "open-gravity-phangs-things-full3d-source-systematics-v1",
+  "status": "RESPONSE_BLIND_FULL_225_SOURCE_SYSTEMATIC_SCREEN_DEVELOPMENT_ONLY",
+  "purpose": "Propagate every frozen PHANGS/THINGS/S4G source-reconstruction cell through Newton, AQUAL, and QUMOND on a common three-dimensional screening grid, retaining all numerical failures and degeneracies before any response score.",
+  "admission_rule": "Only source transformations already anchored to the public S4G, THINGS, PHANGS, Freeman, Casertano, AQUAL, and QUMOND sources in the bound predecessor may enter. This screen cannot add or tune a source or solver choice from response data.",
+  "predecessor_binding": {
+    "commit": null,
+    "promotion_authority": false,
+    "reason": "The exact response-blind bridge is present and sealed but uncommitted; this remains a development source-systematic expansion with no scoring authority.",
+    "artifacts": [
+      {"path": "configs/open_gravity_phangs_things_full3d_solver_bridge_v1.json", "sha256": "ec4260bb669e6b750c6bde511254c33643208ac10075755810e34cfdbe2d0e15"},
+      {"path": "src/sigma_theory_compiler/open_gravity_phangs_things_full3d_solver_bridge_v1.py", "sha256": "6cdf82ce99c3d76963cc487500fbfd2c441f44aaa3e09d243089d892a28e5dc4"},
+      {"path": "tests/test_open_gravity_phangs_things_full3d_solver_bridge_v1.py", "sha256": "4280edd312bdb8413f217418818ec039c79a20b2a8bc781ce2dd63231181938a"},
+      {"path": "runs/gravity/open-gravity-phangs-things-full3d-solver-bridge-v1/receipt.json", "sha256": "ab3ea515c0b6edba0b7023fc223b077917a5ecef45fd9fa48a74218e23b52c55"}
+    ],
+    "receipt_content_sha256": "8b085363f9db329614df8c1f280fd3c991db6c938fbdfde66b6a2b12040489bf",
+    "private_field_raw_sha256": "80bdfed8fca1816f0ac33e16da0112b30ced2a8568e92ceccbe2436d3899140d"
+  },
+  "objects": ["NGC2903", "NGC3351", "NGC3627"],
+  "cell_contract": {
+    "primary_axes": {
+      "beam": ["ROBUST_PRIMARY", "NATURAL_SENSITIVITY"],
+      "stellar_mass_to_light": ["FIXED_0P6", "COLOR_PUBLISHED_WITH_FALLBACK"],
+      "co_source": ["WITH_CO", "WITHOUT_CO"],
+      "stellar_height_over_exponential_scale": [0.1, 0.136986301369863, 0.2],
+      "gas_height_pc": [100.0, 200.0, 400.0]
+    },
+    "primary_cells_per_object": 72,
+    "controls_per_object": [
+      {"id": "COARSE_128_PRIMARY_PHYSICS", "source_pixels": 128, "source_box_kpc": 40.0, "solver_half_box_kpc": 30.0, "sip": false},
+      {"id": "PADDED_512_PRIMARY_PHYSICS", "source_pixels": 512, "source_box_kpc": 80.0, "solver_half_box_kpc": 50.0, "sip": false},
+      {"id": "S4G_SIP_HEADER_SENSITIVITY_PRIMARY_PHYSICS", "source_pixels": 256, "source_box_kpc": 40.0, "solver_half_box_kpc": 30.0, "sip": true}
+    ],
+    "control_source_physics": {"beam": "ROBUST_PRIMARY", "stellar_mass_to_light": "FIXED_0P6", "co_source": "WITH_CO", "stellar_height_over_exponential_scale": 0.136986301369863, "gas_height_pc": 200.0},
+    "total_cells_per_object": 75,
+    "total_cells": 225,
+    "response_based_selection": false,
+    "retain_all_failures": true
+  },
+  "screen_contract": {
+    "nodes_per_axis": 17,
+    "solver_half_box_kpc_primary": 30.0,
+    "radial_profile_radii_kpc": [5.0, 10.0, 15.0],
+    "azimuth_samples": 48,
+    "operators": ["NEWTON", "AQUAL_SIMPLE_MU", "QUMOND_SIMPLE_NU"],
+    "aqual_damping": 0.5,
+    "aqual_max_iterations": 500,
+    "aqual_delta_tolerance": 1e-8,
+    "aqual_residual_tolerance": 2e-7,
+    "aqual_mu_floor": 1e-6,
+    "qumond_nu_floor": 1e-6,
+    "boundary_integral_samples": 100000,
+    "role": "source-systematic numerical screen only; not the final response-scoring resolution"
+  },
+  "gate_contract": {
+    "dimensionless_mass_relative_error_max": 1e-12,
+    "source_builder_mass_relative_error_max": 2e-9,
+    "linear_relative_residual_max": 1e-12,
+    "aqual_relative_residual_max": 2e-7,
+    "radial_acceleration_must_be_finite_positive": true,
+    "primary_17_vs_bound_25_radial_relative_difference_max": 0.2,
+    "failed_cell_disposition": "RETAINED_NUMERICAL_COUNTEREXAMPLE_NOT_RESPONSE_ELIGIBLE",
+    "passed_cell_disposition": "SOURCE_SCREEN_PASS_STILL_NOT_RESPONSE_ELIGIBLE_UNTIL_HIGHER_RESOLUTION_REPLAY",
+    "no_family_pruning_from_one_failure": true
+  },
+  "output_contract": {
+    "receipt": "runs/gravity/open-gravity-phangs-things-full3d-source-systematics-v1/receipt.json",
+    "retained_fields": ["cell identity", "source masses", "density and field hashes", "residuals", "fixed-radius profiles", "gate outcomes", "equivalence groups", "operator envelopes", "counterexamples"],
+    "full_field_cubes_retained": false,
+    "replay_rule": "Any later scoring executor must regenerate a selected full cube from this exact source and solver program and verify its frozen field hash at the declared grid."
+  },
+  "scientific_boundary": {
+    "source_files_opened_per_build": 21,
+    "source_bytes_opened_per_build": 74030400,
+    "response_files_opened": 0,
+    "response_rows_opened": 0,
+    "response_values_opened": 0,
+    "scores_computed": 0,
+    "parameters_fit": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "development_only": true
+  },
+  "claim_boundary": {
+    "all_source_systematics_propagated": true,
+    "all_numerical_failures_retained": true,
+    "source_systematic_field_envelopes_established": true,
+    "response_fit_tested": false,
+    "observational_preference_established": false,
+    "high_resolution_all_cell_convergence_established": false,
+    "source_uncertainty_is_statistical_posterior": false,
+    "lensing_closure_established": false,
+    "novelty_established": false,
+    "publication_ready": false
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "invariant-open-gravity-rg-holmberg-ii-things-2d-postscore-robustness-1.0",
+  "package_id": "open-gravity-rg-holmberg-ii-things-2d-postscore-robustness-v1",
+  "status": "POST_RESPONSE_DESCRIPTIVE_ROBUSTNESS_NOT_CONFIRMATION",
+  "purpose": "Determine whether the Holmberg II two-dimensional result is stable across preregistered metrics, stellar conversions, angular resolutions, nuisance treatments, and published inclination hypotheses without changing or rescoring any prediction.",
+  "score_binding": {
+    "artifacts": [
+      {"path": "configs/open_gravity_rg_holmberg_ii_things_2d_fixed_score_v1.json", "sha256": "3d2a0303ef88f2055810e0c1d48ec18e2529e142c118d67e1b0d7f49fe070f10"},
+      {"path": "src/sigma_theory_compiler/open_gravity_rg_holmberg_ii_things_2d_fixed_score_v1.py", "sha256": "5dd9d02fc5789888fd5bc6af3a371c34374381a0054a837d3581dda176f624a4"},
+      {"path": "tests/test_open_gravity_rg_holmberg_ii_things_2d_fixed_score_v1.py", "sha256": "75706ecf0afbaebb4e66b385bb715c2a7d40be38cb328c8b57d03fdc9c2ebf1a"},
+      {"path": "runs/gravity/open-gravity-rg-holmberg-ii-things-2d-fixed-score-v1/receipt.json", "sha256": "5030794223fb89b7db966f4569926d973bc0ff04d57ed2cc805d1d20149d0469"}
+    ],
+    "receipt_content_sha256": "abb1262edac015b7e5e379a650346b336bad2ab8ee8c210d21de9b15dfb711e4",
+    "required_decision": "HOLMBERG_II_RG_SIGNAL_DOES_NOT_REPLICATE_ON_FIXED_PRIMARY_2D_CELL",
+    "required_score_cells": 18
+  },
+  "analysis_contract": {
+    "candidate_ids": ["NEWTON_3D_DST", "RAR_2016_ON_NEWTON_3D", "MOND_STANDARD_MU_ON_NEWTON_3D", "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG"],
+    "winner_metrics": ["rmse_m_s", "mae_m_s", "median_absolute_residual_m_s", "mom2_scaled_mean_squared_residual", "model_specific_best_offset_rmse_m_s"],
+    "groupings": ["inclination_deg", "conversion_cell_id", "resolution"],
+    "paired_rg_minus_newton_rmse": true,
+    "linear_crossing_between_27_and_38_deg": "post-score descriptive interpolation only; not an inclination fit, confidence interval, or new prediction",
+    "all_cells_retained": true,
+    "no_response_reopening": true,
+    "no_prediction_recomputation": true,
+    "no_parameter_tuning": true,
+    "no_p_values": true
+  },
+  "interpretation_contract": {
+    "primary_failure_must_remain_primary": true,
+    "27_degree_cells_are_predeclared_published_sensitivity_cases": true,
+    "27_degree_cells_are_not_independent_objects": true,
+    "consistent_low_inclination_direction_may_motivate_follow_up": true,
+    "inclination_conditional_preference_is_not_general_gravity_preference": true,
+    "one_source_matched_object_cannot_establish_uniqueness": true
+  },
+  "scientific_boundary": {
+    "score_receipts_opened": 1,
+    "response_files_opened": 0,
+    "response_pixels_decoded": 0,
+    "predictions_recomputed": 0,
+    "scores_recomputed": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0
+  },
+  "claim_boundary": {
+    "primary_rg_replication_passed": false,
+    "descriptive_inclination_pattern_may_be_reported": true,
+    "inclination_measured_by_this_analysis": false,
+    "independent_confirmation": false,
+    "refracted_gravity_confirmed": false,
+    "unique_theory_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-holmberg-ii-things-2d-postscore-robustness-v1/receipt.json"
+}

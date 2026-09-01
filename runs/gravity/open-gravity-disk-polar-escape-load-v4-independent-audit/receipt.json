@@ -1,0 +1,95 @@
+{
+  "schema": "invariant-open-gravity-disk-polar-escape-load-v4-independent-audit-receipt-1.0",
+  "audit_id": "open-gravity-disk-polar-escape-load-v4-independent-audit",
+  "created_utc": "2026-09-01T00:50:26.300Z",
+  "status": "PASS_AT_STATED_CLAIM_CEILING",
+  "decision": "PASS_DPEL_REAL_SHAPED_SYNTHETIC_FIRST_PASS_ONLY__RETAIN_BLOCK_ON_DGKT_FINITE_TRANSPORT_RESPONSE",
+  "independence": {
+    "target_package": "runs/gravity/open-gravity-disk-polar-escape-load-v4",
+    "target_package_modified": false,
+    "audit_is_append_only": true,
+    "scientific_responses_opened": false
+  },
+  "audited_artifacts": {
+    "config": {
+      "path": "configs/open_gravity_disk_polar_escape_load_v1.json",
+      "raw_sha256": "3deeb79c4cc51eaf7f03c768cb736cfdd7563666a3485e2745e4e7c919bd4b24",
+      "content_sha256": "67b4b749162dd2484886059a3e5646c8abeb1f81bc0cbee40431bab2871ecb4e"
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_disk_polar_escape_load_v1.py",
+      "raw_sha256": "a40f5d204718cb57c649250de401c967ea5b810f43e37e8a86cc79ed3af02061",
+      "semantic_sha256": "00dcb6a886c677e28f347accfc368f06dbf5f1396702ffd44ef329f8dd83461f"
+    },
+    "test": {
+      "path": "tests/test_open_gravity_disk_polar_escape_load_v1.py",
+      "raw_sha256": "dfa3a4d5658436e988ca068cc3c07107b769e1c16c7a2bf2531053e22b7d3687"
+    },
+    "receipt": {
+      "path": "runs/gravity/open-gravity-disk-polar-escape-load-v4/receipt.json",
+      "raw_sha256": "dc96f4f438060d7a04c0c3b4dacc91fccf611962af4aeb3557a0c7de607a4ec5",
+      "content_sha256": "eabacc9299f31a9d54838634e2e945ada9592ad5d18d2ca60481a5fd6db206c5",
+      "self_hash_valid": true,
+      "exact_rebuild_match": true
+    }
+  },
+  "source_predecessor_bindings": {
+    "config_raw_sha256": "1e11ff6ac54b50fd0a70c52184a3b96f7dd5315efc37ed5d91129795c93be22c",
+    "receipt_raw_sha256": "5beb64d26c28e0daf7282872ce3f5089d250e0e3c4c037a2f3a3dabcef918883"
+  },
+  "test_evidence": {
+    "focused_pytest_cases_passed": 22,
+    "focused_pytest_cases_failed": 0,
+    "target_free_receipt_checks_passed": 20,
+    "target_free_receipt_checks_failed": 0,
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS",
+    "package_check_repetitions": 2,
+    "package_check_result": "VALID"
+  },
+  "independent_markov_and_closure_probes": {
+    "registered_activation": 0.9312070029886638,
+    "probe_carrier_speed": 1.7,
+    "minimum_off_diagonal_generator_rate": 0.11041287369944545,
+    "maximum_generator_row_sum_residual": 2.7755575615628914e-17,
+    "maximum_generator_column_sum_residual": 2.7755575615628914e-17,
+    "odd_axis_mode_eigenvalue_errors": [0.0, 0.0, 0.0],
+    "diffusion_tensor_closure_error": 4.440892098500626e-16,
+    "cone_basis_boundary_minimum_inward_derivative": 0.11041287369944545,
+    "random_boundary_states_tested": 10000,
+    "random_probe_seed": 777,
+    "random_boundary_minimum_inward_derivative": 0.0442435713309405,
+    "exact_prior_counterexample_empty_ray_derivative": 0.22923087965282796,
+    "zeroth_moment_collision_conservation": "PASS",
+    "common_drift_moment_balance": "PASS",
+    "dimension_ledger": "PASS"
+  },
+  "retained_limitation": {
+    "id": "FINITE_SIX_RAY_HIGHER_ANGULAR_ROTATION_FAILURE",
+    "status": "REPRODUCED_AND_RETAINED",
+    "fourth_moment_rotation_error": 0.1063749649130127,
+    "threshold": 1e-6,
+    "disposition": "BLOCK_DGKT01_FINITE_TRANSPORT_RESPONSE_UNTIL_A_POSITIVE_ANGULARLY_CONVERGED_SOLVER_PASSES_ROTATION_TESTS",
+    "closure_scope": "The second moment and DPEL diffusion tensor are SO(3)-covariant; the six-ray fourth and higher angular moments are not."
+  },
+  "claim_ceiling": {
+    "DPEL01": "MAY_ADVANCE_ONLY_TO_REAL_SHAPED_SYNTHETIC_FIRST_PASS",
+    "DGKT01_moment_closure": "PASS_TARGET_FREE",
+    "DGKT01_finite_transport": "BLOCKED_ANGULAR_CONVERGENCE",
+    "GRRAD00": "PASS_TARGET_FREE_STANDARD_CONTROL",
+    "real_scientific_response_scoring": "BLOCKED_AND_UNOPENED",
+    "observational_support": "NOT_ESTABLISHED",
+    "publication_readiness": "NOT_ESTABLISHED"
+  },
+  "access_accounting": {
+    "scientific_source_payloads_opened_by_this_audit": 0,
+    "scientific_response_payloads_opened": 0,
+    "scientific_response_rows_opened": 0,
+    "scientific_response_values_inspected": 0,
+    "scores": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "content_sha256": "0250b90e882ccb2f5cdbc311751e20ab3ed37efd7fd7db7528e3145c008300e8"
+}

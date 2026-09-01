@@ -1,0 +1,269 @@
+{
+  "schema": "invariant-open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-preflight-1.0",
+  "package_id": "open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-preflight-v1",
+  "status": "PASS_12_OBJECT_SOURCE_AND_PAPER_PREFLIGHT_SEVEN_REQUIRE_FIXED_STELLAR_CONVERSION_NO_RESPONSE_OPENED",
+  "purpose": "Freeze the exact real-source and primary-paper path for a 12-galaxy outer-disk replication of the Refracted Gravity inner-range signal before any new builder, source download, response access, or scoring.",
+  "observed_at_utc": "2026-08-31T11:23:24Z",
+  "admission_policy": {
+    "path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+    "sha256": "174e68e85872566d86d5007f152e75113ea3fbf1b0a3d375c61d65db71be672e",
+    "rule": "Every builder must bind suitable real public source data, its primary measurement paper, and an independent analytic/manufactured/reference benchmark. Missing source is SOURCE_BLOCKED; paper-only is THEORY_BENCHMARK_ONLY; a 3-D claim cannot be validated by a 1-D curve alone."
+  },
+  "predecessor_bindings": [
+    {
+      "path": "configs/open_gravity_refracted_gravity_3d_primary_benchmark_v1.json",
+      "sha256": "9f5f127b8078ef95ff47ce073cb0e2c9254ca1fd9c8113880ac8e42ea52a8308",
+      "role": "primary equations plus analytic, manufactured, and spherical reference benchmarks"
+    },
+    {
+      "path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_3d_primary_benchmark_v1.py",
+      "sha256": "aa0b1ff7499b5fef8355d237d1e3632b845f8f1397cda2690750b1ef142fee88",
+      "role": "benchmark implementation"
+    },
+    {
+      "path": "runs/gravity/open-gravity-refracted-gravity-3d-primary-benchmark-v1/receipt.json",
+      "sha256": "ffc2579e6a0e742b33a46d9b5e208389e67e3d57d06bb01ca41fa52c04730730",
+      "role": "benchmark receipt"
+    },
+    {
+      "path": "configs/open_gravity_refracted_gravity_inner_outer_development_v1.json",
+      "sha256": "65d22084b80d121071d9831a35bdf7e4aeeea57a163c84d8094de7d063fa17e6",
+      "role": "inner-range signal and outer-range failure contract"
+    },
+    {
+      "path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_inner_outer_development_v1.py",
+      "sha256": "2e2121487c0898800a134e38f0b50175ccc16df98216ee1c15ac019859e7d6b0",
+      "role": "inner/outer adjudicator"
+    },
+    {
+      "path": "runs/gravity/open-gravity-refracted-gravity-inner-outer-development-v1/receipt.json",
+      "sha256": "42a26023ae1e1e685484189dc4abacadf5e4b349ff27aec63fbfb1ef986b421e",
+      "role": "retained inner/outer counterevidence"
+    }
+  ],
+  "primary_papers": [
+    {
+      "paper_id": "SINGS_KENNICUTT_2003",
+      "url": "https://arxiv.org/abs/astro-ph/0305437",
+      "role": "SINGS IRAC source survey and observing/data-product paper"
+    },
+    {
+      "paper_id": "S4G_QUEREJETA_2015",
+      "url": "https://arxiv.org/abs/1410.0009",
+      "role": "S4G dust-corrected stellar mass-map method and public products"
+    },
+    {
+      "paper_id": "MEIDT_2014_ML36",
+      "url": "https://arxiv.org/abs/1402.5210",
+      "role": "published fixed 3.6 micron stellar mass-to-light calibration for SINGS fallback maps"
+    },
+    {
+      "paper_id": "THINGS_WALTER_2008",
+      "url": "https://arxiv.org/abs/0810.2125",
+      "role": "THINGS H I measurement and data-product paper"
+    },
+    {
+      "paper_id": "HERACLES_LEROY_2009",
+      "url": "https://arxiv.org/abs/0905.4742",
+      "role": "HERACLES CO(2-1) measurement, masking, uncertainty, and conversion paper"
+    },
+    {
+      "paper_id": "SPARC_LELLI_2016",
+      "url": "https://arxiv.org/abs/1606.09251",
+      "role": "SPARC rotation-curve response and baryonic decomposition paper"
+    },
+    {
+      "paper_id": "REFRACTED_GRAVITY_MATSAS_2016",
+      "url": "https://arxiv.org/abs/1603.04943",
+      "role": "primary Refracted Gravity field-equation derivation"
+    },
+    {
+      "paper_id": "REFRACTED_GRAVITY_DISKMASS_2020",
+      "url": "https://arxiv.org/abs/2003.07377",
+      "role": "published DiskMass Refracted Gravity test and counterevidence"
+    }
+  ],
+  "selection_contract": {
+    "parent_sample": "the exact 18-object Leroy et al. 2009 HERACLES sample",
+    "intersection_rule": "HERACLES object AND THINGS public natural+robust moment-0 maps AND one admitted public stellar branch AND exact membership in the local 175-object SPARC catalog",
+    "candidate_count": 18,
+    "admitted_count": 12,
+    "admitted_objects": [
+      "UGC04305",
+      "NGC2841",
+      "NGC2903",
+      "NGC2976",
+      "NGC3198",
+      "IC2574",
+      "NGC3521",
+      "NGC4214",
+      "DDO154",
+      "NGC5055",
+      "NGC6946",
+      "NGC7331"
+    ],
+    "excluded_not_in_local_sparc": [
+      "NGC628",
+      "NGC925",
+      "HolmbergI",
+      "NGC3184",
+      "NGC3351",
+      "NGC4736"
+    ],
+    "selection_used_response_values": false,
+    "response_rows_opened": 0
+  },
+  "object_source_contracts": [
+    {
+      "object_id": "UGC04305",
+      "aliases": {"sings": "hoii", "things": "HO_II", "heracles": "hoii", "common": "HolmbergII"},
+      "stellar_branch": {"survey": "SINGS_IRAC1", "disposition": "DATA_AND_PAPER_ADMITTED_CONVERSION_REQUIRED", "files": [{"role": "STELLAR_IRAC1_FLUX", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/hoii/IRAC/hoii_v7.phot.1.fits", "bytes": 10762560}, {"role": "STELLAR_IRAC1_WEIGHT", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/hoii/IRAC/hoii_v7.phot.1_wt.fits", "bytes": 10762560}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/HO_II_NA_MOM0_THINGS.FITS", "bytes": 4239360}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/HO_II_RO_MOM0_THINGS.FITS", "bytes": 4239360}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/hoii_heracles_mom0.fits.gz", "bytes": 94899}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/hoii_heracles_emom0.fits.gz", "bytes": 67274}]
+    },
+    {
+      "object_id": "NGC2841",
+      "aliases": {"sings": "ngc2841", "things": "NGC_2841", "heracles": "ngc2841", "common": "NGC2841"},
+      "stellar_branch": {"survey": "SINGS_IRAC1", "disposition": "DATA_AND_PAPER_ADMITTED_CONVERSION_REQUIRED", "files": [{"role": "STELLAR_IRAC1_FLUX", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ngc2841/IRAC/ngc2841_v7.phot.1.fits", "bytes": 7764480}, {"role": "STELLAR_IRAC1_WEIGHT", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ngc2841/IRAC/ngc2841_v7.phot.1_wt.fits", "bytes": 7764480}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/NGC_2841_NA_MOM0_THINGS.FITS", "bytes": 4273920}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/NGC_2841_RO_MOM0_THINGS.FITS", "bytes": 4273920}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc2841_heracles_mom0.fits.gz", "bytes": 51732}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc2841_heracles_emom0.fits.gz", "bytes": 41387}]
+    },
+    {
+      "object_id": "NGC2903",
+      "aliases": {"s4g": "NGC2903", "things": "NGC_2903", "heracles": "ngc2903", "common": "NGC2903"},
+      "stellar_branch": {"survey": "S4G_P5", "disposition": "DATA_AND_PAPER_ADMITTED_BUILDER_READY", "files": [{"role": "STELLAR_MASS_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2903/P5/NGC2903.stellar.fits", "bytes": 5811840}, {"role": "STELLAR_ICA_MASK", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2903/P5/NGC2903.ICAmask.fits", "bytes": 5811840}, {"role": "STELLAR_COLOR_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2903/P5/NGC2903.colormap.fits", "bytes": 5811840}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/NGC_2903_NA_MOM0_THINGS.FITS", "bytes": 4253760}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/NGC_2903_RO_MOM0_THINGS.FITS", "bytes": 4253760}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc2903_heracles_mom0.fits.gz", "bytes": 187506}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc2903_heracles_emom0.fits.gz", "bytes": 146800}]
+    },
+    {
+      "object_id": "NGC2976",
+      "aliases": {"s4g": "NGC2976", "things": "NGC_2976", "heracles": "ngc2976", "common": "NGC2976"},
+      "stellar_branch": {"survey": "S4G_P5", "disposition": "DATA_AND_PAPER_ADMITTED_BUILDER_READY", "files": [{"role": "STELLAR_MASS_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2976/P5/NGC2976.stellar.fits", "bytes": 2494080}, {"role": "STELLAR_ICA_MASK", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2976/P5/NGC2976.ICAmask.fits", "bytes": 2494080}, {"role": "STELLAR_COLOR_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2976/P5/NGC2976.colormap.fits", "bytes": 2494080}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/NGC_2976_NA_MOM0_THINGS.FITS", "bytes": 4242240}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/NGC_2976_RO_MOM0_THINGS.FITS", "bytes": 4242240}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc2976_heracles_mom0.fits.gz", "bytes": 78615}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc2976_heracles_emom0.fits.gz", "bytes": 58731}]
+    },
+    {
+      "object_id": "NGC3198",
+      "aliases": {"s4g": "NGC3198", "things": "NGC_3198", "heracles": "ngc3198", "common": "NGC3198"},
+      "stellar_branch": {"survey": "S4G_P5", "disposition": "DATA_AND_PAPER_ADMITTED_BUILDER_READY", "files": [{"role": "STELLAR_MASS_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3198/P5/NGC3198.stellar.fits", "bytes": 2580480}, {"role": "STELLAR_ICA_MASK", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3198/P5/NGC3198.ICAmask.fits", "bytes": 2580480}, {"role": "STELLAR_COLOR_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3198/P5/NGC3198.colormap.fits", "bytes": 2580480}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/NGC_3198_NA_MOM0_THINGS.FITS", "bytes": 4282560}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/NGC_3198_RO_MOM0_THINGS.FITS", "bytes": 4282560}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc3198_heracles_mom0.fits.gz", "bytes": 55833}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc3198_heracles_emom0.fits.gz", "bytes": 45020}]
+    },
+    {
+      "object_id": "IC2574",
+      "aliases": {"sings": "ic2574", "things": "IC_2574", "heracles": "ic2574", "common": "IC2574"},
+      "stellar_branch": {"survey": "SINGS_IRAC1", "disposition": "DATA_AND_PAPER_ADMITTED_CONVERSION_REQUIRED", "files": [{"role": "STELLAR_IRAC1_FLUX", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ic2574/IRAC/ic2574_v7.phot.1.fits", "bytes": 20640960}, {"role": "STELLAR_IRAC1_WEIGHT", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ic2574/IRAC/ic2574_v7.phot.1_wt.fits", "bytes": 20640960}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/IC_2574_NA_MOM0_THINGS.FITS", "bytes": 4256640}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/IC_2574_RO_MOM0_THINGS.FITS", "bytes": 4256640}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ic2574_heracles_mom0.fits.gz", "bytes": 218024}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ic2574_heracles_emom0.fits.gz", "bytes": 152065}]
+    },
+    {
+      "object_id": "NGC3521",
+      "aliases": {"s4g": "NGC3521", "things": "NGC_3521", "heracles": "ngc3521", "common": "NGC3521"},
+      "stellar_branch": {"survey": "S4G_P5", "disposition": "DATA_AND_PAPER_ADMITTED_BUILDER_READY", "files": [{"role": "STELLAR_MASS_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3521/P5/NGC3521.stellar.fits", "bytes": 3245760}, {"role": "STELLAR_ICA_MASK", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3521/P5/NGC3521.ICAmask.fits", "bytes": 3245760}, {"role": "STELLAR_COLOR_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC3521/P5/NGC3521.colormap.fits", "bytes": 3245760}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/NGC_3521_NA_MOM0_THINGS.FITS", "bytes": 4296960}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/NGC_3521_RO_MOM0_THINGS.FITS", "bytes": 4296960}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc3521_heracles_mom0.fits.gz", "bytes": 98015}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc3521_heracles_emom0.fits.gz", "bytes": 75203}]
+    },
+    {
+      "object_id": "NGC4214",
+      "aliases": {"s4g": "NGC4214", "things": "NGC_4214", "heracles": "ngc4214", "common": "NGC4214"},
+      "stellar_branch": {"survey": "S4G_P5", "disposition": "DATA_AND_PAPER_ADMITTED_BUILDER_READY", "files": [{"role": "STELLAR_MASS_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC4214/P5/NGC4214.stellar.fits", "bytes": 1512000}, {"role": "STELLAR_ICA_MASK", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC4214/P5/NGC4214.ICAmask.fits", "bytes": 1512000}, {"role": "STELLAR_COLOR_MAP", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC4214/P5/NGC4214.colormap.fits", "bytes": 1512000}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/NGC_4214_NA_MOM0_THINGS.FITS", "bytes": 4248000}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/NGC_4214_RO_MOM0_THINGS.FITS", "bytes": 4248000}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc4214_heracles_mom0.fits.gz", "bytes": 73423}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc4214_heracles_emom0.fits.gz", "bytes": 51260}]
+    },
+    {
+      "object_id": "DDO154",
+      "aliases": {"sings": "ddo154", "things": "DDO154", "heracles": "ddo154", "common": "DDO154"},
+      "stellar_branch": {"survey": "SINGS_IRAC1", "disposition": "DATA_AND_PAPER_ADMITTED_CONVERSION_REQUIRED", "files": [{"role": "STELLAR_IRAC1_FLUX", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ddo154/IRAC/ddo154_v7.phot.1.fits", "bytes": 4037760}, {"role": "STELLAR_IRAC1_WEIGHT", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ddo154/IRAC/ddo154_v7.phot.1_wt.fits", "bytes": 4037760}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/DDO154_NA_MOM0_THINGS.FITS", "bytes": 4242240}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/DDO154_RO_MOM0_THINGS.FITS", "bytes": 4242240}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ddo154_heracles_mom0.fits.gz", "bytes": 41284}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ddo154_heracles_emom0.fits.gz", "bytes": 28343}]
+    },
+    {
+      "object_id": "NGC5055",
+      "aliases": {"sings": "ngc5055", "things": "NGC_5055", "heracles": "ngc5055", "common": "NGC5055"},
+      "stellar_branch": {"survey": "SINGS_IRAC1", "disposition": "DATA_AND_PAPER_ADMITTED_CONVERSION_REQUIRED", "files": [{"role": "STELLAR_IRAC1_FLUX", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ngc5055/IRAC/ngc5055_v7.phot.1.fits", "bytes": 22357440}, {"role": "STELLAR_IRAC1_WEIGHT", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ngc5055/IRAC/ngc5055_v7.phot.1_wt.fits", "bytes": 22357440}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/NGC_5055_NA_MOM0_THINGS.FITS", "bytes": 4248000}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/NGC_5055_RO_MOM0_THINGS.FITS", "bytes": 4248000}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc5055_heracles_mom0.fits.gz", "bytes": 219136}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc5055_heracles_emom0.fits.gz", "bytes": 174764}]
+    },
+    {
+      "object_id": "NGC6946",
+      "aliases": {"sings": "ngc6946", "things": "NGC_6946", "heracles": "ngc6946", "common": "NGC6946"},
+      "stellar_branch": {"survey": "SINGS_IRAC1", "disposition": "DATA_AND_PAPER_ADMITTED_CONVERSION_REQUIRED", "files": [{"role": "STELLAR_IRAC1_FLUX", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ngc6946/IRAC/ngc6946_v7.phot.1.fits", "bytes": 23135040}, {"role": "STELLAR_IRAC1_WEIGHT", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ngc6946/IRAC/ngc6946_v7.phot.1_wt.fits", "bytes": 23135040}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/NGC_6946_NA_MOM0_THINGS.FITS", "bytes": 4256640}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/NGC_6946_RO_MOM0_THINGS.FITS", "bytes": 4256640}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc6946_heracles_mom0.fits.gz", "bytes": 447471}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc6946_heracles_emom0.fits.gz", "bytes": 328530}]
+    },
+    {
+      "object_id": "NGC7331",
+      "aliases": {"sings": "ngc7331", "things": "NGC_7331", "heracles": "ngc7331", "common": "NGC7331"},
+      "stellar_branch": {"survey": "SINGS_IRAC1", "disposition": "DATA_AND_PAPER_ADMITTED_CONVERSION_REQUIRED", "files": [{"role": "STELLAR_IRAC1_FLUX", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ngc7331/IRAC/ngc7331_v7.phot.1.fits", "bytes": 10995840}, {"role": "STELLAR_IRAC1_WEIGHT", "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/galaxies/ngc7331/IRAC/ngc7331_v7.phot.1_wt.fits", "bytes": 10995840}]},
+      "hi_files": [{"role": "HI_MOM0_NATURAL", "url": "https://things.www3.mpia.de/Data_files/NGC_7331_NA_MOM0_THINGS.FITS", "bytes": 4265280}, {"role": "HI_MOM0_ROBUST", "url": "https://things.www3.mpia.de/Data_files/NGC_7331_RO_MOM0_THINGS.FITS", "bytes": 4265280}],
+      "molecular_files": [{"role": "CO21_MOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc7331_heracles_mom0.fits.gz", "bytes": 111114}, {"role": "CO21_EMOM0", "url": "https://www.iram.fr/ILPA/LP001/ngc7331_heracles_emom0.fits.gz", "bytes": 83149}]
+    }
+  ],
+  "transform_contract": {
+    "s4g_branch": "Use the published P5 old-stellar mass map, ICA mask, and color map; no response-dependent mass-to-light adjustment.",
+    "sings_branch": "Convert SINGS IRAC1 MJy/sr to luminosity surface density with the published IRAC calibration and freeze one Meidt et al. 2014 M/L_3.6=0.6 Chabrier-IMF cell plus a source-systematic cell. This conversion builder does not yet exist and must pass manufactured flux/unit/mass-conservation tests before scoring.",
+    "hi_branch": "Use THINGS robust moment-0 as primary and natural moment-0 as a predeclared source-resolution systematic; no moment-1, moment-2, or cube access.",
+    "molecular_branch": "Use HERACLES CO(2-1) moment-0 with its eMOM0 uncertainty and the published conversion convention; the four paper-declared CO non-detections remain upper-limit/source-systematic cases, never zeros by assumption.",
+    "vertical_lift": "A future source builder may lift 2-D surface-density maps into a preregistered 3-D family, but must label the result MODEL_LIFTED_3D and may not call it observed 3-D.",
+    "orientation": "Use source-paper/photometric geometry only; never fit orientation to the rotation response."
+  },
+  "benchmark_contract": {
+    "bound_reference_package": "open-gravity-refracted-gravity-3d-primary-benchmark-v1",
+    "required_before_real_scoring": [
+      "constant-permittivity Newtonian limit",
+      "manufactured variable-coefficient divergence-form solution",
+      "spherical Gauss-law reference solution",
+      "source-flux unit conversion exactness",
+      "stellar+H I+H2 mass conservation across reprojection",
+      "zero-density and zero-molecular-source controls",
+      "grid-refinement and boundary-expansion convergence"
+    ],
+    "paper_only_is_not_data_validation": true,
+    "one_dimensional_response_cannot_validate_three_dimensional_solver": true
+  },
+  "future_acquisition": {
+    "exact_file_count": 77,
+    "exact_network_byte_ceiling": 351461418,
+    "selected_endpoint_head_observations": 77,
+    "payload_downloads_authorized_by_this_packet": false,
+    "sha256_status": "LEARN_AND_FREEZE_AFTER_EXACT_BYTE_DOWNLOAD",
+    "required_pre_download_recheck": "exact URL, HTTP 200, and Content-Length must match this preflight",
+    "required_post_download_checks": "exact byte count, SHA256, FITS/gzip schema, WCS, units, finite-value rules, and object identity"
+  },
+  "response_boundary": {
+    "sparc_membership_names_checked": 175,
+    "sparc_velocity_values_opened": 0,
+    "scientific_image_pixels_read": 0,
+    "rotation_response_rows_read": 0,
+    "scores_computed": 0,
+    "selection_used_performance": false,
+    "confirmation_data_opened": false
+  },
+  "claims": {
+    "twelve_object_real_source_and_primary_paper_path_exists": true,
+    "five_objects_ready_for_existing_s4g_mass_map_builder_after_download": true,
+    "seven_objects_require_new_frozen_sings_flux_to_mass_builder": true,
+    "source_payloads_downloaded": false,
+    "three_dimensional_fields_built": false,
+    "rotation_curves_scored": false,
+    "outer_disk_replication_passed": false,
+    "refracted_gravity_supported": false,
+    "discovery_or_publication_claim": false
+  },
+  "access_state": {
+    "selected_endpoint_head_observations": 77,
+    "discovery_metadata_request_count": null,
+    "discovery_metadata_request_count_not_claimed_exact": true,
+    "scientific_payload_bytes_observed": 0,
+    "source_payload_files_downloaded": 0,
+    "source_payload_bytes_downloaded": 0,
+    "scientific_image_pixels_read": 0,
+    "response_rows_read": 0,
+    "scores_computed": 0,
+    "models_fit": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "cost_usd": 0.0
+  },
+  "output_path": "runs/gravity/open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-preflight-v1/receipt.json"
+}

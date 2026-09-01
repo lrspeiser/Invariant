@@ -1,0 +1,138 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-split-gate-eft-resummation-preflight-1.0",
+  "artifact_id": "gravity-matter-lensing-split-gate-eft-resummation-preflight-v1",
+  "status": "NAIVE_EFT_SCALE_TENSION_DERIVED_RESUMMATION_OR_SYMMETRY_REQUIRED_NOT_FATAL",
+  "purpose": "Determine whether the high-X split mass gate lies inside a naive derivative expansion, derive the interaction scales of the committed p=2 gate, and state the exact additional resummation or symmetry evidence required before publication or observational promotion.",
+  "package": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_eft_resummation_preflight.py",
+    "test_path": "tests/test_gravity_matter_lensing_split_gate_eft_resummation_preflight.py",
+    "output_path": "runs/gravity/theory/matter-lensing-split-gate-eft-resummation-preflight-v1.json"
+  },
+  "publication_candidate_binding": {
+    "state": "MUTATION_FROZEN_UNCOMMITTED",
+    "config_path": "configs/gravity_matter_lensing_split_gate_range_source_publication_candidate_v1.json",
+    "config_sha256": "730fdf89ca22827b310cb3481e435ced222ac71dc246d7d0f6254534c7bdb4a4",
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_range_source_publication_candidate.py",
+    "module_sha256": "eb96e0f027db64a603b8b3b5fa4b7255e5196090c079456071f0a32df37a3c08",
+    "test_path": "tests/test_gravity_matter_lensing_split_gate_range_source_publication_candidate.py",
+    "test_sha256": "4746f9542738d451899281f9787a33380dca75aaa9d0dff7717edb9cfb1ffeb2",
+    "draft_path": "docs/GRAVITY_SPLIT_GATE_RANGE_SOURCE_TRADEOFF_THEORY_NOTE_V1.md",
+    "draft_sha256": "a962b2422aa46f3621ff48a548364c95543c0872c5f06a4aa9f619bd0030b5b2",
+    "receipt_path": "runs/gravity/theory/matter-lensing-split-gate-range-source-publication-candidate-v1.json",
+    "receipt_sha256": "be1c133abb2c97711cdb0a3774fedccaf6a1f75f6dd55a288e29c51c72132be6",
+    "receipt_content_sha256": "1b1f98f8cb047377e452c15e9865315bf357c56f5dd9a2401209d1da0e1799db"
+  },
+  "admission_policy": {
+    "path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+    "raw_sha256": "b3518291131b0ece9f05c966e55b40c40e549d5c27e87a2a128b70ad76a864fe",
+    "source_class": "PRIMARY_PAPERS_PLUS_ENGINEERING_DIMENSION_AND_LIMIT_BENCHMARKS",
+    "observational_data_required": false,
+    "failed_preflight_action": "RETAIN_THEOREM_DEMOTE_PHYSICAL_MODEL_PROMOTION"
+  },
+  "engineering_dimension_contract": {
+    "spacetime_dimension": 4,
+    "canonical_scalar_dimensions": "[phi]=[chi]=1",
+    "derivative_dimension": "[partial]=1",
+    "invariant_dimension": "[X]=4",
+    "gate_parameterization": "beta=Lambda_g^-8 and u=beta*X^2=(X^(1/4)/Lambda_g)^8",
+    "high_gate_implication": "u>>1 implies X^(1/4)>>Lambda_g. Therefore the high-gate branch is outside a naive small-u derivative expansion around u=0.",
+    "interpretation_boundary": "Large first derivatives do not by themselves prove EFT failure. Kinetic screening can require classical resummation; validity then needs a symmetry/protection argument, controlled higher-derivative expansion, and a background-dependent fluctuation analysis."
+  },
+  "p2_operator_contract": {
+    "gate": "Z=(1+u)^2=1+2*X^2/Lambda_g^8+X^4/Lambda_g^16",
+    "mass_sector": "-(m_chi^2/2)*chi^2*Z",
+    "leading_interaction": "-m_chi^2*chi^2*X^2/Lambda_g^8",
+    "leading_operator_dimension": 10,
+    "leading_coefficient_dimension": -6,
+    "leading_interaction_scale": "Lambda_6=(Lambda_g^8/m_chi^2)^(1/6), so Lambda_6/Lambda_g=(Lambda_g/m_chi)^(1/3)",
+    "next_interaction": "-(m_chi^2/2)*chi^2*X^4/Lambda_g^16",
+    "next_operator_dimension": 18,
+    "next_coefficient_dimension": -14,
+    "next_interaction_scale": "Lambda_14=(Lambda_g^16/m_chi^2)^(1/14), so Lambda_14/Lambda_g=(Lambda_g/m_chi)^(1/7)",
+    "important_distinction": "For m_chi<Lambda_g the vacuum scattering interaction scales can exceed Lambda_g even though the background gate becomes nonlinear at X^(1/4)~Lambda_g. Background resummation and perturbative scattering cutoff are not the same statement."
+  },
+  "general_gate_boundary": {
+    "integer_p": "Positive integer p gives a finite polynomial in u, but loops can still generate other symmetry-allowed operators unless protected.",
+    "noninteger_p": "The binomial expansion about u=0 has radius |u|<1 and cannot define the high-u branch by termwise truncation; the full nonpolynomial function must be treated as fundamental/resummed within its EFT domain.",
+    "regular_variation": "The range/source theorem can remain mathematically correct as an asymptotic statement even if a particular EFT realization lacks controlled access to that asymptotic domain."
+  },
+  "primary_literature": [
+    {
+      "arxiv": "2107.00010",
+      "title": "Scalar Fields Near Compact Objects: Resummation versus UV Completion",
+      "anchor": "Published analysis of classical resummation, positivity, and UV-completion tension in screened scalar EFTs."
+    },
+    {
+      "arxiv": "2105.13992",
+      "title": "Kinetic screening in nonlinear stellar oscillations and gravitational collapse",
+      "anchor": "Demonstrates that nonlinear kinetic screening can be locally well posed yet develop divergent characteristic speeds in dynamical backgrounds."
+    },
+    {
+      "arxiv": "1611.08279",
+      "title": "Goldstone models of modified gravity",
+      "anchor": "Shows that kinetically dependent couplings can arise as low-energy Goldstone descriptions, providing a concrete symmetry-protection neighbor rather than proof for this mass gate."
+    },
+    {
+      "arxiv": "2604.20292v2",
+      "title": "Technically Natural Suppression of Fifth Force",
+      "anchor": "Current example where a fifth-force mass-strength relation is protected by an explicit symmetry construction."
+    }
+  ],
+  "benchmark_grid": {
+    "mass_ratios_mchi_over_Lambda_g": [1.0, 0.01, 0.000001],
+    "u_values": [0.0001, 1.0, 10000.0],
+    "expected": "u^(1/8)=X^(1/4)/Lambda_g; Lambda_6/Lambda_g=epsilon^-1/3; Lambda_14/Lambda_g=epsilon^-1/7"
+  },
+  "adjudication": {
+    "exact_engineering_dimension_result": true,
+    "high_u_outside_naive_small_u_expansion": true,
+    "automatic_EFT_inconsistency_proved": false,
+    "controlled_resummation_established_for_this_action": false,
+    "protecting_symmetry_established_for_this_action": false,
+    "radiative_stability_established": false,
+    "range_source_theorem_remains_mathematically_valid": true,
+    "physical_model_promotion_allowed": false,
+    "decision": "RETAIN_RANGE_SOURCE_THEOREM_REQUIRE_RESUMMED_OR_SYMMETRY_PROTECTED_EFT_BEFORE_MODEL_PROMOTION"
+  },
+  "claim_boundary": {
+    "paper_anchored_EFT_preflight": true,
+    "dimension_and_limit_checks_passed": true,
+    "naive_expansion_tension_found": true,
+    "fatal_no_go": false,
+    "controlled_resummation": false,
+    "protecting_symmetry": false,
+    "radiative_stability": false,
+    "UV_completion": false,
+    "observational_support": false,
+    "successful_gravity_model": false,
+    "publication_ready": false
+  },
+  "next_required_work": [
+    "state whether Z(X) is a symmetry-protected resummed function or a finite EFT truncation",
+    "derive the fluctuation action and background-dependent strong-coupling scales",
+    "enumerate loop-generated operators allowed by the exact symmetries",
+    "apply positivity/unitarity constraints to the two-field amplitudes",
+    "show a domain with small higher derivatives and controlled quantum corrections while u is large"
+  ],
+  "access_ledger": {
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "scores_computed": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "required_checks": [
+    "E01_CONFIG_POLICY_AND_PREDECESSOR_SEALS",
+    "E02_ENGINEERING_DIMENSIONS",
+    "E03_U_SCALE_IDENTITY",
+    "E04_HIGH_U_NAIVE_EXPANSION_BOUNDARY",
+    "E05_P2_EXACT_POLYNOMIAL",
+    "E06_LEADING_OPERATOR_SCALE",
+    "E07_NEXT_OPERATOR_SCALE",
+    "E08_MASS_RATIO_GRID",
+    "E09_BINOMIAL_RADIUS_BOUNDARY",
+    "E10_PRIMARY_SOURCE_INVENTORY",
+    "E11_ADJUDICATION_AND_CLAIM_CEILING",
+    "E12_ZERO_OBSERVATIONAL_ACCESS"
+  ]
+}

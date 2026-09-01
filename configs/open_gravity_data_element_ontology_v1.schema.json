@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://invariant.local/schemas/open-gravity-data-element-ontology-v1.schema.json",
+  "title": "Open-Gravity typed data-element catalogue v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "catalogue_id", "version", "elements"],
+  "properties": {
+    "schema_version": {"const": "open-gravity-data-element-catalogue-1.0"},
+    "catalogue_id": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,127}$"},
+    "version": {"type": "string", "minLength": 1},
+    "elements": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/dataElement"}
+    }
+  },
+  "$defs": {
+    "experimentRole": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["experiment_id", "role"],
+      "properties": {
+        "experiment_id": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,127}$"},
+        "role": {
+          "enum": [
+            "PRIMITIVE_CAUSE",
+            "LATENT_SYNTHETIC_TRUTH",
+            "FORMULA_INPUT",
+            "SCORING_ONLY_RESPONSE",
+            "INSTRUMENT",
+            "SELECTION_MASK",
+            "SOURCE_DERIVED",
+            "DERIVED"
+          ]
+        }
+      }
+    },
+    "siDimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kg", "m", "s", "A", "K", "mol", "cd"],
+      "properties": {
+        "kg": {"type": "integer", "minimum": -12, "maximum": 12},
+        "m": {"type": "integer", "minimum": -12, "maximum": 12},
+        "s": {"type": "integer", "minimum": -12, "maximum": 12},
+        "A": {"type": "integer", "minimum": -12, "maximum": 12},
+        "K": {"type": "integer", "minimum": -12, "maximum": 12},
+        "mol": {"type": "integer", "minimum": -12, "maximum": 12},
+        "cd": {"type": "integer", "minimum": -12, "maximum": 12}
+      }
+    },
+    "dataElement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "element_id",
+        "namespace",
+        "physical_quantity",
+        "tensor_rank",
+        "si_dimension",
+        "canonical_unit",
+        "frame",
+        "support",
+        "axes",
+        "component",
+        "derivation_parents",
+        "uncertainty",
+        "availability",
+        "experiment_roles",
+        "provenance_sha256",
+        "derivation_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": "open-gravity-data-element-ontology-1.0"},
+        "element_id": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,127}$"},
+        "namespace": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,127}$"},
+        "physical_quantity": {"type": "string", "minLength": 1},
+        "tensor_rank": {"type": "integer", "minimum": 0, "maximum": 4},
+        "si_dimension": {"$ref": "#/$defs/siDimension"},
+        "canonical_unit": {"type": "string", "minLength": 1},
+        "frame": {"type": "string", "minLength": 1},
+        "support": {"type": "string", "minLength": 1},
+        "axes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,127}$"}
+        },
+        "component": {"type": "string", "minLength": 1},
+        "derivation_parents": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "uncertainty": {
+          "enum": [
+            "NONE",
+            "PER_VALUE",
+            "COVARIANCE",
+            "POSTERIOR_DRAWS",
+            "HIERARCHICAL",
+            "CENSORING",
+            "MIXED"
+          ]
+        },
+        "availability": {
+          "enum": [
+            "ANALYTIC",
+            "PUBLIC_SOURCE",
+            "PUBLIC_RESPONSE",
+            "SYNTHETIC_ONLY",
+            "SOURCE_BLOCKED",
+            "NOT_AVAILABLE"
+          ]
+        },
+        "experiment_roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/experimentRole"}
+        },
+        "provenance_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "derivation_sha256": {
+          "oneOf": [
+            {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            {"type": "null"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"derivation_parents": {"maxItems": 0}}},
+          "then": {"properties": {"derivation_sha256": {"type": "null"}}},
+          "else": {
+            "properties": {
+              "derivation_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

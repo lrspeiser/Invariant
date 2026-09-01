@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "open-gravity-hydro-dmo-capture-clumping-source-shaped-synthetic-injection-matrix-v1.parameters",
+  "title": "Lane 4 capture/clumping synthetic adapter parameters",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "mechanism": {"const": "DC00"},
+        "force_scale": {"const": "0x1.0000000000000p+0"},
+        "gamma": {"const": "0x0.0p+0"}
+      },
+      "required": ["force_scale", "gamma", "mechanism"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "mechanism": {"const": "DC01"},
+        "force_scale": {"const": "0x1.599999999999ap+0"},
+        "gamma": {"const": "0x0.0p+0"}
+      },
+      "required": ["force_scale", "gamma", "mechanism"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "mechanism": {"const": "DC05"},
+        "force_scale": {"const": "0x1.0000000000000p+0"},
+        "gamma": {"const": "0x1.47ae147ae147bp-6"},
+        "tau": {"const": ["0x1.8000000000000p+1"]},
+        "weights": {"const": ["0x1.0000000000000p+0"]}
+      },
+      "required": ["force_scale", "gamma", "mechanism", "tau", "weights"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "mechanism": {"const": "DC06"},
+        "force_scale": {"const": "0x1.0000000000000p+0"},
+        "gamma": {"const": "0x1.47ae147ae147bp-6"},
+        "tau": {"const": ["0x1.0000000000000p-1", "0x1.8000000000000p+3"]},
+        "weights": {"const": ["0x1.6666666666666p-1", "0x1.3333333333333p-2"]}
+      },
+      "required": ["force_scale", "gamma", "mechanism", "tau", "weights"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "mechanism": {"const": "DC07"},
+        "force_scale": {"const": "0x1.0000000000000p+0"},
+        "gamma": {"const": "0x1.47ae147ae147bp-6"},
+        "compression_speed_scale": {"const": "0x1.0000000000000p+0"}
+      },
+      "required": ["compression_speed_scale", "force_scale", "gamma", "mechanism"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "mechanism": {"const": "CM01"},
+        "softening": {"const": "0x1.999999999999ap-5"},
+        "third_mass_fraction": {"const": "0x1.3333333333333p-3"}
+      },
+      "required": ["mechanism", "softening", "third_mass_fraction"],
+      "additionalProperties": false
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "schema": "invariant-open-gravity-rg-things-matched-pair-2d-comparator-diagnostics-1.0",
+  "package_id": "open-gravity-rg-things-matched-pair-2d-comparator-diagnostics-v1",
+  "status": "FROZEN_POST_PRIMARY_SCORE_EXPLORATORY_COMPARATOR_DIAGNOSTICS",
+  "purpose": "Determine whether the sealed 15.3 percent NGC2976 Refracted-Gravity improvement is specific enough to matter by adding the fixed empirical RAR comparator and retaining source-quality and spatial sensitivity cells.",
+  "audit_disclosure": {
+    "primary_newton_vs_rg_pixel_score_was_opened_before_this_packet": true,
+    "rar_formula_and_gdagger_are_published_fixed_values_not_fit_here": true,
+    "all_sensitivity_cells_are_exploratory_not_preregistered_confirmation": true,
+    "no_cell_may_replace_or erase_the_sealed_primary_result": true,
+    "one_failure_never_prunes_family": true
+  },
+  "score_binding": {
+    "artifacts": [
+      {"path": "configs/open_gravity_rg_things_matched_pair_2d_pixel_score_v1.json", "sha256": "f4427d3ec0a59cae1415b224ff7a02c1ace35fc23738b981eeb647aecde1ccb6"},
+      {"path": "src/sigma_theory_compiler/open_gravity_rg_things_matched_pair_2d_pixel_score_v1.py", "sha256": "b4f83c325c9e48c1ab5797ec84b2dd25349e6861c4397d6cabe901ed2d5dd2fc"},
+      {"path": "tests/test_open_gravity_rg_things_matched_pair_2d_pixel_score_v1.py", "sha256": "7c3dcbc2aafd9ab402139af49060720f645e65dfb41c4bfd1237a3384026a4f0"},
+      {"path": "runs/gravity/open-gravity-rg-things-matched-pair-2d-pixel-score-v1/receipt.json", "sha256": "0dd1043b30de14c4fd629077e51a914d0fe3ce72770824a57c8cdb4e4563427b"}
+    ],
+    "receipt_content_sha256": "e23901dafa46d98d09ceea7af2000d170c978dc6f6d377304983889192953764",
+    "sealed_primary_ngc2976_rg_fractional_improvement": 0.1533607170491626,
+    "sealed_stress_ngc4214_rg_fractional_improvement": -0.010917240981521815
+  },
+  "source_admission": {
+    "real_public_sources_and_responses_bound_by_predecessor": true,
+    "primary_measurement_and_method_papers_bound_by_predecessor": true,
+    "rar_primary_paper_bound": true,
+    "target_free_operator_and_projection_benchmarks_bound_by_predecessor": true,
+    "newtonian_control_required": true,
+    "missing_source_disposition": "SOURCE_BLOCKED",
+    "paper_only_disposition": "THEORY_BENCHMARK_ONLY",
+    "model_lifted_vertical_structure_disposition": "MODEL_LIFTED_2P5D",
+    "general_3d_validation_allowed": false
+  },
+  "primary_sources": [
+    {"id": "RAR_MCGaugh_LELLI_SCHOMBERT_2016", "url": "https://arxiv.org/abs/1609.05917", "role": "published empirical radial acceleration relation and g_dagger"},
+    {"id": "THINGS_SURVEY_DATA_RELEASE", "url": "https://arxiv.org/abs/0810.2125", "role": "public H I maps and beams"},
+    {"id": "THINGS_HIGH_RESOLUTION_KINEMATICS", "url": "https://arxiv.org/abs/0810.2100", "role": "velocity fields and low-inclination limitations"}
+  ],
+  "rar_comparator": {
+    "id": "EMPIRICAL_RAR_MCGaugh_2016_FIXED",
+    "equation": "g_rar=g_bar/(1-exp(-sqrt(g_bar/g_dagger)))",
+    "g_dagger_m_s2": 1.2e-10,
+    "vector_rule": "preserve the local Newtonian acceleration direction and replace its magnitude by g_rar",
+    "field_equation_claim": false,
+    "new_theory_claim": false,
+    "parameter_fit_to_things": false,
+    "required_target_free_limits": ["high_acceleration_newtonian", "deep_rar_sqrt_gbar_gdagger", "direction_preserved", "zero_field_zero_response"]
+  },
+  "common_score_contract": {
+    "models": ["NEWTON_3D_DST", "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG", "EMPIRICAL_RAR_MCGaugh_2016_FIXED"],
+    "mask": "intersection of the sealed predecessor mask and fixed RAR fine/coarse convergence",
+    "rotation_sign": "reuse exact sealed per-object sign",
+    "systemic_velocity": "one analytic unweighted offset per object/model on the all-pixel common comparator mask",
+    "primary_metric": "unweighted velocity RMSE in m/s",
+    "minimum_dispersion_scale_m_s": 3000.0,
+    "response_tuning_calls": 0,
+    "p_values_computed": false
+  },
+  "exploratory_sensitivity_grid": {
+    "source_tangential_ratio_maximum": [null, 1.0, 0.5, 0.25, 0.1],
+    "radial_bins_kpc": [[0.5, 2.0], [2.0, 4.0], [4.0, 8.0], [8.0, 15.0]],
+    "major_axis_halves": ["NEGATIVE", "POSITIVE"],
+    "source_intensity_quantiles": [[0.0, 0.25], [0.25, 0.5], [0.5, 0.75], [0.75, 1.0]],
+    "subcell_systemic_offsets_refit": false,
+    "empty_cells_retained": true
+  },
+  "scientific_boundary": {
+    "response_files_reopened": 4,
+    "source_builder_passes": 1,
+    "objects": 2,
+    "models": 3,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0,
+    "post_score_exploratory": true,
+    "general_3d_validated": false,
+    "model_lifted_2p5d_only": true
+  },
+  "claim_boundary": {
+    "rar_comparator_scored": true,
+    "primary_signal_robustness_explored": true,
+    "preregistered_confirmation": false,
+    "ngc4214_standard_rotation_curve_valid": false,
+    "refracted_gravity_beats_known_family": false,
+    "unique_theory_established": false,
+    "publication_candidate": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-things-matched-pair-2d-comparator-diagnostics-v1/receipt.json"
+}

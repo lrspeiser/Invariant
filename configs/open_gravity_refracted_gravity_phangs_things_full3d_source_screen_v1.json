@@ -1,0 +1,139 @@
+{
+  "schema": "invariant-open-gravity-refracted-gravity-phangs-things-full3d-source-screen-1.0",
+  "package_id": "open-gravity-refracted-gravity-phangs-things-full3d-source-screen-v1",
+  "status": "FROZEN_REAL_SOURCE_ZERO_RESPONSE_FULL_225_BY_9_SCREEN",
+  "purpose": "Apply the primary-paper-benchmarked noncovariant Refracted Gravity operator to every frozen PHANGS/THINGS/S4G 3-D source-systematic cell under the fixed DiskMass universal parameters and all predeclared published-prior corners, without opening or tuning to kinematic responses.",
+  "predecessor_bindings": [
+    {
+      "role": "REAL_SOURCE_225_CELL_SYSTEMATICS",
+      "commit": null,
+      "promotion_authority": false,
+      "artifacts": [
+        {
+          "path": "configs/open_gravity_phangs_things_full3d_source_systematics_v1.json",
+          "sha256": "8a8267e4a29a13910de6e56d5a9f27904557425409a6dda42d489831a6e601f8"
+        },
+        {
+          "path": "src/sigma_theory_compiler/open_gravity_phangs_things_full3d_source_systematics_v1.py",
+          "sha256": "de4ef3eeb73087b9d0e02253ff58a7a8b52c1ccebbdeaaf3b5ffcb0760f86c79"
+        },
+        {
+          "path": "tests/test_open_gravity_phangs_things_full3d_source_systematics_v1.py",
+          "sha256": "0a9408dc686ebf4ae8ea5a12c877537eac621710ce7e3b365f446e9fd7ba1606"
+        },
+        {
+          "path": "runs/gravity/open-gravity-phangs-things-full3d-source-systematics-v1/receipt.json",
+          "sha256": "7b84da7ff79cb4d482c57a0b99399c9e61610737fde8ad02fb976a69dd2a16cd"
+        }
+      ],
+      "receipt_content_sha256": "9f80f4e8c6a3bf78b160c698280c456612fc02eb0c85195132dbc5f2b1956166"
+    },
+    {
+      "role": "REFRACTED_GRAVITY_PRIMARY_PAPER_BENCHMARK",
+      "commit": null,
+      "promotion_authority": false,
+      "artifacts": [
+        {
+          "path": "configs/open_gravity_refracted_gravity_3d_primary_benchmark_v1.json",
+          "sha256": "9f5f127b8078ef95ff47ce073cb0e2c9254ca1fd9c8113880ac8e42ea52a8308"
+        },
+        {
+          "path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_3d_primary_benchmark_v1.py",
+          "sha256": "aa0b1ff7499b5fef8355d237d1e3632b845f8f1397cda2690750b1ef142fee88"
+        },
+        {
+          "path": "tests/test_open_gravity_refracted_gravity_3d_primary_benchmark_v1.py",
+          "sha256": "fe49a5a4de7bd5fc341dfdd4aab2283498dfc746ca066e6cb8b0caa16b932971"
+        },
+        {
+          "path": "runs/gravity/open-gravity-refracted-gravity-3d-primary-benchmark-v1/receipt.json",
+          "sha256": "ffc2579e6a0e742b33a46d9b5e208389e67e3d57d06bb01ca41fa52c04730730"
+        }
+      ],
+      "receipt_content_sha256": "85412b981dad719315a27f5a64d3af075bcc67fb8d19dfc07e6f94ed02e0567e"
+    }
+  ],
+  "objects": ["NGC2903", "NGC3351", "NGC3627"],
+  "real_source_contract": {
+    "surveys": ["S4G_P5_STELLAR_AND_COLOR", "THINGS_HI_ROBUST_AND_NATURAL", "PHANGS_CO21_MOMENT_AND_ERROR"],
+    "source_files_opened_per_build": 21,
+    "source_bytes_opened_per_build": 74030400,
+    "source_cells": 225,
+    "primary_cartesian_cells": 216,
+    "numerical_source_controls": 9,
+    "density_label": "MODEL_LIFTED_2P5D_SOURCE_IN_A_FULL_3D_FIELD_SOLVER",
+    "direct_volumetric_observation_claim": false,
+    "source_selection_from_response": false
+  },
+  "unit_contract": {
+    "source_density": "Msun pc^-3",
+    "permittivity_density": "g cm^-3",
+    "solar_mass_kg": 1.98847e30,
+    "parsec_m": 3.085677581491367e16,
+    "msun_pc3_to_g_cm3": 6.768109983980884e-23,
+    "field_equation_normalization": "RHS uses the predecessor G=a0=1 dimensionless density while epsilon is evaluated from the same deposited density converted to physical g cm^-3",
+    "same_mass_field_for_rhs_and_permittivity": true
+  },
+  "operator_contract": {
+    "equation": "div[epsilon(rho_physical) grad(phi)] = 4 pi rho_dimensionless",
+    "parameter_cells": 9,
+    "source_parameter_pairs": 2025,
+    "maximum_unique_linear_solves": 1350,
+    "exact_equivalence_rule": "Within each source cell, identical epsilon-field hashes are solved once and every registered parameter cell retains an equivalence link.",
+    "boundary": "At every source-free cube boundary epsilon=epsilon_0, so the published spherical vacuum flux law fixes phi_boundary=phi_Newton_boundary/epsilon_0.",
+    "nodes_per_axis": 17,
+    "radial_profile_radii_kpc": [5.0, 10.0, 15.0],
+    "azimuth_samples": 48,
+    "response_parameter_fitting": false,
+    "parameter_policy": "The DiskMass universal median is the main fixed published control; eight prior corners are sensitivity cells and cannot be selected from responses."
+  },
+  "gate_contract": {
+    "source_mass_relative_error_max": 2e-9,
+    "linear_relative_residual_max": 1e-12,
+    "permittivity_minimum_strictly_positive": true,
+    "permittivity_maximum": 1.0,
+    "radial_acceleration_must_be_finite_positive": true,
+    "epsilon_one_relative_newton_error_max": 1e-12,
+    "all_2025_registered_pairs_must_have_results_or_retained_failures": true,
+    "one_failure_cannot_prune_theory_family": true,
+    "benchmark_failure_blocks_scoring": true,
+    "source_failure_blocks_only_affected_cell": true,
+    "passed_disposition": "SOURCE_OPERATOR_SCREEN_PASS_RESPONSE_UNOPENED",
+    "failed_disposition": "RETAINED_NUMERICAL_OR_SOURCE_COUNTEREXAMPLE_RESPONSE_BLOCKED"
+  },
+  "scientific_outputs": {
+    "registered_pair_rows": 2025,
+    "per_object_per_radius_fixed_median_source_envelope_rows": 9,
+    "per_object_per_radius_all_parameter_and_source_envelope_rows": 9,
+    "same_source_comparison_to_newton_aqual_qumond": true,
+    "source_uncertainty_vs_theory_difference_summary": true,
+    "selection_or_ranking": false
+  },
+  "access_contract": {
+    "scientific_source_files_opened_per_build": 21,
+    "scientific_source_bytes_opened_per_build": 74030400,
+    "scientific_response_files_opened": 0,
+    "scientific_response_rows_opened": 0,
+    "scientific_response_values_opened": 0,
+    "scores_computed": 0,
+    "parameters_fit": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "development_only": true
+  },
+  "claim_boundary": {
+    "primary_paper_benchmark_passed": true,
+    "real_source_3d_operator_screen_attempted": true,
+    "all_source_and_published_parameter_sensitivities_propagated": true,
+    "real_kinematic_response_tested": false,
+    "observational_preference_established": false,
+    "published_parameter_universality_established": false,
+    "covariant_refracted_gravity_tested": false,
+    "lensing_closure_established": false,
+    "source_uncertainty_is_statistical_posterior": false,
+    "novelty_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-refracted-gravity-phangs-things-full3d-source-screen-v1/receipt.json"
+}

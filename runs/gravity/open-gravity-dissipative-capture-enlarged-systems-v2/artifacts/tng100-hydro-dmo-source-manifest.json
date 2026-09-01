@@ -1,0 +1,159 @@
+{
+  "api_documentation": "https://www.tng-project.org/data/docs/api/",
+  "endpoint_templates": {
+    "cutout": "https://www.tng-project.org/api/{simulation}/snapshots/{snap}/subhalos/{subhalo_id}/cutout.hdf5",
+    "groupcat": "https://www.tng-project.org/api/{simulation}/files/groupcat-{snap}/",
+    "matching_filename": "subhalo_matching_to_dark.hdf5",
+    "tree": "https://www.tng-project.org/api/{simulation}/snapshots/{snap}/subhalos/{subhalo_id}/sublink/full.hdf5"
+  },
+  "likelihood": {
+    "decision_rule": "No new-gravity lead unless the frozen hydro-by-prehistory term improves held-out development log predictive density over every null and has the predicted sign, with confirmation fold unopened.",
+    "model": "Student-t location likelihood with nu=4 and one shared log-scale per response; fixed effects are pre-encounter mass ratio, total mass, gas fraction, pericenter, orbital circularity, feedback proxy, snapshot interval, hydro indicator, and hydro-by-prehistory activation; matched hydro-DMO pair intercept",
+    "no_retuning": [
+      "activation scale",
+      "memory times",
+      "kernel weights",
+      "gamma",
+      "selection",
+      "split",
+      "likelihood family"
+    ],
+    "nulls": [
+      "collisionless violent relaxation",
+      "ordinary shock/cooling",
+      "Chandrasekhar/Boylan-Kolchin friction",
+      "flexible source history without memory"
+    ],
+    "primary_response": "time from first pericenter to coalescence in Gyr",
+    "secondary_responses": [
+      "change in pair orbital energy",
+      "change in pair angular momentum",
+      "integrated EnergyDissipation",
+      "integrated negative GFM_CoolingRate proxy"
+    ],
+    "unit": "matched merger history"
+  },
+  "metadata_observed_utc": "2026-08-31T20:10:45.6947588Z",
+  "metadata_pages": [
+    {
+      "lhalotree": "246.3 GB across 120 files",
+      "matching_catalog": "subhalo_matching_to_dark.hdf5; 3.6 GB in 1 file",
+      "simulation": "TNG100-1",
+      "simulation_hdf5_size": "628.7 MB",
+      "sublink": "442.5 GB across 20 files",
+      "url": "https://www.tng-project.org/data/downloads/TNG100-1/"
+    },
+    {
+      "lhalotree": "141.4 GB across 80 files",
+      "simulation": "TNG100-1-Dark",
+      "simulation_hdf5_size": "35.5 MB",
+      "sublink": "229.5 GB across 9 files",
+      "url": "https://www.tng-project.org/data/downloads/TNG100-1-Dark/"
+    }
+  ],
+  "missing_data_action": "SOURCE_BLOCKED_NOT_MODEL_FAILURE",
+  "required_dark_fields": [
+    "Coordinates",
+    "Velocities",
+    "Masses",
+    "Potential"
+  ],
+  "required_gas_fields": [
+    "Coordinates",
+    "Velocities",
+    "Masses",
+    "Density",
+    "InternalEnergy",
+    "GFM_CoolingRate",
+    "EnergyDissipation",
+    "Machnumber",
+    "Potential",
+    "StarFormationRate"
+  ],
+  "required_group_fields": [
+    "SubhaloPos",
+    "SubhaloVel",
+    "SubhaloMassType",
+    "SubhaloHalfmassRadType",
+    "SubhaloVelDisp",
+    "SubhaloSpin",
+    "SubhaloSFR"
+  ],
+  "required_matching_fields": [
+    "SubhaloIndexDark_LHaloTree",
+    "SubhaloIndexDark_SubLink"
+  ],
+  "selection": {
+    "descendant_stellar_mass_solar": [
+      10000000000.0,
+      316227766016.83795
+    ],
+    "history_window_gyr": [
+      -1.5,
+      2.0
+    ],
+    "mass_ratio_min": 0.25,
+    "snapshots": [
+      50,
+      59,
+      67,
+      72,
+      78,
+      84,
+      91,
+      99
+    ],
+    "split": "SHA256(TNG100-1:SnapNum:SubhaloID) mod 5; 0-3 development, 4 sealed confirmation"
+  },
+  "snapshot_grid": [
+    {
+      "age_gyr": 5.878,
+      "redshift": 1.0,
+      "snap": 50
+    },
+    {
+      "age_gyr": 7.314,
+      "redshift": 0.7,
+      "snap": 59
+    },
+    {
+      "age_gyr": 8.587,
+      "redshift": 0.5,
+      "snap": 67
+    },
+    {
+      "age_gyr": 9.389,
+      "redshift": 0.4,
+      "snap": 72
+    },
+    {
+      "age_gyr": 10.299,
+      "redshift": 0.3,
+      "snap": 78
+    },
+    {
+      "age_gyr": 11.323,
+      "redshift": 0.2,
+      "snap": 84
+    },
+    {
+      "age_gyr": 12.467,
+      "redshift": 0.1,
+      "snap": 91
+    },
+    {
+      "age_gyr": 13.803,
+      "redshift": 0.0,
+      "snap": 99
+    }
+  ],
+  "specification_url": "https://www.tng-project.org/data/docs/specifications/",
+  "status": "SOURCE_BLOCKED_API_AUTH_AND_PAYLOAD_CHECKSUMS_UNAVAILABLE",
+  "unresolved_before_source_open": [
+    "authenticated API receipt",
+    "exact downloadable file URLs after login",
+    "payload byte sizes and SHA256 hashes",
+    "eligible SubhaloID list",
+    "cutout URL expansion"
+  ]
+}

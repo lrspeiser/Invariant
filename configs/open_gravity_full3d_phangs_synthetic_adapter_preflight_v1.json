@@ -1,0 +1,70 @@
+{
+  "schema": "open-gravity-full3d-phangs-synthetic-adapter-preflight-1.0",
+  "package_id": "open-gravity-full3d-phangs-synthetic-adapter-preflight-v1",
+  "version": "v1.0.0",
+  "status": "RESPONSE_BLIND_FULL3D_SOURCE_AND_COMMON_ABI_ADAPTER_PREFLIGHT",
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "experiment_id": "galaxy.full3d-synthetic-preflight.v1",
+  "objects": ["NGC2903", "NGC3351", "NGC3627"],
+  "primary_cell_id": "ROBUST_PRIMARY:FIXED_0P6:WITH_CO:HS0.136986301369863:HG200",
+  "grid_nodes": 17,
+  "a0_m_s2": "1.2e-10",
+  "pc_m": "3.085677581491367e16",
+  "source_bindings": [
+    {"path": "configs/open_gravity_lane6_same_grid_nonspherical_predictions_v1.json", "sha256": "1e11ff6ac54b50fd0a70c52184a3b96f7dd5315efc37ed5d91129795c93be22c"},
+    {"path": "src/sigma_theory_compiler/open_gravity_lane6_same_grid_nonspherical_predictions_v1.py", "sha256": "b3953cba78d61fa368f73428574e52852d9404ac09acc259e63cd4f418fc9897"},
+    {"path": "runs/gravity/open-gravity-lane6-same-grid-nonspherical-predictions-v1/receipt.json", "sha256": "5beb64d26c28e0daf7282872ce3f5089d250e0e3c4c037a2f3a3dabcef918883"},
+    {"path": "configs/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.json", "sha256": "9360749f561fbe783d7a21d1b179ab947fa2f29214bb4425495dddd3f7465ede"},
+    {"path": "src/sigma_theory_compiler/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py", "sha256": "32c92d615c302426738ea8374657448f14861eee9ea117fcf2059fa9f41bda1c"},
+    {"path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-source-builder-v1/receipt.json", "sha256": "18c7d20b1ff7413edbd1b0b9277c53e6cbe4d9d05b4bcf55a8c70bc054f8ea82"},
+    {"path": "configs/open_gravity_phangs_things_model_lifted_3d_pilot_source_acquisition_v1.json", "sha256": "7d9c9870f7273e4c817e18b6942bfca6eae3dd604e5c7dfa2912b8806c19a5e7"},
+    {"path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-pilot-source-acquisition-v1/receipt.json", "sha256": "286ff59010feaefe90582abf2f42ff53f6f5a89932630e3dc2c4df954b05e3ac"},
+    {"path": "configs/open_gravity_phangs_things_full3d_source_systematics_v1.json", "sha256": "8a8267e4a29a13910de6e56d5a9f27904557425409a6dda42d489831a6e601f8"},
+    {"path": "src/sigma_theory_compiler/open_gravity_phangs_things_full3d_source_systematics_v1.py", "sha256": "de4ef3eeb73087b9d0e02253ff58a7a8b52c1ccebbdeaaf3b5ffcb0760f86c79"},
+    {"path": "runs/gravity/open-gravity-phangs-things-full3d-source-systematics-v1/receipt.json", "sha256": "7b84da7ff79cb4d482c57a0b99399c9e61610737fde8ad02fb976a69dd2a16cd"},
+    {"path": "configs/open_gravity_phangs_things_full3d_solver_bridge_v1.json", "sha256": "ec4260bb669e6b750c6bde511254c33643208ac10075755810e34cfdbe2d0e15"},
+    {"path": "src/sigma_theory_compiler/open_gravity_phangs_things_full3d_solver_bridge_v1.py", "sha256": "6cdf82ce99c3d76963cc487500fbfd2c441f44aaa3e09d243089d892a28e5dc4"},
+    {"path": "runs/gravity/open-gravity-phangs-things-full3d-solver-bridge-v1/receipt.json", "sha256": "ab3ea515c0b6edba0b7023fc223b077917a5ecef45fd9fa48a74218e23b52c55"},
+    {"path": "src/sigma_theory_compiler/open_gravity_3d_newton_aqual_qumond_baselines_v1.py", "sha256": "5aeed2d338e995f934407df4590272197344666c593bb137bd445a83a1335f2c"},
+    {"path": "configs/open_gravity_disk_polar_escape_load_v1.json", "sha256": "3deeb79c4cc51eaf7f03c768cb736cfdd7563666a3485e2745e4e7c919bd4b24"},
+    {"path": "src/sigma_theory_compiler/open_gravity_disk_polar_escape_load_v1.py", "sha256": "a40f5d204718cb57c649250de401c967ea5b810f43e37e8a86cc79ed3af02061"},
+    {"path": "runs/gravity/open-gravity-disk-polar-escape-load-v4/receipt.json", "sha256": "dc96f4f438060d7a04c0c3b4dacc91fccf611962af4aeb3557a0c7de607a4ec5"}
+  ],
+  "raw_fits_inventory": {
+    "acquisition_receipt_path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-pilot-source-acquisition-v1/receipt.json",
+    "count": 21,
+    "bytes": 74030400,
+    "root_sha256": "ea19789ae1d0a4fe413c6c28f4ee9a3a69b1099552dc31eb6fbe5c1f4e989828"
+  },
+  "mechanisms": [
+    "AQUAL_SIMPLE_MU",
+    "DPEL01_DISK_POLAR_ESCAPE_LOAD",
+    "GP01_ELLIPTIC_N2_L035",
+    "GQNS_GEOMETRY_CONDITIONED_NONLOCAL_SOURCE",
+    "MASHHOON_RAHVAR_NLG_Q0",
+    "NEWTON",
+    "NFW_SOURCE_MATCHED_CONTROL",
+    "QUMOND_SIMPLE_NU",
+    "REFRACTED_GRAVITY_DISKMASS_MEDIAN"
+  ],
+  "dpel01_frozen_adapter": {
+    "D_parallel_over_D0": "0.5",
+    "D_perpendicular_over_D0": "1.5",
+    "chi_over_D0": "0.08",
+    "source_gain": "1.0",
+    "Gamma0_L0_squared_over_D0": "0.2",
+    "beta_L0_squared_over_D0": "0.35",
+    "dt": "0.001",
+    "steps": 100,
+    "boundary": "periodic target-free preflight inherited from DPEL01; isolated empirical boundary remains blocked"
+  },
+  "parameter_schema_path": "configs/open_gravity_full3d_phangs_synthetic_adapter_empty_parameters_v1.schema.json",
+  "output_directory": "runs/gravity/open-gravity-full3d-phangs-synthetic-adapter-preflight-v1",
+  "access_contract": {
+    "scientific_response_files_opened": 0,
+    "scientific_response_rows_opened": 0,
+    "lensing_response_files_opened": 0,
+    "scores_against_real_data": 0,
+    "response_calibrated": false
+  }
+}

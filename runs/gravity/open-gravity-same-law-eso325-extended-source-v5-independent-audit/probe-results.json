@@ -1,0 +1,98 @@
+{
+  "schema": "invariant-lane7-v5-independent-audit-probes-1.0",
+  "status": "BLOCK",
+  "scientific_payload_access": {
+    "hst_array_elements_decoded": 0,
+    "muse_array_elements_decoded": 0,
+    "slacs_rows_or_response_values_opened": 0,
+    "scientific_payload_files_opened_or_rehashed_by_this_audit": 0
+  },
+  "v5_package_hashes": {
+    "config": {"bytes": 13598, "sha256": "98f74768e141829bebef2d878b277bca431bb1287b901738669230c211ab9655", "matches_receipt": true},
+    "module": {"bytes": 42689, "sha256": "b4a9068d3e8ddabcde6ab4be1a36f67a1da7a92e420208801fc8d808a2761528", "matches_receipt": true},
+    "test": {"bytes": 11182, "sha256": "663d52279c3353d3976ca92b0e7f385e65ac73c5aa715ae5147c2d8057db8ec5", "matches_receipt": true},
+    "receipt": {"bytes": 14764, "sha256": "8bd86bdacfbe856ef9c787548a5c695ca0544229cc83ab5d1edc64ed19e6da17"}
+  },
+  "v5_artifact_hashes": {
+    "frozen-density-and-predictive-contract.json": {"bytes": 5450, "sha256": "75ae91f549bbb10d198fab0af95036c2f0f2c80bf48bf50c3623ff9a242eb431", "matches_receipt": true},
+    "physical-unit-and-distance-audit.json": {"bytes": 1465, "sha256": "12cee64d71338267b1a1d653c823fc68ceb9198650a4c9e73d77187358d5cf6c", "matches_receipt": true},
+    "report.md": {"bytes": 801, "sha256": "5390d2a99d8df6f91473c904bb528d40cfb405a79d55886415fab37c02a6e9f9", "matches_receipt": true},
+    "source-readiness-split.json": {"bytes": 1353, "sha256": "096920fd11768e92e97ff324f26b7cb1d2c18cb327eb0f3289924d739796cd9c", "matches_receipt": true},
+    "target-free-physical-shared-state-gate.json": {"bytes": 4210, "sha256": "efb27d1cfb565c5563b6a9f2e1adc7c4cb794e7cbb29de49b50289cfe2e339b9", "matches_receipt": true},
+    "v4-preservation-and-exact-source-receipt.json": {"bytes": 4438, "sha256": "97ea50a400639bb9b9ea7b6d197c5eb0e55140820538a09be83a6585c2ad1e67", "matches_receipt": true}
+  },
+  "v5_receipt_self_hash": {
+    "recorded": "96b036713e722dacbc85bb00882e8268e8bb6cf90e993a39c3ff90e1c42705e1",
+    "recomputed_excluding_content_sha256": "96b036713e722dacbc85bb00882e8268e8bb6cf90e993a39c3ff90e1c42705e1",
+    "pass": true
+  },
+  "source_free_test_execution": {
+    "passed": 18,
+    "failed": 0,
+    "excluded_due_to_scientific_payload_hashing": [
+      "test_v4_is_byte_exact_preserved_as_blocked_evidence",
+      "test_artifacts_are_deterministic_and_claims_remain_source_blocked",
+      "test_receipt_is_physical_target_free_pass_and_empirical_source_block",
+      "test_packet_matches_deterministic_rebuild_if_present"
+    ]
+  },
+  "exact_synthetic_gate_reproduction": {
+    "status": "PASS_PHYSICAL_UNIT_ASYMMETRIC_TARGET_FREE_GATES",
+    "pass": true,
+    "recovered_g": 0.17977321045924974,
+    "candidate_holdout_lpd": 1520.5847688111721,
+    "candidate_minus_gr_holdout_lpd": 371656.01222668175,
+    "reported_padding_relative_rms": 0.003521079187551018,
+    "reported_resolution_relative_rms": 0.0412286620203578
+  },
+  "holdout_leakage": {
+    "implementation_fit_lines": [756, 763],
+    "implementation_holdout_lines": [784, 787],
+    "total_observations": 1119,
+    "fit_indices_half_open": [0, 30],
+    "holdout_rule": "arange(4,N,5)",
+    "holdout_count": 223,
+    "leaked_holdout_indices": [4, 9, 14, 19, 24, 29],
+    "leaked_holdout_count": 6,
+    "reported_and_recomputed_contaminated_g": 0.17977321045924974,
+    "clean_training_only_g": 0.1797519619679944,
+    "contaminated_holdout_lpd": 1520.5847688111721,
+    "clean_training_only_holdout_lpd": 1520.3922481828208,
+    "finding_status": "BLOCK"
+  },
+  "convergence": {
+    "implementation_per_run_normalization_lines": [551, 555],
+    "implementation_comparison_lines": [701, 705],
+    "raw_padding_relative_rms": {"matter": 0.0011405785714722419, "lensing": 0.0035020756441193884, "extended_image": 0.004325343601119676},
+    "raw_resolution_relative_rms": {"matter": 0.05271134147884591, "lensing": 0.041497207666148, "extended_image": 0.048271112483943744},
+    "scale_blindness_probe": {"amplitude_factor": 1.25, "raw_relative_rms": 0.25, "separately_normalized_relative_rms": 1.0145454938872657e-16},
+    "finding_status": "BLOCK"
+  },
+  "helmholtz_zero_mode": {
+    "implementation_lines": [447, 451],
+    "implemented_k0_kernel": 0.0,
+    "required_k0_kernel_for_declared_equation": -0.000486422283572764,
+    "integrated_equation_lhs_mean_minus_mu2Y": 0.0,
+    "integrated_equation_rhs_mean_4piG_rho": 88.00638371174236,
+    "relative_integrated_residual": 1.0,
+    "finding_status": "BLOCK"
+  },
+  "execution_completeness": {
+    "pseudo_nfw_function_names": [],
+    "pseudo_nfw_runtime_identifiers": [],
+    "logsumexp_runtime_identifier_present": false,
+    "posterior_draw_runtime_identifiers": [],
+    "implemented_lpd_function": "gaussian_log_predictive_density",
+    "implemented_lpd_signature": ["observed", "predicted", "sigma", "indices"],
+    "implemented_lpd_is_diagonal_single_prediction": true,
+    "contract_requires_4096_draw_logsumexp_and_full_covariance": true,
+    "finding_status": "BLOCK"
+  },
+  "mutation_closure": {
+    "replace_required_access_ledger_with_unrelated_zero_key": {"accepted_by_validate_config": true},
+    "repoint_slacs_sample_manifest_binding": {"accepted_by_validate_config": true},
+    "repoint_v4_preservation_binding": {"accepted_by_validate_config": true},
+    "mutate_declared_output_paths": {"accepted_by_validate_config": true},
+    "finding_status": "BLOCK"
+  }
+}

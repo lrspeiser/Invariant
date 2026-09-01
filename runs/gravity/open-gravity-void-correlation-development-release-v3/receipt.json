@@ -1,0 +1,195 @@
+{
+  "access_accounting": {
+    "confirmation_rows_decoded": 0,
+    "pantheon_files_opened": 0,
+    "real_scores": 0,
+    "response_values_inspected": 0,
+    "scientific_rows_decoded": 0,
+    "scientific_source_files_opened": 0,
+    "scientific_source_paths_resolved": 0,
+    "source_files_decompressed": 0,
+    "validation_rows_decoded": 0
+  },
+  "audit_findings": [
+    {
+      "id": "F01_INTERNAL_OWNER_RUNNER",
+      "repair": "run_development_once() accepts no arguments, reads the one fixed audit receipt, atomically consumes it, privately owns all four canonical pinned source handles, performs the only parsing/scoring/artifact path, and derives counters from successful internal operations; v2 assertion-only gate methods are never consulted"
+    },
+    {
+      "id": "F02_EXACT_PERMUTATION_REGENERATION",
+      "repair": "final validation reconstructs eligible rows, creates NumPy 2.2.6 Generator(PCG64(902104729)), regenerates all 10000 exact stratified orders and statistics, exact-compares each statistic and the concatenated order-hash root, then recomputes inclusive tail and plus-one p"
+    }
+  ],
+  "authorization_contract": {
+    "authorization_id": "lowercase 64-hex unique token",
+    "binding": "exact v3 config/module/test/receipt hashes",
+    "consumption": "fixed no-clobber self-hashed marker is fsynced before the first scientific source path is resolved or opened",
+    "decision": "AUTHORIZE_EXACTLY_ONE_INTERNALLY_OWNED_DEVELOPMENT_RUN",
+    "future_path": "runs/gravity/open-gravity-void-correlation-development-release-v3-independent-audit/receipt.json",
+    "schema": "invariant-open-gravity-void-correlation-development-release-v3-independent-audit-receipt-1.0",
+    "status": "PASS_ONE_DEVELOPMENT_RUN_ONLY",
+    "uses_allowed": 1
+  },
+  "bindings": {
+    "v2_receipt_content_sha256": "ef76855c6ef6cf138c12ad26f0f719ebfa39661e8d37e8327d23f9341eef18e4",
+    "v2_receipt_raw_sha256": "719fe9c6ca9ae86ebf40d9eefe1ac0a7d9170714cc8dbfaaa27200df366b47a9"
+  },
+  "blocked_v2": {
+    "config": {
+      "content_sha256": "aa3bc243d63b8c21b22d30450927189b5a909844ccd494702919cb5475769b45",
+      "path": "configs/open_gravity_void_correlation_development_release_v2.json",
+      "preserved_path": "work/open-gravity-void-correlation-development-release-v2-blocked-audit1/config.json",
+      "raw_sha256": "c1e146d9bd775f50748a986bc3212b0e1048c42887f3f217a4a9a5b5cb1f48ec"
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_void_correlation_development_release_v2.py",
+      "preserved_path": "work/open-gravity-void-correlation-development-release-v2-blocked-audit1/module.py",
+      "raw_sha256": "a9e62173919e0206f520ec780d9a38744abf48cac396cf2b9afaadbe91015df3",
+      "semantic_sha256": "e16e065b2c696466ddf57ed7b987fbbadb04d1f4d7ee0941f69c3a9cd5594233"
+    },
+    "receipt": {
+      "content_sha256": "ef76855c6ef6cf138c12ad26f0f719ebfa39661e8d37e8327d23f9341eef18e4",
+      "path": "runs/gravity/open-gravity-void-correlation-development-release-v2/receipt.json",
+      "preserved_path": "work/open-gravity-void-correlation-development-release-v2-blocked-audit1/receipt.json",
+      "raw_sha256": "719fe9c6ca9ae86ebf40d9eefe1ac0a7d9170714cc8dbfaaa27200df366b47a9",
+      "status": "PASS_SOURCE_FREE_DEVELOPMENT_RELEASE_V2_AWAIT_INDEPENDENT_REAUDIT"
+    },
+    "test": {
+      "path": "tests/test_open_gravity_void_correlation_development_release_v2.py",
+      "preserved_path": "work/open-gravity-void-correlation-development-release-v2-blocked-audit1/test.py",
+      "raw_sha256": "f49845823f2aea4bfc01012354a19ce60f71b916d2dd5ec8b2113d3c3d8a889a"
+    }
+  },
+  "conformance_gates": [
+    {
+      "check_id": "BLOCKED_V1_V2_BYTE_EXACT",
+      "passed": true
+    },
+    {
+      "check_id": "SOLE_RUNNER_ACCEPTS_NO_ARGUMENTS",
+      "passed": true
+    },
+    {
+      "check_id": "ASSERTION_ONLY_V2_GATE_NOT_AUTHORITY",
+      "passed": true
+    },
+    {
+      "check_id": "PCG64_ORDER_AND_STATISTIC_REGENERATION",
+      "passed": true
+    },
+    {
+      "check_id": "COHERENT_ALL_ONES_FORGERY_REJECTED",
+      "passed": true
+    },
+    {
+      "check_id": "NO_SCIENTIFIC_ACCESS",
+      "passed": true
+    }
+  ],
+  "content_sha256": "f363444b87185bc61dc0823ef4a9bd4321387d2080a7c4ecfaf835a682a64516",
+  "decision": "V2_AUDIT_BLOCK_REPAIRED_SOURCE_FREE_NO_DEVELOPMENT_AUTHORIZATION",
+  "mutation_freeze": {
+    "config_content_sha256": "ce3527d40482d46b6d155cd42c7cda2d00ec2163598bd5b9f958fa15f5a42be7",
+    "config_raw_sha256": "22a50141d2d434c4b5c24c2c3ba42c761dd0c720df41aa82a83ea19d4e13cf7a",
+    "module_raw_sha256": "734d1d5dc60735985720a86931d342faf96ff6254afebae8745160ea455f1118",
+    "module_semantic_sha256": "c9283cd2417366dc3f8a65fc9ad8c79cb1d7030b65f355c83a0d8475e8265283",
+    "test_raw_sha256": "d8a4cf0a1977863ef963b43020d8f4024f84b673bba22fb4fcf58edfcf81e92a"
+  },
+  "next_gate": "A distinct agent must audit the internally owned runner and exact 10000-permutation regeneration, then create the fixed PASS_ONE_DEVELOPMENT_RUN_ONLY receipt. Until then run_development_once must fail before resolving any scientific source path.",
+  "output_contract": {
+    "artifacts": [
+      "artifacts/development-rows.jsonl",
+      "artifacts/profile-grid.jsonl",
+      "artifacts/permutation-statistics.jsonl",
+      "artifacts/countermodels.json",
+      "artifacts/failures.json",
+      "artifacts/development-summary.json"
+    ],
+    "authorization_consumption_directory": "runs/gravity/open-gravity-void-correlation-development-release-v3-authorization-consumed",
+    "failure_directory": "runs/gravity/open-gravity-void-correlation-development-score-v3-failures",
+    "final_directory": "runs/gravity/open-gravity-void-correlation-development-score-v3",
+    "no_clobber": true,
+    "receipt": "receipt.json",
+    "staging_root": "work/open-gravity-void-correlation-development-score-v3-staging"
+  },
+  "package_id": "open-gravity-void-correlation-development-release-v3",
+  "permutation_contract": {
+    "bit_generator": "numpy.random.PCG64",
+    "forgery_regression": "a coherent all-ones statistic vector with rehashed rows, tail, p, C04, summary and final receipt must fail exact regeneration",
+    "numpy_version": "2.2.6",
+    "order_encoding": "for each permutation, canonical JSON of the exact ten ordered source-position integer arrays; order_sha256=SHA256(canonical JSON); order_root_sha256=SHA256 of concatenated 32-byte order hashes",
+    "permutations": 10000,
+    "seed": 902104729,
+    "strata": 10,
+    "validation": "regenerate orders and statistics directly from the per-object development ledger; exact binary64 equality for observed and every statistic; exact order root; inclusive >= tail; p=(1+tail)/10001"
+  },
+  "runner_contract": {
+    "arguments": [],
+    "entry": "run_development_once()",
+    "expected_counts": {
+      "authorization_consumptions": 1,
+      "cf4_confirmation_scientific_rows_decoded": 0,
+      "cf4_development_scientific_rows_decoded": 22897,
+      "cf4_gzip_passes": 1,
+      "cf4_identifier_rows_reverified": 38053,
+      "cf4_source_opens": 1,
+      "cf4_validation_scientific_rows_decoded": 0,
+      "development_scores": 1,
+      "mask_source_opens": 1,
+      "pantheon_source_opens": 0,
+      "vast_table1_rows_decoded": 2347,
+      "vast_table1_source_opens": 1,
+      "vast_table2_gzip_passes": 1,
+      "vast_table2_rows_decoded": 80080,
+      "vast_table2_source_opens": 1
+    },
+    "fixed_source_sequence": [
+      "CF4_TABLE4",
+      "VAST_TABLE1",
+      "VAST_TABLE2",
+      "MASK_U8"
+    ],
+    "hard_seals": [
+      "CF4_VALIDATION_SCIENTIFIC_FIELDS",
+      "CF4_CONFIRMATION_SCIENTIFIC_FIELDS",
+      "PANTHEON_PLUS_DATA",
+      "PANTHEON_PLUS_COVARIANCE"
+    ],
+    "ownership": "the function itself resolves canonical nonsymlink paths, opens each raw source exactly once, verifies compressed/raw byte count and SHA256 during that same pass, parses rows, retains counterexamples, scores once, constructs artifacts, validates, and promotes",
+    "private_counters": "no public method accepts caller-reported source opens, row counts, decode flags, scores or artifacts; counters increment only immediately after the owned operation succeeds"
+  },
+  "schema": "invariant-open-gravity-void-correlation-development-release-receipt-3.0",
+  "sources_binding_only": {
+    "CF4_TABLE4": {
+      "bytes": 2528953,
+      "compression": "gzip",
+      "path": "work/private/open-gravity-void-source-v2/cf4-table4.dat.gz",
+      "raw_sha256": "be91d4fae6fa01552ab3bc85db695411fca3249eeae08b566a712e6ea790bd99",
+      "record_length": 157,
+      "records": 38053
+    },
+    "MASK_U8": {
+      "bytes": 64800,
+      "compression": "none",
+      "path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/artifacts/mask-u8.bin",
+      "raw_sha256": "e473e5f71860ab3d8580036c2d41ca637af66bc32a6e8701ceb9fc16444520fa"
+    },
+    "VAST_TABLE1": {
+      "bytes": 426486,
+      "compression": "none",
+      "path": "work/private/open-gravity-void-source-v2/vast-table1.dat",
+      "raw_sha256": "fe430c4e31f879e5678479b6735d84e2e6ac6c26f5bd71115b56d8d2c1bdbeff",
+      "record_length": 181,
+      "records": 2347
+    },
+    "VAST_TABLE2": {
+      "bytes": 3360828,
+      "compression": "gzip",
+      "path": "work/private/open-gravity-void-source-v2/vast-table2.dat.gz",
+      "raw_sha256": "8e2a919f70883a5160b668660a06738d9ac0d091e751ee397431f64d4a77c9bf",
+      "record_length": 105,
+      "records": 80080
+    }
+  },
+  "status": "PASS_SOURCE_FREE_DEVELOPMENT_RELEASE_V3_AWAIT_INDEPENDENT_REAUDIT"
+}

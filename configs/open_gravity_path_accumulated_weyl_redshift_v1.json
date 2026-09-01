@@ -1,0 +1,279 @@
+{
+  "schema": "invariant-open-gravity-path-accumulated-weyl-redshift-1.0",
+  "package_id": "open-gravity-path-accumulated-weyl-redshift-v1",
+  "status": "FROZEN_REPAIRED_COVARIANT_KINEMATIC_LAW_TARGET_FREE_BENCHMARK_AND_RESPONSE_BLIND_LENS_PREFLIGHT",
+  "purpose": "Test a genuinely path-accumulated photon-clock law that is not an endpoint lapse rewrite, using one internally consistent point-mass lens model and exact row-access accounting while exposing its conservation cost and cleanest empirical falsifier.",
+  "bindings": [
+    {
+      "role": "LENS_PREDICTORS",
+      "path": "runs/gravity/roadmap/item-24-temporal-lapse-v1-source/lens-predictors.tsv",
+      "sha256": "51289938be6c4689ab07e88a9260539cb73f239089387f245d393119557c0b34"
+    },
+    {
+      "role": "FROZEN_SAMPLE_MANIFEST",
+      "path": "runs/gravity/roadmap/item-24-temporal-lapse-v1-source/sample-manifest.json",
+      "sha256": "2af474b9d021b5d86f91c61b4164c909ed99b948426256c26bb3136988d6e496"
+    },
+    {
+      "role": "PREDICTOR_SOURCE_MANIFEST",
+      "path": "runs/gravity/roadmap/item-24-temporal-lapse-v1-source/predictor-source-manifest.json",
+      "sha256": "68874a9a43a4bf7905e7faeda56f600b74496d1a8c2f95077a5e8941dc064dee"
+    },
+    {
+      "role": "TEMPORAL_IDENTIFIABILITY_RECEIPT",
+      "path": "runs/gravity/open-gravity-temporal-transfer-identifiability-v1/receipt.json",
+      "sha256": "cbc8336842ca3695971ead7e67e37adbd4323d989c1c6b43cb6bbc0ae1201bd5"
+    },
+    {
+      "role": "PRIMARY_SOURCE_COMPARATOR_CONTRACT",
+      "path": "runs/gravity/open-gravity-primary-source-comparator-contract-v3/receipt.json",
+      "sha256": "732afe6c1409fbe2a3bd05ff050058419bbfd7e9d9ec795f183d70ecb5382b60"
+    },
+    {
+      "role": "BLOCKED_INVARIANT_FLRW_PATH_AGE_RECEIPT",
+      "path": "work/open-gravity-path-accumulated-weyl-redshift-v1-blocked-invariant-flrw-path-age/receipt.json",
+      "sha256": "b24916707f08fa0987fc04fa7c5fd2539ac5c71cf70d10a8f69e2ed25bd2afbd"
+    }
+  ],
+  "law": {
+    "name": "path-aged Weyl-exposure redshift",
+    "spacetime": "A Lorentzian metric g_ab, a future-directed null curve gamma, and a unit timelike physical congruence u^a fixed by the coarse-grained matter rest frame.",
+    "path_measure": "d ell = -u_a dx^a for every future-directed ray segment; this scalar one-form contraction is invariant under coordinates and ray reparameterization.",
+    "path_age": "s(P)=integral from emission e to P of d ell, with s(e)=0.",
+    "curvature_driver": "q_W=(abs(C_abcd C^abcd)/48)^(1/4), with dimension length^-1. For Schwarzschild, q_W=sqrt(r_g)/r^(3/2), r_g=GM/c^2.",
+    "infrared_activation": "A(s)=1-exp(-s/L_H), L_H=c/H0. This is not fitted: H0 is frozen at 70 km s^-1 Mpc^-1. A(0)=0 and A approaches one only after long propagation.",
+    "transport": "ln[(1+z_obs)/(1+z_GR)]=alpha E_gamma, E_gamma=integral_gamma A(s) q_W d ell.",
+    "free_parameters": [
+      {
+        "symbol": "alpha",
+        "dimension": "1",
+        "role": "one universal signed coupling, estimated only from a future exploration response and then frozen"
+      }
+    ],
+    "fixed_scales": [
+      {
+        "symbol": "L_H",
+        "definition": "c/H0",
+        "dimension": "length",
+        "fitted": false
+      }
+    ],
+    "thin_lens_specialization": "Use one point-mass model throughout. For observed faint/bright flux ratio R in (0,1], infer y=(1-sqrt(R))/R^(1/4). Signed image roots are x_plus=(y+sqrt(y^2+4))/2 and x_minus=(y-sqrt(y^2+4))/2, each satisfying y=x-1/x. From the observed separation, theta_E=theta_sep/sqrt(y^2+4); b_plus=D_l theta_E x_plus and b_minus=D_l theta_E abs(x_minus); r_g=(D_l D_s/(4 D_ls)) theta_E^2. The accumulated baryon-frame path age at the lens is s_lens=(c/H0) integral_zlens^zsource dz/[(1+z)E(z)], not a scaled comoving or angular-diameter distance. The same Schwarzschild point mass then gives E0(b)=sqrt(pi)*Gamma(1/4)/Gamma(3/4)*sqrt(r_g/b), approximated across a thin lens by A(s_lens)E0(b).",
+    "differential_prediction": "For two images of the same delayed source, Delta ln(1+z)_extra=alpha[E(b_inner)-E(b_outer)]. It survives common endpoint, cosmological, and source-redshift cancellation.",
+    "preferred_frame_caveat": "The law is covariant after u^a is physically specified, but it is not frame-free. A fundamental completion must derive u^a rather than choose it by coordinates."
+  },
+  "requirements": {
+    "causality": [
+      "s is accumulated only from the emission event toward the observation event",
+      "q_W and u^a are evaluated locally on the past light path",
+      "any dynamical field producing q_W or a Weyl one-form must use retarded source support",
+      "no response or future endpoint value enters the transport law"
+    ],
+    "conservation": [
+      "photon number may remain conserved, nabla_a N^a=0",
+      "for alpha nonzero the photon stress tensor alone cannot obey nabla_a T_gamma^ab=0 in a stationary lens because its frequency changes",
+      "a complete theory must provide a compensating field/source stress tensor with nabla_a(T_gamma^ab+T_comp^ab+T_source^ab)=0",
+      "until that compensator follows from an action, this package is a kinematic effective law and not a fundamental theory"
+    ],
+    "null_propagation": [
+      "the metric null cone and image directions are retained at this stage",
+      "a non-affine frequency rescaling must not be mistaken for a derived Maxwell eikonal",
+      "a future action must reproduce both the frequency transport and its backreaction"
+    ]
+  },
+  "exact_controls": [
+    "alpha=0 gives exact GR",
+    "C_abcd=0 gives E_gamma=0, including Minkowski and exactly conformally flat FLRW",
+    "s=0 gives zero instantaneous accumulation",
+    "two paths with identical q_W exposure give zero differential signal",
+    "an exact one-form B=d phi gives endpoint-only transport and zero closed-path holonomy",
+    "equal impact parameters give zero strong-lens differential signal",
+    "zero lens mass gives zero signal",
+    "the local short-path limit is quadratic: E_gamma is suppressed by s^2/(2 L_H) for fixed q_W and s much smaller than L_H"
+  ],
+  "synthetic_contract": {
+    "point_mass_M_sun": 100000000000.0,
+    "impact_parameters_kpc": [2.0, 5.0, 10.0],
+    "source_to_lens_path_Mpc": 1000.0,
+    "solar_mass_M_sun": 1.0,
+    "solar_impact_radius_AU": 0.00465047,
+    "solar_path_age_AU": 1.0,
+    "quadrature_extent_in_impact_parameters": 1000000.0,
+    "required_relative_analytic_numeric_tolerance": 0.000001,
+    "required_checks": [
+      "DIMENSIONAL_CLOSURE",
+      "COORDINATE_SCALAR_AND_REPARAMETERIZATION_INVARIANCE",
+      "EXACT_GR_ZERO_COUPLING_LIMIT",
+      "EXACT_CONFORMALLY_FLAT_LIMIT",
+      "EXACT_ENDPOINT_ONE_FORM_CONTROL",
+      "ANALYTIC_POINT_MASS_QUADRATURE",
+      "EXACT_POINT_MASS_LENS_GEOMETRY",
+      "POINT_MASS_GEOMETRY_EXPOSURE_CONSISTENCY",
+      "SAME_ENDPOINT_DIFFERENT_PATH_DISCRIMINATOR",
+      "SHORT_PATH_SOLAR_SUPPRESSION",
+      "POSITIVE_FUTURE_DIRECTED_CAUSAL_EXPOSURE",
+      "RETAINED_CONSERVATION_BLOCK"
+    ]
+  },
+  "real_preflight": {
+    "input_scope": "The local TSV contains 12 SQLS/COSMOGRAIL predictor rows and is parsed in full: eight exploration predictors are used, four confirmation predictors are parsed but never used, and no response file or response row is opened.",
+    "expected_source_rows_parsed": 12,
+    "expected_rows": 8,
+    "expected_confirmation_predictor_rows_parsed": 4,
+    "expected_confirmation_predictor_rows_used": 0,
+    "required_checks": [
+      "EXACT_ACTUAL_SOURCE_ROW_ACCESS",
+      "CONFIRMATION_PREDICTORS_UNUSED",
+      "INVARIANT_BARYON_FRAME_PATH_AGE"
+    ],
+    "source_model": "MODEL_LIFTED_EXACT_POINT_MASS: R=abs(mu_minus)/mu_plus; y=(1-sqrt(R))/R^(1/4); x_plus=(y+sqrt(y^2+4))/2; x_minus=(y-sqrt(y^2+4))/2; theta_E=image_separation/sqrt(y^2+4); b_plus=D_l theta_E x_plus; b_minus=D_l theta_E abs(x_minus); r_g=(D_l D_s/(4D_ls))theta_E^2; both exposures use the Schwarzschild q_W of this same mass.",
+    "path_age_mapping": "For the frozen flat FLRW baryon congruence, d ell=-u_a dx^a=c dt along the photon ray, so s_lens=(c/H0) integral_zlens^zsource dz/[(1+z)sqrt(omega_m(1+z)^3+omega_lambda)]. The formerly used proxy (chi_source-chi_lens)/(1+z_lens) is retained only as explicit rejected counterevidence.",
+    "cosmology": {
+      "H0_km_s_Mpc": 70.0,
+      "omega_m": 0.3,
+      "omega_lambda": 0.7,
+      "c_km_s": 299792.458
+    },
+    "response_definition": "After correcting the known time delay, measure the common narrow-line or narrow-absorption centroid separately in both images and report Delta v=c Delta ln(1+z), its covariance, wavelength dependence, epoch, and line identifier.",
+    "future_exploration_fit": "Fit one universal alpha to exploration spectra using the signed per-unit-alpha coefficient. No per-lens alpha and no formula selection are allowed.",
+    "future_confirmation": "Freeze alpha and all nuisance handling before opening any disjoint lens systems or the four sealed Item-24 confirmation identities.",
+    "response_status": "SOURCE_BLOCKED_RESOLVED_TIME_DELAY_ALIGNED_SPECTROSCOPY_NOT_LOCAL",
+    "required_nuisance_channels": [
+      "moving-lens transverse-velocity frequency shift",
+      "differential magnification of a rotating or structured source",
+      "microlensing-dependent broad-line centroid distortion",
+      "intrinsic spectral variability sampled at the lens time delay",
+      "wavelength-calibration drift",
+      "plasma dispersion and scintillation",
+      "dust extinction"
+    ]
+  },
+  "comparator_map": [
+    {
+      "comparator": "GR stationary endpoint redshift",
+      "distinction": "For a stationary lens, -xi_a k^a is conserved and a photon that enters and exits the same potential has no residual static path redshift; unequal paths do have lensing and Shapiro/geometric delays."
+    },
+    {
+      "comparator": "GR integrated Sachs-Wolfe/Rees-Sciama",
+      "distinction": "A real path effect already exists when gravitational potentials evolve. It is proportional to time variation of the metric potentials and vanishes for an exactly static lens; the proposed q_W exposure does not."
+    },
+    {
+      "comparator": "cosmological redshift",
+      "distinction": "FLRW is conformally flat, so q_W is exactly zero in the homogeneous background. Multiple images share the background factor, while the proposed foreground differential remains."
+    },
+    {
+      "comparator": "plasma",
+      "distinction": "Cold-plasma group delay scales approximately as frequency^-2 and may scatter or scintillate; the proposed centroid shift is achromatic."
+    },
+    {
+      "comparator": "dust",
+      "distinction": "Dust changes flux and colour rather than applying one common multiplicative shift to every narrow-line wavelength."
+    },
+    {
+      "comparator": "static lensing and time delay",
+      "distinction": "Static lensing changes direction, magnification, and arrival time but not the conserved stationary-lens frequency. The comparison must align source epochs by the measured time delay."
+    },
+    {
+      "comparator": "moving-lens and differential-magnification frequency shifts",
+      "distinction": "These are published GR/astrophysical causes of image-to-image spectral shifts and must be jointly modelled, not counted as evidence for path accumulation."
+    }
+  ],
+  "primary_literature": [
+    {
+      "role": "GR_PATH_EFFECT_CONTROL",
+      "citation": "Sachs and Wolfe (1967), Perturbations of a Cosmological Model and Angular Variations of the Microwave Background",
+      "identifier": "doi:10.1086/148982",
+      "url": "https://doi.org/10.1086/148982"
+    },
+    {
+      "role": "NONINTEGRABLE_WEYL_PREDECESSOR",
+      "citation": "Khodadi and Saridakis (2026), Atomic clocks and gravitational waves as probes of non-metricity",
+      "identifier": "arXiv:2601.19407",
+      "url": "https://arxiv.org/abs/2601.19407"
+    },
+    {
+      "role": "TIRED_LIGHT_PREDECESSOR",
+      "citation": "Crawford (1999), Curvature Pressure in a Cosmology with a Tired-light Redshift",
+      "identifier": "doi:10.1071/PH98065",
+      "url": "https://doi.org/10.1071/PH98065"
+    },
+    {
+      "role": "MOVING_LENS_COMPARATOR",
+      "citation": "Banik and Zhao (2015), Effects of Lens Motion and Uneven Magnification on Image Spectra",
+      "identifier": "arXiv:1503.08052",
+      "url": "https://arxiv.org/abs/1503.08052"
+    },
+    {
+      "role": "GENERAL_LENS_FREQUENCY_COMPARATOR",
+      "citation": "Korzynski and Kulejewski (2026), Frequency shift and viewing direction variations in gravitational lensing",
+      "identifier": "arXiv:2601.13912",
+      "url": "https://arxiv.org/abs/2601.13912"
+    },
+    {
+      "role": "MULTI_IMAGE_SPECTROSCOPY_PRIMARY",
+      "citation": "Sluse et al. (2007), long-slit spectroscopy of the three brightest images of RXS J1131-1231",
+      "identifier": "arXiv:astro-ph/0703030",
+      "url": "https://arxiv.org/abs/astro-ph/0703030"
+    },
+    {
+      "role": "HISTORICAL_SAME_REDSHIFT_CONTROL",
+      "citation": "Gondhalekar and Wilson (1980), UV spectra of the twin QSOs 0957+561 A, B; the absorption-system velocities agreed to 14 km/s RMS",
+      "identifier": "doi:10.1038/285461a0",
+      "url": "https://doi.org/10.1038/285461a0"
+    },
+    {
+      "role": "LOCAL_PUBLIC_LENS_SOURCE",
+      "citation": "Millon et al. (2020), COSMOGRAIL XIX raw light-curve release",
+      "identifier": "doi:10.1051/0004-6361/201937351",
+      "url": "https://doi.org/10.1051/0004-6361/201937351"
+    }
+  ],
+  "novelty_disposition": {
+    "known": [
+      "nonintegrable Weyl transport is an old path-dependent geometry idea",
+      "curvature/tired-light redshift mechanisms are published",
+      "GR path redshift from evolving or moving lenses is published",
+      "differential spectroscopy of lensed images is published"
+    ],
+    "not_found_in_targeted_primary_map": "the exact one-parameter combination of path-age activation, the fourth-root Weyl invariant, and a response-blind strong-lens differential coefficient",
+    "claim": "POTENTIALLY_NEW_TESTABLE_SYNTHESIS_NOT_HISTORICAL_NOVELTY",
+    "publication_ceiling": "methods/theory preflight only until a dynamical conservation completion and quantitative resolved-spectroscopy response exist"
+  },
+  "access_contract": {
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "raw_response_files_opened": 0,
+    "source_predictor_rows_parsed": 12,
+    "exploration_predictor_rows_used": 8,
+    "confirmation_predictor_rows_parsed": 4,
+    "confirmation_predictor_rows_used": 0,
+    "confirmation_response_rows_opened": 0,
+    "formula_or_parameter_tuning_events": 0,
+    "local_source_files_read": 3,
+    "sealed_receipts_read": 3
+  },
+  "claim_boundary": {
+    "establishes": [
+      "a minimal covariant and reparameterization-invariant effective path law",
+      "exact null and endpoint controls that separate it from an endpoint lapse rewrite",
+      "analytic and numerical target-free point-lens benchmarks",
+      "a frozen response-blind differential-redshift coefficient for eight exploration lenses with all 12 parsed predictor rows and all four unused confirmation predictors disclosed",
+      "the exact conservation and preferred-frame obligations of any completion"
+    ],
+    "does_not_establish": [
+      "that alpha is nonzero",
+      "that the law fits any astronomical response",
+      "a conserved action or Maxwell-sector completion",
+      "historical novelty",
+      "a precision lens mass model",
+      "an explanation of cosmological redshift, dark matter, galaxy rotation, or matter capture"
+    ]
+  },
+  "artifacts": {
+    "receipt": "runs/gravity/open-gravity-path-accumulated-weyl-redshift-v1/receipt.json",
+    "synthetic_benchmarks": "runs/gravity/open-gravity-path-accumulated-weyl-redshift-v1/artifacts/synthetic-benchmarks.json",
+    "lens_predictions": "runs/gravity/open-gravity-path-accumulated-weyl-redshift-v1/artifacts/exploration-lens-predictions.csv",
+    "theory_note": "runs/gravity/open-gravity-path-accumulated-weyl-redshift-v1/artifacts/theory-and-falsifier-note.md"
+  }
+}

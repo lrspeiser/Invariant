@@ -1,0 +1,182 @@
+{
+  "schema": "invariant-open-gravity-dissipative-capture-camels-source-preflight-1.0",
+  "package_id": "open-gravity-dissipative-capture-camels-source-preflight-v1",
+  "status": "SOURCE_BLOCKED_ZERO_RESPONSE_PREFLIGHT",
+  "purpose": "Determine whether one exact public same-initial-condition CAMELS hydro/N-body pair can implement the frozen dissipative-capture merger-history test without opening scientific rows or substituting maps.",
+  "predecessor": {
+    "package_id": "open-gravity-dissipative-capture-enlarged-systems-v2",
+    "receipt_path": "runs/gravity/open-gravity-dissipative-capture-enlarged-systems-v2/receipt.json",
+    "receipt_sha256": "30032ef472e82a1f98931b335a9681bf2d1b8f3ec4d0a509b1407eaef394eeb2",
+    "content_sha256": "dbeca071fc5fb571b0be239d8eb4ba4c5cfd5e98bd8b4b22564aa4f38e9ba10f"
+  },
+  "official_sources": [
+    {"url":"https://camels.readthedocs.io/en/latest/data_access.html","role":"official URL and Globus access contract"},
+    {"url":"https://camels.readthedocs.io/en/latest/description.html","role":"same-IC hydro/N-body design and snapshot-redshift mapping"},
+    {"url":"https://camels.readthedocs.io/en/latest/snapshots.html","role":"snapshot layout and particle/cell fields"},
+    {"url":"https://camels.readthedocs.io/en/latest/subfind.html","role":"halo/subhalo fields and membership mapping"},
+    {"url":"https://camels.readthedocs.io/en/latest/SubLink.html","role":"SubLink and SubLink_gal tree contract"},
+    {"url":"https://camels.readthedocs.io/en/latest/organization.html","role":"suite and product hierarchy"},
+    {"url":"https://camels.readthedocs.io/en/latest/examples/particles_subhalos.html","role":"IllustrisTNG and DMO particle-to-object mapping requirements"},
+    {"url":"https://users.flatironinstitute.org/~camels/","role":"official public file endpoint"}
+  ],
+  "candidate": {
+    "hydro_suite": "IllustrisTNG",
+    "nbody_suite": "IllustrisTNG_DM",
+    "generation": "L25n256",
+    "set": "CV",
+    "simulation": "CV_0",
+    "same_initial_condition_basis": "Official CAMELS documentation states that the N-body counterpart has the same cosmological parameters and initial random seed as its hydrodynamic counterpart.",
+    "hydro_base_url": "https://users.flatironinstitute.org/~camels/Sims/IllustrisTNG/CV/CV_0/",
+    "nbody_base_url": "https://users.flatironinstitute.org/~camels/Sims/IllustrisTNG_DM/CV/CV_0/",
+    "snapshots": [
+      {"snap":62,"redshift":0.95,"scale_factor":0.513},
+      {"snap":64,"redshift":0.86,"scale_factor":0.538},
+      {"snap":66,"redshift":0.77,"scale_factor":0.564},
+      {"snap":68,"redshift":0.69,"scale_factor":0.591},
+      {"snap":70,"redshift":0.61,"scale_factor":0.620},
+      {"snap":72,"redshift":0.54,"scale_factor":0.650},
+      {"snap":74,"redshift":0.47,"scale_factor":0.681},
+      {"snap":76,"redshift":0.40,"scale_factor":0.714},
+      {"snap":78,"redshift":0.34,"scale_factor":0.749},
+      {"snap":80,"redshift":0.27,"scale_factor":0.789},
+      {"snap":82,"redshift":0.21,"scale_factor":0.827},
+      {"snap":84,"redshift":0.15,"scale_factor":0.867},
+      {"snap":86,"redshift":0.10,"scale_factor":0.910},
+      {"snap":88,"redshift":0.05,"scale_factor":0.954},
+      {"snap":90,"redshift":0.00,"scale_factor":1.000}
+    ],
+    "cadence_assessment": "The 15 released first-generation outputs at z<=1 are sufficient to identify tree-defined major-merger intervals and mass ratios, but first pericenter and coalescence are interval-censored at the coarse original 34-output cadence. This is not equivalent to TNG100's denser 100-snapshot timing test."
+  },
+  "http_metadata": {
+    "observed_utc_date": "2026-08-31",
+    "hydro_snapshots": [
+      {"snap":62,"bytes":2507136223,"etag":"\"608c180d-956fdcdf\""},
+      {"snap":64,"bytes":2524426594,"etag":"\"608c18aa-9677b162\""},
+      {"snap":66,"bytes":2540672652,"etag":"\"608c1949-976f968c\""},
+      {"snap":68,"bytes":2557368843,"etag":"\"608c19e6-986e5a0b\""},
+      {"snap":70,"bytes":2602252014,"etag":"\"608c1a84-9b1b36ee\""},
+      {"snap":72,"bytes":2615379357,"etag":"\"608c1b25-9be3859d\""},
+      {"snap":74,"bytes":2598009374,"etag":"\"608c1bc7-9ada7a1e\""},
+      {"snap":76,"bytes":2609761255,"etag":"\"608c1c67-9b8dcbe7\""},
+      {"snap":78,"bytes":2620863686,"etag":"\"608c1d08-9c3734c6\""},
+      {"snap":80,"bytes":2629871183,"etag":"\"608c1daa-9cc0a64f\""},
+      {"snap":82,"bytes":2637260699,"etag":"\"608c1e4c-9d31679b\""},
+      {"snap":84,"bytes":2647279724,"etag":"\"608c1eec-9dca486c\""},
+      {"snap":86,"bytes":2649735228,"etag":"\"608c1f8d-9defc03c\""},
+      {"snap":88,"bytes":2655189630,"etag":"\"608c202f-9e42fa7e\""},
+      {"snap":90,"bytes":2662627253,"etag":"\"608c20d0-9eb477b5\""}
+    ],
+    "hydro_groups": [
+      {"snap":62,"bytes":18457780,"etag":"\"5f3cd7e4-119a4b4\""},
+      {"snap":64,"bytes":18333116,"etag":"\"5f3cf27b-117bdbc\""},
+      {"snap":66,"bytes":18119700,"etag":"\"5f3d0dfb-1147c14\""},
+      {"snap":68,"bytes":17915784,"etag":"\"5f3d2a65-1115f88\""},
+      {"snap":70,"bytes":17763916,"etag":"\"5f3d47d0-10f0e4c\""},
+      {"snap":72,"bytes":17638792,"etag":"\"5f3d6658-10d2588\""},
+      {"snap":74,"bytes":17509216,"etag":"\"5f3d8540-10b2b60\""},
+      {"snap":76,"bytes":17314432,"etag":"\"5f3da4ed-1083280\""},
+      {"snap":78,"bytes":17176816,"etag":"\"5f3dc4e3-10618f0\""},
+      {"snap":80,"bytes":16890372,"etag":"\"5f3de571-101ba04\""},
+      {"snap":82,"bytes":16713212,"etag":"\"5f3e0624-ff05fc\""},
+      {"snap":84,"bytes":16597388,"etag":"\"5f3e2759-fd418c\""},
+      {"snap":86,"bytes":16429928,"etag":"\"5f3e4987-fab368\""},
+      {"snap":88,"bytes":16340104,"etag":"\"5f3e6b62-f95488\""},
+      {"snap":90,"bytes":16278844,"etag":"\"5f3e8ce6-f8653c\""}
+    ],
+    "nbody_snapshots": [
+      {"snap":62,"bytes":205795993,"etag":"\"644878c4-c443299\""},
+      {"snap":64,"bytes":205891833,"etag":"\"644878c4-c45a8f9\""},
+      {"snap":66,"bytes":206076080,"etag":"\"644878c4-c4878b0\""},
+      {"snap":68,"bytes":206306196,"etag":"\"644878c5-c4bfb94\""},
+      {"snap":70,"bytes":206396559,"etag":"\"644878c4-c4d5c8f\""},
+      {"snap":72,"bytes":206584028,"etag":"\"644878c4-c5038dc\""},
+      {"snap":74,"bytes":206643606,"etag":"\"644878c4-c512196\""},
+      {"snap":76,"bytes":206856982,"etag":"\"644878c5-c546316\""},
+      {"snap":78,"bytes":206922623,"etag":"\"644878c4-c55637f\""},
+      {"snap":80,"bytes":206953641,"etag":"\"644878c5-c55dca9\""},
+      {"snap":82,"bytes":207088961,"etag":"\"644878c5-c57ed41\""},
+      {"snap":84,"bytes":207063383,"etag":"\"644878c7-c578957\""},
+      {"snap":86,"bytes":207171198,"etag":"\"644878c4-c592e7e\""},
+      {"snap":88,"bytes":207087718,"etag":"\"644878c4-c57e866\""},
+      {"snap":90,"bytes":207235513,"etag":"\"644878c4-c5a29b9\""}
+    ],
+    "trees_and_matching": [
+      {"id":"HYDRO_TREE","url":"https://users.flatironinstitute.org/~camels/SubLink/IllustrisTNG/CV/CV_0/tree.hdf5","bytes":73777216,"etag":"\"63be2597-465c040\"","http_status":200},
+      {"id":"HYDRO_TREE_EXTENDED","url":"https://users.flatironinstitute.org/~camels/SubLink/IllustrisTNG/CV/CV_0/tree_extended.hdf5","bytes":665329682,"etag":"\"63be259e-27a82012\"","http_status":200},
+      {"id":"NBODY_TREE","url":"https://users.flatironinstitute.org/~camels/SubLink/IllustrisTNG_DM/CV/CV_0/tree.hdf5","bytes":64948144,"etag":"\"6877cf63-3df07b0\"","http_status":200},
+      {"id":"NBODY_TREE_EXTENDED","url":"https://users.flatironinstitute.org/~camels/SubLink/IllustrisTNG_DM/CV/CV_0/tree_extended.hdf5","bytes":277204348,"etag":"\"6877cf7e-1085cd7c\"","http_status":200},
+      {"id":"Z0_GROUP_MATCHING","url":"https://users.flatironinstitute.org/~camels/Group_matching/IllustrisTNG/CV/Nbody_CV_0_IllustrisTNG_CV_0_snap_033.hdf5","bytes":160096,"etag":"\"64863822-27160\"","http_status":200}
+    ],
+    "local_acquisitions": [
+      {
+        "id":"Z0_GROUP_MATCHING",
+        "url":"https://users.flatironinstitute.org/~camels/Group_matching/IllustrisTNG/CV/Nbody_CV_0_IllustrisTNG_CV_0_snap_033.hdf5",
+        "local_path":"runs/gravity/open-gravity-dissipative-capture-camels-source-preflight-v1/sources/Nbody_CV_0_IllustrisTNG_CV_0_snap_033.hdf5",
+        "bytes":160096,
+        "etag":"\"64863822-27160\"",
+        "sha256":"bc132b1b07342ab7a173f44006e1109402fe8e37b1e41ef223870047ad160c8a",
+        "decode_state":"DOWNLOADED_AND_HASHED_WITHOUT_OPENING_HDF5_STRUCTURE_OR_ROWS"
+      }
+    ],
+    "nbody_group_catalogs": {
+      "url_template":"https://users.flatironinstitute.org/~camels/FOF_Subfind/IllustrisTNG_DM/CV/CV_0/groups_{snap:03d}.hdf5",
+      "snapshots":[62,64,66,68,70,72,74,76,78,80,82,84,86,88,90],
+      "public_listing_sizes":["29.45MB","30.11MB","30.79MB","31.52MB","32.27MB","32.93MB","33.65MB","34.25MB","34.87MB","35.42MB","35.93MB","36.36MB","36.76MB","37.16MB","37.56MB"],
+      "head_status":403,
+      "one_byte_range_get_status":403,
+      "exact_bytes":null,
+      "etag":null
+    },
+    "checksum_availability":"No accessible candidate response returned Digest or Content-MD5. Nginx ETags are frozen transport validators, not declared cryptographic payload checksums. The one bounded z=0 matching file was downloaded without HDF5 decode and locally SHA-256 hashed; all future scientific payloads still require source-acquisition receipts before any row decode."
+  },
+  "field_mapping": {
+    "major_merger_topology":["SubLink DescendantID","FirstProgenitorID","NextProgenitorID","SnapNum","SubhaloMassType or group-catalog SubhaloMassType"],
+    "orbital_energy_and_angular_momentum":["SubhaloPos","SubhaloVel","SubhaloMassType","snapshot PartType1/Potential","snapshot Header/MassTable for constant IllustrisTNG DM particle mass"],
+    "gas_receiver_and_controls":["PartType0/Coordinates","PartType0/Velocities","PartType0/Masses","PartType0/Density","PartType0/InternalEnergy","PartType0/GFM_CoolingRate","PartType0/EnergyDissipation","PartType0/Machnumber","PartType0/Potential","PartType0/StarFormationRate"],
+    "subhalo_nuisance_fields":["SubhaloHalfmassRadType","SubhaloVelDisp","SubhaloSpin","SubhaloSFR","SubhaloLenType","SubhaloGrNr"],
+    "particle_membership":"Hydro IllustrisTNG snapshots are SUBFIND-ordered. IllustrisTNG_DM is treated as a non-IllustrisTNG snapshot and requires the /IDs membership block from its group catalog.",
+    "cross_run_matching":"The public z=0 Group_matching file is present, but official documentation inspected here does not freeze its dataset schema or establish a per-subhalo cross-tree identifier at every snapshot. Same simulation seed alone is not object-level matching."
+  },
+  "eligibility_gates": {
+    "exact_same_ic_pair":true,
+    "direct_hydro_snapshots":true,
+    "direct_nbody_snapshots":true,
+    "direct_hydro_groups":true,
+    "direct_nbody_groups":false,
+    "direct_hydro_and_nbody_trees":true,
+    "documented_cross_tree_object_matching":false,
+    "major_merger_intervals_identifiable":true,
+    "first_pericenter_timing_equivalent_to_tng100":false,
+    "required_hydro_fields_documented":true,
+    "cryptographic_payload_checksums_available":false
+  },
+  "blockers": [
+    "All 15 publicly listed IllustrisTNG_DM CV_0 group catalogs return HTTP 403 to both HEAD and one-byte range GET, so exact bytes/ETags and the required /IDs membership data are not directly accessible.",
+    "The z=0 Group_matching file is direct, but the inspected official documentation does not specify its dataset schema or prove per-subhalo hydro-to-DMO tree matching across the z<=1 history.",
+    "The 15-output z<=1 cadence can locate merger intervals but cannot reproduce TNG100-quality first-pericenter and coalescence timing; those responses would be interval-censored.",
+    "No candidate payload has an official cryptographic checksum. ETags cannot replace a SHA-256 source receipt.",
+    "The small 25 Mpc/h CV_0 volume has no source-only eligible major-merger count yet; establishing sample adequacy would require opening tree rows in a separately frozen acquisition successor."
+  ],
+  "decision": {
+    "camels_status":"SOURCE_BLOCKED_NOT_AN_EMPIRICAL_MODEL_FAILURE",
+    "tng100_status":"REMAINS_PREFERRED_SOURCE_DESPITE_ITS_EXISTING_AUTHENTICATION_AND_CHECKSUM_BLOCK",
+    "next_falsifier":"Resolve direct DMO group access and document cross-tree matching, then hash all frozen source payloads before decoding tree or response rows. Do not substitute CAMELS maps or global summaries."
+  },
+  "access_contract": {
+    "scientific_payload_files_downloaded":1,
+    "scientific_payload_bytes_downloaded":160096,
+    "scientific_tree_or_group_rows_opened":0,
+    "hdf5_structures_opened":0,
+    "scientific_response_rows_opened":0,
+    "new_real_data_scores":0,
+    "shell_metadata_requests":100,
+    "bounded_source_get_requests":1,
+    "official_documentation_pages_frozen":8,
+    "model_calls":0,
+    "paid_calls":0
+  },
+  "outputs": {
+    "receipt":"runs/gravity/open-gravity-dissipative-capture-camels-source-preflight-v1/receipt.json",
+    "artifact_directory":"runs/gravity/open-gravity-dissipative-capture-camels-source-preflight-v1/artifacts"
+  }
+}

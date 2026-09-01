@@ -1,0 +1,89 @@
+{
+  "schema_version": "invariant-open-gravity-independent-audit-receipt-1.0",
+  "audit_id": "open-gravity-differential-propagation-gw170817-coherent-v6-independent-audit-45fb2814",
+  "created_utc": "2026-09-01T07:48:37Z",
+  "audited_analysis_id": "open-gravity-differential-propagation-gw170817-coherent-v6",
+  "verdict": "PASS",
+  "status": "PASS_INDEPENDENT_PRE_RESPONSE_CANONICAL_AUDIT",
+  "decision_confirmed": "FROZEN_PRE_RESPONSE_METHOD_GATES_FAIL_NO_RESPONSE",
+  "interpretation": "METHOD_AND_OPTIMIZER_GATES_FAILED; NO SCIENTIFIC BRANCH WAS ELIMINATED OR CLASSIFIED AS POWERLESS",
+  "package_raw_sha256": {
+    "config": "ebff7a847adc0ecd578d525cd0b93c03fed7f871745af22a9f6ae222ac7b1980",
+    "module": "875adae1ba3c30bc6d6819ab590b0666e86770dc7e8046a403043fd59e8a14e8",
+    "tests": "d986d5efbe4aae6c029a637e7ec0ab8433262e8e3dc4a4591cea90e30161b13b",
+    "prediction_receipt": "c5d665ab10363fb7a39607bf692cb25a03fd4b172e54934744412b9c89a675da"
+  },
+  "prediction_receipt_content_sha256": "03b2437dcc9c544d12a8010c3a1d4c392ca689b494670f3ec693bac3fd29842a",
+  "artifact_hashes": {
+    "target_free_raw_sha256": "2d2391d1194e49b4bbd2a8cd49ef3e7f434538ab1f49a5b1354a9ad05d471790",
+    "target_free_content_sha256": "d0352fd872e875e9241cc3d195d038c7cf8ee1c461502d72f6cedc73e40f6369",
+    "strict_static_raw_sha256": "666587563cf33396eb3ab485e8f65a48bafaac3fcc56c565ebfdeebbd508e0c0",
+    "strict_static_content_sha256": "6682b16b34bc1a8aef39817bf96c1e40ad04c4a51f96f2339fdc518302bd65d5"
+  },
+  "checks": {
+    "exact_runtime_pytest": "PASS_4_OF_4",
+    "ruff": "PASS",
+    "canonical_check_exit_code": 0,
+    "canonical_check_output": "FROZEN_PRE_RESPONSE_METHOD_GATES_FAIL_NO_RESPONSE",
+    "canonical_check_runtime": "work/private/open-gravity-lane2-lalsuite-runtime-v1/bin/python under WSL",
+    "fit_cells_recomputed": 54,
+    "optimizer_seed_cells_recomputed": 324,
+    "bic_values_exact": true,
+    "projected_snr_values_exact": true,
+    "objective_validity_exact": true,
+    "bic_winners_exact": true,
+    "classifications_exact": true,
+    "invalid_optimizers_never_relabeled_identifiable_powerless_or_nonidentifiable": true,
+    "all_frozen_paths_relative_and_parent_alias_free": true,
+    "v4_v5_exact_and_replayed": true,
+    "runtime_and_source_provenance_exact": true
+  },
+  "control_evidence": {
+    "target_snr": 32.0,
+    "gr_recovered_projected_snr": 31.99999998616534,
+    "gr_bic": -828.7630572754499,
+    "gr_unique_bic_winner": true,
+    "gr_chirp_mass_error": 2.9367778209277162e-08,
+    "gr_geocentric_time_error_seconds": 1.2989433330334865e-07,
+    "failed_seed_runs": 3,
+    "failed_seed_ids": [
+      "DYNAMIC_PHASE:MAP:260863@250",
+      "RESERVOIR:MAP:260862@250",
+      "RESERVOIR:MAP:260863@250"
+    ],
+    "status": "FAIL_OPTIMIZER_RECOVERY_GATE"
+  },
+  "registered_branch_evidence": {
+    "worlds": 5,
+    "amplitudes_within_tolerance": 5,
+    "invalid_optimizer_classifications": 5,
+    "identifiable_classifications": 0,
+    "powerless_classifications": 0,
+    "status": "FAIL_BRANCH_OPTIMIZER_GATE"
+  },
+  "reservoir_evidence": {
+    "snr_levels": [32.0, 48.0, 64.0],
+    "amplitudes_within_tolerance": 3,
+    "optimizer_valid_levels": 0,
+    "classification": "INVALID_RESERVOIR_POWER_OPTIMIZER",
+    "status": "FAIL_RESERVOIR_POWER_OPTIMIZER_GATE"
+  },
+  "audit_access_ledger": {
+    "source_integrity_replays": 2,
+    "source_files_hashed": 20,
+    "hdf5_headers_opened": 6,
+    "dq_values_read": 7680,
+    "strain_values_read": 0,
+    "real_likelihood_values_computed": 0,
+    "gw190425_opened": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "authority": {
+    "real_response_authorized": false,
+    "run_authority": "NONE",
+    "scientific_claim_authority": "NONE",
+    "claim_ceiling": "AUDIT_OF_FROZEN_PRE_RESPONSE_METHOD_BLOCK_ONLY"
+  },
+  "content_sha256": "9cc1b5836427202548ef3c1ede6b71599a40abf3d3548646d65d973992fa109b"
+}

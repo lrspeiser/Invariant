@@ -1,0 +1,119 @@
+{
+  "schema": "invariant-open-gravity-post-response-environmental-placement-expansion-1.0",
+  "package_id": "open-gravity-post-response-environmental-placement-expansion-v1",
+  "status": "FROZEN_POST_RESPONSE_DEVELOPMENT_REPAIR_EXPLORATION",
+  "purpose": "Test whether the cluster-only potential-depth signal failed cross-scale because every new driver inherited the weaker standard-MOND interpolation, by placing the same frozen drivers around the empirically stronger published RAR law in three distinct ways.",
+  "chronology_and_honesty": {
+    "designed_after_development_response_access": true,
+    "trigger_result_path": "runs/gravity/open-gravity-matched-acceleration-cross-scale-development-score-v1/receipt.json",
+    "trigger_result_raw_sha256": "b203e122d67636a08b310827d6473ef1b9ea32dab786f45daec5737d1523391d",
+    "trigger_result_content_sha256": "a07110fbe52ae221c84ad63a780fcb7b0c19363a00fdab4de14728cfe85f9666",
+    "trigger_observations": [
+      "RAR_2016 was the strongest fixed galaxy control on the primary 3-D source cell",
+      "potential-depth exponents 0.5, 0.75, and 1.0 substantially improved the eight X-COP clusters",
+      "the same candidates failed the three PHANGS galaxies because their base interpolation remained standard MOND"
+    ],
+    "target_blind_claim": false,
+    "independent_confirmation_required": true,
+    "same_development_data_reuse_disclosed": true,
+    "post_score_formula_repair_allowed": false
+  },
+  "source_prediction_binding": {
+    "config_path": "configs/open_gravity_matched_acceleration_cross_scale_predictions_v1.json",
+    "config_raw_sha256": "ee21d151c7f2f970c55ca694e5e5b317e6bdcf6a25c844102c8cdda485dff2ec",
+    "module_path": "src/sigma_theory_compiler/open_gravity_matched_acceleration_cross_scale_predictions_v1.py",
+    "module_raw_sha256": "276e943f49266efa5385a9d42f8ebccff990a26d4f6a4ae90ded1ccbe5897212",
+    "test_path": "tests/test_open_gravity_matched_acceleration_cross_scale_predictions_v1.py",
+    "test_raw_sha256": "5fc955c7adfbcf0dc3a53126d4a86b50c24dc4641b1481ffe801f785b7de8367",
+    "ledger_path": "work/private/open-gravity-matched-acceleration-cross-scale-predictions-v1/predictions.json",
+    "ledger_raw_sha256": "862748daa5f8ad07c14dd31fecae50218981111a5343574799817ff73f947a21",
+    "ledger_content_sha256": "bbc28925924fbe71728404e6117737ba832a79b419846726f6bb49bcc7a477f6"
+  },
+  "scorer_binding": {
+    "config_path": "configs/open_gravity_matched_acceleration_cross_scale_development_score_v1.json",
+    "config_raw_sha256": "9d98a875024cb5503cd73525e5207c4075ee4cb52e49c116609b17a5da56dc11",
+    "module_path": "src/sigma_theory_compiler/open_gravity_matched_acceleration_cross_scale_development_score_v1.py",
+    "module_raw_sha256": "de48a6aacad8fe5fabc7ea2ed1109e7d5f232ee18b1926c533abc9ee4595d781",
+    "test_path": "tests/test_open_gravity_matched_acceleration_cross_scale_development_score_v1.py",
+    "test_raw_sha256": "4c7f48d242eb5ead34ed741010b57de92f982d78a9b84d85a1f0f5755185074b",
+    "receipt_path": "runs/gravity/open-gravity-matched-acceleration-cross-scale-development-score-v1/receipt.json",
+    "receipt_raw_sha256": "b203e122d67636a08b310827d6473ef1b9ea32dab786f45daec5737d1523391d",
+    "receipt_content_sha256": "a07110fbe52ae221c84ad63a780fcb7b0c19363a00fdab4de14728cfe85f9666"
+  },
+  "published_method_anchor": {
+    "id": "RAR_2016",
+    "url": "https://arxiv.org/abs/1610.06183",
+    "equation": "g_RAR(g_b,a)=g_b/[1-exp(-sqrt(g_b/a))]",
+    "role": "published empirical base relation; every new environmental placement must recover it at factor F=1"
+  },
+  "candidate_program": {
+    "published_controls": [
+      "GR_BARYONS_WEAK_FIELD",
+      "RAR_2016_EMPIRICAL",
+      "MOND_STANDARD_MU",
+      "EMOND_2012_APPROX_T2_OMITTED"
+    ],
+    "driver_cells_inherited_exactly_from_source_prediction_packet": 28,
+    "placements": [
+      {
+        "placement_id": "RAR_TRANSITION_SCALE",
+        "equation": "g=g_RAR(g_b,a0*F)",
+        "interpretation": "environment changes the low-acceleration transition scale"
+      },
+      {
+        "placement_id": "RAR_EXCESS_AMPLITUDE",
+        "equation": "g=g_b+F*(g_RAR(g_b,a0)-g_b)",
+        "interpretation": "environment changes only the non-Newtonian excess, leaving the Newtonian contribution untouched"
+      },
+      {
+        "placement_id": "RAR_LOW_FIELD_TOTAL_GAIN",
+        "equation": "g=g_RAR(g_b,a0)*[1+s2(g_b)*(F-1)], s2=1/[1+(g_b/a0)^2]",
+        "interpretation": "environment changes the total response only in the low-field regime"
+      }
+    ],
+    "new_candidate_count": 84,
+    "total_candidate_count_with_controls": 88,
+    "factor_floor": 0.0625,
+    "factor_ceiling_single_driver": 16.0,
+    "factor_ceiling_interaction": 256.0,
+    "zero_factor_control_recovers_published_RAR": true,
+    "same_constants_across_every_object": true,
+    "per_object_parameters": 0,
+    "candidate_generation_after_this_freeze": 0,
+    "multiplicity_charge_every_new_candidate": true
+  },
+  "benchmarks_and_admission": {
+    "real_source_data_required": true,
+    "primary_paper_or_exact_analytic_limit_required": true,
+    "RAR_at_F_equal_1": true,
+    "finite_positive_predictions": true,
+    "high_acceleration_solar_recovery_max_fractional_deviation": 1e-6,
+    "geometry_candidates_source_blocked_on_spherical_XCOP": true,
+    "failed_benchmark_disposition": "RETAINED_NOT_SCORED",
+    "response_values_may_not_change_formulas_or_grid": true
+  },
+  "scoring_and_adjudication": {
+    "reuse_exact_response_loaders_losses_source_cells_and_nuisances_from_bound_scorer": true,
+    "minimum_meaningful_fractional_improvement": 0.02,
+    "phangs_minimum_object_support": 2,
+    "xcop_minimum_object_support": 6,
+    "cross_scale_repair_signal_requires_both_domains_and_support": true,
+    "SPARC_single_object_is_diagnostic_only": true,
+    "all_candidates_and_failures_retained": true,
+    "theory_health_separate": true,
+    "maximum_claim": "POST_RESPONSE_DEVELOPMENT_REPAIR_SIGNAL_NOT_TARGET_BLIND_NOT_CONFIRMED"
+  },
+  "access_scope": {
+    "development_responses_reused": true,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "group_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0
+  },
+  "private_ledger_path": "work/private/open-gravity-post-response-environmental-placement-expansion-v1/score-ledger.json",
+  "output_path": "runs/gravity/open-gravity-post-response-environmental-placement-expansion-v1/receipt.json"
+}

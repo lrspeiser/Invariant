@@ -1,0 +1,146 @@
+{
+  "schema": "open-gravity-xcop-real-source-shaped-synthetic-injection-matrix-1.0",
+  "package_id": "open-gravity-xcop-real-source-shaped-synthetic-injection-matrix-v1",
+  "version": "v1.0.0",
+  "status": "FROZEN_SYNTHETIC_ONLY_PRE_RESPONSE",
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "experiment_id": "cluster.xcop-source-shaped-synthetic.v1",
+  "suite_seed": 26083101,
+  "clusters": [
+    "A1644",
+    "A1795",
+    "A2142",
+    "A2255",
+    "A2319",
+    "A3266",
+    "A85",
+    "ZW1215"
+  ],
+  "mechanisms": [
+    "AQUAL_SIMPLE_MU",
+    "GP01_ELLIPTIC_N2_L035",
+    "GQNS_GEOMETRY_CONDITIONED_NONLOCAL_SOURCE",
+    "MASHHOON_RAHVAR_NLG_Q0",
+    "NEWTON",
+    "NFW_SOURCE_MATCHED_CONTROL",
+    "QUMOND_SIMPLE_NU",
+    "REFRACTED_GRAVITY_DISKMASS_MEDIAN"
+  ],
+  "noise_families": [
+    "independent-source-envelope",
+    "radial-correlated-source-envelope",
+    "zero-noise"
+  ],
+  "grid": {
+    "points_per_axis": 17,
+    "half_box_over_outer_source_radius": 1.25,
+    "geometry_mode": "spherical-lifted3d",
+    "time_mode": "static",
+    "mass_normalization": "scale the spherical interpolation on the frozen 17^3 grid to the exact outer declared baryonic source mass"
+  },
+  "noise": {
+    "fraction_floor": 0.01,
+    "fraction_ceiling": 0.5,
+    "response_floor_fraction_of_rms": 0.001,
+    "radial_control_knots": 9
+  },
+  "scoring": {
+    "primary_metric": "whitened_rmse",
+    "secondary_metric": "relative_rmse",
+    "winner_absolute_tolerance": 1e-12,
+    "minimum_whitened_gap_for_distinct_signature": 0.1,
+    "no_hand_ranking": true
+  },
+  "parameter_schema_path": "configs/open_gravity_full3d_phangs_synthetic_adapter_empty_parameters_v1.schema.json",
+  "output_directory": "runs/gravity/open-gravity-xcop-real-source-shaped-synthetic-injection-matrix-v1",
+  "upstream_bindings": [
+    {
+      "id": "FORMULA_EXECUTION_PROTOCOL",
+      "path": "src/sigma_theory_compiler/open_gravity_formula_execution_protocol_v1.py",
+      "sha256": "c4777a4471b21ba4d6c1b5264a9ede2ee45aeceb641955bf989c9901e37ee79a"
+    },
+    {
+      "id": "FULL3D_ADAPTERS",
+      "path": "src/sigma_theory_compiler/open_gravity_full3d_phangs_synthetic_adapter_preflight_v1.py",
+      "sha256": "b35038815e3d9929bcb4317fc66dc6856c94dc8fbc7648d0dcb66a7b20e69a00"
+    },
+    {
+      "id": "LANE6_FROZEN_SOLVERS",
+      "path": "src/sigma_theory_compiler/open_gravity_lane6_same_grid_nonspherical_predictions_v1.py",
+      "sha256": "b3953cba78d61fa368f73428574e52852d9404ac09acc259e63cd4f418fc9897"
+    },
+    {
+      "id": "PARAMETER_SCHEMA",
+      "path": "configs/open_gravity_full3d_phangs_synthetic_adapter_empty_parameters_v1.schema.json",
+      "sha256": "b1efcc659ad02e6d5dbaf72f3a701312dba918b2367ba23d836e95fca88455e1"
+    },
+    {
+      "id": "REPLAY_LEDGER",
+      "path": "src/sigma_theory_compiler/open_gravity_synthetic_replay_ledger_v1.py",
+      "sha256": "7173b652b60837eb8391b2e271ff74c815f331f43ecdc23465eff2a850649a0a"
+    },
+    {
+      "id": "SCENARIO_PACKET",
+      "path": "src/sigma_theory_compiler/open_gravity_synthetic_scenario_packet_v1.py",
+      "sha256": "63b074666985f67b6f087aab908c72387f35b2edcaa92438840fbbd3bb45a57c"
+    },
+    {
+      "id": "XCOP_SOURCE_PREFLIGHT_CONFIG",
+      "path": "configs/gravity_gain_persistence_gp01_xcop_source_preflight_v1.json",
+      "sha256": "4ac4bd034cfd6339dd8bdcb6fd946af06b254da77c2a9eeba682ea0fac50e40d"
+    },
+    {
+      "id": "XCOP_SOURCE_PREFLIGHT_MODULE",
+      "path": "src/sigma_theory_compiler/gravity_gain_persistence_gp01_xcop_source_preflight.py",
+      "sha256": "22e96775bc64b5cfc0c5eb8aa829be3ff0a9dcbe4f9484725e0e182869a53c61"
+    },
+    {
+      "id": "XCOP_SOURCE_PREFLIGHT_RECEIPT",
+      "path": "runs/gravity/theory/gain-persistence-gp01-xcop-source-preflight-v1.json",
+      "sha256": "3d4d83980d1e1cec45ca5a6353ee827370f33940f5cbe1d9510f83e0cc44de34"
+    }
+  ],
+  "access_contract": {
+    "allowed_source_roles": [
+      "density",
+      "stellar_mass"
+    ],
+    "forbidden_roles": [
+      "hydrostatic_mass",
+      "inferred_total_mass",
+      "lensing",
+      "motion",
+      "pressure",
+      "temperature"
+    ],
+    "expected_source_files_opened": 13,
+    "expected_source_bytes_opened": 308160,
+    "measured_response_files_opened": 0,
+    "measured_response_rows_opened": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "adapter_blocks": [
+    {
+      "formula_id": "DPEL01_DISK_POLAR_ESCAPE_LOAD",
+      "status": "UNADAPTED",
+      "reason": "disk-only polar escape-load geometry is incompatible with a spherical X-COP source lift"
+    },
+    {
+      "formula_id": "GP01_T1_T2_TRANSPORT",
+      "status": "SOURCE_BLOCKED",
+      "reason": "all eight frozen source profiles lack the preregistered unique outward y=100 anchor"
+    },
+    {
+      "formula_id": "GP01_TELEGRAPH",
+      "status": "SOURCE_BLOCKED",
+      "reason": "the source profiles contain no source history or instantaneous Poisson target"
+    },
+    {
+      "formula_id": "GP01_ACTION_PLACEHOLDER",
+      "status": "QUARANTINED",
+      "reason": "the committed action card remains incomplete"
+    }
+  ]
+}

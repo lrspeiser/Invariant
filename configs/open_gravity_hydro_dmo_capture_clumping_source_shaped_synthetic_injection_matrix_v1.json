@@ -1,0 +1,126 @@
+{
+  "schema": "open-gravity-hydro-dmo-capture-clumping-source-shaped-synthetic-injection-matrix-1.0",
+  "package_id": "open-gravity-hydro-dmo-capture-clumping-source-shaped-synthetic-injection-matrix-v1",
+  "version": "v1.0.0",
+  "status": "FROZEN_SYNTHETIC_ONLY_PRE_RESPONSE",
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "empirical_authority": "NONE",
+  "experiment_id": "capture.hydro-dmo-source-shaped-synthetic.v1",
+  "suite_seed": 26083141,
+  "output_directory": "runs/gravity/open-gravity-hydro-dmo-capture-clumping-source-shaped-synthetic-injection-matrix-v1",
+  "parameter_schema_path": "configs/open_gravity_hydro_dmo_capture_clumping_source_shaped_synthetic_injection_matrix_v1.parameters.schema.json",
+  "source_families": {
+    "camels": {
+      "cadence_scale_factors": [0.513, 0.538, 0.564, 0.591, 0.62, 0.65, 0.681, 0.714, 0.749, 0.789, 0.827, 0.867, 0.91, 0.954, 1.0],
+      "role": "same-IC public-suite metadata shape only; no object-level cross-tree match",
+      "source_manifest_path": "runs/gravity/open-gravity-dissipative-capture-camels-source-preflight-v1/artifacts/camels-source-manifest.json",
+      "source_manifest_sha256": "adedb8c5e472ceef1ff6c94440efc6e3e6db00da9572785d3fbc42860a26b38b"
+    },
+    "tng100": {
+      "cadence_age_gyr": [5.878, 7.314, 8.587, 9.389, 10.299, 11.323, 12.467, 13.803],
+      "role": "preferred matched hydro/DMO source contract; authentication and checksum blocked",
+      "source_manifest_path": "runs/gravity/open-gravity-dissipative-capture-enlarged-systems-v2/artifacts/tng100-hydro-dmo-source-manifest.json",
+      "source_manifest_sha256": "e29fa0499db2b8e01ac8546858cd9d891403740c1918a3cb4a5cd5a58bdd356d"
+    }
+  },
+  "analytic_design": {
+    "mass_ratio": [0.25, 0.75],
+    "pericenter_proxy": [0.8, 1.6],
+    "history_initial_memory": {"activated": 1.0, "quiet": 0.0},
+    "roles": ["dmo", "hydro"],
+    "initial_separation": 8.0,
+    "initial_radial_velocity": -1.2,
+    "total_mass": 5.0,
+    "activation_scale": 2.5,
+    "temperature": 1.0,
+    "integration_dt": 0.01,
+    "encounter_time_span": 20.0,
+    "hydro_gas_fraction_by_mass_ratio": [0.12, 0.22],
+    "hydro_cooling_control_by_pericenter": [0.25, 0.75],
+    "hydro_shock_mach_control_by_pericenter": [4.0, 1.5],
+    "wake_coulomb_log_by_mass_ratio": [2.0, 4.0],
+    "relaxation_time_by_mass_ratio": [5.0, 2.0],
+    "meaning": "All numeric population values are declared analytic controls constrained only by the public metadata field vocabulary and major-merger mass-ratio floor; none are decoded simulation rows."
+  },
+  "noise": {
+    "families": ["analytic-diagonal", "zero-draw"],
+    "energy_sigma": 0.02,
+    "separation_sigma": 0.02,
+    "receiver_energy_sigma": 0.01,
+    "entropy_sigma": 0.01,
+    "single_draw_per_response_vector": true,
+    "response_calibrated": false
+  },
+  "scoring": {
+    "metric": "joint_diagonal_whitened_rmse",
+    "minimum_whitened_gap_for_distinct_signature": 0.1,
+    "no_hand_ranking": true
+  },
+  "executable_formulas": {
+    "CM01_CONSERVATIVE_THREE_BODY_CAPTURE": {"mechanism": "CM01", "softening": "0x1.999999999999ap-5", "third_mass_fraction": "0x1.3333333333333p-3"},
+    "DC00_NEWTONIAN_FOCUSING_CONTROL": {"mechanism": "DC00", "force_scale": "0x1.0000000000000p+0", "gamma": "0x0.0p+0"},
+    "DC01_STATIC_FORCE_AMPLIFICATION_CONTROL": {"mechanism": "DC01", "force_scale": "0x1.599999999999ap+0", "gamma": "0x0.0p+0"},
+    "DC05_TIMEWELL_SINGLE_MEMORY_BATH": {"mechanism": "DC05", "force_scale": "0x1.0000000000000p+0", "gamma": "0x1.47ae147ae147bp-6", "tau": ["0x1.8000000000000p+1"], "weights": ["0x1.0000000000000p+0"]},
+    "DC06_TIMEWELL_BIMODAL_MEMORY_BATH": {"mechanism": "DC06", "force_scale": "0x1.0000000000000p+0", "gamma": "0x1.47ae147ae147bp-6", "tau": ["0x1.0000000000000p-1", "0x1.8000000000000p+3"], "weights": ["0x1.6666666666666p-1", "0x1.3333333333333p-2"]},
+    "DC07_COMPRESSION_GATED_BATH": {"mechanism": "DC07", "force_scale": "0x1.0000000000000p+0", "gamma": "0x1.47ae147ae147bp-6", "compression_speed_scale": "0x1.0000000000000p+0"}
+  },
+  "nonexecutable_formulas": {
+    "CAMELS_PAIRED_REAL_RESPONSE": {"status": "SOURCE_BLOCKED", "reason": "DMO group catalogs and documented cross-tree object matching are unavailable"},
+    "COLLISIONLESS_VIOLENT_RELAXATION": {"status": "UNADAPTED", "reason": "published mechanism retained, but no exact common-ABI evolved-state law is frozen"},
+    "COVARIANT_RECEIVER_COMPLETION": {"status": "UNADAPTED", "reason": "DC05-DC07 have no covariant action or receiver stress energy"},
+    "DC02_INELASTIC_CLOUD_SHOCK": {"status": "UNADAPTED", "reason": "constitutive jump map lacks receiver microdynamics"},
+    "DC03_CHANDRASEKHAR_WAKE_TRANSFER": {"status": "UNADAPTED", "reason": "effective force lacks evolved wake state"},
+    "DC04_GRAVITATIONAL_WAVE_CAPTURE": {"status": "UNADAPTED", "reason": "far-zone flux lacks evolved wave receiver state"},
+    "DISSIPATIVE_DARK_MATTER": {"status": "UNADAPTED", "reason": "no exact dimensionally closed state law is frozen in the predecessor"},
+    "ESTABLISHED_DYNAMICAL_FRICTION": {"status": "UNADAPTED", "reason": "no live background wake state is available in the common ABI"},
+    "ORDINARY_GAS_SHOCK_COOLING": {"status": "UNADAPTED", "reason": "source fields are documented but response and receiver microstate are forbidden"},
+    "TNG100_PAIRED_REAL_RESPONSE": {"status": "SOURCE_BLOCKED", "reason": "API authentication and cryptographic payload checksums remain unavailable"}
+  },
+  "formula_aliases": {
+    "newtonian_focusing": "DC00_NEWTONIAN_FOCUSING_CONTROL",
+    "static_force_amplification": "DC01_STATIC_FORCE_AMPLIFICATION_CONTROL",
+    "conservative_three_body_capture": "CM01_CONSERVATIVE_THREE_BODY_CAPTURE"
+  },
+  "units_and_boundaries": {
+    "unit_system": "dimensionless encounter units with G=1",
+    "state": "two-body (r,p_r,L,U,S,h_i) or conservative planar three-body (x_i,v_i)",
+    "initial_condition_rule": "mass ratio, total mass, separation, radial velocity and impact/pericenter proxy are frozen analytic source controls",
+    "boundary_rule": "integrate only on the declared finite encounter-time interval; reject nonpositive separation or nonfinite state",
+    "interval_censoring": "public cadence points define closed midpoint intervals; no exact merger, pericenter, or coalescence time is claimed",
+    "limits": ["DC01 force_scale->1 equals DC00", "DC05/DC06/DC07 gamma->0 equal DC00", "DC06 zero second-mode weight reduces to one memory mode"],
+    "conservation_gate": "state-derived total energy, linear momentum where represented, and angular momentum must remain within frozen numerical tolerances",
+    "energy_receiver_gate": "DC05-DC07 evolve U and S; CM01 evolves the third body; DC02-DC04 remain nonexecutable",
+    "causality_gate": "each derivative uses only the current state and fixed local controls; future cadence/response values are inaccessible"
+  },
+  "upstream_bindings": [
+    {"path": "configs/open_gravity_dissipative_capture_enlarged_systems_v2.json", "sha256": "6951286a11aebd1402efa8284bddfecd458b220caef1ab2b69b0ade551c781b0", "role": "lane4-v2-config"},
+    {"path": "src/sigma_theory_compiler/open_gravity_dissipative_capture_enlarged_systems_v2.py", "sha256": "4b92060be6314e5721aa43b1112a89bd17ab2ad4e1fbe7ddeece0992284c9a82", "role": "lane4-v2-module"},
+    {"path": "tests/test_open_gravity_dissipative_capture_enlarged_systems_v2.py", "sha256": "744aa63cad1dd192432f335820b776226abd4346e9c45342f8f931622ca69577", "role": "lane4-v2-test"},
+    {"path": "runs/gravity/open-gravity-dissipative-capture-enlarged-systems-v2/receipt.json", "sha256": "30032ef472e82a1f98931b335a9681bf2d1b8f3ec4d0a509b1407eaef394eeb2", "role": "lane4-v2-receipt"},
+    {"path": "configs/open_gravity_dissipative_capture_camels_source_preflight_v1.json", "sha256": "3de3b3c300f914eb465cf8092bd539340f7d732def6f30bf1294b0d750348b59", "role": "camels-preflight-config"},
+    {"path": "src/sigma_theory_compiler/open_gravity_dissipative_capture_camels_source_preflight_v1.py", "sha256": "913e19dda094785828cd1ab145b5cea5c3e262eaa2b2878c378ba1cde7cb09ab", "role": "camels-preflight-module"},
+    {"path": "tests/test_open_gravity_dissipative_capture_camels_source_preflight_v1.py", "sha256": "04e85bc35c4f3818043f31463a57ebe423481e087cc77ef99aaa91989054c102", "role": "camels-preflight-test"},
+    {"path": "runs/gravity/open-gravity-dissipative-capture-camels-source-preflight-v1/receipt.json", "sha256": "61a82204f27dd4f4eaba714453c164c87c4d6bb67cccd34f855e8e5a311ed649", "role": "camels-preflight-receipt"},
+    {"path": "src/sigma_theory_compiler/open_gravity_data_element_ontology_v1.py", "sha256": "067fd440e2ee59af102aa66214a65e3785d92e8a3124b4ea4d5994aa247a323e", "role": "ontology-module"},
+    {"path": "src/sigma_theory_compiler/open_gravity_synthetic_scenario_packet_v1.py", "sha256": "63b074666985f67b6f087aab908c72387f35b2edcaa92438840fbbd3bb45a57c", "role": "scenario-module"},
+    {"path": "src/sigma_theory_compiler/open_gravity_synthetic_discovery_runner_v2.py", "sha256": "d67225ff1405e57fa3634bd8bdda3337bad2d325a8ff0f791a96c214bcce7475", "role": "runner-v2-module"},
+    {"path": "work/audits/open-gravity-synthetic-discovery-runner-v2-independent-audit-d67225ff.json", "sha256": "cda03daed64b2fdd530ba95c5dacf336c35be1c0f8afaafef45af67ca0cca8e7", "role": "runner-v2-independent-audit"}
+  ],
+  "source_blocks": [
+    "No simulation HDF5 structure, group/tree row, particle/cell field, merger outcome, pressure, temperature, hydrostatic, lensing, or motion response is opened.",
+    "CAMELS DMO group catalog rows remain inaccessible and object-level hydro/DMO cross-tree matching is undocumented.",
+    "TNG100 payload URLs, authentication, and official cryptographic payload checksums remain unresolved.",
+    "Synthetic hydro/DMO pair IDs are analytic roles and are not public object identifiers."
+  ],
+  "access_contract": {
+    "simulation_payload_structures_opened": 0,
+    "simulation_scientific_rows_opened": 0,
+    "real_merger_outcomes_opened": 0,
+    "real_hydro_responses_opened": 0,
+    "real_dmo_group_rows_opened": 0,
+    "new_real_data_scores": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

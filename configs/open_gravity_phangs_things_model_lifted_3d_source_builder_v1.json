@@ -1,0 +1,182 @@
+{
+  "schema": "invariant-open-gravity-phangs-things-model-lifted-3d-source-builder-1.0",
+  "package_id": "open-gravity-phangs-things-model-lifted-3d-source-builder-v1",
+  "status": "MODEL_LIFTED_2P5D_SOURCE_PROFILES_DEVELOPMENT_ONLY",
+  "purpose": "Construct response-independent baryonic source maps and vertically lifted Newtonian potential, acceleration, tidal, density, and nonaxisymmetry profiles for the three frozen PHANGS exploration galaxies.",
+  "acquisition_binding": {
+    "config_path": "configs/open_gravity_phangs_things_model_lifted_3d_pilot_source_acquisition_v1.json",
+    "config_raw_sha256": "7d9c9870f7273e4c817e18b6942bfca6eae3dd604e5c7dfa2912b8806c19a5e7",
+    "module_path": "src/sigma_theory_compiler/open_gravity_phangs_things_model_lifted_3d_pilot_source_acquisition_v1.py",
+    "module_raw_sha256": "6fa3ccdd3e54fa72e7b4e2e89524d16692e061771e0f127132060325196a6339",
+    "test_path": "tests/test_open_gravity_phangs_things_model_lifted_3d_pilot_source_acquisition_v1.py",
+    "test_raw_sha256": "f9336855964f9b7c0105f3c22b72b1a74545a48b3ce48e706032b52c6dab7f96",
+    "receipt_path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-pilot-source-acquisition-v1/receipt.json",
+    "receipt_raw_sha256": "286ff59010feaefe90582abf2f42ff53f6f5a89932630e3dc2c4df954b05e3ac",
+    "receipt_content_sha256": "d62bd8d76cd155c6063b2aaeba53bfeab28969e2f02b347115a7a1a48a946d89"
+  },
+  "objects": [
+    {
+      "object_id": "NGC2903",
+      "ra_deg": 143.0421,
+      "dec_deg": 21.5016,
+      "distance_mpc": 8.5,
+      "position_angle_deg": 19.4,
+      "inclination_deg": 62.69129057081534
+    },
+    {
+      "object_id": "NGC3351",
+      "ra_deg": 160.9904,
+      "dec_deg": 11.7037,
+      "distance_mpc": 10.0,
+      "position_angle_deg": 11.2,
+      "inclination_deg": 43.44024716027847
+    },
+    {
+      "object_id": "NGC3627",
+      "ra_deg": 170.0625,
+      "dec_deg": 12.9916,
+      "distance_mpc": 8.3,
+      "position_angle_deg": -17.6,
+      "inclination_deg": 54.583570652458924
+    }
+  ],
+  "map_transform": {
+    "primary_grid_pixels": 256,
+    "primary_box_kpc": 40.0,
+    "coarse_grid_pixels": 128,
+    "padded_grid_pixels": 512,
+    "padded_box_kpc": 80.0,
+    "interpolation_order": 1,
+    "mask_interpolation_order": 0,
+    "orientation_source": "frozen S4G outer 3.6 micron photometry only; no velocity fit",
+    "primary_wcs_mode": "DECLARED_CORE_TAN_WITH_SIP_DISABLED",
+    "s4g_sip_sensitivity_mode": "HEADER_SIP_ENABLED_DESPITE_MISSING_-SIP_CTYPE",
+    "s4g_native_fwhm_arcsec": 2.0,
+    "beam_policy": "convolve stellar and CO maps to the selected THINGS major-axis FWHM; the selected THINGS map is already beam-smeared",
+    "ica_mask_rule": "mask==0 and finite stellar intensity is valid; nearest-neighbor inpaint masked source pixels before reprojection; clip negative stellar intensity after reprojection",
+    "co_detection_rule": "retain finite positive CO21 MOM0 only where MOM0>=3*EMOM0; all other CO source pixels are zero"
+  },
+  "mass_conversion": {
+    "stellar_lsun_pc2_per_mjy_sr": 704.04,
+    "stellar_ml_fixed": 0.6,
+    "stellar_ml_color_formula": "log10(Upsilon_3.6)=-0.339*([3.6]-[4.5])-0.336",
+    "stellar_color_valid_min_mag": -0.15,
+    "stellar_color_valid_max_mag": -0.02,
+    "stellar_color_fallback_ml": 0.6,
+    "hi_jybeam_mps_to_jybeam_kms": 0.001,
+    "hi_brightness_temperature_constant": 1222000.0,
+    "hi_column_per_k_kms_cm2": 1.823e+18,
+    "hi_column_per_msun_pc2_cm2": 1.248e+20,
+    "helium_factor": 1.36,
+    "co_alpha_co10_with_helium": 4.35,
+    "co_r21": 0.65,
+    "face_on_rule": "multiply optically thin projected surface densities by cos(inclination) after deprojection"
+  },
+  "vertical_and_gravity_model": {
+    "stellar_height_over_exponential_scale_cells": [0.1, 0.136986301369863, 0.2],
+    "gas_height_pc_cells": [100.0, 200.0, 400.0],
+    "vertical_profile": "rho=Sigma*sech^2(z/h)/(2h)",
+    "stellar_scale_rule": "R_d=R_half/1.678 from the primary fixed-M/L face-on stellar map",
+    "newton_g_pc_kms2_msun": 0.00430091727003628,
+    "pc_m": 3.085677581491367e+16,
+    "c_km_s": 299792.458,
+    "vertical_gauss_legendre_nodes": 48,
+    "pixel_softening_rule": "epsilon=dx/sqrt(pi)",
+    "isolated_convolution": "linear zero-padded two-dimensional FFT convolution with the exact declared vertically averaged kernel",
+    "radial_sample_count": 60,
+    "radial_min_kpc": 0.5,
+    "radial_max_kpc": 15.0,
+    "azimuth_sample_count": 64,
+    "nonaxisymmetric_modes": [1, 2, 3, 4],
+    "matched_acceleration_m_s2": 1.2e-10
+  },
+  "cell_contract": {
+    "primary_cartesian_axes": {
+      "beam": ["ROBUST_PRIMARY", "NATURAL_SENSITIVITY"],
+      "stellar_ml": ["FIXED_0P6", "COLOR_PUBLISHED_WITH_FALLBACK"],
+      "co_source": ["WITH_CO", "WITHOUT_CO"],
+      "stellar_height_ratio": [0.1, 0.136986301369863, 0.2],
+      "gas_height_pc": [100.0, 200.0, 400.0]
+    },
+    "primary_cartesian_cells_per_object": 72,
+    "noncartesian_controls_per_object": [
+      "COARSE_128_PRIMARY_PHYSICS",
+      "PADDED_512_PRIMARY_PHYSICS",
+      "S4G_SIP_HEADER_SENSITIVITY_PRIMARY_PHYSICS"
+    ],
+    "total_cells_per_object": 75,
+    "total_cells": 225,
+    "response_based_cell_selection": false,
+    "retain_every_failure": true
+  },
+  "published_anchor_contract": {
+    "rule": "No source conversion, vertical model, or gravity operator is admitted without an existing public dataset and a primary-paper or analytic benchmark that can falsify the implementation.",
+    "datasets_and_methods": [
+      {
+        "id": "S4G_P5_STELLAR_MASS",
+        "url": "https://arxiv.org/abs/1410.0009",
+        "tests": ["ICA-cleaned old-stellar-light product", "published color-M/L formula", "fixed M/L=0.6 sensitivity"]
+      },
+      {
+        "id": "S4G_ML_3P6",
+        "url": "https://arxiv.org/abs/1402.5210",
+        "tests": ["fixed Upsilon_3.6=0.6 is an allowed published approximation", "color-dependent M/L is used only in its frozen color range"]
+      },
+      {
+        "id": "THINGS_HI",
+        "url": "https://arxiv.org/abs/0810.2125",
+        "tests": ["public integrated-HI maps", "natural and robust beam sensitivity", "HI mass and resolution sanity"]
+      },
+      {
+        "id": "PHANGS_ALMA_CO21",
+        "url": "https://arxiv.org/abs/2104.07739",
+        "tests": ["public CO(2-1) moment products", "CO source omission independence control", "native beam metadata"]
+      },
+      {
+        "id": "FREEMAN_EXPONENTIAL_DISK",
+        "url": "https://articles.adsabs.harvard.edu/pdf/1970ApJ...160..811F",
+        "tests": ["thin exponential-disk circular-speed Bessel solution"]
+      },
+      {
+        "id": "CASERTANO_FINITE_THICKNESS_DISK",
+        "url": "https://doi.org/10.1093/mnras/203.3.735",
+        "tests": ["finite thickness lowers the inner/peak disk rotation field", "thickness ordering"]
+      }
+    ],
+    "mandatory_synthetic_and_published_benchmarks": {
+      "sech2_vertical_kernel_normalization": true,
+      "point_mass_far_field_limit": true,
+      "freeman_exponential_disk_thin_limit": true,
+      "finite_thickness_monotone_suppression": true,
+      "constant_surface_brightness_deprojection_mass_conservation": true,
+      "observed_source_mass_and_resolution_sanity": true,
+      "coarse_primary_and_padded_convergence_retained": true
+    },
+    "failure_policy": "Any failed published or synthetic benchmark blocks response scoring; it is never repaired or tuned using response values."
+  },
+  "private_profile_output_path": "work/private/open-gravity-phangs-things-model-lifted-3d-pilot-v1/model-lifted-3d-source-profiles-v1.json",
+  "scientific_boundary": {
+    "source_files_opened": 21,
+    "source_bytes_opened": 74030400,
+    "development_response_opened_by_this_package": false,
+    "response_rows_opened": 0,
+    "scores_computed": 0,
+    "models_fit": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "development_only": true,
+    "observed_full_3d_geometry": false,
+    "raw_publisher_bytes_redistributed": false
+  },
+  "claims": {
+    "model_lifted_source_profiles_derived": true,
+    "source_systematics_enumerated": true,
+    "scientific_response_scored": false,
+    "potential_depth_discriminator_established": false,
+    "new_gravity_law_established": false,
+    "historical_novelty": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-source-builder-v1/receipt.json"
+}

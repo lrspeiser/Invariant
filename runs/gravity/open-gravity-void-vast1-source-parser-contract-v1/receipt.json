@@ -1,0 +1,312 @@
+{
+  "access_accounting": {
+    "authorizations_consumed": 0,
+    "authorizations_minted": 0,
+    "confirmation_rows_decoded": 0,
+    "pantheon_files_opened": 0,
+    "prohibited_source_files_opened": 0,
+    "scores_computed": 0,
+    "validation_rows_decoded": 0,
+    "vast_readme_files_opened": 1,
+    "vast_table1_files_opened": 1,
+    "vast_table1_rows_decoded": 2347,
+    "vast_table1_rows_read": 2347
+  },
+  "artifacts": {
+    "artifacts/source-summary.json": {
+      "bytes": 7287,
+      "content_sha256": "e35dae93185ca39ab5d670d933cc2dac11503e2f78653b8d9f27837d54267097",
+      "raw_sha256": "7da0fa72f7cbbbc7902c759396de3028618d4f61a56fedc90006f45e8be9d3f9"
+    },
+    "artifacts/vast1-row-dispositions.jsonl": {
+      "bytes": 1477982,
+      "content_sha256": "8e9425cda7f6b2fd7eb7c8b28989ccb0e440d317fbc2c8470baedf0259d6a044",
+      "raw_sha256": "944590b657096ba9fcbafc5027f2ae6fa71ed2b784b005cf49a94b7335539723"
+    }
+  },
+  "authority": {
+    "development_run_authority": false,
+    "may_mint_or_consume_authorization": false,
+    "may_read": [
+      "VAST table1",
+      "VAST ReadMe",
+      "frozen receipts and retained failure"
+    ],
+    "must_not_read": [
+      "CF4 scientific rows",
+      "VAST table2",
+      "VAST table3",
+      "mask",
+      "validation",
+      "confirmation",
+      "Pantheon"
+    ],
+    "scoring_authority": false
+  },
+  "bindings": {
+    "authorization_id": "1b8764212edd21b1d8c4c6a7c167f7a00e7125bbd0ca9dc8f845ed339d8cd849",
+    "consumption_marker_content_sha256": "857d11d8638a4b09f50d32f75ba8c454e6883686fcfa51f86659e9e1803a1a07",
+    "failure_content_sha256": "e75f423476eb0f04c2b6ea9a01a0a1f9bd68dc74509d56e4df66b1ec1640fb83",
+    "failure_raw_sha256": "50faf79bbf7af6cf810eee5d1851087c02a9ab900045f0ed90718a8782e942fb"
+  },
+  "conformance_gates": [
+    {
+      "check_id": "FROZEN_V1_REJECTS_DOCUMENTED_ZERO_ID",
+      "passed": true
+    },
+    {
+      "check_id": "FROZEN_V1_REJECTS_OFFICIAL_SHORT_FINAL_REFF",
+      "passed": true
+    },
+    {
+      "check_id": "SUCCESSOR_ACCEPTS_ALL_2347_ROWS",
+      "passed": true
+    },
+    {
+      "check_id": "ZERO_IS_NOT_SENTINEL",
+      "passed": true
+    },
+    {
+      "check_id": "EDGE_CLASS_2_DOCUMENTED_AND_ACCEPTED",
+      "passed": true
+    },
+    {
+      "check_id": "ZERO_SCORING_AUTHORITY",
+      "passed": true
+    }
+  ],
+  "content_sha256": "3f97f5caf9d0051b6294d711866993cb31780a9f740472e9dd78feda5a3ae85d",
+  "decision": "REPAIRABLE_PARSER_CONTRACT_NO_NEW_DEVELOPMENT_AUTHORIZATION",
+  "diagnosis": {
+    "additional_blockers_exposed_by_successor": [
+      "source index 2 has a valid 180-byte payload because final Reff has 14 decimals",
+      "46 official rows carry documented edge flag 2"
+    ],
+    "classification": "FROZEN_PARSER_CONTRACT_WRONG_OFFICIAL_SOURCE_NOT_CORRUPT",
+    "first_offending_framed_sha256": "e1aaeccae3e857121fd4b1b31895d21cf590e145f0421341e3c6ec7e6418a0a7",
+    "first_offending_framed_start": 0,
+    "first_offending_line_number": 1,
+    "first_offending_payload_sha256": "3021b00c7baf0ffa9871d75d0d6e0f857cb4832c3566ec5049715c13214d49f2",
+    "first_offending_source_index": 0,
+    "first_offending_values": {
+      "Cosmo": "Planck2018",
+      "Rad": "0x1.671135e46c159p+4",
+      "Reff": "0x1.bdaeba268c8ebp+4",
+      "edge": 1,
+      "void": 0
+    },
+    "why_valid": "The official ReadMe explicitly documents void range [0/1183]?; each cosmology has one zero identifier and a complete zero-based contiguous sequence. Zero is an identifier, not a sentinel or missing value."
+  },
+  "documentation": {
+    "bytes": 12888,
+    "documented_edge_domain": "[0/2]",
+    "documented_reff": "bytes 164-181 F18.15 [10.17/30.74] h-1.Mpc",
+    "documented_void_domain": "[0/1183]?",
+    "interpretation": "Lrecl 181 is the maximum observed payload length, not an exact per-row length: the official source emits the final Reff token without leading padding and with 12-15 decimal places.",
+    "path": "work/private/open-gravity-void-source-v2/vast-ReadMe",
+    "raw_sha256": "787a0476455c7593e4c84cf8f002f8e81e086b20822c752d7a89210b332b68bb",
+    "table1_block_bytes": 1642,
+    "table1_block_line_end": 105,
+    "table1_block_line_start": 81,
+    "table1_block_raw_sha256": "cfb52111b77e0f76b952e9c2cce8a1b70881c8fad775b357a6b5263ae8db0aed"
+  },
+  "field_grammar": {
+    "ascii_only": true,
+    "fields": [
+      {
+        "end": 10,
+        "lexical": "exact A10 Planck2018 or WMAP5 plus five spaces",
+        "name": "Cosmo",
+        "start": 1
+      },
+      {
+        "domain": [
+          -324.3,
+          -13.9
+        ],
+        "end": 31,
+        "lexical": "ASCII padded finite decimal; no exponent",
+        "name": "x",
+        "start": 12
+      },
+      {
+        "domain": [
+          -292.1,
+          266.6
+        ],
+        "end": 54,
+        "lexical": "ASCII padded finite decimal; no exponent",
+        "name": "y",
+        "start": 33
+      },
+      {
+        "domain": [
+          -10.0,
+          294.8
+        ],
+        "end": 76,
+        "lexical": "ASCII padded finite decimal; no exponent",
+        "name": "z",
+        "start": 56
+      },
+      {
+        "domain": [
+          10.0,
+          22.6
+        ],
+        "end": 95,
+        "lexical": "ASCII padded finite decimal; no exponent",
+        "name": "Rad",
+        "start": 78
+      },
+      {
+        "domain": [
+          0,
+          1183
+        ],
+        "end": 100,
+        "lexical": "ASCII space-padded unsigned I4",
+        "name": "void",
+        "start": 97
+      },
+      {
+        "domain": [
+          0,
+          2
+        ],
+        "end": 102,
+        "lexical": "one ASCII digit",
+        "name": "edge",
+        "start": 102
+      },
+      {
+        "domain": [
+          27.37,
+          327.5
+        ],
+        "end": 122,
+        "lexical": "ASCII padded finite decimal; no exponent",
+        "name": "s",
+        "start": 104
+      },
+      {
+        "domain": [
+          112.2,
+          259.1
+        ],
+        "end": 141,
+        "lexical": "ASCII padded finite decimal; no exponent",
+        "name": "RAdeg",
+        "start": 124
+      },
+      {
+        "domain": [
+          -2.1,
+          67.0
+        ],
+        "end": 162,
+        "lexical": "ASCII padded finite decimal; no exponent",
+        "name": "DEdeg",
+        "start": 143
+      },
+      {
+        "domain": [
+          10.17,
+          30.74
+        ],
+        "end": "EOL",
+        "lexical": "un-padded [0-9]{2}.[0-9]{12,15}",
+        "name": "Reff",
+        "start": 164
+      }
+    ],
+    "line_ending": "exactly one LF; CR forbidden",
+    "payload_lengths": [
+      178,
+      179,
+      180,
+      181
+    ],
+    "separator_byte_positions_1_based": [
+      11,
+      32,
+      55,
+      77,
+      96,
+      101,
+      103,
+      123,
+      142,
+      163
+    ]
+  },
+  "mutation_freeze": {
+    "config_content_sha256": "8723f467da298473f4c7a8e0b18071bb66ff291552caa5a5db436ec6b57591c2",
+    "config_raw_sha256": "a46cb305d6927bc154b95a3721040d6b598b488a63e554fcf9ed41187a942fad",
+    "module_raw_sha256": "85902a122a6a8c744d5cc00423c15008f9135a064d02ab766383c19b8baf32fa",
+    "module_semantic_sha256": "d2b6c5c70eabe1f74a173d17733b9bb7445bde7c45693c952b28b4dfdeefb0d4",
+    "test_raw_sha256": "5ba4542064bb0a76f0576607b294aaf4caac8cc47c8834262f9d26ae8a20491f"
+  },
+  "next_gate": "A distinct agent must audit the source-only parser, exact per-row dispositions, v4 failure binding, and access barrier before any append-only development executor successor or new one-run authorization is considered.",
+  "package_id": "open-gravity-void-vast1-source-parser-contract-v1",
+  "retained_v4_failure": {
+    "authorization_id": "1b8764212edd21b1d8c4c6a7c167f7a00e7125bbd0ca9dc8f845ed339d8cd849",
+    "authorized_development_ids": 22897,
+    "content_sha256": "e75f423476eb0f04c2b6ea9a01a0a1f9bd68dc74509d56e4df66b1ec1640fb83",
+    "path": "runs/gravity/open-gravity-void-correlation-development-score-v4-failures/1b8764212edd21b1d8c4c6a7c167f7a00e7125bbd0ca9dc8f845ed339d8cd849-e75f423476eb0f04c2b6ea9a01a0a1f9bd68dc74509d56e4df66b1ec1640fb83.json",
+    "raw_sha256": "50faf79bbf7af6cf810eee5d1851087c02a9ab900045f0ed90718a8782e942fb",
+    "reason_code": "DEVELOPMENTRELEASEV1ERROR",
+    "stage": "VAST1_OWNED_STREAM",
+    "status": "RETAINED_PRIVATE_FINAL_WRITE_RUN_FAILURE_NO_PARTIAL_SUCCESS"
+  },
+  "row_disposition_root_sha256": "6b38e28a4f4ec03e13b2a5e4471cd12bef330f2f7b6d53a1ba4b825619d84c30",
+  "schema": "invariant-open-gravity-void-vast1-source-parser-contract-receipt-1.0",
+  "source": {
+    "bytes": 426486,
+    "catalog": "J/ApJS/265/7",
+    "doi": "10.3847/1538-4365/acabcf",
+    "official_url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJS/265/7/table1.dat",
+    "path": "work/private/open-gravity-void-source-v2/vast-table1.dat",
+    "raw_sha256": "fe430c4e31f879e5678479b6735d84e2e6ac6c26f5bd71115b56d8d2c1bdbeff",
+    "records": 2347
+  },
+  "source_disposition": {
+    "accepted_rows": 2347,
+    "cosmology_counts": {
+      "Planck2018": 1163,
+      "WMAP5": 1184
+    },
+    "edge_counts": {
+      "0": 1622,
+      "1": 679,
+      "2": 46
+    },
+    "identifier_contract": {
+      "Planck2018": {
+        "contiguous": true,
+        "max": 1162,
+        "min": 0,
+        "unique": 1163
+      },
+      "WMAP5": {
+        "contiguous": true,
+        "max": 1183,
+        "min": 0,
+        "unique": 1184
+      }
+    },
+    "payload_length_counts": {
+      "178": 6,
+      "179": 58,
+      "180": 534,
+      "181": 1749
+    },
+    "primary_geometry_rule": "edge=0 rows remain primary-interior candidates; edge=1 or edge=2 rows are accepted catalog records but excluded from primary interior geometry",
+    "rejected_rows": 0,
+    "zero_identifier_source_indices": [
+      0,
+      1163
+    ]
+  },
+  "status": "PASS_VAST1_SOURCE_PARSER_CONTRACT_AWAIT_INDEPENDENT_AUDIT"
+}

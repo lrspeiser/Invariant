@@ -1,0 +1,157 @@
+{
+  "schema": "invariant-open-gravity-lane7-v5-independent-strict-audit-receipt-1.0",
+  "audit_id": "open-gravity-same-law-eso325-extended-source-v5-independent-audit",
+  "audited_at_utc": "2026-08-31T23:52:16.7789864Z",
+  "status": "BLOCK",
+  "decision": "BLOCK_V5_TARGET_FREE_PASS_AND_FORBID_SCIENTIFIC_DECODE_OR_SCORE",
+  "independence": {
+    "target_package": "runs/gravity/open-gravity-same-law-eso325-extended-source-v5",
+    "target_package_modified": false,
+    "audit_is_append_only": true,
+    "audit_probe_implementation": {
+      "path": "work/lane7_v5_independent_audit_probe.py",
+      "bytes": 15714,
+      "sha256": "6a3eb1530b4d5098db093d26fc2aa261cf14779556c40a7caeaf529f7d116def"
+    }
+  },
+  "scientific_payload_access": {
+    "hst_array_elements_decoded": 0,
+    "muse_array_elements_decoded": 0,
+    "slacs_rows_or_response_values_opened": 0,
+    "scientific_payload_files_opened_or_rehashed_by_this_audit": 0,
+    "source_free_only": true
+  },
+  "frozen_target_bindings": {
+    "config_sha256": "98f74768e141829bebef2d878b277bca431bb1287b901738669230c211ab9655",
+    "module_sha256": "b4a9068d3e8ddabcde6ab4be1a36f67a1da7a92e420208801fc8d808a2761528",
+    "test_sha256": "663d52279c3353d3976ca92b0e7f385e65ac73c5aa715ae5147c2d8057db8ec5",
+    "receipt_file_sha256": "8bd86bdacfbe856ef9c787548a5c695ca0544229cc83ab5d1edc64ed19e6da17",
+    "receipt_content_sha256": "96b036713e722dacbc85bb00882e8268e8bb6cf90e993a39c3ff90e1c42705e1",
+    "all_three_code_bindings_match_target_receipt": true,
+    "all_six_target_artifact_bindings_match": true,
+    "target_receipt_self_hash_valid": true
+  },
+  "tests": {
+    "independent_probe_runs": 2,
+    "independent_probe_exit_codes": [0, 0],
+    "source_free_v5_pytest_cases_passed": 18,
+    "source_free_v5_pytest_cases_failed": 0,
+    "full_v5_test_file_deliberately_not_run": true,
+    "reason_full_suite_not_run": "Four tests invoke target builders that rehash scientific source payloads, prohibited by this audit.",
+    "exact_synthetic_gate_reproduced": true,
+    "exact_synthetic_gate_reported_status": "PASS_PHYSICAL_UNIT_ASYMMETRIC_TARGET_FREE_GATES"
+  },
+  "findings": [
+    {
+      "id": "L7V5-AUD-001",
+      "severity": "BLOCKER",
+      "status": "REPRODUCED",
+      "title": "Held-out score is contaminated by fitted points",
+      "evidence": {
+        "fit_indices_half_open": [0, 30],
+        "holdout_rule": "arange(4,N,5)",
+        "leaked_indices": [4, 9, 14, 19, 24, 29],
+        "leaked_count": 6,
+        "reported_and_recomputed_contaminated_g": 0.17977321045924974,
+        "clean_training_only_g": 0.1797519619679944,
+        "contaminated_holdout_lpd": 1520.5847688111721,
+        "clean_training_only_holdout_lpd": 1520.3922481828208,
+        "module_lines_fit": [756, 763],
+        "module_lines_holdout": [784, 787]
+      },
+      "consequence": "The stored statistic is not a strictly held-out predictive score even though the numerical contamination is small in this fixture."
+    },
+    {
+      "id": "L7V5-AUD-002",
+      "severity": "BLOCKER",
+      "status": "REPRODUCED",
+      "title": "Padding and resolution gate removes per-run channel amplitudes",
+      "evidence": {
+        "module_lines_normalization": [551, 555],
+        "module_lines_comparison": [701, 705],
+        "amplitude_factor_probe": 1.25,
+        "raw_relative_rms": 0.25,
+        "separately_normalized_relative_rms": 1.0145454938872657e-16,
+        "actual_raw_padding_range": [0.0011405785714722419, 0.004325343601119676],
+        "actual_raw_resolution_range": [0.041497207666148, 0.05271134147884591]
+      },
+      "consequence": "The gate cannot establish convergence of dimensional amplitude. The actual fixture's raw channel errors happen to remain below 0.08, but those are not the frozen gate."
+    },
+    {
+      "id": "L7V5-AUD-003",
+      "severity": "BLOCKER",
+      "status": "REPRODUCED",
+      "title": "Yukawa zero mode violates the declared Helmholtz equation",
+      "evidence": {
+        "module_lines": [447, 451],
+        "implemented_k0_kernel": 0.0,
+        "required_k0_kernel": -0.000486422283572764,
+        "integrated_equation_lhs_mean": 0.0,
+        "integrated_equation_rhs_mean": 88.00638371174236,
+        "relative_integrated_residual": 1.0
+      },
+      "consequence": "The target-free state does not solve the field equation bound in the config. A constant offset does not alter gradient-only probes, which is why existing tests miss it, but it matters to the same-law absolute-potential observables."
+    },
+    {
+      "id": "L7V5-AUD-004",
+      "severity": "BLOCKER",
+      "status": "REPRODUCED",
+      "title": "Pseudo-NFW comparator is prose-only",
+      "evidence": {
+        "pseudo_nfw_function_names": [],
+        "pseudo_nfw_runtime_identifiers": [],
+        "current_test_behavior": "asserts contract substrings only"
+      },
+      "consequence": "The frozen primary scientific density comparator is not executable."
+    },
+    {
+      "id": "L7V5-AUD-005",
+      "severity": "BLOCKER",
+      "status": "REPRODUCED",
+      "title": "Frozen posterior-predictive likelihood is prose-only",
+      "evidence": {
+        "implemented_runtime_lpd": "diagonal single-prediction gaussian_log_predictive_density(observed,predicted,sigma,indices)",
+        "logsumexp_runtime_identifier_present": false,
+        "posterior_draw_runtime_identifiers": [],
+        "required_by_contract": "4096-draw mixture, full covariance and conditional HST/MUSE predictive density"
+      },
+      "consequence": "Source readiness would not lead to execution of the registered scientific metric."
+    },
+    {
+      "id": "L7V5-AUD-006",
+      "severity": "BLOCKER",
+      "status": "REPRODUCED",
+      "title": "Config, seal, path and access-accounting mutation closure is incomplete",
+      "evidence": {
+        "validate_config_accepted": [
+          "replacement of the required access ledger with an unrelated zero-valued key",
+          "repointed SLACS sample-manifest binding",
+          "repointed V4 preservation binding",
+          "mutated declared output paths"
+        ],
+        "existing_receipt_no_clobber_mitigation": true
+      },
+      "consequence": "The existing receipt can detect drift when fully checked, but validate_config and pre-seal builders do not exact-bind the complete claimed schema."
+    }
+  ],
+  "retained_valid_results": [
+    "V5 config/module/test and all six packet artifacts match the frozen receipt",
+    "V5 receipt self-hash is valid",
+    "the exact source-free synthetic outputs reproduce",
+    "physical-unit dimensional rows and the explicit reduced-deflection prefactor tests pass",
+    "no empirical ESO or SLACS result was claimed"
+  ],
+  "required_repairs_before_reaudit": [
+    "freeze the train/holdout split before any fit and refit g on training indices only",
+    "gate dimensional raw convergence per observable channel without per-run normalization",
+    "use a boundary-consistent Helmholtz solver whose zero mode satisfies the declared equation",
+    "implement and test the pseudo-NFW density, normalization, truncation and sensitivities",
+    "implement the registered full-covariance 4096-draw posterior-predictive mixture",
+    "exact-bind required access-ledger keys, SLACS bindings, V4 preservation and output declarations"
+  ],
+  "artifact_manifest": {
+    "probe-results.json": {"bytes": 5369, "sha256": "7edf1e140e540dbfe9efe62e110c15a7a8f1d1ecc0b4c2558034592588073553"},
+    "report.md": {"bytes": 2781, "sha256": "e436e1d595b00eb8c8e3cc8f0776f2f21274adeb1d3469271f2412dcb534842d"}
+  },
+  "content_sha256": "42b2c0f5b876e587331d707c634fe65b590123b8f50dfd06f41f9810122f2eb0"
+}

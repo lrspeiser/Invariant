@@ -1,0 +1,135 @@
+{
+  "schema": "invariant-open-gravity-void-vast2-source-parser-contract-1.0",
+  "package_id": "open-gravity-void-vast2-source-parser-contract-v1",
+  "status": "SOURCE_CONTRACT_ONLY_AWAIT_DISTINCT_INDEPENDENT_AUDIT",
+  "purpose": "Append-only, source-only diagnosis and exact parser contract for the frozen Lane 9 VAST table-2 stream. This package may read only the frozen VAST table-2 gzip member, the official VAST ReadMe, and frozen non-source v5 bindings. It cannot run the executor, score, mint or consume an authorization, or reauthorize Lane 9.",
+  "source": {
+    "path": "work/private/open-gravity-void-source-v2/vast-table2.dat.gz",
+    "raw_sha256": "8e2a919f70883a5160b668660a06738d9ac0d091e751ee397431f64d4a77c9bf",
+    "bytes": 3360828,
+    "compression": "gzip",
+    "uncompressed_bytes": 8488480,
+    "uncompressed_sha256": "3d0f0687f9d7da032bc7a44a98231f54f71b35517a10f8127949499d4194cca5",
+    "records": 80080,
+    "official_url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJS/265/7/table2.dat.gz",
+    "catalog": "J/ApJS/265/7",
+    "doi": "10.3847/1538-4365/acabcf"
+  },
+  "documentation": {
+    "path": "work/private/open-gravity-void-source-v2/vast-ReadMe",
+    "raw_sha256": "787a0476455c7593e4c84cf8f002f8e81e086b20822c752d7a89210b332b68bb",
+    "bytes": 12888,
+    "table2_block_line_start": 107,
+    "table2_block_line_end": 121,
+    "table2_block_bytes": 1011,
+    "table2_block_raw_sha256": "035e6ab70265b7d17c40a355013483fb957331e063827969b4d1a1dd2a990f3e",
+    "documented_record_length": 105,
+    "documented_records": 80080,
+    "documented_void_domain": "[0/1183]?",
+    "documented_grouping_note": "The union of all spheres with the same unique identifier form one void.",
+    "interpretation": "The question mark permits a missing catalog value in the general CDS description, but the exact frozen source has zero missing void tokens. Zero is a present, valid, zero-based identifier. The frozen-source contract rejects blank void tokens instead of inventing a grouping identity. The F width/precision descriptors locate fixed-width fields; the frozen producer emits finite, non-exponent decimals with variable observed digits after the decimal point and ASCII-space padding on either side within the fixed field."
+  },
+  "frozen_v5_parser_subject": {
+    "config": {"path": "configs/open_gravity_void_correlation_development_release_v5.json", "raw_sha256": "bb46d3931c20fd38ef31b5b419da9430b61944ea30efad0cc1a799954fb9a3be", "content_sha256": "c5757c7ed649e026f1488114528b04fc1c713cc8d1680a8f8e30db25c024d1fe"},
+    "module": {"path": "src/sigma_theory_compiler/open_gravity_void_correlation_development_release_v5.py", "raw_sha256": "afdc6f58166745f50a21cdea482054419832a4cc8217b272bc7517ef3f7a6283", "semantic_sha256": "e7ddbd381c95d16e5d3d6f5442e712eeefed81a31223e65365e5cb9324f0a654"},
+    "test": {"path": "tests/test_open_gravity_void_correlation_development_release_v5.py", "raw_sha256": "15223dcfbec26c69fc723b2e98073fb0fd2122f8a45dcb0be956909895a6f060"},
+    "receipt": {"path": "runs/gravity/open-gravity-void-correlation-development-release-v5/receipt.json", "raw_sha256": "97c8014447c39ea17d48daf395e3d30f838f099603f0560a69e819372072dd22", "content_sha256": "4fb5b1b1105dde51e262b99baa3993bb5e5977d886fcb4547cc1fd0a467606ae", "status": "PASS_SOURCE_FREE_VAST1_PARSER_INTEGRATED_EXECUTOR_V5_AWAIT_INDEPENDENT_REAUDIT"},
+    "independent_audit": {"path": "runs/gravity/open-gravity-void-correlation-development-release-v5-independent-audit/receipt.json", "raw_sha256": "1c4941af39ed07082578b1dfbf1bfc92549abba3a739a1d1f64d62a489a2d4f3", "content_sha256": "52f8dfece7f6f86d699abfa658b7a271c291a514bd4e4c2caa26d4936aa23e64", "status": "PASS_AUTHORIZATION_CONSIDERATION_ONLY_NO_SCIENTIFIC_RUN_AUTHORITY"},
+    "dispatch": "v5 read_vast2 delegates each decompressed frame to development_release_v1.parse_vast_table2_record",
+    "invalid_or_inexact_rules": [
+      "requires void > 0 although the official domain is zero-based and the frozen stream contains valid zero identifiers",
+      "does not require the five documented separator bytes to be ASCII spaces",
+      "accepts arbitrary printable A10 cosmology labels instead of the two exact frozen labels",
+      "accepts CRLF although the exact frozen member is LF-only",
+      "does not enforce the documented upper domains for void or the four numeric fields"
+    ]
+  },
+  "field_grammar": {
+    "line_ending": "exactly one LF; CR forbidden",
+    "payload_length": 105,
+    "framed_length": 106,
+    "ascii_only": true,
+    "separator_byte_positions_1_based": [11, 32, 58, 81, 101],
+    "fields": [
+      {"name": "Cosmo", "start": 1, "end": 10, "format": "A10", "lexical": "exact Planck2018 or WMAP5 plus five ASCII spaces"},
+      {"name": "x", "start": 12, "end": 31, "format": "F20.15", "lexical": "ASCII-space-padded finite decimal; digits on both sides of decimal; optional minus only; no exponent", "domain": [-328.4, -13.9]},
+      {"name": "y", "start": 33, "end": 57, "format": "F25.20", "lexical": "ASCII-space-padded finite decimal; digits on both sides of decimal; optional minus only; no exponent", "domain": [-295.2, 271.5]},
+      {"name": "z", "start": 59, "end": 80, "format": "F22.18", "lexical": "ASCII-space-padded finite decimal; digits on both sides of decimal; optional minus only; no exponent", "domain": [-15.1, 300.1]},
+      {"name": "Rad", "start": 82, "end": 100, "format": "F19.16", "lexical": "ASCII-space-padded finite unsigned decimal; digits on both sides of decimal; no exponent", "domain": [3.64, 22.6]},
+      {"name": "void", "start": 102, "end": 105, "format": "I4", "lexical": "left-space-padded unsigned integer; blank is rejected for the exact frozen source", "domain": [0, 1183]}
+    ],
+    "row_failure": "Any malformed row aborts source-contract construction; no row is dropped or repaired.",
+    "duplicate_key": "(Cosmo, void, binary64(x), binary64(y), binary64(z), binary64(Rad)); Python numeric equality intentionally treats signed zeros as equal",
+    "group_key": "(Cosmo, void) is intentionally repeated because its spheres form a union; repeated group membership is not a duplicate"
+  },
+  "expected_source_disposition": {
+    "accepted_rows": 80080,
+    "rejected_rows": 0,
+    "payload_length_counts": {"105": 80080},
+    "cosmology_counts": {"Planck2018": 39735, "WMAP5": 40345},
+    "identifier_contract": {
+      "Planck2018": {"min": 0, "max": 1162, "unique": 1163, "contiguous": true},
+      "WMAP5": {"min": 0, "max": 1183, "unique": 1184, "contiguous": true}
+    },
+    "zero_identifier_sphere_rows": 263,
+    "unique_group_keys": 2347,
+    "group_membership_min": 1,
+    "group_membership_max": 172,
+    "single_sphere_groups": 4,
+    "repeated_group_membership_rows": 77733,
+    "byte_duplicate_rows": 0,
+    "semantic_duplicate_sphere_keys": 0,
+    "missing_void_tokens": 0,
+    "separator_violations": 0,
+    "signed_zero_tokens": 0,
+    "observed_decimal_digits": {"x": [8, 15], "y": [10, 20], "z": [9, 18], "Rad": [10, 16]}
+  },
+  "diagnosis": {
+    "classification": "FROZEN_V5_VAST2_PARSER_CONTRACT_WRONG_OFFICIAL_SOURCE_NOT_CORRUPT",
+    "first_offending_source_index": 0,
+    "first_offending_line_number": 1,
+    "first_offending_payload_sha256": "c4fc1ba53e4d621e89771228351a0d10820745fcb0a49ee847fa973d76a73ceb",
+    "first_offending_void": 0,
+    "frozen_parser_error": "invalid VAST table2 radius or void",
+    "why_valid": "The official ReadMe documents void [0/1183]? and defines equal identifiers as sphere-union membership. Both cosmologies have complete zero-based identifier ranges; zero is not a missing token.",
+    "consequence": "The v5 parser would reject the first VAST2 row before duplicate validation or geometry construction. The v5 PASS re-audit explicitly did not open or verify VAST2, so it does not cover this defect."
+  },
+  "authority": {
+    "may_read": ["VAST table2 gzip member", "official VAST ReadMe", "frozen non-source v5 package and audit bindings"],
+    "must_not_read": ["CF4 scientific fields or rows", "VAST table1", "VAST table3", "mask", "validation", "confirmation", "score artifacts", "Pantheon"],
+    "scoring_authority": false,
+    "development_run_authority": false,
+    "reauthorization_authority": false,
+    "may_mint_or_consume_authorization": false
+  },
+  "output": {
+    "directory": "runs/gravity/open-gravity-void-vast2-source-parser-contract-v1",
+    "row_dispositions": "artifacts/vast2-row-dispositions.jsonl",
+    "source_summary": "artifacts/source-summary.json",
+    "receipt": "receipt.json"
+  },
+  "build_access_accounting": {
+    "vast_readme_files_opened": 1,
+    "vast_table2_archive_files_opened": 1,
+    "vast_table2_gzip_passes": 1,
+    "vast_table2_compressed_bytes_read": 3360828,
+    "vast_table2_uncompressed_bytes_read": 8488480,
+    "vast_table2_rows_read": 80080,
+    "vast_table2_rows_decoded": 80080,
+    "prohibited_source_files_opened": 0,
+    "cf4_scientific_rows_decoded": 0,
+    "validation_rows_decoded": 0,
+    "confirmation_rows_decoded": 0,
+    "mask_files_opened": 0,
+    "pantheon_files_opened": 0,
+    "score_artifacts_opened": 0,
+    "scores_computed": 0,
+    "executor_runs": 0,
+    "authorizations_minted": 0,
+    "authorizations_consumed": 0,
+    "reauthorizations_granted": 0
+  },
+  "success_status": "PASS_VAST2_SOURCE_PARSER_CONTRACT_AWAIT_DISTINCT_INDEPENDENT_AUDIT",
+  "decision": "BLOCK_LANE9_REAUTHORIZATION_PENDING_DISTINCT_SUCCESSOR_AUDIT",
+  "next_gate": "A distinct agent must independently audit this frozen parser-contract successor, its exact row-disposition root, source barriers, and mutation freeze. This package and its author do not provide an independent audit and authorize no executor run or Lane 9 reauthorization."
+}

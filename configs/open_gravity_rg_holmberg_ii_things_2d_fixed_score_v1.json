@@ -1,0 +1,93 @@
+{
+  "schema": "invariant-open-gravity-rg-holmberg-ii-things-2d-fixed-score-1.0",
+  "package_id": "open-gravity-rg-holmberg-ii-things-2d-fixed-score-v1",
+  "status": "FROZEN_PREREGISTERED_HOLMBERG_II_THINGS_2D_FIXED_SCORE",
+  "purpose": "Decode the four exact sealed THINGS Holmberg II response maps only after all 72 predictions are sealed, then score every preregistered source-resolution cell identically and retain every result.",
+  "prediction_binding": {
+    "artifacts": [
+      {"path": "configs/open_gravity_rg_holmberg_ii_things_2d_response_blind_predictions_v1.json", "sha256": "d5de3b5601d95c5a413789dd432527375e404279bbe8e030d6109c4deb43789a"},
+      {"path": "src/sigma_theory_compiler/open_gravity_rg_holmberg_ii_things_2d_response_blind_predictions_v1.py", "sha256": "c5e67fb01cc83b0418747e2aa8d34c3e9ab217cf2e9b09ca213de81e9411df33"},
+      {"path": "tests/test_open_gravity_rg_holmberg_ii_things_2d_response_blind_predictions_v1.py", "sha256": "48c0bb9a742bd09abcd8873fc3449542e98c18aefdbaa0f9cbf1b66cb0703ff2"},
+      {"path": "runs/gravity/open-gravity-rg-holmberg-ii-things-2d-response-blind-predictions-v1/receipt.json", "sha256": "a77e1f2387423b38eba9b915cd4dfc278f55d218d53c29bfae303ff056dcbe1c"},
+      {"path": "work/private/open-gravity-rg-holmberg-ii-things-2d-response-blind-predictions-v1/manifest.json", "sha256": "68100239e937ed1cd758d7cd822cf0eb10b8b3cfeec8344fa1b3d847bd20fdec"}
+    ],
+    "receipt_content_sha256": "7a78987207e4ae1f3a362b321f9ecd4a3c4bfc33dd53e665b54e1b9edce50100",
+    "manifest_content_sha256": "dd9e22f360bff123751fdbb00fab3cdaae0000748354befff1bc162092e022aa",
+    "source_cells": 9,
+    "array_file_count": 117,
+    "candidate_resolution_predictions": 72,
+    "all_solver_gates_pass": true,
+    "response_pixels_used_to_build_predictions": 0
+  },
+  "preflight_binding": {
+    "artifacts": [
+      {"path": "configs/open_gravity_rg_holmberg_ii_things_2d_replication_preflight_v1.json", "sha256": "827d741fc8d1d7dd4d161152bb92e4a90afb523d3a53a3855c6b65f3d49becb9"},
+      {"path": "src/sigma_theory_compiler/open_gravity_rg_holmberg_ii_things_2d_replication_preflight_v1.py", "sha256": "ccf379e7e86365e07e1b0f65e64527a38ff2f6a4abc61f5685409a9dddf57126"},
+      {"path": "tests/test_open_gravity_rg_holmberg_ii_things_2d_replication_preflight_v1.py", "sha256": "67cc6aa1fff400776a77c3c1e07a30d8dc91ab383e6498d2c641c267072ffec3"},
+      {"path": "runs/gravity/open-gravity-rg-holmberg-ii-things-2d-replication-preflight-v1/receipt.json", "sha256": "330d66553f61c68cb3b3f23ac53088845876e0db33f5e06d0abc6470a8e2ba2e"}
+    ],
+    "receipt_content_sha256": "4a35db979fbfc75df2b90fd5bfd44c78e0b2114502f6503e06357d51c0649f3d"
+  },
+  "primary_sources": [
+    {"id": "THINGS_WALTER_2008", "url": "https://arxiv.org/abs/0810.2125", "role": "official H I measurement and public moment-map release"},
+    {"id": "THINGS_DE_BLOK_2008", "url": "https://arxiv.org/abs/0810.2100", "role": "velocity-field construction and non-circular-motion limitations"},
+    {"id": "HOLMBERG_II_GENTILE_2012", "url": "https://arxiv.org/abs/1205.6934", "role": "inclination-systematic and outer-disk data-cube analysis"},
+    {"id": "HOLMBERG_II_SANCHEZ_SALCEDO_2014", "url": "https://arxiv.org/abs/1405.2983", "role": "independent low-inclination stability analysis"}
+  ],
+  "response_contract": {
+    "resolutions": ["NATURAL", "ROBUST"],
+    "observables": ["MOM1", "MOM2"],
+    "files": 4,
+    "bytes": 16951680,
+    "decoded_array_slots": 4194304,
+    "unit": "m/s",
+    "minimum_dispersion_scale_m_s": 3000.0,
+    "dispersion_metric_is_not_measurement_likelihood": true
+  },
+  "score_contract": {
+    "candidate_ids": ["NEWTON_3D_DST", "RAR_2016_ON_NEWTON_3D", "MOND_STANDARD_MU_ON_NEWTON_3D", "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG"],
+    "source_cells": 9,
+    "source_resolution_cells": 18,
+    "model_scores": 72,
+    "primary_cell_id": "UGC04305__IRAC1_FIXED_ML0P6__I38P0__NATURAL",
+    "nuisance_reference_cell_id": "UGC04305__IRAC1_FIXED_ML0P6__I38P0",
+    "common_mask": "finite MOM1 and positive finite MOM2 intersected with the fixed four-model numerical and source eligibility for that source-resolution cell",
+    "rotation_sign": "one observed major-axis covariance sign per resolution computed on the nuisance-reference-cell common mask and shared by all candidates and all source cells",
+    "shared_systemic_velocity": "one observed MOM1 mean per resolution computed on the nuisance-reference-cell common mask and shared by all candidates and all source cells",
+    "primary_metric": "unweighted common-pixel velocity RMSE using the shared sign and shared systemic velocity",
+    "secondary_metrics": ["unweighted MAE", "median absolute residual", "MOM2-scaled mean squared residual", "model-specific best-offset RMSE diagnostic", "opposite-sign fixed-systemic control"],
+    "primary_replication_rule": "RG must have strictly smaller primary-cell RMSE than Newton, RAR, and standard MOND",
+    "all_18_cells_reported": true,
+    "per_model_sign_selection": false,
+    "source_or_geometry_reselection": false,
+    "response_parameter_tuning": false,
+    "p_values_computed": false,
+    "retain_every_failure_and_counterexample": true
+  },
+  "scientific_boundary": {
+    "response_files_opened": 4,
+    "response_array_slots_decoded": 4194304,
+    "source_resolution_cells_scored": 18,
+    "models_scored": 4,
+    "model_scores": 72,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0,
+    "general_3d_validated": false,
+    "model_lifted_2p5d_only": true
+  },
+  "claim_boundary": {
+    "real_response_scored": true,
+    "fixed_predictions_scored": true,
+    "source_matched_internal_replication_only": true,
+    "dispersion_metric_is_likelihood": false,
+    "gas_dynamics_solved": false,
+    "inclination_resolved": false,
+    "general_3d_validated": false,
+    "refracted_gravity_confirmed": false,
+    "unique_theory_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-holmberg-ii-things-2d-fixed-score-v1/receipt.json"
+}

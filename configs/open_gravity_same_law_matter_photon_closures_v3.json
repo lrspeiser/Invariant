@@ -1,0 +1,164 @@
+{
+  "schema": "invariant-open-gravity-same-law-matter-photon-closures-3.0",
+  "package_id": "open-gravity-same-law-matter-photon-closures-v3",
+  "status": "NARROW_DIMENSIONED_LINEAR_FIXTURE_SOURCE_BLOCKED",
+  "purpose": "Execute a dimensioned linear weak-field GR-plus-Yukawa spin-2 PPN comparator from one immutable state. This package is an internal state-to-observable closure and numerical audit, not a full covariant Fierz-Pauli solution, nonlinear completion, optical reciprocity proof, distance-duality proof, or fit to scientific responses.",
+  "supersedes": {
+    "path": "runs/gravity/open-gravity-same-law-matter-photon-closures-v2/receipt.json",
+    "file_sha256": "e5725c093c0e4a94bd5e318652b0d1995509d52290744a8226a346b2d16eca35",
+    "content_sha256": "982f8a7624b55733bfa7395545265a011522119c55f97f03d32c2b5bd7eb08ca",
+    "audit_status": "BLOCKED_ACTION_STATE_DIMENSIONS_SLIP_CONVERGENCE_AND_OPTICAL_SCOPE",
+    "preservation_rule": "V2 is immutable blocked evidence; V3 is append-only."
+  },
+  "bindings": [
+    {
+      "role": "V2_BLOCKED_RECEIPT",
+      "path": "runs/gravity/open-gravity-same-law-matter-photon-closures-v2/receipt.json",
+      "sha256": "e5725c093c0e4a94bd5e318652b0d1995509d52290744a8226a346b2d16eca35"
+    },
+    {
+      "role": "V2_SOURCE_METADATA_CONFIG",
+      "path": "configs/open_gravity_same_law_matter_photon_closures_v2.json",
+      "sha256": "564ad160ab56827745f94c2a04cc121f605ffb9b2500cc76012fc3021366535b"
+    },
+    {
+      "role": "SLACS_UNCHANGED_SAMPLE_MANIFEST",
+      "path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/sample-manifest.json",
+      "sha256": "37f33fcbaeb2013db37e07fd51e6aca1a7a04bf617b4cffd0f025be3c6de6971"
+    },
+    {
+      "role": "SLACS_UNCHANGED_PREDICTOR_MANIFEST",
+      "path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/predictor-source-manifest.json",
+      "sha256": "af4c7b28e8b4b2a4417746b214f513a6aa56f557e3be3b9be83d248ec17312dd"
+    },
+    {
+      "role": "SLACS_UNCHANGED_RESPONSE_MANIFEST",
+      "path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/response-source-manifest.json",
+      "sha256": "415911de9ef3ba3e43f3637ed8fe75b5d73304c626235a4e24362948acfc8068"
+    }
+  ],
+  "linear_model": {
+    "id": "GR_PLUS_FP_PPN_YUKAWA_LINEAR_FIXTURE",
+    "scope": "A reduced static Green-function/PPN comparator. U is the massless GR potential; Y is a massive Yukawa Green function; the 4/3 and 2/3 coefficients are the vDVZ PPN projection used as a known comparator.",
+    "source_equations": [
+      "laplacian(U)=4*pi*G*M*delta3(x)",
+      "(laplacian-mu^2)Y=4*pi*G*M*delta3(x)"
+    ],
+    "exterior_solution": "U=-G*M/r; Y=-G*M*exp(-mu*r)/r for r>0",
+    "state_map": "Phi=U+(4/3)*g*Y; Psi=U+(2/3)*g*Y",
+    "metric_truncation": "ds^2=-(1+2*Phi/c^2)c^2dt^2+(1-2*Psi/c^2)dx^2 through first order in Phi/c^2 and Psi/c^2",
+    "massive_tensor_equation": "(partial_t^2-c^2*laplacian+c^2*mu^2)q_TT=0",
+    "tensor_scope": "The free massive TT comparator and the massless GR tensor branch are reported separately; no claim is made that the scalar isotropic state is the complete constrained Fierz-Pauli tensor solution.",
+    "coefficient_phi_extra": 1.3333333333333333,
+    "coefficient_psi_extra": 0.6666666666666666,
+    "fixed_extra_sector_slip": 0.5,
+    "not_established": [
+      "a single-field covariant Fierz-Pauli action producing both U and Y",
+      "the full Fierz-Pauli tensor constraints or longitudinal point-source solution",
+      "a nonlinear or Vainshtein completion",
+      "ghost freedom beyond the linear tuned massive TT comparator",
+      "a viable cosmology or Solar-System completion"
+    ]
+  },
+  "unit_system": {
+    "name": "nondimensionalized_L0_M0_T0_fixture",
+    "code_values": "Every numerical value is a ratio to fixed base units L0, M0, and T0. The dimension ledger below is evaluated before nondimensionalization.",
+    "dimension_vector_order": ["L", "M", "T"],
+    "dimensions": {
+      "G": [3, -1, -2],
+      "c": [1, 0, -1],
+      "source_mass": [0, 1, 0],
+      "universal_coupling_g": [0, 0, 0],
+      "mediator_inverse_length_mu": [-1, 0, 0],
+      "tensor_wavenumber_k": [-1, 0, 0],
+      "radius_or_distance": [1, 0, 0],
+      "angle_or_redshift": [0, 0, 0],
+      "potential_U_Y_Phi_Psi": [2, 0, -2],
+      "metric_component": [0, 0, 0],
+      "acceleration": [1, 0, -2],
+      "deflection": [0, 0, 0],
+      "time_delay": [0, 0, 1],
+      "angular_frequency_omega": [0, 0, -1]
+    }
+  },
+  "physical_parameter_set": {
+    "G": 1.0,
+    "c": 1.0,
+    "source_mass": 0.0001,
+    "universal_coupling_g": 0.3,
+    "mediator_inverse_length_mu": 0.8,
+    "tensor_wavenumber_k": 10.0
+  },
+  "fixture_geometry": {
+    "line_of_sight_limit": 5.0,
+    "dynamics_radii": [0.01, 0.02, 0.04, 0.08],
+    "lensing_impacts": [0.008, 0.012, 0.02, 0.035],
+    "redshift_emitter_radius": 0.01,
+    "redshift_observer_radius": 1.0,
+    "lens_distance": 1.0,
+    "source_distance": 2.0,
+    "lens_source_distance": 1.0,
+    "lens_redshift": 0.0,
+    "source_angle_beta": 0.003,
+    "negative_image_bracket": [-0.02, -0.01],
+    "positive_image_bracket": [0.01, 0.02],
+    "lensing_potential_reference_angle": 0.001,
+    "source_mapping_radius": 0.000001
+  },
+  "numerical_controls": {
+    "adaptive_absolute_tolerance": 1e-13,
+    "adaptive_relative_tolerance": 1e-11,
+    "adaptive_subdivision_limit": 500,
+    "finite_difference_step": 0.000001,
+    "independent_gauss_order": 64,
+    "independent_theta_gauss_order": 48,
+    "maximum_relative_deflection_disagreement_each_impact": 2e-9,
+    "maximum_relative_shapiro_disagreement_each_impact": 2e-9,
+    "maximum_relative_image_delay_disagreement": 2e-7,
+    "maximum_absolute_slip_error": 2e-5
+  },
+  "same_law_gate": {
+    "shared_state_outputs": ["U", "Y", "Phi", "Psi", "g_tt", "g_space", "U_prime", "Y_prime", "Phi_prime", "Psi_prime"],
+    "derived_linear_observables": ["slow_timelike_radial_acceleration", "radial_null_coordinate_characteristic", "Born_deflection", "Shapiro_delay", "static_endpoint_redshift", "local_thin_lens_Fermat_delay", "massless_and_massive_tensor_dispersion"],
+    "internal_checks_not_empirical_evidence": ["two_route_extra_sector_slip_reconstruction", "spherical_impact_parity"],
+    "optical_claims_not_made": ["source_observer_Jacobi_reciprocity", "Etherington_distance_duality", "flux_or_photon_number_transport", "wave_optics_chromaticity", "plasma_or_polarization_propagation"],
+    "forbidden": ["photon_only_multiplier", "lens_only_coupling", "opacity", "frequency_dispersion", "path_memory_term", "separate_Fermat_coefficient", "separate_lensing_normalization"],
+    "all_physical_parameters_shared": true
+  },
+  "source_contract": {
+    "metadata_source": "configs/open_gravity_same_law_matter_photon_closures_v2.json",
+    "metadata_source_sha256": "564ad160ab56827745f94c2a04cc121f605ffb9b2500cc76012fc3021366535b",
+    "ESO325_G004": "SOURCE_BLOCKED_PAYLOAD_HASHES_MASKS_PSF_AND_REGISTERED_BINNING_UNAVAILABLE",
+    "SLACS": "UNCHANGED_CONFIRMATION_SEALED",
+    "raw_scientific_payloads_downloaded_by_builder": 0,
+    "scientific_response_rows_opened": 0,
+    "scientific_response_rows_scored": 0,
+    "remaining_before_response_access": [
+      "SHA256 for each exact HST and MUSE payload",
+      "exact HST masks and PSF used by the registered reproduction",
+      "MUSE kinematic Voronoi-bin table and covariance",
+      "registered HST-pixel/MUSE-bin object intersection",
+      "registered cosmology and angular-diameter-distance receipt"
+    ]
+  },
+  "claim_boundary": {
+    "establishes": [
+      "a dimensionally checked reduced linear Green-function state",
+      "one immutable state used by the reported timelike and null calculations",
+      "adaptive ray integration cross-checked at every frozen impact by an independent composite Gauss-Legendre rule",
+      "an internal two-route recovery of the fixed comparator slip with its non-empirical scope explicit",
+      "the exact previously frozen ESO metadata and unchanged sealed SLACS split remain bound"
+    ],
+    "does_not_establish": [
+      "a full covariant Fierz-Pauli point-source solution",
+      "a healthy nonlinear massive-gravity theory",
+      "optical reciprocity, distance duality, flux conservation, or wave-optics achromaticity",
+      "a fit to ESO 325-G004 or SLACS",
+      "novelty, exclusion of registered alternatives, or a gravity discovery"
+    ]
+  },
+  "outputs": {
+    "receipt": "runs/gravity/open-gravity-same-law-matter-photon-closures-v3/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-same-law-matter-photon-closures-v3/artifacts"
+  }
+}

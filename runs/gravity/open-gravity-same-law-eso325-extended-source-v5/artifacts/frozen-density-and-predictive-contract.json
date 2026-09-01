@@ -1,0 +1,52 @@
+{
+  "contract_hashes": {
+    "extended_density_contract": "0dab74b843c7d4fe8441b35b8f3c76086fb8aae1b7fb66521798c951876a9568",
+    "predictive_likelihood_contract": "a51a01f0b25ac4e6ed82e41d098cac19cdeabf6f6983b2caa98273cbaf0abcad",
+    "reduction_readiness": "f69db12440d274f0791649cecf90a836bf735fddda2c74251fab714af91f869b",
+    "shared_state_contract": "64ae973fb010cf0d5439d232d14236d131b2ac7b060e32bfd51c2fb1bd688f17",
+    "target_free_gate": "5dd1812be72968fc1c23001bc4aa9c137f3a50ab9ffa3e3f5434e9c8c868ebe3"
+  },
+  "extended_density_contract": {
+    "black_hole": "rho_BH(r)=M_BH*(2*pi*epsilon_BH^2)^(-3/2)*exp(-r^2/(2*epsilon_BH^2)); epsilon_BH equals one finest scientific grid cell and must be halved in the convergence run.",
+    "grid": "Scientific density box extends to at least 22*r_s in each direction; isolated FFT solution uses padding factor 2, repeats at factor 4, then halves cell size at the same physical boundary. Failure of either convergence gate invalidates the score.",
+    "pseudo_nfw": {
+      "density": "rho_DM(m)=rho_s*r_s^3/[m*(r_s^2+m^2)]*T(m), evaluated with the cell-integrated central value at m=0",
+      "ellipsoidal_radius": "m=sqrt(x_prime^2+y_prime^2+z_prime^2/q_DM^2) in the halo principal frame",
+      "flattening": "q_DM in [0.3,1]; halo centre and position angle equal the stellar centre and position angle in the primary comparator",
+      "normalization": "rho_s is solved linearly so projected dark mass inside the circular cylinder R<=R_E and |z|<=22*r_s is f_DM/(1-f_DM) times projected (stellar+BH) mass in the identical cylinder",
+      "scale_radius": "r_s=10*R_eff in the primary comparator; registered sensitivity values are 5*R_eff and a log-uniform free r_s/R_eff in [1,30]",
+      "truncation": "T=1 for m<=20*r_s; T=1-10*t^3+15*t^4-6*t^5 for 20*r_s<m<22*r_s with t=(m-20*r_s)/(2*r_s); T=0 for m>=22*r_s"
+    },
+    "stellar_ML": "Seven luminous Gaussians use six positive mass-to-light parameters because components 1 and 2 are tied. Upsilon_j is monotonically non-increasing with projected Gaussian scale.",
+    "stellar_luminosity": "For luminous Gaussian j, nu_j(R,z)=L_j/((2*pi)^(3/2)*sigma_j^3*q_j)*exp(-(R^2+z^2/q_j^2)/(2*sigma_j^2)); rho_star=sum_j Upsilon_j*nu_j. Each component integrates to Upsilon_j*L_j over R,z."
+  },
+  "predictive_likelihood_contract": {
+    "calibration": "Report held-out Mahalanobis distance and randomized quantile residuals per channel. Require the distance inside the 1%-99% chi-square predictive interval and residual absolute mean<=0.25 with variance in [0.5,2].",
+    "hst_predictive_density": "For draw s, analytically marginalize the linear 80x80 source posterior: D_h|theta_s,D_t ~ Normal(A_h*m_s, C_hh + A_h*Lambda_s*A_h^T), where m_s and Lambda_s are the source mean/covariance conditioned only on training pixels. Evaluate the full normalized multivariate Gaussian log density including log determinant.",
+    "metric_not_evidence": "No marginal evidence or Bayes factor is claimed. The primary statistic is a fully specified held-out log predictive density difference.",
+    "muse_predictive_density": "For draw s, form the joint empirical covariance blocks C_tt,C_hh,C_ht. Given training residual r_t=D_t-mu_t(theta_s), D_h|theta_s,D_t ~ Normal(mu_h(theta_s)+C_ht*C_tt^-1*r_t, C_hh-C_ht*C_tt^-1*C_th). Evaluate the full normalized multivariate Gaussian for concatenated held-out (v_los,sigma_los).",
+    "posterior_draws": "Condition on training sectors only. Use 256-walker affine-invariant MCMC, discard at least 50 integrated autocorrelation times, then retain exactly 4096 equal-weight draws by deterministic stride. Require split-Rhat<=1.01 and bulk ESS>=1000 for every scalar; otherwise invalid.",
+    "posterior_predictive_mixture": "For channel k, LPD_k=logsumexp_s(log p_k(D_h|theta_s,D_t))-log(4096). Joint LPD=LPD_HST+LPD_MUSE. Delta_LPD is candidate minus GR comparator on the same held-out values.",
+    "primary_survival": "Delta_LPD_joint>=10, Delta_LPD_HST>=2, Delta_LPD_MUSE>=2, both calibration gates pass, and the equal-tail 99.73% posterior interval for g excludes zero. No threshold may change after array decode.",
+    "registered_robustness": "Repeat once with sectors rotated by +pi/5. It is reported separately and cannot replace the primary sector result.",
+    "sector_assignment": "For each valid HST pixel or MUSE bin centre, phi=atan2(Dec-Dec0,(RA-RA0)*cos(Dec0)) mod 2*pi and sector=floor(5*phi/(2*pi)). Sectors 0-3 train; sector 4 is held out. Boundary angles go to the higher numbered sector except 2*pi maps to 0."
+  },
+  "shared_state_contract": {
+    "candidate": "EXTENDED_GR_PLUS_FIXED_PPN_YUKAWA",
+    "forbidden": [
+      "photon multiplier",
+      "lens-only g",
+      "lens-only range",
+      "unexplained deflection normalization",
+      "separate lensing mass",
+      "separate image-delay coefficient"
+    ],
+    "matter_route": "Only Phi enters the axisymmetric Jeans acceleration and projected second moments.",
+    "photon_route": "Only the same Phi+Psi state enters the line-of-sight deflection integral and extended-source ray map with the frozen D_l,D_s,D_ls.",
+    "primary_comparator": "GR_PLUS_STARS_PLUS_TRUNCATED_PSEUDONFW_PLUS_GAUSSIAN_BLACK_HOLE, obtained only by g=0 with the identical density, grids, masks, nuisance priors and likelihood",
+    "theory_parameters": {
+      "g_prior": "Uniform[-0.5,0.5]",
+      "range_kpc_prior": "LogUniform[0.1,31.622776601683793]"
+    }
+  }
+}

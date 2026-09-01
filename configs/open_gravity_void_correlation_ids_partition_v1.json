@@ -1,0 +1,119 @@
+{
+  "schema": "invariant-open-gravity-void-correlation-ids-partition-1.0",
+  "package_id": "open-gravity-void-correlation-ids-partition-v1",
+  "status": "AUTHORIZED_IDS_PARTITION_ONLY_NOT_YET_BUILT",
+  "purpose": "Advance Lane 9 exactly one audited gate: decompress CF4 table4, parse only fixed-width bytes 1 through 7 as 1PGC, freeze row hashes/offsets and SHA-256 split roles, and leave every scientific field plus all VAST and Pantheon+ bytes semantically opaque.",
+  "executor_v3": {
+    "package_id": "open-gravity-void-correlation-executor-contract-v3",
+    "config": {
+      "path": "configs/open_gravity_void_correlation_executor_contract_v3.json",
+      "raw_sha256": "5ba4e48c444c14b4f355f516ec664d449c4fd8d2a9d332676d0ffbf40f620a04",
+      "content_sha256": "b3b80f518dcb91595a13ff5a1d0ec5943e96a50f16b185640e085fe586cd28b3"
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_void_correlation_executor_contract_v3.py",
+      "raw_sha256": "1220eaabfebc77340e5c84c2dc9d4056d9ce6509ebf3df38750e542fa9c90dfe",
+      "semantic_sha256": "e7e88c647487a3598418340cb340b88c40d716372f203eb4b3e9bca77f8cfe86"
+    },
+    "test": {
+      "path": "tests/test_open_gravity_void_correlation_executor_contract_v3.py",
+      "raw_sha256": "edb9e480f7454b9fc8e94ace36aef981d17712718ba8a3424c53afe88ac09540"
+    },
+    "receipt": {
+      "path": "runs/gravity/open-gravity-void-correlation-executor-contract-v3/receipt.json",
+      "raw_sha256": "e64717bf1d1c1dedd4670d864b4f86e1863ac24fc452fb7d45fcea7e55401734",
+      "content_sha256": "a0dad57f9815c501e640155c87359f2ba8e6b96b33d573afb8d8570e39d291a9",
+      "status": "PASS_NORMALIZE_ONCE_REPAIR_MUTATION_FREEZE_ROWS_UNOPENED_AWAIT_INDEPENDENT_AUDIT"
+    }
+  },
+  "independent_audit_release": {
+    "path": "runs/gravity/open-gravity-void-correlation-executor-contract-v3-independent-audit/receipt.json",
+    "raw_sha256": "cd66d98a29ace47f0cbcb4d6fbd714f04d2b8863b3da7053bd077ec1923ae92b",
+    "content_sha256": "1025428193a0c7b9984f546da5796d46b7c9961f8410da027c3a97c573bed6e1",
+    "status": "PASS_IDS_PARTITIONING_ONLY",
+    "decision": "PASS_INDEPENDENT_NORMALIZE_ONCE_REAUDIT_IDS_PARTITIONING_ONLY",
+    "allowed_next_stage": "IDS_PARTITIONED"
+  },
+  "source": {
+    "name": "CF4_TABLE4",
+    "path": "work/private/open-gravity-void-source-v2/cf4-table4.dat.gz",
+    "raw_sha256": "be91d4fae6fa01552ab3bc85db695411fca3249eeae08b566a712e6ea790bd99",
+    "raw_bytes": 2528953,
+    "compression": "gzip",
+    "expected_records": 38053,
+    "payload_bytes_per_record": 157,
+    "identifier_slice_zero_based_half_open": [0, 7],
+    "identifier_catalog_coordinates": "bytes 1 through 7 inclusive",
+    "all_other_payload_bytes": "opaque and hash-only"
+  },
+  "identifier_grammar": {
+    "field": "1PGC",
+    "format": "I7",
+    "width": 7,
+    "byte_regex": "ASCII space-star, optional plus-or-minus, one-or-more decimal digits, ASCII space-star; full seven-byte match",
+    "missing": "seven ASCII spaces reject",
+    "domain": "parsed integer must be positive",
+    "canonical": "base-10 str(integer) ASCII with no sign, spaces, or leading zeroes",
+    "forbidden": "no decimal point, exponent, tab, control byte, non-ASCII byte, internal space, or inferred value"
+  },
+  "record_framing": {
+    "stream_coordinate": "zero-based offsets in the completely decompressed CF4 byte stream",
+    "line_rule": "each framed record ends in exactly one LF and may have exactly one CR immediately before LF; after removing that terminator, payload length must equal 157; embedded CR/LF and repeated terminators reject",
+    "offsets": "freeze framed_start, framed_end_exclusive, payload_start, payload_end_exclusive, and line_ending_bytes",
+    "raw_hashes": "for every record freeze SHA256 of exact framed bytes, exact 157-byte payload, exact seven-byte ID slice, and exact opaque 150-byte payload tail",
+    "opaque_rule": "outside bytes 0:7, the implementation may count, frame, and hash bytes but may not decode, slice into named fields, convert, compare, log, or persist raw values"
+  },
+  "split": {
+    "digest": "SHA256(canonical positive 1PGC ASCII)",
+    "bucket": "unsigned big-endian digest bytes 0 through 7 modulo 10",
+    "roles": {"0": "development", "1": "development", "2": "development", "3": "development", "4": "development", "5": "development", "6": "validation", "7": "validation", "8": "confirmation", "9": "confirmation"},
+    "duplicate_rule": "canonical 1PGC is globally unique across all records; any repeat is a package-level block even when framed bytes or roles are identical",
+    "row_leaf": "SHA256 of canonical JSON for the row entry excluding leaf_sha256",
+    "root": "SHA256 of concatenated raw 32-byte leaf digests in the declared ordering; empty root is SHA256(empty bytes)",
+    "source_order_root": "all leaves by source_index ascending",
+    "canonical_id_root": "all leaves by (identifier integer, source_index) ascending",
+    "role_roots": "leaves in each role by (identifier integer, source_index) ascending",
+    "bucket_roots": "leaves in each bucket by (identifier integer, source_index) ascending"
+  },
+  "staged_minima": {
+    "quantity": "unique raw IDs by frozen split role before any eligibility or scientific field opens",
+    "development": 500,
+    "validation": 150,
+    "confirmation": 150,
+    "scope": "passing these raw-ID minima makes no assertion about future full-mask eligible counts"
+  },
+  "artifacts": {
+    "identifier_ledger": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/identifier-ledger.jsonl",
+    "failure_ledger": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/failures.json",
+    "summary": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/partition-summary.json",
+    "receipt": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/receipt.json"
+  },
+  "access_barrier": {
+    "implemented_commands": ["build", "check", "status"],
+    "build": "after all v3 and independent-audit pins validate, perform at most one CF4 gzip decompression pass if artifacts do not yet exist",
+    "check": "verify raw compressed source hash and immutable artifacts; never decompress CF4 and never revisit a source identifier slice",
+    "VAST": "no VAST file is opened, rehashed, decompressed, framed, or parsed by this package",
+    "PANTHEON": "no Pantheon+ data or covariance file is opened, rehashed, framed, or parsed by this package",
+    "development": "no nonidentifier CF4 byte is decoded and no development eligibility or response is opened",
+    "holdouts": "validation and confirmation reveal identifier and role only; all other bytes remain opaque hashes",
+    "scores": "no likelihood, parameter fit, permutation, correlation, per-object scientific residual, or real-data score is computed"
+  },
+  "access_accounting_contract": {
+    "cf4_source_files_decompressed": 1,
+    "cf4_decompression_passes": 1,
+    "identifier_rows_decoded": 38053,
+    "identifier_bytes_decoded": 266371,
+    "nonidentifier_cf4_bytes_semantically_decoded": 0,
+    "scientific_rows_decoded": 0,
+    "VAST_files_opened": 0,
+    "VAST_fields_decoded": 0,
+    "Pantheon_files_opened": 0,
+    "Pantheon_values_decoded": 0,
+    "response_values_inspected": 0,
+    "real_scores": 0
+  },
+  "success_status": "PASS_IDS_PARTITIONED_ONLY_AWAIT_INDEPENDENT_AUDIT_BEFORE_DEVELOPMENT_RELEASE",
+  "block_status": "BLOCK_IDS_PARTITION_INVALID_RETAIN_FAILURES_NO_DEVELOPMENT_RELEASE",
+  "decision": "IDS_ONLY_AUTHORIZED_NO_DEVELOPMENT_RELEASE",
+  "next_gate": "A distinct agent must audit the exact ledger, roots, counts, byte offsets, row hashes, grammar isolation, and zero scientific access before any development release."
+}

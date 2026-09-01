@@ -515,7 +515,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 6,
         "blocked_gates": 0,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 57,
+        "bound_evidence_receipts": 58,
         "independent_target_rows_opened": 0,
     }
     assert (

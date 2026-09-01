@@ -1,0 +1,134 @@
+{
+  "schema": "invariant-open-gravity-refracted-gravity-published-prior-development-scan-1.0",
+  "package_id": "open-gravity-refracted-gravity-published-prior-development-scan-v1",
+  "status": "FROZEN_NINE_CELL_PUBLISHED_PRIOR_DEVELOPMENT_SCAN",
+  "purpose": "After retaining the negative fixed-universal-median result, score every one of the nine Refracted Gravity parameter cells frozen from the DiskMass universal median and published flat-prior bounds on the same 0.25/0.3125 kpc three-dimensional sources. This is a multiplicity-charged development scan, not a confirmation fit.",
+  "admission_rule": {
+    "parameter_cells_frozen_before_this_response_scan": true,
+    "new_parameter_generation_or_repair": false,
+    "real_source_and_primary_paper_required": true,
+    "target_free_solver_benchmark_required": true,
+    "all_source_and_solver_gates_complete_before_response_open": true,
+    "same_parameter_cell_all_objects_and_tracers": true,
+    "retain_all_failures_equivalences_and_boundary_hits": true,
+    "best_cell_is_development_selection_not_confirmation": true
+  },
+  "predecessor_bindings": [
+    {
+      "role": "FIXED_MEDIAN_DEVELOPMENT_RESULT",
+      "commit": null,
+      "promotion_authority": false,
+      "receipt_content_sha256": "03bb5abb9482056ac519f12b59d3d66a47de90a6894f2300567a9c0e7d6c4e7d",
+      "artifacts": [
+        {"path": "configs/open_gravity_refracted_gravity_phangs_sparc_development_score_v1.json", "sha256": "87e8ec42380e66302c045330fd6cfe401e01e81cb4ff3ca7169d5dbe03647ceb"},
+        {"path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_phangs_sparc_development_score_v1.py", "sha256": "04b94f3abee6c2b819cf03dbd3465863d44b0a3b07c46f7a41922633c5128cf0"},
+        {"path": "tests/test_open_gravity_refracted_gravity_phangs_sparc_development_score_v1.py", "sha256": "32c7de2e2247bc032b4abc82841aa7abea2d2ce826b49a06f5f786eff570fab8"},
+        {"path": "runs/gravity/open-gravity-refracted-gravity-phangs-sparc-development-score-v1/receipt.json", "sha256": "05e33b376dd64f0ea2fac7843b9eea59918c8bc61e8975298c27e078a1fa54c8"}
+      ]
+    },
+    {
+      "role": "SCORING_RESOLUTION_SOLVER_AND_SOURCES",
+      "commit": null,
+      "promotion_authority": false,
+      "receipt_content_sha256": "79bade6ae6fc8ba471fda263e0b2a66442187aa1f17ed61954a52068c6ac5b37",
+      "artifacts": [
+        {"path": "configs/open_gravity_refracted_gravity_phangs_things_scoring_resolution_v1.json", "sha256": "963d7b7b5c7845917febcfbcaca1001434ef6bbd78b097af7b227607c6d9c2f4"},
+        {"path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_phangs_things_scoring_resolution_v1.py", "sha256": "ae0661871b980ffd5b5ce4a73358407b1ecfeef36b65cc8afaa11c2f258c9314"},
+        {"path": "tests/test_open_gravity_refracted_gravity_phangs_things_scoring_resolution_v1.py", "sha256": "c803d3e8e947fd44f61b4f31582040a6eb28c5167d4e914c266a298900f3cc7a"},
+        {"path": "runs/gravity/open-gravity-refracted-gravity-phangs-things-scoring-resolution-v1/receipt.json", "sha256": "120e31bf9a89076889a0c5be6d2eb9fe8ae7da01f78b90844dac4e617eae1fa2"}
+      ]
+    },
+    {
+      "role": "PUBLISHED_PARAMETER_AND_OPERATOR_BENCHMARK",
+      "commit": null,
+      "promotion_authority": false,
+      "receipt_content_sha256": "85412b981dad719315a27f5a64d3af075bcc67fb8d19dfc07e6f94ed02e0567e",
+      "artifacts": [
+        {"path": "configs/open_gravity_refracted_gravity_3d_primary_benchmark_v1.json", "sha256": "9f5f127b8078ef95ff47ce073cb0e2c9254ca1fd9c8113880ac8e42ea52a8308"},
+        {"path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_3d_primary_benchmark_v1.py", "sha256": "aa0b1ff7499b5fef8355d237d1e3632b845f8f1397cda2690750b1ef142fee88"},
+        {"path": "tests/test_open_gravity_refracted_gravity_3d_primary_benchmark_v1.py", "sha256": "fe49a5a4de7bd5fc341dfdd4aab2283498dfc746ca066e6cb8b0caa16b932971"},
+        {"path": "runs/gravity/open-gravity-refracted-gravity-3d-primary-benchmark-v1/receipt.json", "sha256": "ffc2579e6a0e742b33a46d9b5e208389e67e3d57d06bb01ca41fa52c04730730"}
+      ]
+    }
+  ],
+  "primary_paper": {
+    "id": "REFRACTED_GRAVITY_DISKMASS",
+    "url": "https://arxiv.org/html/2003.07377v2",
+    "parameter_source": "published universal median plus exact flat-prior endpoints",
+    "published_negative_evidence_retained": true
+  },
+  "objects": ["NGC2903", "NGC3351", "NGC3627"],
+  "grid_contract": {
+    "fine_nodes_per_axis": 241,
+    "fine_spacing_kpc": 0.25,
+    "convergence_nodes_per_axis": 193,
+    "convergence_spacing_kpc": 0.3125,
+    "solver_half_box_kpc": 30.0,
+    "radial_min_kpc": 0.5,
+    "radial_max_kpc": 15.0,
+    "radial_step_kpc": 0.05,
+    "radial_points": 291,
+    "azimuth_samples": 96,
+    "fine_vs_convergence_maximum_relative_difference": 0.05,
+    "minimum_fine_cells_per_radius": 2.0
+  },
+  "parameter_contract": {
+    "registered_refracted_gravity_cells": 9,
+    "unique_refracted_gravity_epsilon_fields_per_source_grid": 6,
+    "unique_fields_including_newton_per_source_grid": 6,
+    "registered_cell_multiplicity_charged": 9,
+    "best_cell_selection_events": 1,
+    "published_universal_median_id": "DISKMASS_UNIVERSAL_MEDIAN",
+    "flat_prior_bounds": {
+      "epsilon_0": [0.1, 1.0],
+      "Q": [0.01, 2.0],
+      "log10_rho_c_g_cm3": [-27.0, -23.0]
+    },
+    "response_fitted_continuous_parameters": 0,
+    "parameter_cells_added_after_fixed_median_result": 0
+  },
+  "scoring_contract": {
+    "published_comparators": ["NEWTON_3D_DST", "RAR_2016_ON_NEWTON_3D", "MOND_STANDARD_MU_ON_NEWTON_3D"],
+    "same_common_source_convergence_rows_all_candidates": true,
+    "prediction": "v_c=sqrt(g*r)",
+    "phangs_error": "published asymmetric uncertainty",
+    "sparc_error": "published e_Vobs",
+    "per_object_loss": "mean squared standardized velocity residual",
+    "domain_loss": "equal mean over objects",
+    "minimum_rows_per_object": 5,
+    "response_based_source_or_row_threshold_selection": false
+  },
+  "adjudication": {
+    "minimum_meaningful_fractional_improvement": 0.02,
+    "phangs_minimum_object_support": 2,
+    "cross_tracer_direction_must_agree": true,
+    "best_cell_at_prior_boundary_is_reported": true,
+    "multiplicity_adjusted_global_discovery_claim": false,
+    "source_systematic_score_robustness_established": false,
+    "maximum_claim": "MULTIPLICITY_CHARGED_DEVELOPMENT_PRIOR_GRID_SIGNAL_REQUIRES_FULL_SOURCE_PROPAGATION_AND_INDEPENDENT_CONFIRMATION"
+  },
+  "execution_order": [
+    "validate every bound source paper benchmark and fixed median result",
+    "rebuild every source cube at both grids",
+    "solve and numerically gate all nine registered parameter cells",
+    "only if every required source and solver gate completes, open the existing development responses",
+    "score all registered cells and comparators on identical eligible rows",
+    "retain every numerical and data counterexample"
+  ],
+  "access_scope": {
+    "development_only": true,
+    "phangs_container_objects_opened": 33,
+    "phangs_container_response_rows_opened": 1321,
+    "sparc_container_objects_opened": 175,
+    "sparc_container_response_rows_opened": 3391,
+    "confirmation_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "group_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0
+  },
+  "output_path": "runs/gravity/open-gravity-refracted-gravity-published-prior-development-scan-v1/receipt.json"
+}

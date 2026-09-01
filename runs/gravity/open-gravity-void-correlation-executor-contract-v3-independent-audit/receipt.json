@@ -1,0 +1,158 @@
+{
+  "schema": "invariant-open-gravity-void-correlation-executor-independent-audit-receipt-1.0",
+  "package_id": "open-gravity-void-correlation-executor-contract-v3-independent-audit",
+  "audited_package_id": "open-gravity-void-correlation-executor-contract-v3",
+  "status": "PASS_IDS_PARTITIONING_ONLY",
+  "decision": "PASS_INDEPENDENT_NORMALIZE_ONCE_REAUDIT_IDS_PARTITIONING_ONLY",
+  "audit_independence": {
+    "auditor_task": "/root/lane9_v3_normalize_reaudit",
+    "package_mutated": false,
+    "scientific_source_rows_opened": false
+  },
+  "audited_artifacts": {
+    "config": {
+      "path": "configs/open_gravity_void_correlation_executor_contract_v3.json",
+      "raw_sha256": "5ba4e48c444c14b4f355f516ec664d449c4fd8d2a9d332676d0ffbf40f620a04",
+      "content_sha256": "b3b80f518dcb91595a13ff5a1d0ec5943e96a50f16b185640e085fe586cd28b3"
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_void_correlation_executor_contract_v3.py",
+      "raw_sha256": "1220eaabfebc77340e5c84c2dc9d4056d9ce6509ebf3df38750e542fa9c90dfe",
+      "semantic_sha256": "e7e88c647487a3598418340cb340b88c40d716372f203eb4b3e9bca77f8cfe86"
+    },
+    "test": {
+      "path": "tests/test_open_gravity_void_correlation_executor_contract_v3.py",
+      "raw_sha256": "edb9e480f7454b9fc8e94ace36aef981d17712718ba8a3424c53afe88ac09540"
+    },
+    "receipt": {
+      "path": "runs/gravity/open-gravity-void-correlation-executor-contract-v3/receipt.json",
+      "raw_sha256": "e64717bf1d1c1dedd4670d864b4f86e1863ac24fc452fb7d45fcea7e55401734",
+      "content_sha256": "a0dad57f9815c501e640155c87359f2ba8e6b96b33d573afb8d8570e39d291a9"
+    }
+  },
+  "bound_dependencies": {
+    "predecessor_v2_receipt": {
+      "path": "runs/gravity/open-gravity-void-correlation-executor-contract-v2/receipt.json",
+      "raw_sha256": "366ee298314cfc93c14c3fc19a3bd910e46bf71453e9b496dbcfd091055b3214",
+      "content_sha256": "a1e9ed825c7039012476af79120a2cdb2f38f0a36687061c82f13f199f1db28a",
+      "status": "PASS_MUTATION_FREEZE_SYNTHETIC_CONFORMANCE_ROWS_UNOPENED_AWAIT_INDEPENDENT_AUDIT"
+    },
+    "v2_block_audit": {
+      "path": "work/open-gravity-void-correlation-executor-contract-v2-blocked-normalization-audit1/audit-block.json",
+      "raw_sha256": "d6e681f4e725c11c2d88f2f3c72975482002955aa65cd9fed970bbd2ce11c5ab",
+      "status": "BLOCK_INDEPENDENT_AUDIT_NORMALIZATION_COUNT_MISMATCH"
+    },
+    "law_v4_receipt": {
+      "path": "runs/gravity/open-gravity-void-gravitational-load-v4/receipt.json",
+      "raw_sha256": "f8e037382dfd617abd9272f0657dca60b885dff323ab3d904887a681efef37b9",
+      "content_sha256": "1c835bbd2634aed540926faccde72e9daf7d6b5e209b825ba5ad8786796a3293",
+      "status": "PASS_FAIL_CLOSED_IDENTIFIABLE_LAW_ROWS_UNOPENED"
+    },
+    "geometry_v3_receipt": {
+      "path": "runs/gravity/open-gravity-void-geometry-source-completion-v3/receipt.json",
+      "raw_sha256": "a7777fc5554f5c1ea97709a1a42ef5a02beaf90cb0889689213a01570c8cdc96",
+      "content_sha256": "948abc576949f9d3872094f390b2828e817b71cc65dbb580366a88c386a0e31a",
+      "status": "PASS_DISTANCE_TYPED_FAIL_CLOSED_ROWS_UNOPENED"
+    }
+  },
+  "blocked_v2_preservation": {
+    "status": "PASS_BYTE_EXACT_PRESERVATION",
+    "copies_equal_frozen_originals": true,
+    "files": {
+      "config.json": "2c90b8e3700e3b148da047de314f93b8a2991514a9541dd1b9b1bb415428e654",
+      "module.py": "50678f01a2c68e7928edfd8a80e07d4ab43c18469cd3ae9aa45b5a67fbabea26",
+      "receipt.json": "366ee298314cfc93c14c3fc19a3bd910e46bf71453e9b496dbcfd091055b3214",
+      "test.py": "302cd055b8748e431a5fc36a5e0267ff98af733dcb63dd4377b14a094de1e9e4"
+    }
+  },
+  "checks": [
+    {
+      "check_id": "PINNED_HASHES_AND_SELF_HASH",
+      "passed": true,
+      "detail": "Config raw/content, module raw/semantic, test raw, and v3 receipt raw/content hashes independently matched; receipt self-hash recomputed exactly."
+    },
+    {
+      "check_id": "FROZEN_TEST_SUITE",
+      "passed": true,
+      "command": "python -m pytest -q tests/test_open_gravity_void_correlation_executor_contract_v3.py",
+      "result": "22 passed"
+    },
+    {
+      "check_id": "CWD_INDEPENDENT_CLI_CHECK",
+      "passed": true,
+      "command": "python -m sigma_theory_compiler.open_gravity_void_correlation_executor_contract_v3 check",
+      "result": "VALID",
+      "detail": "Executed from a different current working directory with the repository src directory on PYTHONPATH."
+    },
+    {
+      "check_id": "NORMALIZE_ONCE_CALL_GRAPH",
+      "passed": true,
+      "detail": "Public shear_quadratic_columns and nuisance_velocity_design each call normalize_direction once; private normalized helpers call it zero times; profile_at_delta prepares once per row; profile_grid prepares once per row before all 161 grid points."
+    },
+    {
+      "check_id": "ADVERSARIAL_BINARY64_ALL_PUBLIC_PROFILE_PATHS",
+      "passed": true,
+      "raw_direction": [-0.09524089298036276, 0.11954477216099191, 0.8484211680474587],
+      "normalized_binary64_hex": ["bfbc484bb6b3f3f5", "3fc1bff2ecc41247", "3fef7e36f36e012a"],
+      "shear_binary64_hex": ["bf7458020b289b21", "bfe8e559b47078be", "bf962f8fbace0e32", "bfc3ae8d3e92d731", "3fc8b44e40432083"],
+      "paths": ["shear_quadratic_columns", "nuisance_velocity_design", "profile_at_delta", "profile_grid"]
+    },
+    {
+      "check_id": "PRIOR_V1_V2_BLOCKER_DISPOSITIONS",
+      "passed": true,
+      "detail": "STF basis/order, velocity-to-log mapping, strata/ties, permutation statistic/tail/+1, deterministic ridge profile solver/grid/ties, staged minima, duplicate/join semantics, strict byte grammar, canonical paths, and sealed-stage barriers are mutually consistent."
+    },
+    {
+      "check_id": "RNG_STATISTICS_AND_UNITS",
+      "passed": true,
+      "detail": "NumPy 2.2.6 PCG64(902104729) order is pinned; one generator and ten ascending strata calls per permutation are frozen; the inclusive right-tail finite-sample p value uses (1+tail)/(10000+1); nuisance velocities and delta_H times void length are divided by c exactly once."
+    },
+    {
+      "check_id": "CANONICAL_PATHS_AND_STAGE_BARRIERS",
+      "passed": true,
+      "detail": "Repository-relative normalized POSIX paths, physical containment, no symlink aliases, regular-file checks, and build/check/status-only CLI exposure passed."
+    },
+    {
+      "check_id": "OPAQUE_SOURCE_HASH_BINDINGS",
+      "passed": true,
+      "files": 8,
+      "bytes": 43577257,
+      "operation": "STREAMING_RAW_SHA256_ONLY"
+    }
+  ],
+  "source_bindings": {
+    "CF4_TABLE4": {"path": "work/private/open-gravity-void-source-v2/cf4-table4.dat.gz", "bytes": 2528953, "raw_sha256": "be91d4fae6fa01552ab3bc85db695411fca3249eeae08b566a712e6ea790bd99"},
+    "MASK_U8": {"path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/artifacts/mask-u8.bin", "bytes": 64800, "raw_sha256": "e473e5f71860ab3d8580036c2d41ca637af66bc32a6e8701ceb9fc16444520fa"},
+    "PANTHEON_PLUS_COVARIANCE": {"path": "work/private/open-gravity-lane9-pantheonplus-c447f0f/Pantheon+SH0ES_STAT+SYS.cov", "bytes": 33284960, "raw_sha256": "abf806d966485e64afdb359c87bffc0ecc00d05eff0a31ced66f247385df0fdc"},
+    "PANTHEON_PLUS_DATA": {"path": "work/private/open-gravity-lane9-pantheonplus-c447f0f/Pantheon+SH0ES.dat", "bytes": 579283, "raw_sha256": "1cb0fc379ef066afdc2ffd1857681cc478024570d8a3eba284fb645775198cf8"},
+    "VAST_TABLE1": {"path": "work/private/open-gravity-void-source-v2/vast-table1.dat", "bytes": 426486, "raw_sha256": "fe430c4e31f879e5678479b6735d84e2e6ac6c26f5bd71115b56d8d2c1bdbeff"},
+    "VAST_TABLE2": {"path": "work/private/open-gravity-void-source-v2/vast-table2.dat.gz", "bytes": 3360828, "raw_sha256": "8e2a919f70883a5160b668660a06738d9ac0d091e751ee397431f64d4a77c9bf"},
+    "VAST_ZENODO_HOLES": {"path": "work/private/open-gravity-void-source-v2/VoidFinder-nsa_v1_0_1_Planck2018_comoving_holes.txt", "bytes": 3150288, "raw_sha256": "9465f913d9efd0c7df88ad0ec039339e021b1ce2f3ca9aad3702dfbeefa98e21"},
+    "VAST_ZENODO_MAXIMAL": {"path": "work/private/open-gravity-void-source-v2/VoidFinder-nsa_v1_0_1_Planck2018_comoving_maximal.txt", "bytes": 181659, "raw_sha256": "98082b9973e491757ca854a519a3ecd98689d064b928c522ae31954d58604afc"}
+  },
+  "access_accounting": {
+    "source_files_hashed": 8,
+    "source_files_decompressed": 0,
+    "scientific_rows_decoded": 0,
+    "identifier_rows_decoded": 0,
+    "response_values_inspected": 0,
+    "real_scores": 0,
+    "validation_rows_decoded": 0,
+    "confirmation_rows_decoded": 0,
+    "pantheon_rows_decoded": 0
+  },
+  "authorization_scope": {
+    "allowed_next_stage": "IDS_PARTITIONED",
+    "allowed_operation": "A successor receipt may decompress CF4_TABLE4 and parse only bytes 1 through 7 of each record under the frozen I7 grammar to canonicalize 1PGC and assign frozen SHA-256 roles.",
+    "still_forbidden": [
+      "Decode any non-identifier CF4 field",
+      "Decode any VAST scientific row",
+      "Decode any Pantheon+ row or covariance value",
+      "Open development responses or eligibility fields",
+      "Open validation or confirmation rows",
+      "Produce a real-data score"
+    ]
+  },
+  "next_gate": "AN_APPEND_ONLY_IDS_PARTITIONED_SUCCESSOR_MUST_BIND_THIS_EXACT_RECEIPT_RAW_AND_CONTENT_HASH_BEFORE_ANY_IDENTIFIER_ACCESS",
+  "content_sha256": "1025428193a0c7b9984f546da5796d46b7c9961f8410da027c3a97c573bed6e1"
+}

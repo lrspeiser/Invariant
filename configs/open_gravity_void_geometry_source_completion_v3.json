@@ -1,0 +1,33 @@
+{
+  "schema": "invariant-open-gravity-void-geometry-source-completion-3.0",
+  "package_id": "open-gravity-void-geometry-source-completion-v3",
+  "status": "FROZEN_DISTANCE_TYPED_FAIL_CLOSED_ROWS_UNOPENED",
+  "purpose": "Append-only repair of CF4 distance typing, immutable code-pin enforcement and nonfinite geometry rejection.",
+  "predecessor": {
+    "path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/receipt.json",
+    "raw_sha256": "7fc6480745138bddc8f1a86948b61cf916448c8b0930750e52ee4f10e9b276a0",
+    "content_sha256": "011a0d2859142b7ed54a72605d72e7429b86d0882bd8ce6ce06c5c7d08ed11b6",
+    "counterevidence": [
+      "DMzp and Dist were not paired by an executable catalog-rounding check",
+      "module-semantic and test pins were recorded but not enforced before build",
+      "some public geometry entry points did not fail closed on nonfinite values"
+    ]
+  },
+  "canonical_mask": {
+    "path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/artifacts/mask-u8.bin",
+    "sha256": "e473e5f71860ab3d8580036c2d41ca637af66bc32a6e8701ceb9fc16444520fa",
+    "bytes": 64800,
+    "interpretation": "Canonical uint8 mask produced by inspection of the exact pinned pickle opcode stream. No pickle opcode is executed; STACK_GLOBAL, REDUCE and BUILD are inert data seen only by pickletools.genops."
+  },
+  "cf4_distance_columns": {
+    "DMzp": {"type": "F6.3", "unit": "mag", "role": "rounding consistency and uncertainty coordinate only"},
+    "e_DMzp": {"type": "F5.3", "unit": "mag", "role": "distance likelihood uncertainty"},
+    "Dist": {"type": "F5.1", "unit": "Mpc", "role": "sole Mpc input to geometry and FLRW inversion"},
+    "identity": "Dist=10^((DMzp-25)/5) Mpc before independent catalog rounding",
+    "tolerance": "abs(Dist-D_formula)<=0.05 Mpc + D_formula*(10^(0.0005/5)-1), covering half of the 0.1 Mpc Dist step and half of the 0.001 mag DMzp step"
+  },
+  "fail_closed": ["nonfinite RA", "nonfinite Dec", "nonfinite radius", "nonfinite luminosity distance", "negative radius", "negative luminosity distance"],
+  "access_accounting": {"scientific_rows_decoded": 0, "response_values_inspected": 0, "real_scores": 0},
+  "claim_boundary": {"correlation_geometry_ready": true, "real_data_fit": false, "mechanism_inference": false, "publication_ready": false},
+  "output_path": "runs/gravity/open-gravity-void-geometry-source-completion-v3/receipt.json"
+}

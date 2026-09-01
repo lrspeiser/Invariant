@@ -1,0 +1,1671 @@
+{
+  "access_accounting": {
+    "calibration_payload_archives_opened": 0,
+    "infrastructure_bytes_hashed": 132771,
+    "infrastructure_files_hashed": 15,
+    "model_calls": 0,
+    "network_calls": 0,
+    "paid_calls": 0,
+    "psd_payload_arrays_opened": 0,
+    "real_likelihood_responses_opened": 0,
+    "real_likelihood_values_computed": 0,
+    "source_anchor_bytes_opened": 1022661,
+    "source_anchor_files_opened": 19,
+    "strain_files_opened": 0,
+    "strain_samples_opened": 0,
+    "target_free_nr_waveform_files_opened": 1,
+    "target_free_nr_waveform_rows_opened": 2769,
+    "target_free_synthetic_gate_files_opened": 1,
+    "theory_or_nuisance_tuning_events": 0
+  },
+  "adapter_blocks": [
+    {
+      "formula_id": "LANE2_EXACT_LALSUITE_WAVEFORM",
+      "reason": "the exact pinned Linux LALSuite runtime is not invoked by this platform-independent source-shaped surrogate",
+      "status": "UNADAPTED"
+    },
+    {
+      "formula_id": "NON_GAUSSIAN_JUMP_MEMORY",
+      "reason": "no frozen causal jump-process ABI and parameter law exists",
+      "status": "UNADAPTED"
+    },
+    {
+      "formula_id": "POLARIZATION_BIREFRINGENCE",
+      "reason": "separate plus/cross polarization response products are not opened",
+      "status": "SOURCE_BLOCKED"
+    },
+    {
+      "formula_id": "REAL_CALIBRATION_LEARNING",
+      "reason": "frequency-dependent calibration payloads and empirical response fitting remain sealed",
+      "status": "SOURCE_BLOCKED"
+    },
+    {
+      "formula_id": "REAL_OFFSOURCE_PSD_REFIT",
+      "reason": "off-source strain samples remain sealed; only manifest-defined nuisance families are synthetic",
+      "status": "SOURCE_BLOCKED"
+    },
+    {
+      "formula_id": "REAL_STRAIN_LIKELIHOOD",
+      "reason": "GW170817 and GW150914 strain samples and all real likelihood responses are sealed",
+      "status": "SOURCE_BLOCKED"
+    }
+  ],
+  "adapter_sha256": {
+    "CONTROL_FREE_DELAY": "178072382c06785f56a8a62624b944d6c2149a23d098c168943cc15571b10773",
+    "CONTROL_OU_NOISE": "9c16a7206dda815bc25a07c004edcabefb3a576a9b1aa94cc5f84ee0ff9fed5e",
+    "CONTROL_SINGLE_LTI": "b2d61a83a6284373d7963c7a569f3d543a9d4730e3dee772975c2e558cd38ddc",
+    "CONTROL_SOURCE_RINGDOWN": "0a9299f90d598f5c27503366e75ff094300f5a0428693d843c26515b73b6cb25",
+    "CONTROL_TWO_POLE_LTI": "8c4acdc22ec0161f7a00c194d60cf47c1f894911922e177abac01b2d2c3962cf",
+    "GR_NETWORK_CONTROL": "243c02e5aa872a4ee09d0e49d16f9e3ec115a8d72f80f621af4f4ebc74e689bd",
+    "LANE2_ATTENUATION": "f998e0363014e9bdf020e27087e56f303a0be73fa67dc5b975103c0e5d686546",
+    "LANE2_DYNAMIC_PHASE": "48cbc75a14f551875e71a178566704d6cef63e3b2760c49f31c48fab2be2108b",
+    "LANE2_NONLINEAR_PHASE": "4f10daeb4ab7085898d1fc7d965c304b8f45182039e379683ccc2f296b95e4b1",
+    "LANE2_RESERVOIR": "7e8438eab3126d661f7615ca49a420bb630f7feaf4f61a79279ea0ca0266acbe",
+    "LANE2_SCREENED_PHASE": "a2e061ce700a59decdbe61e53a0ce71e5b7f46fe46bcc171878e99873a8651bd",
+    "LANE5_BIEXPONENTIAL_MEMORY": "0603a93726ad8000d9ea8c5c2d29aab1a0ee4052578f1b5812d50a8e29a0bd7a",
+    "LANE5_DELAY_MEMORY": "3be0cbfaee8750fb2ac52247da670947013658e5b50f3755c8e8fad48d08f966",
+    "LANE5_EXPONENTIAL_MEMORY": "e9ea66184e0acf14dfbb3744a201c87d507a8288c5f9275e08c1af920b97cb04",
+    "LANE5_HYSTERETIC_MEMORY": "5d5de3f80ad243a6e9317949ca8e2d61a2111a3d446bbf87e4801151d3538cd3",
+    "LANE5_RESONANCE_MEMORY": "246fca8e2be38fcc319e6bef8d900ed9a9b3b863c59641600abe193038ee4490",
+    "LANE5_STOCHASTIC_OU_MEMORY": "ca84c8e068c89b6f30e2ea267c9e842c259027694b927dc94a3bdd569bbaeb88"
+  },
+  "artifact_sha256": {
+    "confusion-matrix.json": "7ee88e891f6fbefec042a4df0d7605b6716c13ef252f7a2acacba174e82b16fe",
+    "invariance-degeneracy-and-failure-ledger.json": "100cc94380190ba5c35e43d06389565af76764208eace34f98adb341eb242151",
+    "ledger.json": "3ca54708bc453418e0d186353dbdd695e04a887a6a95160f7168fe6671acc1dd",
+    "matrix-result.json": "af14868763babce58841da48bbdcf6d8e9153e36cfd22930fb247610a76732e1",
+    "scenarios.jsonl": "02f5e13fa7aee9fd2a7e2d2dd6abb9384faaefe827677acc7202bf07ce33e155",
+    "values.npz": "17e192941d5bd155d5edf8c1b02b0c5df79a1e4e615237474f43b3095cb2ee44"
+  },
+  "attempted_matrix_cell_count": 16320,
+  "blocked_binding_count": 6,
+  "blocked_predecessor_audit": {
+    "decision": "BLOCK",
+    "finding_code": "B01_FALSE_FFT_ROUNDTRIP_PASS_AND_INCONSISTENT_DUAL_DOMAIN_OBSERVATIONS",
+    "path": "work/audits/open-gravity-gw-timeseries-source-anchored-synthetic-injection-matrix-v2-independent-audit-blocked-d76e0127.json",
+    "raw_sha256": "2f854e342f0480378931684b7f7e3aa94fa0870b03e457ccefed043202f87108"
+  },
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "content_sha256": "e2dea8d422b4115ab62f32da94ee7f9d761155c586d6ed371a237ee78668d139",
+  "derived_unscored_output_ids": [
+    "prediction.matrix.time-strain"
+  ],
+  "distinct_independent_audit_required": true,
+  "distinct_truth_recovery_count": 265,
+  "event_count": 2,
+  "executable_binding_count": 17,
+  "fft_consistency": {
+    "all_forward_backward_dc_nyquist_pass": true,
+    "noise_realization_check_count": 680,
+    "noise_realization_maxima": {
+      "backward": 3.885780586188048e-16,
+      "dc_magnitude": 2.4980018054066022e-15,
+      "forward": 4.905125646631375e-15,
+      "nyquist_imaginary": 0.0
+    },
+    "nonzero_noise_check_count": 544,
+    "prediction_maxima": {
+      "backward": 3.3306690738754696e-16,
+      "dc_magnitude": 1.6653345369377348e-15,
+      "forward": 0.0,
+      "nyquist_imaginary": 0.0
+    },
+    "prediction_truth_and_candidate_check_count": 680,
+    "response_check_count": 680,
+    "response_maxima": {
+      "backward": 4.440892098500626e-16,
+      "dc_magnitude": 2.220446049250313e-15,
+      "forward": 0.0,
+      "nyquist_imaginary": 0.0
+    },
+    "tolerance": 1e-12,
+    "zero_noise_check_count": 136
+  },
+  "formula_binding_sha256": {
+    "CONTROL_FREE_DELAY": "64b81f225a0e99fe3fa33da5a19e4371bdf26652a7a5a5672d033d892cad8836",
+    "CONTROL_OU_NOISE": "4a369069cdf1941edda827f09b9cdffc01aed400f6d2f39e8737791c8339ad06",
+    "CONTROL_SINGLE_LTI": "375d6271c9580ccfd9463b1d529e2d2f8557a815be111fde68f71e34683c2256",
+    "CONTROL_SOURCE_RINGDOWN": "71e08bd4f5a56afd12b34eb18311b738067c3da2155e6d068de54eca346e2da5",
+    "CONTROL_TWO_POLE_LTI": "52940275e649a1e009b99b2f2b63145c08e074bb33ec45f16b9495f28ed9e492",
+    "GR_NETWORK_CONTROL": "1a93d4e0360efdb50c5f2ab6f018ac636d89811b5559f2bf77fd7c8874d60833",
+    "LANE2_ATTENUATION": "a08a36ca13988922402b58e63c9e0355cc5061eb30b11ca4fba58ce7511bf3a5",
+    "LANE2_DYNAMIC_PHASE": "f906ce378ce4d62dd1cb11b2d3e21c5891cff8701c06d56d7077c41414e7838d",
+    "LANE2_EXACT_LALSUITE_WAVEFORM": "bfce51e43db3a50516dc8c65f68ea701807bd06b3bcb839dee0cab1240b13033",
+    "LANE2_NONLINEAR_PHASE": "840af57cea0c9e4f486b3cbbe916fdd7d11f666f212a5302b78c7f5c6511b34e",
+    "LANE2_RESERVOIR": "e96ef7717d92d8be8076354fa36354c477472bc473efd8c6c2db4774ff47f6bb",
+    "LANE2_SCREENED_PHASE": "45381ab937ad3b9d311c5a90ec48ae674d66f16b4c72d0e28a08b4a4e4f51def",
+    "LANE5_BIEXPONENTIAL_MEMORY": "6364617dd0de38e8f9293bbaa16b87b3d83150589d1235553d62fa0ed1d2f1f5",
+    "LANE5_DELAY_MEMORY": "fcbb0734487cee7e945adedb246cba60720b20038d96c3b1fc923541c5374659",
+    "LANE5_EXPONENTIAL_MEMORY": "031ec110169ce94ca5c15dcd906be85954658c3a177a72d87a848153c21ff464",
+    "LANE5_HYSTERETIC_MEMORY": "cd4b7b6fda0f3bd81b23c24ab5f203d7524265a6cf9e9fb668ff49eafcaa8c8a",
+    "LANE5_RESONANCE_MEMORY": "28e38c978359b0b63517485558c63d78201a4cd012383a047369e54bf7ddb4a6",
+    "LANE5_STOCHASTIC_OU_MEMORY": "1f80ebda685b5621e58c3323eec025b667fa14dbf7f7ffc8aad549fa212a4523",
+    "NON_GAUSSIAN_JUMP_MEMORY": "7b32b79583f7133ca0fc281a8d6a61b1ce24ee22ed36371268f562a8d5582f87",
+    "POLARIZATION_BIREFRINGENCE": "7f65cd2b5c5ea631fdf1ff2b15f28e7cf2d05061df0c79c0a56f92d81def28ad",
+    "REAL_CALIBRATION_LEARNING": "deb3d2588be93995ca96248013fe4bcb08af826620d5e07e3a1facb1393a3c57",
+    "REAL_OFFSOURCE_PSD_REFIT": "698dea5d054daf65dcffa5964ed59be331a1d46f2308363117454746e556ef67",
+    "REAL_STRAIN_LIKELIHOOD": "c0a137dfa3223e92cda668206614de7a8d7ac75505900747b9376b37f8a9f6e6"
+  },
+  "formula_bindings": {
+    "CONTROL_FREE_DELAY": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.control-free-delay.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:control_free_delay_adapter",
+      "formula_id": "CONTROL_FREE_DELAY",
+      "formula_sha256": "468beef3bcde27ecf072d4c31813377981edf79de8fbd12981c73be243059b4f",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "CONTROL_OU_NOISE": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.control-ou-noise.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:control_ou_noise_adapter",
+      "formula_id": "CONTROL_OU_NOISE",
+      "formula_sha256": "cb945c4358f98c20e68cddfaf7a999e8c0a1a07affd0979e2710d5d84377ff4f",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "CONTROL_SINGLE_LTI": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.control-single-lti.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:control_single_lti_adapter",
+      "formula_id": "CONTROL_SINGLE_LTI",
+      "formula_sha256": "90f757b607024f27217d6aa8b5f931a39ebf664eefed971f6fbb45d129620c95",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "CONTROL_SOURCE_RINGDOWN": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.control-source-ringdown.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:control_source_ringdown_adapter",
+      "formula_id": "CONTROL_SOURCE_RINGDOWN",
+      "formula_sha256": "f2afe0c5d1120d82db86642679e2d7d49f97f6d3bf636e006dcdf083ed07af93",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "CONTROL_TWO_POLE_LTI": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.control-two-pole-lti.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:control_two_pole_lti_adapter",
+      "formula_id": "CONTROL_TWO_POLE_LTI",
+      "formula_sha256": "1a96772fc4abfdf6f88e7ecf497b1e0e6491926f2e152298cb72aa3318b9e8d4",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "GR_NETWORK_CONTROL": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.gr-network-control.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:gr_network_control_adapter",
+      "formula_id": "GR_NETWORK_CONTROL",
+      "formula_sha256": "17ab7bc79ecbc4990124843b6a28405cb3101424fbbbf59ad5cd524e6c1a7395",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE2_ATTENUATION": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane2-attenuation.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane2_attenuation_adapter",
+      "formula_id": "LANE2_ATTENUATION",
+      "formula_sha256": "fabee30c6cd6b448a77b42920c97a2df62008a8e3b9602c3af5f7af1be282400",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE2_DYNAMIC_PHASE": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane2-dynamic-phase.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane2_dynamic_phase_adapter",
+      "formula_id": "LANE2_DYNAMIC_PHASE",
+      "formula_sha256": "c4d71bce27c91bf58bb0915d8d6ebc9b52f7760fa83da885f3867b9c1953c2d9",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE2_EXACT_LALSUITE_WAVEFORM": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "the exact pinned Linux LALSuite runtime is not invoked by this platform-independent source-shaped surrogate",
+      "binding_id": "binding.gw-timeseries.lane2-exact-lalsuite-waveform.v3",
+      "domains": [
+        "gw-real-response"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": null,
+      "formula_id": "LANE2_EXACT_LALSUITE_WAVEFORM",
+      "formula_sha256": "04e0e25c844006be4fa583675713be5cc30d6e0d9f096ee38a74a259ca4d9fcf",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "real-detector"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.real-strain"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "UNADAPTED",
+      "time_support": [
+        "empirical"
+      ]
+    },
+    "LANE2_NONLINEAR_PHASE": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane2-nonlinear-phase.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane2_nonlinear_phase_adapter",
+      "formula_id": "LANE2_NONLINEAR_PHASE",
+      "formula_sha256": "bfeb39f274aba3ac327d959ac751031916387ebb4e71b0cb2f42c84770aa83aa",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE2_RESERVOIR": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane2-reservoir.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane2_reservoir_adapter",
+      "formula_id": "LANE2_RESERVOIR",
+      "formula_sha256": "78da3ac47a9c10a01cc80a97b5fadcd3cc062176ba372bb7c573608d97350fe9",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE2_SCREENED_PHASE": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane2-screened-phase.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane2_screened_phase_adapter",
+      "formula_id": "LANE2_SCREENED_PHASE",
+      "formula_sha256": "a94d68bb38bfa4dde5e4bc7cf9ee709b49eb164bddfa5700973857f5b9476fba",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE5_BIEXPONENTIAL_MEMORY": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane5-biexponential-memory.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane5_biexponential_memory_adapter",
+      "formula_id": "LANE5_BIEXPONENTIAL_MEMORY",
+      "formula_sha256": "b9760867e0928c0ae859cdb22fe667b88506f5866ecb780de5fa4ba2eebbd552",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE5_DELAY_MEMORY": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane5-delay-memory.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane5_delay_memory_adapter",
+      "formula_id": "LANE5_DELAY_MEMORY",
+      "formula_sha256": "4c8045acd95a0617166dfc50413df5c18a3b42dd9d4bcf25c9bd241aa14c417c",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE5_EXPONENTIAL_MEMORY": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane5-exponential-memory.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane5_exponential_memory_adapter",
+      "formula_id": "LANE5_EXPONENTIAL_MEMORY",
+      "formula_sha256": "a410934ca9b82a1de3cdff86283ccdf4b56cb38380121b060a1b37035b7bf8b5",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE5_HYSTERETIC_MEMORY": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane5-hysteretic-memory.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane5_hysteretic_memory_adapter",
+      "formula_id": "LANE5_HYSTERETIC_MEMORY",
+      "formula_sha256": "63460890e0a0fbb37c37ca8d60826e33dcd34c191159fe616a7aacbc22c31420",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE5_RESONANCE_MEMORY": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane5-resonance-memory.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane5_resonance_memory_adapter",
+      "formula_id": "LANE5_RESONANCE_MEMORY",
+      "formula_sha256": "15e9c9787b85a18464494535c7dc83a45269db3cfa2ea2cc793f6c03a06df6cb",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "LANE5_STOCHASTIC_OU_MEMORY": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "source-shaped synthetic canonical-frequency network with time as an unscored derived view; no real strain, PSD payload, calibration archive, or likelihood",
+      "binding_id": "binding.gw-timeseries.lane5-stochastic-ou-memory.v3",
+      "domains": [
+        "gw-network"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": "sigma_theory_compiler.open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3:lane5_stochastic_ou_memory_adapter",
+      "formula_id": "LANE5_STOCHASTIC_OU_MEMORY",
+      "formula_sha256": "ceacb948092b0dcf39a6e5363b70a4ac56ce274143cb6b83957fe97965ca28e6",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "three-detector-source-shaped-network"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.base-frequency-imag",
+        "source.matrix.base-frequency-real",
+        "source.matrix.base-time-strain",
+        "source.matrix.calibration-imag",
+        "source.matrix.calibration-real",
+        "source.matrix.psd-sigma",
+        "source.scalar.chirp-mass-solar",
+        "source.scalar.distance-mpc",
+        "source.scalar.event-code",
+        "source.scalar.lane5-time-scale-seconds",
+        "source.scalar.source-variant-code",
+        "source.vector.active-detector-mask",
+        "source.vector.antenna-weight",
+        "source.vector.conditional-variance-sigma",
+        "source.vector.detector-delay-seconds",
+        "source.vector.frequency-hz",
+        "source.vector.time-noise-sigma",
+        "source.vector.time-seconds"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "EXECUTABLE",
+      "time_support": [
+        "canonical-positive-frequency-with-derived-real-time"
+      ]
+    },
+    "NON_GAUSSIAN_JUMP_MEMORY": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "no frozen causal jump-process ABI and parameter law exists",
+      "binding_id": "binding.gw-timeseries.non-gaussian-jump-memory.v3",
+      "domains": [
+        "gw-real-response"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": null,
+      "formula_id": "NON_GAUSSIAN_JUMP_MEMORY",
+      "formula_sha256": "dbcad87fec087c2f6f57fcc397a5e9997a0509853fe9397d3329278a83416344",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "real-detector"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.real-strain"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "UNADAPTED",
+      "time_support": [
+        "empirical"
+      ]
+    },
+    "POLARIZATION_BIREFRINGENCE": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "separate plus/cross polarization response products are not opened",
+      "binding_id": "binding.gw-timeseries.polarization-birefringence.v3",
+      "domains": [
+        "gw-real-response"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": null,
+      "formula_id": "POLARIZATION_BIREFRINGENCE",
+      "formula_sha256": "b9ccad731c201d3ee7869353fde1d45d052e87c17626cda8935d0795f76aea7b",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "real-detector"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.real-strain"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "SOURCE_BLOCKED",
+      "time_support": [
+        "empirical"
+      ]
+    },
+    "REAL_CALIBRATION_LEARNING": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "frequency-dependent calibration payloads and empirical response fitting remain sealed",
+      "binding_id": "binding.gw-timeseries.real-calibration-learning.v3",
+      "domains": [
+        "gw-real-response"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": null,
+      "formula_id": "REAL_CALIBRATION_LEARNING",
+      "formula_sha256": "6cdb9f59ee2c49cd26edcc48d673e60fbc66121a34bd9d5cf26e377db08d8f8e",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "real-detector"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.real-strain"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "SOURCE_BLOCKED",
+      "time_support": [
+        "empirical"
+      ]
+    },
+    "REAL_OFFSOURCE_PSD_REFIT": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "off-source strain samples remain sealed; only manifest-defined nuisance families are synthetic",
+      "binding_id": "binding.gw-timeseries.real-offsource-psd-refit.v3",
+      "domains": [
+        "gw-real-response"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": null,
+      "formula_id": "REAL_OFFSOURCE_PSD_REFIT",
+      "formula_sha256": "29a5b8fdd5d3f2a24f881360e45cdca80950ee00836445a063fe3d376f4c2e57",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "real-detector"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.real-strain"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "SOURCE_BLOCKED",
+      "time_support": [
+        "empirical"
+      ]
+    },
+    "REAL_STRAIN_LIKELIHOOD": {
+      "abi_version": "open-gravity-formula-execution-1.0",
+      "approximation_ceiling": "GW170817 and GW150914 strain samples and all real likelihood responses are sealed",
+      "binding_id": "binding.gw-timeseries.real-strain-likelihood.v3",
+      "domains": [
+        "gw-real-response"
+      ],
+      "emitted_features": [
+        "prediction.matrix.conditional-variance",
+        "prediction.matrix.frequency-imag",
+        "prediction.matrix.frequency-real",
+        "prediction.matrix.time-strain"
+      ],
+      "entrypoint": null,
+      "formula_id": "REAL_STRAIN_LIKELIHOOD",
+      "formula_sha256": "76b6b3351d5850dd9ba669d9a8882adc6987577a7f4f3c030e58546f073b0456",
+      "formula_version": "v3.0.0-canonical-frequency-synthetic",
+      "geometry_support": [
+        "real-detector"
+      ],
+      "health_gates": [
+        "canonical-forward-backward-dc-nyquist-consistency",
+        "determinism",
+        "finite-output",
+        "limit",
+        "source-hash",
+        "typed-output",
+        "unit"
+      ],
+      "optional_features": [],
+      "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+      "parameter_schema_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+      "required_features": [
+        "source.matrix.real-strain"
+      ],
+      "resource_bounds": {
+        "max_memory_bytes": 500000000,
+        "max_output_bytes": 2000000,
+        "max_wall_seconds": 30
+      },
+      "status": "SOURCE_BLOCKED",
+      "time_support": [
+        "empirical"
+      ]
+    }
+  },
+  "generic_runner_v2": {
+    "audit_content_sha256": "2e14591214ba16f6b474038787c5236e62493d09c0623c5f0ba140fd4348e88a",
+    "audit_status": "PASS",
+    "ledger_content_sha256": "cd4ae741e9bef752b59b40ad73c7284f50cbc6868ec5169cb3213c1a095c4410",
+    "result_content_sha256": "d27573c02acbaa864deeef861d1ec155bc17d66c750b7413180ffdcdfb0e0817"
+  },
+  "independent_audit_completed": false,
+  "invariance_gates": {
+    "maximum_distance_scaling_error": 0.0,
+    "maximum_exact_alias_error": 0.0,
+    "maximum_fft_roundtrip_error": 4.905125646631375e-15,
+    "maximum_inactive_detector_signal": 0.0,
+    "maximum_lane2_gr_limit_error": 0.0,
+    "maximum_lane5_zero_memory_limit_error": 4.440892098500626e-15,
+    "minimum_source_variant_signal_difference": 5.5717517785127235,
+    "pass": true
+  },
+  "limitations": [
+    "All scoring responses are synthetic; no empirical support or rejection is authorized.",
+    "GW150914 uses the exact frozen public NR source waveform, while GW170817 uses a source-parameter-anchored analytic chirp surrogate rather than the platform-pinned LALSuite runtime.",
+    "Published PSD and calibration payload arrays remain unopened; their manifests define synthetic nuisance families only.",
+    "Exact delay, one-pole, two-pole, and OU-mean aliases are retained as non-identifiable countermodel pairs.",
+    "Frequency is the only scored waveform domain; the stored time series is a deterministic unscored inverse-FFT view and is not counted as independent evidence.",
+    "The upstream Lane2 optimizer and branch-power failures remain failures and are not repaired or reinterpreted by this matrix.",
+    "GW170817/GW150914 strain samples, real likelihoods, real off-source PSD fits, and empirical calibration learning remain sealed."
+  ],
+  "mechanism_ids": [
+    "CONTROL_FREE_DELAY",
+    "CONTROL_OU_NOISE",
+    "CONTROL_SINGLE_LTI",
+    "CONTROL_SOURCE_RINGDOWN",
+    "CONTROL_TWO_POLE_LTI",
+    "GR_NETWORK_CONTROL",
+    "LANE2_ATTENUATION",
+    "LANE2_DYNAMIC_PHASE",
+    "LANE2_NONLINEAR_PHASE",
+    "LANE2_RESERVOIR",
+    "LANE2_SCREENED_PHASE",
+    "LANE5_BIEXPONENTIAL_MEMORY",
+    "LANE5_DELAY_MEMORY",
+    "LANE5_EXPONENTIAL_MEMORY",
+    "LANE5_HYSTERETIC_MEMORY",
+    "LANE5_RESONANCE_MEMORY",
+    "LANE5_STOCHASTIC_OU_MEMORY"
+  ],
+  "noise_family_count": 5,
+  "numerical_invalid_cell_count": 680,
+  "package_hashes": {
+    "config_raw_sha256": "ccfdd28dbab743d17fef7e85444acf4b03c66f66bebd762690bd4406ea60a693",
+    "module_raw_sha256": "1ec33971e70b187fd83000e5ca57fa13478877f4f3965389f6483d1a95a16e93",
+    "parameter_schema_raw_sha256": "f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639",
+    "test_raw_sha256": "1e9d209af3de61f4bb69433080d29af46e4a501e7557c2b81e87a91e0c023f98"
+  },
+  "package_id": "open-gravity-gw-timeseries-source-anchored-synthetic-injection-matrix-v3",
+  "recovery_by_truth": {
+    "CONTROL_FREE_DELAY": {
+      "distinct": 0,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "CONTROL_OU_NOISE": {
+      "distinct": 0,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "CONTROL_SINGLE_LTI": {
+      "distinct": 0,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "CONTROL_SOURCE_RINGDOWN": {
+      "distinct": 39,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "CONTROL_TWO_POLE_LTI": {
+      "distinct": 0,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "GR_NETWORK_CONTROL": {
+      "distinct": 14,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE2_ATTENUATION": {
+      "distinct": 11,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE2_DYNAMIC_PHASE": {
+      "distinct": 40,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE2_NONLINEAR_PHASE": {
+      "distinct": 40,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE2_RESERVOIR": {
+      "distinct": 10,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE2_SCREENED_PHASE": {
+      "distinct": 31,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE5_BIEXPONENTIAL_MEMORY": {
+      "distinct": 0,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE5_DELAY_MEMORY": {
+      "distinct": 0,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE5_EXPONENTIAL_MEMORY": {
+      "distinct": 0,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE5_HYSTERETIC_MEMORY": {
+      "distinct": 40,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE5_RESONANCE_MEMORY": {
+      "distinct": 40,
+      "recovered": 40,
+      "scenarios": 40
+    },
+    "LANE5_STOCHASTIC_OU_MEMORY": {
+      "distinct": 0,
+      "recovered": 40,
+      "scenarios": 40
+    }
+  },
+  "replay_entry_count": 28560,
+  "representation_contract": {
+    "canonical_domain": "positive-frequency-rfft-bins-excluding-dc",
+    "consistency_absolute_tolerance": 1e-12,
+    "dc_rule": "DC_IS_EXACT_REAL_ZERO_AND_NOT_STORED",
+    "metric_rule": "SCORE_CANONICAL_FREQUENCY_PLUS_NONDUPLICATE_CONDITIONAL_VARIANCE_ONLY",
+    "noise_rule": "DRAW_ONCE_IN_CANONICAL_FREQUENCY_AND_TRANSFORM_TO_TIME",
+    "numpy_version": "2.2.6",
+    "nyquist_rule": "NYQUIST_IMAGINARY_IS_EXACT_ZERO",
+    "stored_frequency_rule": "RECOMPUTE_BY_NUMPY_RFFT_FROM_DERIVED_REAL_TIME",
+    "time_domain_rule": "DERIVE_ONLY_BY_NUMPY_IRFFT_FROM_CANONICAL_FREQUENCY"
+  },
+  "retained_upstream_optimizer_failures": {
+    "method_passed": false,
+    "optimizer_recovery_status": "FAIL_OPTIMIZER_RECOVERY_GATE",
+    "registered_branch_power_status": "FAIL_BRANCH_OPTIMIZER_GATE",
+    "reservoir_power_status": "FAIL_RESERVOIR_POWER_OPTIMIZER_GATE"
+  },
+  "scenario_count": 680,
+  "schema": "open-gravity-gw-timeseries-source-anchored-synthetic-injection-matrix-receipt-3.0",
+  "scientific_claim": "NONE_SYNTHETIC_ONLY_NOT_SUPPORT_OR_REJECTION",
+  "scored_matrix_cell_count": 11560,
+  "scored_output_ids": [
+    "prediction.matrix.conditional-variance",
+    "prediction.matrix.frequency-imag",
+    "prediction.matrix.frequency-real"
+  ],
+  "source_anchor_sha256": {
+    "LANE2_CALIBRATION_README": "98d16f237050ab16df65219689b49254519d3413ab06329466ac4cbccf8ce61d",
+    "LANE2_COHERENT_V4_CONFIG": "2347dc837410b52a3f35d710c9b78d296ae6d4485c214646157a95e149ad49d2",
+    "LANE2_COHERENT_V4_MODULE": "4e6cce8fbf4a143575c39e2ad3bfb8ccb9390382b25bcdbc4ebcaf0229fc02d1",
+    "LANE2_COHERENT_V6_CONFIG": "ebff7a847adc0ecd578d525cd0b93c03fed7f871745af22a9f6ae222ac7b1980",
+    "LANE2_COHERENT_V6_MODULE": "875adae1ba3c30bc6d6819ab590b0666e86770dc7e8046a403043fd59e8a14e8",
+    "LANE2_COHERENT_V6_PREDICTION": "c5d665ab10363fb7a39607bf692cb25a03fd4b172e54934744412b9c89a675da",
+    "LANE2_COHERENT_V6_TARGET_FREE_GATES": "2d2391d1194e49b4bbd2a8cd49ef3e7f434538ab1f49a5b1354a9ad05d471790",
+    "LANE2_LALSUITE_METADATA": "b9e87372e449ee85c159c584ff5eae53612e19d14d8ef88a5dc47a1a00ec28d1",
+    "LANE2_PSD_README": "c40a8173193f388cfd319f1c2e3389acb26480491492f12e4fc7fae3dfd38e69",
+    "LANE2_SOURCE_PREFLIGHT_CONFIG": "8531007ad3765e04a7514bf022b004d3d7bcb2724590ae6898b8e45573e23f7b",
+    "LANE2_SOURCE_PREFLIGHT_RECEIPT": "f550419b0cd62b9f5dd403f7659beb06a4113bfa5fa0faa9aeb4be92d9a9d772",
+    "LANE5_DRIVER_EXECUTIONS": "3a97b2d55f7c64f15cd23897a85ab04a90f7787e211ef472e6741526324d9e88",
+    "LANE5_NR_WAVEFORM": "ed49c3e83f90e70ac85386f183031b7de3d3d6aa78e75a7d284e5a53a5cc0b76",
+    "LANE5_V1_CONFIG": "2ff3294450973a3409fb73ae5d4ff5d27e8a222e723d637f04c0a734b55f3f9f",
+    "LANE5_V1_MODULE": "b911f821eaa3a2b2975611bf59ff9c19100e15a6a7c64cb8ff249b81de0f5b5d",
+    "LANE5_V2_CONFIG": "6712fa11b56322eab83bfed82b63dbdcf89815b990fb8f08bafe684cb137d998",
+    "LANE5_V2_MODULE": "54eff7d66519bfa1e6773ba56a33dcf2c5322147c76e25285f29ed646b8ca956",
+    "LANE5_V2_RECEIPT": "0dd8ac55ee5e0b131c1f94064eae6fd14cc32d8e4d93299bbc67fc10b63608a1",
+    "LANE5_V2_SOURCE_GATE": "d8b0acbd9140949948e3154592035a7c5d7c717aecd53cb343a69c9624fd9314"
+  },
+  "source_blocked_cell_count": 2720,
+  "source_population_slot_count": 40,
+  "status": "FROZEN_SYNTHETIC_ONLY_COMPLETE_AWAITING_DISTINCT_AUDIT",
+  "truth_mechanism_count": 17,
+  "truth_recovery_count": 680,
+  "unadapted_cell_count": 1360,
+  "version": "v3.0.0"
+}

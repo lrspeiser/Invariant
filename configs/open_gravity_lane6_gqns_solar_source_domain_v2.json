@@ -1,0 +1,123 @@
+{
+  "schema": "invariant-open-gravity-lane6-gqns-solar-source-domain-2.0",
+  "package_id": "open-gravity-lane6-gqns-solar-source-domain-v2",
+  "status": "PASS_SOURCE_ONLY_STRESS_TEST__OBSERVATIONAL_EXCLUSION_BLOCKED",
+  "purpose": "Append-only correction of the Lane-6 Solar source-domain stress test: preserve the unchanged GQNS source-only calculation and every source-boundary failure, withdraw the invalid INPOP constant-acceleration exclusion ratio, repair the pairwise-spread and robustness statements, add independent mechanics/projection checks, and freeze the source-and-solver contract required before any observational residual is opened.",
+  "supersedes": {
+    "package_id": "open-gravity-lane6-gqns-solar-source-domain-v1",
+    "scope": "decision, published-bound transfer, pairwise-spread label, domain-robustness wording, and critical verification coverage only; v1 remains immutable evidence",
+    "config": {"path": "configs/open_gravity_lane6_gqns_solar_source_domain_v1.json", "sha256": "5d6554ba951c4b36861ddd55edccda4b5e3f8e05754b008b94e5779f9bd5737d"},
+    "module": {"path": "src/sigma_theory_compiler/open_gravity_lane6_gqns_solar_source_domain_v1.py", "sha256": "a855f86aef81677b3c2a1c4a6ddffa44f6a60978549bd5028dbb121888f04dff"},
+    "test": {"path": "tests/test_open_gravity_lane6_gqns_solar_source_domain_v1.py", "sha256": "f5900a11e92ebf2bf33f0e43644154a7cc0e923b0ba3e7ca4022b30882724aa2"},
+    "receipt": {"path": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v1/receipt.json", "sha256": "0e2c62616608499f54687d93c5bee228165bd8f7acaedbd458cbb93bbdabee43"},
+    "receipt_content_sha256": "860d6745dc09d56434a6d1581bad00a3d4638838ab83c97500f9b56a8645ac47"
+  },
+  "corrections": {
+    "withdrawn_observational_decision": "DECISIVELY_EXCLUDED_AS_UNCHANGED_GLOBAL_SOLAR_SOURCE_LAW",
+    "replacement_observational_decision": "NOT_EVALUATED__MATCHED_N_BODY_REFIT_REQUIRED",
+    "invalid_ratio_retained_only_as_failure": 21632.16367487,
+    "invalid_ratio_reason": "The INPOP08 one-quarter-Pioneer result is a postfit detectability statement for a constant-magnitude Sun-directed acceleration applied to outer-planet equations; it is not a pointwise Neptune norm bound for the time-dependent GQNS residual after an algebraic inverse-square projection.",
+    "pairwise_spread_rule": "Report every absolute pairwise enhancement difference, their true minimum and maximum, and half the range as the minimax residual in enhancement fraction under a freely chosen common constant.",
+    "domain_robustness_rule": "Claim only D05-D06-D07 stability under Moon resolution and the declared asteroid-ring sensitivity; retain D00-D04 and remote-source changes as source-localization failures, never as robustness passes."
+  },
+  "matched_ephemeris_refit_preflight": {
+    "status": "FROZEN_SOURCE_AND_SOLVER_CONTRACT__EXECUTION_BLOCKED_BEFORE_RESPONSE_ACCESS",
+    "reference_source": {
+      "ephemeris": "JPL_DE440",
+      "format": "NAIF_DAF_SPK",
+      "filename": "de440.bsp",
+      "official_url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440.bsp",
+      "published_md5": "c9d581bfd84209dbeee8b1583939b148",
+      "sha256": null,
+      "payload_downloaded": false,
+      "payload_opened": false,
+      "frame": "ICRF/J2000 barycentric geometric states with no aberration correction",
+      "time_scale": "TDB",
+      "fit_epoch": "JD 2451545.0 TDB",
+      "propagation_interval": "JD 2451545.0 through JD 2469807.5 (J2000 through 2050)",
+      "state_inventory": ["SUN", "MERCURY", "VENUS", "EARTH", "MOON", "MARS_BARYCENTER", "JUPITER_BARYCENTER", "SATURN_BARYCENTER", "URANUS_BARYCENTER", "NEPTUNE_BARYCENTER"]
+    },
+    "dynamical_model": {
+      "baseline": "DE440-compatible barycentric N-body equations: mutual point-mass Newtonian terms, first-post-Newtonian EIH terms, separate Earth and Moon, solar J2, and the same small-body source inventory in baseline and GQNS variants.",
+      "gqns_variants": ["D05_SUN_EIGHT_PLANETS", "D06_MOON_SPLIT", "D07_ASTEROID_RING"],
+      "gqns_rule": "At every accepted integration epoch recompute the unchanged global A_Q and L from the declared finite source domain, then add the normalized positive Helmholtz-cloud acceleration with exact target self removal and target-minus-reference dynamics.",
+      "gqns_fitted_parameters": 0,
+      "small_body_gate": "The exact DE440 343-asteroid, 30-KBO, and KBO-ring state/mass manifest must be acquired and SHA-256 sealed before propagation; no response may be opened first."
+    },
+    "solver": {
+      "language": "Python 3.13.5",
+      "integrator": "scipy.integrate.solve_ivp DOP853",
+      "scipy_version": "1.16.1",
+      "numpy_version": "2.2.6",
+      "relative_tolerance": 1e-13,
+      "position_absolute_tolerance_m": 0.001,
+      "velocity_absolute_tolerance_m_s": 1e-9,
+      "maximum_step_days": 0.25,
+      "dense_output": true,
+      "variational_equations": "Integrate the state-transition matrix and parameter partials alongside every baseline and GQNS trajectory.",
+      "baseline_admission": "Before response access, reproduce held-out DE440 geometric states over the full interval with independently frozen body-specific position/velocity tolerances and demonstrate step-halving convergence.",
+      "implementation_sha256": null,
+      "implementation_complete": false
+    },
+    "fit_contract": {
+      "same_response_rows_and_weights_for_every_model": true,
+      "nuisance_parameters": [
+        "six Cartesian initial-state components for each fitted planet-system barycenter",
+        "separate geocentric lunar initial state where the response requires it",
+        "solar GM",
+        "solar J2",
+        "the identical admitted asteroid/ring mass parameters used by the baseline"
+      ],
+      "forbidden_nuisances": ["GQNS A_Q retuning", "GQNS L retuning", "per-epoch force scaling", "model-specific response-row deletion", "post-response source-domain changes"],
+      "optimizer": "weighted nonlinear least squares using propagated variational partials, identical convergence and outlier policy for baseline and variants",
+      "primary_statistic": "per-dataset and global weighted postfit RMS degradation relative to the admitted baseline",
+      "secondary_statistics": ["maximum normalized residual excursion", "parameter shifts in baseline covariance units", "leave-one-dataset-out stability"],
+      "decision_authority": false
+    },
+    "response_gate": {
+      "method_anchor": "INPOP08/INPOP19a matched modified-ephemeris refit methodology",
+      "observational_files_opened": 0,
+      "observational_rows_opened": 0,
+      "residual_values_opened": 0,
+      "opening_authorized": false,
+      "blockers": [
+        "acquire and SHA-256 seal de440.bsp plus the exact small-body state/mass manifest",
+        "implement and hash the baseline/GQNS integrator and variational equations",
+        "pass DE440 state replay, conservation, self-force, frame, time-scale, and convergence gates",
+        "freeze the exact INPOP-compatible observation-file manifest, row selection, weights, corrections, and licenses without reading values",
+        "freeze fitted-parameter priors, outlier policy, dataset partitions, numerical thresholds, and injection-recovery fixtures",
+        "obtain explicit authorization before opening any observational response or residual value"
+      ]
+    }
+  },
+  "access_contract": {
+    "builder_network_calls": 0,
+    "ephemeris_binary_files_opened": 0,
+    "observational_response_files_opened": 0,
+    "observational_response_rows_opened": 0,
+    "residual_values_opened": 0,
+    "parameters_fit_to_responses": 0
+  },
+  "claim_boundary": {
+    "may_establish": [
+      "the exact v1 source-only stress calculation and its large source-domain dependence are preserved",
+      "the unchanged point-source GQNS enhancement cannot be exactly absorbed by one common inverse-square constant at unequal radii",
+      "D05-D06-D07 are stable to the declared Moon and asteroid-ring source refinements",
+      "the prior INPOP ratio and exclusion decision are withdrawn and retained as failures"
+    ],
+    "does_not_establish": [
+      "observational exclusion or preference",
+      "an INPOP or DE440 postfit residual result",
+      "a valid transfer of the INPOP constant-acceleration threshold to GQNS",
+      "a completed or admitted N-body refit solver",
+      "a unique covariant source-localization dynamics"
+    ]
+  },
+  "outputs": {
+    "receipt": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v2/receipt.json",
+    "corrected_theorem": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v2/artifacts/corrected-source-only-theorem.json",
+    "independent_checks": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v2/artifacts/independent-mechanics-projection-checks.json",
+    "refit_preflight": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v2/artifacts/matched-ephemeris-refit-preflight.json",
+    "report": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v2/artifacts/report.md"
+  }
+}

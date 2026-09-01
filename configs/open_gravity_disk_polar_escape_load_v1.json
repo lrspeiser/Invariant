@@ -1,0 +1,195 @@
+{
+  "schema": "invariant-open-gravity-disk-polar-escape-load-4.0",
+  "package_id": "open-gravity-disk-polar-escape-load-v4",
+  "status": "FROZEN_TARGET_FREE_EXECUTABLE_SOURCE_READY_RESPONSE_UNOPENED",
+  "purpose": "Register and execute both a disk-normal gravitational-load diffusion law and its distinct directional phase-space carrier parent, while separating either speculative load sector from the standard GR radiative control and keeping empirical response data unopened.",
+  "proposal_origin": {
+    "attachment_content_sha256": "87318d5f748de3310b1500cb9f93bdb257d7322e5ce2dabb1cd8ebe7164c0a2c",
+    "incorporated_claim": "A thin baryonic disk defines a normal and may allow a sourced load to propagate or survive differently along the polar and in-plane directions."
+  },
+  "second_proposal_origin": {
+    "attachment_content_sha256": "12974c1d8d06972145ce04d142e85e32a23669f4ded8af4c85ca3c029e12deb8",
+    "incorporated_claim": "A speculative gravity carrier can be represented by a directional phase-space distribution f_g(x,p,t), with scalar density Q and vector flux F_g as different angular moments. This must remain distinct from a static field and from standard GR radiation."
+  },
+  "formula_catalog": [
+    {
+      "id": "DPEL01_DISK_POLAR_ESCAPE_LOAD",
+      "level": "MACROSCOPIC_DIFFUSION_DRIFT_ABSORPTION",
+      "status": "EXECUTABLE_TARGET_FREE_RESPONSE_UNOPENED"
+    },
+    {
+      "id": "DGKT01_DIRECTIONAL_GRAVITY_KINETIC_TRANSPORT",
+      "level": "GREY_PHASE_SPACE_TRANSPORT",
+      "status": "EXECUTABLE_TARGET_FREE_FINITE_TRANSPORT_BLOCKED_ANGULAR_CONVERGENCE"
+    },
+    {
+      "id": "GRRAD00_STATIC_FIELD_VS_RADIATION_CONTROL",
+      "level": "STANDARD_CONTROL",
+      "status": "EXECUTABLE_TARGET_FREE"
+    }
+  ],
+  "existing_formula_audit": {
+    "GQNS": "Uses a scalar whole-source anisotropy A_Q but an isotropic Helmholtz kernel; it has no disk-normal diffusion tensor, density-gradient drift, or polar/equatorial path observable.",
+    "REFRACTED_GRAVITY": "Uses a scalar density-dependent permittivity; directionality emerges from a PDE solution but no explicit disk-normal transport tensor or load-flow state is registered.",
+    "VOID_LOAD_VQ00_VQ10": "Uses path partitions and scalar load laws; it does not derive a local galaxy disk normal or polar escape field.",
+    "TWELL_400": "Contains scalar spatial diffusion, column, edge, and environment architectures, but no card combines a source-derived disk normal, trace-preserving tensor diffusion, density-gradient drift, baryonic absorption, and a same-state polar path prediction.",
+    "QUANTUM_ENTITY_WAVE_ATLAS": "Separates classical, stochastic, semiclassical, discrete, and finite-occupation ontologies, but it does not execute a local phase-space directional carrier transport whose angular moments reduce to this disk-normal diffusion law.",
+    "DIFFERENTIAL_PROPAGATION_KERNEL": "Executes a causal retarded response kernel and stationary-speed no-go, not a carrier-number phase-space transport with absorption/scattering moments."
+  },
+  "law": {
+    "state": "U_Q(x,t) >= 0, an extra gravitational potential depth with SI dimension L^2 T^-2",
+    "baryonic_shape": "Compute the mass-weighted second-moment tensor C about the barycenter. The unit eigenvector n of its smallest eigenvalue is the disk normal. A_D=clip(1-3*lambda_min/trace(C),0,1) switches the directional tensor off for a sphere.",
+    "diffusion_tensor": "D_iso=(2 D_parallel + D_perp)/3; D=(1-A_D) D_iso I + A_D[D_parallel(I-n n^T)+D_perp n n^T]",
+    "drift": "v_g=-chi grad(rho_b/rho_star)",
+    "evolution": "partial_t U_Q=-div(U_Q v_g)+div(D grad U_Q)+4 pi G kappa_s D_iso rho_b-[Gamma_0+beta rho_b/rho_star]U_Q",
+    "matter_observable": "Phi_total=Phi_b-U_Q; g_total=-grad(Phi_total)=g_b+grad(U_Q)",
+    "photon_path_observable": "Delta ln(1+z)_path=(eta_Q/c) integral U_Q/c^2 d ell",
+    "initial_condition": "U_Q(x,0)=0",
+    "boundary_condition": "Target-free solver uses a periodic conservative box with source support exponentially small at the boundary; an empirical galaxy solver must use an independently converged isolated/open boundary.",
+    "source_domain_rule": "The normal and activation are computed from the connected baryonic component inside one predeclared segmentation/window. Changing that window is a new formula version, not a nuisance fit."
+  },
+  "kinetic_parent_law": {
+    "state": "f_g(x,Omega,t) >= 0 is a grey directional population per unit solid-angle weight; it is a speculative load carrier and is not identified with an on-shell GR graviton.",
+    "transport": "partial_t f_a+div[(c Omega_a+v_g)f_a]=S_g-[a_0+a_b rho_b/rho_star]f_a+C_a[f]",
+    "disk_aligned_collision": "The six-ray closure fixture uses +/-e1,+/-e2,+/-n and a positivity-preserving Markov generator C_a=kappa_base(Q-f_a)+r_axis(f_opposite(a)-f_a), where kappa_base=min(kappa_axis) and r_axis=(kappa_axis-kappa_base)/2. It conserves Q, has nonnegative off-diagonal transition rates, and damps each odd axis mode at kappa_axis. The two in-plane pairs use kappa_parallel=c^2/(3 D_parallel_eff); the normal pair uses kappa_perp=c^2/(3 D_perp_eff), with D_axis_eff=(1-A_D)D_iso+A_D D_axis.",
+    "drift_transport": "The common carrier velocity includes v_g=-chi grad(rho_b/rho_star), so the zeroth moment contains div(Q v_g) rather than inserting drift only after closure.",
+    "moments": "Q=sum_a w_a f_a; F_g=c sum_a w_a Omega_a f_a; P_g=c^2 sum_a w_a Omega_a Omega_a f_a",
+    "zeroth_moment": "partial_t Q+div(F_g+Q v_g)=S_Q-[a_0+a_b rho_b/rho_star]Q",
+    "diffusion_relation": "DPEL01 is the declared optically thick moment limit of the executable disk-aligned odd angular modes: D_parallel_eff=c^2/(3 kappa_parallel), D_perp_eff=c^2/(3 kappa_perp). It is not an exact rewrite away from that limit; finite-closure errors remain separately testable.",
+    "static_gr_control": "A time-independent mass quadrupole has zero radiative second derivative and is not treated as continuously emitting GR gravitational waves. GR radiation and the speculative load carrier are separate cards.",
+    "quantum_boundary": "If a carrier quantum is introduced, E=hbar omega and p=hbar k. The package assumes no fixed minimum carrier energy, no Planck-pixel claim, and no ontology score from Q or F alone."
+    ,"finite_angular_boundary": "The six-ray program is a positivity/moment-closure fixture only. Its second moment and resulting diffusion tensor are SO(3)-covariant, but its fourth and higher angular moments depend on the in-plane discretization. DGKT01 finite-transport response prediction is SOURCE_BLOCKED until an angularly converged positive solver passes rotation tests; DPEL01 macroscopic response synthesis may proceed separately."
+  },
+  "dimension_ledger": {
+    "U_Q": "L^2 T^-2",
+    "rho_b_rho_star": "1",
+    "D_parallel_D_perp_D_iso_chi": "L^2 T^-1",
+    "v_g": "L T^-1",
+    "Gamma_0": "T^-1",
+    "beta": "T^-1",
+    "G_rho_b_D_iso": "L^2 T^-3",
+    "eta_Q": "T^-1",
+    "eta_Q_integral_U_Q_dell_over_c3": "1",
+    "kappa_s_A_D": "1",
+    "f_g_Q": "registered_grey_load_per_angular_weight",
+    "F_g": "f_g times L T^-1",
+    "P_g": "f_g times L^2 T^-2",
+    "transport_absorption_scattering_rates": "T^-1",
+    "carrier_energy_hbar_omega": "M L^2 T^-2",
+    "carrier_speed_c": "L T^-1",
+    "kinetic_source_gain": "registered_grey_load T^-1",
+    "kinetic_absorption_collision_rates": "T^-1",
+    "kinetic_common_drift": "L T^-1"
+  },
+  "registered_parameterization": {
+    "dimensionless_target_free": {
+      "D_parallel_over_D0": 0.5,
+      "D_perp_over_D0": 1.5,
+      "chi_over_D0": 0.08,
+      "Gamma_0_L0_squared_over_D0": 0.2,
+      "beta_L0_squared_over_D0": 0.35,
+      "kappa_s": 1.0,
+      "eta_Q_L0_over_c": 1.0
+    },
+    "fit_status": "TARGET_FREE_FIXTURE_VALUES_ONLY_NOT_EMPIRICALLY_FIT",
+    "empirical_rule": "Before response access, freeze either these values or a target-free grid and one selection rule; no per-object D_parallel, D_perp, chi, beta, kappa_s, or eta_Q."
+  },
+  "exact_limits": [
+    "D_perp=D_parallel and chi=0 removes explicit polar transport bias.",
+    "A_D=0 makes D isotropic even if the registered directional coefficients differ.",
+    "kappa_s=0 with U_Q(x,0)=0 gives U_Q=0.",
+    "Gamma_0=beta=0 makes the periodic volume integral change only by the integrated baryonic source.",
+    "D_perp>D_parallel lengthens the constant-coefficient screened Green function along n; reversing the inequality reverses the polar/equatorial ordering."
+  ],
+  "mandatory_target_free_gates": [
+    "dimension algebra",
+    "sphere disables orientation",
+    "thin disk identifies the normal",
+    "adding a spherical bulge reduces A_D",
+    "positive-definite trace-preserving diffusion tensor",
+    "SO(3) covariance of C, n n^T, and D",
+    "constant-coefficient anisotropic Green-function residual and polar/equatorial reversal",
+    "finite-volume divergence budget",
+    "zero-source exact zero",
+    "stronger absorption lowers stored load",
+    "same-state matter and photon observables",
+    "isotropic and pencil-beam angular moments",
+    "kinetic zeroth-moment identity",
+    "scattering conserves Q and damps directional flux",
+    "Markov collision preserves nonnegative populations at boundary states",
+    "static quadrupole emits no GR radiation",
+    "inverse-square Gauss-area geometry control (not a transport recovery claim)",
+    "disk-aligned collision derives the registered diffusion eigenvalues",
+    "kinetic absorption lowers Q",
+    "variable carrier energy E=hbar omega",
+    "no response access"
+  ],
+  "source_and_response_preflight": {
+    "source_status": "EXACT_PUBLIC_SOURCE_PREDECESSOR_AVAILABLE",
+    "source_objects": ["NGC2903", "NGC3351", "NGC3627"],
+    "source_geometry": "MODEL_LIFTED_2P5D_SOURCE_IN_FULL_3D_FIELD_SOLVER",
+    "source_files": 21,
+    "source_bytes_per_rebuild": 74030400,
+    "source_predecessor_config": {
+      "path": "configs/open_gravity_lane6_same_grid_nonspherical_predictions_v1.json",
+      "raw_sha256": "1e11ff6ac54b50fd0a70c52184a3b96f7dd5315efc37ed5d91129795c93be22c"
+    },
+    "source_predecessor_receipt": {
+      "path": "runs/gravity/open-gravity-lane6-same-grid-nonspherical-predictions-v1/receipt.json",
+      "raw_sha256": "5beb64d26c28e0daf7282872ce3f5089d250e0e3c4c037a2f3a3dabcef918883"
+    },
+    "published_source_anchors": [
+      {"id": "S4G_P5", "url": "https://arxiv.org/abs/1410.0009", "role": "stellar source maps"},
+      {"id": "THINGS", "url": "https://arxiv.org/abs/0810.2125", "role": "H I source and future independent velocity field"},
+      {"id": "PHANGS_ALMA", "url": "https://arxiv.org/abs/2104.07739", "role": "CO source maps"}
+    ],
+    "first_response_test": "On a frozen development subset, compare the unchanged polar-escape law with Newton, baryons+NFW, RAR, AQUAL, QUMOND, Refracted Gravity, published nonlocal gravity, and isotropic-GQNS using independent full 2D velocity fields. The sharp orientation test is a matched high-inclination disk sample comparing polar/off-plane tracers or lensing with in-plane predictions at fixed baryonic source.",
+    "real_shaped_synthetic_first_pass": "Before opening velocity or lensing responses, use the exact three-galaxy source grids, masks, spatial sampling, covariance design, inclination ranges, and planned nuisance priors to generate null, DPEL01, isotropic-load, Newton+NFW, RAR, AQUAL, QUMOND, Refracted-Gravity, and published-nonlocal injections. Require blind recovery, null calibration, cross-formula confusion matrices, parameter-boundary recovery, and held-out geometry transfer. DGKT01 finite-transport injections remain blocked until a positive angularly converged solver passes rotation tests. Freeze survivors and thresholds before real-response scoring.",
+    "response_status": "SOURCE_BLOCKED_EXACT_ORIENTATION_RESPONSE_MANIFEST_AND_LIKELIHOOD_NOT_YET_FROZEN",
+    "scientific_response_files_opened": 0,
+    "scientific_response_rows_opened": 0,
+    "scores": 0
+  },
+  "claim_boundary": {
+    "establishes": [
+      "The proposed disk-normal directionality was absent as an exact executable formula from the current registry.",
+      "A dimensionally closed source-drift-diffusion-absorption law and two same-state observable maps are now executable.",
+      "A distinct directional carrier phase-space law is executable and its Q, F, and P angular moments are not conflated.",
+      "The macroscopic disk-polar law is labeled a moment closure of the kinetic law rather than a second independent empirical theory.",
+      "A standard control prevents a stationary field from being mislabeled as continuous GR radiation.",
+      "The positivity-preserving six-ray Markov fixture derives the DPEL diffusion eigenvalues at moment level while retaining its higher-angular discretization failure.",
+      "The law has exact isotropic, spherical, zero-source, rotation, absorption, and polar/equatorial falsifiers.",
+      "An existing public three-galaxy source bundle can drive a response-blind source-only replay."
+    ],
+    "does_not_establish": [
+      "observational support",
+      "measured 3D baryonic density",
+      "historical novelty",
+      "a covariant action or conserved stress-energy",
+      "causal relativistic propagation",
+      "lensing or redshift consistency",
+      "Solar-System viability",
+      "a unique source-domain segmentation",
+      "publication readiness"
+      ,"finite six-ray transport as a rotation-independent physical prediction"
+    ]
+  },
+  "access_accounting": {
+    "scientific_source_payloads_opened_by_this_package": 0,
+    "scientific_response_payloads_opened": 0,
+    "scientific_response_rows_opened": 0,
+    "scores": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "audit_history": {
+    "v1_receipt_raw_sha256": "fe7341516a66ef90eb806c41497bd98a2869c3be3760f639faca872846a30b04",
+    "v1_disposition": "BLOCK_ISOTROPIC_COLLISION_DID_NOT_DERIVE_ANISOTROPIC_CLOSURE",
+    "v2_receipt_raw_sha256": "5e4809d67a7c4eb77e8e3b081738128832cc580ec9b89f3164eef08c1b2625fa",
+    "v2_disposition": "BLOCK_NONPOSITIVE_COLLISION_AND_FINITE_ANGULAR_ROTATION_DEPENDENCE",
+    "v3_receipt_raw_sha256": "18ff3f2a5b5d4919efbecb75ef88afbbb9fa134d812f04f7f6cbad37d6703bfa",
+    "v3_disposition": "SELF_SUPERSEDED_TO_CLARIFY_TOP_LEVEL_DPEL_VS_DGKT_ADVANCEMENT_CEILING"
+  },
+  "output_path": "runs/gravity/open-gravity-disk-polar-escape-load-v4/receipt.json"
+}

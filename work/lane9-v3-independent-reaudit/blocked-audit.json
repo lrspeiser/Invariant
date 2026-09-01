@@ -1,0 +1,89 @@
+{
+  "access_accounting": {
+    "confirmation_rows_decoded": 0,
+    "development_rows_decoded": 0,
+    "pantheon_files_opened": 0,
+    "real_scores": 0,
+    "scientific_source_files_opened": 0,
+    "scientific_source_paths_resolved": 0,
+    "validation_rows_decoded": 0
+  },
+  "blocking_findings": [
+    {
+      "counterexample": "The callable _promote_fixed_payloads(payloads, authorization_payload, contract_receipt) writes the final score directory from caller-supplied payloads. It does not require or verify the fsynced consumption marker, an owned-run capability, or validate_code_pins, and it is callable without run_development_once. A source-free probe replaced the unguarded validator global after import, supplied invalid authorization bytes and caller payloads, and obtained PROMOTED_COMPLETE followed by EXISTING_IDENTICAL with zero scientific opens.",
+      "id": "F01_ALTERNATE_ZERO_OPEN_PROMOTION_ENTRY",
+      "locations": [
+        "src/sigma_theory_compiler/open_gravity_void_correlation_development_release_v3.py:662",
+        "src/sigma_theory_compiler/open_gravity_void_correlation_development_release_v3.py:671",
+        "src/sigma_theory_compiler/open_gravity_void_correlation_development_release_v3.py:679"
+      ],
+      "violated_contracts": [
+        "run_development_once is the sole production entry",
+        "fixed consumed authorization precedes any successful production write",
+        "caller-reported artifacts cannot create success",
+        "prior zero-open fake-success is rejected"
+      ]
+    },
+    {
+      "counterexample": "_OWNED_RUN_SECRET is an exported module global and _consume_fixed_authorization is callable. A caller can consume the public audit receipt and instantiate _OwnedDevelopmentRun directly with release._OWNED_RUN_SECRET, so the constructor token does not structurally enforce the sole-entry claim.",
+      "id": "F02_EXPORTED_CONSTRUCTOR_CAPABILITY",
+      "locations": [
+        "src/sigma_theory_compiler/open_gravity_void_correlation_development_release_v3.py:240",
+        "src/sigma_theory_compiler/open_gravity_void_correlation_development_release_v3.py:481",
+        "src/sigma_theory_compiler/open_gravity_void_correlation_development_release_v3.py:712"
+      ],
+      "violated_contracts": [
+        "constructor capability is inaccessible to callers",
+        "run_development_once is the sole production entry"
+      ]
+    }
+  ],
+  "content_sha256": "da5ee837a95e93b5624315a970858e96102a649c0b7f7424636241d53e55f7ef",
+  "decision": "DO_NOT_CREATE_PASS_ONE_DEVELOPMENT_RUN_ONLY_RECEIPT",
+  "frozen_snapshot": {
+    "config_content_sha256": "ce3527d40482d46b6d155cd42c7cda2d00ec2163598bd5b9f958fa15f5a42be7",
+    "config_raw_sha256": "22a50141d2d434c4b5c24c2c3ba42c761dd0c720df41aa82a83ea19d4e13cf7a",
+    "module_raw_sha256": "734d1d5dc60735985720a86931d342faf96ff6254afebae8745160ea455f1118",
+    "module_semantic_sha256": "c9283cd2417366dc3f8a65fc9ad8c79cb1d7030b65f355c83a0d8475e8265283",
+    "receipt_content_sha256": "f363444b87185bc61dc0823ef4a9bd4321387d2080a7c4ecfaf835a682a64516",
+    "receipt_raw_sha256": "c8439bfa6839b452d2a881b4afb4f954ca738ef475817c70309393e7a70df9ef",
+    "test_raw_sha256": "d8a4cf0a1977863ef963b43020d8f4024f84b673bba22fb4fcf58edfcf81e92a"
+  },
+  "package_id": "open-gravity-void-correlation-development-release-v3",
+  "passed_checks": [
+    "13/13 v3 package tests",
+    "33/33 inherited v2 package tests",
+    "v1 and v2 byte-exact preservation",
+    "missing audit receipt fails before scientific-source resolution",
+    "validation, confirmation and Pantheon remain sealed",
+    "NumPy 2.2.6 PCG64(902104729) independent 10000-permutation regeneration",
+    "exact statistic vector, order hashes, order root, inclusive tail and plus-one p",
+    "coherent all-ones permutation forgery rejected"
+  ],
+  "permutation_regeneration": {
+    "bit_generator": "PCG64",
+    "coherent_all_ones_forgery_rejected": true,
+    "numpy_version": "2.2.6",
+    "observed_hex": "0x1.38ee76921d934p-5",
+    "order_root_sha256": "28b6565b662017b4dcc799907dd2aa5f9621b848a65d66b6d5aa0cf0fe333ec5",
+    "p_value_hex": "0x1.3a8a95a483c69p-11",
+    "permutations": 10000,
+    "seed": 902104729,
+    "statistics_sha256": "7481a43dbc319e29bea649695be9cac010f8692fc9fc42be1ea660bb1173984a",
+    "strata": 10,
+    "tail_count": 5
+  },
+  "required_repairs": [
+    "Remove every independently callable final-write function that accepts caller payloads, or require an unforgeable completion capability created only inside the exact owned execute path after source-owned counters and final validation.",
+    "At the final write boundary, revalidate the exact fixed consumed-marker file, authorization binding, runtime identities and source-owned completion capability before staging or accepting EXISTING_IDENTICAL.",
+    "Do not expose the constructor token or a callable constructor/consumer combination as module globals; add an adversarial test proving direct construction and direct promotion both fail before any write.",
+    "Preserve v1, v2 and this blocked v3 snapshot append-only; repair as v4."
+  ],
+  "schema": "invariant-open-gravity-void-correlation-development-release-v3-independent-audit-blocked-1.0",
+  "status": "BLOCK_NO_DEVELOPMENT_AUTHORIZATION",
+  "test_evidence": {
+    "permutation_script": "work/lane9-v3-independent-reaudit/regenerate_10000.py",
+    "zero_open_counterexample_script": "work/lane9-v3-independent-reaudit/zero_open_promotion_bypass.py",
+    "zero_open_counterexample_result": "ZERO_OPEN_CALLER_PAYLOAD_PROMOTED_WITHOUT_MARKER_OR_VALID_AUTHORIZATION"
+  }
+}

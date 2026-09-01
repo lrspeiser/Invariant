@@ -1,0 +1,175 @@
+{
+  "access_accounting": {
+    "Pantheon_files_opened": 0,
+    "Pantheon_values_decoded": 0,
+    "VAST_fields_decoded": 0,
+    "VAST_files_opened": 0,
+    "cf4_decompressed_bytes": 6012374,
+    "cf4_decompression_passes": 1,
+    "cf4_full_rows_hashed": 38053,
+    "cf4_source_files_decompressed": 1,
+    "cf4_source_files_hashed": 1,
+    "confirmation_identifier_rows_decoded": 7624,
+    "development_identifier_rows_decoded": 22897,
+    "identifier_bytes_decoded": 266371,
+    "identifier_rows_decoded": 38053,
+    "nonidentifier_cf4_bytes_semantically_decoded": 0,
+    "real_scores": 0,
+    "response_values_inspected": 0,
+    "scientific_rows_decoded": 0,
+    "validation_identifier_rows_decoded": 7532
+  },
+  "access_barrier": {
+    "PANTHEON": "no Pantheon+ data or covariance file is opened, rehashed, framed, or parsed by this package",
+    "VAST": "no VAST file is opened, rehashed, decompressed, framed, or parsed by this package",
+    "build": "after all v3 and independent-audit pins validate, perform at most one CF4 gzip decompression pass if artifacts do not yet exist",
+    "check": "verify raw compressed source hash and immutable artifacts; never decompress CF4 and never revisit a source identifier slice",
+    "development": "no nonidentifier CF4 byte is decoded and no development eligibility or response is opened",
+    "holdouts": "validation and confirmation reveal identifier and role only; all other bytes remain opaque hashes",
+    "implemented_commands": [
+      "build",
+      "check",
+      "status"
+    ],
+    "scores": "no likelihood, parameter fit, permutation, correlation, per-object scientific residual, or real-data score is computed"
+  },
+  "artifacts": {
+    "failure_ledger": {
+      "content_sha256": "5e41f5b4e0b194882554aa83cabee8ef4656f46b4681d00158e67ee6a90b517e",
+      "path": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/failures.json",
+      "raw_sha256": "3e98612816c5c0e39e8f2b60143f73ec447d603fa9dbebabceb7da5e6e81505e"
+    },
+    "identifier_ledger": {
+      "content_sha256": "78e225783065f0e4e17c00abaf856a4a25e15b8bc7b38a69cf8969b1abd929fd",
+      "path": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/identifier-ledger.jsonl",
+      "raw_sha256": "356442b37f145e9f0f11eaeba57b1737817c02aa0c319c10e2208aecc095db6b",
+      "rows": 38053
+    },
+    "summary": {
+      "content_sha256": "8710dd49fa41906d9cd5be668aeb4874792ff8d3e29cf5a08db512e295a89096",
+      "path": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/partition-summary.json",
+      "raw_sha256": "fa8491cde4135149b9e1c7b4e80bc9419c64048befcfdb22e17732c591bc6041"
+    }
+  },
+  "bucket_counts": {
+    "0": 3741,
+    "1": 3816,
+    "2": 3850,
+    "3": 3854,
+    "4": 3838,
+    "5": 3798,
+    "6": 3799,
+    "7": 3733,
+    "8": 3774,
+    "9": 3850
+  },
+  "content_sha256": "5d8f3f4a0e25c4d8a673470b86b6bc0c192df0265382fd04f8101a07720aa951",
+  "decision": "IDS_ONLY_AUTHORIZED_NO_DEVELOPMENT_RELEASE",
+  "failures": {
+    "duplicates": 0,
+    "minimums": 0,
+    "parse_or_framing": 0,
+    "status": "PASS_NO_FAILURES"
+  },
+  "identifier_grammar": {
+    "byte_regex": "ASCII space-star, optional plus-or-minus, one-or-more decimal digits, ASCII space-star; full seven-byte match",
+    "canonical": "base-10 str(integer) ASCII with no sign, spaces, or leading zeroes",
+    "domain": "parsed integer must be positive",
+    "field": "1PGC",
+    "forbidden": "no decimal point, exponent, tab, control byte, non-ASCII byte, internal space, or inferred value",
+    "format": "I7",
+    "missing": "seven ASCII spaces reject",
+    "width": 7
+  },
+  "mutation_freeze": {
+    "config_content_sha256": "a16ff0d95515f45c1a4d3dda2ab58877569e8ce2ad9e4f5e85a418235249ff7e",
+    "config_raw_sha256": "acd8d33b2790d7de6c94d5773cc71c7d3d6d530211a03c9ec3b5ad2f1c41579a",
+    "module_raw_sha256": "3fc89944a68ff66c9d8b0899b31d48af3c89b5b99ecb398ed26e724cfc9e3b28",
+    "module_semantic_sha256": "7f2cac92b28a33703553c29d7c9c8c4ea6440e0285bffc091c110a7d05d52f17",
+    "test_raw_sha256": "d213dbb44f38c2f323a538ddad3fe3dc1ce88c99331afac65274227de31c6a40"
+  },
+  "next_gate": "A distinct agent must audit the exact ledger, roots, counts, byte offsets, row hashes, grammar isolation, and zero scientific access before any development release.",
+  "package_id": "open-gravity-void-correlation-ids-partition-v1",
+  "record_framing": {
+    "line_rule": "each framed record ends in exactly one LF and may have exactly one CR immediately before LF; after removing that terminator, payload length must equal 157; embedded CR/LF and repeated terminators reject",
+    "offsets": "freeze framed_start, framed_end_exclusive, payload_start, payload_end_exclusive, and line_ending_bytes",
+    "opaque_rule": "outside bytes 0:7, the implementation may count, frame, and hash bytes but may not decode, slice into named fields, convert, compare, log, or persist raw values",
+    "raw_hashes": "for every record freeze SHA256 of exact framed bytes, exact 157-byte payload, exact seven-byte ID slice, and exact opaque 150-byte payload tail",
+    "stream_coordinate": "zero-based offsets in the completely decompressed CF4 byte stream"
+  },
+  "release_bindings": {
+    "audit_receipt_content_sha256": "1025428193a0c7b9984f546da5796d46b7c9961f8410da027c3a97c573bed6e1",
+    "executor_receipt_content_sha256": "a0dad57f9815c501e640155c87359f2ba8e6b96b33d573afb8d8570e39d291a9",
+    "executor_v3_config_raw_sha256": "5ba4e48c444c14b4f355f516ec664d449c4fd8d2a9d332676d0ffbf40f620a04",
+    "executor_v3_module_raw_sha256": "1220eaabfebc77340e5c84c2dc9d4056d9ce6509ebf3df38750e542fa9c90dfe",
+    "executor_v3_receipt_raw_sha256": "e64717bf1d1c1dedd4670d864b4f86e1863ac24fc452fb7d45fcea7e55401734",
+    "executor_v3_test_raw_sha256": "edb9e480f7454b9fc8e94ace36aef981d17712718ba8a3424c53afe88ac09540",
+    "independent_audit_raw_sha256": "cd66d98a29ace47f0cbcb4d6fbd714f04d2b8863b3da7053bd077ec1923ae92b"
+  },
+  "role_counts": {
+    "confirmation": 7624,
+    "development": 22897,
+    "validation": 7532
+  },
+  "roots": {
+    "bucket_roots": {
+      "0": "2e2103e1aea6ffd16e4280a1689052e54b24f0047721a835b1eaea73f21d5e95",
+      "1": "e181cf3a84022b1c96d928841e374454f40e0a437e8419b39849bb329f357a89",
+      "2": "8a97408cac296ecf8591d153bb907787ebac50709a92ae031c8462192e48284d",
+      "3": "d2ea171eef62d5e47cdf889d292f69446d20701e811a51cee278c687a577ae0a",
+      "4": "2bc3b2484b82b9b8b2eff3ec1ac492d6a90adf1a1c1468ba5ebc69841778fbd0",
+      "5": "3120a098052c24dd3a8288b83f1231162d9c28ea1517df3ef4ad816f528d95bb",
+      "6": "7833650e1bab74d9392767f46da91c5bd7947f290a83117cd48e3844ec2b8579",
+      "7": "1dbc5f36e1d1604fa996c87015811a601b4951438cb4e152037a6f1410973683",
+      "8": "75129e99f9db93f9d8691220abef6a652c69754a931462ba4c3a0889b8a32f5b",
+      "9": "32523b5359343e82cc5fd366668aaba634775da72f7e3ef503dd428e477b9f53"
+    },
+    "canonical_id_root": "fe5659554e099d600333d63a3e0019177d9a2fd2fa56b93b89f20ab47fdba95c",
+    "role_roots": {
+      "confirmation": "95e9ecd40b1531dc308617870950ee472065f5dd50c5a97b37769636c9b0615b",
+      "development": "48aef29b61e4d3d298d6fd162d797985b191d73c99821f13d0f84660ff3cc8af",
+      "validation": "b954d62c939ef49eee82a8b97f1357c1735b57725d9acea280db2596541f9955"
+    },
+    "source_order_root": "fe5659554e099d600333d63a3e0019177d9a2fd2fa56b93b89f20ab47fdba95c"
+  },
+  "schema": "invariant-open-gravity-void-correlation-ids-partition-receipt-1.0",
+  "source": {
+    "compressed_bytes": 2528953,
+    "decompressed_bytes": 6012374,
+    "framed_rows": 38053,
+    "path": "work/private/open-gravity-void-source-v2/cf4-table4.dat.gz",
+    "raw_sha256": "be91d4fae6fa01552ab3bc85db695411fca3249eeae08b566a712e6ea790bd99",
+    "valid_identifier_rows": 38053
+  },
+  "split": {
+    "bucket": "unsigned big-endian digest bytes 0 through 7 modulo 10",
+    "bucket_roots": "leaves in each bucket by (identifier integer, source_index) ascending",
+    "canonical_id_root": "all leaves by (identifier integer, source_index) ascending",
+    "digest": "SHA256(canonical positive 1PGC ASCII)",
+    "duplicate_rule": "canonical 1PGC is globally unique across all records; any repeat is a package-level block even when framed bytes or roles are identical",
+    "role_roots": "leaves in each role by (identifier integer, source_index) ascending",
+    "roles": {
+      "0": "development",
+      "1": "development",
+      "2": "development",
+      "3": "development",
+      "4": "development",
+      "5": "development",
+      "6": "validation",
+      "7": "validation",
+      "8": "confirmation",
+      "9": "confirmation"
+    },
+    "root": "SHA256 of concatenated raw 32-byte leaf digests in the declared ordering; empty root is SHA256(empty bytes)",
+    "row_leaf": "SHA256 of canonical JSON for the row entry excluding leaf_sha256",
+    "source_order_root": "all leaves by source_index ascending"
+  },
+  "staged_minima": {
+    "confirmation": 150,
+    "development": 500,
+    "quantity": "unique raw IDs by frozen split role before any eligibility or scientific field opens",
+    "scope": "passing these raw-ID minima makes no assertion about future full-mask eligible counts",
+    "validation": 150
+  },
+  "status": "PASS_IDS_PARTITIONED_ONLY_AWAIT_INDEPENDENT_AUDIT_BEFORE_DEVELOPMENT_RELEASE"
+}

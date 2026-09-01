@@ -1,0 +1,184 @@
+{
+  "schema_version": "invariant-open-gravity-differential-propagation-gw170817-coherent-config-6.0",
+  "analysis_id": "open-gravity-differential-propagation-gw170817-coherent-v6",
+  "status": "FROZEN_APPEND_ONLY_PRE_RESPONSE_OPTIMIZER_AND_POWER_REPAIR",
+  "purpose": "Repair v5's target-free optimizer and power gates without reading strain: optimize ML and MAP separately, use projected matched SNR, refit identical source/nuisance spaces for every model, and distinguish optimizer failure from registered-power failure.",
+  "strict_audit_of_v5": {
+    "label": "FAIL_OPTIMIZER_AND_REGISTERED_POWER_GATE",
+    "config_path": "configs/open_gravity_differential_propagation_gw170817_coherent_v5.json",
+    "config_raw_sha256": "6b8e84c699590bec3e1699c4c41c1b70458f852e35319b0a99e40bd5fdf14172",
+    "module_path": "src/sigma_theory_compiler/open_gravity_differential_propagation_gw170817_coherent_v5.py",
+    "module_raw_sha256": "d36ecf7cd32a7a3da0a066bffe57a04b62960f319d410c51218854d4bca6fff9",
+    "test_path": "tests/test_open_gravity_differential_propagation_gw170817_coherent_v5.py",
+    "test_raw_sha256": "1d6210925339a1396093ff1b05e6a683afcfe8717529bbb14caf2b0eac00211e",
+    "prediction_path": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v5/prediction-receipt.json",
+    "prediction_raw_sha256": "ebdb4b4752d9c2d86c80986bff9480aacd7609beb2d7cf0044cb31245367c1c3",
+    "prediction_content_sha256": "92755af0c9b8d4d5b8ec5320f49d378fad4c670d98438e7bdf62bc767db190c8",
+    "retained_failures": {
+      "gr_full_optimizer_successes": 0,
+      "gr_recovered_template_norm_over_32": 0.7756622917241234,
+      "gr_three_seed_delta_2_log_likelihood_spread": 245.85182407535763,
+      "reservoir_injected_r": 0.3,
+      "reservoir_injected_log10_f_hz": 2.0,
+      "reservoir_recovered_r": 0.3000063657949048,
+      "reservoir_recovered_log10_f_hz": 1.9999629799435918,
+      "reservoir_bic_winner": "GR",
+      "interpretation": "v5 demonstrated exact fixed-nuisance reservoir parameter recovery but insufficient registered BIC power, while its full-common GR optimizer failed; it did not falsify any propagation family"
+    }
+  },
+  "blocked_v4_hashes": {
+    "config_path": "configs/open_gravity_differential_propagation_gw170817_coherent_v4.json",
+    "config_raw_sha256": "2347dc837410b52a3f35d710c9b78d296ae6d4485c214646157a95e149ad49d2",
+    "module_path": "src/sigma_theory_compiler/open_gravity_differential_propagation_gw170817_coherent_v4.py",
+    "module_raw_sha256": "4e6cce8fbf4a143575c39e2ad3bfb8ccb9390382b25bcdbc4ebcaf0229fc02d1",
+    "test_path": "tests/test_open_gravity_differential_propagation_gw170817_coherent_v4.py",
+    "test_raw_sha256": "7f4fa0273483ca49e3b723a307c9e2075a31cf47019cb0615f8978d7b141658e",
+    "prediction_path": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v4/prediction-receipt.json",
+    "prediction_raw_sha256": "73a7ec142194f18dbe2341aa13710a00002ca30acaf11ec6fe5988bdf1f8226e"
+  },
+  "science_inheritance": {
+    "composed_source": "open-gravity-differential-propagation-gw170817-coherent-v5",
+    "unchanged": ["all source selections", "256-second preprocessing and Nyquist exclusion", "physical detector likelihood", "event and sky", "common nuisance priors", "five transfer laws and bounds", "calibration law", "GR and branch injection parameters except the additional reservoir power calibration", "no-response and holdout boundaries"],
+    "changed": ["target-free optimizer algorithm", "separate optimizer-recovery and branch-power decisions", "projected matched-SNR definition", "symmetric full-common refits", "additional reservoir detectability calibration"],
+    "post_freeze_scientific_retuning_allowed": false
+  },
+  "package": {
+    "module_path": "src/sigma_theory_compiler/open_gravity_differential_propagation_gw170817_coherent_v6.py",
+    "test_path": "tests/test_open_gravity_differential_propagation_gw170817_coherent_v6.py",
+    "prediction_receipt_path": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v6/prediction-receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v6/artifacts",
+    "runtime_path": "work/private/open-gravity-lane2-lalsuite-runtime-v1/bin/python"
+  },
+  "additional_source_and_runtime_bytes": [
+    {
+      "role": "exact_lalsuite_runtime_wheel",
+      "path": "work/private/open-gravity-lane2-waveform-source-v1/lalsuite-7.26.15-cp312-cp312-manylinux_2_28_x86_64.whl",
+      "bytes": 40113145,
+      "sha256": "f758c323b756a4c7525a86137b359c16b38e8e6f25ae9b976689e15f0e99af35"
+    },
+    {
+      "role": "lalsuite_release_metadata",
+      "path": "work/private/open-gravity-lane2-waveform-source-v1/lalsuite-v7.26.15-metadata.json",
+      "bytes": 1885,
+      "sha256": "b9e87372e449ee85c159c584ff5eae53612e19d14d8ef88a5dc47a1a00ec28d1"
+    },
+    {
+      "role": "published_psd_readme",
+      "path": "work/private/open-gravity-lane2-calibration-source-v1/README.md",
+      "bytes": 1461,
+      "sha256": "c40a8173193f388cfd319f1c2e3389acb26480491492f12e4fc7fae3dfd38e69"
+    },
+    {
+      "role": "calibration_readme",
+      "path": "work/private/open-gravity-lane2-calibration-source-v1/README.txt",
+      "bytes": 2292,
+      "sha256": "98d16f237050ab16df65219689b49254519d3413ab06329466ac4cbccf8ce61d"
+    }
+  ],
+  "runtime_integrity": {
+    "wheel_record_member": "lalsuite-7.26.15.dist-info/RECORD",
+    "wheel_record_bytes": 73192,
+    "wheel_record_sha256": "309f1eac21bb740c11c5a5fe884e4ced91f38e1470854989f9663d95193bad11",
+    "installed_record_path": "work/private/open-gravity-lane2-lalsuite-runtime-v1/lib/python3.12/site-packages/lalsuite-7.26.15.dist-info/RECORD",
+    "installed_record_bytes": 76301,
+    "installed_record_sha256": "f8e6b40b6056e73672fd64fc6b2b0c0bd502ec3598e1d1e234b1fbc9db39dfbf",
+    "installed_distribution_files": 854,
+    "validation": "rehash the wheel and every hashed wheel member; rehash the installed RECORD and every hashed installed distribution file; require exact LALSuite/LAL/LALSimulation versions and both approximants"
+  },
+  "path_hardening": {
+    "allowed_root": "repository root",
+    "reject_absolute_paths": true,
+    "reject_parent_alias_parts": true,
+    "parent_alias": "..",
+    "applies_to": "every string value whose key is path or ends in _path, plus all source paths"
+  },
+  "sample_count_hardening": {
+    "analysis_duration_seconds": 256,
+    "sample_rate_hz": 4096,
+    "analysis_sample_count": 1048576,
+    "exact_rule": "analysis_sample_count == analysis_duration_seconds * sample_rate_hz",
+    "mutation_action": "fail before any target-free rebuild or strain access"
+  },
+  "projected_matched_snr": {
+    "per_detector": "rho_d=(d|h)_d/sqrt((h|h)_d)",
+    "coherent_network": "rho_net=sum_d(d|h)_d/sqrt(sum_d(h|h)_d)",
+    "prohibited_substitute": "sqrt(sum_d(h|h)_d) template norm",
+    "zero_noise_truth": "rho_net equals the injected optimal network SNR at exact recovery"
+  },
+  "symmetric_optimizer": {
+    "parameter_space": "17 identical common source/extrinsic/calibration parameters for GR and every branch, plus only the declared branch extras",
+    "parameter_scaling": "affine map every bounded parameter to [0,1]",
+    "algorithm": "scipy.optimize.minimize L-BFGS-B",
+    "objectives": ["unpenalized maximum log likelihood", "maximum log posterior with frozen distance-volume and calibration-normal priors"],
+    "separate_optimization": true,
+    "seeds": [260861, 260862, 260863],
+    "common_start_rule": "for target-free injections only, perturb the known synthetic common truth independently with Gaussian sigma 0.001 in normalized prior coordinates; clip to [0,1]",
+    "branch_start_rule": {
+      "GR": [[]],
+      "DYNAMIC_PHASE": [[0.0], [0.5], [-0.5]],
+      "ATTENUATION": [[0.0], [0.1], [-0.1]],
+      "RESERVOIR": [[0.0, 2.0], [0.25, 1.8], [-0.25, 2.2]],
+      "NONLINEAR_PHASE": [[0.0], [0.1], [-0.1]],
+      "SCREENED_PHASE": [[0.0, 2.0], [0.5, 1.8], [-0.5, 2.2]]
+    },
+    "max_iterations": 250,
+    "ftol": 1e-11,
+    "gtol": 1e-6,
+    "max_line_search_steps": 50,
+    "finite_required": true,
+    "scipy_success_required": true,
+    "three_seed_delta_2_log_likelihood_max": 0.02,
+    "three_seed_delta_2_log_posterior_max": 0.02,
+    "scope": "local target-free recovery gate around known synthetic truth; it is not evidence of global real-data convergence"
+  },
+  "optimizer_recovery_gate": {
+    "injection": "the inherited zero-noise GR injection at optimal network SNR 32",
+    "models_refit": ["GR", "DYNAMIC_PHASE", "ATTENUATION", "RESERVOIR", "NONLINEAR_PHASE", "SCREENED_PHASE"],
+    "requirements": ["all ML and MAP fits finite", "all three seeds report optimizer success for every model/objective", "every model/objective satisfies its three-seed convergence threshold", "best GR projected network SNR fraction >=0.99", "GR chirp-mass error <=0.0015 solar mass", "GR geocentric-time error <=0.002 seconds", "GR is the unique minimum-BIC model"],
+    "failure_label": "FAIL_OPTIMIZER_RECOVERY_GATE",
+    "failure_action": "no real-response authorization"
+  },
+  "registered_branch_power_gate": {
+    "injections": "the five inherited v5 branch injections at optimal network SNR 32",
+    "models_refit": ["GR", "DYNAMIC_PHASE", "ATTENUATION", "RESERVOIR", "NONLINEAR_PHASE", "SCREENED_PHASE"],
+    "bic": "-2 maximum log likelihood + k log(n), n=2 times all retained complex bins and k=17 common plus branch extras",
+    "amplitude_recovery": "absolute error <= max(25 percent of injected absolute amplitude,0.05)",
+    "identifiable": "all optimizers valid and converged, injected branch is unique minimum BIC, amplitude recovered",
+    "powerless": "optimizers valid and converged but injected branch is not unique minimum BIC or amplitude recovery fails",
+    "invalid": "any ML/MAP fit nonfinite, unsuccessful, or nonconverged",
+    "powerless_action": "retain the family and label POWERLESS_AT_REGISTERED_SNR32; do not call it empirically false",
+    "invalid_action": "label FAIL_BRANCH_OPTIMIZER_GATE and prohibit real-response authorization"
+  },
+  "reservoir_power_calibration": {
+    "injected_parameters": {"r": 0.5, "log10_f_res_hz": 2.0},
+    "optimal_network_snr_levels": [32.0, 48.0, 64.0],
+    "models_refit": ["GR", "DYNAMIC_PHASE", "ATTENUATION", "RESERVOIR", "NONLINEAR_PHASE", "SCREENED_PHASE"],
+    "execute_all_levels": true,
+    "detectability_rule": "same symmetric optimizer, unique minimum BIC, and amplitude recovery as registered branch gate",
+    "classification": "report the lowest calibrated SNR with detectability; if none, POWERLESS_THROUGH_SNR64; this never eliminates the reservoir family",
+    "response_independent": true
+  },
+  "check_contract": {
+    "revalidate_v4_and_v5_package_and_receipt_hashes": true,
+    "rehash_every_frozen_source_file": true,
+    "revalidate_source_schemas_hdf_headers_and_dq": true,
+    "rehash_wheel_and_installed_runtime_files": true,
+    "rebuild_all_injections_and_compare_canonical_hash": true,
+    "reject_path_aliases_and_sample_count_mutation": true,
+    "enforce_branch_optimizer_success_and_convergence": true,
+    "strain_values_read": 0
+  },
+  "freeze_boundary": {
+    "v3_response_previously_opened": true,
+    "v4_response_opened": false,
+    "v5_response_opened": false,
+    "v6_strain_values_read_before_and_during_freeze": 0,
+    "v6_real_likelihood_values": 0,
+    "gw190425_status": "SEALED_NOT_ACQUIRED_NOT_OPENED",
+    "other_bns_holdouts_status": "SEALED_NOT_ACQUIRED_NOT_OPENED",
+    "real_response_authorized": false,
+    "independent_audit_required_before_response": true,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

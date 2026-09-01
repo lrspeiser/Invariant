@@ -1,0 +1,200 @@
+J/ApJS/219/4    S4G pipeline 4: multi-component decompositions    (Salo+, 2015)
+================================================================================
+The Spitzer Survey of Stellar Structure in Galaxies (S^4^G):
+multi-component decomposition strategies and data release.
+    Salo H., Laurikainen E., Laine J., Comeron S., Gadotti D.A., Buta R.,
+    Sheth K., Zaritsky D., Ho L., Knapen J., Athanassoula E., Bosma A.,
+    Laine S., Cisternas M., Kim T., Munoz-Mateos J.C., Regan M., Hinz J.L.,
+    Gil de Paz A., Menendez-Delmestre K., Mizusawa T., Erroz-Ferrer S.,
+    Meidt S.E., Querejeta M.
+   <Astrophys. J. Suppl. Ser., 219, 4 (2015)>
+   =2015ApJS..219....4S
+================================================================================
+ADC_Keywords: Galaxies, IR ; Morphology ; Surveys
+Keywords: galaxies: fundamental parameters; galaxies: kinematics and dynamics;
+          galaxies: spiral; galaxies: structure
+
+Abstract:
+    The Spitzer Survey of Stellar Structure in Galaxies (S^4^G) is a deep
+    3.6 and 4.5{mu}m imaging survey of 2352 nearby (<40Mpc) galaxies. We
+    describe the S^4^G data analysis pipeline 4, which is dedicated to
+    two-dimensional structural surface brightness decompositions of
+    3.6{mu}m images, using GALFIT3.0. Besides automatic 1-component Sersic
+    fits, and 2-component Sersic bulge + exponential disk fits, we present
+    human-supervised multi-component decompositions, which include, when
+    judged appropriate, a central point source, bulge, disk, and bar
+    components. Comparison of the fitted parameters indicates that
+    multi-component models are needed to obtain reliable estimates for the
+    bulge Sersic index and bulge-to-total light ratio (B/T), confirming
+    earlier results. Here, we describe the preparations of input data done
+    for decompositions, give examples of our decomposition strategy, and
+    describe the data products released via IRSA and via our web page
+    (www.oulu.fi/astronomy/S4G_PIPELINE4/MAIN). These products include all
+    the input data and decomposition files in electronic form, making it
+    easy to extend the decompositions to suit specific science purposes.
+    We also provide our IDL-based visualization tools (GALFIDL) developed
+    for displaying/running GALFIT-decompositions, as well as our mask
+    editing procedure (MASK_EDIT) used in data preparation. A detailed
+    analysis of the bulge, disk, and bar parameters derived from
+    multi-component decompositions will be published separately.
+
+Description:
+    The Spitzer Survey of Stellar Structure in Galaxies (S4G, Sheth et al.
+    2010, J/PASP/122/1397) is a survey of 2352 galaxies observed in the
+    mid-infrared (mid-IR) at 3.6 and 4.5um, wavelengths that are largely
+    unaffected by internal extinction.
+
+    The data have been processed through Pipeline 1 (Munoz-Mateos et al.
+    2015ApJS..219....3M; MM15) which makes mosaics of the observed
+    individual frames, Pipeline 2 (MM15) which makes masks of the
+    foreground stars and image defects, and Pipeline 3 (MM15) which
+    measures the basic photometric parameters like the galaxy magnitudes
+    and concentration indices. In Pipeline 4 (P4), described in this
+    study, we decompose the two-dimensional flux distributions of the
+    images into several structural components using GALFIT (Peng et al.
+    2010AJ....139.2097P).
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName   Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe         80        .   This file
+table1.dat     91     2352   Pipeline 4 parameters: galaxy center, outer
+                               orientation, and sky background
+table6.dat     58     2352   Parameters of 1-component Sersic fits
+table7.dat    227     4629  *Parameters of final multicomponent decompositions
+--------------------------------------------------------------------------------
+Note on table7.dat: All decompositions assume a fixed common center for all
+    components and elliptical isophotal shape, constant over radius.
+    One line per component for each galaxy.
+--------------------------------------------------------------------------------
+
+See also:
+ J/ApJS/217/32    : S4G galaxy morphologies in the CVRHS system (Buta+, 2015)
+ J/A+A/569/A91    : Optical imaging for S4G (Knapen+, 2014)
+ J/MNRAS/441/1992 : Galaxies with disc breaks in S4G and NIRS0S (Laine+, 2014)
+ J/ApJ/772/135    : 3.6um surface brightness from S4G (Zaritsky+, 2013)
+ J/ApJ/771/59     : Surface brightness of S4G face-on gal. (Munoz-Mateos+, 2013)
+ J/ApJS/196/11    : Bulge+disk decompositions of SDSS galaxies (Simard+, 2011)
+ J/MNRAS/418/1452 : NIR Atlas of S0-Sa galaxies (NIRS0S) (Laurikainen+, 2011)
+ J/AJ/142/145     : Outer disks of S0-Sb galaxies II. (Gutierrez+, 2011)
+ J/PASP/122/1397  : Spitzer Survey of Stellar Structure in Gal. (Sheth+, 2010)
+ J/ApJS/190/147   : Mid-IR galaxy morphology from S^4^G (Buta+, 2010)
+ J/MNRAS/405/1089 : Photometric scaling for L/S0 galaxies (Laurikainen+ 2010)
+ J/ApJ/716/942    : Bulges of nearby galaxies with Spitzer (Fisher+, 2010)
+ J/ApJS/182/216   : Surface photometry of Virgo ellipticals (Kormendy+, 2009)
+ J/MNRAS/393/1531 : BUDDA structural properties of galaxies (Gadotti+, 2009)
+ J/ApJS/143/73    : Morphology of spiral galaxies (Eskridge+, 2002)
+ http://www.oulu.fi/astronomy/S4G_PIPELINE4/MAIN/ : S4G PIPELINE4 home page
+
+Byte-by-byte Description of file: table1.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units    Label    Explanations
+--------------------------------------------------------------------------------
+   1- 10  A10   ---      Name     Galaxy name (IDE)
+  12- 18  F7.2  pix      xc       ? X pixel of galaxy center
+  20- 26  F7.2  pix      yc       ? Y pixel of galaxy center
+  28- 32  F5.1  deg      PA       [0.2/180]? Outer isophote position angle
+  34- 37  F4.1  deg    e_PA       [0/63]? Standard deviation in PA
+  39- 43  F5.3  ---      Ell      [0.008/1]? Outer isophote ellipticity
+  45- 49  F5.3  ---    e_Ell      [0/0.3]? Standard deviation in Ell
+  51- 54  I4    arcsec   Rmin     [1/1125]? Lower range of outer isophote
+  56- 59  I4    arcsec   Rmax     [6/1425]? Upper range of outer isophote
+  61- 62  A2    ---      Flag     [ok uz] Uncertainty flag (1)
+  64- 70  F7.4  MJy/sr   Sky      [-0.06/0.3]? Estimated sky level
+  72- 77  F6.4  MJy/sr s_Sky      [0.0004/0.04]? Global variation of sky level
+  79- 84  F6.4  MJy/sr   RMS      [0.001/0.04]? Local variation of sky level
+  86- 91  F6.4  MJy/sr   sigma    [0/0.03]? Estimated extra instrumental noise
+                                   component (2)
+--------------------------------------------------------------------------------
+Note (1): Indicates whether the inclination can be reliably estimated from
+     the ellipticity of the outer isophotes:
+   ok = reliable;
+    u = uncertain;
+    z = nearly edge-on galaxy.
+Note (2): During the Spitzer warm mission (See Sect 2.2.5).
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table6.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label    Explanations
+--------------------------------------------------------------------------------
+   1- 10  A10   ---     Name     Galaxy name (IDE)
+  12- 24  A13   ---     Comm     Comment (3)
+  26- 30  F5.2  mag     Tmag     [6.1/17]? Total magnitude
+  32- 36  F5.3  ---     q        [0.07/1]? Axial ratio
+  38- 43  F6.2  deg     PA1      [0/180]? Elliptical isophote position angle
+  45- 50  F6.3  ---     n        [0.3/19]? Sersic index
+  52- 58  F7.2  arcsec  Re       [5/7631]? Effective radius
+--------------------------------------------------------------------------------
+Note (3): Indicates cases where "No fit" was made, fit failed to converge
+     ("Fit fails"), or its parameters are not reliable ("Fit uncertain").
+     No measurement was possible for PGC052336 due to a superposed bright star.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table7.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units      Label  Explanations
+--------------------------------------------------------------------------------
+   1-  4  I4    ---        Seq    [1/2352] Running sequence number
+   6- 15  A10   ---        Name   Galaxy name
+  17- 24  A8    ---        Mod    Type of final decomposition model (1)
+  26- 31  A6    ---        ---    [NCOMP=]
+      32  I1    ---        Nc     [1/4] Number of components in the model (1-4)
+  34- 41  A8    ---        ---    [quality=]
+      42  I1    ---        Q      [3/5] Quality flag, 5=most reliable (2)
+  44- 50  A7    ---        C      Phsical interpretation of the component (1)
+  52- 59  A8    ---        Fn     The GALFIT function used for the component
+                                    (sersic, edgedisk, expdisk, ferrer2 or psf)
+  61- 65  F5.3  ---        f1     [0.006/1]? "sersic" fraction of the total
+                                    model flux
+  67- 72  F6.3  mag        mag1   [7/19.4]? "sersic" total 3.6um AB magnitude
+  74- 78  F5.3  ---        q1     [0.1/1]? "sersic" axis ratio (3)
+  80- 86  F7.3  deg        PA1    [0.08/180]? "sersic" position angle (3)
+  88- 94  F7.3  arcsec     Re     [0.004/430]? "sersic" effective radius (R_e_)
+  96-101  F6.3  ---        n      [0.01/20]? "sersic" parameter n
+ 103-107  F5.3  ---        f2     [0.02/1]? "edgedisk" fraction of the total
+                                    model flux
+ 109-114  F6.3 mag/arcsec2 mu02   [11.8/24.6]? "edgedisk" central surface
+                                    face-on brightness ({mu}_0_)
+ 116-122  F7.3  deg        PA2    [-90/90]? "edgedisk"  PA
+ 124-130  F7.3  arcsec     hr2    [1/153]? "edgedisk" exponential scale
+                                    length (h_r_)
+ 132-137  F6.3  arcsec     hz2    [0.003/39]? "edgedisk" z-scale h_z_
+ 139-143  F5.3  ---        f3     [0.02/1]? "expdisk" fraction of the total
+                                    model flux
+ 145-150  F6.3  mag        mag3   [6.5/18.1]? "expdisk" total 3.6um AB magnitude
+ 152-156  F5.3  ---        q3     [0.1/1]? "expdisk" axis ratio (3)
+ 158-164  F7.3  deg        PA3    [-90/90]? "expdisk" position angle (3)
+ 166-172  F7.3  arcsec     hr3    [0.7/332]? "expdisk" exponential scale
+                                    length (h_r_)
+ 174-179  F6.3 mag/arcsec2 mu03   [16.4/25.3]? "expdisk" central surface
+                                    face-on brightness ({mu}_0_)
+ 181-185  F5.3  ---        f4     [0.003/0.6]? "ferrer2" fraction of the total
+                                    model flux
+ 187-192  F6.3 mag/arcsec2 mu04   [16/24.8]? "ferrer2" central surface sky
+                                    brightness ({mu}_0_)
+ 194-198  F5.3  ---        q4     [0.01/1]? "ferrer2" axis ratio (3)
+ 200-206  F7.3  deg        PA4    [-90/90]? "ferrer2" position angle (3)
+ 208-214  F7.3  arcsec     Rbar   [3.7/232.5]? "ferrer2" outer truncation
+                                    radius of the bar (R_bar_)
+ 216-220  F5.3  ---        f5     [0.001/0.4]? "psf" fraction of the
+                                    total model flux
+ 222-227  F6.3  mag        mag5   [11.5/21.1]? "psf" total 3.6um AB magnitude
+--------------------------------------------------------------------------------
+Note (1): Coded to all output file names together with underscore prefix
+     (B=bulge, D=disk, Z=edge-on disk, N=nucleus, Bar/Halo; see section 3)
+Note (2): If no final decomposition was made (quality=1 or 2),
+     then for this galaxy we set an empty type (-) and Nc=0.
+Note (3): If there is an (outer) disk, its q and PA parameters
+     are kept fixed to those in Table 1.
+--------------------------------------------------------------------------------
+
+History:
+    * 01-Jul-2015: Published electronic version
+    * 14-Oct-2015: First insertion into VizieR (tables 1,6,7 -
+      from electronic version of the journal)
+    * 28-Oct-2015: Table 7 corrected to provide one line per component
+
+================================================================================
+(End)                 Greg Schwarz [AAS], Emmanuelle Perret [CDS]    02-Sep-2015

@@ -1,0 +1,92 @@
+{
+  "schema": "invariant-open-gravity-galileo-e14-memory-response-1.0",
+  "package_id": "open-gravity-galileo-e14-memory-response-v1",
+  "status": "FROZEN_E14_DEVELOPMENT_ONLY_BEFORE_RESPONSE_DECODE",
+  "purpose": "Run the first real-response falsifier of the frozen persistent-time-well causal-memory quadrature on E14 only, with no E18 or circular-control clock response access and no formula retuning.",
+  "bindings": [
+    {
+      "role": "CLOSURE_PREDECESSOR",
+      "path": "runs/gravity/open-gravity-persistent-timewell-redshift-closures-v2/receipt.json",
+      "sha256": "cdb52cd0b4c5627d6be9154c13ed671701457cb866c2cca80bf77422409b73f2"
+    },
+    {
+      "role": "E14_SOURCE_RECEIPT",
+      "path": "runs/gravity/open-gravity-galileo-e14-source-receipt-v1/receipt.json",
+      "sha256": "2cc7a34198b7e35e5f1756f983897126335c354990e73d6421e17cb510a4e69d",
+      "content_sha256": "3f56bbf715e4a5b37a51737b0c8b5086feffb030c7bd8850731dc6c08d1aa612"
+    }
+  ],
+  "authorization": {
+    "development_response_prns": ["E14"],
+    "forbidden_response_prns": ["E18", "E25", "E31"],
+    "other_response_prns": "FORBIDDEN",
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "formula_retuning_events": 0
+  },
+  "source": {
+    "directory": "work/private/open-gravity-galileo-e14-source-v1",
+    "gps_week": 2044,
+    "days": [0, 1, 2, 3, 4, 5, 6],
+    "development_prn": "E14",
+    "holdout_prn": "E18",
+    "source_only_circular_controls": ["E25", "E31"],
+    "source_only_period_samples": 155,
+    "source_only_period_seconds": 46500,
+    "phase_scramble_shifts_samples": [-78, -58, -39, -19, 19, 39, 58, 78]
+  },
+  "parser": {
+    "clk_header_boundary": "Read until the single END OF HEADER record. Afterward inspect only the record-type and fixed PRN token; numerically decode only AS E14 rows. Never split or convert the numeric payload of any other PRN row.",
+    "clk_value": "RINEX CLOCK 2.00 first clock estimate in seconds; standard deviation column is not used.",
+    "sp3_value": "SP3 dV P-record E14 x,y,z in km; ignore the SP3 clock column.",
+    "epoch_grid": "For each daily pair, exact equality intersection of E14 CLK and E14 SP3 calendar epochs; no interpolation; exclude the first and last common epoch; form no interval across a daily boundary.",
+    "response": "For each consecutive retained common-epoch pair within a day, y=(clock_offset[i+1]-clock_offset[i])/(t[i+1]-t[i]) and the source predictor is evaluated at the interval midpoint by endpoint averaging.",
+    "expected_sp3_cadence_seconds": 300,
+    "missing_or_duplicate_rule": "Reject duplicate E14 CLK epochs; retain only exact common epochs; report every missing interval and reject any retained interval whose duration is not 300 s."
+  },
+  "physical_template": {
+    "constants": {
+      "earth_GM_m3_s2": 398600441800000.0,
+      "earth_rotation_rad_s": 0.0000729211514670698,
+      "speed_of_light_m_s": 299792458.0
+    },
+    "instantaneous_source": "q(t)=-(GM/r(t)+|v_inertial(t)|^2/2)/c^2. SP3 coordinates are Earth-fixed ITRF14, so v_inertial is frozen as the centered 300 s ECEF position difference plus Omega_Earth cross r; the first and last source epochs use one-sided differences but cannot enter retained response intervals.",
+    "product_correction": "ESOC already applied the standard eccentric correction 2 r dot v/c^2. Therefore y is treated as a corrected clock residual and x_tau=psi_tau-q is a residual causal-memory quadrature, not a replacement fit of the ordinary redshift amplitude.",
+    "state_update": "For a=exp(-300/tau), zero-order-hold q over each interval gives psi[i+1]=a psi[i]+(1-a)q[i]. The initial psi is the exact periodic fixed point of the first source-only 155-sample E14 cycle, then propagation is continuous over all seven unique source days with no daily reset.",
+    "interval_predictor": "x_tau[i]=(psi[i]-q[i]+psi[i+1]-q[i+1])/2; standardize once by its source-only population standard deviation over all retained E14 intervals.",
+    "tau_seconds": [300.0, 1800.0, 7200.0, 21600.0, 43200.0]
+  },
+  "nuisance_and_likelihood": {
+    "day_projection": "Before any candidate fit, separately project y and every predictor off an intercept and centered linear trend within each whole day. This identical response-dependent nuisance projection makes the score a conditional/profile leave-one-day-out score, not a fully generative day-ahead probability.",
+    "primary_model": "Projected y = beta_tau projected(x_tau) + AR(1) innovation.",
+    "null_model": "Projected y = AR(1) innovation.",
+    "ar1_fit": "On each six-day training set and for each model, alternate exact least squares after a within-day Prais-Winsten transform with pooled lag-one residual estimation; initialize rho=0, clip rho to [-0.995,0.995], stop at 20 iterations or |delta rho|<1e-10, and set innovation variance to transformed training SSE divided by transformed training row count.",
+    "heldout_score": "Freeze beta, rho, and innovation variance from six days. Apply the same predeclared day projection to the omitted day, then sum the Gaussian AR(1) log likelihood with a stationary first-row factor. Fit no signal, rho, or variance parameter on the omitted day.",
+    "folds": "Exactly seven leave-one-day-out E14 folds. Select tau once by maximum total alternative-minus-null heldout log likelihood; ties choose smaller tau.",
+    "reported_beta": "Report standardized beta and physical beta=standardized_beta/source-only predictor standard deviation. The sign gate is at least six of seven training-fold physical betas with the same nonzero sign."
+  },
+  "frozen_controls": {
+    "phase_scramble": "At the selected real tau, circularly shift x_tau separately within each day by each of the eight source-frozen sample offsets; rerun the identical seven-fold procedure and retain all scores.",
+    "instantaneous_countermodel": "Run the identical seven-fold score with projected standardized q alone.",
+    "free_orbital_phase_countermodel": "Run the identical seven-fold score with projected standardized q and its centered finite-difference derivative as two freely fitted columns. Then add x_tau and report its incremental heldout log likelihood. This tests whether memory is merely an orbit-phase/quadrature proxy.",
+    "orbit_control": "No epoch-specific SP3 covariance, SLR residual, or orbit-error proxy is supplied in the frozen files; do not impute one. The free orbital-phase countermodel is retained as a degeneracy diagnostic, not a calibrated orbit correction.",
+    "environment_control": "Onboard temperature, magnetic field, attitude, clock identity, and solar-radiation-pressure series are absent; record unavailable and do not impute.",
+    "plasma_control": "The CLK product is an ionosphere-free combined estimate and has no separate E1/E5a/E5b response; record chromatic/plasma discrimination unavailable.",
+    "circular_control": "E25 and E31 identities are frozen source-only, but their clock response rows are forbidden in this package. Their missing test is an explicit promotion blocker, not a passed control."
+  },
+  "development_decision": {
+    "interesting_observation_gate": [
+      "selected_tau total E14 conditional heldout delta log likelihood is positive",
+      "at least six of seven E14 beta signs agree",
+      "real registered score exceeds every frozen phase-scramble score",
+      "memory adds positive heldout log likelihood beyond the free orbital-phase countermodel"
+    ],
+    "E18_promotion_gate": "Always BLOCKED in this package because the two predeclared circular response controls, calibrated orbit/SLR series, and environment series are unopened or unavailable. E18 may not be opened regardless of the E14 score.",
+    "claim_boundary": "A passing E14 pattern is a development observation only. It cannot establish gravity, time wells, chromaticity, mechanism, novelty, or publication readiness."
+  },
+  "outputs": {
+    "receipt": "runs/gravity/open-gravity-galileo-e14-memory-response-v1/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-galileo-e14-memory-response-v1/artifacts"
+  }
+}

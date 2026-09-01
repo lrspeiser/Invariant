@@ -1,0 +1,280 @@
+{
+  "schema": "invariant-open-gravity-persistent-timewell-redshift-closures-1.0",
+  "package_id": "open-gravity-persistent-timewell-redshift-closures-v1",
+  "status": "FROZEN_RESPONSE_FREE_CLOSURE_AND_REAL_DATA_PREFLIGHT",
+  "purpose": "Separate ordinary endpoint redshift, exact-gradient rewrites, genuinely accumulated path laws, and causal persistent-state laws before any redshift response is opened.",
+  "local_bindings": [
+    {
+      "role": "TEMPORAL_TRANSFER_IDENTIFIABILITY",
+      "path": "runs/gravity/open-gravity-temporal-transfer-identifiability-v1/receipt.json",
+      "sha256": "cbc8336842ca3695971ead7e67e37adbd4323d989c1c6b43cb6bbc0ae1201bd5"
+    },
+    {
+      "role": "COMMON_3D_SYNTHETIC_UNIVERSE",
+      "path": "runs/gravity/open-gravity-common-3d-synthetic-universe-v1/receipt.json",
+      "sha256": "4965be01827b56b2efd5b721676dfe8724a4c8661a9cad3fa6e1733714afedfe"
+    },
+    {
+      "role": "PRIMARY_SOURCE_COMPARATOR_CONTRACT",
+      "path": "runs/gravity/open-gravity-primary-source-comparator-contract-v3/receipt.json",
+      "sha256": "732afe6c1409fbe2a3bd05ff050058419bbfd7e9d9ec795f183d70ecb5382b60"
+    }
+  ],
+  "published_neighbors": [
+    {
+      "id": "DELVA_GALILEO_2018",
+      "kind": "primary_experiment",
+      "citation": "Delva et al., Physical Review Letters 121, 231101 (2018)",
+      "doi": "10.1103/PhysRevLett.121.231101",
+      "url": "https://doi.org/10.1103/PhysRevLett.121.231101",
+      "boundary": "1008-day eccentric-Galileo endpoint clock test; reported fractional deviation (0.19 +/- 2.48)e-5; not a published search for a causal quadrature or hysteresis component"
+    },
+    {
+      "id": "HERRMANN_GALILEO_2018",
+      "kind": "independent_primary_experiment",
+      "citation": "Herrmann et al., Physical Review Letters 121, 231102 (2018)",
+      "doi": "10.1103/PhysRevLett.121.231102",
+      "url": "https://doi.org/10.1103/PhysRevLett.121.231102",
+      "boundary": "independent eccentric-Galileo analysis with three clocks; tests a redshift-violation amplitude, not the frozen memory transfer family here"
+    },
+    {
+      "id": "WOJTAK_CLUSTER_2011",
+      "kind": "primary_astrophysical_endpoint_benchmark",
+      "citation": "Wojtak, Hansen and Hjorth, Nature 477, 567-569 (2011)",
+      "doi": "10.1038/nature10445",
+      "url": "https://arxiv.org/abs/1109.6571",
+      "boundary": "stacked SDSS cluster-galaxy gravitational redshift versus projected radius; endpoint, velocity, transverse-Doppler, selection, and light-cone effects require joint controls"
+    },
+    {
+      "id": "BLONDIN_SN_TIME_DILATION_2008",
+      "kind": "primary_expansion_control",
+      "citation": "Blondin et al., The Astrophysical Journal 682, 724-736 (2008)",
+      "doi": "10.1086/589568",
+      "url": "https://arxiv.org/abs/0804.3595",
+      "boundary": "spectral aging of supernovae follows the expansion time-dilation factor; excludes non-time-dilating tired-light laws, not every metric-compatible accumulated law"
+    },
+    {
+      "id": "MORE_DISTANCE_DUALITY_2017",
+      "kind": "primary_reciprocity_control",
+      "citation": "More et al., Physical Review D 95, 083506 (2017)",
+      "doi": "10.1103/PhysRevD.95.083506",
+      "url": "https://arxiv.org/abs/1612.08784",
+      "boundary": "Etherington distance duality and photon-conservation benchmark; reported optical-depth constraint applies only to its stated redshift interval and data"
+    },
+    {
+      "id": "WANG_LENSED_REDSHIFT_2023",
+      "kind": "primary_multiple_path_neighbor",
+      "citation": "Wang, Bolejko and Lewis, The Astrophysical Journal 940, 16 (2022)",
+      "doi": "10.3847/1538-4357/ac9df6",
+      "url": "https://arxiv.org/abs/2210.03322",
+      "boundary": "predicts instantaneous redshift differences between delayed lens images from cosmological redshift drift and peculiar velocities; supplies a required comparator for any same-endpoint path claim"
+    },
+    {
+      "id": "ROVIRA_GNSS_CLOCKS_2021",
+      "kind": "primary_data_processing_control",
+      "citation": "Rovira-Garcia et al., GPS Solutions 25, 35 (2021)",
+      "doi": "10.1007/s10291-021-01085-3",
+      "url": "https://doi.org/10.1007/s10291-021-01085-3",
+      "boundary": "continuous multi-frequency GNSS clock estimation; day boundaries, hardware, ionosphere, troposphere, multipath, temperature, and orbit errors are mandatory controls"
+    }
+  ],
+  "dimensions": {
+    "delta_log_frequency": "1",
+    "weak_potential_u_equals_Phi_over_c2": "1",
+    "persistent_state_psi": "1",
+    "affine_path_element_ds": "L",
+    "reference_length_Lstar": "L",
+    "reference_frequency_nustar": "T^-1",
+    "photon_frequency_nu": "T^-1",
+    "memory_time_tau": "T",
+    "tidal_sqrtK": "L^-2",
+    "curvature_length_ellK": "L",
+    "partial_t_psi_dt": "1"
+  },
+  "closures": [
+    {
+      "id": "C00_GR_ENDPOINT",
+      "class": "known_metric_endpoint_comparator",
+      "equation": "Delta ln(nu)=u_emit-u_observe after kinematic terms",
+      "dimension_check": "1=1-1",
+      "chromaticity": "achromatic",
+      "reciprocity": "reciprocal_endpoint_swap_changes_sign",
+      "energy_accounting": "stationary metric conserves Killing energy; local measured photon energy changes with observer frame",
+      "novelty_boundary": "known GR weak-field comparator"
+    },
+    {
+      "id": "C01_EXACT_GRADIENT_PATH",
+      "class": "retained_equivalent_rewrite",
+      "equation": "Delta ln(nu)=integral_path grad(u).dx=u_observe-u_emit up to sign convention",
+      "dimension_check": "1=integral(L^-1 L)",
+      "chromaticity": "achromatic",
+      "reciprocity": "reciprocal",
+      "energy_accounting": "same as endpoint comparator",
+      "novelty_boundary": "not a distinct accumulated mechanism on a simply connected static domain"
+    },
+    {
+      "id": "C02_POTENTIAL_COLUMN",
+      "class": "retained_failed_closure",
+      "equation": "Delta ln(nu)=-kappa_U integral_path u ds/Lstar",
+      "dimension_check": "1=1*integral(1 L)/L",
+      "chromaticity": "achromatic",
+      "reciprocity": "same_sign_on_path_reversal_without_an_orientation_field",
+      "energy_accounting": "photon energy loss requires an auxiliary sink; none is derived",
+      "novelty_boundary": "genuinely cumulative but fails additive-potential gauge invariance unless a physical zero/boundary field is supplied"
+    },
+    {
+      "id": "C03_TIDAL_CURVATURE_COLUMN",
+      "class": "open_unconventional_closure",
+      "equation": "Delta ln(nu)=-kappa_K ellK integral_path sqrt(K) ds",
+      "dimension_check": "1=1*L*integral(L^-2 L)",
+      "chromaticity": "achromatic",
+      "reciprocity": "same_sign_cumulative_round_trip",
+      "energy_accounting": "requires explicit exchange with curvature-coupled field or violates closed photon-plus-background bookkeeping",
+      "novelty_boundary": "gauge-safe cumulative seed; no covariant action or historical novelty claimed"
+    },
+    {
+      "id": "C04_DISPERSIVE_PERSISTENT_MEDIUM",
+      "class": "open_but_known_medium_adjacent",
+      "equation": "Delta ln(nu)=-kappa_P integral_path psi ds/Lstar*(nustar/nu)^2",
+      "dimension_check": "1=1*integral(1 L)/L*(T^-1/T^-1)^2",
+      "chromaticity": "nu^-2",
+      "reciprocity": "same_sign_cumulative_round_trip",
+      "energy_accounting": "lost photon energy and momentum are deposited in the medium state psi",
+      "novelty_boundary": "strongly adjacent to ordinary plasma propagation; survives only if it clears plasma, absorption, scattering, and line-dependent controls"
+    },
+    {
+      "id": "C05_ENDPOINT_MEMORY",
+      "class": "open_causal_endpoint_closure",
+      "equation": "tau Dpsi/Dt+psi=S; Delta ln(nu)=u_emit-u_observe+beta(psi_emit-psi_observe)",
+      "dimension_check": "1; 1=1+1*(1-1)",
+      "chromaticity": "achromatic",
+      "reciprocity": "reciprocal_for_same_state_snapshot",
+      "energy_accounting": "metric/clock sector must carry the state energy; a scalar action is still required",
+      "novelty_boundary": "causal hysteretic local-position-invariance seed, not an accumulated path law"
+    },
+    {
+      "id": "C06_PATH_MEMORY_OPACITY",
+      "class": "open_unconventional_closure",
+      "equation": "tau Dpsi/Dt+psi=S; Delta ln(nu)=-kappa_M integral_path psi ds/Lstar",
+      "dimension_check": "1; 1=1*integral(1 L)/L",
+      "chromaticity": "achromatic",
+      "reciprocity": "same_sign_cumulative_round_trip",
+      "energy_accounting": "psi is an absorptive/emissive reservoir and must gain exactly the photon four-momentum lost",
+      "novelty_boundary": "persistent achromatic opacity seed; requires photon-number and heating predictions"
+    },
+    {
+      "id": "C07_TIME_VARYING_METRIC_PATH",
+      "class": "known_integrated_metric_comparator",
+      "equation": "Delta ln(nu)=u_emit-u_observe+gamma integral_ray partial_t(psi) dt",
+      "dimension_check": "1=1+1*integral(T^-1 T)",
+      "chromaticity": "achromatic",
+      "reciprocity": "depends_on_metric_evolution_during_each_traversal",
+      "energy_accounting": "energy exchanges with the time-dependent metric; global conservation requires the full source-plus-metric solution",
+      "novelty_boundary": "integrated Sachs-Wolfe/Rees-Sciama-adjacent comparator"
+    },
+    {
+      "id": "C08_CAUSAL_METRIC_MEMORY_PATH",
+      "class": "lead_synthesis_candidate",
+      "equation": "tau Dpsi/Dt+psi=S; Delta ln(nu)=u_emit-u_observe+gamma integral_ray partial_t(psi) dt",
+      "dimension_check": "1; 1=1+1*integral(T^-1 T)",
+      "chromaticity": "achromatic",
+      "reciprocity": "metric_reciprocity_with_time_ordered_path_dependence",
+      "energy_accounting": "candidate must derive psi stress energy and photon geodesics from one action; bookkeeping is conditional until then",
+      "novelty_boundary": "specific persistent-state plus integrated-metric synthesis is a candidate only; neighbors and historical novelty remain to be audited"
+    }
+  ],
+  "synthetic_fixture_ids": [
+    "F01_ENDPOINT_SWAP",
+    "F02_EQUAL_ENDPOINT_TWO_PATHS",
+    "F03_POTENTIAL_ZERO_SHIFT",
+    "F04_SOURCE_SWITCH_OFF_HISTORY",
+    "F05_TWO_FREQUENCIES",
+    "F06_LENS_TWO_IMAGES",
+    "F07_ROUND_TRIP",
+    "F08_EXPANSION_TIME_DILATION"
+  ],
+  "mandatory_controls": [
+    "kinematic_and_transverse_Doppler",
+    "cosmological_expansion_and_redshift_drift",
+    "dust_extinction_and_scattering",
+    "plasma_dispersion_and_ionosphere_nu_minus_2",
+    "instrument_clock_drift_day_boundaries_temperature_and_magnetic_field",
+    "orbit_and_ephemeris_error",
+    "source_intrinsic_spectral_or_lightcurve_evolution",
+    "moving_lens_and_peculiar_velocity",
+    "lensing_Fermat_time_delay_and_microlensing",
+    "Etherington_distance_duality_and_photon_number",
+    "endpoint_potential_and_path_geometry_separated",
+    "whole_clock_or_whole_object_holdout"
+  ],
+  "real_data_preflight": {
+    "primary_dataset": {
+      "id": "ESA_GREAT_PUBLIC_WEEK_AND_UPC_CONTINUOUS_CLOCKS",
+      "landing_urls": [
+        "https://gssc.esa.int/news/galileo-general-relativity-tests-published/",
+        "https://gssc.esa.int/news/upc-clock-estimation-collection-is-now-available/",
+        "https://gssc.esa.int/webftp/"
+      ],
+      "public_evidence": "GSSC states that one week of GREAT clock/orbit data is publicly downloadable and that a one-year continuous clock collection is available",
+      "required_satellites": ["GSAT0201", "GSAT0202"],
+      "required_controls": ["at_least_two_near_circular_Galileo_satellites", "multiple_onboard_clocks_when_available"],
+      "required_products": ["clock_offsets", "precise_orbits", "clock_identity_and_segment_flags", "sampling_times", "product_metadata"]
+    },
+    "frozen_tau_seconds": [300.0, 1800.0, 7200.0, 21600.0, 86400.0, 604800.0],
+    "frozen_predictions": [
+      "C05/C08 produce a causal orbit-phase quadrature and hysteresis relative to instantaneous potential; C00 produces neither after registered systematics",
+      "an achromatic memory signal shares one amplitude and lag across clock/link frequencies after plasma correction",
+      "C04 scales as nu^-2 and must track ionospheric/plasma columns rather than survive the ionosphere-free combination",
+      "C06 predicts residual range/elevation dependence after endpoint potential is fixed",
+      "near-circular satellites are null-amplitude controls for orbital-potential memory but retain processing artifacts",
+      "clock-to-clock replication is required; a satellite-specific thermal or magnetic residual is not a gravity discovery"
+    ],
+    "frozen_fit": "For each tau, jointly fit registered instantaneous GR, sine/cosine orbital harmonics, causal filtered-potential quadrature, clock drift, temperature/magnetic proxies when available, orbit-error proxy, and day-boundary terms. Select no tau on evaluation clocks; use leave-one-clock and leave-one-satellite-out transfer.",
+    "primary_test_statistic": "cross-validated improvement and sign-consistent filtered-potential quadrature on both eccentric satellites relative to circular and phase-scrambled controls",
+    "source_status": "SOURCE_READY_LANDING_PAGES_EXACT_PAYLOAD_URLS_AND_HASHES_NOT_YET_RECEIPTED",
+    "response_status": "NOT_OPENED_NOT_SCORED"
+  },
+  "astrophysical_falsifier_preflight": {
+    "source_bindings": [
+      "SDSS_DR7_cluster_member spectra/catalog used by Wojtak et al. or a reproducible successor",
+      "public multiply imaged source spectra plus independent lens models and measured time delays",
+      "public supernova spectral-aging benchmark for expansion time dilation"
+    ],
+    "required_prediction": "At fixed endpoints and emission epoch controls, a genuine path term predicts image-to-image Delta ln(nu) tied to its frozen curvature/history column; an endpoint law predicts zero except redshift drift, moving-lens, peculiar-velocity, and source-variability terms.",
+    "source_status": "SOURCE_BLOCKED_UNTIL_EXACT_OBJECT_INTERSECTION_AND_PAYLOAD_HASHES_ARE_FROZEN",
+    "response_status": "NOT_OPENED_NOT_SCORED"
+  },
+  "decision_rules": {
+    "equivalence": "C01 must be retained as mathematically equivalent to C00, not counted as a new theory",
+    "gauge": "A potential-column law cannot advance without an observable physical reference for the additive zero",
+    "energy": "A same-sign cumulative loss law cannot advance as conservative without a field/medium energy-momentum sink",
+    "chromatic": "A nu^-2 signal is presumptively plasma/medium until it clears multi-frequency plasma controls",
+    "reciprocity": "Same-sign forward and reverse accumulation predicts a round-trip residual and photon-number/distance-duality consequences",
+    "metric_memory": "C08 advances only if one causal field equation generates psi, the metric response, photon propagation, and stress-energy accounting",
+    "publication": "A methods/theory note is eligible now only for the closure taxonomy and identifiability result; an empirical gravity claim requires the frozen real-data tests"
+  },
+  "access_contract": {
+    "raw_scientific_source_files_opened": 0,
+    "raw_scientific_response_files_opened": 0,
+    "scientific_response_rows_scored": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "formula_retuning_events": 0
+  },
+  "claim_boundary": {
+    "closure_taxonomy_complete": true,
+    "dimensions_checked": true,
+    "synthetic_identifiability_only": true,
+    "real_data_prediction_frozen": true,
+    "real_data_scored": false,
+    "historical_novelty_established": false,
+    "physical_mechanism_established": false,
+    "gravity_discovery_established": false,
+    "publication_ready_empirical_claim": false
+  },
+  "outputs": {
+    "receipt": "runs/gravity/open-gravity-persistent-timewell-redshift-closures-v1/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-persistent-timewell-redshift-closures-v1/artifacts"
+  }
+}

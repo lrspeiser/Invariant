@@ -1,0 +1,132 @@
+{
+  "schema": "invariant-open-gravity-temporal-transfer-identifiability-1.0",
+  "package_id": "open-gravity-temporal-transfer-identifiability-v1",
+  "status": "FROZEN_TARGET_FREE_TEMPORAL_SIGNATURES_FOR_ALL_80_DYNAMIC_CONCEPTS",
+  "purpose": "Derive the minimal source-history observables that distinguish retarded, fading-memory, resonant, and stochastic time-well architectures before any new scientific response access.",
+  "bindings": [
+    {
+      "role": "TWELL_CARD_STREAM",
+      "commit": "c7fe76fb34fb00c62286394c6a1903ae0722efd0",
+      "path": "runs/gravity/twell-400-v2-typed-compiler-final-v3/cards.jsonl",
+      "sha256": "4bd70177bf6f8aabbbf2d106f002575f9c1850cfffb45ca9103165da29b9b44f"
+    },
+    {
+      "role": "TWELL_RECEIPT",
+      "commit": "c7fe76fb34fb00c62286394c6a1903ae0722efd0",
+      "path": "runs/gravity/twell-400-v2-typed-compiler-final-v3/receipt.json",
+      "sha256": "02041cc8fc32eca375d8ea33676e90ccb317880b2666764060f33ea5867ffd34"
+    },
+    {
+      "role": "COMMON_3D_HISTORY_FIXTURES",
+      "commit": "02b1e549a9771afec5ed0e93fea282c6ffe24e53",
+      "path": "runs/gravity/open-gravity-common-3d-synthetic-universe-v1/receipt.json",
+      "sha256": "4965be01827b56b2efd5b721676dfe8724a4c8661a9cad3fa6e1733714afedfe"
+    },
+    {
+      "role": "GP01_FULL3D_DYNAMICS",
+      "commit": "5283ba0580268ab4e83423d2731a66ca97b58674",
+      "path": "runs/gravity/open-gravity-gp01-full3d-dynamics-v1/receipt.json",
+      "sha256": "d6ced8b0baa18697aec64f8734710e6293f794f0ad52af51038c9c8ac73f6b01"
+    },
+    {
+      "role": "PRIMARY_SOURCE_COMPARATOR_CONTRACT",
+      "commit": "c7fe76fb34fb00c62286394c6a1903ae0722efd0",
+      "path": "runs/gravity/open-gravity-primary-source-comparator-contract-v3/receipt.json",
+      "sha256": "732afe6c1409fbe2a3bd05ff050058419bbfd7e9d9ec795f183d70ecb5382b60"
+    }
+  ],
+  "architectures": [
+    {
+      "id": "A15_RETARDED",
+      "equation": "q(t)=u(t-delta)",
+      "transfer": "H_R(omega)=exp(-i*omega*delta)",
+      "parameters": {"delta": 0.5},
+      "unique_channel": "phase lag with unit amplitude and a strict dead time"
+    },
+    {
+      "id": "A16_MEMORY",
+      "equation": "tau*dq/dt+q=u",
+      "transfer": "H_M(omega)=1/(1+i*omega*tau)",
+      "parameters": {"tau": 0.5},
+      "unique_channel": "monotone step response plus linked attenuation and phase lag"
+    },
+    {
+      "id": "A17_RESONANCE",
+      "equation": "q_ddot+2*zeta*omega0*q_dot+omega0^2*q=omega0^2*u",
+      "transfer": "H_S(omega)=omega0^2/(omega0^2-omega^2+2*i*zeta*omega0*omega)",
+      "parameters": {"omega0": 2.0, "zeta": 0.25},
+      "unique_channel": "frequency-selective amplification and underdamped overshoot"
+    },
+    {
+      "id": "A18_STOCHASTIC",
+      "equation": "dq=(u-q)*dt/tau+sigma*dW",
+      "transfer": "E[H_OU(omega)]=1/(1+i*omega*tau); Var(q|constant u)=sigma^2*tau/2",
+      "parameters": {"tau": 0.5, "sigma": 0.05},
+      "unique_channel": "memory-like mean plus reproducible excess variance and Lorentzian power"
+    }
+  ],
+  "driver_ids": [
+    "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10",
+    "D11", "D12", "D13", "D14", "D15", "D16", "D17", "D18", "D19", "D20"
+  ],
+  "numerical_contract": {
+    "normalized_time_units": true,
+    "frequency_grid": [0.0, 0.25, 0.5, 1.0, 2.0, 4.0],
+    "step_dt": 0.002,
+    "step_duration": 8.0,
+    "step_time": 1.0,
+    "telegraph_L": 0.2,
+    "telegraph_tau": 0.4,
+    "telegraph_k_grid": [0.0, 0.5, 1.0, 2.0]
+  },
+  "history_fixtures": [
+    "STEP_ON",
+    "FINITE_PULSE",
+    "SINUSOIDAL_SWEEP",
+    "FLYBY_TIME_REVERSAL",
+    "TWO_TO_ONE_MERGER",
+    "SWITCH_OFF_PERSISTENCE"
+  ],
+  "required_checks": [
+    "EXACT_4_BY_20_CONCEPT_COVERAGE",
+    "STATIC_ZERO_FREQUENCY_DEGENERACY",
+    "RETARDED_UNIT_MAGNITUDE_AND_DEAD_TIME",
+    "MEMORY_ATTENUATION_PHASE_AND_MONOTONE_STEP",
+    "RESONANCE_PEAK_AND_OVERSHOOT",
+    "STOCHASTIC_MEAN_DEGENERACY_AND_POSITIVE_VARIANCE",
+    "PAIRWISE_DYNAMIC_FINGERPRINTS_DISTINCT_WITH_VARIANCE_CHANNEL",
+    "TELEGRAPH_SPACE_TIME_TRANSFER_AND_SPEED_BOUND",
+    "NO_ADVANCED_RESPONSE",
+    "ZERO_SCIENTIFIC_RESPONSE_ACCESS"
+  ],
+  "decision_rules": {
+    "static_snapshot": "cannot identify A15, A16, A17, or the mean of A18 because all deterministic DC gains equal one",
+    "minimum_history_observation": "at least two nonzero source frequencies or one resolved source transition plus a variance channel",
+    "stochastic_rule": "A18 cannot be distinguished from A16 by its conditional mean alone",
+    "causality_rule": "No output may precede a source transition; GP01 telegraph remains partial while its baryonic forcing is instantaneous",
+    "publication_rule": "A temporal claim requires a unique transfer signature and an independently constructed source history, not a correlation with a static morphology label"
+  },
+  "access_contract": {
+    "raw_scientific_source_files": 0,
+    "raw_scientific_response_files": 0,
+    "raw_scientific_rows": 0,
+    "new_scores": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "establishes": [
+      "exact target-free transfer fingerprints for all 80 TWELL dynamic driver-architecture concepts",
+      "the impossibility of identifying the four temporal architectures from a static zero-frequency snapshot",
+      "the minimal phase, attenuation, overshoot, or variance channels required to distinguish them"
+    ],
+    "does_not_establish": [
+      "that any temporal architecture fits a galaxy or cluster",
+      "a covariant causal source completion",
+      "historical novelty of linear response formulas",
+      "physical time dilation, matter capture, or accumulated photon redshift"
+    ]
+  },
+  "output_path": "runs/gravity/open-gravity-temporal-transfer-identifiability-v1/receipt.json"
+}

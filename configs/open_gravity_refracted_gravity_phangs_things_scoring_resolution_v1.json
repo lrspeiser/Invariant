@@ -1,0 +1,161 @@
+{
+  "schema": "invariant-open-gravity-refracted-gravity-phangs-things-scoring-resolution-1.0",
+  "package_id": "open-gravity-refracted-gravity-phangs-things-scoring-resolution-v1",
+  "status": "SOURCE_ONLY_SCORING_RESOLUTION_GATE",
+  "purpose": "Rebuild the fixed primary PHANGS/THINGS/S4G baryonic sources on a 0.25 kpc three-dimensional field grid, solve Newton and the fixed published DiskMass Refracted Gravity control, and derive a response-blind radius eligibility mask from an independent 0.3125 kpc convergence solve before any velocity scoring.",
+  "admission_rule": {
+    "real_input_required": true,
+    "primary_paper_or_exact_analytic_benchmark_required": true,
+    "known_limit_required": true,
+    "resolution_convergence_required_before_response": true,
+    "response_may_select_grid_boundary_parameter_or_radius": false,
+    "missing_source_disposition": "SOURCE_BLOCKED",
+    "failed_benchmark_disposition": "BENCHMARK_FAILED_RETAINED_NOT_SCORED",
+    "failed_radius_disposition": "NUMERICALLY_UNRESOLVED_RADIUS_RETAINED_NOT_SCORED",
+    "novel_formula_policy": "A novel law need not already appear in a paper, but every input, numerical operator, established limit, and nearest published control must be independently falsifiable before response scoring."
+  },
+  "predecessor_bindings": [
+    {
+      "role": "REAL_SOURCE_BUILDER",
+      "commit": null,
+      "promotion_authority": false,
+      "receipt_content_sha256": "422df42eb1134620ee5941d5259ac9bc8fc156f3ee59f30cbdd19f98f8d0e004",
+      "artifacts": [
+        {"path": "configs/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.json", "sha256": "9360749f561fbe783d7a21d1b179ab947fa2f29214bb4425495dddd3f7465ede"},
+        {"path": "src/sigma_theory_compiler/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py", "sha256": "32c92d615c302426738ea8374657448f14861eee9ea117fcf2059fa9f41bda1c"},
+        {"path": "tests/test_open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py", "sha256": "a90f1c45575320c85a751e41ebe26381ca2caa25953a4bf4d156de3f1b15afbb"},
+        {"path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-source-builder-v1/receipt.json", "sha256": "18c7d20b1ff7413edbd1b0b9277c53e6cbe4d9d05b4bcf55a8c70bc054f8ea82"}
+      ]
+    },
+    {
+      "role": "FULL3D_SOLVER_BRIDGE",
+      "commit": null,
+      "promotion_authority": false,
+      "receipt_content_sha256": "8b085363f9db329614df8c1f280fd3c991db6c938fbdfde66b6a2b12040489bf",
+      "artifacts": [
+        {"path": "configs/open_gravity_phangs_things_full3d_solver_bridge_v1.json", "sha256": "ec4260bb669e6b750c6bde511254c33643208ac10075755810e34cfdbe2d0e15"},
+        {"path": "src/sigma_theory_compiler/open_gravity_phangs_things_full3d_solver_bridge_v1.py", "sha256": "6cdf82ce99c3d76963cc487500fbfd2c441f44aaa3e09d243089d892a28e5dc4"},
+        {"path": "tests/test_open_gravity_phangs_things_full3d_solver_bridge_v1.py", "sha256": "4280edd312bdb8413f217418818ec039c79a20b2a8bc781ce2dd63231181938a"},
+        {"path": "runs/gravity/open-gravity-phangs-things-full3d-solver-bridge-v1/receipt.json", "sha256": "ab3ea515c0b6edba0b7023fc223b077917a5ecef45fd9fa48a74218e23b52c55"}
+      ]
+    },
+    {
+      "role": "REFRACTED_GRAVITY_PRIMARY_BENCHMARK",
+      "commit": null,
+      "promotion_authority": false,
+      "receipt_content_sha256": "85412b981dad719315a27f5a64d3af075bcc67fb8d19dfc07e6f94ed02e0567e",
+      "artifacts": [
+        {"path": "configs/open_gravity_refracted_gravity_3d_primary_benchmark_v1.json", "sha256": "9f5f127b8078ef95ff47ce073cb0e2c9254ca1fd9c8113880ac8e42ea52a8308"},
+        {"path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_3d_primary_benchmark_v1.py", "sha256": "aa0b1ff7499b5fef8355d237d1e3632b845f8f1397cda2690750b1ef142fee88"},
+        {"path": "tests/test_open_gravity_refracted_gravity_3d_primary_benchmark_v1.py", "sha256": "fe49a5a4de7bd5fc341dfdd4aab2283498dfc746ca066e6cb8b0caa16b932971"},
+        {"path": "runs/gravity/open-gravity-refracted-gravity-3d-primary-benchmark-v1/receipt.json", "sha256": "ffc2579e6a0e742b33a46d9b5e208389e67e3d57d06bb01ca41fa52c04730730"}
+      ]
+    },
+    {
+      "role": "REFRACTED_GRAVITY_225_BY_9_SOURCE_SCREEN",
+      "commit": null,
+      "promotion_authority": false,
+      "receipt_content_sha256": "0ca6deb5c7364966f4f2084e0f76557fd2ac9956585931bbc12efb615cb357be",
+      "artifacts": [
+        {"path": "configs/open_gravity_refracted_gravity_phangs_things_full3d_source_screen_v1.json", "sha256": "f40f511a29d633f57ff7ce1217d1b8dba23b9daf3f4626584969bf1b442ee307"},
+        {"path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_phangs_things_full3d_source_screen_v1.py", "sha256": "19d221c2f683bcfda72bc9a01475ff01590b58f3a651a6eae2020d54823cc13d"},
+        {"path": "tests/test_open_gravity_refracted_gravity_phangs_things_full3d_source_screen_v1.py", "sha256": "c9e79b05ee8fad0a11acc1ad407a2810c098716b24c1b75a9a4b5c82ea33d8c4"},
+        {"path": "runs/gravity/open-gravity-refracted-gravity-phangs-things-full3d-source-screen-v1/receipt.json", "sha256": "15941961c22131f16abb8cab8082929d15ed9c71719d4b9cf3693ddf8d78749c"}
+      ]
+    }
+  ],
+  "real_source_and_paper_anchors": [
+    {"id": "S4G_STELLAR_MAPS", "url": "https://arxiv.org/abs/1410.0009", "role": "public stellar-source maps and source calibration"},
+    {"id": "THINGS_HI", "url": "https://arxiv.org/abs/0810.2125", "role": "public atomic-gas source maps"},
+    {"id": "PHANGS_ALMA_CO21", "url": "https://arxiv.org/abs/2104.07739", "role": "public molecular-gas source maps"},
+    {"id": "REFRACTED_GRAVITY_ORIGINAL", "url": "https://arxiv.org/abs/1603.04943", "role": "published div(epsilon grad Phi)=4 pi G rho field equation"},
+    {"id": "REFRACTED_GRAVITY_DISKMASS", "url": "https://arxiv.org/html/2003.07377v2", "role": "published epsilon(rho), parameter convention, universal median, priors, and numerical implementation context"},
+    {"id": "FREEMAN_DISK", "url": "https://articles.adsabs.harvard.edu/pdf/1970ApJ...160..811F", "role": "analytic Newtonian exponential-disk limit"},
+    {"id": "CASERTANO_THICK_DISK", "url": "https://doi.org/10.1093/mnras/203.3.735", "role": "published finite-thickness disk ordering"}
+  ],
+  "objects": ["NGC2903", "NGC3351", "NGC3627"],
+  "source_cell": {
+    "id": "ROBUST_PRIMARY:FIXED_0P6:WITH_CO:HS0.136986301369863:HG200",
+    "beam": "ROBUST_PRIMARY",
+    "stellar_mass_to_light": "FIXED_0P6",
+    "co_source": "WITH_CO",
+    "stellar_height_over_exponential_scale": 0.136986301369863,
+    "gas_height_pc": 200.0,
+    "selection_from_response": false
+  },
+  "grid_contract": {
+    "coordinate_system": "uniform right-handed disk Cartesian cube",
+    "solver_half_box_kpc": 30.0,
+    "fine_nodes_per_axis": 241,
+    "fine_spacing_kpc": 0.25,
+    "convergence_nodes_per_axis": 193,
+    "convergence_spacing_kpc": 0.3125,
+    "source_map_pixels": 256,
+    "source_map_box_kpc": 40.0,
+    "boundary_source_free": true,
+    "radial_min_kpc": 0.5,
+    "radial_max_kpc": 15.0,
+    "radial_step_kpc": 0.05,
+    "radial_points": 291,
+    "azimuth_samples": 96,
+    "minimum_fine_cells_per_scored_radius": 2.0
+  },
+  "operator_contract": {
+    "operators": ["NEWTON_3D_DST", "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG"],
+    "newton_solver": "second-order seven-point Dirichlet finite difference solved by an orthonormal DST-I diagonalization",
+    "refracted_gravity_solver": "second-order face-centred finite-volume div(epsilon grad Phi) operator solved by conjugate gradients preconditioned with the exact constant-coefficient DST-I inverse",
+    "epsilon_face_rule": "arithmetic mean of adjacent cell-centred epsilon values, matching the inherited audited operator",
+    "pcg_relative_tolerance": 1e-10,
+    "pcg_absolute_tolerance": 0.0,
+    "pcg_max_iterations": 100,
+    "published_parameter_id": "DISKMASS_UNIVERSAL_MEDIAN",
+    "epsilon_0": 0.661,
+    "Q": 1.79,
+    "log10_rho_c_g_cm3": -24.54,
+    "response_parameter_fitting": false,
+    "prior_corners_role": "retained source-screen sensitivities only; not reranked or selected from responses",
+    "newton_boundary": "finite-box spherical monopole from the deposited baryonic mass",
+    "refracted_gravity_boundary": "published source-free vacuum flux limit Phi_RG=Phi_Newton/epsilon_0"
+  },
+  "benchmark_contract": {
+    "inherited_primary_benchmark_pass_required": true,
+    "dst_discrete_manufactured_solution_max_error": 1e-10,
+    "pcg_vs_direct_small_grid_max_error": 1e-8,
+    "pcg_discrete_manufactured_solution_max_error": 1e-8,
+    "pcg_relative_residual_max": 1e-8,
+    "constant_epsilon_scaling_max_error": 1e-8,
+    "rotation_relative_error_max": 1e-8,
+    "source_mass_relative_error_max": 2e-9,
+    "fine_vs_convergence_radial_relative_difference_max": 0.05,
+    "radius_gate_is_response_blind": true,
+    "failure_policy": "Retain every failed benchmark, object, operator, and radial point. A failed point is excluded by its numerical gate, never repaired or selected using velocity values."
+  },
+  "output_contract": {
+    "receipt": "runs/gravity/open-gravity-refracted-gravity-phangs-things-scoring-resolution-v1/receipt.json",
+    "retained_fields": ["source and paper bindings", "benchmark results", "solver iterations and residuals", "density and potential hashes", "fine and convergence radial profiles", "per-radius response-blind eligibility", "all failures"]
+  },
+  "scientific_boundary": {
+    "source_files_opened_per_build": 21,
+    "source_bytes_opened_per_build": 74030400,
+    "response_files_opened": 0,
+    "response_rows_opened": 0,
+    "response_values_opened": 0,
+    "scores_computed": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0
+  },
+  "claim_boundary": {
+    "paper_and_real_source_anchored": true,
+    "scoring_resolution_numerics_tested": true,
+    "response_blind_radius_mask_established": true,
+    "observational_fit_tested": false,
+    "refracted_gravity_preferred": false,
+    "all_225_cells_high_resolution": false,
+    "lensing_closure_established": false,
+    "relativistic_completion_established": false,
+    "novelty_established": false,
+    "publication_ready": false
+  }
+}

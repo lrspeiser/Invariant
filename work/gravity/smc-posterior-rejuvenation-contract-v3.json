@@ -1,0 +1,50 @@
+{
+  "status": "frozen_before_candidate_posterior_rejuvenation_v3_run",
+  "purpose": "distinguish finite-particle median noise from structural weak identifiability without changing the candidate physics, priors, data, or completion thresholds",
+  "predecessor_failure": "work/gravity/smc-prototype-v2-failure.json",
+  "prototype_source": "work/gravity/smc_posterior_rejuvenation_prototype.py",
+  "prototype_source_normalized_sha256": "39dfc365b0ffc22363c129d00b3c103f11873af4a9ed2a9bfb4347a5f104c06f",
+  "source_smc_result": "work/gravity/smc-candidate-v2.npz",
+  "source_smc_sha256": "d39d786b6936be72dcacc185d0393e84e3e05bff965601c2a7493e8a9f074396",
+  "family": "cross_scale_boundary",
+  "likelihood_split": "development_train",
+  "predictive_split": "development_holdout_only_after_all_sampler_diagnostics",
+  "same_release_confirmation_rows_allowed": false,
+  "independent_target_rows_allowed": false,
+  "settings": {
+    "replicates": 4,
+    "particle_chains_per_replicate": 512,
+    "initial_state": "all_final_particles_from_frozen_candidate_smc_v2",
+    "resampling": "none",
+    "temperature": 1.0,
+    "proposal": "adaptive_then_frozen_multivariate_reflected_random_walk",
+    "proposal_covariance": "separate_final_smc_particle_covariance_per_replicate",
+    "initial_proposal_scale": "frozen_candidate_smc_v2_final_scale_per_replicate",
+    "proposal_scale_bounds": [0.02, 8.0],
+    "burn_sweeps": 64,
+    "retained_sweeps": 128,
+    "thinning_sweeps": 2,
+    "retained_snapshots_per_particle_chain": 64,
+    "posterior_draws": 131072,
+    "candidate_evaluations": 393216
+  },
+  "unchanged_parameter_completion_thresholds": {
+    "maximum_rhat": 1.2,
+    "minimum_effective_samples": 50,
+    "maximum_standardized_between_replicate_median_spread": 0.25,
+    "all_17_parameters_must_pass": true
+  },
+  "rejuvenation_specific_diagnostics": {
+    "minimum_mean_retained_acceptance_per_replicate": 0.02,
+    "maximum_mean_retained_acceptance_per_replicate": 0.6,
+    "maximum_standardized_source_to_rejuvenated_median_shift": 0.25
+  },
+  "adjudication": {
+    "candidate_pass_alone_completes_CP5_7_through_CP5_10": false,
+    "newtonian_control_required_after_candidate_pass": true,
+    "holdout_may_select_sampler_or_settings": false,
+    "threshold_relaxation_after_result": false,
+    "failed_run_retained": true,
+    "if_candidate_fails": "retain failure and move to prior identifiability or scientifically justified reparameterization; do not add brute-force sweeps"
+  }
+}

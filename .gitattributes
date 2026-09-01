@@ -1,5 +1,43 @@
 *.bin filter=lfs diff=lfs merge=lfs -text
 *.tar filter=lfs diff=lfs merge=lfs -text
+*.npz filter=lfs diff=lfs merge=lfs -text
+*.npy filter=lfs diff=lfs merge=lfs -text
+*.h5 filter=lfs diff=lfs merge=lfs -text
+*.hdf5 filter=lfs diff=lfs merge=lfs -text
+*.fits filter=lfs diff=lfs merge=lfs -text
+*.fits.gz filter=lfs diff=lfs merge=lfs -text
+*.bsp filter=lfs diff=lfs merge=lfs -text
+*.sqlite filter=lfs diff=lfs merge=lfs -text
+*.db filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text
+*.arrow filter=lfs diff=lfs merge=lfs -text
+*.pkl filter=lfs diff=lfs merge=lfs -text
+*.pickle filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.gz filter=lfs diff=lfs merge=lfs -text
+*.whl filter=lfs diff=lfs merge=lfs -text
+*.xlsx filter=lfs diff=lfs merge=lfs -text
+runs/gravity/open-gravity-twell-400-source-shaped-rebind-replay-v1/replay-ledger.jsonl filter=lfs diff=lfs merge=lfs -text
+runs/gravity/open-gravity-void-vast2-source-parser-contract-v1/artifacts/vast2-row-dispositions.jsonl filter=lfs diff=lfs merge=lfs -text
+runs/gravity/open-gravity-void-vast2-source-parser-contract-v2/artifacts/vast2-row-dispositions.jsonl filter=lfs diff=lfs merge=lfs -text
+
+# Preserve byte-exact external/audit text under work/ without treating source
+# archive formatting (including trailing spaces) as a repository whitespace bug.
+work/**/*.md whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.txt whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.log whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.tex whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.sty whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.cls whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.bib whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.bst whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.eps whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.tsv whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/*.dat whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+work/**/README_tables whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+src/sigma_theory_compiler/open_gravity_dynamic_source_memory_gw150914_response_v3.py whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+tests/test_open_gravity_lens_ray_clock_source_shaped_synthetic_injection_matrix_v1.py whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+tests/test_open_gravity_solar_planetary_source_shaped_synthetic_injection_matrix_v1.py whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
 .gitattributes text eol=lf
 .gitignore text eol=lf
 .github/workflows/sigma-theory-compiler.yml text eol=lf

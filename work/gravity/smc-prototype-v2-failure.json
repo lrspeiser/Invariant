@@ -1,0 +1,58 @@
+{
+  "status": "candidate_smc_v2_failed_frozen_between_replicate_gate",
+  "promotion": false,
+  "cp5_7_through_cp5_10_completed": false,
+  "newtonian_control_run": false,
+  "reason_newtonian_control_not_run": "candidate did not pass every frozen parameter-completion threshold",
+  "family": "cross_scale_boundary",
+  "likelihood_split": "development_train",
+  "holdout_rows_evaluated": 0,
+  "independent_target_rows_evaluated": 0,
+  "external_model_calls": 0,
+  "frozen_inputs": {
+    "contract": "work/gravity/smc-prototype-contract-v2.json",
+    "contract_sha256": "d4e62c22d5bd129627d7febd8db62544bec1fa2ea084447aaf04e0856072f786",
+    "prototype_source": "work/gravity/smc_sampler_prototype.py",
+    "prototype_source_sha256": "d3563b174f0bdb155fcbc7fb896dde13ae76b1b43ecf7e0d12838d89730443c3",
+    "result": "work/gravity/smc-candidate-v2.npz",
+    "result_sha256": "d39d786b6936be72dcacc185d0393e84e3e05bff965601c2a7493e8a9f074396",
+    "result_bytes": 284902
+  },
+  "aggregate": {
+    "replicates": 4,
+    "particles_per_replicate": 512,
+    "posterior_particles": 2048,
+    "total_evaluations": 329728,
+    "maximum_rhat": 1.0293495861785926,
+    "minimum_effective_samples": 1725.0383857189327,
+    "maximum_standardized_between_replicate_median_spread": 0.6482962119741006,
+    "log_evidence_range": [-124.39615906700271, -122.23100652496473]
+  },
+  "frozen_thresholds": {
+    "maximum_rhat": 1.2,
+    "minimum_effective_samples": 50,
+    "maximum_standardized_between_replicate_median_spread": 0.25,
+    "all_17_parameters_must_pass": true
+  },
+  "failed_parameters": [
+    {"parameter": "nonthermal_radial_power", "standardized_between_replicate_median_spread": 0.25792128482028986},
+    {"parameter": "outer_pressure_boundary_sigma", "standardized_between_replicate_median_spread": 0.2884420898219896},
+    {"parameter": "missing_member_fraction", "standardized_between_replicate_median_spread": 0.5918647449642261},
+    {"parameter": "intracluster_light_fraction", "standardized_between_replicate_median_spread": 0.3666358464262201},
+    {"parameter": "imf_mass_scale", "standardized_between_replicate_median_spread": 0.29707145046349126},
+    {"parameter": "clumping_amplitude", "standardized_between_replicate_median_spread": 0.3286357736073416},
+    {"parameter": "centering_radius_shift", "standardized_between_replicate_median_spread": 0.6482962119741006},
+    {"parameter": "triaxial_radius_scale", "standardized_between_replicate_median_spread": 0.30937531361286613},
+    {"parameter": "spherical_acceleration_scale", "standardized_between_replicate_median_spread": 0.5434877012948508}
+  ],
+  "mechanical_diagnostics": {
+    "rhat_gate_passed": true,
+    "effective_sample_gate_passed": true,
+    "unique_particle_gate_passed": true,
+    "unique_ancestor_gate_passed": true,
+    "final_acceptance_gate_passed": true,
+    "log_evidence_range_gate_passed": true,
+    "between_replicate_gate_passed": false
+  },
+  "interpretation": "The tempered SMC mechanics worked, but nine weakly constrained nuisance coordinates retained excessive cross-replicate median variation. This result cannot distinguish finite-particle median noise from structural weak identifiability. A separately frozen full-posterior rejuvenation diagnostic may test that distinction without changing physics, priors, data, or completion thresholds."
+}

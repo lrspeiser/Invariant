@@ -1,0 +1,105 @@
+{
+  "schema": "invariant-open-gravity-differential-propagation-gw170817-source-preflight-1.0",
+  "package_id": "open-gravity-differential-propagation-gw170817-source-preflight-v1",
+  "status": "PASS_EXACT_OFFICIAL_SOURCE_METADATA_PAYLOAD_UNOPENED_SHA256_AND_LIKELIHOOD_PENDING",
+  "purpose": "Freeze the exact official GW170817 C00 strain products required by the differential-propagation lane without opening strain values or pretending that a scoring likelihood is ready.",
+  "predecessor": {
+    "config_path": "configs/open_gravity_differential_propagation_kernel_v1.json",
+    "config_sha256": "9a23fc7a011086334a20e81b2f1cbc25097847bced8105ca3ee40fb5af54e0db",
+    "module_path": "src/sigma_theory_compiler/open_gravity_differential_propagation_kernel_v1.py",
+    "module_sha256": "3332da85f703bdbe6a24f7b38c0b66b28d32deb9dcfcfb23a38d09cfc655f0a0",
+    "test_path": "tests/test_open_gravity_differential_propagation_kernel_v1.py",
+    "test_sha256": "c391810c7af86bce496926bbcc672a07ff86c1b770f397835020883168bf2696",
+    "receipt_path": "runs/gravity/theory/open-gravity-differential-propagation-kernel-v1.json",
+    "receipt_sha256": "2092c69452199e32af5a475c6221b293149264195908bd29fbc00b14afc1a013"
+  },
+  "official_metadata": {
+    "event_uid": "GW170817-v1",
+    "release": "O1_O2-Preliminary",
+    "event_gps": 1187008882.4,
+    "event_page": "https://gwosc.org/eventapi/html/O1_O2-Preliminary/GW170817/v1/",
+    "dcc_record": "https://dcc.ligo.org/P1700337/public",
+    "published_checksum_file": "https://dcc.ligo.org/public/0146/P1700337/001/md5.txt",
+    "doi": "10.7935/K5B8566F",
+    "calibration": "C00 online calibration",
+    "noise_subtraction": false,
+    "license": "CC BY 4.0"
+  },
+  "products": [
+    {
+      "detector": "H1",
+      "filename": "H-H1_LOSC_C00_4_V1-1187006834-4096.hdf5",
+      "url": "https://gwosc.org/eventapi/html/O1_O2-Preliminary/GW170817/v1/H-H1_LOSC_C00_4_V1-1187006834-4096.hdf5",
+      "gps_start": 1187006834,
+      "duration_seconds": 4096,
+      "sample_rate_hz": 4096,
+      "content_length_bytes": 125217658,
+      "published_md5": "1a1cca3fb28686d5798539468a99dbae",
+      "sha256": null,
+      "payload_opened": false
+    },
+    {
+      "detector": "L1",
+      "filename": "L-L1_LOSC_C00_4_V1-1187006834-4096.hdf5",
+      "url": "https://gwosc.org/eventapi/html/O1_O2-Preliminary/GW170817/v1/L-L1_LOSC_C00_4_V1-1187006834-4096.hdf5",
+      "gps_start": 1187006834,
+      "duration_seconds": 4096,
+      "sample_rate_hz": 4096,
+      "content_length_bytes": 124266501,
+      "published_md5": "dbbde824db6df6a9f653db374fc5c88c",
+      "sha256": null,
+      "payload_opened": false
+    },
+    {
+      "detector": "V1",
+      "filename": "V-V1_LOSC_C00_4_V1-1187006834-4096.hdf5",
+      "url": "https://gwosc.org/eventapi/html/O1_O2-Preliminary/GW170817/v1/V-V1_LOSC_C00_4_V1-1187006834-4096.hdf5",
+      "gps_start": 1187006834,
+      "duration_seconds": 4096,
+      "sample_rate_hz": 4096,
+      "content_length_bytes": 129470892,
+      "published_md5": "8ea80f93257a292d82f0af497e2a4cff",
+      "sha256": null,
+      "payload_opened": false
+    }
+  ],
+  "selection": {
+    "detectors": ["H1", "L1", "V1"],
+    "format": "HDF5",
+    "duration_seconds": 4096,
+    "sample_rate_hz": 4096,
+    "reason": "The predecessor explicitly preregistered the three pre-noise-subtraction 4096-second 4096-Hz HDF5 products; no cleaned-product substitution is allowed."
+  },
+  "execution_gate": {
+    "payload_download_allowed_after_this_receipt": false,
+    "blockers": [
+      "freeze exact local payload paths and compute SHA-256 after an explicit acquisition intent",
+      "freeze HDF5 strain channel, GPS/sample-count/header checks and data-quality masks",
+      "freeze waveform/source model and calibration uncertainty",
+      "freeze PSD estimation, frequency band, tapering, glitch handling and detector timing",
+      "freeze propagation grid, nuisance priors, likelihood, GR recovery and injection thresholds",
+      "freeze development/validation use and prohibit post-response grid changes"
+    ],
+    "scoring_authority": false,
+    "real_data_eligible": false
+  },
+  "access": {
+    "builder_network_calls": 0,
+    "builder_payload_files_opened": 0,
+    "builder_payload_rows_opened": 0,
+    "builder_scores_computed": 0,
+    "preparation_web_tool_calls_disclosed": 4,
+    "preparation_direct_http_metadata_requests_disclosed": 6,
+    "preparation_scientific_payload_bytes_opened": 0,
+    "preparation_response_values_opened": 0
+  },
+  "claim_boundary": {
+    "exact_official_product_metadata_frozen": true,
+    "payload_sha256_frozen": false,
+    "payload_structure_validated": false,
+    "likelihood_frozen": false,
+    "observational_fit_tested": false,
+    "publication_ready": false
+  },
+  "output": "runs/gravity/open-gravity-differential-propagation-gw170817-source-preflight-v1/receipt.json"
+}

@@ -1,0 +1,137 @@
+{
+  "schema": "invariant-open-gravity-rg-things-five-object-2d-expansion-1.0",
+  "package_id": "open-gravity-rg-things-five-object-2d-expansion-v1",
+  "status": "FROZEN_POST_FAILED_NUMERICAL_GATE_REPAIR_NEW_RESPONSES_EXPOSED",
+  "purpose": "Test whether the NGC2976 two-dimensional Refracted-Gravity lead generalizes to the complete five-object source-ready THINGS/S4G/HERACLES development set using identical fixed source, solver, projection, RAR, and scoring rules.",
+  "selection_contract": {
+    "full_source_ready_set": ["NGC2903", "NGC2976", "NGC3198", "NGC3521", "NGC4214"],
+    "sealed_pair_results_already_open": ["NGC2976", "NGC4214"],
+    "new_response_blind_objects_at_original_freeze": ["NGC2903", "NGC3198", "NGC3521"],
+    "selection_source": "exact five-object real source builder inventory created before any of these THINGS velocity pixels were decoded",
+    "selection_used_new_response_pixels": false,
+    "one_failure_never_prunes_family": true
+  },
+  "failed_run_and_numerical_repair": {
+    "failed_run_occurred": true,
+    "failed_run_response_pixels_were_decoded": true,
+    "failed_run_receipt_was_not_written": true,
+    "failed_fine_rg_relative_residual": 5.8304817824339535e-8,
+    "required_maximum_relative_residual": 1e-8,
+    "loss_values_were_not_inspected_or_used_to_choose_repair": true,
+    "repair_scope": "numerical convergence only",
+    "repair_pcg_relative_tolerance": 1e-10,
+    "repair_pcg_max_iterations": 400,
+    "physical_parameters_changed": false,
+    "source_geometry_or_mask_changed": false,
+    "decision_rule_changed": false,
+    "final_new_object_results_are_not_strictly_response_blind": true
+  },
+  "bindings": [
+    {
+      "role": "FIVE_OBJECT_REAL_SOURCE_BUILDER",
+      "receipt_content_sha256": "a90a3c0f8535c48edf185b866bfc9752505d0fa865993e7b51f7bd7faaed6e5d",
+      "artifacts": [
+        {"path": "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json", "sha256": "2cefafadf5eb5992ce75e3dae88dede88c7596d3272139585c716ba083432e0b"},
+        {"path": "src/sigma_theory_compiler/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.py", "sha256": "50c78d97bce55ef66a1e592037a1d026a0c53683ef981895a5133591f3938a3b"},
+        {"path": "tests/test_open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.py", "sha256": "b7b3fd6aed1675ea4dbb2b87feea17a78616770343f940c5b30e15e32a17b445"},
+        {"path": "runs/gravity/open-gravity-rg-things-heracles-s4g-model-lifted-3d-source-builder-v1/receipt.json", "sha256": "9fed8bc77ecb6452a954f473ee108e4ee03a540542ab40d8ec4e0ab049c02117"}
+      ]
+    },
+    {
+      "role": "SEALED_MATCHED_PAIR_COMPARATOR_DIAGNOSTICS",
+      "receipt_content_sha256": "01825cf9ed5f8cd4d14de28f4d2aa06e724e616e95111f8da55b5f7ff9d30d0f",
+      "artifacts": [
+        {"path": "configs/open_gravity_rg_things_matched_pair_2d_comparator_diagnostics_v1.json", "sha256": "6fb9a5af369e7dcf45c3adacf00831e02a8d7f05bedca0da7fb5beb4f1052e27"},
+        {"path": "src/sigma_theory_compiler/open_gravity_rg_things_matched_pair_2d_comparator_diagnostics_v1.py", "sha256": "4e6ada8dc160bbf835a1f7843a42e095663e32bf1060d68d3444da483246cfed"},
+        {"path": "tests/test_open_gravity_rg_things_matched_pair_2d_comparator_diagnostics_v1.py", "sha256": "ab161b0ddfb662e69385ada58ae4b435ed64612a9384dbaa1f1e839b8fcfba76"},
+        {"path": "runs/gravity/open-gravity-rg-things-matched-pair-2d-comparator-diagnostics-v1/receipt.json", "sha256": "d1f30c17276e3c89ebae15600776d4581412b566b2b6f432247d847c7de20c56"}
+      ]
+    }
+  ],
+  "source_admission": {
+    "real_public_source_and_response_data_required": true,
+    "primary_measurement_and_method_papers_required": true,
+    "target_free_operator_projection_and_rar_benchmarks_required": true,
+    "newtonian_and_rar_controls_required": true,
+    "missing_source_disposition": "SOURCE_BLOCKED",
+    "paper_only_disposition": "THEORY_BENCHMARK_ONLY",
+    "model_lifted_vertical_structure_disposition": "MODEL_LIFTED_2P5D",
+    "general_3d_validation_allowed": false
+  },
+  "primary_sources": [
+    {"id": "THINGS_SURVEY_DATA_RELEASE", "url": "https://arxiv.org/abs/0810.2125", "role": "public H I response maps and beams"},
+    {"id": "THINGS_HIGH_RESOLUTION_KINEMATICS", "url": "https://arxiv.org/abs/0810.2100", "role": "velocity-field construction, object geometry, and limitations"},
+    {"id": "S4G_P5_STELLAR", "url": "https://arxiv.org/abs/1410.0009", "role": "old-stellar source maps"},
+    {"id": "HERACLES_CO21", "url": "https://arxiv.org/abs/0905.4742", "role": "molecular-gas source maps"},
+    {"id": "REFRACTED_GRAVITY_ORIGINAL", "url": "https://arxiv.org/abs/1603.04943", "role": "published field equation"},
+    {"id": "REFRACTED_GRAVITY_DISKMASS", "url": "https://arxiv.org/html/2003.07377v2", "role": "fixed universal-median RG parameters"},
+    {"id": "RAR_MCGaugh_LELLI_SCHOMBERT_2016", "url": "https://arxiv.org/abs/1609.05917", "role": "fixed empirical RAR comparator"},
+    {"id": "FREEMAN_DISK", "url": "https://articles.adsabs.harvard.edu/pdf/1970ApJ...160..811F", "role": "analytic Newtonian disk benchmark"}
+  ],
+  "new_response_files": [
+    {"object_id": "NGC2903", "role": "HI_MOM1_NATURAL_VELOCITY_FIELD", "url": "https://things.www3.mpia.de/Data_files/NGC_2903_NA_MOM1_THINGS.FITS", "relative_path": "work/private/open-gravity-rg-things-five-object-2d-kinematics-v1/NGC2903__THINGS__HI_MOM1_NATURAL.fits", "bytes": 4253760, "sha256": "91e3edf22da6ec3160aad9006ea183a850dcc106e4519ae3ab9e83c3619029e3", "beam_major_deg": 0.0042417, "beam_minor_deg": 0.0036996, "beam_position_angle_deg": -51.34},
+    {"object_id": "NGC2903", "role": "HI_MOM2_NATURAL_VELOCITY_DISPERSION", "url": "https://things.www3.mpia.de/Data_files/NGC_2903_NA_MOM2_THINGS.FITS", "relative_path": "work/private/open-gravity-rg-things-five-object-2d-kinematics-v1/NGC2903__THINGS__HI_MOM2_NATURAL.fits", "bytes": 4253760, "sha256": "295f8bdfdb807add0ea0d4f627e9fafa93761b459da925c1f31560091eaa3ce4", "beam_major_deg": 0.0042417, "beam_minor_deg": 0.0036996, "beam_position_angle_deg": -51.34},
+    {"object_id": "NGC3198", "role": "HI_MOM1_NATURAL_VELOCITY_FIELD", "url": "https://things.www3.mpia.de/Data_files/NGC_3198_NA_MOM1_THINGS.FITS", "relative_path": "work/private/open-gravity-rg-things-five-object-2d-kinematics-v1/NGC3198__THINGS__HI_MOM1_NATURAL.fits", "bytes": 4279680, "sha256": "a1b048bb7710731dcbe1f0ed4ed2cf6e0430c5f5d070bf267a0ac2d0460256e1", "beam_major_deg": 0.0031753, "beam_minor_deg": 0.0026007, "beam_position_angle_deg": -80.43},
+    {"object_id": "NGC3198", "role": "HI_MOM2_NATURAL_VELOCITY_DISPERSION", "url": "https://things.www3.mpia.de/Data_files/NGC_3198_NA_MOM2_THINGS.FITS", "relative_path": "work/private/open-gravity-rg-things-five-object-2d-kinematics-v1/NGC3198__THINGS__HI_MOM2_NATURAL.fits", "bytes": 4279680, "sha256": "2d1569c45e2fa6b565eed1f88b5bd7580a72b9ecd90b6feb41ed8088f76947f8", "beam_major_deg": 0.0031753, "beam_minor_deg": 0.0026007, "beam_position_angle_deg": -80.43},
+    {"object_id": "NGC3521", "role": "HI_MOM1_NATURAL_VELOCITY_FIELD", "url": "https://things.www3.mpia.de/Data_files/NGC_3521_NA_MOM1_THINGS.FITS", "relative_path": "work/private/open-gravity-rg-things-five-object-2d-kinematics-v1/NGC3521__THINGS__HI_MOM1_NATURAL.fits", "bytes": 4294080, "sha256": "c61b37981844c63fef7bd1135fc8df86be67e10e5abad799bfdd4f62721fc99d", "beam_major_deg": 0.0039274, "beam_minor_deg": 0.0030983, "beam_position_angle_deg": -61.66},
+    {"object_id": "NGC3521", "role": "HI_MOM2_NATURAL_VELOCITY_DISPERSION", "url": "https://things.www3.mpia.de/Data_files/NGC_3521_NA_MOM2_THINGS.FITS", "relative_path": "work/private/open-gravity-rg-things-five-object-2d-kinematics-v1/NGC3521__THINGS__HI_MOM2_NATURAL.fits", "bytes": 4294080, "sha256": "3147dbe7b1ff0f28e7484f5da0151fe94cdd5a792896801c96a766794a6d80b6", "beam_major_deg": 0.0039274, "beam_minor_deg": 0.0030983, "beam_position_angle_deg": -61.66}
+  ],
+  "incidental_archive_access": {
+    "object_id": "NGC5055",
+    "reason": "mistaken filename selection caught before campaign admission",
+    "files_downloaded": 2,
+    "bytes_downloaded": 8490240,
+    "headers_opened": 2,
+    "scientific_pixels_decoded": 0,
+    "used_in_campaign": false
+  },
+  "fixed_model_contract": {
+    "source_cell": "ROBUST_PRIMARY:FIXED_0P6:WITH_CO:HS0.136986301369863:HG200:CENTRAL_Q0_0P13",
+    "models": ["NEWTON_3D_DST", "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG", "EMPIRICAL_RAR_MCGaugh_2016_FIXED"],
+    "fine_grid": "60 kpc cube, 241^3 nodes, 0.25 kpc spacing",
+    "convergence_grid": "60 kpc cube, 193^3 nodes, 0.3125 kpc spacing",
+    "rg_parameters": {"epsilon_0": 0.661, "Q": 1.79, "log10_rho_c_g_cm3": -24.54},
+    "rar_g_dagger_m_s2": 1.2e-10,
+    "pcg_relative_tolerance": 1e-10,
+    "pcg_max_iterations": 400,
+    "response_parameter_fits": 0,
+    "source_geometry_reselections": 0
+  },
+  "score_contract": {
+    "same_as_sealed_pair": true,
+    "rotation_sign": "one model-independent MOM1-major-axis covariance sign per object",
+    "systemic_velocity": "one analytic unweighted offset per object/model",
+    "common_mask": "finite response, fixed source eligibility, and all-model fine/coarse convergence",
+    "primary_metric": "unweighted per-pixel velocity RMSE",
+    "minimum_dispersion_scale_m_s": 3000.0,
+    "p_values_computed": false
+  },
+  "expansion_decision_rule": {
+    "object_level_signal": "RG RMSE at least 5 percent below both Newton and fixed RAR",
+    "minimum_objects_for_broader_signal": 3,
+    "minimum_new_blind_objects_for_broader_signal": 2,
+    "decision_is_not_confirmation_or_publication": true
+  },
+  "access_accounting": {
+    "head_calls": 8,
+    "get_calls": 8,
+    "network_bytes": 34145280,
+    "campaign_response_files": 6,
+    "campaign_response_bytes": 25655040,
+    "campaign_response_array_slots_decoded": 6291456,
+    "incidental_files": 2,
+    "incidental_bytes": 8490240,
+    "incidental_pixels_decoded": 0,
+    "network_model_paid_tuning_calls_after_download": 0
+  },
+  "claim_boundary": {
+    "five_object_real_response_scored": true,
+    "broader_development_signal": false,
+    "preregistered_confirmation": false,
+    "general_3d_validated": false,
+    "unique_theory_established": false,
+    "publication_candidate": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-things-five-object-2d-expansion-v1/receipt.json"
+}

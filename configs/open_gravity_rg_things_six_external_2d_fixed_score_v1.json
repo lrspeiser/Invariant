@@ -1,0 +1,79 @@
+{
+  "schema": "invariant-open-gravity-rg-things-six-external-2d-fixed-score-1.0",
+  "package_id": "open-gravity-rg-things-six-external-2d-fixed-score-v1",
+  "status": "FROZEN_PREREGISTERED_SIX_EXTERNAL_THINGS_2D_FIXED_SCORE",
+  "purpose": "Decode the 24 exact sealed THINGS response maps only after all 120 external predictions are sealed, then score every preregistered source-resolution cell identically and retain every result and counterexample.",
+  "prediction_binding": {
+    "artifacts": [
+      {"path": "configs/open_gravity_rg_things_six_external_2d_response_blind_predictions_v1.json", "sha256": "b9996e29a691183151c486ff7219a66f8521e935b0bb875de842b31781ab4890"},
+      {"path": "src/sigma_theory_compiler/open_gravity_rg_things_six_external_2d_response_blind_predictions_v1.py", "sha256": "1566b9e3f7137a37b78d5cb5084eee7b3709e87475a3da2fbca103c729414578"},
+      {"path": "tests/test_open_gravity_rg_things_six_external_2d_response_blind_predictions_v1.py", "sha256": "b5458a07c723255b4d3ed8bc934592a123724aa6c3af2aaef0b558392fe40ae8"},
+      {"path": "runs/gravity/open-gravity-rg-things-six-external-2d-response-blind-predictions-v1/receipt.json", "sha256": "47ceb71f0461bb21a0dd69bb0a64f67809fc2e138e99550f75abe30255a5d711"},
+      {"path": "work/private/open-gravity-rg-things-six-external-2d-response-blind-predictions-v1/manifest.json", "sha256": "677fa271d7fd6ad056441506933d7b3b846a5e04e861be2629112da0c8cc467e"}
+    ],
+    "receipt_content_sha256": "442740bdd2429c27c047430c88b06b628267c0be0da183981c24b016517491af",
+    "manifest_content_sha256": "2064a530f9bfe8e14709ce6c1cb669e72edc330309dc7f4e149347adbbca2710",
+    "objects": 6,
+    "source_cells": 15,
+    "retained_source_failures": 3,
+    "array_file_count": 195,
+    "candidate_resolution_predictions": 120,
+    "all_solver_gates_pass": true,
+    "response_pixels_used_to_build_predictions": 0
+  },
+  "preflight_binding": {
+    "artifacts": [
+      {"path": "configs/open_gravity_rg_things_six_external_2d_replication_preflight_v1.json", "sha256": "5c2ddee868ea417148e424068103f92ddc1f4e019df93d759baf5e42546f6e7f"},
+      {"path": "src/sigma_theory_compiler/open_gravity_rg_things_six_external_2d_replication_preflight_v1.py", "sha256": "f2536f07db1c6e9833d5a66d0840845b68d137e7b4dff3a80b6462171fc7833a"},
+      {"path": "tests/test_open_gravity_rg_things_six_external_2d_replication_preflight_v1.py", "sha256": "f4c8ff4d2294671b6b4dedf7ad9a239c38a2df61867aa63e011de19f8e14d0af"},
+      {"path": "runs/gravity/open-gravity-rg-things-six-external-2d-replication-preflight-v1/receipt.json", "sha256": "b57e6a86177a08d8b52b04ebe11ae59133cdac792258af863e131a1b732f45d8"}
+    ],
+    "receipt_content_sha256": "13bb2c15494060118c6621a4770071ffc42b87688cfe0ce8a20144062deb64ae"
+  },
+  "primary_sources": [
+    {"id": "THINGS_WALTER_2008", "url": "https://arxiv.org/abs/0810.2125", "role": "official H I measurement and public moment-map release"},
+    {"id": "THINGS_DE_BLOK_2008", "url": "https://arxiv.org/abs/0810.2100", "role": "published centers, inclinations, position angles, velocity-field construction, and kinematic limitations"},
+    {"id": "SINGS_KENNICUTT_2003", "url": "https://arxiv.org/abs/astro-ph/0305437", "role": "public IRAC stellar-source measurement survey"},
+    {"id": "HERACLES_LEROY_2009", "url": "https://arxiv.org/abs/0905.4742", "role": "public CO molecular-gas source survey"}
+  ],
+  "response_contract": {
+    "object_order": ["NGC2841", "IC2574", "DDO154", "NGC5055", "NGC6946", "NGC7331"],
+    "inclination_strata": {"NGC2841": "HIGH", "IC2574": "INTERMEDIATE", "DDO154": "HIGH", "NGC5055": "INTERMEDIATE", "NGC6946": "LOW", "NGC7331": "HIGH"},
+    "resolutions": ["NATURAL", "ROBUST"],
+    "observables": ["MOM1", "MOM2"],
+    "files": 24,
+    "bytes": 102101760,
+    "decoded_array_slots": 25165824,
+    "unit": "m/s",
+    "minimum_dispersion_scale_m_s": 3000.0,
+    "dispersion_metric_is_not_measurement_likelihood": true
+  },
+  "score_contract": {
+    "candidate_ids": ["NEWTON_3D_DST", "RAR_2016_ON_NEWTON_3D", "MOND_STANDARD_MU_ON_NEWTON_3D", "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG"],
+    "primary_candidate_id": "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG",
+    "source_cells": 15,
+    "source_resolution_cells": 30,
+    "model_scores": 120,
+    "nuisance_reference_cell_by_object": {"NGC2841": "NGC2841__IRAC1_FIXED_ML0P6__I73P7", "IC2574": "IC2574__IRAC1_FIXED_ML0P6__I53P4", "DDO154": "DDO154__IRAC1_FIXED_ML0P6__I66P0", "NGC5055": "NGC5055__IRAC1_FIXED_ML0P6__I59P0", "NGC6946": "NGC6946__IRAC1_FIXED_ML0P6__I32P6", "NGC7331": "NGC7331__IRAC1_FIXED_ML0P6__I75P8"},
+    "primary_cell_by_object": {"NGC2841": "NGC2841__IRAC1_FIXED_ML0P6__I73P7__NATURAL", "IC2574": "IC2574__IRAC1_FIXED_ML0P6__I53P4__NATURAL", "DDO154": "DDO154__IRAC1_FIXED_ML0P6__I66P0__NATURAL", "NGC5055": "NGC5055__IRAC1_FIXED_ML0P6__I59P0__NATURAL", "NGC6946": "NGC6946__IRAC1_FIXED_ML0P6__I32P6__NATURAL", "NGC7331": "NGC7331__IRAC1_FIXED_ML0P6__I75P8__NATURAL"},
+    "common_mask": "finite MOM1 and positive finite MOM2 intersected with the fixed four-model numerical and source eligibility for that source-resolution cell",
+    "rotation_sign": "one observed major-axis covariance sign per object and resolution computed on that object's fixed-ML nuisance-reference-cell common mask and shared by all candidates and source conversions for that object-resolution",
+    "shared_systemic_velocity": "one observed MOM1 mean per object and resolution computed on that object's nuisance-reference-cell common mask and shared by all candidates and source conversions for that object-resolution",
+    "primary_metric": "unweighted common-pixel velocity RMSE using the object-resolution shared sign and systemic velocity",
+    "secondary_metrics": ["unweighted MAE", "median absolute residual", "MOM2-scaled mean squared residual", "model-specific best-offset RMSE diagnostic", "opposite-sign fixed-systemic control"],
+    "strong_external_replication_rule": "RG has strictly smaller primary-cell RMSE than Newton, RAR, and standard MOND in at least four of six objects, has the smallest equal-object mean primary RMSE, and wins at least one primary object in every LOW, INTERMEDIATE, and HIGH inclination stratum",
+    "mixed_signal_rule": "RG wins at least two primary objects or has smaller equal-object mean primary RMSE than Newton",
+    "minimum_rg_primary_object_wins_for_strong_signal": 4,
+    "require_equal_object_aggregate_win_for_strong_signal": true,
+    "require_all_inclination_strata_for_strong_signal": true,
+    "all_30_cells_reported": true,
+    "per_model_sign_selection": false,
+    "source_or_geometry_reselection": false,
+    "response_parameter_tuning": false,
+    "p_values_computed": false,
+    "retain_every_failure_and_counterexample": true
+  },
+  "scientific_boundary": {"response_files_opened": 24, "response_array_slots_decoded": 25165824, "source_resolution_cells_scored": 30, "models_scored": 4, "model_scores": 120, "network_calls": 0, "model_calls": 0, "paid_calls": 0, "tuning_calls": 0, "general_3d_validated": false, "model_lifted_2p5d_only": true},
+  "claim_boundary": {"real_response_scored": false, "fixed_predictions_scored": false, "external_object_replication_test": true, "dispersion_metric_is_likelihood": false, "gas_dynamics_solved": false, "inclination_crossover_generalized": false, "general_3d_validated": false, "refracted_gravity_confirmed": false, "unique_theory_established": false, "publication_ready": false},
+  "output_path": "runs/gravity/open-gravity-rg-things-six-external-2d-fixed-score-v1/receipt.json"
+}

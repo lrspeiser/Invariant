@@ -1,0 +1,226 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-split-gate-range-source-novelty-benchmark-1.0",
+  "artifact_id": "gravity-matter-lensing-split-gate-range-source-novelty-benchmark-v1",
+  "status": "PRIMARY_SOURCE_AND_INDEPENDENT_ASYMPTOTIC_BENCHMARK_PASS_HISTORICAL_NOVELTY_OPEN",
+  "purpose": "Independently rederive the frozen split-gate range/source tradeoff, compare it with the closest primary screening literature, and decide whether the exact exponent and product laws merit expert novelty review without claiming a successful gravity theory.",
+  "package": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_range_source_novelty_benchmark.py",
+    "test_path": "tests/test_gravity_matter_lensing_split_gate_range_source_novelty_benchmark.py",
+    "output_path": "runs/gravity/theory/matter-lensing-split-gate-range-source-novelty-benchmark-v1.json"
+  },
+  "predecessor": {
+    "commit": "ab54cf4a1eadec793df8cba61ee0fb70002bfb0e",
+    "config_path": "configs/gravity_matter_lensing_split_gate_range_source_tradeoff_v1.json",
+    "config_sha256": "66cdf70b39a6402cf1da38ee0df1f88d1b95a58f2649d881813603554facb09f",
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_range_source_tradeoff.py",
+    "module_sha256": "a0c096b29981fdf45a20c07813fad2ebe8091a7fd71e37a1d61c5a214072b55d",
+    "test_path": "tests/test_gravity_matter_lensing_split_gate_range_source_tradeoff.py",
+    "test_sha256": "655a061dcf1fe575ed22ff3d501e573f4d72d89c606bb3a7e06fc00111e9fb99",
+    "receipt_path": "runs/gravity/theory/matter-lensing-split-gate-range-source-tradeoff-v1.json",
+    "receipt_sha256": "3fd5ed99765a508024b7728ae6abf2f88223323362e7ed7d47a475b9a64b3c9c",
+    "receipt_content_sha256": "50ec6d65d3dc09b993c19e57638ace6b6585054ba1e80d8300b93833d4402b2d"
+  },
+  "admission_policy": {
+    "path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+    "raw_sha256": "b3518291131b0ece9f05c966e55b40c40e549d5c27e87a2a128b70ad76a864fe",
+    "source_class": "PRIMARY_PAPERS_PLUS_EXACT_ANALYTIC_AND_NUMERIC_BENCHMARKS",
+    "observational_data_required_for_this_theory_only_step": false,
+    "future_observational_promotion_requires_real_source_and_response_data": true,
+    "missing_primary_anchor_action": "SOURCE_BLOCKED",
+    "failed_derivation_action": "BENCHMARK_FAILED_RETAINED_COUNTEREXAMPLE"
+  },
+  "theorem_slice": {
+    "action": "L=P(X)-V+Y0*X_chi-(m_chi^2/2)*Z(X)*chi^2 with constant Y0>0",
+    "asymptotic_gate": "Z(X)~z*X^s with z>0 and s>1/2",
+    "frozen_health_inputs": "A_infinity>0 and B_infinity>0 are the finite positive asymptotic margins inherited from the fixed-background C and K conditions.",
+    "amplitude_ceiling": "chi_max~min[sqrt(2*A_infinity/(m_chi^2*s*z)),sqrt(2*B_infinity/(m_chi^2*s*(2*s-1)*z))]*X^[-(s-1)/2]",
+    "bare_range": "ell=sqrt(Y0)/(m_chi*sqrt(Z))~sqrt(Y0)/(m_chi*sqrt(z))*X^(-s/2)",
+    "source_ceiling": "Q_max=m_chi^2*Z*chi_max~X^[(s+1)/2]",
+    "architecture_class_product": "Q_max*ell~sqrt(Y0)*min[sqrt(2*A_infinity/s),sqrt(2*B_infinity/(s*(2*s-1)))]*sqrt(X); m_chi, z, and the gate-power exponent cancel from the leading X exponent within this restricted architecture.",
+    "critical_source_exponent": "For |Q_chi|~X^r, r_c=(s+1)/2.",
+    "no_free_range": "Strict asymptotic tolerance of a source X^r requires s>2*r-1, which forces ell to shrink faster than X^[-(r-1/2)].",
+    "scope": "Frozen-background, constant-coefficient, bare/frozen-phi range and sufficient source-bound theorem only; not a full coupled pole, nonlinear body solution, radiative-stability result, or observational prediction."
+  },
+  "independent_benchmarks": [
+    {
+      "id": "B01_MONOMIAL_DERIVATIVES",
+      "expected": "For Z=z*X^s, Z_X=s*z*X^(s-1) and Z_X+2X*Z_XX=s*(2s-1)*z*X^(s-1)."
+    },
+    {
+      "id": "B02_AMPLITUDE_EXPONENT",
+      "expected": "Both healthy amplitude branches scale as X^[-(s-1)/2]."
+    },
+    {
+      "id": "B03_RANGE_EXPONENT",
+      "expected": "The bare/frozen-phi range scales as X^(-s/2)."
+    },
+    {
+      "id": "B04_SOURCE_CAPACITY",
+      "expected": "Both source-capacity branches scale as X^[(s+1)/2]."
+    },
+    {
+      "id": "B05_PRODUCT_CANCELLATION",
+      "expected": "Q_max*ell has X exponent 1/2 and cancels m_chi and z at leading order within the restricted architecture."
+    },
+    {
+      "id": "B06_CRITICAL_SOURCE_EXPONENT",
+      "expected": "Q/Q_max decreases, stays coefficient-dependent, or increases for r below, at, or above (s+1)/2."
+    },
+    {
+      "id": "B07_NO_FREE_RANGE",
+      "expected": "s>2r-1 implies the range exponent s/2 is greater than r-1/2."
+    },
+    {
+      "id": "B08_SHIFTED_POWER_RECOVERY",
+      "expected": "Z=(1+beta*X^2)^p has s=2p, ell~X^-p, chi_max~X^(1/2-p), Q_max~X^(p+1/2); p=2 recovers the committed X^-2, X^-3/2, X^5/2 laws."
+    },
+    {
+      "id": "B09_FIXED_DISTANCE_SCREENING",
+      "expected": "For s>0 and fixed r>0, (1+r/ell)exp(-r/ell) tends to zero as X tends to infinity."
+    },
+    {
+      "id": "B10_NUMERIC_SLOPE_AND_THRESHOLD_PROBES",
+      "expected": "Independent finite-difference slopes converge for s=1,2,4,8 and retain subcritical, critical, and supercritical source cases."
+    }
+  ],
+  "primary_literature": [
+    {
+      "arxiv": "astro-ph/0309300",
+      "title": "Chameleon Fields: Awaiting Surprises for Tests of Gravity in Space",
+      "mechanism": "matter-density-dependent scalar mass and thin-shell screening",
+      "relation": "Establishes environmental mass/range screening, but the control variable is matter density rather than another field's kinetic invariant X.",
+      "exact_theorem_found": false
+    },
+    {
+      "arxiv": "1001.4525",
+      "title": "Symmetron Fields: Screening Long-Range Forces Through Local Symmetry Restoration",
+      "mechanism": "density-dependent symmetry restoration and coupling suppression",
+      "relation": "Changes the matter coupling through symmetry restoration rather than deriving the split kinetic-gated mass range/source product.",
+      "exact_theorem_found": false
+    },
+    {
+      "arxiv": "0905.2943",
+      "title": "k-Mouflage gravity",
+      "mechanism": "nonlinear kinetic self-screening",
+      "relation": "Screens through nonlinear self-kinetics rather than constant chi kinetics plus a mass Z(X)chi^2.",
+      "exact_theorem_found": false
+    },
+    {
+      "arxiv": "1306.6401",
+      "title": "Screening the fifth force in the Horndeski's most general scalar-tensor theories",
+      "mechanism": "Vainshtein screening in general second-order scalar-tensor theory",
+      "relation": "Provides general nonlinear source and spherical screening context, not the derivative-invariant mediator-mass exponent/product theorem.",
+      "exact_theorem_found": false
+    },
+    {
+      "arxiv": "1611.08279",
+      "title": "Goldstone models of modified gravity",
+      "mechanism": "kinetically dependent conformal coupling and ultralocal screening",
+      "relation": "Closest kinetic-environment coupling class in the reviewed set, but not an exact Z(X)chi^2 range/source rewrite.",
+      "exact_theorem_found": false
+    },
+    {
+      "arxiv": "2305.07725",
+      "title": "Two-body problem in theories with kinetic screening",
+      "mechanism": "nonlinear two-body k-mouflage screening and descreened regions",
+      "relation": "Shows source geometry matters and prevents promotion of the frozen theorem to a nonlinear body solution.",
+      "exact_theorem_found": false
+    },
+    {
+      "arxiv": "2603.13986v2",
+      "title": "Multi-Field Dilaton Screening Beyond the Thin-Shell Mechanism",
+      "mechanism": "multi-field screening with a field-dependent kinetic prefactor",
+      "relation": "Current multi-field screening neighbor uses a field-dependent metric rather than a derivative-invariant mediator mass.",
+      "exact_theorem_found": false
+    },
+    {
+      "arxiv": "2604.20292",
+      "title": "Technically Natural Suppression of Fifth Force",
+      "mechanism": "symmetry-driven fifth-force strength and mass correlation",
+      "relation": "Shows a published mass-strength correlation, but it is parameter/symmetry driven rather than the environmental X-dependent range/source-capacity theorem.",
+      "exact_theorem_found": false
+    }
+  ],
+  "search_protocol": {
+    "observed_at_utc": "2026-08-31T00:00:00Z",
+    "sources": ["arXiv primary abstract pages", "targeted exact-phrase searches"],
+    "queries": [
+      "scalar mediator kinetic dependent mass screening",
+      "derivative dependent scalar mass environmental screening",
+      "source ceiling mediator range kinetic gate",
+      "range source tradeoff scalar fifth force",
+      "Z(X) chi^2 scalar",
+      "kinetic invariant mass term scalar"
+    ],
+    "result": "No exact derivative-invariant split mass-gate range/source exponent theorem or Q_max*ell proportional to sqrt(X) law was identified in this bounded search.",
+    "limitation": "A targeted search is evidence for plausibility, not proof of historical priority. Citation chaining and domain-expert review remain mandatory."
+  },
+  "parameter_probes": {
+    "s_values": [1.0, 2.0, 4.0, 8.0],
+    "source_exponent_offsets": [-0.25, 0.0, 0.25],
+    "X_values": [100.0, 10000.0, 1000000.0],
+    "constants": {
+      "A_infinity": 1.0,
+      "B_infinity": 1.0,
+      "Y0": 1.0,
+      "m_chi": 1.0,
+      "z": 1.0
+    }
+  },
+  "adjudication": {
+    "paper_anchor_passed": true,
+    "independent_derivation_required": true,
+    "exact_duplicate_found_in_reviewed_set": false,
+    "historical_novelty_established": false,
+    "candidate_originality_status": "PLAUSIBLY_ORIGINAL_ARCHITECTURE_CLASS_COROLLARY_REQUIRES_EXPERT_PRIORITY_REVIEW",
+    "publication_value": "WORTH_INDEPENDENT_EXPERT_REVIEW_AND_POSSIBLE_NARROW_THEORY_NOTE",
+    "physical_theory_status": "NOT_ESTABLISHED",
+    "next_required_work": [
+      "independent human proof review",
+      "exhaustive citation-chain and priority search",
+      "radiative-stability and effective-field-theory analysis",
+      "full coupled variable-coefficient pole and nonlinear source solution",
+      "paper-anchored real-data prediction before observational promotion"
+    ]
+  },
+  "claim_boundary": {
+    "primary_paper_anchored": true,
+    "independent_exact_benchmarks": true,
+    "candidate_corollary_not_found_in_reviewed_set": true,
+    "historical_novelty_established": false,
+    "independent_expert_review_passed": false,
+    "architecture_class_universality_only": true,
+    "universal_physics_claim": false,
+    "full_coupled_range_derived": false,
+    "full_action_health": false,
+    "physical_source_X_scaling_derived": false,
+    "observational_support": false,
+    "modified_gravity_success": false,
+    "publication_ready": false
+  },
+  "access_ledger": {
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "scores_computed": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "required_checks": [
+    "N01_CONFIG_AND_POLICY_SEALS",
+    "N02_COMMITTED_PREDECESSOR_BYTES",
+    "N03_MONOMIAL_DERIVATIVES",
+    "N04_AMPLITUDE_EXPONENT",
+    "N05_RANGE_EXPONENT",
+    "N06_SOURCE_CAPACITY",
+    "N07_PRODUCT_CANCELLATION",
+    "N08_CRITICAL_EXPONENT",
+    "N09_NO_FREE_RANGE",
+    "N10_SHIFTED_POWER_RECOVERY",
+    "N11_FIXED_DISTANCE_SCREENING",
+    "N12_NUMERIC_SLOPES",
+    "N13_THRESHOLD_CONTROLS",
+    "N14_PRIMARY_SOURCE_INVENTORY",
+    "N15_NOVELTY_AND_CLAIM_CEILING",
+    "N16_ZERO_OBSERVATIONAL_ACCESS"
+  ]
+}

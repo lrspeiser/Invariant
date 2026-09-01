@@ -1,0 +1,196 @@
+{
+  "schema": "open-gravity-gw-timeseries-source-anchored-synthetic-injection-matrix-3.0",
+  "package_id": "open-gravity-gw-timeseries-source-anchored-synthetic-injection-matrix-v3",
+  "version": "v3.0.0",
+  "status": "FROZEN_SYNTHETIC_ONLY_SEMANTICS_REPAIR_PRE_AUDIT",
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "experiment_id": "gw.timeseries-source-anchored-synthetic.v3",
+  "suite_seed": 26083117,
+  "events": [
+    {
+      "id": "GW150914",
+      "event_code": 0,
+      "active_detectors": ["H1", "L1"],
+      "antenna_weight": [0.72, 0.69, 0.0],
+      "detector_delay_seconds": [0.0, 0.0069, 0.0],
+      "distance_mpc": [410.0, 820.0],
+      "source_variants": [
+        {"id": "nominal", "chirp_mass_solar": 28.1, "time_stretch": 1.0},
+        {"id": "shifted", "chirp_mass_solar": 30.0, "time_stretch": 0.94}
+      ],
+      "source_mode": "frozen-public-nr-waveform"
+    },
+    {
+      "id": "GW170817",
+      "event_code": 1,
+      "active_detectors": ["H1", "L1", "V1"],
+      "antenna_weight": [0.587, 0.805, 0.083],
+      "detector_delay_seconds": [0.0, 0.0024, 0.0218],
+      "distance_mpc": [40.0, 80.0],
+      "source_variants": [
+        {"id": "nominal", "chirp_mass_solar": 1.1977, "time_stretch": 1.0},
+        {"id": "shifted", "chirp_mass_solar": 1.205, "time_stretch": 0.97}
+      ],
+      "source_mode": "lane2-parameter-anchored-analytic-chirp-surrogate"
+    }
+  ],
+  "detectors": ["H1", "L1", "V1"],
+  "sample_grid": {
+    "samples": 256,
+    "sample_rate_hz": 1024,
+    "positive_frequency_bins": 128,
+    "lane5_time_scale_seconds": 0.01,
+    "lane2_reference_frequency_hz": 100.0
+  },
+  "truth_mechanisms": [
+    "CONTROL_FREE_DELAY",
+    "CONTROL_OU_NOISE",
+    "CONTROL_SINGLE_LTI",
+    "CONTROL_SOURCE_RINGDOWN",
+    "CONTROL_TWO_POLE_LTI",
+    "GR_NETWORK_CONTROL",
+    "LANE2_ATTENUATION",
+    "LANE2_DYNAMIC_PHASE",
+    "LANE2_NONLINEAR_PHASE",
+    "LANE2_RESERVOIR",
+    "LANE2_SCREENED_PHASE",
+    "LANE5_BIEXPONENTIAL_MEMORY",
+    "LANE5_DELAY_MEMORY",
+    "LANE5_EXPONENTIAL_MEMORY",
+    "LANE5_HYSTERETIC_MEMORY",
+    "LANE5_RESONANCE_MEMORY",
+    "LANE5_STOCHASTIC_OU_MEMORY"
+  ],
+  "noise_families": [
+    "offsource-early-noise",
+    "offsource-late-noise",
+    "offsource-mean-noise",
+    "published-psd-calibration-envelope",
+    "zero-noise"
+  ],
+  "lane2_injection_parameters": {
+    "LANE2_ATTENUATION": {"alpha_milli": 200},
+    "LANE2_DYNAMIC_PHASE": {"beta_milliradian": 750},
+    "LANE2_NONLINEAR_PHASE": {"gamma_milliradian": 150},
+    "LANE2_RESERVOIR": {"r_milli": 300, "resonance_frequency_hz": 100},
+    "LANE2_SCREENED_PHASE": {"screen_beta_milliradian": 1000, "screen_frequency_hz": 100}
+  },
+  "source_ringdown_control": {
+    "onset_lane5_units": 6.0,
+    "amplitude": 0.65,
+    "decay_time_lane5_units": 1.2,
+    "omega_lane5_units": 7.0
+  },
+  "noise": {
+    "family_sigma_scale": {
+      "offsource-early-noise": 1.15,
+      "offsource-late-noise": 1.3,
+      "offsource-mean-noise": 1.0,
+      "published-psd-calibration-envelope": 0.9,
+      "zero-noise": 0.0
+    },
+    "base_fraction_of_reference_signal": 0.025,
+    "frequency_shape_corner_hz": 70.0,
+    "inactive_detector_variance": 1000000000000.0,
+    "calibration_amplitude": [0.02, -0.015, 0.03],
+    "calibration_phase_radians": [0.01, -0.008, 0.015]
+  },
+  "scoring": {
+    "primary_metric": "generic-runner-v2-canonical-frequency-whitened-rmse",
+    "scored_outputs": [
+      "prediction.matrix.conditional-variance",
+      "prediction.matrix.frequency-imag",
+      "prediction.matrix.frequency-real"
+    ],
+    "derived_unscored_outputs": ["prediction.matrix.time-strain"],
+    "distinct_gap": 0.05,
+    "exact_alias_degeneracies": [
+      ["CONTROL_FREE_DELAY", "LANE5_DELAY_MEMORY"],
+      ["CONTROL_OU_NOISE", "LANE5_STOCHASTIC_OU_MEMORY"],
+      ["CONTROL_SINGLE_LTI", "LANE5_EXPONENTIAL_MEMORY"],
+      ["CONTROL_TWO_POLE_LTI", "LANE5_BIEXPONENTIAL_MEMORY"]
+    ],
+    "no_hand_ranking": true
+  },
+  "representation_contract": {
+    "canonical_domain": "positive-frequency-rfft-bins-excluding-dc",
+    "dc_rule": "DC_IS_EXACT_REAL_ZERO_AND_NOT_STORED",
+    "nyquist_rule": "NYQUIST_IMAGINARY_IS_EXACT_ZERO",
+    "time_domain_rule": "DERIVE_ONLY_BY_NUMPY_IRFFT_FROM_CANONICAL_FREQUENCY",
+    "stored_frequency_rule": "RECOMPUTE_BY_NUMPY_RFFT_FROM_DERIVED_REAL_TIME",
+    "noise_rule": "DRAW_ONCE_IN_CANONICAL_FREQUENCY_AND_TRANSFORM_TO_TIME",
+    "metric_rule": "SCORE_CANONICAL_FREQUENCY_PLUS_NONDUPLICATE_CONDITIONAL_VARIANCE_ONLY",
+    "numpy_version": "2.2.6",
+    "consistency_absolute_tolerance": 1e-12
+  },
+  "geometry_mode": "three-detector-source-shaped-network",
+  "time_mode": "canonical-positive-frequency-with-derived-real-time",
+  "coordinate_frame": "geocentric-detector-network",
+  "parameter_schema_path": "configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json",
+  "output_directory": "runs/gravity/open-gravity-gw-timeseries-source-anchored-synthetic-injection-matrix-v3",
+  "source_anchors": [
+    {"id":"LANE2_CALIBRATION_README","path":"work/private/open-gravity-lane2-calibration-source-v1/README.txt","sha256":"98d16f237050ab16df65219689b49254519d3413ab06329466ac4cbccf8ce61d","bytes":2292},
+    {"id":"LANE2_COHERENT_V4_CONFIG","path":"configs/open_gravity_differential_propagation_gw170817_coherent_v4.json","sha256":"2347dc837410b52a3f35d710c9b78d296ae6d4485c214646157a95e149ad49d2","bytes":17683},
+    {"id":"LANE2_COHERENT_V4_MODULE","path":"src/sigma_theory_compiler/open_gravity_differential_propagation_gw170817_coherent_v4.py","sha256":"4e6cce8fbf4a143575c39e2ad3bfb8ccb9390382b25bcdbc4ebcaf0229fc02d1","bytes":33721},
+    {"id":"LANE2_COHERENT_V6_CONFIG","path":"configs/open_gravity_differential_propagation_gw170817_coherent_v6.json","sha256":"ebff7a847adc0ecd578d525cd0b93c03fed7f871745af22a9f6ae222ac7b1980","bytes":11655},
+    {"id":"LANE2_COHERENT_V6_MODULE","path":"src/sigma_theory_compiler/open_gravity_differential_propagation_gw170817_coherent_v6.py","sha256":"875adae1ba3c30bc6d6819ab590b0666e86770dc7e8046a403043fd59e8a14e8","bytes":33841},
+    {"id":"LANE2_COHERENT_V6_PREDICTION","path":"runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v6/prediction-receipt.json","sha256":"c5d665ab10363fb7a39607bf692cb25a03fd4b172e54934744412b9c89a675da","bytes":2114},
+    {"id":"LANE2_COHERENT_V6_TARGET_FREE_GATES","path":"runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v6/artifacts/target-free-optimizer-and-power-gates.json","sha256":"2d2391d1194e49b4bbd2a8cd49ef3e7f434538ab1f49a5b1354a9ad05d471790","bytes":605984},
+    {"id":"LANE2_LALSUITE_METADATA","path":"work/private/open-gravity-lane2-waveform-source-v1/lalsuite-v7.26.15-metadata.json","sha256":"b9e87372e449ee85c159c584ff5eae53612e19d14d8ef88a5dc47a1a00ec28d1","bytes":1885},
+    {"id":"LANE2_PSD_README","path":"work/private/open-gravity-lane2-calibration-source-v1/README.md","sha256":"c40a8173193f388cfd319f1c2e3389acb26480491492f12e4fc7fae3dfd38e69","bytes":1461},
+    {"id":"LANE2_SOURCE_PREFLIGHT_CONFIG","path":"configs/open_gravity_differential_propagation_gw170817_source_preflight_v1.json","sha256":"8531007ad3765e04a7514bf022b004d3d7bcb2724590ae6898b8e45573e23f7b","bytes":4861},
+    {"id":"LANE2_SOURCE_PREFLIGHT_RECEIPT","path":"runs/gravity/open-gravity-differential-propagation-gw170817-source-preflight-v1/receipt.json","sha256":"f550419b0cd62b9f5dd403f7659beb06a4113bfa5fa0faa9aeb4be92d9a9d772","bytes":5049},
+    {"id":"LANE5_DRIVER_EXECUTIONS","path":"runs/gravity/open-gravity-dynamic-source-memory-kernels-v2/artifacts/driver-programs-and-executions.json","sha256":"3a97b2d55f7c64f15cd23897a85ab04a90f7787e211ef472e6741526324d9e88","bytes":23274},
+    {"id":"LANE5_NR_WAVEFORM","path":"runs/gravity/open-gravity-dynamic-source-memory-kernels-v1/source/GW150914_4_NR_waveform.txt","sha256":"ed49c3e83f90e70ac85386f183031b7de3d3d6aa78e75a7d284e5a53a5cc0b76","bytes":142345},
+    {"id":"LANE5_V1_CONFIG","path":"configs/open_gravity_dynamic_source_memory_kernels_v1.json","sha256":"2ff3294450973a3409fb73ae5d4ff5d27e8a222e723d637f04c0a734b55f3f9f","bytes":14805},
+    {"id":"LANE5_V1_MODULE","path":"src/sigma_theory_compiler/open_gravity_dynamic_source_memory_kernels_v1.py","sha256":"b911f821eaa3a2b2975611bf59ff9c19100e15a6a7c64cb8ff249b81de0f5b5d","bytes":55399},
+    {"id":"LANE5_V2_CONFIG","path":"configs/open_gravity_dynamic_source_memory_kernels_v2.json","sha256":"6712fa11b56322eab83bfed82b63dbdcf89815b990fb8f08bafe684cb137d998","bytes":19850},
+    {"id":"LANE5_V2_MODULE","path":"src/sigma_theory_compiler/open_gravity_dynamic_source_memory_kernels_v2.py","sha256":"54eff7d66519bfa1e6773ba56a33dcf2c5322147c76e25285f29ed646b8ca956","bytes":38224},
+    {"id":"LANE5_V2_RECEIPT","path":"runs/gravity/open-gravity-dynamic-source-memory-kernels-v2/receipt.json","sha256":"0dd8ac55ee5e0b131c1f94064eae6fd14cc32d8e4d93299bbc67fc10b63608a1","bytes":4200},
+    {"id":"LANE5_V2_SOURCE_GATE","path":"runs/gravity/open-gravity-dynamic-source-memory-kernels-v2/artifacts/gw150914-response-source-gate.json","sha256":"d8b0acbd9140949948e3154592035a7c5d7c717aecd53cb343a69c9624fd9314","bytes":4018}
+  ],
+  "infrastructure_bindings": [
+    {"id":"ADAPTER_REGISTRY","path":"src/sigma_theory_compiler/open_gravity_formula_adapter_registry_v1.py","sha256":"072fabb1b6804c8f752086b4b1e683cfcaa069938c8e3cf6178fbbc7712b1a56"},
+    {"id":"DATA_ONTOLOGY","path":"src/sigma_theory_compiler/open_gravity_data_element_ontology_v1.py","sha256":"067fd440e2ee59af102aa66214a65e3785d92e8a3124b4ea4d5994aa247a323e"},
+    {"id":"FORMULA_EXECUTION_PROTOCOL","path":"src/sigma_theory_compiler/open_gravity_formula_execution_protocol_v1.py","sha256":"c4777a4471b21ba4d6c1b5264a9ede2ee45aeceb641955bf989c9901e37ee79a"},
+    {"id":"GENERIC_RUNNER_V2_AUDIT","path":"work/audits/open-gravity-synthetic-discovery-runner-v2-independent-audit-d67225ff.json","sha256":"cda03daed64b2fdd530ba95c5dacf336c35be1c0f8afaafef45af67ca0cca8e7"},
+    {"id":"GENERIC_RUNNER_V2_CONFIG","path":"configs/open_gravity_synthetic_discovery_runner_v2.json","sha256":"f09ee8bb3e85fb7bc7081028b142483e86284ea34ed4ccf31b0e9bd5ba4304c0"},
+    {"id":"GENERIC_RUNNER_V2_MODULE","path":"src/sigma_theory_compiler/open_gravity_synthetic_discovery_runner_v2.py","sha256":"d67225ff1405e57fa3634bd8bdda3337bad2d325a8ff0f791a96c214bcce7475"},
+    {"id":"GENERIC_RUNNER_V2_RECEIPT","path":"runs/gravity/open-gravity-synthetic-discovery-runner-v2/receipt.json","sha256":"850ba4f2e6c2268a97c485deb013f351ab22ccd49dcb85f9d34abf770ed9adea"},
+    {"id":"GW_V2_CONFIG","path":"configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v2.json","sha256":"6121321f4f8532f68420199a92118f63c85126e9de5e21762fa8fc42413c1757","bytes":2166},
+    {"id":"GW_V2_INDEPENDENT_AUDIT_BLOCK","path":"work/audits/open-gravity-gw-timeseries-source-anchored-synthetic-injection-matrix-v2-independent-audit-blocked-d76e0127.json","sha256":"2f854e342f0480378931684b7f7e3aa94fa0870b03e457ccefed043202f87108","bytes":6365},
+    {"id":"GW_V2_MODULE","path":"src/sigma_theory_compiler/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v2.py","sha256":"d76e01278a28a34b81ebb901c9f031f227137fda3ddd086bb4ca0be74a5d8d7f","bytes":9281},
+    {"id":"GW_V2_RECEIPT","path":"runs/gravity/open-gravity-gw-timeseries-source-anchored-synthetic-injection-matrix-v2/receipt.json","sha256":"5f3d40da2a13c1358a87cacfab842d6c446d3b3436d2fd2486a7232b88cb0fd1","bytes":3573},
+    {"id":"GW_V2_TEST","path":"tests/test_open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v2.py","sha256":"68445f645e44b689cebda15525d51dc1488815b8ea894a21babbcf0dc1d14b2a","bytes":2347},
+    {"id":"PARAMETER_SCHEMA","path":"configs/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v3.parameters.schema.json","sha256":"f856685fd2accb2ae010e24fa0e55ec6094fe91e09e3659986a28a287f180639"},
+    {"id":"REPLAY_LEDGER","path":"src/sigma_theory_compiler/open_gravity_synthetic_replay_ledger_v1.py","sha256":"7173b652b60837eb8391b2e271ff74c815f331f43ecdc23465eff2a850649a0a"},
+    {"id":"SCENARIO_PACKET","path":"src/sigma_theory_compiler/open_gravity_synthetic_scenario_packet_v1.py","sha256":"63b074666985f67b6f087aab908c72387f35b2edcaa92438840fbbd3bb45a57c"}
+  ],
+  "adapter_blocks": [
+    {"formula_id":"LANE2_EXACT_LALSUITE_WAVEFORM","status":"UNADAPTED","reason":"the exact pinned Linux LALSuite runtime is not invoked by this platform-independent source-shaped surrogate"},
+    {"formula_id":"NON_GAUSSIAN_JUMP_MEMORY","status":"UNADAPTED","reason":"no frozen causal jump-process ABI and parameter law exists"},
+    {"formula_id":"POLARIZATION_BIREFRINGENCE","status":"SOURCE_BLOCKED","reason":"separate plus/cross polarization response products are not opened"},
+    {"formula_id":"REAL_CALIBRATION_LEARNING","status":"SOURCE_BLOCKED","reason":"frequency-dependent calibration payloads and empirical response fitting remain sealed"},
+    {"formula_id":"REAL_OFFSOURCE_PSD_REFIT","status":"SOURCE_BLOCKED","reason":"off-source strain samples remain sealed; only manifest-defined nuisance families are synthetic"},
+    {"formula_id":"REAL_STRAIN_LIKELIHOOD","status":"SOURCE_BLOCKED","reason":"GW170817 and GW150914 strain samples and all real likelihood responses are sealed"}
+  ],
+  "access_contract": {
+    "source_anchor_files_opened": 19,
+    "source_anchor_bytes_opened": 1022661,
+    "infrastructure_files_hashed": 15,
+    "infrastructure_bytes_hashed": 132771,
+    "target_free_nr_waveform_files_opened": 1,
+    "target_free_nr_waveform_rows_opened": 2769,
+    "target_free_synthetic_gate_files_opened": 1,
+    "strain_files_opened": 0,
+    "strain_samples_opened": 0,
+    "real_likelihood_responses_opened": 0,
+    "real_likelihood_values_computed": 0,
+    "psd_payload_arrays_opened": 0,
+    "calibration_payload_archives_opened": 0,
+    "theory_or_nuisance_tuning_events": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

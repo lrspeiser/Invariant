@@ -1,0 +1,177 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-kinetic-gate-publication-candidate-2.0",
+  "analysis_id": "GRAVITY-MATTER-LENSING-KINETIC-GATE-PUBLICATION-CANDIDATE-v2",
+  "status": "STRONG_NARROW_TWO_THEOREM_NOTE_CANDIDATE_PENDING_EXPERT_REVIEW",
+  "purpose": "Adjudicate whether the exact finite-range and metric-cone-straddling results for P0(X)+Z(X)Y jointly form a distinctive short theory note, while separating mathematical publishability from any claim of a viable modified-gravity model.",
+  "package": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_publication_candidate_v2.py",
+    "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_publication_candidate_v2.py",
+    "draft_path": "docs/GRAVITY_KINETIC_GATE_TWO_OBSTRUCTIONS_THEORY_NOTE_V1.md",
+    "draft_sha256": "abafb3bf03a6ed2746f20f43cc541454b2b3a1c938deed004825c59c3530fb9d",
+    "output_path": "runs/gravity/theory/matter-lensing-kinetic-gate-publication-candidate-v2.json"
+  },
+  "admission_policy": {
+    "path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+    "sha256": "b3518291131b0ece9f05c966e55b40c40e549d5c27e87a2a128b70ad76a864fe",
+    "theory_note_gate": "PRIMARY_PAPERS_PLUS_INDEPENDENT_EXACT_ANALYTIC_AND_NUMERICAL_BENCHMARKS",
+    "future_observational_gate": "REAL_PUBLIC_SOURCE_DATASET_PLUS_PRIMARY_DATASET_PAPER_PLUS_INDEPENDENT_SOLVER_BENCHMARK_REQUIRED_BEFORE_RESPONSE_SCORING"
+  },
+  "bindings": [
+    {
+      "id": "PUBLICATION_CANDIDATE_V1",
+      "state": "COMMITTED",
+      "commit": "8d50d004",
+      "config_path": "configs/gravity_matter_lensing_kinetic_gate_publication_candidate_v1.json",
+      "config_sha256": "9850c473955f82de3e4bad4478f0ec1a305435748ee7c210931f228daabc6db1",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_publication_candidate.py",
+      "module_sha256": "aab22fe65491c58c09ee84ef71ea36bb9714330544f510432919bfead2ce9f0c",
+      "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_publication_candidate.py",
+      "test_sha256": "4a3ba1d0782f7a4113240cfe08ad284ae4a95c0a6ae6dbbe8acb49ec4081a38f",
+      "receipt_path": "runs/gravity/theory/matter-lensing-kinetic-gate-publication-candidate-v1.json",
+      "receipt_sha256": "2aed0c84d5fe9f566709d4b0d68af46ff82b85d070d15ee713739ee1162ab9cf",
+      "receipt_content_sha256": "17975d63329997fed8fb758c6945da84e7bd7d9e756a0d7d7c79644011dea9f9"
+    },
+    {
+      "id": "NOVELTY_BENCHMARK_V1",
+      "state": "MUTATION_FROZEN_UNCOMMITTED",
+      "commit": null,
+      "config_path": "configs/gravity_matter_lensing_kinetic_gate_novelty_benchmark_v1.json",
+      "config_sha256": "ed2b08992529d9f3750aba5a47f3ceda080fb6748c408b809150259c63b3af3a",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_novelty_benchmark.py",
+      "module_sha256": "cce7cb4a79c9f366f9ab96453d23031cee0747962a33fd1b46456e31e3deebd2",
+      "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_novelty_benchmark.py",
+      "test_sha256": "fbbaf4583a82b5e4f3f84163273a889b7e6390793099789da19b5b6a9811c53a",
+      "receipt_path": "runs/gravity/theory/matter-lensing-kinetic-gate-novelty-benchmark-v1.json",
+      "receipt_sha256": "54751d9f6910fa0f3d9887282a5cd3b05e837a85d01f7c2867744d10cb13fb71",
+      "receipt_content_sha256": "48735570bab1b6d647e1e4baa33bdf26f7fd8d1d0cc677273549304811c58cb8"
+    },
+    {
+      "id": "CONE_STRADDLING_V1",
+      "state": "MUTATION_FROZEN_UNCOMMITTED",
+      "commit": null,
+      "config_path": "configs/gravity_matter_lensing_kinetic_gate_cone_straddling_v1.json",
+      "config_sha256": "8cc0dff83390723cbd8f9a15cff44ba5df0d0e74642e6643e5cd1eadeac03d18",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_cone_straddling.py",
+      "module_sha256": "6d3b0339bc41ee8d1c651d5b92dce60baa03e91702db3978e4cc2d99a47e71b0",
+      "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_cone_straddling.py",
+      "test_sha256": "fdbbdbf28437cdb1c888c70b45c0588b2b630524b8bb6d7dc3f1a23bee5594fc",
+      "receipt_path": "runs/gravity/theory/matter-lensing-kinetic-gate-cone-straddling-v1.json",
+      "receipt_sha256": "6ce29b6465f2ee7bce686b5cc499998d492923c22580a4bbe3f0a4430d7129de",
+      "receipt_content_sha256": "b97d932e7524431270029c7684f90b69472073ddf92e01f940345a6cadd8cb30"
+    }
+  ],
+  "two_theorem_core": {
+    "architecture": "P(X,Y)=P0(X)+Z(X)Y on aligned homogeneous timelike backgrounds with X>0 and Y>0",
+    "theorem_1": {
+      "name": "ACTIVE_GATE_METRIC_CONE_STRADDLING",
+      "hypotheses": "Z_X is nonzero and the exact local scalar K and G matrices are symmetric positive definite",
+      "identity": "det(K-G)=-4 X Y Z_X^2<0",
+      "conclusion": "the two generalized scalar speeds obey 0<c_-^2<1<c_+^2",
+      "design_meaning": "Changing P0 can move the speeds but cannot restore metric-cone subluminality while this derivative gate remains active."
+    },
+    "theorem_2": {
+      "name": "FINITE_GROWING_GATE_DYNAMIC_RANGE",
+      "definitions": "u=beta X^2, q=d ln Z/d ln u, and M=Z(Z_X+2X Z_XX)-4X Z_X^2",
+      "identity": "M=(2 Z^2/X)[4 dq/d ln u-q-4q^2]",
+      "hypotheses": "q(u0)=q0>0 and M>=0 throughout [u0,U]",
+      "conclusion": "U/u0<[1+1/(4q0)]^4",
+      "design_meaning": "A smooth growing gate cannot keep this active mixing contribution nonnegative across an unlimited log-u range."
+    },
+    "joint_meaning": "The architecture faces two independent local constraints: finite favorable mixing range and unavoidable metric-cone straddling even on a healthy bounded interval."
+  },
+  "primary_literature_boundary": [
+    {
+      "arxiv": "0801.1085",
+      "title": "Perturbations in generalized multi-field inflation",
+      "relation": "Established multi-field second-order perturbation framework; no exact architecture-specific straddling identity located."
+    },
+    {
+      "arxiv": "0806.0336",
+      "title": "Primordial perturbations and non-Gaussianities in DBI and general multi-field inflation",
+      "relation": "Established general P(X^IJ,phi^K) kinetic and gradient matrices."
+    },
+    {
+      "arxiv": "0708.0561",
+      "title": "k-Essence, superluminal propagation, causality and emergent geometry",
+      "relation": "Shows that superluminal k-essence characteristics do not alone prove a causal paradox."
+    },
+    {
+      "arxiv": "gr-qc/0607055",
+      "title": "On causality and superluminal behavior in classical field theories",
+      "relation": "Established causal-structure analysis for nonconformal characteristic metrics."
+    },
+    {
+      "arxiv": "0806.4368",
+      "title": "Multiple kinetic k-essence, phantom barrier crossing and stability",
+      "relation": "Multiple independent kinetic fields can be subluminal; this is structurally outside the derivative-gated architecture."
+    },
+    {
+      "arxiv": "1510.01650",
+      "title": "Disformally coupled inflation",
+      "relation": "A derivative-mixed two-field architecture reported without superluminal modes, demonstrating that the theorem is not universal across architectures."
+    },
+    {
+      "arxiv": "2304.12364",
+      "title": "Adiabatic and isocurvature perturbations in extended theories with kinetic couplings",
+      "relation": "Field-dependent kinetic coupling neighbor, distinct from a gate depending on the derivative invariant X."
+    },
+    {
+      "arxiv": "2603.13986v2",
+      "title": "Multi-Field Dilaton Screening Beyond the Thin-Shell Mechanism",
+      "relation": "Recent multi-field screening with field-dependent metric G_IJ(phi), not Z(X)Y."
+    }
+  ],
+  "novelty_protocol": {
+    "search_type": "TARGETED_PRIMARY_SOURCE_SEARCH_PLUS_EXISTING_12_PAPER_BENCHMARK",
+    "exact_two_theorem_pair_found": false,
+    "historical_novelty_established": false,
+    "required_next_step": "Independent expert citation chaining across arXiv, journals, books, and non-English sources."
+  },
+  "publication_adjudication": {
+    "scientifically_interesting": true,
+    "worth_preparing_as_narrow_theory_note": true,
+    "worth_claiming_as_successful_gravity_model": false,
+    "strongest_distinctive_element": "The P0-independent determinant identity forces exact metric-cone straddling on every healthy active background in the declared architecture.",
+    "supporting_distinctive_element": "The Riccati comparison gives a quantitative finite dynamic-range ceiling for any smooth growing gate that keeps the active mixing contribution nonnegative.",
+    "decision": "STRONG_NARROW_TWO_THEOREM_NOTE_CANDIDATE_PENDING_INDEPENDENT_EXPERT_AND_HISTORICAL_NOVELTY_REVIEW",
+    "recommended_title": "Two exact local obstructions for derivative-gated two-scalar theories",
+    "recommended_format": "Short mathematical modified-gravity or classical-field-theory note; do not present it as observational evidence or a replacement for dark matter or GR."
+  },
+  "draft_abstract": "We study the aligned timelike scalar principal block of P(X,Y)=P0(X)+Z(X)Y. First, whenever X>0, Y>0, Z_X is nonzero, and the kinetic and gradient matrices are positive definite, the exact identity det(K-G)=-4XYZ_X^2 forces the generalized scalar speeds to satisfy 0<c_-^2<1<c_+^2. Thus no choice of P0 can make both active scalar modes subluminal relative to the metric cone. Second, writing u=beta X^2 and q=d ln Z/d ln u, nonnegative active mixing over [u0,U] implies the strict bound U/u0<[1+1/(4q0)]^4. The two results respectively constrain the characteristic cones and dynamic range of derivative-gated two-scalar models. They are local architecture-specific design obstructions, not an unconditional causal or full-action no-go theorem.",
+  "required_checks": [
+    "V201_PACKAGE_AND_POLICY_SEALS",
+    "V202_BOUND_ARTIFACT_BYTES",
+    "V203_V1_COMMIT_BINDING",
+    "V204_CONE_DETERMINANT_IDENTITY",
+    "V205_CONE_ROOT_PLACEMENT",
+    "V206_DYNAMIC_RANGE_IDENTITY",
+    "V207_RICCATI_FINITE_BOUND",
+    "V208_BOUNDED_WITNESS_MATCH",
+    "V209_ESCAPE_ARCHITECTURE_SCOPE",
+    "V210_PRIMARY_PAPER_BOUNDARY",
+    "V211_DRAFT_CONTAINS_BOTH_PROOFS",
+    "V212_PUBLICATION_ADJUDICATION",
+    "V213_CLAIM_CEILING",
+    "V214_ZERO_OBSERVATIONAL_ACCESS"
+  ],
+  "claim_boundary": {
+    "exact_two_theorem_pair_established": true,
+    "scientifically_interesting_theory_note_candidate": true,
+    "worth_independent_expert_review": true,
+    "historical_novelty_established": false,
+    "unconditional_causality_violation": false,
+    "global_strong_hyperbolicity": false,
+    "full_action_no_go": false,
+    "healthy_modified_gravity_model": false,
+    "observational_support": false,
+    "publication_ready": false
+  },
+  "access_ledger": {
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "scores_computed": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "schema": "invariant-open-gravity-lane6-same-grid-nonspherical-predictions-1.0",
+  "package_id": "open-gravity-lane6-same-grid-nonspherical-predictions-v1",
+  "status": "FROZEN_RESPONSE_BLIND_MODEL_LIFTED_2P5D_SAME_GRID_PREDICTIONS",
+  "purpose": "Run the full-3D nonspherical lane in parallel on the same three acquired PHANGS/THINGS/S4G development sources and the same frozen source-systematic cells, without opening a kinematic response: Newton, a source-matched NFW control, AQUAL, QUMOND, published Refracted Gravity, GP01 elliptic, published Mashhoon/Rahvar nonlocal gravity, and a new geometry-conditioned nonlocal source branch.",
+  "bindings": [
+    {
+      "role": "REAL_SOURCE_225_CELL_SYSTEMATICS",
+      "artifacts": [
+        {"path": "configs/open_gravity_phangs_things_full3d_source_systematics_v1.json", "sha256": "8a8267e4a29a13910de6e56d5a9f27904557425409a6dda42d489831a6e601f8"},
+        {"path": "src/sigma_theory_compiler/open_gravity_phangs_things_full3d_source_systematics_v1.py", "sha256": "de4ef3eeb73087b9d0e02253ff58a7a8b52c1ccebbdeaaf3b5ffcb0760f86c79"},
+        {"path": "tests/test_open_gravity_phangs_things_full3d_source_systematics_v1.py", "sha256": "0a9408dc686ebf4ae8ea5a12c877537eac621710ce7e3b365f446e9fd7ba1606"},
+        {"path": "runs/gravity/open-gravity-phangs-things-full3d-source-systematics-v1/receipt.json", "sha256": "7b84da7ff79cb4d482c57a0b99399c9e61610737fde8ad02fb976a69dd2a16cd"}
+      ]
+    },
+    {
+      "role": "PUBLISHED_REFRACTED_GRAVITY_SOLVER",
+      "artifacts": [
+        {"path": "configs/open_gravity_refracted_gravity_3d_primary_benchmark_v1.json", "sha256": "9f5f127b8078ef95ff47ce073cb0e2c9254ca1fd9c8113880ac8e42ea52a8308"},
+        {"path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_3d_primary_benchmark_v1.py", "sha256": "aa0b1ff7499b5fef8355d237d1e3632b845f8f1397cda2690750b1ef142fee88"},
+        {"path": "tests/test_open_gravity_refracted_gravity_3d_primary_benchmark_v1.py", "sha256": "fe49a5a4de7bd5fc341dfdd4aab2283498dfc746ca066e6cb8b0caa16b932971"},
+        {"path": "runs/gravity/open-gravity-refracted-gravity-3d-primary-benchmark-v1/receipt.json", "sha256": "ffc2579e6a0e742b33a46d9b5e208389e67e3d57d06bb01ca41fa52c04730730"}
+      ]
+    },
+    {
+      "role": "GP01_FULL3D_ELLIPTIC",
+      "artifacts": [
+        {"path": "configs/open_gravity_gp01_full3d_dynamics_v1.json", "sha256": "153ddc0e5643dce4d0ad0b76738b34c1f9e061450fa67ad2b95460768aff3f4a"},
+        {"path": "src/sigma_theory_compiler/open_gravity_gp01_full3d_dynamics_v1.py", "sha256": "b913baf2d7f45fa8773a7f775b0b1a6831db9af287e6791dadfa83614cab89ae"},
+        {"path": "tests/test_open_gravity_gp01_full3d_dynamics_v1.py", "sha256": "b18ec628a0e49810a1a1f05a5275fc41b1ea5a47bd51b2527f54faa58a07a85c"},
+        {"path": "runs/gravity/open-gravity-gp01-full3d-dynamics-v1/receipt.json", "sha256": "d6ced8b0baa18697aec64f8734710e6293f794f0ad52af51038c9c8ac73f6b01"}
+      ]
+    },
+    {
+      "role": "HALO_AND_ELLIPTIC_MECHANICS",
+      "artifacts": [
+        {"path": "configs/open_gravity_3d_halo_modified_gravity_comparators_v1.json", "sha256": "f590210669b67bd228b2cef9c843f37b0b9dea7c1564d988f492167ab2fd6bab"},
+        {"path": "src/sigma_theory_compiler/open_gravity_3d_halo_modified_gravity_comparators_v1.py", "sha256": "34ccaac316595664c8337abb04a06c510d57ff4181797a8f8d002413bd65e139"},
+        {"path": "tests/test_open_gravity_3d_halo_modified_gravity_comparators_v1.py", "sha256": "9fe283efaf9c144c22dc4863a80fd3b6da5b42591dc05a0fbe88e54824305dfb"},
+        {"path": "runs/gravity/open-gravity-3d-halo-modified-gravity-comparators-v1/receipt.json", "sha256": "6e17f3a4626022cc852d6d742c56e4b7a56c4a2ad9dc81b62649e7da598bba0f"}
+      ]
+    },
+    {
+      "role": "PRIMARY_SOURCE_COMPARATOR_CONTRACT",
+      "artifacts": [
+        {"path": "configs/open_gravity_primary_source_comparator_contract_v1.json", "sha256": "8cefb8bf6cf737759b646015ecd5f81857ffc8914049a28252557dad47b490a8"}
+      ]
+    }
+  ],
+  "source_contract": {
+    "objects": ["NGC2903", "NGC3351", "NGC3627"],
+    "geometry_label": "MODEL_LIFTED_2P5D_SOURCE_IN_FULL_3D_FIELD_SOLVER",
+    "measured_3d_objects": 0,
+    "source_cells": 225,
+    "primary_cartesian_cells": 216,
+    "numerical_source_controls": 9,
+    "source_files": 21,
+    "source_bytes_per_rebuild": 74030400,
+    "source_axes": ["THINGS robust/natural H I beam", "S4G fixed/color M/L", "PHANGS CO included/omitted", "three stellar heights", "three gas heights", "resolution/padding/SIP controls"],
+    "same_grid_rule": "Every newly solved mechanism consumes the exact reconstructed 17^3 density cell whose hash is sealed in the predecessor; inherited AQUAL and QUMOND profiles are joined only by the same object_id and cell_id.",
+    "isolated_boundary_rule": "All local PDEs use the same finite source support and isolated-monopole outer-boundary policy, with the theory-required vacuum coefficient applied explicitly. The published nonlocal q0 force uses its R^3 isolated extended-source convolution and the same finite source support.",
+    "response_opening_forbidden": true
+  },
+  "mechanisms": [
+    {"id": "NEWTON", "kind": "published_baseline", "parameters": {}},
+    {"id": "NFW_SOURCE_MATCHED_CONTROL", "kind": "halo_geometry_control_not_a_halo_fit", "parameters": {"r_s_rule": "baryonic_3d_rms_radius", "mass_rule": "M_halo_inside_r_s_equals_total_baryonic_source_mass", "per_object_response_fit": false}},
+    {"id": "AQUAL_SIMPLE_MU", "kind": "published_modified_gravity", "parameters": {"a0_m_s2": 1.2e-10, "mu": "x/(1+x)"}},
+    {"id": "QUMOND_SIMPLE_NU", "kind": "published_modified_gravity", "parameters": {"a0_m_s2": 1.2e-10, "nu": "1/2+sqrt(1/4+1/y)"}},
+    {"id": "REFRACTED_GRAVITY_DISKMASS_MEDIAN", "kind": "published_non_covariant_modified_gravity", "parameters": {"epsilon_0": 0.661, "Q": 1.79, "log10_rho_c_g_cm3": -24.54}},
+    {"id": "GP01_ELLIPTIC_N2_L035", "kind": "phenomenological_conservative_elliptic", "parameters": {"n": 2, "Gamma_max": 1.5, "L_g_over_half_box": 0.35, "selection": "the target-free representative already frozen in the synthetic recovery contract; not selected from these responses"}},
+    {"id": "MASHHOON_RAHVAR_NLG_Q0", "kind": "published_linear_nonlocal_gravity", "parameters": {"alpha_0": 10.94, "mu_0_kpc_inverse": 0.059, "a_0_short_range": 0.0, "selection": "published combined-galaxy central values; no refit"}},
+    {"id": "GQNS_GEOMETRY_CONDITIONED_NONLOCAL_SOURCE", "kind": "new_exploratory_zero_fit_branch", "parameters": {"equation": "rho_D=A_Q K_L*rho_b; (lap-L^-2)rho_D=-A_Q L^-2 rho_b; lap Phi=4*pi*(rho_b+rho_D)", "A_Q_rule": "normalized Frobenius anisotropy of the full 3D baryonic second-moment tensor, exactly zero for a sphere and bounded by one", "L_rule": "baryonic 3D RMS radius", "free_fitted_parameters": 0, "historical_novelty_status": "UNASSESSED_NEW_AUDIT_SYNTHESIS"}}
+  ],
+  "published_anchors": [
+    {"id": "S4G_P5", "url": "https://arxiv.org/abs/1410.0009", "role": "stellar source maps"},
+    {"id": "THINGS", "url": "https://arxiv.org/abs/0810.2125", "role": "H I source maps"},
+    {"id": "PHANGS_ALMA", "url": "https://arxiv.org/abs/2104.07739", "role": "CO source maps"},
+    {"id": "AQUAL", "url": "https://articles.adsabs.harvard.edu/pdf/1984ApJ...286....7B", "role": "nonlinear flux equation and external-field behavior"},
+    {"id": "QUMOND", "url": "https://arxiv.org/abs/0911.5464", "role": "two-Poisson formulation"},
+    {"id": "NFW", "url": "https://arxiv.org/abs/astro-ph/9611107", "role": "halo density shape control"},
+    {"id": "REFRACTED_GRAVITY_DISKMASS", "url": "https://arxiv.org/abs/2003.07377v2", "role": "exact density-permittivity PDE and universal median"},
+    {"id": "NONLOCAL_MODIFIED_POISSON", "url": "https://arxiv.org/abs/1111.4702v2", "role": "reciprocal-kernel source rho_D=q*rho"},
+    {"id": "NONLOCAL_OBSERVATIONAL_Q0", "url": "https://arxiv.org/abs/1401.4819v2", "role": "q0 extended-source force law and alpha0, mu0 central values"}
+  ],
+  "benchmark_contract": {
+    "inherited_mandatory_passes": ["Newton point/shell/disk", "AQUAL spherical and external field", "QUMOND spherical and external field", "NFW analytic enclosed mass", "Refracted Gravity manufactured second order and spherical Gauss law", "GP01 elliptic manufactured residual, curl, saddle and external field"],
+    "new_mandatory_passes": ["published q0 point-force identity", "GQNS Helmholtz manufactured solution", "GQNS exact spherical shutoff", "bar activation", "spiral activation", "vertical-thickness ordering", "saddle exact null", "uniform-external-field superposition", "rotation covariance", "source-cell hash replay"],
+    "failure_policy": "Retain every failed cell or fixture; never repair a solver, parameter, source transform, or threshold from a response."
+  },
+  "projection_contract": {
+    "radii_kpc": [5.0, 10.0, 15.0],
+    "azimuth_samples": 48,
+    "observables": ["mean midplane radial acceleration", "azimuthal RMS", "m=1..4 radial-force harmonics", "one-cell-off-plane vertical RMS"],
+    "same_projection_for_every_mechanism": true,
+    "kinematic_response_used": false
+  },
+  "gate_contract": {
+    "linear_relative_residual_max": 1e-11,
+    "variable_relative_residual_max": 2e-7,
+    "density_hash_must_match_predecessor": true,
+    "finite_positive_radial_acceleration": true,
+    "newton_profile_replay_relative_max": 1e-10,
+    "retain_all_equivalences_and_failures": true
+  },
+  "access_contract": {
+    "scientific_response_files": 0,
+    "scientific_response_rows": 0,
+    "scores": 0,
+    "parameters_fit": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "development_only": true
+  },
+  "claim_boundary": {
+    "establishes": ["same-source, same-grid, response-blind nonspherical predictions for eight mechanisms", "a first exact published q0 nonlocal-gravity real-source comparator in this repository", "a zero-fit geometry-conditioned nonlocal branch with explicit sphere, bar, spiral, thickness, saddle, rotation and external-field falsifiers"],
+    "does_not_establish": ["observational preference", "measured full-3D mass", "historical novelty of GQNS", "healthy covariant completion", "lensing or photon closure", "parameter universality", "dark matter elimination", "publication readiness"]
+  },
+  "output_path": "runs/gravity/open-gravity-lane6-same-grid-nonspherical-predictions-v1/receipt.json"
+}

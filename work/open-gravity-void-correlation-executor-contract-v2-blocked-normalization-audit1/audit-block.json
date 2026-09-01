@@ -1,0 +1,29 @@
+{
+  "schema": "invariant-open-gravity-void-correlation-executor-audit-block-1.0",
+  "package_id": "open-gravity-void-correlation-executor-contract-v2",
+  "status": "BLOCK_INDEPENDENT_AUDIT_NORMALIZATION_COUNT_MISMATCH",
+  "preservation": "The four neighboring files are byte-exact copies of the frozen v2 config, module, test, and receipt. They are retained as counterevidence and must not be edited.",
+  "preserved_files": {
+    "config.json": "2c90b8e3700e3b148da047de314f93b8a2991514a9541dd1b9b1bb415428e654",
+    "module.py": "50678f01a2c68e7928edfd8a80e07d4ab43c18469cd3ae9aa45b5a67fbabea26",
+    "test.py": "302cd055b8748e431a5fc36a5e0267ff98af733dcb63dd4377b14a094de1e9e4",
+    "receipt.json": "366ee298314cfc93c14c3fc19a3bd910e46bf71453e9b496dbcfd091055b3214"
+  },
+  "counterexample": {
+    "direction": [-0.09524089298036276, 0.11954477216099191, 0.8484211680474587],
+    "frozen_rule": "renormalize exactly once",
+    "observed_call_path": "_ordered_inputs normalized once, nuisance_velocity_design normalized again, and shear_quadratic_columns normalized again",
+    "once_normalized_binary64_hex": ["bfbc484bb6b3f3f5", "3fc1bff2ecc41247", "3fef7e36f36e012a"],
+    "twice_normalized_binary64_hex": ["bfbc484bb6b3f3f6", "3fc1bff2ecc41248", "3fef7e36f36e012b"],
+    "once_shear_binary64_hex": ["bf7458020b289b21", "bfe8e559b47078be", "bf962f8fbace0e32", "bfc3ae8d3e92d731", "3fc8b44e40432083"],
+    "repeated_shear_binary64_hex": ["bf7458020b289b24", "bfe8e559b47078c0", "bf962f8fbace0e34", "bfc3ae8d3e92d733", "3fc8b44e40432086"]
+  },
+  "scientific_access": {
+    "source_files_decompressed": 0,
+    "identifier_rows_decoded": 0,
+    "scientific_rows_decoded": 0,
+    "response_values_inspected": 0,
+    "real_scores": 0
+  },
+  "required_repair": "Use a private helper that accepts an already-normalized n. Each public shear/nuisance entry normalizes exactly once, and the profile path must pass raw finite vectors to the one normalization boundary. Add exact adversarial bit-pattern regression tests and reseal append-only."
+}

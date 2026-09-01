@@ -1,0 +1,96 @@
+{
+  "schema": "invariant-open-gravity-rg-five-galaxy-morphology-diagnostic-1.0",
+  "package_id": "open-gravity-rg-five-galaxy-morphology-diagnostic-v1",
+  "status": "FROZEN_POST_HOC_HYPOTHESIS_GENERATOR",
+  "purpose": "Diagnose which already-sealed source-only morphology axes distinguish the one local fixed-RG success from four retained counterexamples, without fitting a new law or treating five objects as confirmation.",
+  "bindings": {
+    "source_builder": {
+      "config_path": "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json",
+      "config_raw_sha256": "2cefafadf5eb5992ce75e3dae88dede88c7596d3272139585c716ba083432e0b",
+      "module_path": "src/sigma_theory_compiler/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.py",
+      "module_raw_sha256": "50c78d97bce55ef66a1e592037a1d026a0c53683ef981895a5133591f3938a3b",
+      "test_path": "tests/test_open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.py",
+      "test_raw_sha256": "b7b3fd6aed1675ea4dbb2b87feea17a78616770343f940c5b30e15e32a17b445",
+      "receipt_path": "runs/gravity/open-gravity-rg-things-heracles-s4g-model-lifted-3d-source-builder-v1/receipt.json",
+      "receipt_raw_sha256": "9fed8bc77ecb6452a954f473ee108e4ee03a540542ab40d8ec4e0ab049c02117",
+      "receipt_content_sha256": "a90a3c0f8535c48edf185b866bfc9752505d0fa865993e7b51f7bd7faaed6e5d"
+    },
+    "fixed_score": {
+      "config_path": "configs/open_gravity_rg_five_galaxy_fixed_response_score_v1.json",
+      "config_raw_sha256": "9ad25148022b702e660e7633dd58725a6e0626a7513d4919f47fb9a9e6e5600d",
+      "module_path": "src/sigma_theory_compiler/open_gravity_rg_five_galaxy_fixed_response_score_v1.py",
+      "module_raw_sha256": "b693d766e91889723d80470eceb06ee75a53d2022bec07e20253e85ade500388",
+      "test_path": "tests/test_open_gravity_rg_five_galaxy_fixed_response_score_v1.py",
+      "test_raw_sha256": "d4ce5ab6afd300fd6e01542b344e93a29827d4ab2a3c47460ea836b53fc07744",
+      "receipt_path": "runs/gravity/open-gravity-rg-five-galaxy-fixed-response-score-v1/receipt.json",
+      "receipt_raw_sha256": "632373e362f5a2291547ce167ca9047677c776aebde08692d18ffbcd24e9f339",
+      "receipt_content_sha256": "0d5a329e9a565edd6f7b1b7cd139a2698f6824e51dbd514068a689de84cc2274"
+    }
+  },
+  "object_order": ["NGC2903", "NGC2976", "NGC3198", "NGC3521", "NGC4214"],
+  "continuous_feature_ids": [
+    "log10_stellar_mass_msun",
+    "gas_mass_fraction",
+    "log10_rhalf_pc",
+    "log10_rho_midplane_msun_pc3",
+    "log10_sigma_b_msun_pc2",
+    "log10_potential_depth_c2",
+    "log10_g_b_m_s2",
+    "radial_force_rms_asymmetry",
+    "radial_force_fourier_m1_m4",
+    "inclination_deg",
+    "ellipticity"
+  ],
+  "statistical_contract": {
+    "response_metric": "fractional improvement of fixed RG loss over each object's best fixed comparator",
+    "association": "exact two-sided permutation Spearman rank correlation",
+    "permutations": 120,
+    "feature_count": 11,
+    "familywise_alpha": 0.05,
+    "multiplicity": "Bonferroni across 11 frozen continuous features",
+    "new_formula_fit": false,
+    "threshold_tuning": false,
+    "object_selection_after_score": false
+  },
+  "matched_pair_contract": {
+    "anchor_object": "NGC2976",
+    "source_only_distance_features": [
+      "log10_stellar_mass_msun",
+      "gas_mass_fraction",
+      "log10_rhalf_pc",
+      "log10_rho_midplane_msun_pc3",
+      "log10_potential_depth_c2"
+    ],
+    "distance": "Euclidean distance after population-standardizing each frozen source feature across the five objects",
+    "pair_selected_only_for_post_hoc_hypothesis_generation": true
+  },
+  "next_test_contract": {
+    "required_new_data": "Public THINGS line-of-sight velocity fields or cubes for the source-matched pair, with exact release bytes and deprojection metadata",
+    "primary_paper": "Walter et al. 2008, AJ 136, 2563, THINGS",
+    "independent_benchmarks": [
+      "synthetic tilted rotating disk recovers its line-of-sight velocity field",
+      "axisymmetric limit reproduces the sealed one-dimensional circular-speed prediction",
+      "beam convolution and WCS round-trip tests"
+    ],
+    "missing_velocity_field_disposition": "SOURCE_BLOCKED",
+    "response_blind_requirements": "Freeze pair, masks, geometry cells, beam, candidate programs, and residual metric before opening velocity values.",
+    "general_3d_claim_allowed": false
+  },
+  "access_scope": {
+    "new_response_files_opened": 0,
+    "new_response_rows_opened": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0
+  },
+  "claim_boundary": {
+    "post_hoc_hypothesis_generation_only": true,
+    "five_objects_can_establish_morphology_law": false,
+    "source_feature_association_is_causal": false,
+    "matched_pair_is_confirmation": false,
+    "new_theory_supported": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-five-galaxy-morphology-diagnostic-v1/receipt.json"
+}

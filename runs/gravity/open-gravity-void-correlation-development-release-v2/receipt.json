@@ -1,0 +1,475 @@
+{
+  "access_accounting": {
+    "confirmation_rows_decoded": 0,
+    "pantheon_files_opened": 0,
+    "real_scores": 0,
+    "response_values_inspected": 0,
+    "scientific_rows_decoded": 0,
+    "scientific_source_files_opened": 0,
+    "source_files_decompressed": 0,
+    "validation_rows_decoded": 0
+  },
+  "audit_findings": [
+    {
+      "id": "F01_LEDGER_LEAF_AND_FULL_ROW",
+      "repair": "strict exact-key ledger schema; recompute every leaf; exact offset, framed, payload, ID-slice and tail hashes; stale zero or mismatched leaf rejects"
+    },
+    {
+      "id": "F02_RUNTIME_DEPENDENCY_PINS",
+      "repair": "raw/content/semantic/test/receipt pins plus import-time identity, dependency wiring, NumPy version, and code-object fingerprints for executor-v3, the v1 parser/scorer, geometry-v2, geometry-v3, law-v4 and transitive law-v3 callables"
+    },
+    {
+      "id": "F03_C04_DISTINCT",
+      "repair": "C04 is an exact stratified-exchange null record distinct from C00-C03 and appears in the exact countermodel set"
+    },
+    {
+      "id": "F04_EXACT_COVERAGE_AND_ROOTS",
+      "repair": "exactly 22897 unique development IDs equal the audited ledger subset; exactly 10000 permutation rows with recomputed observed/tail/p; exact model set and all roots in summary"
+    },
+    {
+      "id": "F05_FINAL_SELF_HASHED_RECEIPT",
+      "repair": "final receipt self-hashes and binds the complete release chain plus raw/content hashes for every artifact"
+    },
+    {
+      "id": "F06_FAILURE_SANITIZER",
+      "repair": "development-only unique IDs, enumerated stage/reason, and an exact nonnegative integer access-count schema"
+    },
+    {
+      "id": "F07_FIXED_TRANSACTION",
+      "repair": "fixed canonical output/staging/failure paths, full existing-identical validation, file durability and directory promotion barrier, no-clobber and sanitized failure receipt"
+    },
+    {
+      "id": "F08_ONE_SHOT_AUTHORIZATION",
+      "repair": "single-use independently self-hashed authorization, atomic consumption marker, one CF4 pass, exact coverage, hard seals and one score"
+    }
+  ],
+  "authorization_contract": {
+    "authorization_id": "lowercase 64-hex unique token committed by the distinct audit",
+    "binding": "the sole production entry reads this receipt only from future_path through the canonical nonsymlink barrier, then requires exact v2 config/module/test/receipt raw/content/semantic hashes",
+    "consumption": "atomically create and fsync a no-clobber marker before any source open; an existing marker is replay and permanently blocks that authorization",
+    "decision": "AUTHORIZE_EXACTLY_ONE_CF4_VAST_DEVELOPMENT_RUN",
+    "failure": "a consumed authorization is never restored after a failed run; another run requires another independent audit authorization",
+    "future_path": "runs/gravity/open-gravity-void-correlation-development-release-v2-independent-audit/receipt.json",
+    "required_hard_seals": [
+      "CF4_VALIDATION_SCIENTIFIC_FIELDS",
+      "CF4_CONFIRMATION_SCIENTIFIC_FIELDS",
+      "PANTHEON_PLUS_DATA",
+      "PANTHEON_PLUS_COVARIANCE"
+    ],
+    "schema": "invariant-open-gravity-void-correlation-development-release-v2-independent-audit-receipt-1.0",
+    "status": "PASS_ONE_DEVELOPMENT_RUN_ONLY",
+    "uses_allowed": 1
+  },
+  "bindings": {
+    "executor_v3_audit_content_sha256": "1025428193a0c7b9984f546da5796d46b7c9961f8410da027c3a97c573bed6e1",
+    "executor_v3_receipt_content_sha256": "a0dad57f9815c501e640155c87359f2ba8e6b96b33d573afb8d8570e39d291a9",
+    "geometry_v2_receipt_content_sha256": "011a0d2859142b7ed54a72605d72e7429b86d0882bd8ce6ce06c5c7d08ed11b6",
+    "geometry_v3_receipt_content_sha256": "948abc576949f9d3872094f390b2828e817b71cc65dbb580366a88c386a0e31a",
+    "ids_audit_content_sha256": "0e7454add4a8aea6b80cc6316e83fcca30d3546acef05d13f2807876bf530163",
+    "ids_receipt_content_sha256": "5d8f3f4a0e25c4d8a673470b86b6bc0c192df0265382fd04f8101a07720aa951",
+    "law_v3_receipt_content_sha256": "ffc108de568f90cf232e1c1ef89aa9d44bb6c4a9df7711653b2a03e1c71c077f",
+    "law_v4_receipt_content_sha256": "1c835bbd2634aed540926faccde72e9daf7d6b5e209b825ba5ad8786796a3293",
+    "v1_receipt_content_sha256": "0903e7e13b4f60f5be8e7e91a712b317eb6875733e612f2e5d87e340b6ddc6e3"
+  },
+  "blocked_v1": {
+    "config": {
+      "content_sha256": "6d3af19ffc4df56fe2462004498325d46daa3e63a6f1b5d592224bd1a7b9dc72",
+      "path": "configs/open_gravity_void_correlation_development_release_v1.json",
+      "preserved_path": "work/open-gravity-void-correlation-development-release-v1-blocked-audit1/config.json",
+      "raw_sha256": "b46884194ead305eb1bf8e26c97a6a7b6ece9b820e11d09cf4beb8f000df7e79"
+    },
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_void_correlation_development_release_v1.py",
+      "preserved_path": "work/open-gravity-void-correlation-development-release-v1-blocked-audit1/module.py",
+      "raw_sha256": "0c6bb7cb1a231a0b2cfb0a905b0dfdb373c0a612d2e48f4e8470ba195387de7b",
+      "semantic_sha256": "4d3e5f400677df75edad746173c4433d54ce752a789e0777919c1b76fd566a48"
+    },
+    "receipt": {
+      "content_sha256": "0903e7e13b4f60f5be8e7e91a712b317eb6875733e612f2e5d87e340b6ddc6e3",
+      "path": "runs/gravity/open-gravity-void-correlation-development-release-v1/receipt.json",
+      "preserved_path": "work/open-gravity-void-correlation-development-release-v1-blocked-audit1/receipt.json",
+      "raw_sha256": "33534bfdb5cc63b36284738dc2ae1595581671d5e02d668ad1f532c5c8df6b98",
+      "status": "PASS_SOURCE_FREE_DEVELOPMENT_RELEASE_CONTRACT_AWAIT_INDEPENDENT_AUDIT"
+    },
+    "test": {
+      "path": "tests/test_open_gravity_void_correlation_development_release_v1.py",
+      "preserved_path": "work/open-gravity-void-correlation-development-release-v1-blocked-audit1/test.py",
+      "raw_sha256": "e1d88a1d252705878be85e9373e435f99086b0ed263d57b09b7f8eab3cc3ce8f"
+    }
+  },
+  "conformance_gates": [
+    {
+      "check_id": "STALE_ZERO_LEAF_REJECTED",
+      "passed": true
+    },
+    {
+      "check_id": "EXACT_38053_LEDGER_SEQUENCE_AND_22897_DEVELOPMENT_COVERAGE",
+      "passed": true
+    },
+    {
+      "check_id": "EXACT_10000_PERMUTATION_RECOMPUTATION",
+      "passed": true
+    },
+    {
+      "check_id": "C04_DISTINCT_EXACT_COUNTERMODEL_SET",
+      "passed": true
+    },
+    {
+      "check_id": "STRICT_FAILURE_SANITIZER",
+      "passed": true
+    },
+    {
+      "check_id": "ONE_SHOT_EXACT_COUNTS_AND_HARD_SEALS",
+      "passed": true
+    },
+    {
+      "check_id": "NO_REAL_SCIENTIFIC_ACCESS",
+      "passed": true
+    }
+  ],
+  "content_sha256": "ef76855c6ef6cf138c12ad26f0f719ebfa39661e8d37e8327d23f9341eef18e4",
+  "countermodel_contract": {
+    "C04": "a distinct record containing seed=902104729, permutations=10000, observed statistic, exact 10000-row permutation-root, inclusive tail_count, and plus-one p-value; it is not an alias for C00",
+    "exact_keys": [
+      "PRIMARY_UNION_VOID_PATH",
+      "C00_FLRW_RADIAL_BULK_SHEAR_NULL",
+      "C01_OBSERVER_ENDPOINT_LOCAL_VOID",
+      "C02_TARGET_ENDPOINT_LOCAL_VOID",
+      "C03_SINGLE_DOMINANT_VOID",
+      "C04_STRATIFIED_EXCHANGEABILITY_NULL"
+    ]
+  },
+  "decision": "AUDIT_BLOCK_REPAIRED_SOURCE_FREE_NO_DEVELOPMENT_AUTHORIZATION",
+  "failure_contract": {
+    "access_count_keys": [
+      "authorization_consumptions",
+      "cf4_source_opens",
+      "cf4_gzip_passes",
+      "cf4_identifier_rows_reverified",
+      "cf4_development_scientific_rows_decoded",
+      "cf4_validation_scientific_rows_decoded",
+      "cf4_confirmation_scientific_rows_decoded",
+      "vast_table1_source_opens",
+      "vast_table1_rows_decoded",
+      "vast_table2_source_opens",
+      "vast_table2_gzip_passes",
+      "vast_table2_rows_decoded",
+      "mask_source_opens",
+      "pantheon_source_opens",
+      "development_scores"
+    ],
+    "identifiers": "unique canonical positive IDs, each SHA256 role development and present in the audited development subset",
+    "reasons": [
+      "AUTHORIZATION_INVALID",
+      "AUTHORIZATION_REPLAY",
+      "SOURCE_HASH_MISMATCH",
+      "SOURCE_PASS_COUNT",
+      "ROW_COUNT",
+      "LEDGER_MISMATCH",
+      "STALE_LEAF",
+      "SEALED_ROLE_ACCESS",
+      "PARSE_FAILURE",
+      "DUPLICATE_ID",
+      "COVERAGE_MISMATCH",
+      "JOIN_FAILURE",
+      "COORDINATE_FAILURE",
+      "MASK_FAILURE",
+      "DOMAIN_FAILURE",
+      "MINIMUM_FAILURE",
+      "SOLVER_FAILURE",
+      "PERMUTATION_FAILURE",
+      "OUTPUT_SCHEMA",
+      "ROOT_MISMATCH",
+      "EXISTING_MISMATCH",
+      "PROMOTION_FAILURE"
+    ],
+    "receipt": "sanitized self-hashed JSON only; no raw token, response, validation, confirmation or Pantheon value",
+    "stages": [
+      "AUTHORIZATION",
+      "SOURCE_OPEN",
+      "CF4_FRAME",
+      "CF4_ROLE_GATE",
+      "CF4_PARSE",
+      "VAST_PARSE",
+      "VAST_JOIN",
+      "MASK",
+      "GEOMETRY",
+      "ELIGIBILITY",
+      "LIKELIHOOD",
+      "PROFILE",
+      "PERMUTATION",
+      "OUTPUT",
+      "PROMOTION"
+    ]
+  },
+  "ledger_contract": {
+    "coverage": "38053 unique positive IDs; exact SHA256 bucket and role; exact development subset has 22897 unique IDs",
+    "exact_keys": [
+      "bucket",
+      "canonical_identifier",
+      "framed_end_exclusive",
+      "framed_raw_sha256",
+      "framed_start",
+      "identifier",
+      "identifier_field_raw_sha256",
+      "leaf_sha256",
+      "line_ending_bytes",
+      "opaque_tail_raw_sha256",
+      "payload_end_exclusive",
+      "payload_raw_sha256",
+      "payload_start",
+      "role",
+      "source_index"
+    ],
+    "hashes": "lowercase 64-hex SHA256 of exact framed row, payload, bytes 0:7 and bytes 7:157",
+    "leaf": "SHA256 canonical JSON of the exact entry excluding leaf_sha256; a stale all-zero or otherwise mismatched leaf rejects before role release",
+    "sequence": "source_index exactly 0..38052; framed_start equals prior framed_end; payload_start equals framed_start; 157 payload bytes; line ending 1 or 2; framed_end=payload_end+line-ending"
+  },
+  "ledger_counts": {
+    "all": 38053,
+    "development": 22897
+  },
+  "ledger_development_root_sha256": "5a64ef87dbef4efa7ad99d6c5e83196dcdd8676058a223136866b3e84e98a3bb",
+  "mutation_freeze": {
+    "config_content_sha256": "aa3bc243d63b8c21b22d30450927189b5a909844ccd494702919cb5475769b45",
+    "config_raw_sha256": "c1e146d9bd775f50748a986bc3212b0e1048c42887f3f217a4a9a5b5cb1f48ec",
+    "module_raw_sha256": "a9e62173919e0206f520ec780d9a38744abf48cac396cf2b9afaadbe91015df3",
+    "module_semantic_sha256": "e16e065b2c696466ddf57ed7b987fbbadb04d1f4d7ee0941f69c3a9cd5594233",
+    "test_raw_sha256": "f49845823f2aea4bfc01012354a19ce60f71b916d2dd5ec8b2113d3c3d8a889a"
+  },
+  "next_gate": "A distinct agent must re-audit every repair and issue a separately self-hashed PASS_ONE_DEVELOPMENT_RUN_ONLY receipt before the single-use executor may consume authorization or open any scientific source.",
+  "one_shot_contract": {
+    "CF4_rows": 38053,
+    "VAST_TABLE1_rows": 2347,
+    "VAST_TABLE2_rows": 80080,
+    "development_rows": 22897,
+    "development_scores": 1,
+    "finalize": "requires exact audited ledger coverage, exact source/pass/row counts, zero sealed access, exact output validation and exactly one consumed authorization",
+    "gzip_passes": {
+      "CF4_TABLE4": 1,
+      "VAST_TABLE2": 1
+    },
+    "hard_seals": "validation and confirmation rows may be frame/hash/ID verified only; their scientific decode flags must remain false; no Pantheon method exists",
+    "mask_loads": 1,
+    "source_opens": {
+      "CF4_TABLE4": 1,
+      "MASK_U8": 1,
+      "VAST_TABLE1": 1,
+      "VAST_TABLE2": 1
+    },
+    "source_sequence": [
+      "CF4_TABLE4",
+      "VAST_TABLE1",
+      "VAST_TABLE2",
+      "MASK_U8"
+    ]
+  },
+  "output_contract": {
+    "artifacts": [
+      "artifacts/development-rows.jsonl",
+      "artifacts/profile-grid.jsonl",
+      "artifacts/permutation-statistics.jsonl",
+      "artifacts/countermodels.json",
+      "artifacts/failures.json",
+      "artifacts/development-summary.json"
+    ],
+    "authorization_consumption_directory": "runs/gravity/open-gravity-void-correlation-development-release-v2-authorization-consumed",
+    "durability": "each file flush+fsync before close; POSIX directory fsync where supported; Windows uses no-replace MoveFileExW with MOVEFILE_WRITE_THROUGH as the directory promotion durability barrier; final parent barrier after promotion",
+    "existing": "return EXISTING_IDENTICAL only after exact file-set, schema, self-hash, release-chain, artifact raw/content hash, counts and every root validate; otherwise block",
+    "failure_directory": "runs/gravity/open-gravity-void-correlation-development-score-v2-failures",
+    "final_directory": "runs/gravity/open-gravity-void-correlation-development-score-v2",
+    "final_receipt": "receipt.json",
+    "no_clobber": true,
+    "roots": [
+      "development_ledger_root_sha256",
+      "eligible_primary_root_sha256",
+      "partial_mask_root_sha256",
+      "profile_grid_root_sha256",
+      "permutation_root_sha256",
+      "countermodels_content_sha256",
+      "failures_content_sha256"
+    ],
+    "staging_root": "work/open-gravity-void-correlation-development-score-v2-staging"
+  },
+  "package_id": "open-gravity-void-correlation-development-release-v2",
+  "permutation_contract": {
+    "artifact": "indices exactly 0..9999, statistic_hex canonical float.hex, row leaves and concatenated-leaf root",
+    "count": 10000,
+    "validation": "statistics length exactly 10000; each finite binary64; observed exactly equals primary one-sided statistic; tail recomputed by exact inclusive >=; p exactly (1+tail)/10001"
+  },
+  "runtime_dependencies": {
+    "callable_code_sha256": {
+      "executor_v3._cholesky_solve": "a54f4227d175b4c110ff7045e7a0122eb3e48c838b10aca1a662ac62daa8c19d",
+      "executor_v3._ordered_inputs": "f5b939b376102c453162bf5633e685862e529c9508afd2d6b370805cf718a4ca",
+      "executor_v3._pcg64_permutation_orders": "0278c37236bb2162b46c85c2165bd0420eb61471fcb376f1f42996ffdd374720",
+      "executor_v3._prepare_profile": "2556bf0a8cbb90f8f1d2c519953c98440a5c009b00107c3ae2304210a9b42c9b",
+      "executor_v3._profile_prepared": "77b7d57846afe4f984f2deafa0ecaab298fc249a154f9fe899d7ab1f6d135f7c",
+      "executor_v3._tie_tolerance": "6ea8be37b02605fe1d197f85f9b2d13b16dc65f37861a11b0f226c73b1b45c92",
+      "executor_v3.delta_h_grid": "151c8d132a98a40a3868c96c7ac15b658f33bc8a9f8b74974a96659beab01f0c",
+      "executor_v3.distance_strata": "7547cd83f4f7e6901524c0bd66601c2f230f0ff21545384f343e2b4a8dbb304c",
+      "executor_v3.normalize_direction": "cfbbefa296b104a79fc5331f99bc674efa6f9d44ef521fe6b13e728d79665e9f",
+      "executor_v3.nuisance_velocity_design": "095f6d5e288e1da7b1c5760712748b9a24f3401a11e3948fb371f3279c0a302d",
+      "executor_v3.observed_log_redshift": "d1224ef06c8f34119db4fd20f7bc4e7f877be399bcae9704224879589dec141e",
+      "executor_v3.profile_at_delta": "76c7a77d7451b3f2b6ba2740e2bbf043457972fa724f3b9a29ab3b485ef7e626",
+      "executor_v3.profile_grid": "ad35adc92c872cc9ebbbe9a0ba473a8f6f3c834f37e174b78f22c082a48fb32e",
+      "executor_v3.shear_quadratic_columns": "82257b6b76ae8cd50c8dcc2d94f1bdc6c29918a3993a9899d9a1196d50a0d35e",
+      "executor_v3.split_role": "5ffc63d5e384d1526c8a81fe9cec13fc49e04216f9e4b19ac892a0d63f4a933d",
+      "executor_v3.stf_basis": "0197a917e48d2f497e7bfb783d565da6c8be27a3f1c8e39123ca9a8a4d5dd929",
+      "executor_v3.synthetic_permutation_test": "f62c7d2e96a7391e718958cc252b102d37f7b1dc78e785aae3f1a48ba9430a73",
+      "executor_v3.validate_cf4_duplicate_keys": "e4574dabd54437af7d61baf2fea54232f774d2bcb075e212603bb595c809140d",
+      "executor_v3.validate_stf_basis": "49be0e1afafea0bf813c1d015b8d62001ca107f5816408697aabb25d0887e298",
+      "executor_v3.velocity_to_log_design": "465a17b92ca9c20952e7fd129382322ad547348f4c6aacf7fd9f92150e906f4a",
+      "geometry_v2._comoving_mpc": "b06fe50765be5defdbfbc7a03ec27897edfefb87e4389accabf7e51b3e0dadd8",
+      "geometry_v2.luminosity_to_comoving_hinv": "604993a08d9fe44e13605253daf157cf220421d9e4e8558f1d6323ab4b08100b",
+      "geometry_v2.mask_contains": "43392c069f7469167afeda3426770efee50b8a0edf226eb0e1ad97b325b0ee16",
+      "geometry_v2.mask_index": "36eaee44eca206b5b8e465109c8832baabaf69b55e739a0f8e8fa866dfa8a05c",
+      "geometry_v2.radec_to_xyz": "cb9763afd1fe4a392a20ebde8d2365f005e819acbeadf6a685b990b786bde003",
+      "geometry_v3.luminosity_to_comoving_hinv": "18bb845d9dcf9bfd31778c43df4016a09d8ce0f6b48dbcaadc61831eef7f02b1",
+      "geometry_v3.mask_index": "8a7eefe86d468552792d9438469c0b2d48cfec91929e6b3a20223deccfdf0574",
+      "geometry_v3.radec_to_xyz": "715bc65ec564b187c115eda0a7caa754feee8f3bd803a4d7a92adb94d6272266",
+      "geometry_v3.validate_cf4_distance": "eff2657eaa8f66f75922a32c7b4544ef44a00beac9f85eaaadd833bf0a5d887c",
+      "law_v3.path_partition": "97b879a22b287827278536a0360a09248e54f84b2a21ac7295d07d9d171f4fd2",
+      "law_v3.ray_sphere_intervals": "28746d1c9dc6c7a2bf18772ce2a5d82304e4dbaf2c2558eec71a51a525e21dce",
+      "law_v3.union_intervals": "86d38f08a7a1ba405e80c144a6b89f0b0269b60a094c30c0d665005a733d180d",
+      "law_v4.path_partition": "e5968aa493affe4f3724255db9ea63f8aba41e230ece5427a544ff37a4fc93e8",
+      "law_v4.ray_sphere_intervals": "76badfb7b1ce98567eeb765d5eddab90d0759821b54a331b23f2b5eeb5f8fd9f",
+      "law_v4.union_intervals": "39d5fa8807267350cd0ff37231edb0bbd22e49494e7818fe9f237ed28a917daa",
+      "v1._frame_payload": "2b386cafe24d2d50ec71e8dc98894eee14eec8109af0ab87eff72de8745feda9",
+      "v1._validate_cf4_domains": "429bc30653ba13d879eb9882b060aba39ecdcc041d9b6dee31f33f18cb278747",
+      "v1.classify_development": "20413236f48a2ac8dfa4fbb8cd4a53973bc28b24e4980d939bf0a69908ac87d4",
+      "v1.derive_development_row": "af6bdf7f1fd264f2acfca084da94550acda697c733aeb6dee3f692eb27bcd9e7",
+      "v1.development_ledger_rows": "4de566b10cdd430ef245c715cb55da85f1b706982cfb59ff2381337f884e2583",
+      "v1.development_permutation_test": "2723cc7b655ff648b4a48da1a368d019a9b66b48b9b03d5d865ff62844f980dd",
+      "v1.luminosity_to_comoving_hinv": "fbafe864535d8763938e206b6f954299b1dd714f76093d7dc6735b7299269c28",
+      "v1.parse_cf4_development_record": "9164fe2006b02bfa9522fbd560c666c0822f897abec4fe9098066db3dd1bd70f",
+      "v1.parse_field": "4b83459fd0505f1489ec5cb811d765523f7c051ee4c54a1bdba91a5f4675a8d8",
+      "v1.parse_record": "a6f8d73ce039d174d909b72ccf5b758c39b2923fdc93c557a7cf203f2a4d3c7f",
+      "v1.parse_vast_table1_record": "a77e23c815d4dfd3fe4fc2bd46feb11e2fa4676eec950b9dc6612a6679152011",
+      "v1.parse_vast_table2_record": "8d8d655e80e3c73e7bfe0c15547fb5e75d4ea38208aee6bab74ef0aa858938c1",
+      "v1.prepare_vast_geometry": "ae8706d2968a340306eb2f5a18c38c859c04a1b427666395c27cfa212825a21e",
+      "v1.profile_grid_details": "9c5fa3e165367bdf6a3acec0b199cf5d482af86e667195db5cbf4607b7ff048c",
+      "v1.record_payload": "fefb53f15412ac407d7fb77be1bee3089ad2e2fff1a8c9ad7e4ef4ee1ba27f1c",
+      "v1.score_countermodels": "b01c41fae670faf284030cb74d94bebbb68e0f7be46be6963562d8cce03bb37c",
+      "v1.score_exposure": "6ac5821bb074973fb8dfee0df16c64e6f82a09bfb51b79d5418b9620094e8ec0",
+      "v1.validate_mask": "cc07eb00cd7df6c2d2820ed91d3d86a8bc45b0fc0b41efab4c894a092788a3e1"
+    },
+    "executor_v3": {
+      "config": {
+        "content_sha256": "b3b80f518dcb91595a13ff5a1d0ec5943e96a50f16b185640e085fe586cd28b3",
+        "path": "configs/open_gravity_void_correlation_executor_contract_v3.json",
+        "raw_sha256": "5ba4e48c444c14b4f355f516ec664d449c4fd8d2a9d332676d0ffbf40f620a04"
+      },
+      "independent_audit": {
+        "content_sha256": "1025428193a0c7b9984f546da5796d46b7c9961f8410da027c3a97c573bed6e1",
+        "path": "runs/gravity/open-gravity-void-correlation-executor-contract-v3-independent-audit/receipt.json",
+        "raw_sha256": "cd66d98a29ace47f0cbcb4d6fbd714f04d2b8863b3da7053bd077ec1923ae92b",
+        "status": "PASS_IDS_PARTITIONING_ONLY"
+      },
+      "module": {
+        "path": "src/sigma_theory_compiler/open_gravity_void_correlation_executor_contract_v3.py",
+        "raw_sha256": "1220eaabfebc77340e5c84c2dc9d4056d9ce6509ebf3df38750e542fa9c90dfe",
+        "semantic_sha256": "e7e88c647487a3598418340cb340b88c40d716372f203eb4b3e9bca77f8cfe86"
+      },
+      "receipt": {
+        "content_sha256": "a0dad57f9815c501e640155c87359f2ba8e6b96b33d573afb8d8570e39d291a9",
+        "path": "runs/gravity/open-gravity-void-correlation-executor-contract-v3/receipt.json",
+        "raw_sha256": "e64717bf1d1c1dedd4670d864b4f86e1863ac24fc452fb7d45fcea7e55401734",
+        "status": "PASS_NORMALIZE_ONCE_REPAIR_MUTATION_FREEZE_ROWS_UNOPENED_AWAIT_INDEPENDENT_AUDIT"
+      },
+      "test": {
+        "path": "tests/test_open_gravity_void_correlation_executor_contract_v3.py",
+        "raw_sha256": "edb9e480f7454b9fc8e94ace36aef981d17712718ba8a3424c53afe88ac09540"
+      }
+    },
+    "geometry_v2": {
+      "config": {
+        "content_sha256": "307a0976a9913e54b40d664643f19b1b124f53fcae5c0aa1689a4e3c1823f573",
+        "path": "configs/open_gravity_void_geometry_source_completion_v2.json",
+        "raw_sha256": "180121d1253c8e14138c5c02423490e8f4f6cd2319e8ee33e40bd4208a916eef"
+      },
+      "module": {
+        "path": "src/sigma_theory_compiler/open_gravity_void_geometry_source_completion_v2.py",
+        "raw_sha256": "25a2c68dd187e1698e8bb4f361126fb2c248c36a75ca185129503cd339d5f7dd",
+        "semantic_sha256": "40c36acebaa25350975c59316936ab42ad6661c6d67ae4309db432e46bb3ba8c"
+      },
+      "receipt": {
+        "content_sha256": "011a0d2859142b7ed54a72605d72e7429b86d0882bd8ce6ce06c5c7d08ed11b6",
+        "path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/receipt.json",
+        "raw_sha256": "7fc6480745138bddc8f1a86948b61cf916448c8b0930750e52ee4f10e9b276a0",
+        "status": "PASS_CORRELATION_ONLY_GEOMETRY_CANONICAL_ROWS_UNOPENED"
+      },
+      "test": {
+        "path": "tests/test_open_gravity_void_geometry_source_completion_v2.py",
+        "raw_sha256": "55805783f23dac804731411ffa7966e5598d8faf862fab20086a27016c61c4c4"
+      }
+    },
+    "geometry_v3": {
+      "config": {
+        "content_sha256": "8a389d86254ae1d1fd18f462d540daf937b10b514a8ba7d1f47b01d46f34ace4",
+        "path": "configs/open_gravity_void_geometry_source_completion_v3.json",
+        "raw_sha256": "05a8ec88a9d37db28f3a9e9d991108e5b3388dac2cf55e1017f6b7d431e45c36"
+      },
+      "module": {
+        "path": "src/sigma_theory_compiler/open_gravity_void_geometry_source_completion_v3.py",
+        "raw_sha256": "41139e24dfedd1fa0ff58e65e0d6a8c61661a0277069735179e123b4263976b4",
+        "semantic_sha256": "8f0d20a1788322fdb26cce3af17c7e7669aa4f55d894ce9eadabb8249e2e8128"
+      },
+      "receipt": {
+        "content_sha256": "948abc576949f9d3872094f390b2828e817b71cc65dbb580366a88c386a0e31a",
+        "path": "runs/gravity/open-gravity-void-geometry-source-completion-v3/receipt.json",
+        "raw_sha256": "a7777fc5554f5c1ea97709a1a42ef5a02beaf90cb0889689213a01570c8cdc96",
+        "status": "PASS_DISTANCE_TYPED_FAIL_CLOSED_ROWS_UNOPENED"
+      },
+      "test": {
+        "path": "tests/test_open_gravity_void_geometry_source_completion_v3.py",
+        "raw_sha256": "e68bac67a32aae5e8aee530a66845f0ad3600ef54595966d910711f21bd28771"
+      }
+    },
+    "law_v3": {
+      "config": {
+        "content_sha256": "6539e69870546b3fd5451796ea9fb88ef2ff8aec33684c57c0ffdaa251b0e35d",
+        "path": "configs/open_gravity_void_gravitational_load_v3.json",
+        "raw_sha256": "d228ae2012f3fcc75ced2fa78db3de60fd6dd70d8f2abdb01b25d97c082a2588"
+      },
+      "module": {
+        "path": "src/sigma_theory_compiler/open_gravity_void_gravitational_load_v3.py",
+        "raw_sha256": "46d52a6e7faf069bda5607792517b2b31fbab311c3c3fa71c1819b96034aae36",
+        "semantic_sha256": "e1a88a0e24462f61e2864a59940c4a2d799e637469c2aee6178e3e26168344e3"
+      },
+      "receipt": {
+        "content_sha256": "ffc108de568f90cf232e1c1ef89aa9d44bb6c4a9df7711653b2a03e1c71c077f",
+        "path": "runs/gravity/open-gravity-void-gravitational-load-v3/receipt.json",
+        "raw_sha256": "1a186abc10aafdccf732596f9448ffd165980e0d2508766c99fae98b84f03d5d",
+        "status": "PASS_REPAIRED_CORRELATION_LAWS_ROWS_UNOPENED"
+      },
+      "test": {
+        "path": "tests/test_open_gravity_void_gravitational_load_v3.py",
+        "raw_sha256": "1a34a542633562b4acffab7b2b865154e2b0ab355ae054e11aa033807a9a8274"
+      }
+    },
+    "law_v4": {
+      "config": {
+        "content_sha256": "555c108bdb89992f886c50abcb566fc3ac5ee736e1a08ac810cbf3d15b2b0867",
+        "path": "configs/open_gravity_void_gravitational_load_v4.json",
+        "raw_sha256": "11a6ec2b4e3e03d015091259a75eed490f280162ed3f85ba8ee04a1269736acf"
+      },
+      "module": {
+        "path": "src/sigma_theory_compiler/open_gravity_void_gravitational_load_v4.py",
+        "raw_sha256": "2d54bc2dc118908e04eb5e99bbecbd28eb3b25fc6a8add7c79b27bdb6edf2669",
+        "semantic_sha256": "d6f8de533000ac1f20f9bf7e82af422222e8eef92a7eb98c0f7c36acda01059d"
+      },
+      "receipt": {
+        "content_sha256": "1c835bbd2634aed540926faccde72e9daf7d6b5e209b825ba5ad8786796a3293",
+        "path": "runs/gravity/open-gravity-void-gravitational-load-v4/receipt.json",
+        "raw_sha256": "f8e037382dfd617abd9272f0657dca60b885dff323ab3d904887a681efef37b9",
+        "status": "PASS_FAIL_CLOSED_IDENTIFIABLE_LAW_ROWS_UNOPENED"
+      },
+      "test": {
+        "path": "tests/test_open_gravity_void_gravitational_load_v4.py",
+        "raw_sha256": "69d5ec26797e41e97b1ab641bfa343c2965f415ec40df79458ad995a27aac51a"
+      }
+    }
+  },
+  "schema": "invariant-open-gravity-void-correlation-development-release-receipt-2.0",
+  "status": "PASS_SOURCE_FREE_DEVELOPMENT_RELEASE_V2_AWAIT_INDEPENDENT_REAUDIT"
+}

@@ -1,0 +1,350 @@
+{
+  "benchmark_contract": {
+    "reprojection": "bilinear SINGS flux and nearest-neighbor weight/mask onto exact S4G P5 WCS",
+    "s4g_rms_mjy_sr": 0.0072,
+    "source_threshold_sigma": 5.0,
+    "validity": "positive finite overlap with SINGS weight>0, S4G ICAmask==0, and S4G stellar intensity above 5 sigma",
+    "wcs_modes": {
+      "primary": "core TAN with inherited SIP coefficients disabled because the delivered drizzled mosaics omit the -SIP CTYPE declaration",
+      "sensitivity": "apply inherited SIP coefficients despite the missing -SIP CTYPE declaration"
+    }
+  },
+  "content_sha256": "c21c69afa0b0989e9da1f244ebe22bb66b395f4ec7cb0911729508c07118cdb0",
+  "conversion": {
+    "fixed_ml_msun_per_lsun": 0.6,
+    "luminosity_lsun_pc2_per_mjy_sr": 704.04,
+    "mass_surface_density_msun_pc2_per_mjy_sr": 422.424
+  },
+  "interpretation": "SINGS includes nonstellar 3.6 micron emission that S4G P5 removes; equality is not expected and differences are not gravity evidence.",
+  "paper_bindings": {
+    "fixed_ml_3p6": "https://arxiv.org/abs/1402.5210",
+    "s4g_p5": "https://arxiv.org/abs/1410.0009",
+    "sings_dr5": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/doc/sings_fifth_delivery_v2.pdf"
+  },
+  "purpose": "Source-only comparison of raw SINGS IRAC1 intensity with independent S4G P5 ICA-cleaned old-stellar intensity.",
+  "reconstruction_identity_under_test": "S4G P5 stellar + nonstellar should reconstruct the S4G input 3.6 micron field; agreement with independently reduced SINGS is a cross-pipeline source benchmark, not exact identity.",
+  "records": [
+    {
+      "object_id": "NGC2976",
+      "s4g_unit": "MJy/sr",
+      "sings_header_background_mjy_sr": 0.0222583,
+      "sings_header_background_subtracted": true,
+      "sings_unit": "MJy/sr",
+      "sings_vs_s4g_stellar": {
+        "comparison_pixels": 108077,
+        "integrated_observed_per_reference_flux_ratio": 1.210943009519914,
+        "observed_ge_reference_fraction": 0.583306346401177,
+        "pearson_r": 0.7504548930134659,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.4179508606796627,
+          "q16": 0.7903773265837659,
+          "q50": 1.0440310153714387,
+          "q84": 1.3454825142853968,
+          "q95": 1.9224983476231303
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.05196254908700908,
+          "q16": -0.018541945773436284,
+          "q50": 0.004751667735559517,
+          "q84": 0.09919669438742376,
+          "q95": 0.3530430925858584
+        },
+        "spearman_r": 0.9197987195146133,
+        "through_origin_observed_per_reference_slope": 0.9457167108115963
+      },
+      "sings_vs_s4g_stellar_plus_nonstellar": {
+        "comparison_pixels": 108077,
+        "integrated_observed_per_reference_flux_ratio": 0.9876036854586736,
+        "observed_ge_reference_fraction": 0.4640025167241874,
+        "pearson_r": 0.8617247047174307,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.40471661149034255,
+          "q16": 0.7663806623371366,
+          "q50": 0.9864426016689695,
+          "q84": 1.1646863634978097,
+          "q95": 1.4387369983420815
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.09842194432007875,
+          "q16": -0.03382407700520914,
+          "q50": -0.0018849255692932818,
+          "q84": 0.027284178564823836,
+          "q95": 0.0901821402411423
+        },
+        "spearman_r": 0.9279760355066569,
+        "through_origin_observed_per_reference_slope": 0.850128970614143
+      },
+      "source_threshold_mjy_sr": 0.036,
+      "wcs_mode": "CORE_TAN_PRIMARY"
+    },
+    {
+      "object_id": "NGC2976",
+      "s4g_unit": "MJy/sr",
+      "sings_header_background_mjy_sr": 0.0222583,
+      "sings_header_background_subtracted": true,
+      "sings_unit": "MJy/sr",
+      "sings_vs_s4g_stellar": {
+        "comparison_pixels": 108059,
+        "integrated_observed_per_reference_flux_ratio": 1.2102848499440455,
+        "observed_ge_reference_fraction": 0.5823485318205796,
+        "pearson_r": 0.7484010437188658,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.40596978323423477,
+          "q16": 0.7872280163558971,
+          "q50": 1.0439017648504276,
+          "q84": 1.3450844273072646,
+          "q95": 1.9236283210213236
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.05295270680448545,
+          "q16": -0.018791916755001494,
+          "q50": 0.004695163872258247,
+          "q84": 0.09941948303645194,
+          "q95": 0.3533485402101693
+        },
+        "spearman_r": 0.9176560638723711,
+        "through_origin_observed_per_reference_slope": 0.9438665715434368
+      },
+      "sings_vs_s4g_stellar_plus_nonstellar": {
+        "comparison_pixels": 108059,
+        "integrated_observed_per_reference_flux_ratio": 0.9870613923631487,
+        "observed_ge_reference_fraction": 0.46325618412163727,
+        "pearson_r": 0.859990960010719,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.3938396834860546,
+          "q16": 0.7629649358487832,
+          "q50": 0.9860150032806227,
+          "q84": 1.1647521564096532,
+          "q95": 1.4386685367911494
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.0993579296583272,
+          "q16": -0.03419689314328279,
+          "q50": -0.0019460420982257004,
+          "q84": 0.02726836684006816,
+          "q95": 0.09043671039405611
+        },
+        "spearman_r": 0.92588681846068,
+        "through_origin_observed_per_reference_slope": 0.8488329115917119
+      },
+      "source_threshold_mjy_sr": 0.036,
+      "wcs_mode": "HEADER_SIP_SENSITIVITY"
+    },
+    {
+      "object_id": "NGC3198",
+      "s4g_unit": "MJy/sr",
+      "sings_header_background_mjy_sr": 0.0318753,
+      "sings_header_background_subtracted": true,
+      "sings_unit": "MJy/sr",
+      "sings_vs_s4g_stellar": {
+        "comparison_pixels": 75941,
+        "integrated_observed_per_reference_flux_ratio": 1.3593372443895388,
+        "observed_ge_reference_fraction": 0.6979892284800042,
+        "pearson_r": 0.9151098332321007,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.6133899606134822,
+          "q16": 0.8733050406020514,
+          "q50": 1.1521205813148356,
+          "q84": 1.5393888667634414,
+          "q95": 1.9151714967253246
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.027491820582416546,
+          "q16": -0.010072171709555868,
+          "q50": 0.014486607628743431,
+          "q84": 0.15934779068048666,
+          "q95": 0.3268656013655764
+        },
+        "spearman_r": 0.9459098944753219,
+        "through_origin_observed_per_reference_slope": 1.454792132591945
+      },
+      "sings_vs_s4g_stellar_plus_nonstellar": {
+        "comparison_pixels": 75941,
+        "integrated_observed_per_reference_flux_ratio": 1.001736059322214,
+        "observed_ge_reference_fraction": 0.4930669862129811,
+        "pearson_r": 0.9461466754465478,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.5752329740825705,
+          "q16": 0.8104592074385655,
+          "q50": 0.9965321297931962,
+          "q84": 1.195529551872218,
+          "q95": 1.3800941594730551
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.08818670980232068,
+          "q16": -0.03251650451319576,
+          "q50": -0.0004377690168188286,
+          "q84": 0.030482980874335725,
+          "q95": 0.0865219148196053
+        },
+        "spearman_r": 0.9592171295322075,
+        "through_origin_observed_per_reference_slope": 1.0076050087092434
+      },
+      "source_threshold_mjy_sr": 0.036,
+      "wcs_mode": "CORE_TAN_PRIMARY"
+    },
+    {
+      "object_id": "NGC3198",
+      "s4g_unit": "MJy/sr",
+      "sings_header_background_mjy_sr": 0.0318753,
+      "sings_header_background_subtracted": true,
+      "sings_unit": "MJy/sr",
+      "sings_vs_s4g_stellar": {
+        "comparison_pixels": 75940,
+        "integrated_observed_per_reference_flux_ratio": 1.359489866738747,
+        "observed_ge_reference_fraction": 0.6982222807479589,
+        "pearson_r": 0.9150971589056163,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.61286031331673,
+          "q16": 0.8733595686823474,
+          "q50": 1.1524167936399277,
+          "q84": 1.539464555523657,
+          "q95": 1.9156445541113925
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.027470727195545847,
+          "q16": -0.010077253432905468,
+          "q50": 0.014503354772634893,
+          "q84": 0.159422135146948,
+          "q95": 0.32680110975992455
+        },
+        "spearman_r": 0.9459088903147163,
+        "through_origin_observed_per_reference_slope": 1.4548890369913339
+      },
+      "sings_vs_s4g_stellar_plus_nonstellar": {
+        "comparison_pixels": 75940,
+        "integrated_observed_per_reference_flux_ratio": 1.001845609431378,
+        "observed_ge_reference_fraction": 0.49319199367922045,
+        "pearson_r": 0.9461391786175156,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.5756559334549993,
+          "q16": 0.8104252915187935,
+          "q50": 0.9966024788112433,
+          "q84": 1.1957843545629094,
+          "q95": 1.3803290912004953
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.08811823521309695,
+          "q16": -0.032504162256731695,
+          "q50": -0.000432157634389127,
+          "q84": 0.030528959792990334,
+          "q95": 0.08663074763113225
+        },
+        "spearman_r": 0.9592106790460978,
+        "through_origin_observed_per_reference_slope": 1.0076718564130234
+      },
+      "source_threshold_mjy_sr": 0.036,
+      "wcs_mode": "HEADER_SIP_SENSITIVITY"
+    },
+    {
+      "object_id": "NGC3521",
+      "s4g_unit": "MJy/sr",
+      "sings_header_background_mjy_sr": 0.0499367,
+      "sings_header_background_subtracted": true,
+      "sings_unit": "MJy/sr",
+      "sings_vs_s4g_stellar": {
+        "comparison_pixels": 292564,
+        "integrated_observed_per_reference_flux_ratio": 1.7899876373664043,
+        "observed_ge_reference_fraction": 0.6721025143216527,
+        "pearson_r": 0.791553363022021,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.6638944576597012,
+          "q16": 0.881545473155532,
+          "q50": 1.0961922834792475,
+          "q84": 1.5830481653594264,
+          "q95": 2.895813027174485
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.027628617822486802,
+          "q16": -0.010997505521848543,
+          "q50": 0.00954453071360787,
+          "q84": 0.16487655059360048,
+          "q95": 1.4883259431230786
+        },
+        "spearman_r": 0.9487490119611363,
+        "through_origin_observed_per_reference_slope": 1.5675946001550267
+      },
+      "sings_vs_s4g_stellar_plus_nonstellar": {
+        "comparison_pixels": 292564,
+        "integrated_observed_per_reference_flux_ratio": 1.0217783544910464,
+        "observed_ge_reference_fraction": 0.5547845941400856,
+        "pearson_r": 0.8437770719715983,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.6456747178900836,
+          "q16": 0.8533045394995207,
+          "q50": 1.0229056392084377,
+          "q84": 1.218309436024361,
+          "q95": 1.4340667790390176
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.10693875873219665,
+          "q16": -0.023527866949547234,
+          "q50": 0.0028922632138851795,
+          "q84": 0.029678284420950798,
+          "q95": 0.11978046257573262
+        },
+        "spearman_r": 0.955340861502619,
+        "through_origin_observed_per_reference_slope": 1.051365182242003
+      },
+      "source_threshold_mjy_sr": 0.036,
+      "wcs_mode": "CORE_TAN_PRIMARY"
+    },
+    {
+      "object_id": "NGC3521",
+      "s4g_unit": "MJy/sr",
+      "sings_header_background_mjy_sr": 0.0499367,
+      "sings_header_background_subtracted": true,
+      "sings_unit": "MJy/sr",
+      "sings_vs_s4g_stellar": {
+        "comparison_pixels": 292609,
+        "integrated_observed_per_reference_flux_ratio": 1.7896568358284226,
+        "observed_ge_reference_fraction": 0.6714079197837387,
+        "pearson_r": 0.7915496347692981,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.6653615599799044,
+          "q16": 0.8817619436055648,
+          "q50": 1.095517433071393,
+          "q84": 1.581238851251996,
+          "q95": 2.896336490010641
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.027620380926530186,
+          "q16": -0.01097723393594715,
+          "q50": 0.009468832019700724,
+          "q84": 0.16472923730571193,
+          "q95": 1.4877548467822752
+        },
+        "spearman_r": 0.9487210589750035,
+        "through_origin_observed_per_reference_slope": 1.5674491781575428
+      },
+      "sings_vs_s4g_stellar_plus_nonstellar": {
+        "comparison_pixels": 292609,
+        "integrated_observed_per_reference_flux_ratio": 1.021603984976384,
+        "observed_ge_reference_fraction": 0.5540499437816335,
+        "pearson_r": 0.8437695252569997,
+        "pixel_observed_per_reference_ratio_quantiles": {
+          "q05": 0.6467501518513096,
+          "q16": 0.8535188834452401,
+          "q50": 1.0225579899930735,
+          "q84": 1.2173493921987728,
+          "q95": 1.4321707112295265
+        },
+        "residual_mjy_sr_quantiles": {
+          "q05": -0.10728004230005357,
+          "q16": -0.023548745638875795,
+          "q50": 0.0028513523000660568,
+          "q84": 0.029583138842128147,
+          "q95": 0.1196917699254891
+        },
+        "spearman_r": 0.9553043893163368,
+        "through_origin_observed_per_reference_slope": 1.0512639443513137
+      },
+      "source_threshold_mjy_sr": 0.036,
+      "wcs_mode": "HEADER_SIP_SENSITIVITY"
+    }
+  ],
+  "response_files_opened": 0,
+  "response_rows_opened": 0,
+  "schema": "invariant-work-rg-sings-s4g-overlap-source-comparison-3.0",
+  "scores_computed": 0
+}

@@ -59,6 +59,7 @@ SOURCE_IDS = (
     "shared_quadrature_scalar_cherenkov_cutoff_rate",
     "shared_quadrature_scalar_local_cutoff_ceiling",
     "shared_quadrature_scalar_full_local_fluctuation",
+    "shared_quadrature_scalar_exact_taylor_domain",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -227,6 +228,7 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     quadrature_cherenkov_rate = sources["shared_quadrature_scalar_cherenkov_cutoff_rate"]
     quadrature_local_cutoff = sources["shared_quadrature_scalar_local_cutoff_ceiling"]
     quadrature_full_local = sources["shared_quadrature_scalar_full_local_fluctuation"]
+    quadrature_taylor = sources["shared_quadrature_scalar_exact_taylor_domain"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -1865,6 +1867,81 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         raise GravityClusterManuscriptPackageError(
             "quadrature scalar full local-fluctuation evidence changed"
         )
+    if (
+        quadrature_taylor["status"]
+        != "restricted_fixed_background_exact_scalar_jet_taylor_domain_no_data"
+        or quadrature_taylor["decision"]
+        != "RESTRICTED_FIXED_BACKGROUND_EXACT_SCALAR_JET_TAYLOR_DOMAIN_DERIVED_BOTH_CANONICAL_ENDPOINT_RADII_COLLAPSE_NOT_A_PHYSICAL_CUTOFF_UNITARITY_OR_FULL_COUPLED_HEALTH_RESULT"
+        or quadrature_taylor["config_binding"]
+        != {
+            "content_sha256": "9757c02246953b60eca7493a6ac40be9ff060b19a8a416eda4f7f7237b06ab67",
+            "file_sha256": "a34a8faae6a72410fedadbe7ea7c195138fe43dc9fd104d82b950b3bbe78be9d",
+            "path": "configs/gravity_shared_quadrature_scalar_exact_taylor_domain_v1.json",
+        }
+        or quadrature_taylor["implementation_binding"]
+        != {
+            "source_file_sha256": "cd2d5b7225d3eb7a2adfb54326e2c298795aa02b6e1e2f3a4bab725c60d0ce09",
+            "source_path": "src/sigma_theory_compiler/gravity_shared_quadrature_scalar_exact_taylor_domain.py",
+            "test_file_sha256": "0555e4fe68795afe85dde07aa75f10de84dd6543adeca015ffaf6dcfe44f41eb",
+            "test_path": "tests/test_gravity_shared_quadrature_scalar_exact_taylor_domain.py",
+        }
+        or quadrature_taylor["counts"]
+        != {
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls_by_builder": 0,
+            "numeric_cases": 5,
+            "numeric_cases_passed": 5,
+            "observational_files_opened": 0,
+            "observational_rows_opened": 0,
+            "predecessor_artifacts": 4,
+            "predecessor_bindings": 1,
+            "symbolic_checks": 25,
+            "symbolic_checks_passed": 25,
+        }
+        or quadrature_taylor["adjudication"]
+        != {
+            "CP11_4_complete": False,
+            "CP11_6_complete": False,
+            "canonical_jet_radii_derived": True,
+            "endpoint_collapse_is_quartic_truncation_artifact": False,
+            "exact_fixed_background_real_scalar_jet_domain_derived": True,
+            "exact_longitudinal_local_Taylor_radius_derived": True,
+            "exact_transverse_local_Taylor_radius_derived": True,
+            "full_coupled_metric_aether_matter_analyticity_domain": False,
+            "loop_control_established": False,
+            "overall_decision": "RESTRICTED_FIXED_BACKGROUND_EXACT_SCALAR_JET_TAYLOR_DOMAIN_DERIVED_BOTH_CANONICAL_ENDPOINT_RADII_COLLAPSE_NOT_A_PHYSICAL_CUTOFF_UNITARITY_OR_FULL_COUPLED_HEALTH_RESULT",
+            "physical_UV_cutoff_established": False,
+            "quartic_endpoint_scaling_consistent_with_exact_radii": True,
+            "solution_dependent_EFT_domain_established": False,
+            "strong_coupling_theorem_established": False,
+            "tree_level_unitarity_bound_established": False,
+        }
+        or quadrature_taylor["claim_boundary"]
+        != {
+            "Solar_System_viability_established": False,
+            "all_mode_cherenkov_safety_established": False,
+            "cosmological_viability_established": False,
+            "exact_canonical_scalar_jet_radii_established": True,
+            "exact_fixed_background_scalar_jet_domain_established": True,
+            "full_coupled_analyticity_domain_established": False,
+            "gravitational_wave_viability_established": False,
+            "healthy_action_established": False,
+            "historical_novelty_established": False,
+            "observational_scalar_cherenkov_exclusion_established": False,
+            "physical_cutoff_established": False,
+            "publication_readiness_changed": False,
+            "quantitative_lensing_observables_predicted": False,
+            "scientific_observational_claim_allowed": False,
+            "tree_unitarity_established": False,
+        }
+        or quadrature_taylor["endpoint_and_quartic_consistency_contract"]["result"]
+        != "The endpoint collapse is present in the exact scalar jet analyticity domain and is not created solely by truncating the action at quartic order."
+        or set(quadrature_taylor["zero_access_and_compute"].values()) != {0}
+    ):
+        raise GravityClusterManuscriptPackageError(
+            "quadrature scalar exact Taylor-domain evidence changed"
+        )
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -1919,6 +1996,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     quadrature_cherenkov_rate = sources["shared_quadrature_scalar_cherenkov_cutoff_rate"]
     quadrature_local_cutoff = sources["shared_quadrature_scalar_local_cutoff_ceiling"]
     quadrature_full_local = sources["shared_quadrature_scalar_full_local_fluctuation"]
+    quadrature_taylor = sources["shared_quadrature_scalar_exact_taylor_domain"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -2879,6 +2957,25 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "quadrature_full_local_tree_unitarity": quadrature_full_local["adjudication"][
                 "tree_level_unitarity_bound_established"
             ],
+            "quadrature_taylor_decision": quadrature_taylor["decision"],
+            "quadrature_taylor_exact_scalar_jet_domain": quadrature_taylor["adjudication"][
+                "exact_fixed_background_real_scalar_jet_domain_derived"
+            ],
+            "quadrature_taylor_canonical_radii": quadrature_taylor["adjudication"][
+                "canonical_jet_radii_derived"
+            ],
+            "quadrature_taylor_quartic_truncation_artifact": quadrature_taylor[
+                "adjudication"
+            ]["endpoint_collapse_is_quartic_truncation_artifact"],
+            "quadrature_taylor_full_coupled_domain": quadrature_taylor["adjudication"][
+                "full_coupled_metric_aether_matter_analyticity_domain"
+            ],
+            "quadrature_taylor_physical_cutoff": quadrature_taylor["adjudication"][
+                "physical_UV_cutoff_established"
+            ],
+            "quadrature_taylor_tree_unitarity": quadrature_taylor["adjudication"][
+                "tree_level_unitarity_bound_established"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -3087,6 +3184,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "symbolic_checks_passed"
             ],
             "quadrature_full_local_numeric_cases_passed": quadrature_full_local["counts"][
+                "numeric_cases_passed"
+            ],
+            "quadrature_taylor_symbolic_checks_passed": quadrature_taylor["counts"][
+                "symbolic_checks_passed"
+            ],
+            "quadrature_taylor_numeric_cases_passed": quadrature_taylor["counts"][
                 "numeric_cases_passed"
             ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],

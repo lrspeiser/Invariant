@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://invariant.local/schemas/open-gravity-vector-scale-control-parameters-v1.schema.json",
+  "title": "Vector-scale control parameters v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["scale_denominator", "scale_numerator"],
+  "properties": {
+    "scale_denominator": {
+      "type": "integer",
+      "anyOf": [
+        {"maximum": -1},
+        {"minimum": 1}
+      ]
+    },
+    "scale_numerator": {"type": "integer"}
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "artifact_index": [
+    {
+      "bytes": 414,
+      "path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/artifacts/mask-metadata.json",
+      "sha256": "c8ddd85e7c96c52df8e1f98d439e2af7ba499003ead47eef88ca3d00609b1bd9"
+    },
+    {
+      "bytes": 64800,
+      "path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/artifacts/mask-u8.bin",
+      "sha256": "e473e5f71860ab3d8580036c2d41ca637af66bc32a6e8701ceb9fc16444520fa"
+    }
+  ],
+  "bindings": {
+    "blocked_predecessor_raw_sha256": "c055e9bb341b4d8ccf34a85189fdfa3abd7f534fe32c0ac2a944e9134fd1f4c2",
+    "config_content_sha256": "307a0976a9913e54b40d664643f19b1b124f53fcae5c0aa1689a4e3c1823f573",
+    "config_raw_sha256": "180121d1253c8e14138c5c02423490e8f4f6cd2319e8ee33e40bd4208a916eef",
+    "module_raw_sha256": "25a2c68dd187e1698e8bb4f361126fb2c248c36a75ca185129503cd339d5f7dd",
+    "module_semantic_sha256": "40c36acebaa25350975c59316936ab42ad6661c6d67ae4309db432e46bb3ba8c",
+    "test_raw_sha256": "55805783f23dac804731411ffa7966e5598d8faf862fab20086a27016c61c4c4"
+  },
+  "content_sha256": "011a0d2859142b7ed54a72605d72e7429b86d0882bd8ce6ce06c5c7d08ed11b6",
+  "coordinate_contract": {
+    "boundaries": "RA=360 wraps to 0; Dec=+90 is outside the half-open grid; radial interval is closed at both frozen limits",
+    "frame": "ICRS/J2000 observer-centered right-handed Cartesian",
+    "mask_index": "RA is normalized to [0,360); Dec must lie in [-90,90); i=floor(RA*resolution), j=floor((Dec+90)*resolution)",
+    "transform": "x=r*cos(dec)*cos(ra); y=r*cos(dec)*sin(ra); z=r*sin(dec), angles in radians",
+    "validation_after_decode": "Before scoring, table1 (x,y,z,s,RAdeg,DEdeg) must satisfy the frozen transform within 1e-9 relative and 1e-8 h^-1 Mpc absolute tolerance."
+  },
+  "counterevidence_receipt_content_sha256": "132d61cf7af00b96554d594cb48486f2810e99d2d7a47c0968cc8942dd070d47",
+  "decision": "READY_TO_FREEZE_CORRELATION_ONLY_EXECUTOR_NOT_MECHANISM_CLAIM",
+  "distance_contract": {
+    "cf4_type": "DMzp and Dist are luminosity distances",
+    "conversion": "Invert D_L=(1+z)D_C in frozen flat Planck2018 cosmology, then r_h_inverse_Mpc=(H0/100)D_C. Never use cz/H0 as target distance.",
+    "cosmology": {
+      "H0_km_s_Mpc": 67.4,
+      "Omega_lambda": 0.685,
+      "Omega_m": 0.315,
+      "c_km_s": 299792.458
+    },
+    "vast_type": "sphere coordinates are Planck2018 comoving h^-1 Mpc"
+  },
+  "mask_metadata": {
+    "dist_limits_h_inverse_mpc": [
+      0.0,
+      332.3856506347656
+    ],
+    "layout": "C-order uint8; index i*180+j",
+    "payload_sha256": "e473e5f71860ab3d8580036c2d41ca637af66bc32a6e8701ceb9fc16444520fa",
+    "pickle_executed": false,
+    "resolution_per_degree": 1,
+    "shape": [
+      360,
+      180
+    ],
+    "source_pickle_sha256": "523372fd0600e833cbfaa04b92109147efdf2af1e13867f232b8e74646c9f8fa",
+    "true_pixels": 9133
+  },
+  "package_id": "open-gravity-void-geometry-source-completion-v2",
+  "schema": "invariant-open-gravity-void-geometry-source-completion-receipt-2.0",
+  "scope": {
+    "allowed": "Target-blind correlation-only CF4 x VAST sphere-path screen after a separately frozen executor",
+    "coverage": "Primary rows must have the full observer-to-target ray inside the angular mask and frozen radial interval; partial rays are retained only as explicit L_unobserved counterexamples and are not primary scores.",
+    "forbidden": [
+      "mechanism inference",
+      "mock/RSD calibration claim",
+      "exact DR7 membership claim",
+      "publication claim"
+    ],
+    "real_scores": 0,
+    "response_values_inspected": 0,
+    "scientific_rows_decoded": 0
+  },
+  "source_bundle_root_sha256": "17bf5d717822291286b1d69be3c1695f1b5f68774e58eb54400fee59d69023a8",
+  "status": "PASS_CORRELATION_ONLY_GEOMETRY_CANONICAL_ROWS_UNOPENED",
+  "version_boundary": {
+    "cds_revision": "J/ApJS/265/7 files last modified 2023-06-09",
+    "claim": "The acquired CDS sphere tables and the Zenodo mask are sufficient for a correlation-only screen. Byte identity between CDS sphere rows and Zenodo v1.3.1 sphere files is not claimed; mechanism inference is forbidden.",
+    "official_release_note": "v1.3.1 corrected NSAID values in V2 galzones files",
+    "zenodo_revision": "1.3.1 published 2024-04-22"
+  }
+}

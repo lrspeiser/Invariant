@@ -1,0 +1,66 @@
+{
+  "schema": "open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-lint-successor-2.0",
+  "package_id": "open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v2",
+  "version": "v2.0.0",
+  "status": "FROZEN_LINT_ONLY_SUCCESSOR_PRE_RESPONSE",
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "purpose": "Append-only lint-only successor: preserve every v1 scientific input, output, score, failure, receipt, and hash byte-exact while projecting exactly two source changes--remove one unused DiscoveryStatus import and explicitly annotate the intentional broad retained-adapter-failure catch for Ruff BLE001.",
+  "predecessor_package_id": "open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v1",
+  "predecessor_receipt_content_sha256": "5d1a8cdaeda8496396728fe858902132cdcd3591378a3a8cf4cb954e9a9fbc35",
+  "predecessor_bindings": [
+    {"id": "V1_CONFIG", "path": "configs/open_gravity_solar_planetary_source_shaped_synthetic_injection_matrix_v1.json", "bytes": 6906, "sha256": "b01c5285b388f8d4acf9690c01598088dcc1c7443f11a83be77813f6c7f871fc"},
+    {"id": "V1_CONFUSION", "path": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v1/confusion-matrix.json", "bytes": 2429, "sha256": "7a4826f298fb7be7e60ce20febdf69909faef8e25246cd871021fd81b3c04148"},
+    {"id": "V1_DIAGNOSTICS", "path": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v1/invariance-and-identifiability.json", "bytes": 36079, "sha256": "0b27125169f33488be46d5b8171e71b709b7f46b93ea450a03f56f05ba880987"},
+    {"id": "V1_LEDGER", "path": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v1/ledger.json", "bytes": 3029028, "sha256": "fb8c97a3cbd2acbf5fda1518d888b677b80623aa0e0e6d2908a7edd32aef68aa"},
+    {"id": "V1_MODULE", "path": "src/sigma_theory_compiler/open_gravity_solar_planetary_source_shaped_synthetic_injection_matrix_v1.py", "bytes": 57159, "sha256": "4f37b3f7463029ac378e4abac06d05f3c5684b6f45bdd359b3a7207c85e322c9"},
+    {"id": "V1_RECEIPT", "path": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v1/receipt.json", "bytes": 31062, "sha256": "1f315b06b80ca80207e89d2f0b212679089992e8ede61737a79114668eafe692"},
+    {"id": "V1_SCENARIOS", "path": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v1/scenarios.jsonl", "bytes": 1424697, "sha256": "05f6c40d91774aba62ad3416e2e6c25652058430a048b67759c179d4ae7c4420"},
+    {"id": "V1_TEST", "path": "tests/test_open_gravity_solar_planetary_source_shaped_synthetic_injection_matrix_v1.py", "bytes": 7820, "sha256": "c99f0846e58ae9ee76ebf2d68abb3d7be3008d633ff71f70e176813b8ea891be"},
+    {"id": "V1_VALUES", "path": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v1/values.npz", "bytes": 290670, "sha256": "51204bcb89dfd432132271afe48d080fbb7ae958868f96d2fc96821569191c5a"}
+  ],
+  "lint_corrections": [
+    {
+      "id": "REMOVE_UNUSED_DISCOVERY_STATUS_IMPORT",
+      "before": "    DiscoveryStatus,\n",
+      "after": ""
+    },
+    {
+      "id": "ANNOTATE_INTENTIONAL_RETAINED_FAILURE_CATCH",
+      "before": "            except Exception as error:\n",
+      "after": "            except Exception as error:  # noqa: BLE001\n",
+      "policy": "The Solar synthetic matrix must retain every adapter exception as a typed numerical failure and continue other cells; BaseException subclasses remain outside the catch."
+    }
+  ],
+  "preserved_v1_results": {
+    "status": "FROZEN_SYNTHETIC_ONLY_COMPLETE_AWAITING_DISTINCT_AUDIT",
+    "target_count": 8,
+    "epoch_count": 13,
+    "source_domain_count": 4,
+    "mechanism_count": 5,
+    "scenario_count": 120,
+    "common_abi_execution_count": 40,
+    "successful_common_abi_execution_count": 40,
+    "candidate_comparison_count": 600,
+    "replay_entry_count": 2040,
+    "blocked_ledger_entry_count": 840,
+    "truth_recovered_count": 91,
+    "distinct_truth_recovered_count": 51,
+    "numerical_failure_count": 0
+  },
+  "output_directory": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v2-r1",
+  "outputs": {
+    "corrected_module_projection": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v2-r1/corrected-module-projection.py",
+    "receipt": "runs/gravity/open-gravity-solar-planetary-source-shaped-synthetic-injection-matrix-v2-r1/receipt.json"
+  },
+  "access_contract": {
+    "new_scientific_source_files_opened": 0,
+    "new_synthetic_scenarios_generated": 0,
+    "observational_response_files_opened": 0,
+    "observational_response_rows_opened": 0,
+    "observational_residual_values_opened": 0,
+    "response_calibrated_parameters": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

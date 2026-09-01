@@ -1,0 +1,102 @@
+{
+  "audit_kind": "STRICT_INDEPENDENT_READ_ONLY_AUDIT_EVIDENCE",
+  "auditor_subject_separation": "DISTINCT_AGENT_NO_SUBJECT_EDITS",
+  "decision": "BLOCK",
+  "package_id": "open-gravity-gw-timeseries-source-anchored-synthetic-injection-matrix-v2",
+  "subject_identity": {
+    "config_raw_sha256": "6121321f4f8532f68420199a92118f63c85126e9de5e21762fa8fc42413c1757",
+    "module_raw_sha256": "d76e01278a28a34b81ebb901c9f031f227137fda3ddd086bb4ca0be74a5d8d7f",
+    "test_raw_sha256": "68445f645e44b689cebda15525d51dc1488815b8ea894a21babbcf0dc1d14b2a",
+    "receipt_raw_sha256": "5f3d40da2a13c1358a87cacfab842d6c446d3b3436d2fd2486a7232b88cb0fd1",
+    "receipt_content_sha256": "d6d517bd1dcc0aea5633dcf12042ae7b8298d79e1f694bee0c9737fbedaf5891"
+  },
+  "verified_nonblocking_results": {
+    "all_supplied_v2_hashes_match": true,
+    "v1_receipt_raw_sha256": "406ac61c6ad8a007fac5ed39fe9bda4e5437dcfe5759117e72301a28dd163f31",
+    "v1_receipt_content_sha256": "7e3624e17810864ccfb21298d0e01f78081e77b91b98dafb3896cb0cdf9cc2b1",
+    "all_six_v1_scientific_artifact_hashes_match": true,
+    "v2_scope_is_test_expectation_only": true,
+    "scenario_count": 680,
+    "scenario_cross_product_exact": true,
+    "scenario_cross_product_axes": "2 events x 2 source variants x 2 distances x 5 noise families x 17 hidden truths",
+    "attempted_matrix_cell_count": 16320,
+    "scored_matrix_cell_count": 11560,
+    "numerical_invalid_cell_count": 680,
+    "source_blocked_cell_count": 2720,
+    "unadapted_cell_count": 1360,
+    "replay_entry_count": 28560,
+    "result_hash_count": 12240,
+    "result_hash_arithmetic": "11560 scored + 680 retained NUMERICAL_INVALID",
+    "scenario_hash_failures": 0,
+    "seed_lineage_failures": 0,
+    "derived_seed_failures": 0,
+    "truth_world_lineage_failures": 0,
+    "truth_index_failures": 0,
+    "value_locator_hash_failures": 0,
+    "parameter_cell_inventory_failures": 0,
+    "explicit_block_inventory_failures": 0,
+    "invalid_resonance_retention_failures": 0,
+    "ledger_chain_failures": 0,
+    "ledger_entry_hash_failures": 0,
+    "matrix_to_ledger_mapping_failures": 0,
+    "zero_noise_hidden_truth_copy_failures": 0,
+    "v2_focused_tests": "3 passed",
+    "combined_v1_v2_tests": "17 passed; 1 intentionally preserved v1 assertion failed because it expected 11560 rather than the correct 12240 result hashes",
+    "ruff": "PASS",
+    "ruff_format": "PASS"
+  },
+  "blocking_finding": {
+    "code": "B01_FALSE_FFT_ROUNDTRIP_PASS_AND_INCONSISTENT_DUAL_DOMAIN_OBSERVATIONS",
+    "summary": "The receipt reports maximum_fft_roundtrip_error = 0, but its diagnostic checks only irfft(stored_frequency) against the time array that was constructed by that same irfft. An independent forward rfft(stored_time) check does not recover the stored frequency array.",
+    "independent_forward_check": "max(abs(rfft(prediction.matrix.time-strain, axis=1)[:, 1:] - (prediction.matrix.frequency-real + 1j * prediction.matrix.frequency-imag))) <= 1e-12",
+    "subject_code_locations": {
+      "one_way_inverse_only_diagnostic": "src/sigma_theory_compiler/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v1.py:1156-1173",
+      "independent_response_noise_draws": "src/sigma_theory_compiler/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v1.py:944-976",
+      "frequency_to_time_construction_that_discards_unrepresentable_nyquist_imaginary_part": "src/sigma_theory_compiler/open_gravity_gw_timeseries_source_anchored_synthetic_injection_matrix_v1.py:484-501"
+    },
+    "scientific_effect": "The package scores time and frequency representations as if they were a coherent dual-domain observation, although many pairs cannot represent the same real signal. Independent noise draws in the two domains also double-count incompatible information. This violates the registered dual-domain-consistency health gate and can change candidate gaps and distinctness classifications.",
+    "prediction_forward_roundtrip_failures": {
+      "count": 264,
+      "denominator": 680,
+      "maximum_absolute_error": 0.4455262495762971,
+      "zero_noise_failures": 32,
+      "zero_noise_denominator": 136,
+      "zero_noise_failure_branches": {
+        "LANE2_DYNAMIC_PHASE": 8,
+        "LANE2_NONLINEAR_PHASE": 8,
+        "LANE2_RESERVOIR": 8,
+        "LANE2_SCREENED_PHASE": 8
+      },
+      "published_psd_calibration_envelope_failures": 136,
+      "mechanism": "Complex phase transfer and calibration leave an imaginary Nyquist coefficient. A length-256 real time series cannot represent that coefficient; numpy.irfft discards it while the stored frequency-imag output retains it."
+    },
+    "response_forward_roundtrip_failures": {
+      "count": 576,
+      "denominator": 680,
+      "maximum_absolute_error": 18.99011773368762,
+      "by_noise_family": {
+        "offsource-early-noise": 136,
+        "offsource-late-noise": 136,
+        "offsource-mean-noise": 136,
+        "published-psd-calibration-envelope": 136,
+        "zero-noise": 32
+      },
+      "mechanism": "For every nonzero-noise scenario, time-domain and frequency-domain responses receive separate independent Gaussian draws instead of being two transforms of one synthetic observation."
+    }
+  },
+  "required_repair_before_pass": [
+    "Enforce the real-signal Hermitian constraints at both DC and Nyquist after every phase transfer and calibration operation, or construct a valid two-sided spectrum and derive both stored domains from it.",
+    "Generate one stochastic observation per detector and derive its other domain by FFT, or use an explicitly registered joint time-frequency covariance without treating duplicate representations as independent evidence.",
+    "Replace the one-way inverse check with forward and inverse round-trip checks on every candidate prediction and every synthetic response, including all noise families and the calibration envelope.",
+    "Regenerate and rescore the scientific artifacts under a semantics-changing successor version. This cannot be represented as a test-expectation-only correction."
+  ],
+  "access_boundary": {
+    "real_strain_opened_by_auditor": 0,
+    "real_likelihood_opened_by_auditor": 0,
+    "psd_payload_arrays_opened_by_auditor": 0,
+    "calibration_archives_opened_by_auditor": 0,
+    "synthetic_values_npz_opened": 1,
+    "network_calls": 0
+  },
+  "audit_receipt_issued": false
+}

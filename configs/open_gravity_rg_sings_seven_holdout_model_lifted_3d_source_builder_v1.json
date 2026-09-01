@@ -1,0 +1,164 @@
+{
+  "schema": "invariant-open-gravity-rg-sings-seven-holdout-model-lifted-3d-source-builder-1.0",
+  "package_id": "open-gravity-rg-sings-seven-holdout-model-lifted-3d-source-builder-v1",
+  "status": "RESPONSE_BLIND_SEVEN_OBJECT_THREE_STELLAR_CELL_MODEL_LIFTED_2P5D_SOURCE_BUILD",
+  "purpose": "Build theory-neutral stellar, atomic-gas, and molecular-gas source maps for seven untouched THINGS holdouts under all three preregistered SINGS stellar conversions, before opening any velocity response.",
+  "admission_rule": {
+    "real_public_source_data_required": true,
+    "primary_measurement_papers_required": true,
+    "independent_known_answer_benchmark_required": true,
+    "standard_gravity_controls_required_downstream": true,
+    "missing_source_disposition": "SOURCE_BLOCKED",
+    "paper_only_disposition": "THEORY_BENCHMARK_ONLY",
+    "projected_source_plus_assumed_vertical_disposition": "MODEL_LIFTED_2P5D",
+    "spherical_or_one_dimensional_data_proves_general_3d": false
+  },
+  "bindings": {
+    "source_acquisition_config": {
+      "path": "configs/open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_source_acquisition_v1.json",
+      "raw_sha256": "a55b4ae9e262783f0622b59411fe23aaae4ec7ffa56184cc66dca257bde457c1"
+    },
+    "source_acquisition_receipt": {
+      "path": "runs/gravity/open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-source-acquisition-v1/receipt.json",
+      "raw_sha256": "d75575e1ecbb8e4081434e3879b3f2ca1d6170656ef104b353d01734d9c43fb5",
+      "content_sha256": "cdc063c777919de5d6af9a53e0f982f2a47b87de00fb60d5a33e150996e20d81"
+    },
+    "stellar_conversion_config": {
+      "path": "configs/open_gravity_rg_sings_stellar_conversion_contract_v1.json",
+      "raw_sha256": "7ab1a435e03270db9098989da8692bacec18adb22428c926d854c1f81d9ce8dc"
+    },
+    "stellar_conversion_receipt": {
+      "path": "runs/gravity/open-gravity-rg-sings-stellar-conversion-contract-v1/receipt.json",
+      "raw_sha256": "bf8ce9c37098a5bda2aad5cca43bb6b203bfdb24069fe8c9a0bb96eb8efc079b",
+      "content_sha256": "7659e6e43b1aaa29cff0ce3bbadf5fccdb01eea6cefdf8307980d6e9ffa716fc"
+    },
+    "irac2_inventory": {
+      "path": "work/rg-sings-irac2-source-download-inventory-v1.json",
+      "raw_sha256": "307f384509c76683e74ec20ab4b3ab20bbb0bc18b5eae8c7926cd160949cd970",
+      "content_sha256": "55af027210ac173ce25398807d8529d0b396a39cc606819edf5b3f1d6a7a0d7b"
+    },
+    "primary_geometry_pdf": {
+      "url": "https://arxiv.org/pdf/0810.2100",
+      "local_evidence_path": "work/rg-seven-geometry-primary/deblok-2008-things.pdf",
+      "raw_sha256": "ef820022fd802fe4a5ec9423c38efab6c2bda205bcd324d434b13e2150dcb427",
+      "table": "Table 2"
+    },
+    "operator_benchmark_config": {
+      "path": "configs/open_gravity_refracted_gravity_3d_primary_benchmark_v1.json",
+      "raw_sha256": "9f5f127b8078ef95ff47ce073cb0e2c9254ca1fd9c8113880ac8e42ea52a8308"
+    },
+    "operator_benchmark_receipt": {
+      "path": "runs/gravity/open-gravity-refracted-gravity-3d-primary-benchmark-v1/receipt.json",
+      "raw_sha256": "ffc2579e6a0e742b33a46d9b5e208389e67e3d57d06bb01ca41fa52c04730730"
+    }
+  },
+  "primary_sources": [
+    {"id": "THINGS_DATA", "url": "https://arxiv.org/abs/0810.2125", "role": "public H I source and velocity-response data release"},
+    {"id": "THINGS_GEOMETRY", "url": "https://arxiv.org/abs/0810.2100", "role": "published centers, distances, inclinations, position angles, and later response comparator"},
+    {"id": "SINGS", "url": "https://arxiv.org/abs/astro-ph/0305437", "role": "public IRAC source survey and measurement paper"},
+    {"id": "HERACLES", "url": "https://arxiv.org/abs/0905.4742", "role": "public CO(2-1) source survey and measurement paper"},
+    {"id": "MEIDT_ICA", "url": "https://arxiv.org/abs/1110.2683", "role": "two-band ICA stellar/nonstellar separation method"},
+    {"id": "S4G_P5", "url": "https://arxiv.org/abs/1410.0009", "role": "independent source-only stellar-map validation reference"},
+    {"id": "ML_3P6", "url": "https://arxiv.org/abs/1402.5210", "role": "published 3.6 micron mass-to-light calibration"},
+    {"id": "HOLMBERG_II_INCLINATION", "url": "https://arxiv.org/abs/1405.2983", "role": "documents the unresolved 27/38/49 degree inclination alternatives"},
+    {"id": "FREEMAN_DISK", "url": "https://articles.adsabs.harvard.edu/pdf/1970ApJ...160..811F", "role": "analytic exponential-disk Newtonian benchmark"}
+  ],
+  "object_order": ["UGC04305", "NGC2841", "IC2574", "DDO154", "NGC5055", "NGC6946", "NGC7331"],
+  "objects": [
+    {"object_id": "UGC04305", "ra_deg": 124.76541666666664, "dec_deg": 70.7235, "distance_mpc": 3.4, "position_angle_deg": 175.0, "primary_inclination_deg": 38.0, "inclination_cells_deg": [27.0, 38.0, 49.0], "geometry_provenance": "Photometric 38 degree primary; 27 and 49 degree published source-systematic controls; no response-based selection."},
+    {"object_id": "NGC2841", "ra_deg": 140.51083333333332, "dec_deg": 50.9765, "distance_mpc": 14.1, "position_angle_deg": 152.6, "primary_inclination_deg": 73.7, "inclination_cells_deg": [73.7], "geometry_provenance": "de Blok et al. 2008 Table 2"},
+    {"object_id": "IC2574", "ra_deg": 157.11541666666665, "dec_deg": 68.4165, "distance_mpc": 4.0, "position_angle_deg": 55.7, "primary_inclination_deg": 53.4, "inclination_cells_deg": [53.4], "geometry_provenance": "de Blok et al. 2008 Table 2"},
+    {"object_id": "DDO154", "ra_deg": 193.52374999999998, "dec_deg": 27.152749999999997, "distance_mpc": 4.3, "position_angle_deg": 229.7, "primary_inclination_deg": 66.0, "inclination_cells_deg": [66.0], "geometry_provenance": "de Blok et al. 2008 Table 2"},
+    {"object_id": "NGC5055", "ra_deg": 198.95499999999998, "dec_deg": 42.02925, "distance_mpc": 10.1, "position_angle_deg": 101.8, "primary_inclination_deg": 59.0, "inclination_cells_deg": [59.0], "geometry_provenance": "de Blok et al. 2008 Table 2"},
+    {"object_id": "NGC6946", "ra_deg": 308.7175, "dec_deg": 60.153999999999996, "distance_mpc": 5.9, "position_angle_deg": 242.7, "primary_inclination_deg": 32.6, "inclination_cells_deg": [32.6], "geometry_provenance": "de Blok et al. 2008 Table 2"},
+    {"object_id": "NGC7331", "ra_deg": 339.2670833333333, "dec_deg": 34.41569444444444, "distance_mpc": 14.7, "position_angle_deg": 167.7, "primary_inclination_deg": 75.8, "inclination_cells_deg": [75.8], "geometry_provenance": "de Blok et al. 2008 Table 2"}
+  ],
+  "conversion_cells": [
+    {"cell_id": "IRAC1_FIXED_ML0P6", "stellar_ml": 0.6, "spatial_rule": "positive source-segmented IRAC1"},
+    {"cell_id": "IRAC1_GLOBAL_COLOR_ML", "stellar_ml": "GLOBAL_IRAC1_IRAC2_COLOR", "spatial_rule": "positive source-segmented IRAC1 with one global color M/L"},
+    {"cell_id": "IRAC1_IRAC2_FASTICA36", "stellar_ml": 0.6, "spatial_rule": "positive two-band fixed-point FastICA stellar component"}
+  ],
+  "fastica_source_contract": {
+    "minimum_high_signal_training_pixels": 32,
+    "maximum_training_pixels": 250000,
+    "threshold_selected_from_source_only_data": true,
+    "low_training_support_must_be_reported": true,
+    "response_values_used": false
+  },
+  "map_transform": {
+    "primary_grid_pixels": 192,
+    "primary_box_kpc": 40.0,
+    "coarse_grid_pixels": 96,
+    "padded_grid_pixels": 384,
+    "padded_box_kpc": 80.0,
+    "interpolation_order": 1,
+    "mask_interpolation_order": 0,
+    "s4g_native_fwhm_arcsec": 2.0,
+    "beam_policy": "convolve stellar and HERACLES CO maps to the selected THINGS beam; THINGS H I remains publisher beam-smeared",
+    "source_segmentation_rule": "largest connected positive source containing the IRAC reference pixel after robust background estimation",
+    "co_detection_rule": "retain finite positive HERACLES CO21 MOM0 only where MOM0>=3*EMOM0"
+  },
+  "mass_conversion": {
+    "stellar_lsun_pc2_per_mjy_sr": 704.04,
+    "stellar_ml_fixed": 0.6,
+    "stellar_ml_color_formula": "log10(Upsilon_3.6)=-0.339*([3.6]-[4.5])-0.336",
+    "stellar_color_valid_min_mag": -0.3,
+    "stellar_color_valid_max_mag": 1.5,
+    "stellar_color_fallback_ml": 0.6,
+    "hi_jybeam_mps_to_jybeam_kms": 0.001,
+    "hi_brightness_temperature_constant": 1222000.0,
+    "hi_column_per_k_kms_cm2": 1.823e18,
+    "hi_column_per_msun_pc2_cm2": 1.248e20,
+    "helium_factor": 1.36,
+    "co_alpha_co10_with_helium": 4.35,
+    "co_r21": 0.65,
+    "face_on_rule": "multiply projected optically thin surface densities by cos(inclination) after deprojection"
+  },
+  "vertical_and_gravity_model": {
+    "stellar_height_over_exponential_scale_cells": [0.1, 0.136986301369863, 0.2],
+    "primary_stellar_height_over_exponential_scale": 0.136986301369863,
+    "gas_height_pc_cells": [100.0, 200.0, 400.0],
+    "primary_gas_height_pc": 200.0,
+    "vertical_profile": "rho=Sigma*sech^2(z/h)/(2h)",
+    "newton_g_pc_kms2_msun": 0.00430091727003628,
+    "pc_m": 3.085677581491367e16,
+    "c_km_s": 299792.458,
+    "vertical_gauss_legendre_nodes": 48,
+    "pixel_softening_rule": "epsilon=dx/sqrt(pi)",
+    "radial_sample_count": 60,
+    "radial_min_kpc": 0.5,
+    "radial_max_kpc": 15.0,
+    "azimuth_sample_count": 64,
+    "nonaxisymmetric_modes": [1, 2, 3, 4],
+    "matched_acceleration_m_s2": 1.2e-10
+  },
+  "benchmark_contract": {
+    "freeman_exponential_disk": true,
+    "vertical_kernel_normalization": true,
+    "zero_stellar_source": true,
+    "zero_molecular_source": true,
+    "coarse_and_padded_mass_conservation": true,
+    "all_required_before_downstream_gravity_solver": true
+  },
+  "private_output_directory": "work/private/open-gravity-rg-sings-seven-holdout-model-lifted-3d-source-builder-v1",
+  "response_boundary": {
+    "velocity_files_opened": 0,
+    "velocity_pixels_opened": 0,
+    "velocity_values_opened": 0,
+    "response_selected_cells": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "real_public_sources_and_primary_papers_bound": true,
+    "three_stellar_conversion_cells_frozen": true,
+    "source_maps_built": false,
+    "full_3d_source_observed": false,
+    "general_3d_gravity_validated": false,
+    "scientific_response_scored": false,
+    "unique_theory_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-sings-seven-holdout-model-lifted-3d-source-builder-v1/receipt.json"
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": "invariant-open-gravity-gp01-entropy-holdout-confirmation-1.0",
+  "experiment_id": "OPEN-GRAVITY-GP01-ENTROPY-HOLDOUT-v1",
+  "status": "FROZEN_BEFORE_HOLDOUT_RESPONSE_DECODE",
+  "purpose": "Test, without retuning, whether the development-sample association between X-COP central entropy and the GP01 elliptic penalty relative to GP01-L repeats in the four reserved X-COP clusters.",
+  "scope": {
+    "clusters": ["A2029", "A3158", "A644", "RXC1825"],
+    "observables": ["pressure", "temperature"],
+    "local_files_only": true,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "parameter_tuning": 0,
+    "formula_repairs": 0,
+    "per_cluster_fits": 0,
+    "lensing_rows": 0,
+    "inferred_total_mass_rows": 0,
+    "group_rows": 0,
+    "retain_every_cluster": true,
+    "retain_every_failure": true
+  },
+  "scientific_freeze": {
+    "repository_head_at_preregistration": "0f14dd1fe5c3e5d586584164e16d4d44185aaf5f",
+    "development_screen_receipt": {
+      "path": "runs/gravity/open-gravity-gp01-elliptic-temporal-empirical-screen-v1/receipt.json",
+      "sha256": "e6fea71cbf35b9dde786fe24b647efb9a190ba9c295b9faff1c6f3fa02bbde39",
+      "fixed_best_elliptic_cell": "GP01E-n1-A8-rho10-T10-q2-p2-L0",
+      "development_clusters": 8,
+      "development_direction": "higher central entropy was associated with a smaller elliptic penalty relative to GP01-L",
+      "development_spearman_loss_difference": -0.86229,
+      "development_exact_two_sided_permutation_p": 0.00873
+    },
+    "dependencies": {
+      "configs/gravity_item59_xcop_forward_observable_gate_v1.json": "7d17fa71dce7bfb44ab517a47b1cbe0ed17826cc2ffe36f871296b4d8632878b",
+      "src/sigma_theory_compiler/gravity_item59_xcop_forward_observable_gate.py": "a633622e2833195c05dbe3b95f78121444a7727754f5d73bcbb732f2c0ae7819",
+      "src/sigma_theory_compiler/gravity_cluster_comparator_suite.py": "dc8c430cff1361421dfbc23e5119621cae47b05ab54798ce805f24c426c5458e",
+      "src/sigma_theory_compiler/open_gravity_campaign_v1.py": "1838483699cac74e79cd3788cc0f4d5317fd9ba2fa7d1a4fd379ea4a4f8276cc",
+      "configs/open_gravity_static_radial_adapter_v1.json": "41402c50951bef27f6c498694aa0f99f5520f19a9148662f546c246a24d8d916",
+      "src/sigma_theory_compiler/open_gravity_static_radial_adapter_v1.py": "7db918df47f612df3c42792c25d407bf5c485db6f7830f8bd690b57b95b5968f",
+      "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1-source/source-receipt.json": "819360acdd40c58254cc43b18f9d6613b2c5f908122e134b7fa4b3f346b69aac"
+    }
+  },
+  "source_contract": {
+    "root": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1-source/raw",
+    "expected_files": {
+      "A2029": ["A2029_density_L1.fits", "A2029_pressure.fits", "A2029_temperature.fits", "A2029_mstar.fits"],
+      "A3158": ["A3158_density_L1.fits", "A3158_pressure.fits", "A3158_temperature.fits"],
+      "A644": ["A644_density_L1.fits", "A644_pressure.fits", "A644_temperature.fits", "A644_mstar.fits"],
+      "RXC1825": ["RXC1825_density_L1.fits", "RXC1825_pressure.fits", "RXC1825_temperature.fits"]
+    },
+    "expected_file_count": 14,
+    "outer_pressure_anchor_scored": false,
+    "all_remaining_pressure_and_temperature_rows_scored": true
+  },
+  "published_entropy_covariate": {
+    "definition": "ACCEPT central entropy K0 in keV cm^2, as reproduced for the X-COP sample in Ghirardini et al. 2019 Table 1",
+    "primary_source": "https://www.aanda.org/articles/aa/pdf/2019/01/aa33325-18.pdf",
+    "values_kev_cm2": {
+      "A2029": 10.5,
+      "A3158": 166.0,
+      "A644": 132.4,
+      "RXC1825": 217.9
+    },
+    "cool_core_threshold_kev_cm2": 30.0,
+    "covariate_was_not_computed_from_holdout_response_files": true
+  },
+  "fixed_formulas": {
+    "equilibrium": {
+      "id": "GP01L-n1",
+      "n": 1,
+      "description": "Local GP01 equilibrium acceleration multiplier; no environmental persistence field."
+    },
+    "elliptic": {
+      "id": "GP01E-n1-A8-rho10-T10-q2-p2-L0",
+      "n": 1,
+      "A_max": 8.0,
+      "rho_ratio": 10.0,
+      "tide_ratio": 10.0,
+      "q": 2,
+      "tide_power": 2,
+      "L_ratio": 0.0,
+      "description": "Exact development-selected boundary cell; no parameter may change during this confirmation."
+    }
+  },
+  "nuisance_scenarios": [
+    {
+      "cell_id": "XCOP-SOURCE-LOW",
+      "density_scale": 0.95,
+      "published_stellar_mass_scale": 0.8,
+      "missing_stellar_to_gas_mass_ratio": 0.1,
+      "outer_nonthermal_fraction": 0.1,
+      "xray_temperature_cross_calibration": 0.95
+    },
+    {
+      "cell_id": "XCOP-SOURCE-NOMINAL",
+      "density_scale": 1.0,
+      "published_stellar_mass_scale": 1.0,
+      "missing_stellar_to_gas_mass_ratio": 0.1,
+      "outer_nonthermal_fraction": 0.15,
+      "xray_temperature_cross_calibration": 1.0
+    },
+    {
+      "cell_id": "XCOP-SOURCE-HIGH",
+      "density_scale": 1.05,
+      "published_stellar_mass_scale": 1.2,
+      "missing_stellar_to_gas_mass_ratio": 0.1,
+      "outer_nonthermal_fraction": 0.2,
+      "xray_temperature_cross_calibration": 1.05
+    }
+  ],
+  "scoring": {
+    "minimum_fractional_error": 0.05,
+    "row_loss": "squared log(predicted/observed) divided by max(error/observed,0.05)^2",
+    "object_loss": "equal mean of pressure-row and temperature-row mean losses",
+    "primary_effect": "nominal elliptic_loss/equilibrium_loss",
+    "primary_direction": "Spearman(K0, nominal elliptic_loss/equilibrium_loss) < 0",
+    "secondary_effect": "nominal elliptic_loss-equilibrium_loss",
+    "all_scenarios_reported": true
+  },
+  "adjudication": {
+    "holdout_n": 4,
+    "standalone_p_less_than_0_05_is_mathematically_unavailable_for_two_sided_exact_spearman": true,
+    "directional_replication": "PASS only if rho is finite and negative; report the exact permutation p without using it as a binary 0.05 gate",
+    "strong_replication": "PASS only if all four clusters are concordant with the preregistered rank direction",
+    "publication_signal": "The four-cluster result may motivate a publication only when joined to the frozen eight-cluster development association and a physically derived entropy/history mechanism; it is not independent confirmation by itself.",
+    "global_theory_pruning_allowed": false,
+    "dynamic_history_descendants_retained_regardless_of_static_result": true
+  },
+  "paths": {
+    "preflight": "runs/gravity/open-gravity-gp01-entropy-holdout-confirmation-v1/preflight.json",
+    "access_intent": "runs/gravity/open-gravity-gp01-entropy-holdout-confirmation-v1/access-intent.json",
+    "result": "runs/gravity/open-gravity-gp01-entropy-holdout-confirmation-v1/result.json"
+  }
+}

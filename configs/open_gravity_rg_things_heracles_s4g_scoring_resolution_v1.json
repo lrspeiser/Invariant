@@ -1,0 +1,135 @@
+{
+  "schema": "invariant-open-gravity-rg-things-heracles-s4g-scoring-resolution-1.0",
+  "package_id": "open-gravity-rg-things-heracles-s4g-scoring-resolution-v1",
+  "status": "SOURCE_ONLY_FIVE_OBJECT_RG_SCORING_RESOLUTION_GATE",
+  "purpose": "Solve Newton and the fixed published DiskMass Refracted Gravity control on five real S4G+THINGS+HERACLES sources at 0.25 kpc, and freeze a response-blind radius eligibility mask from an independent 0.3125 kpc solve before SPARC scoring.",
+  "admission_policy": {
+    "path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+    "sha256": "174e68e85872566d86d5007f152e75113ea3fb1b0a3d375c61d65db71be672e"
+  },
+  "predecessor_bindings": [
+    {
+      "role": "FIVE_OBJECT_REAL_SOURCE_BUILDER",
+      "receipt_content_sha256": "a90a3c0f8535c48edf185b866bfc9752505d0fa865993e7b51f7bd7faaed6e5d",
+      "artifacts": [
+        {"path": "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json", "sha256": "2cefafadf5eb5992ce75e3dae88dede88c7596d3272139585c716ba083432e0b"},
+        {"path": "src/sigma_theory_compiler/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.py", "sha256": "50c78d97bce55ef66a1e592037a1d026a0c53683ef981895a5133591f3938a3b"},
+        {"path": "tests/test_open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.py", "sha256": "b7b3fd6aed1675ea4dbb2b87feea17a78616770343f940c5b30e15e32a17b445"},
+        {"path": "runs/gravity/open-gravity-rg-things-heracles-s4g-model-lifted-3d-source-builder-v1/receipt.json", "sha256": "9fed8bc77ecb6452a954f473ee108e4ee03a540542ab40d8ec4e0ab049c02117"}
+      ]
+    },
+    {
+      "role": "AUDITED_HIGH_RESOLUTION_DST_PCG_MECHANICS",
+      "receipt_content_sha256": "79bade6ae6fc8ba471fda263e0b2a66442187aa1f17ed61954a52068c6ac5b37",
+      "artifacts": [
+        {"path": "configs/open_gravity_refracted_gravity_phangs_things_scoring_resolution_v1.json", "sha256": "963d7b7b5c7845917febcfbcaca1001434ef6bbd78b097af7b227607c6d9c2f4"},
+        {"path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_phangs_things_scoring_resolution_v1.py", "sha256": "ae0661871b980ffd5b5ce4a73358407b1ecfeef36b65cc8afaa11c2f258c9314"},
+        {"path": "tests/test_open_gravity_refracted_gravity_phangs_things_scoring_resolution_v1.py", "sha256": "c803d3e8e947fd44f61b4f31582040a6eb28c5167d4e914c266a298900f3cc7a"},
+        {"path": "runs/gravity/open-gravity-refracted-gravity-phangs-things-scoring-resolution-v1/receipt.json", "sha256": "120e31bf9a89076889a0c5be6d2eb9fe8ae7da01f78b90844dac4e617eae1fa2"}
+      ]
+    },
+    {
+      "role": "PRIMARY_PAPER_RG_OPERATOR_BENCHMARK",
+      "receipt_content_sha256": "85412b981dad719315a27f5a64d3af075bcc67fb8d19dfc07e6f94ed02e0567e",
+      "artifacts": [
+        {"path": "configs/open_gravity_refracted_gravity_3d_primary_benchmark_v1.json", "sha256": "9f5f127b8078ef95ff47ce073cb0e2c9254ca1fd9c8113880ac8e42ea52a8308"},
+        {"path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_3d_primary_benchmark_v1.py", "sha256": "aa0b1ff7499b5fef8355d237d1e3632b845f8f1397cda2690750b1ef142fee88"},
+        {"path": "tests/test_open_gravity_refracted_gravity_3d_primary_benchmark_v1.py", "sha256": "fe49a5a4de7bd5fc341dfdd4aab2283498dfc746ca066e6cb8b0caa16b932971"},
+        {"path": "runs/gravity/open-gravity-refracted-gravity-3d-primary-benchmark-v1/receipt.json", "sha256": "ffc2579e6a0e742b33a46d9b5e208389e67e3d57d06bb01ca41fa52c04730730"}
+      ]
+    }
+  ],
+  "real_source_and_paper_anchors": [
+    {"id": "S4G_P5_STELLAR", "url": "https://arxiv.org/abs/1410.0009", "role": "public old-stellar maps and calibration"},
+    {"id": "S4G_PIPELINE4_GEOMETRY", "url": "https://ui.adsabs.harvard.edu/abs/2015ApJS..219....4S/abstract", "role": "public outer-disk geometry and quality flags"},
+    {"id": "THINGS_HI", "url": "https://arxiv.org/abs/0810.2125", "role": "public robust and natural integrated-HI maps"},
+    {"id": "HERACLES_CO21", "url": "https://arxiv.org/abs/0905.4742", "role": "public CO(2-1) moment and error maps"},
+    {"id": "RG_ORIGINAL", "url": "https://arxiv.org/abs/1603.04943", "role": "published div(epsilon grad Phi)=4 pi G rho field equation"},
+    {"id": "RG_DISKMASS", "url": "https://arxiv.org/html/2003.07377v2", "role": "published epsilon(rho), universal median parameters, priors, and adverse evidence"},
+    {"id": "FREEMAN_DISK", "url": "https://articles.adsabs.harvard.edu/pdf/1970ApJ...160..811F", "role": "analytic exponential-disk control"},
+    {"id": "CASERTANO_THICK_DISK", "url": "https://doi.org/10.1093/mnras/203.3.735", "role": "finite-thickness ordering control"}
+  ],
+  "objects": ["NGC2903", "NGC2976", "NGC3198", "NGC3521", "NGC4214"],
+  "source_cell": {
+    "id": "ROBUST_PRIMARY:FIXED_0P6:WITH_CO:HS0.136986301369863:HG200:CENTRAL_Q0_0P13",
+    "beam": "ROBUST_PRIMARY",
+    "stellar_mass_to_light": "FIXED_0P6",
+    "co_source": "WITH_CO",
+    "stellar_height_over_exponential_scale": 0.136986301369863,
+    "gas_height_pc": 200.0,
+    "intrinsic_q0": 0.13,
+    "selection_from_response": false
+  },
+  "grid_contract": {
+    "coordinate_system": "uniform right-handed disk Cartesian cube",
+    "solver_half_box_kpc": 30.0,
+    "fine_nodes_per_axis": 241,
+    "fine_spacing_kpc": 0.25,
+    "convergence_nodes_per_axis": 193,
+    "convergence_spacing_kpc": 0.3125,
+    "source_map_pixels": 192,
+    "source_map_box_kpc": 40.0,
+    "boundary_source_free": true,
+    "radial_min_kpc": 0.5,
+    "radial_max_kpc": 15.0,
+    "radial_step_kpc": 0.05,
+    "radial_points": 291,
+    "azimuth_samples": 96,
+    "minimum_fine_cells_per_scored_radius": 2.0
+  },
+  "operator_contract": {
+    "operators": ["NEWTON_3D_DST", "REFRACTED_GRAVITY_DISKMASS_MEDIAN_3D_PCG"],
+    "newton_solver": "second-order seven-point Dirichlet finite difference with orthonormal DST-I diagonalization",
+    "refracted_gravity_solver": "face-centred finite-volume div(epsilon grad Phi) solved by DST-I-preconditioned conjugate gradients",
+    "epsilon_face_rule": "arithmetic mean of adjacent cell-centred epsilon",
+    "pcg_relative_tolerance": 1e-10,
+    "pcg_absolute_tolerance": 0.0,
+    "pcg_max_iterations": 100,
+    "published_parameter_id": "DISKMASS_UNIVERSAL_MEDIAN",
+    "epsilon_0": 0.661,
+    "Q": 1.79,
+    "log10_rho_c_g_cm3": -24.54,
+    "response_parameter_fitting": false,
+    "newton_boundary": "finite-box spherical monopole from deposited baryonic mass",
+    "refracted_gravity_boundary": "published source-free vacuum flux limit Phi_RG=Phi_Newton/epsilon_0"
+  },
+  "benchmark_contract": {
+    "inherited_primary_benchmark_pass_required": true,
+    "dst_discrete_manufactured_solution_max_error": 1e-10,
+    "pcg_vs_direct_small_grid_max_error": 1e-8,
+    "pcg_discrete_manufactured_solution_max_error": 1e-8,
+    "pcg_relative_residual_max": 1e-8,
+    "constant_epsilon_scaling_max_error": 1e-8,
+    "rotation_relative_error_max": 1e-8,
+    "source_mass_relative_error_max": 2e-9,
+    "fine_vs_convergence_radial_relative_difference_max": 0.05,
+    "radius_gate_is_response_blind": true,
+    "failure_policy": "Retain every failed benchmark, object, operator, and radius. Failed radii are excluded only by their numerical gate, never repaired or selected using velocity values."
+  },
+  "scientific_boundary": {
+    "unique_source_files_opened_per_build": 35,
+    "source_file_read_operations_per_build": 70,
+    "source_bytes_per_unique_pass": 90449926,
+    "response_files_opened": 0,
+    "response_rows_opened": 0,
+    "response_values_opened": 0,
+    "scores_computed": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "tuning_calls": 0
+  },
+  "claim_boundary": {
+    "paper_and_real_source_anchored": true,
+    "scoring_resolution_numerics_tested": true,
+    "response_blind_radius_mask_established": true,
+    "observational_fit_tested": false,
+    "refracted_gravity_preferred": false,
+    "all_393_source_cells_high_resolution": false,
+    "lensing_closure_established": false,
+    "relativistic_completion_established": false,
+    "novelty_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-things-heracles-s4g-scoring-resolution-v1/receipt.json"
+}

@@ -1,0 +1,9 @@
+id,status,members,discriminator
+E01_STATIC_DC,EXACT_EQUIVALENCE,"K00,K01,K02,K03,K04,K06_mean",none from one settled static snapshot; K05 is set-valued
+E02_COMMON_DELAY_TIME_ORIGIN,EXACT_NONIDENTIFIABILITY,K00 versus K01,independent emission time or distance/source-clock transfer; one free coalescence time absorbs K01
+E03_OU_CONDITIONAL_MEAN,EXACT_EQUIVALENCE,K02 versus K06 mean,"conditional variance, cross-detector coherence, or higher moments"
+E04_BIEXP_POLE_COLLAPSE,EXACT_PARAMETER_BOUNDARY,K03 versus K02,"two distinct timescales and at least three resolved frequencies; tau1=tau2 or weight in {0,1} collapses"
+E05_ONE_FREQUENCY,EXACT_NUISANCE_EQUIVALENCE,all deterministic kernels at one omega,"a second frequency, transition, overshoot, variance, or rate sweep"
+D01_RATE_PERSISTENT_LOOP,TRUE_DISCRIMINATOR,K05 versus stable finite-memory LTI kernels,nonzero loop-area intercept as omega approaches zero
+D02_RESONANCE_PEAK,TRUE_DISCRIMINATOR_WITH_COUNTERMODEL,"K04 versus K01,K02,K03",gain above unity plus overshoot; source quasinormal ringing is the mandatory countermodel
+D03_EXCESS_VARIANCE,TRUE_DISCRIMINATOR_WITH_NOISE_CONTROL,K06 versus K02,shared astrophysical conditional variance/coherence; independent detector noise is the negative control

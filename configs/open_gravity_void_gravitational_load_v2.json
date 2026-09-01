@@ -1,0 +1,223 @@
+{
+  "schema": "invariant-open-gravity-void-gravitational-load-2.0",
+  "package_id": "open-gravity-void-gravitational-load-v2",
+  "status": "FROZEN_REPAIRED_3D_LAWS_SOURCE_BYTES_READY_ROWS_UNOPENED",
+  "purpose": "Repair the v1 path-measure, dimensional, 3D-operator, equivalence, reversal and redshift-delay defects before any frozen CF4 or VAST scientific row is decoded.",
+  "supersedes": {
+    "path": "runs/gravity/open-gravity-void-gravitational-load-v1/receipt.json",
+    "raw_sha256": "da4a5d4aacb35c578f3f1dd0e94bdaeb9a52cd5011a065addee28e888912dad9",
+    "content_sha256": "ae563d1b4f85720cd3d365a015c70e4677ae74235f55560b6ef11e39317dc2ad",
+    "reason": "v1 mixed temporal and spatial path measures, used 1D surrogates for declared 3D kernels, overstated one equivalence, duplicated a reversal fixture, and left the combined redshift-delay coupling untied"
+  },
+  "source_packet": {
+    "path": "runs/gravity/open-gravity-void-cf4-vast-source-acquisition-v1/receipt.json",
+    "raw_sha256": "f343f555bfac633ee14ab746a84009d6b2a735655a7a638666f9edf9536dfcdb",
+    "content_sha256": "e79225438994a030c9ec74983446404efe91427efcac616a38daef8221c13412",
+    "source_bundle_root_sha256": "17bf5d717822291286b1d69be3c1695f1b5f68774e58eb54400fee59d69023a8",
+    "status": "OPAQUE_BYTES_HASHED_SCIENTIFIC_ROWS_UNOPENED"
+  },
+  "geometry_contract": {
+    "signature": "(-,+,+,+)",
+    "observer_field": "u^a u_a=-c^2",
+    "baryon_clock_increment": "dt_b=-u_a dx^a/c^2",
+    "spatial_ray_arclength": "dell_b=sqrt[(g_ab+u_a u_b/c^2) dx^a dx^b]",
+    "standard_null_relation": "dell_b=c dt_b",
+    "slowed_ray_relation": "dell_b=c_eff(Q) dt_b",
+    "orientation": "future-directed dt_b>0 and forward spatial arclength dell_b>0",
+    "rule": "A law written per baryon-clock time is converted once, and only once, with dt_b=dell_b/c_eff. A null affine parameter and null proper length are never used as physical exposure."
+  },
+  "dimensions": {
+    "Q": [0,0,0],
+    "rho_b": [-3,1,0],
+    "J_g": [0,0,-1],
+    "dell_b": [1,0,0],
+    "dt_b": [0,0,1],
+    "eta": [0,0,-1],
+    "beta": [0,0,0],
+    "H_ref": [0,0,-1],
+    "D_g": [2,0,-1],
+    "Gamma_0": [0,0,-1],
+    "Gamma_b": [3,-1,-1],
+    "A_feed": [3,-1,-1],
+    "A_load": [3,-1,0],
+    "L_g": [1,0,0],
+    "sigma_g": [2,-1,0],
+    "photon_a": [0,0,-1],
+    "photon_b0": [0,0,-1],
+    "photon_b_b": [3,-1,-1],
+    "photon_eta": [0,0,-1]
+  },
+  "synthetic_grid": {
+    "shape": [9,9,9],
+    "dx": 1.0,
+    "boundary_VQ04": "PERIODIC_HELMHOLTZ_FFT",
+    "boundary_VQ05": "PERIODIC_DIFFUSION_RK4",
+    "boundary_VQ06": "FINITE_ISOLATED_CUBE_STRAIGHT_SEGMENT_COLUMN",
+    "ray": "central x-directed voxel-center line from index 0 to index 8",
+    "fixtures": ["HOMOGENEOUS", "VOID_WITH_TWO_OFF_AXIS_SOURCES", "ASYMMETRIC_BAR_AND_CLUMP", "ZERO_SOURCE"]
+  },
+  "parameters": {
+    "synthetic_units": "c=dx=1 with dimensionless numerical densities; physical dimensions remain those declared above",
+    "c": 1.0,
+    "eta": 0.012,
+    "beta": 0.3,
+    "H_ref": 0.01,
+    "Gamma_0": 0.5,
+    "Gamma_b": 0.8,
+    "A_feed": 1.2,
+    "A_load": 1.1,
+    "L_g": 1.6,
+    "D_g": 0.08,
+    "sigma_g": 0.25,
+    "rho_star": 0.2,
+    "inverse_density_n": 1.3,
+    "H_g": 0.01,
+    "H_v": 0.016,
+    "H_m": 0.007,
+    "void_threshold": 0.65,
+    "photon_a": 0.5,
+    "photon_b0": 0.3,
+    "photon_b_b": 0.4,
+    "photon_eta": 0.018,
+    "diffusion_dt": 0.01,
+    "diffusion_steps": 2400,
+    "column_samples_per_segment": 11
+  },
+  "branches": [
+    {
+      "id": "VQ00_STANDARD_FLRW_FLOW_CONTROL",
+      "field_operator": "none",
+      "photon_operator": "ln(1+z)=ln(a_o/a_e)+atanh(v_los/c)",
+      "boundary": "registered low-z FLRW plus peculiar-flow comparator",
+      "limits": ["v_los=0 gives FLRW", "a_o=a_e gives radial special-relativistic Doppler"],
+      "empirical_role": "MANDATORY_CONTROL"
+    },
+    {
+      "id": "VQ01_DIRECT_TIME_EXPOSURE",
+      "field_operator": "externally supplied scalar Q",
+      "photon_operator": "d ln(nu)/dt_b=-eta Q and dt_b=dell_b/c",
+      "prediction": "Delta ln(nu)=-(eta/c) integral Q dell_b",
+      "boundary": "Q scalar and integrable on forward baryon-frame spatial ray",
+      "limits": ["eta=0 null", "Q=0 null"],
+      "empirical_role": "DIRECT_CUMULATIVE"
+    },
+    {
+      "id": "VQ02_SLOWED_RAY_TIME_EXPOSURE",
+      "field_operator": "externally supplied scalar Q with 1+beta Q>0",
+      "photon_operator": "d ln(nu)/dt_b=-eta Q; c_eff=c/(1+beta Q); dt_b=dell_b/c_eff",
+      "prediction": "Delta ln(nu)=-(eta/c) integral Q(1+beta Q) dell_b; Delta t=(beta/c) integral Q dell_b",
+      "boundary": "the Q^2 term comes solely from the single clock-to-space conversion",
+      "limits": ["beta=0 exactly VQ01", "eta=0 leaves delay only"],
+      "empirical_role": "NONLINEAR_EXPOSURE_AND_DELAY"
+    },
+    {
+      "id": "VQ03_LOCAL_SOURCE_SINK",
+      "field_operator": "Q=J_g/(Gamma_0+Gamma_b rho_b)",
+      "photon_operator": "VQ01 evaluated on Q",
+      "boundary": "positive denominator at every cell",
+      "limits": ["Gamma_b=0 removes density screening", "uniform J_g and rho_b yield uniform Q"],
+      "empirical_role": "LOCAL_LOAD"
+    },
+    {
+      "id": "VQ04_3D_HELMHOLTZ_BARYON_FEED",
+      "field_operator": "(1-L_g^2 nabla^2)J_g=A_feed rho_b on a declared periodic 3D cube; Q=J_g/(Gamma_0+Gamma_b rho_b)",
+      "photon_operator": "VQ01 sampled from the solved 3D Q cube",
+      "boundary": "periodic 3D Helmholtz Green operator, including the zero mode",
+      "limits": ["L_g=0 gives J_g=A_feed rho_b cellwise", "homogeneous rho gives homogeneous J_g=A_feed rho"],
+      "empirical_role": "NONLOCAL_3D_FEED"
+    },
+    {
+      "id": "VQ05_3D_DIFFUSIVE_RESERVOIR",
+      "field_operator": "partial_t Q=D_g nabla^2 Q+J_g-(Gamma_0+Gamma_b rho_b)Q on a periodic 3D cube",
+      "photon_operator": "VQ01 sampled from Q(t,x)",
+      "boundary": "Q(t=0)=0 unless explicitly stated; periodic spatial boundary; fixed RK4 grid",
+      "limits": ["D_g=0 steady state is exactly VQ03 for the same J_g and rho_b", "uniform steady source matches local equilibrium"],
+      "empirical_role": "CAUSAL_3D_RESERVOIR"
+    },
+    {
+      "id": "VQ06_3D_COLUMN_ATTENUATED_FEED",
+      "field_operator": "Q(x)=A_load integral_cube rho_b(x') K_L(|x-x'|) exp[-sigma_g integral_segment rho_b ds] d^3x'",
+      "photon_operator": "VQ01 sampled from the solved finite-cube Q field",
+      "boundary": "finite isolated cube; straight Euclidean cell-center segments; midpoint/trilinear column quadrature; finite cell-averaged self kernel",
+      "limits": ["sigma_g=0 gives the unattenuated finite-cube Yukawa feed", "A_load=0 gives Q=0"],
+      "empirical_role": "ATTENUATED_3D_FEED"
+    },
+    {
+      "id": "VQ07_INVERSE_DENSITY_HUBBLE_MIMIC",
+      "field_operator": "Q=[(rho_bar+rho_star)/(rho_b+rho_star)]^n",
+      "photon_operator": "Delta ln(nu)=-(H_g/c) integral Q dell_b",
+      "boundary": "rho_star>0 and line-of-sight density estimator fixed before response",
+      "limits": ["n=0 gives a path-independent exponential distance law"],
+      "empirical_role": "CONTINUOUS_DENSITY_PHENOMENOLOGY"
+    },
+    {
+      "id": "VQ08_TWO_PHASE_VOID_FRACTION",
+      "field_operator": "released void-union geometry defines L_v; L_m=D_independent-L_v",
+      "photon_operator": "Delta ln(nu)=-(H_v L_v+H_m L_m)/c",
+      "boundary": "D_independent from CF4; overlapping released spheres/ellipsoids are unioned; survey edges rejected",
+      "limits": ["H_v=H_m gives a path-independent exponential distance law", "L_v=0 and L_m=0 single-phase limits"],
+      "empirical_role": "PRIMARY_LOW_COMPLEXITY_REAL_DATA_SCREEN"
+    },
+    {
+      "id": "VQ09_PHOTON_CARRIED_MEMORY",
+      "field_operator": "Q is any registered solved load field",
+      "photon_operator": "dq_gamma/dt_b=a Q-(b0+b_b rho_b)q_gamma; d ln(nu)/dt_b=-eta_gamma q_gamma",
+      "boundary": "q_gamma(emission)=0 in the primary fixture; positive relaxation; ordered forward path",
+      "limits": ["a=0 null", "eta_gamma=0 frequency null", "fast relaxation approaches a local Q-weighted law"],
+      "empirical_role": "ORDER_SENSITIVE_MEMORY"
+    },
+    {
+      "id": "VQ10_TIED_RESERVOIR_DELAY_REDSHIFT",
+      "field_operator": "Q solves VQ05",
+      "photon_operator": "c_eff=c/(1+beta Q); eta=H_ref beta; d ln(nu)/dt_b=-eta Q",
+      "prediction": "Delta t=(beta/c)I1; -Delta ln(nu)=H_ref beta(I1+beta I2)/c, I1=int Q dell_b, I2=int Q^2 dell_b",
+      "boundary": "one dimensionless beta controls both effects once H_ref and Q are frozen; no independent eta knob",
+      "limits": ["beta=0 removes both extra delay and redshift", "D_g=0 steady state uses VQ03 Q"],
+      "empirical_role": "JOINT_TIED_FALSIFIER"
+    }
+  ],
+  "required_synthetic_gates": [
+    "physical path conversion performed exactly once",
+    "VQ02 beta=0 equals VQ01 bit-for-bit",
+    "VQ04 solves the declared 3D periodic Helmholtz operator and L_g=0 boundary",
+    "VQ05 solves a 3D initial-value problem and its D_g=0 steady boundary equals VQ03",
+    "VQ06 evaluates source-target columns in all three coordinates and sigma_g=0 boundary",
+    "static scalar optical depths are invariant under sequence reversal",
+    "VQ09 order reversal is computed from the state ODE and labeled reciprocity violation risk",
+    "VQ10 redshift and delay are generated from the same Q, beta and H_ref",
+    "zero-source and zero-coupling nulls",
+    "no observational response bytes decoded"
+  ],
+  "real_data_contract": {
+    "source_bundle_root_sha256": "17bf5d717822291286b1d69be3c1695f1b5f68774e58eb54400fee59d69023a8",
+    "primary_branch": "VQ08_TWO_PHASE_VOID_FRACTION",
+    "response": "recompute V3k-H0*D from CF4 group distance and V3k; published Vpec columns forbidden",
+    "geometry": "Planck2018 edge=0 union of all released VoidFinder spheres; VIDE and REVOLVER ellipsoids are robustness controls",
+    "split": "SHA256(canonical 1PGC) first eight bytes modulo 10: development 0-5, validation 6-7, sealed confirmation 8-9",
+    "freeze_before_decode": ["H0 and flow comparator", "distance error likelihood", "mask and edge cuts", "sphere-union algorithm", "nuisance design", "effect grid", "permutation seeds", "minimum object counts"],
+    "comparators": ["FLRW plus CF4 flow", "bulk plus shear", "distance-method offsets", "local target density", "sky-sector systematics", "random rotations", "redshift-stratified void scrambles", "VoidFinder versus VIDE versus REVOLVER", "Local Void outflow"],
+    "status": "SOURCE_BYTES_READY_ROWS_UNOPENED_EXECUTOR_NOT_YET_AUTHORED"
+  },
+  "access_accounting": {
+    "source_files_hashed_by_predecessor": 7,
+    "scientific_rows_decoded_by_this_packet": 0,
+    "response_values_inspected_by_this_packet": 0,
+    "real_scores": 0,
+    "network_calls_by_this_packet": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "claim_boundary": {
+    "v1_audit_defects_repaired": true,
+    "dimensioned_executable_reduced_laws": true,
+    "declared_3D_operators_actually_solved": true,
+    "source_bytes_ready": true,
+    "scientific_rows_opened": false,
+    "real_data_fit": false,
+    "covariant_action": false,
+    "known_physics_consistency": false,
+    "novelty": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-void-gravitational-load-v2/receipt.json"
+}

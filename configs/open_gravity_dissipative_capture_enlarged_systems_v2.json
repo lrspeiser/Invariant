@@ -1,0 +1,177 @@
+{
+  "schema": "invariant-open-gravity-dissipative-capture-enlarged-systems-2.0",
+  "package_id": "open-gravity-dissipative-capture-enlarged-systems-v2",
+  "status": "STRICT_AUDIT_SUCCESSOR_SOURCE_BLOCKED",
+  "purpose": "Test whether capture follows from executable state evolution. Receiver energy, momentum, angular momentum, and entropy must be computed from evolved states; unresolved effective formulas are retained but demoted.",
+  "supersedes": {
+    "path": "runs/gravity/open-gravity-dissipative-capture-enlarged-systems-v1/receipt.json",
+    "file_sha256": "8533418ccb8d48caef67c13d5cbefe7be905ff80514e4011322a2f091efaabdd",
+    "content_sha256": "2c7b2520948f9f8690c42fe2307fc9559a6961abd23db3fe0632e40a4e4b5255",
+    "audit_status": "BLOCKED_FALSE_RECEIVER_CLOSURE_AND_HAND_RANKING"
+  },
+  "bindings": [
+    {"role": "AUDIT_RECOVERY_PROGRAM", "path": "runs/gravity/open-gravity-audit-recovery-program-v1/receipt.json", "sha256": "d799116f9746c2daf3b481d79b419627f4222b9a0921528d72c0a6e2c6daa251"},
+    {"role": "TEMPORAL_TRANSFER_IDENTIFIABILITY", "path": "runs/gravity/open-gravity-temporal-transfer-identifiability-v1/receipt.json", "sha256": "cbc8336842ca3695971ead7e67e37adbd4323d989c1c6b43cb6bbc0ae1201bd5"},
+    {"role": "MANGA_RELAXATION_MERGERS_COUNTEREXAMPLE", "path": "runs/gravity/roadmap/item-13-synthesis-v1.json", "sha256": "aae352d81042f5017a83fb636b88c4a5b581258caaf2d4d7476934652daf5cd4"}
+  ],
+  "unit_system": {
+    "synthetic": "G=1 encounter units",
+    "dimensions": ["[r]=L", "[p_r]=M L T^-1", "[L_orb]=M L^2 T^-1", "[gamma]=M T^-1", "[U]=M L^2 T^-2", "[S]=M L^2 T^-2 Theta^-1", "[h]=1", "[tau]=T"]
+  },
+  "mechanisms": [
+    {
+      "id": "DC00_NEWTONIAN_FOCUSING_CONTROL",
+      "kind": "CONSERVATIVE_CONTROL",
+      "execution_grade": "EXECUTABLE_STATE_DYNAMICS",
+      "receiver_grade": "NO_RECEIVER_REQUIRED",
+      "theory_grade": "COMPLETE_NEWTONIAN_TWO_BODY_CONTROL",
+      "novelty_grade": "KNOWN_CONTROL",
+      "gaps": [],
+      "structural_metrics": {"executable_states": 1, "state_derived_invariants": 1, "irreversible_receiver": 0, "same_state_history_discriminator": 0, "public_source_contract": 1, "free_kernel_modes": 0}
+    },
+    {
+      "id": "DC01_STATIC_FORCE_AMPLIFICATION_CONTROL",
+      "kind": "CONSERVATIVE_CONTROL",
+      "execution_grade": "EXECUTABLE_STATE_DYNAMICS",
+      "receiver_grade": "NO_RECEIVER_REQUIRED",
+      "theory_grade": "COMPLETE_STATIC_CENTRAL_FORCE_CONTROL",
+      "novelty_grade": "KNOWN_CONTROL",
+      "gaps": [],
+      "structural_metrics": {"executable_states": 1, "state_derived_invariants": 1, "irreversible_receiver": 0, "same_state_history_discriminator": 0, "public_source_contract": 1, "free_kernel_modes": 0}
+    },
+    {
+      "id": "DC02_INELASTIC_CLOUD_SHOCK",
+      "kind": "PUBLISHED_DISSIPATIVE_CONTROL",
+      "execution_grade": "CONSTITUTIVE_JUMP_MAP_ONLY",
+      "receiver_grade": "INTERNAL_HEAT_STATE_UPDATED_BY_JUMP_NOT_MICRODYNAMIC",
+      "theory_grade": "DEMOTED_UNRESOLVED_SHOCK_MICROSTATE",
+      "novelty_grade": "KNOWN_CONTROL",
+      "gaps": ["receiver microdynamics unresolved"],
+      "structural_metrics": {"executable_states": 0, "state_derived_invariants": 0, "irreversible_receiver": 1, "same_state_history_discriminator": 0, "public_source_contract": 1, "free_kernel_modes": 0}
+    },
+    {
+      "id": "DC03_CHANDRASEKHAR_WAKE_TRANSFER",
+      "kind": "PUBLISHED_DISSIPATIVE_CONTROL",
+      "execution_grade": "EFFECTIVE_FORCE_ONLY",
+      "receiver_grade": "WAKE_STATE_UNRESOLVED",
+      "theory_grade": "DEMOTED_RECEIVER_NOT_EVOLVED",
+      "novelty_grade": "KNOWN_CONTROL",
+      "gaps": ["live background wake state absent"],
+      "structural_metrics": {"executable_states": 0, "state_derived_invariants": 0, "irreversible_receiver": 1, "same_state_history_discriminator": 0, "public_source_contract": 1, "free_kernel_modes": 0}
+    },
+    {
+      "id": "DC04_GRAVITATIONAL_WAVE_CAPTURE",
+      "kind": "PUBLISHED_GR_CONTROL",
+      "execution_grade": "FAR_ZONE_FLUX_FORMULA_ONLY",
+      "receiver_grade": "WAVE_STATE_UNRESOLVED_IN_FIXTURE",
+      "theory_grade": "DEMOTED_RECEIVER_NOT_EVOLVED",
+      "novelty_grade": "KNOWN_CONTROL",
+      "gaps": ["radiative field state absent"],
+      "structural_metrics": {"executable_states": 0, "state_derived_invariants": 0, "irreversible_receiver": 1, "same_state_history_discriminator": 0, "public_source_contract": 1, "free_kernel_modes": 0}
+    },
+    {
+      "id": "DC05_TIMEWELL_SINGLE_MEMORY_BATH",
+      "kind": "HYPOTHESIS_ENLARGED_RECEIVER",
+      "execution_grade": "EXECUTABLE_MATTER_HEAT_ENTROPY_MEMORY_ODE",
+      "receiver_grade": "EVOLVED_INTERNAL_ENERGY_AND_ENTROPY",
+      "theory_grade": "PHENOMENOLOGICAL_ZERO_COST_GATE_NOT_COVARIANTLY_CLOSED",
+      "novelty_grade": "APPLICATION_NOVELTY_UNRESOLVED",
+      "gaps": ["memory-gate stress energy undefined", "no covariant action", "activation law phenomenological"],
+      "structural_metrics": {"executable_states": 1, "state_derived_invariants": 1, "irreversible_receiver": 1, "same_state_history_discriminator": 1, "public_source_contract": 1, "free_kernel_modes": 1}
+    },
+    {
+      "id": "DC06_TIMEWELL_BIMODAL_MEMORY_BATH",
+      "kind": "HYPOTHESIS_ENLARGED_RECEIVER",
+      "execution_grade": "EXECUTABLE_MATTER_HEAT_ENTROPY_MEMORY_ODE",
+      "receiver_grade": "EVOLVED_INTERNAL_ENERGY_AND_ENTROPY",
+      "theory_grade": "PHENOMENOLOGICAL_ZERO_COST_GATES_NOT_COVARIANTLY_CLOSED",
+      "novelty_grade": "APPLICATION_NOVELTY_UNRESOLVED_NESTED_EXTENSION",
+      "gaps": ["memory-gate stress energy undefined", "no covariant action", "activation law phenomenological", "extra kernel mode requires identifiability"],
+      "structural_metrics": {"executable_states": 1, "state_derived_invariants": 1, "irreversible_receiver": 1, "same_state_history_discriminator": 1, "public_source_contract": 1, "free_kernel_modes": 2}
+    },
+    {
+      "id": "DC07_COMPRESSION_GATED_BATH",
+      "kind": "HYPOTHESIS_ENLARGED_RECEIVER",
+      "execution_grade": "EXECUTABLE_MATTER_HEAT_ENTROPY_ODE_ALGEBRAIC_GATE",
+      "receiver_grade": "EVOLVED_INTERNAL_ENERGY_AND_ENTROPY",
+      "theory_grade": "PHENOMENOLOGICAL_BULK_DISSIPATION_NOT_COVARIANTLY_CLOSED",
+      "novelty_grade": "LIKELY_DEGENERATE_WITH_SHOCK_OR_BULK_VISCOSITY",
+      "gaps": ["gate stress energy undefined", "no covariant action", "degenerate with ordinary compression heating"],
+      "structural_metrics": {"executable_states": 1, "state_derived_invariants": 1, "irreversible_receiver": 1, "same_state_history_discriminator": 0, "public_source_contract": 1, "free_kernel_modes": 0}
+    }
+  ],
+  "dynamics_fixture": {
+    "G": 1.0, "m1": 1.0, "m2": 4.0, "initial_r": 8.0, "initial_radial_velocity": -1.2, "orbital_angular_momentum": 2.0,
+    "activation_scale": 2.5, "gamma": 0.02, "temperature": 1.0, "dt": 0.002, "max_time": 30.0, "outbound_measurement_radius": 5.0,
+    "com_position": [0.25, -0.5], "com_momentum": [0.3, -0.2],
+    "single": {"tau": [3.0], "weights": [1.0], "quiet_initial_h": [0.0], "post_pass_initial_h": [1.0]},
+    "bimodal": {"tau": [0.5, 12.0], "weights": [0.7, 0.3], "quiet_initial_h": [0.0, 0.0], "post_pass_initial_h": [1.0, 1.0]},
+    "compression": {"radial_speed_scale": 1.0}
+  },
+  "three_body_countermodel": {
+    "G": 1.0, "masses": [1.0, 1.0, 0.5], "softening": 0.05, "dt": 0.001, "steps": 20000,
+    "positions": [[-5.0, 0.8], [0.0, 0.0], [-0.7151635972520508, -0.6045265697576301]],
+    "velocities": [[1.0, 0.0], [0.0, 0.0], [0.7541417774262726, -0.9794017388757674]]
+  },
+  "triage_policy": {
+    "label": "EXPERT_STRUCTURAL_TRIAGE_NOT_DATA_OR_MODEL_SCORE",
+    "formula": "3*executable_states + 3*state_derived_invariants + 2*irreversible_receiver + 2*same_state_history_discriminator + public_source_contract - gap_count - free_kernel_modes",
+    "tie_break": ["lower gap_count", "lower free_kernel_modes", "mechanism_id"],
+    "retain_all_failures": true
+  },
+  "tng_manifest": {
+    "status": "SOURCE_BLOCKED_API_AUTH_AND_PAYLOAD_CHECKSUMS_UNAVAILABLE",
+    "metadata_observed_utc": "2026-08-31T20:10:45.6947588Z",
+    "metadata_pages": [
+      {"simulation": "TNG100-1", "url": "https://www.tng-project.org/data/downloads/TNG100-1/", "simulation_hdf5_size": "628.7 MB", "sublink": "442.5 GB across 20 files", "lhalotree": "246.3 GB across 120 files", "matching_catalog": "subhalo_matching_to_dark.hdf5; 3.6 GB in 1 file"},
+      {"simulation": "TNG100-1-Dark", "url": "https://www.tng-project.org/data/downloads/TNG100-1-Dark/", "simulation_hdf5_size": "35.5 MB", "sublink": "229.5 GB across 9 files", "lhalotree": "141.4 GB across 80 files"}
+    ],
+    "api_documentation": "https://www.tng-project.org/data/docs/api/",
+    "specification_url": "https://www.tng-project.org/data/docs/specifications/",
+    "snapshot_grid": [
+      {"snap": 50, "redshift": 1.0, "age_gyr": 5.878}, {"snap": 59, "redshift": 0.7, "age_gyr": 7.314},
+      {"snap": 67, "redshift": 0.5, "age_gyr": 8.587}, {"snap": 72, "redshift": 0.4, "age_gyr": 9.389},
+      {"snap": 78, "redshift": 0.3, "age_gyr": 10.299}, {"snap": 84, "redshift": 0.2, "age_gyr": 11.323},
+      {"snap": 91, "redshift": 0.1, "age_gyr": 12.467}, {"snap": 99, "redshift": 0.0, "age_gyr": 13.803}
+    ],
+    "endpoint_templates": {
+      "tree": "https://www.tng-project.org/api/{simulation}/snapshots/{snap}/subhalos/{subhalo_id}/sublink/full.hdf5",
+      "cutout": "https://www.tng-project.org/api/{simulation}/snapshots/{snap}/subhalos/{subhalo_id}/cutout.hdf5",
+      "groupcat": "https://www.tng-project.org/api/{simulation}/files/groupcat-{snap}/",
+      "matching_filename": "subhalo_matching_to_dark.hdf5"
+    },
+    "selection": {"snapshots": [50, 59, 67, 72, 78, 84, 91, 99], "mass_ratio_min": 0.25, "descendant_stellar_mass_solar": [10000000000.0, 316227766016.83795], "history_window_gyr": [-1.5, 2.0], "split": "SHA256(TNG100-1:SnapNum:SubhaloID) mod 5; 0-3 development, 4 sealed confirmation"},
+    "required_group_fields": ["SubhaloPos", "SubhaloVel", "SubhaloMassType", "SubhaloHalfmassRadType", "SubhaloVelDisp", "SubhaloSpin", "SubhaloSFR"],
+    "required_gas_fields": ["Coordinates", "Velocities", "Masses", "Density", "InternalEnergy", "GFM_CoolingRate", "EnergyDissipation", "Machnumber", "Potential", "StarFormationRate"],
+    "required_dark_fields": ["Coordinates", "Velocities", "Masses", "Potential"],
+    "required_matching_fields": ["SubhaloIndexDark_LHaloTree", "SubhaloIndexDark_SubLink"],
+    "likelihood": {
+      "unit": "matched merger history",
+      "primary_response": "time from first pericenter to coalescence in Gyr",
+      "secondary_responses": ["change in pair orbital energy", "change in pair angular momentum", "integrated EnergyDissipation", "integrated negative GFM_CoolingRate proxy"],
+      "model": "Student-t location likelihood with nu=4 and one shared log-scale per response; fixed effects are pre-encounter mass ratio, total mass, gas fraction, pericenter, orbital circularity, feedback proxy, snapshot interval, hydro indicator, and hydro-by-prehistory activation; matched hydro-DMO pair intercept",
+      "nulls": ["collisionless violent relaxation", "ordinary shock/cooling", "Chandrasekhar/Boylan-Kolchin friction", "flexible source history without memory"],
+      "decision_rule": "No new-gravity lead unless the frozen hydro-by-prehistory term improves held-out development log predictive density over every null and has the predicted sign, with confirmation fold unopened.",
+      "no_retuning": ["activation scale", "memory times", "kernel weights", "gamma", "selection", "split", "likelihood family"]
+    },
+    "unresolved_before_source_open": ["authenticated API receipt", "exact downloadable file URLs after login", "payload byte sizes and SHA256 hashes", "eligible SubhaloID list", "cutout URL expansion"],
+    "missing_data_action": "SOURCE_BLOCKED_NOT_MODEL_FAILURE"
+  },
+  "published_sources": [
+    {"id": "SRC_CHANDRASEKHAR_1943", "doi": "10.1086/144517", "role": "wake countermodel"},
+    {"id": "SRC_PETERS_1964", "doi": "10.1103/PhysRev.136.B1224", "role": "radiative capture control"},
+    {"id": "SRC_CALDEIRA_LEGGETT_1983", "doi": "10.1016/0003-4916(83)90202-6", "role": "open-system bath neighbor"},
+    {"id": "SRC_TNG_RELEASE_2019", "doi": "10.1186/s40668-019-0028-x", "role": "public hydro and DMO source"},
+    {"id": "SRC_YOUNG_2018", "doi": "10.1088/1475-7516/2018/02/033", "role": "collisionless phase-space mixing"},
+    {"id": "SRC_BOYLAN_KOLCHIN_2008", "doi": "10.1111/j.1365-2966.2007.12530.x", "role": "extended-satellite merger-time null"},
+    {"id": "SRC_FAN_2013_DDDM", "doi": "10.1103/PhysRevLett.110.211302", "role": "dissipative dark-sector neighbor"},
+    {"id": "SRC_HUO_2020", "doi": "10.1088/1475-7516/2020/06/051", "role": "dissipative-DM cooling and collapse neighbor"}
+  ],
+  "claim_boundary": {
+    "establishes": ["executable central receiver dynamics for DC05-DC07", "state-derived energy, linear momentum, angular momentum, and entropy checks", "a conservative three-body counterexample where the visible pair becomes bound", "computed structural triage", "a frozen but source-blocked TNG100-1 hydro versus DMO likelihood"],
+    "does_not_establish": ["a covariant closed gravity theory", "that the memory gate has zero physical stress energy", "that visible-pair capture proves dissipation", "that any TNG response was opened or scored", "historical novelty", "that violent relaxation, ordinary cooling, feedback, or established friction have been excluded"]
+  },
+  "access_contract": {"raw_scientific_source_files": 0, "raw_scientific_response_files": 0, "raw_scientific_rows": 0, "new_real_data_scores": 0, "metadata_network_pages": 2, "model_calls": 0, "paid_calls": 0},
+  "artifact_directory": "runs/gravity/open-gravity-dissipative-capture-enlarged-systems-v2/artifacts",
+  "output_path": "runs/gravity/open-gravity-dissipative-capture-enlarged-systems-v2/receipt.json"
+}

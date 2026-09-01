@@ -21,6 +21,19 @@ The current requirement-by-requirement status, receipt-backed measurements, unre
 and release priorities are maintained in
 [`docs/GOALS_AND_MEASURED_OUTCOMES.md`](docs/GOALS_AND_MEASURED_OUTCOMES.md).
 
+## Latest checkpoint: Open-Gravity handoff (2026-09-01)
+
+The nine-lane Open-Gravity session, synthetic steering matrices, formula registry, public-data
+inventory, and final independent audit dispositions are checkpointed on `main`. Start with
+[`docs/OPEN_GRAVITY_HANDOFF_2026_09_01.md`](docs/OPEN_GRAVITY_HANDOFF_2026_09_01.md). It explains
+what is complete, what remains blocked, how to verify the checkpoint, where every detailed report
+and receipt lives, which public source payloads must be reacquired by manifest/hash, and the exact
+rules for safely resuming response-gated work.
+
+The scientific bottom line is deliberately conservative: no robust positive evidence for a new
+gravity law was found. The durable outputs are scoped negative results, a stationary-propagation
+theorem, source and identifiability maps, and a reusable response-blind fail-closed audit system.
+
 ## Gated real-problem validation
 
 The first task in the independent-discovery roadmap now runs on a reproducible NASA Exoplanet

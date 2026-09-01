@@ -1,0 +1,101 @@
+{
+  "schema_version": "invariant-open-gravity-dynamic-source-memory-gw150914-response-config-3.0",
+  "analysis_id": "open-gravity-dynamic-source-memory-gw150914-response-v3",
+  "status": "FROZEN_RESPONSE_BLIND_DEVELOPMENT_ONLY_SOURCE_ACQUISITION_AUTHORIZED",
+  "purpose": "Append-only source-contract repair and response-blind GW150914 H1/L1 development test of the six v2 dynamic-source-memory kernels, with all equivalences, failures, and ordinary countermodels retained.",
+  "predecessor": {
+    "config_path": "configs/open_gravity_dynamic_source_memory_kernels_v2.json",
+    "config_sha256": "6712fa11b56322eab83bfed82b63dbdcf89815b990fb8f08bafe684cb137d998",
+    "module_path": "src/sigma_theory_compiler/open_gravity_dynamic_source_memory_kernels_v2.py",
+    "module_sha256": "54eff7d66519bfa1e6773ba56a33dcf2c5322147c76e25285f29ed646b8ca956",
+    "receipt_path": "runs/gravity/open-gravity-dynamic-source-memory-kernels-v2/receipt.json",
+    "receipt_sha256": "0dd8ac55ee5e0b131c1f94064eae6fd14cc32d8e4d93299bbc67fc10b63608a1"
+  },
+  "package": {
+    "module_path": "src/sigma_theory_compiler/open_gravity_dynamic_source_memory_gw150914_response_v3.py",
+    "test_path": "tests/test_open_gravity_dynamic_source_memory_gw150914_response_v3.py",
+    "run_directory": "runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3",
+    "intent_receipt": "runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/intent-receipt.json",
+    "source_receipt": "runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/source-receipt.json",
+    "schema_receipt": "runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/schema-receipt.json",
+    "injection_receipt": "runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/injection-receipt.json",
+    "result_receipt": "runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/result-receipt.json"
+  },
+  "sources": {
+    "event": "GW150914",
+    "event_gps": 1126259462.4,
+    "gps_start": 1126259446,
+    "duration_seconds": 32,
+    "sample_rate_hz": 4096,
+    "strain_samples": 131072,
+    "strain_dataset": "/strain/Strain",
+    "dq_dataset": "/quality/simple/DQmask",
+    "dq_cadence_hz": 1,
+    "dq_samples": 32,
+    "dq_mapping": "DQ element j governs [gps_start+j,gps_start+j+1); require the DATA bit (bit 0) at every second intersecting the analysis interval; never treat DQ as a 4096-Hz array",
+    "products": [
+      {"detector":"H1","url":"https://gwosc.org/s/events/GW150914/H-H1_LOSC_4_V2-1126259446-32.hdf5","path":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/source/H-H1_LOSC_4_V2-1126259446-32.hdf5","expected_bytes":1040592},
+      {"detector":"L1","url":"https://gwosc.org/s/events/GW150914/L-L1_LOSC_4_V2-1126259446-32.hdf5","path":"runs/gravity/open-gravity-dynamic-source-memory-gw150914-response-v3/source/L-L1_LOSC_4_V2-1126259446-32.hdf5","expected_bytes":1007420}
+    ],
+    "nr_source_path": "runs/gravity/open-gravity-dynamic-source-memory-kernels-v1/source/GW150914_4_NR_waveform.txt",
+    "nr_source_sha256": "ed49c3e83f90e70ac85386f183031b7de3d3d6aa78e75a7d284e5a53a5cc0b76",
+    "response_access_rule": "Freeze intent first; download opaque bytes and freeze both payload hashes second; only then inspect HDF schema or DQ; read strain only after schema and injection gates pass."
+  },
+  "kernels": [
+    {"id":"K00_INSTANTANEOUS","parameters":{}},
+    {"id":"K01_RETARDED","parameters":{"delay":0.244140625}},
+    {"id":"K02_EXPONENTIAL","parameters":{"tau":0.35}},
+    {"id":"K03_BIEXPONENTIAL","parameters":{"tau1":0.08,"tau2":1.5,"weight":0.65}},
+    {"id":"K04_DAMPED_RESONANCE","parameters":{"omega0":7.0,"zeta":0.18}},
+    {"id":"K05_HYSTERETIC","parameters":{"threshold":0.25,"offset":0.15,"tau":0.03}},
+    {"id":"K06_STOCHASTIC_OU","parameters":{"tau":0.35,"sigma":0.05}}
+  ],
+  "equivalence_families": {
+    "E00_TIME_SHIFT": ["K00_INSTANTANEOUS","K01_RETARDED"],
+    "E02_ONE_POLE_MEAN": ["K02_EXPONENTIAL","K06_STOCHASTIC_OU"],
+    "E03_TWO_POLE": ["K03_BIEXPONENTIAL"],
+    "E04_RESONANT": ["K04_DAMPED_RESONANCE"],
+    "E05_HYSTERETIC": ["K05_HYSTERETIC"]
+  },
+  "analysis": {
+    "T_star_seconds": 0.01,
+    "analysis_interval_gps": [1126259458,1126259466],
+    "psd_intervals_gps": [[1126259446,1126259458],[1126259466,1126259478]],
+    "band_hz": [20,512],
+    "detrend": "mean subtraction then scipy.signal.detrend(type=linear), separately for every detector and interval",
+    "analysis_window": {"kind":"tukey","alpha":0.125},
+    "psd": {"kind":"Welch","window":"hann","segment_seconds":4,"overlap_fraction":0.5,"average":"median within each side then arithmetic mean of sides"},
+    "fft_delta_f_hz": 0.125,
+    "template_anchor": "NR coalescence t=0 is placed at event_gps; kernel time uses s=t/T_star; no response-dependent normalization or parameter",
+    "source_normalization": "divide the frozen NR strain column by its pre-response max absolute value; K05 threshold therefore remains exactly 0.25",
+    "time_grid_seconds": {"min":-0.05,"max":0.05,"step":0.000244140625},
+    "delta_LH_grid_seconds": {"min":-0.01,"max":0.01,"step":0.000244140625},
+    "likelihood": "profiled relative frequency-domain Whittle Gaussian with one analytic complex amplitude per detector",
+    "selection": "maximum over the exact frozen common-time and L1-minus-H1 delay grids; no retuning",
+    "trials": "seven kernel templates plus five explicit countermodels are all reported; development-only delta-2logL and no sigma conversion"
+  },
+  "injections": {
+    "seed_start": 520260831,
+    "noise_realizations_per_cell": 128,
+    "network_snr": [8,12,20],
+    "injected_kernels": ["K00_INSTANTANEOUS","K01_RETARDED","K02_EXPONENTIAL","K03_BIEXPONENTIAL","K04_DAMPED_RESONANCE","K05_HYSTERETIC","K06_STOCHASTIC_OU"],
+    "noise_model": "independent unit-variance complex Gaussian frequency bins on the frozen 20-512 Hz grid; same profiled Whittle objective and exact nuisance grids",
+    "pass_rule": "zero noncausal early-response detections and at least 90 percent equivalence-family recovery at network SNR 20; retain every cell and tie"
+  },
+  "countermodels": [
+    {"id":"C01_FREE_DELAY","definition":"K01; exact common-time-shift degeneracy"},
+    {"id":"C02_SINGLE_LTI","definition":"K02; ordinary one-pole source or instrument response"},
+    {"id":"C03_DOUBLE_LTI","definition":"K03; ordinary two-pole source or instrument response"},
+    {"id":"C04_SOURCE_RINGDOWN","definition":"K00 source plus causal damped sinusoid beginning 0.06 s after coalescence, decay 0.012 s, angular frequency 700 rad/s, amplitude 0.65 times source maximum"},
+    {"id":"C05_OU_NOISE","definition":"K02 conditional mean; coherent-source excess variance must beat independent detector noise"},
+    {"id":"C06_PSD","definition":"repeat scores with each one-sided PSD and their arithmetic mean"},
+    {"id":"C07_CALIBRATION","definition":"predeclared diagnostic amplitude tilt plus phase tilt over 20-512 Hz; because exact published frequency-dependent calibration envelopes are absent, this cannot validate an empirical claim"}
+  ],
+  "claim_ceiling": {
+    "development_result_allowed": true,
+    "empirical_memory_evidence_allowed": false,
+    "reason": "one event, NR source nuisance, explicit ordinary response/source countermodels, trials, and missing exact frequency-dependent calibration uncertainty artifacts",
+    "required_next": "unchanged multi-event transfer with exact calibration uncertainty products and source-waveform marginalization"
+  },
+  "access_ledger_at_freeze": {"metadata_head_requests_in_v2":2,"response_payload_files_opened":0,"strain_values_read":0,"dq_values_read":0,"model_calls":0,"paid_calls":0,"post_response_tuning":0}
+}

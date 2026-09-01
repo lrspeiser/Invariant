@@ -1,0 +1,44 @@
+{
+  "acquisition_gate": "Before opening any payload, freeze exact URL, byte count, SHA256, schema, object intersection, masks, covariance, cosmology, PSF, line-spread function, and missing-data action.",
+  "primary_rejection_rules": [
+    "reject empirical universality if a shared closure requires an object-specific photon or lens multiplier",
+    "reject a metric closure if deflection and Shapiro/time-delay require inconsistent Phi+Psi normalizations",
+    "reject a chromatic closure if its frozen nu^-2 differential is absent after plasma and dust controls",
+    "reject a causal-memory closure if the registered lag or hysteresis does not transfer between whole objects",
+    "quarantine rather than erase any empirically interesting closure that later fails covariance, conservation, causality, or health"
+  ],
+  "stage_1": {
+    "exact_source": "https://arxiv.org/e-print/1806.08300v1",
+    "frozen_test": "Reproduce the registered joint model and report g_lens/g_dyn and reconstructed slip without adding a photon multiplier; use the same stellar mass, anisotropy, distance, external-convergence, and line-of-sight nuisance contract for every closure.",
+    "id": "ESO325_G004_JOINT_SLIP_REPRODUCTION",
+    "required_payloads": [
+      "HST_lensed_arc_imaging",
+      "MUSE_resolved_stellar_kinematics",
+      "lens_light_and_PSF",
+      "published_covariance_and_masks"
+    ],
+    "response_status": "NOT_DOWNLOADED_NOT_SCORED"
+  },
+  "stage_2": {
+    "exact_catalog_base": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/682/964/",
+    "exact_catalog_readme": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/682/964/ReadMe",
+    "frozen_statistic": "whole-galaxy held-out joint likelihood and signed residuals in Einstein radius and aperture velocity dispersion, with one shared stellar-population nuisance hierarchy",
+    "id": "SLACS_WHOLE_GALAXY_TRANSFER",
+    "published_sample": "131 candidates, 70 definite lenses, 63 fitted lens models; use only catalog rows whose required lensing, photometry, redshift, and SDSS dispersion fields pass schema",
+    "response_status": "NOT_DOWNLOADED_NOT_SCORED",
+    "split_rule": "Sort canonical SLACS name; SHA256(name) mod 5 equals 4 is untouched confirmation; all object-specific constants and photon coefficients are forbidden."
+  },
+  "stage_3": {
+    "exact_source": "https://arxiv.org/e-print/2305.06377v1",
+    "frozen_test": "Using a closure admitted by stages 1 and 2, predict image time-delay ratios from the already fixed Phi+Psi field; do not fit a new Fermat or photon coefficient.",
+    "id": "TIME_DELAY_THIRD_CHANNEL",
+    "response_status": "NOT_DOWNLOADED_NOT_SCORED"
+  },
+  "stage_4": {
+    "exact_archive": "https://archive.stsci.edu/prepds/clash/",
+    "frozen_test": "Forward predict image positions, parities, shapes, weak shear, magnification, and any registered time delays from calibrated baryonic light and gas through the unchanged same-law closure.",
+    "id": "CLASH_CLUSTER_GEOMETRY_TRANSFER",
+    "local_metadata_binding": "ITEM60_DIRECT_LENSING_UNDERDEFINITION_AUDIT",
+    "response_status": "NOT_DOWNLOADED_NOT_SCORED"
+  }
+}

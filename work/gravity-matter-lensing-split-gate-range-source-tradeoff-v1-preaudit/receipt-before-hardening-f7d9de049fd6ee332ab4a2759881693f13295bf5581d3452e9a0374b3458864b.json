@@ -1,0 +1,413 @@
+{
+  "analysis_id": "gravity-matter-lensing-split-gate-range-source-tradeoff-v1",
+  "checks": {
+    "T01_EXACT_COMMITTED_BINDINGS": true,
+    "T02_C_BRANCH_AMPLITUDE_LIMIT": true,
+    "T03_K_BRANCH_AMPLITUDE_LIMIT": true,
+    "T04_RANGE_LIMIT": true,
+    "T05_C_SOURCE_LIMIT": true,
+    "T06_K_SOURCE_LIMIT": true,
+    "T07_C_PRODUCT_LIMIT": true,
+    "T08_K_PRODUCT_LIMIT": true,
+    "T09_CRITICAL_EXPONENT": true,
+    "T10_SHIFTED_POWER_MAPPING": true,
+    "T11_COMMITTED_P2_RECOVERY": true,
+    "T12_FIXED_DISTANCE_SCREENING": true,
+    "T13_NUMERIC_EXPONENT_CONVERGENCE": true,
+    "T14_DESIGNED_THRESHOLD_FAILURES": true,
+    "T15_CLAIM_CEILING": true
+  },
+  "checks_passed": 15,
+  "claim_boundary": {
+    "candidate_original_asymptotic_theorem": true,
+    "full_action_health": false,
+    "full_coupled_range_derived": false,
+    "general_variable_coefficient_bound": false,
+    "historical_novelty_established": false,
+    "independent_expert_review_passed": false,
+    "modified_gravity_success": false,
+    "observational_support": false,
+    "on_shell_material_solution": false,
+    "physical_source_X_scaling_derived": false,
+    "publication_ready": false
+  },
+  "config_binding": {
+    "canonical_sha256": "e8ec29d655e118965f7151cf5eb76c492473bf8135aadaeb942bd887fe88ebf1",
+    "path": "configs/gravity_matter_lensing_split_gate_range_source_tradeoff_v1.json",
+    "raw_sha256": "5887a5b065d4562362b77c276d75194886b9dcbca384f551db53434c3c97886c"
+  },
+  "content_sha256": "a24610c115a9fe0bbd36f81d2c80113566eeeb6e261c926f5769ce5ef130ffda",
+  "decision": "PROMISING_SECOND_ANALYTIC_RESULT_REQUIRES_EXPERT_AND_EXHAUSTIVE_NOVELTY_REVIEW",
+  "fifth_force_link": {
+    "fixed_distance_limit": "For every fixed r>0 and s>0, ell->0 and epsilon_chi(r)->0 as X->infinity.",
+    "not_claimed": "This does not screen phi, solve a material body, prove thin-shell behavior, or establish a Solar-System pass.",
+    "restricted_ratio": "epsilon_chi(r)=2*alpha_chi^2*(1+r/ell)*exp(-r/ell)/Y0 for the committed constant-coefficient point-source subcase",
+    "tradeoff": "The same s that increases the source ceiling exponent also exponentially suppresses the restricted fifth force at fixed distance."
+  },
+  "implementation_binding": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_split_gate_range_source_tradeoff.py",
+    "module_raw_sha256": "01221cd5e7ef2e0df975c86c6a61bb6a18bcf2d28ceffa3b8435a9f47a39284f",
+    "module_semantic_sha256": "5a2b1844eb39f1611490d1a01b6ba58753908f27eb402460edd5c96e5a39602d",
+    "test_path": "tests/test_gravity_matter_lensing_split_gate_range_source_tradeoff.py",
+    "test_sha256": "97d4a054d3925fdb97d2e589d529e251bdc7bc224d8aa21a2e33c2309bc508fd"
+  },
+  "literature_positioning": [
+    {
+      "arxiv": "astro-ph/0309300",
+      "id": "CHAMELEON",
+      "relevance": "Environment-dependent mediator mass and range are established screening concepts, but the mass is controlled by matter density rather than a second field's kinetic invariant."
+    },
+    {
+      "arxiv": "1001.4525",
+      "id": "SYMMETRON",
+      "relevance": "Density-dependent symmetry restoration screens the coupling; it is a distinct mechanism from the derivative-controlled mass gate and does not provide this range-source exponent identity."
+    },
+    {
+      "arxiv": "0905.2943",
+      "id": "K_MOUFLAGE",
+      "relevance": "Nonlinear kinetic self-interactions screen a scalar force; the present class instead keeps chi kinetic normalization constant and gates its mass through X."
+    },
+    {
+      "arxiv": "1611.08279",
+      "id": "KINETIC_CONFORMAL_GOLDSTONE",
+      "relevance": "Kinetically dependent conformal couplings and ultralocal screening are nearby prior art, but not an identified exact rewrite of the split mass-gate range-source theorem."
+    },
+    {
+      "arxiv": "2305.07725",
+      "id": "KINETIC_TWO_BODY",
+      "relevance": "Modern kinetic-screening two-body analyses expose geometry-dependent screened and descreened regions, reinforcing that the frozen constant-coefficient theorem is not a full nonlinear source solution."
+    }
+  ],
+  "maximal_theorem": {
+    "amplitude_ceiling": "chi_max~min[sqrt(2*A_infinity/(m_chi^2*s*z)),sqrt(2*B_infinity/(m_chi^2*s*(2*s-1)*z))]*X^[-(s-1)/2]",
+    "bare_range": "ell=sqrt(Y0)/(m_chi*sqrt(Z))~sqrt(Y0)/(m_chi*sqrt(z))*X^(-s/2)",
+    "critical_source_exponent": "For a homogeneous/long-wave source |Q_chi|~q*X^r, r_c=(s+1)/2: r<r_c is asymptotically subcritical, r=r_c is coefficient-dependent, and r>r_c is asymptotically supercritical.",
+    "full_coupled_boundary": "The bare range is not the general coupled pole when first-derivative phi-chi mixing is active. No full-action causality, hyperbolicity, cutoff, or nonlinear preservation theorem follows.",
+    "no_free_range_corollary": "To keep a source X^r strictly subcritical by choosing the gate power requires s>2*r-1; the bare range must then shrink faster than X^[-(r-1/2)]. Increasing asymptotic source capacity necessarily increases range suppression.",
+    "sharpness_boundary": "The exponent classification is exact for the homogeneous/formal k=0 response and is a sufficient bounded-source guarantee on the frozen R3 problem. Exceeding the sup-norm ceiling is not a necessary failure condition for arbitrary sign-changing or localized sources.",
+    "source_ceiling": "Q_max=m_chi^2*Z*chi_max~m_chi*min[sqrt(2*A_infinity*z/s),sqrt(2*B_infinity*z/(s*(2*s-1)))]*X^[(s+1)/2]",
+    "universal_product": "Q_max*ell~sqrt(Y0)*min[sqrt(2*A_infinity/s),sqrt(2*B_infinity/(s*(2*s-1)))]*sqrt(X); its exponent and leading cancellation of m_chi and z are independent of the gate amplitude and power."
+  },
+  "novelty_search_scope": {
+    "limitation": "This is not an exhaustive historical novelty review and cannot establish priority.",
+    "queries": [
+      "scalar mediator kinetic dependent mass screening",
+      "derivative dependent scalar mass environmental screening",
+      "source ceiling mediator range kinetic gate",
+      "range source tradeoff scalar fifth force"
+    ],
+    "result": "No exact range-source product law or critical exponent theorem was identified in this targeted primary-source search."
+  },
+  "numeric_evidence": {
+    "all_passed": true,
+    "designed_supercritical_growth_cases": 4,
+    "exponent_records": [
+      {
+        "effective_s": 1.0,
+        "max_abs_error": 1.6284413680078804e-09,
+        "passed": true,
+        "power": 0.5,
+        "slopes": {
+          "chi_max": 1.6284413680078804e-09,
+          "ell": -0.49999999945718615,
+          "product": 0.5000000010856275,
+          "q_max": 1.0000000005428136
+        },
+        "targets": {
+          "chi_max": 0.0,
+          "ell": -0.5,
+          "product": 0.5,
+          "q_max": 1.0
+        }
+      },
+      {
+        "effective_s": 2.0,
+        "max_abs_error": 2.1712553976982463e-09,
+        "passed": true,
+        "power": 1.0,
+        "slopes": {
+          "chi_max": -0.4999999999999999,
+          "ell": -0.9999999989143723,
+          "product": 0.4999999989143724,
+          "q_max": 1.4999999978287446
+        },
+        "targets": {
+          "chi_max": -0.5,
+          "ell": -1.0,
+          "product": 0.5,
+          "q_max": 1.5
+        }
+      },
+      {
+        "effective_s": 4.0,
+        "max_abs_error": 3.877242082950261e-09,
+        "passed": true,
+        "power": 2.0,
+        "slopes": {
+          "chi_max": -1.4999999995347308,
+          "ell": -1.9999999978287446,
+          "product": 0.4999999982940136,
+          "q_max": 2.499999996122758
+        },
+        "targets": {
+          "chi_max": -1.5,
+          "ell": -2.0,
+          "product": 0.5,
+          "q_max": 2.5
+        }
+      },
+      {
+        "effective_s": 8.0,
+        "max_abs_error": 6.296640542302612e-09,
+        "passed": true,
+        "power": 4.0,
+        "slopes": {
+          "chi_max": -3.499999997611619,
+          "ell": -3.999999995657489,
+          "product": 0.49999999804587025,
+          "q_max": 4.4999999937033595
+        },
+        "targets": {
+          "chi_max": -3.5,
+          "ell": -4.0,
+          "product": 0.5,
+          "q_max": 4.5
+        }
+      }
+    ],
+    "threshold_records": [
+      {
+        "behavior": "DECREASING_SUBCRITICAL",
+        "critical_exponent": 1.0,
+        "offset": -0.25,
+        "passed": true,
+        "power": 0.5,
+        "ratios": [
+          0.22361238435701203,
+          0.07071067829543141,
+          0.02236067977500349
+        ],
+        "source_exponent": 0.75
+      },
+      {
+        "behavior": "COEFFICIENT_DEPENDENT_CRITICAL",
+        "critical_exponent": 1.0,
+        "offset": 0.0,
+        "passed": true,
+        "power": 0.5,
+        "ratios": [
+          0.7071244475891643,
+          0.7071067829543142,
+          0.7071067811867244
+        ],
+        "source_exponent": 1.0
+      },
+      {
+        "behavior": "INCREASING_SUPERCRITICAL",
+        "critical_exponent": 1.0,
+        "offset": 0.25,
+        "passed": true,
+        "power": 0.5,
+        "ratios": [
+          2.2361238435701205,
+          7.071067829543142,
+          22.36067977500349
+        ],
+        "source_exponent": 1.25
+      },
+      {
+        "behavior": "DECREASING_SUBCRITICAL",
+        "critical_exponent": 1.5,
+        "offset": -0.25,
+        "passed": true,
+        "power": 1.0,
+        "ratios": [
+          0.5476677907260935,
+          0.17320507902483692,
+          0.05477225575046183
+        ],
+        "source_exponent": 1.25
+      },
+      {
+        "behavior": "COEFFICIENT_DEPENDENT_CRITICAL",
+        "critical_exponent": 1.5,
+        "offset": 0.0,
+        "passed": true,
+        "power": 1.0,
+        "ratios": [
+          1.7318776198068964,
+          1.7320507902483693,
+          1.732050807567145
+        ],
+        "source_exponent": 1.5
+      },
+      {
+        "behavior": "INCREASING_SUPERCRITICAL",
+        "critical_exponent": 1.5,
+        "offset": 0.25,
+        "passed": true,
+        "power": 1.0,
+        "ratios": [
+          5.476677907260934,
+          17.320507902483694,
+          54.77225575046183
+        ],
+        "source_exponent": 1.75
+      },
+      {
+        "behavior": "DECREASING_SUBCRITICAL",
+        "critical_exponent": 2.5,
+        "offset": -0.25,
+        "passed": true,
+        "power": 2.0,
+        "ratios": [
+          1.1830046982062261,
+          0.37416573199586317,
+          0.11832159566178105
+        ],
+        "source_exponent": 2.25
+      },
+      {
+        "behavior": "COEFFICIENT_DEPENDENT_CRITICAL",
+        "critical_exponent": 2.5,
+        "offset": 0.0,
+        "passed": true,
+        "power": 2.0,
+        "ratios": [
+          3.7409893290117844,
+          3.7416573199586316,
+          3.7416573867672605
+        ],
+        "source_exponent": 2.5
+      },
+      {
+        "behavior": "INCREASING_SUPERCRITICAL",
+        "critical_exponent": 2.5,
+        "offset": 0.25,
+        "passed": true,
+        "power": 2.0,
+        "ratios": [
+          11.83004698206226,
+          37.41657319958632,
+          118.32159566178105
+        ],
+        "source_exponent": 2.75
+      },
+      {
+        "behavior": "DECREASING_SUBCRITICAL",
+        "critical_exponent": 4.5,
+        "offset": -0.25,
+        "passed": true,
+        "power": 4.0,
+        "ratios": [
+          2.448779530233228,
+          0.7745966467781804,
+          0.2449489742776075
+        ],
+        "source_exponent": 4.25
+      },
+      {
+        "behavior": "COEFFICIENT_DEPENDENT_CRITICAL",
+        "critical_exponent": 4.5,
+        "offset": 0.0,
+        "passed": true,
+        "power": 4.0,
+        "ratios": [
+          7.7437208031341545,
+          7.7459664677818045,
+          7.745966692392371
+        ],
+        "source_exponent": 4.5
+      },
+      {
+        "behavior": "INCREASING_SUPERCRITICAL",
+        "critical_exponent": 4.5,
+        "offset": 0.25,
+        "passed": true,
+        "power": 4.0,
+        "ratios": [
+          24.487795302332277,
+          77.45966467781804,
+          244.9489742776075
+        ],
+        "source_exponent": 4.75
+      }
+    ]
+  },
+  "power_table": [
+    {
+      "amplitude_exponent": 0.0,
+      "critical_source_exponent": 1.0,
+      "power_p": 0.5,
+      "range_exponent": -0.5,
+      "regular_variation_s": 1.0,
+      "source_ceiling_exponent": 1.0
+    },
+    {
+      "amplitude_exponent": -0.5,
+      "critical_source_exponent": 1.5,
+      "power_p": 1.0,
+      "range_exponent": -1.0,
+      "regular_variation_s": 2.0,
+      "source_ceiling_exponent": 1.5
+    },
+    {
+      "amplitude_exponent": -1.5,
+      "critical_source_exponent": 2.5,
+      "power_p": 2.0,
+      "range_exponent": -2.0,
+      "regular_variation_s": 4.0,
+      "source_ceiling_exponent": 2.5
+    },
+    {
+      "amplitude_exponent": -3.5,
+      "critical_source_exponent": 4.5,
+      "power_p": 4.0,
+      "range_exponent": -4.0,
+      "regular_variation_s": 8.0,
+      "source_ceiling_exponent": 4.5
+    }
+  ],
+  "predecessor_receipt_contents": {
+    "SOLAR_GW_NECESSARY_CONDITIONS": "f30271e16e2b9e0777260cb550cddfabda707dbbe8e9793bc7a2b50d02532190",
+    "SPLIT_GATE_ACTION": "f74275b8a520057a9060eb727ad425412b07f1d92d3b319a7746d2df4ecb569d",
+    "STATIC_SOURCE_BOUND": "b678d68491d7a5f63660d91050b9d904e76e89fadb80499ed53a451fe0ad8b96",
+    "UNIVERSAL_CONFORMAL_SOURCE": "881acf0e6b742e54d270ebd4bfb70a4964ad92bb9bda08e84b50865a22a37bff"
+  },
+  "publication_adjudication": {
+    "decision": "PROMISING_SECOND_ANALYTIC_RESULT_REQUIRES_EXPERT_AND_EXHAUSTIVE_NOVELTY_REVIEW",
+    "positive_assets": [
+      "A general exponent theorem rather than one p=2 example",
+      "An exact universal Q_max*ell proportional to sqrt(X) asymptotic product",
+      "A sharp homogeneous source-growth classification",
+      "A no-free-range corollary connecting source tolerance to screening strength",
+      "Direct recovery of the committed action and Solar point-source limit"
+    ],
+    "preprint_blockers": [
+      "Independent expert verification of the regularly varying asymptotics",
+      "Exhaustive literature and priority review",
+      "A full variable-coefficient and coupled-mode analysis",
+      "An on-shell material-source solution and radiative-stability analysis",
+      "A falsifiable galaxy, cluster, Solar, or cosmological prediction"
+    ]
+  },
+  "schema_version": "invariant-gravity-matter-lensing-split-gate-range-source-tradeoff-receipt-1.0",
+  "shifted_power_family": {
+    "amplitude_scaling": "chi_max~X^(1/2-p)",
+    "committed_recovery": "p=2 gives ell~X^-2, chi_max~X^-3/2, Q_max~X^5/2, exactly recovering the committed split-gate source-bound package.",
+    "critical_exponent": "r_c=p+1/2",
+    "definition": "Z=(1+beta*X^2)^p with beta>0 and p>1/4, so s=2*p",
+    "interpretation": "p>1/2 is required if the healthy chi-amplitude ceiling itself is to shrink at high X; p>1/4 is enough for the K-branch asymptotic coefficient to remain positive.",
+    "range_scaling": "ell~X^(-p)",
+    "source_scaling": "Q_max~X^(p+1/2)"
+  },
+  "status": "PROMISING_SECOND_ASYMPTOTIC_THEOREM_CANDIDATE_NOT_PREPRINT_READY",
+  "zero_access": {
+    "model_calls": 0,
+    "network_calls_by_builder": 0,
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "paid_calls": 0,
+    "scores_computed": 0
+  }
+}

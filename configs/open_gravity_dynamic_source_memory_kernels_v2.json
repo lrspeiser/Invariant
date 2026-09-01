@@ -1,0 +1,225 @@
+{
+  "schema_version": "invariant-open-gravity-dynamic-source-memory-kernels-config-2.0",
+  "analysis_id": "open-gravity-dynamic-source-memory-kernels-v2",
+  "status": "FROZEN_EXECUTABLE_DIMENSIONED_DRIVERS_STRUCTURAL_TRIAGE_SOURCE_BLOCKED",
+  "purpose": "Repair the v1 label-cross-product defect by executing each source driver before the memory kernel, compute structural triage without hand rankings, retain explicit countermodels, and freeze a response-blind GW150914 preflight.",
+  "predecessor": {
+    "receipt_path": "runs/gravity/open-gravity-dynamic-source-memory-kernels-v1/receipt.json",
+    "receipt_raw_sha256": "58a0ca2c2e763f9cc33e147bdcdfa4b801ab883bdb65cb4924afc2c7dc6c5c0f",
+    "receipt_content_sha256": "98ed3f6bc3b0d7200ad0a49714db819a72eb168bd9327472f944fcc379c080f2",
+    "config_path": "configs/open_gravity_dynamic_source_memory_kernels_v1.json",
+    "config_raw_sha256": "2ff3294450973a3409fb73ae5d4ff5d27e8a222e723d637f04c0a734b55f3f9f",
+    "module_path": "src/sigma_theory_compiler/open_gravity_dynamic_source_memory_kernels_v1.py",
+    "module_raw_sha256": "b911f821eaa3a2b2975611bf59ff9c19100e15a6a7c64cb8ff249b81de0f5b5d",
+    "test_path": "tests/test_open_gravity_dynamic_source_memory_kernels_v1.py",
+    "test_raw_sha256": "1785cc1e0f4b74a70477243aaa96efe69078070720379fe9695c5f6e389c6612",
+    "source_path": "runs/gravity/open-gravity-dynamic-source-memory-kernels-v1/source/GW150914_4_NR_waveform.txt",
+    "source_sha256": "ed49c3e83f90e70ac85386f183031b7de3d3d6aa78e75a7d284e5a53a5cc0b76",
+    "status": "PRESERVED_SUPERSEDED_FOR_DRIVER_COUNT_AND_TRIAGE"
+  },
+  "package": {
+    "module_path": "src/sigma_theory_compiler/open_gravity_dynamic_source_memory_kernels_v2.py",
+    "test_path": "tests/test_open_gravity_dynamic_source_memory_kernels_v2.py",
+    "output_path": "runs/gravity/open-gravity-dynamic-source-memory-kernels-v2/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-dynamic-source-memory-kernels-v2/artifacts"
+  },
+  "unit_contract": {
+    "basis": ["L", "M", "T"],
+    "representation": "integer exponent triple [L,M,T]",
+    "normalized_driver_output": [0, 0, 0],
+    "time_coordinate": [0, 0, 0],
+    "all_declared_inputs_must_be_used": true,
+    "response_derived_inputs_forbidden": true,
+    "driver_output_must_equal_kernel_input_bytes": true
+  },
+  "fixture": {"samples": 513, "dt": 0.01},
+  "kernel_ids": ["K01_RETARDED", "K02_EXPONENTIAL", "K03_BIEXPONENTIAL", "K04_DAMPED_RESONANCE", "K05_HYSTERETIC", "K06_STOCHASTIC_OU"],
+  "drivers": [
+    {
+      "id": "D01_ACC", "description": "baryonic acceleration constructed without motion response",
+      "variables": [
+        {"name":"g_b","role":"source","type":"vector","unit":[1,0,-2],"domain":"positive","fixture":{"kind":"positive_log_wave","scale":1.2,"bias":0.0,"amplitude":0.72,"frequency":0.83,"phase":0.10,"harmonic":0.08}},
+        {"name":"g_ref","role":"reference","type":"scalar","unit":[1,0,-2],"domain":"positive","fixture":{"kind":"constant","value":1.0}}
+      ],
+      "program":{"op":"tanh","arg":{"op":"div","num":{"op":"var","name":"g_b"},"den":{"op":"var","name":"g_ref"}}}
+    },
+    {
+      "id": "D02_POT", "description": "absolute baryonic potential with declared zero and boundary",
+      "variables": [
+        {"name":"Phi_b","role":"source","type":"vector","unit":[2,0,-2],"domain":"real","fixture":{"kind":"signed_wave","scale":1.4,"bias":-0.15,"amplitude":0.82,"frequency":0.69,"phase":0.31,"harmonic":0.17}},
+        {"name":"Phi_ref","role":"reference","type":"scalar","unit":[2,0,-2],"domain":"positive","fixture":{"kind":"constant","value":1.1}}
+      ],
+      "program":{"op":"tanh","arg":{"op":"div","num":{"op":"abs","arg":{"op":"var","name":"Phi_b"}},"den":{"op":"var","name":"Phi_ref"}}}
+    },
+    {
+      "id": "D03_RAD", "description": "source-side physical radius",
+      "variables": [
+        {"name":"r","role":"source","type":"vector","unit":[1,0,0],"domain":"positive","fixture":{"kind":"positive_log_wave","scale":2.0,"bias":0.12,"amplitude":0.51,"frequency":0.47,"phase":0.27,"harmonic":0.11}},
+        {"name":"r_ref","role":"reference","type":"scalar","unit":[1,0,0],"domain":"positive","fixture":{"kind":"constant","value":2.3}}
+      ],
+      "program":{"op":"tanh","arg":{"op":"div","num":{"op":"var","name":"r"},"den":{"op":"var","name":"r_ref"}}}
+    },
+    {
+      "id": "D04_RHO", "description": "three-dimensional baryonic density",
+      "variables": [
+        {"name":"rho_b","role":"source","type":"vector","unit":[-3,1,0],"domain":"positive","fixture":{"kind":"positive_log_wave","scale":0.8,"bias":-0.08,"amplitude":0.66,"frequency":1.03,"phase":0.42,"harmonic":0.09}},
+        {"name":"rho_ref","role":"reference","type":"scalar","unit":[-3,1,0],"domain":"positive","fixture":{"kind":"constant","value":0.9}}
+      ],
+      "program":{"op":"tanh","arg":{"op":"div","num":{"op":"var","name":"rho_b"},"den":{"op":"var","name":"rho_ref"}}}
+    },
+    {
+      "id": "D05_SIG", "description": "baryonic surface density",
+      "variables": [
+        {"name":"Sigma_b","role":"source","type":"vector","unit":[-2,1,0],"domain":"positive","fixture":{"kind":"positive_log_wave","scale":1.1,"bias":0.05,"amplitude":0.58,"frequency":0.91,"phase":0.58,"harmonic":0.14}},
+        {"name":"Sigma_ref","role":"reference","type":"scalar","unit":[-2,1,0],"domain":"positive","fixture":{"kind":"constant","value":1.25}}
+      ],
+      "program":{"op":"tanh","arg":{"op":"div","num":{"op":"var","name":"Sigma_b"},"den":{"op":"var","name":"Sigma_ref"}}}
+    },
+    {
+      "id": "D06_SLOPE", "description": "negative logarithmic source-profile slope",
+      "variables": [
+        {"name":"g_b","role":"source","type":"vector","unit":[1,0,-2],"domain":"positive","fixture":{"kind":"positive_exp_ramp","scale":2.0,"bias":0.15,"slope":-0.42,"amplitude":0.025,"frequency":0.71,"phase":0.13}},
+        {"name":"g_ref","role":"reference","type":"scalar","unit":[1,0,-2],"domain":"positive","fixture":{"kind":"constant","value":1.7}},
+        {"name":"r","role":"source_coordinate","type":"vector","unit":[1,0,0],"domain":"positive","fixture":{"kind":"positive_exp_ramp","scale":1.0,"bias":0.0,"slope":0.31,"amplitude":0.018,"frequency":0.53,"phase":0.22}},
+        {"name":"r_ref","role":"reference","type":"scalar","unit":[1,0,0],"domain":"positive","fixture":{"kind":"constant","value":1.0}}
+      ],
+      "program":{"op":"tanh","arg":{"op":"neg","arg":{"op":"gradient","y":{"op":"log","arg":{"op":"div","num":{"op":"var","name":"g_b"},"den":{"op":"var","name":"g_ref"}}},"x":{"op":"log","arg":{"op":"div","num":{"op":"var","name":"r"},"den":{"op":"var","name":"r_ref"}}}}}}
+    },
+    {
+      "id": "D07_TIDE", "description": "source Hessian contraction",
+      "variables": [
+        {"name":"T_b","role":"source","type":"vector","unit":[0,0,-2],"domain":"positive","fixture":{"kind":"positive_log_wave","scale":0.7,"bias":0.0,"amplitude":0.77,"frequency":1.19,"phase":0.74,"harmonic":0.12}},
+        {"name":"T_ref","role":"reference","type":"scalar","unit":[0,0,-2],"domain":"positive","fixture":{"kind":"constant","value":0.8}}
+      ],
+      "program":{"op":"tanh","arg":{"op":"div","num":{"op":"var","name":"T_b"},"den":{"op":"var","name":"T_ref"}}}
+    },
+    {
+      "id": "D08_BAL", "description": "baryonic support-balance invariant",
+      "variables":[{"name":"B","role":"source","type":"vector","unit":[0,0,0],"domain":"real","fixture":{"kind":"signed_wave","scale":1.0,"bias":0.04,"amplitude":1.02,"frequency":0.62,"phase":0.91,"harmonic":0.21}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"B"}}
+    },
+    {
+      "id": "D09_FLAT", "description": "source-only geometric flattening invariant",
+      "variables":[{"name":"F","role":"source","type":"vector","unit":[0,0,0],"domain":"real","fixture":{"kind":"signed_wave","scale":0.9,"bias":-0.06,"amplitude":0.88,"frequency":0.78,"phase":1.03,"harmonic":0.16}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"F"}}
+    },
+    {
+      "id": "D10_MULT", "description": "normalized baryonic multipole invariant",
+      "variables":[{"name":"Q","role":"source","type":"vector","unit":[0,0,0],"domain":"real","fixture":{"kind":"signed_wave","scale":1.1,"bias":0.02,"amplitude":0.79,"frequency":1.11,"phase":1.27,"harmonic":0.23}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"Q"}}
+    },
+    {
+      "id": "D11_EDGE", "description": "signed distance to a predeclared baryonic edge over source scale",
+      "variables":[{"name":"E_r","role":"source","type":"vector","unit":[0,0,0],"domain":"real","fixture":{"kind":"signed_wave","scale":1.0,"bias":-0.11,"amplitude":1.08,"frequency":0.56,"phase":1.41,"harmonic":0.19}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"E_r"}}
+    },
+    {
+      "id": "D12_ENV", "description": "independent source-side environment invariant",
+      "variables":[{"name":"E_env","role":"source","type":"vector","unit":[0,0,0],"domain":"real","fixture":{"kind":"signed_wave","scale":0.85,"bias":0.14,"amplitude":0.93,"frequency":0.73,"phase":1.62,"harmonic":0.13}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"E_env"}}
+    },
+    {
+      "id": "D13_GASF", "description": "baryonic gas fraction",
+      "variables":[{"name":"f_gas","role":"source","type":"vector","unit":[0,0,0],"domain":"unit_interval","fixture":{"kind":"bounded_fraction_wave","bias":0.46,"amplitude":0.31,"frequency":0.97,"phase":1.78,"harmonic":0.07}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"f_gas"}}
+    },
+    {
+      "id": "D14_ION", "description": "independent source ionization-state invariant",
+      "variables":[{"name":"I","role":"source","type":"vector","unit":[0,0,0],"domain":"real","fixture":{"kind":"signed_wave","scale":1.2,"bias":-0.03,"amplitude":0.74,"frequency":1.27,"phase":1.94,"harmonic":0.18}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"I"}}
+    },
+    {
+      "id": "D15_COOL", "description": "cooling-to-dynamical-time ratio",
+      "variables": [
+        {"name":"t_cool","role":"source","type":"vector","unit":[0,0,1],"domain":"positive","fixture":{"kind":"positive_log_wave","scale":2.4,"bias":0.0,"amplitude":0.63,"frequency":0.66,"phase":2.09,"harmonic":0.12}},
+        {"name":"t_dyn","role":"source_reference","type":"vector","unit":[0,0,1],"domain":"positive","fixture":{"kind":"positive_log_wave","scale":1.6,"bias":0.0,"amplitude":0.19,"frequency":0.44,"phase":0.37,"harmonic":0.04}}
+      ],
+      "program":{"op":"tanh","arg":{"op":"div","num":{"op":"var","name":"t_cool"},"den":{"op":"var","name":"t_dyn"}}}
+    },
+    {
+      "id": "D16_NTH", "description": "independent nonthermal baryonic source fraction",
+      "variables":[{"name":"f_nth","role":"source","type":"vector","unit":[0,0,0],"domain":"unit_interval","fixture":{"kind":"bounded_fraction_wave","bias":0.32,"amplitude":0.24,"frequency":1.07,"phase":2.31,"harmonic":0.05}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"f_nth"}}
+    },
+    {
+      "id": "D17_AGE", "description": "source age over frozen dynamical scale",
+      "variables": [
+        {"name":"t_age","role":"source","type":"vector","unit":[0,0,1],"domain":"positive","fixture":{"kind":"positive_log_wave","scale":3.2,"bias":0.0,"amplitude":0.37,"frequency":0.39,"phase":2.48,"harmonic":0.08}},
+        {"name":"t_dyn","role":"source_reference","type":"vector","unit":[0,0,1],"domain":"positive","fixture":{"kind":"positive_log_wave","scale":1.3,"bias":0.0,"amplitude":0.14,"frequency":0.81,"phase":0.19,"harmonic":0.03}}
+      ],
+      "program":{"op":"tanh","arg":{"op":"div","num":{"op":"var","name":"t_age"},"den":{"op":"var","name":"t_dyn"}}}
+    },
+    {
+      "id": "D18_RELAX", "description": "independent relaxation-state invariant",
+      "variables":[{"name":"R_relax","role":"source","type":"vector","unit":[0,0,0],"domain":"real","fixture":{"kind":"signed_wave","scale":0.95,"bias":0.08,"amplitude":0.91,"frequency":0.86,"phase":2.66,"harmonic":0.15}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"R_relax"}}
+    },
+    {
+      "id": "D19_COH", "description": "independent spatial or phase coherence invariant",
+      "variables":[{"name":"C_src","role":"source","type":"vector","unit":[0,0,0],"domain":"real","fixture":{"kind":"signed_wave","scale":1.05,"bias":-0.09,"amplitude":0.84,"frequency":1.16,"phase":2.83,"harmonic":0.22}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"C_src"}}
+    },
+    {
+      "id": "D20_EPOCH", "description": "predeclared source epoch coordinate, never a fitted redshift residual",
+      "variables":[{"name":"z_src","role":"source","type":"vector","unit":[0,0,0],"domain":"nonnegative","fixture":{"kind":"bounded_nonnegative_wave","bias":0.72,"amplitude":0.48,"frequency":0.51,"phase":3.04,"harmonic":0.09}}],
+      "program":{"op":"tanh","arg":{"op":"var","name":"z_src"}}
+    }
+  ],
+  "countermodels": [
+    {"id":"C01_FREE_DELAY","kind":"kernel","kernel_id":"K01_RETARDED","role":"exact single-event time-shift degeneracy"},
+    {"id":"C02_SINGLE_LTI","kind":"kernel","kernel_id":"K02_EXPONENTIAL","role":"ordinary one-pole source or instrument response"},
+    {"id":"C03_DOUBLE_LTI","kind":"kernel","kernel_id":"K03_BIEXPONENTIAL","role":"ordinary two-timescale source or instrument response"},
+    {"id":"C04_SOURCE_RINGDOWN","kind":"source_program","kernel_id":"K00_INSTANTANEOUS","role":"ordinary source quasinormal ringing countermodel for K04","parameters":{"onset":6.0,"amplitude":0.65,"decay_time":1.2,"omega":7.0}},
+    {"id":"C05_OU_NOISE","kind":"kernel","kernel_id":"K06_STOCHASTIC_OU","role":"OU mean plus variance countermodel against detector and source noise"}
+  ],
+  "structural_triage": {
+    "kind": "COMPUTED_LEXICOGRAPHIC_NOT_EMPIRICAL_RANKING",
+    "sort_key": ["single_event_identifiable_desc", "computed_discriminator_channel_count_desc", "conditional_mean_equivalence_class_size_asc", "normalized_energy_ledger_closed_desc", "kernel_id_asc"],
+    "feature_tolerances": {"magnitude": 1e-9, "phase": 1e-9, "overshoot": 1e-6, "tail": 1e-6, "quasistatic_intercept": 0.05, "variance": 1e-12},
+    "future_metrics_must_not_affect_current_order": true
+  },
+  "future_heldout_metrics": [
+    {"id":"H01_INJECTION_COVERAGE","formula":"fraction of frozen injections whose 90% interval contains the injected kernel parameter","status":"NOT_EVALUATED_RESPONSE_UNOPENED"},
+    {"id":"H02_HELDOUT_ELPD","formula":"held-out event log predictive density minus K00 under unchanged preprocessing and priors","status":"NOT_EVALUATED_RESPONSE_UNOPENED"},
+    {"id":"H03_CROSS_EVENT_TRANSFER","formula":"maximum standardized drift of the frozen driver-to-kernel parameter map across held-out events","status":"NOT_EVALUATED_RESPONSE_UNOPENED"},
+    {"id":"H04_RINGDOWN_COUNTERMODEL","formula":"held-out log predictive density of K04 minus source-QNM countermodel C04","status":"NOT_EVALUATED_RESPONSE_UNOPENED"},
+    {"id":"H05_OU_COHERENCE","formula":"cross-detector coherent OU evidence minus independent-detector noise evidence","status":"NOT_EVALUATED_RESPONSE_UNOPENED"},
+    {"id":"H06_RESIDUAL_CALIBRATION","formula":"frequency-binned posterior-predictive residual coverage after frozen nuisance projection","status":"NOT_EVALUATED_RESPONSE_UNOPENED"}
+  ],
+  "observational_preflight": {
+    "status": "SOURCE_BLOCKED_MISSING_PAYLOAD_HASHES_AND_SCHEMA_RECEIPTS",
+    "event": "GW150914",
+    "event_gps": 1126259462.4,
+    "products": [
+      {"detector":"H1","requested_url":"https://gwosc.org/s/events/GW150914/H-H1_LOSC_4_V2-1126259446-32.hdf5","resolved_url":"https://gwosc.org/s/events/GW150914/H-H1_LOSC_4_V2-1126259446-32.hdf5","http_status":200,"content_length":1040592,"etag":"fe0d0-56d5f9a35d6f9","last_modified":"Tue, 29 May 2018 22:17:40 GMT","payload_sha256":null},
+      {"detector":"L1","requested_url":"https://gwosc.org/s/events/GW150914/L-L1_LOSC_4_V2-1126259446-32.hdf5","resolved_url":"https://gwosc.org/s/events/GW150914/L-L1_LOSC_4_V2-1126259446-32.hdf5","http_status":200,"content_length":1007420,"etag":"f5f3c-56d5f9a35f638","last_modified":"Tue, 29 May 2018 22:17:40 GMT","payload_sha256":null}
+    ],
+    "metadata_receipt": {"method":"HEAD_ONLY","requests":2,"response_body_bytes":0,"observed_http_date":"Mon, 31 Aug 2026 20:08:33 GMT"},
+    "expected_hdf5_contract": {"strain_dataset":"/strain/Strain","dq_dataset":"/quality/simple/DQmask","gps_start":1126259446,"duration_seconds":32,"sample_rate_hz":4096,"expected_samples":131072,"status":"UNVERIFIED_UNTIL_HASHED_PAYLOAD_RECEIPT"},
+    "preprocessing": {
+      "analysis_interval_gps":[1126259458,1126259466],
+      "psd_intervals_gps":[[1126259446,1126259458],[1126259466,1126259478]],
+      "dq_rule":"require every analysis sample to pass the frozen simple DQ mask; otherwise reject event",
+      "detrend":"subtract mean then scipy.signal.detrend type=linear separately by detector and interval",
+      "analysis_window":"Tukey alpha=0.125 on the 8 s analysis interval",
+      "psd":"Welch Hann 4 s segments, 50% overlap, median average within each off-source interval, arithmetic mean of the two interval PSDs",
+      "band_hz":[20,512],
+      "fft":"real FFT with delta_f=0.125 Hz for the 8 s analysis interval",
+      "resampling":"none"
+    },
+    "likelihood": {
+      "kind":"exactly frozen profiled relative frequency-domain Whittle Gaussian",
+      "formula":"log L_profile(K,t0,delta_LH)=-0.5 sum_d 4*delta_f*sum_{20<=f<=512}|d_d(f)-c_d_hat exp(-2*pi*i*f*(t0+delta_d)) q_K(f)|^2/S_d(f), where c_d_hat is the analytic complex weighted-least-squares coefficient",
+      "detectors":["H1","L1"],
+      "kernel_scale":"T_star=0.01 s and all dimensionless kernel parameters inherited unchanged from v1; no per-event tuning",
+      "template":"place the v1 4096 Hz normalized SXS:BBH:0305 source at t=0 in an 8 s zero-padded array, execute the unchanged driver/kernel law, FFT after the same Tukey window, and never use strain to choose driver or kernel parameters",
+      "nuisance_grid":{"t0_seconds":{"min":-0.05,"max":0.05,"step":0.000244140625},"delta_H_seconds":0.0,"delta_LH_seconds":{"min":-0.01,"max":0.01,"step":0.000244140625},"complex_amplitude":"one analytic weighted-least-squares coefficient c_d per detector; absorbs constant antenna/calibration amplitude and phase only"},
+      "optimizer":"exhaustive declared t0 x delta_LH grid; analytic c_d; no stochastic sampler and no post-response grid change",
+      "validation_suite":{"noise_seed_start":520260831,"noise_realizations_per_cell":128,"network_snr":[8,12,20],"injected_kernels":["K00_INSTANTANEOUS","K01_RETARDED","K02_EXPONENTIAL","K03_BIEXPONENTIAL","K04_DAMPED_RESONANCE","K05_HYSTERETIC","K06_STOCHASTIC_OU"],"required_before_response_scoring":"zero false early-response detections; >=90% correct equivalence-family recovery at SNR 20; report all failures"},
+      "decision_tolerance":"no real score until payload hashes, schema receipts, exact frequency-dependent calibration artifacts, and the frozen injection suite pass are sealed"
+    },
+    "missing": ["H1 payload SHA-256", "L1 payload SHA-256", "verified HDF5 dataset/schema receipt", "exact frequency-dependent calibration response artifacts and hashes", "completed frozen injection-recovery receipt"]
+  },
+  "access_contract": {"metadata_head_requests":2,"response_body_bytes":0,"observational_response_files_opened":0,"observational_response_rows_read":0,"real_response_scores":0,"model_calls":0,"paid_calls":0},
+  "claim_boundary": {"driver_programs_executable":true,"dimensioned_driver_outputs_feed_kernels":true,"executed_driver_kernel_pipelines":120,"unique_empirical_theories_claimed":false,"structural_triage_only":true,"future_heldout_metrics_evaluated":false,"observational_source_ready":false,"real_response_fit":false,"historical_novelty":false,"empirical_gravity_effect":false,"publication_ready":false,"strict_reaudit_ready":true}
+}

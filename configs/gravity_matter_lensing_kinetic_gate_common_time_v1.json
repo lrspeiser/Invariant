@@ -1,0 +1,126 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-kinetic-gate-common-time-config-1.0",
+  "analysis_id": "gravity-matter-lensing-kinetic-gate-common-time-v1",
+  "status": "THEORY_ONLY_CONSTANT_COEFFICIENT_COMMON_TIME_AND_SCALAR_STRONG_HYPERBOLICITY",
+  "purpose": "Determine whether the unavoidable metric-cone straddling of the active P0(X)+Z(X)Y scalar block is automatically a local causal or hyperbolicity failure, without weakening or hiding the faster scalar mode.",
+  "package": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_common_time.py",
+    "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_common_time.py",
+    "output_path": "runs/gravity/theory/matter-lensing-kinetic-gate-common-time-v1.json"
+  },
+  "admission_policy": {
+    "path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+    "sha256": "b3518291131b0ece9f05c966e55b40c40e549d5c27e87a2a128b70ad76a864fe",
+    "artifact_type": "THEORY_ONLY",
+    "paper_and_analytic_benchmark_required": true,
+    "observational_scoring_authorized": false
+  },
+  "bindings": [
+    {
+      "id": "EXTERNAL_METRIC_PRINCIPAL_SYMBOL",
+      "state": "COMMITTED",
+      "commit": "d1e2491baa9c4ecb408fd28424787efce66e5b9b",
+      "config_path": "configs/gravity_matter_lensing_external_metric_principal_symbol_v1.json",
+      "config_sha256": "c0c937c1e67df4ab5caa55c1ef20cf16a84f92205a4a085e56457e8009c74903",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_external_metric_principal_symbol.py",
+      "module_sha256": "c47e7e8f30a135505d3ffeec2623a3a92ec803983cd0c5f35f5d44b584c1de1d",
+      "test_path": "tests/test_gravity_matter_lensing_external_metric_principal_symbol.py",
+      "test_sha256": "feb7517e71a588adf925e524badbcc091ad867e3976d336add4e416385e98277",
+      "receipt_path": "runs/gravity/theory/matter-lensing-external-metric-principal-symbol-v1.json",
+      "receipt_sha256": "55f58a6ff573bff3103a02151dfdbd7cc4cf77b6ef90c6242160ca1613a2f73e",
+      "receipt_content_sha256": "0094cb74022bebd898ddbc96cba16cdb70312fccca896b9789068201a2aaa504"
+    },
+    {
+      "id": "CONE_STRADDLING_THEOREM",
+      "state": "MUTATION_FROZEN_UNCOMMITTED",
+      "commit": null,
+      "config_path": "configs/gravity_matter_lensing_kinetic_gate_cone_straddling_v1.json",
+      "config_sha256": "8cc0dff83390723cbd8f9a15cff44ba5df0d0e74642e6643e5cd1eadeac03d18",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_cone_straddling.py",
+      "module_sha256": "6d3b0339bc41ee8d1c651d5b92dce60baa03e91702db3978e4cc2d99a47e71b0",
+      "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_cone_straddling.py",
+      "test_sha256": "fdbbdbf28437cdb1c888c70b45c0588b2b630524b8bb6d7dc3f1a23bee5594fc",
+      "receipt_path": "runs/gravity/theory/matter-lensing-kinetic-gate-cone-straddling-v1.json",
+      "receipt_sha256": "6ce29b6465f2ee7bce686b5cc499998d492923c22580a4bbe3f0a4430d7129de",
+      "receipt_content_sha256": "b97d932e7524431270029c7684f90b69472073ddf92e01f940345a6cadd8cb30"
+    }
+  ],
+  "primary_paper_anchors": [
+    {
+      "arxiv": "0708.0561",
+      "title": "k-Essence, superluminal propagation, causality and emergent geometry",
+      "role": "Primary source establishing that a superluminal k-essence characteristic does not alone imply a causal paradox."
+    },
+    {
+      "arxiv": "gr-qc/0607055",
+      "title": "On causality and superluminal behavior in classical field theories",
+      "role": "Primary source for common time functions and causal compatibility across effective characteristic metrics."
+    },
+    {
+      "arxiv": "0806.0336",
+      "title": "Primordial perturbations and non-Gaussianities in DBI and general multi-field inflation",
+      "role": "Primary source for the exact multi-field kinetic and gradient matrices used by the scalar block."
+    }
+  ],
+  "theorem": {
+    "hypotheses": [
+      "K and G are real symmetric positive-definite constant matrices",
+      "the scalar principal equation is K d_t^2 q-G Laplacian q=0 in the aligned homogeneous rest frame",
+      "the background metric is locally diag(-1,1,1,1)"
+    ],
+    "canonical_reduction": "H=K^(-1/2) G K^(-1/2) is symmetric positive definite, so an orthogonal U gives U^T H U=diag(c_1^2,c_2^2) with positive real eigenvalues.",
+    "decoupled_form": "With q=K^(-1/2)U psi, the principal block becomes d_t^2 psi-diag(c_1^2,c_2^2) Laplacian psi=0.",
+    "common_time": "The covector dt evaluates to -K on the scalar principal form and has g-inverse norm -1, so it is timelike for both scalar modes and the metric cone.",
+    "constant_coefficient_result": "The scalar block has a positive conserved principal energy and a symmetric-hyperbolic first-order reduction; hence it is strongly hyperbolic at frozen constant coefficients.",
+    "relation_to_straddling": "When the active-gate theorem gives c_-^2<1<c_+^2, the faster mode remains real, finite, and governed by the same local time coordinate. Cone straddling is therefore not automatically a local hyperbolicity failure or causal paradox.",
+    "strict_limit": "This does not establish a global time function, variable-coefficient strong hyperbolicity, causal compatibility with a disformal matter metric, or ultraviolet completion."
+  },
+  "numeric_cases": [
+    {
+      "case_id": "FLRW_WITNESS_P2",
+      "K": [[1.2234708034621078, 0.5961963023355247], [0.5961963023355247, 1.6899999999999995]],
+      "G": [[1.0569631459805373, 0.0], [0.0, 1.6899999999999995]]
+    },
+    {
+      "case_id": "GENERIC_ROTATED_SPD",
+      "K": [[2.0, 0.4], [0.4, 1.2]],
+      "G": [[1.1, 0.1], [0.1, 1.5]]
+    }
+  ],
+  "required_checks": [
+    "T01_PACKAGE_POLICY_AND_BINDINGS",
+    "T02_K_G_POSITIVE_DEFINITE",
+    "T03_SYMMETRIC_POSITIVE_H",
+    "T04_ORTHOGONAL_DIAGONALIZATION",
+    "T05_DECOUPLED_WAVE_FORM",
+    "T06_POSITIVE_REAL_SPEEDS",
+    "T07_POSITIVE_PRINCIPAL_ENERGY",
+    "T08_COMMON_DT_COVECTOR",
+    "T09_CONSTANT_COEFFICIENT_STRONG_HYPERBOLICITY",
+    "T10_STRADDLING_RETAINED",
+    "T11_LINEAR_FIELD_REDEFINITION_INVARIANCE",
+    "T12_PAPER_SCOPE_AND_CAUSAL_CAVEAT",
+    "T13_CLAIM_CEILING",
+    "T14_ZERO_OBSERVATIONAL_ACCESS"
+  ],
+  "claim_boundary": {
+    "constant_coefficient_scalar_block_strongly_hyperbolic": true,
+    "local_common_time_covector_with_metric": true,
+    "cone_straddling_retained": true,
+    "local_causal_paradox_established": false,
+    "global_time_function_established": false,
+    "variable_coefficient_strong_hyperbolicity": false,
+    "full_metric_scalar_matter_system_healthy": false,
+    "ultraviolet_completion": false,
+    "observational_support": false,
+    "publication_ready": false
+  },
+  "access_ledger": {
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "scores_computed": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

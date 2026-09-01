@@ -1,0 +1,124 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-kinetic-gate-cone-straddling-config-1.0",
+  "analysis_id": "gravity-matter-lensing-kinetic-gate-cone-straddling-v1",
+  "status": "FROZEN_THEORY_ONLY_PRIMARY_PAPER_ANCHORED_CONE_STRADDLING_ANALYSIS",
+  "purpose": "Derive and independently benchmark the exact local result that every healthy active homogeneous timelike background of P0(X)+Z(X)Y with X>0, Y>0 and Z_X nonzero has one scalar characteristic speed below and one above the g-null speed, without promoting metric-cone superluminality to an unconditional causality violation.",
+  "package": {
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_cone_straddling.py",
+    "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_cone_straddling.py",
+    "output_path": "runs/gravity/theory/matter-lensing-kinetic-gate-cone-straddling-v1.json"
+  },
+  "predecessor": {
+    "commit": "35868a7e37fe371f2b02d076c8ff3c554ae0c79b",
+    "config_path": "configs/gravity_matter_lensing_kinetic_gate_flrw_bounded_witness_v1.json",
+    "config_sha256": "9358de6ada6a850db5f48361e07f4bde6d778ff6e4d3f2a68b3ff63bdd303f0b",
+    "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_kinetic_gate_flrw_bounded_witness.py",
+    "module_sha256": "53b43a59ae610e4f344f821e7effd3e709a24041475d3ccbc43a9f81006af5be",
+    "test_path": "tests/test_gravity_matter_lensing_kinetic_gate_flrw_bounded_witness.py",
+    "test_sha256": "7c322d176cfb846f64d3afc1af5a9aca9df08719c317778aaac17ec8c4260ca7",
+    "receipt_path": "runs/gravity/theory/matter-lensing-kinetic-gate-flrw-bounded-witness-v1.json",
+    "receipt_sha256": "a007195bfe6dc879d25724ff49756406c33b36657cb66ec0f28773d551d896a2",
+    "receipt_content_sha256": "69a5c135e00c2b636c1a189968728aec186bfcb0cfc1c4dedd7623bb8705ac5a"
+  },
+  "source_or_paper_gate": {
+    "project_admission_policy_path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+    "project_admission_policy_sha256": "b3518291131b0ece9f05c966e55b40c40e549d5c27e87a2a128b70ad76a864fe",
+    "artifact_type": "THEORY_ONLY",
+    "primary_paper_and_analytic_benchmark_required": true,
+    "real_observational_source_required_before_observational_scoring": true,
+    "observational_scoring_authorized": false,
+    "missing_paper_action": "SOURCE_BLOCKED",
+    "failed_analytic_benchmark_action": "BENCHMARK_FAILED",
+    "rule": "A theorem-only result may advance on primary papers plus independent exact analytic and numerical checks. Any later observational builder must separately bind a suitable real public source and response dataset before scoring."
+  },
+  "paper_anchors": [
+    {
+      "arxiv": "0806.0336",
+      "title": "Primordial perturbations and non-Gaussianities in DBI and general multi-field inflation",
+      "role": "General P(X^IJ,phi^K) constraint-reduced kinetic matrix K_IJ and spatial-gradient matrix P_<IJ>.",
+      "exact_straddling_theorem_found": false
+    },
+    {
+      "arxiv": "0708.0561",
+      "title": "k-Essence, superluminal propagation, causality and emergent geometry",
+      "role": "Primary caution that superluminal characteristics do not alone establish causal paradoxes.",
+      "exact_straddling_theorem_found": false
+    },
+    {
+      "arxiv": "gr-qc/0607055",
+      "title": "On causality and superluminal behavior in classical field theories. Applications to k-essence theories and MOND-like theories of gravity",
+      "role": "Primary causal-structure comparison for multiple nonconformal characteristic metrics.",
+      "exact_straddling_theorem_found": false
+    },
+    {
+      "arxiv": "2603.13986v2",
+      "title": "Multi-Field Dilaton Screening Beyond the Thin-Shell Mechanism",
+      "role": "Current multi-field screening neighbor with G_IJ(phi)=diag(1,W(chi)^2), not the derivative-invariant Z(X) architecture.",
+      "exact_straddling_theorem_found": false
+    }
+  ],
+  "theorem": {
+    "action_slice": "P=P0(X)+Z(X)Y on an aligned homogeneous timelike background",
+    "hypotheses": [
+      "X>0 and Y>0",
+      "P0 and Z are C2 locally",
+      "Z>0 and Z_X is nonzero",
+      "the exact scalar kinetic matrix K and spatial-gradient matrix G are symmetric positive definite"
+    ],
+    "definitions": {
+      "C": "P0_X+Y Z_X",
+      "K": "[[C+2X(P0_XX+Y Z_XX), 2 Z_X sqrt(XY)],[2 Z_X sqrt(XY),Z]]",
+      "G": "diag(C,Z)",
+      "characteristic_speeds": "the two positive generalized eigenvalues c_s^2 of G v=c_s^2 K v"
+    },
+    "exact_identity": "det(K-G)=-4 X Y Z_X^2<0",
+    "proof": "Because K and G are positive definite, the generalized speeds are real and positive. The characteristic polynomial det(G-c^2 K) is positive at c^2=0, negative at c^2=1, and positive as c^2 tends to infinity. Therefore exactly one root lies in (0,1) and the other in (1,infinity).",
+    "conclusion": "Every healthy active background in this architecture has c_-^2<1<c_+^2 relative to the g-null cone.",
+    "independence_from_P0": "P0 changes the diagonal kinetic entry and the numerical speeds but cannot change det(K-G), so no choice of P0 removes straddling while X,Y,Z_X remain active.",
+    "escape_cases": [
+      "X=0",
+      "Y=0",
+      "Z_X=0",
+      "a degenerate or non-positive K or G outside the theorem hypotheses",
+      "a different action architecture with additional derivative operators that change both K and G"
+    ]
+  },
+  "numeric_cases": [
+    {"case_id": "FLRW_WITNESS_P2", "family": "SHIFTED_POWER", "X": 0.5477225575051661, "Y": 0.02, "beta": 1.0, "p": 2.0, "alpha": 0.0, "lambda": 0.0},
+    {"case_id": "SHIFTED_HALF_WITH_P0_CURVATURE", "family": "SHIFTED_POWER", "X": 0.35, "Y": 0.04, "beta": 0.5, "p": 0.5, "alpha": 0.0, "lambda": 1.0},
+    {"case_id": "EXPONENTIAL_WITH_STRONG_P0_CURVATURE", "family": "EXPONENTIAL", "X": 0.4, "Y": 0.03, "beta": 0.5, "p": 1.0, "alpha": 0.2, "lambda": 2.0}
+  ],
+  "required_checks": [
+    "C01_CONFIG_AND_PACKAGE_SEALS",
+    "C02_PREDECESSOR_COMMIT_AND_BYTES",
+    "C03_GENERAL_MULTIFIELD_MATRIX_MAP",
+    "C04_EXACT_K_MINUS_G_DETERMINANT",
+    "C05_CHARACTERISTIC_POLYNOMIAL_SIGNS",
+    "C06_POSITIVE_GENERALIZED_EIGENVALUES",
+    "C07_STRICT_CONE_STRADDLING",
+    "C08_P0_INDEPENDENCE",
+    "C09_LINEAR_FIELD_REDEFINITION_INVARIANCE",
+    "C10_ESCAPE_CASES",
+    "C11_PRIMARY_PAPER_SCOPE",
+    "C12_CLAIM_CEILING",
+    "C13_ZERO_OBSERVATIONAL_ACCESS"
+  ],
+  "claim_boundary": {
+    "exact_metric_cone_straddling_theorem_established": true,
+    "unconditional_causality_violation_established": false,
+    "global_strong_hyperbolicity_established": false,
+    "full_action_no_go_established": false,
+    "historical_novelty_established": false,
+    "observational_support": false,
+    "healthy_modified_gravity_model_established": false,
+    "publication_ready": false
+  },
+  "access_ledger": {
+    "observational_files_opened": 0,
+    "observational_rows_read": 0,
+    "scores_computed": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  }
+}

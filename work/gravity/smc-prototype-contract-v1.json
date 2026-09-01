@@ -1,0 +1,38 @@
+{
+  "status": "frozen_before_candidate_smc_run",
+  "prototype_source_sha256": "1b1043faa6af94c76abf5a2504eb0279f7cee9444eacbbd8a0926a0109de037f",
+  "family": "cross_scale_boundary",
+  "likelihood_split": "development_train",
+  "predictive_split": "development_holdout_only_after_sampler_diagnostics",
+  "same_release_confirmation_rows_allowed": false,
+  "independent_target_rows_allowed": false,
+  "settings": {
+    "replicates": 4,
+    "particles_per_replicate": 512,
+    "initialization": "independently_scrambled_sobol_prior",
+    "target_conditional_effective_sample_fraction": 0.8,
+    "resampling": "systematic_every_temperature",
+    "rejuvenation": "four_adaptive_multivariate_reflected_random_walk_moves_per_temperature",
+    "temperature_endpoint": 1.0
+  },
+  "unchanged_parameter_completion_thresholds": {
+    "maximum_rhat": 1.2,
+    "minimum_effective_samples": 50,
+    "maximum_standardized_between_replicate_median_spread": 0.25,
+    "all_17_parameters_must_pass": true
+  },
+  "smc_specific_diagnostics": {
+    "minimum_final_unique_particles_per_replicate": 460,
+    "minimum_final_unique_prior_ancestors_per_replicate": 16,
+    "minimum_stage_acceptance": 0.05,
+    "maximum_stage_acceptance": 0.6,
+    "maximum_log_evidence_range_across_replicates": 5.0
+  },
+  "adjudication": {
+    "candidate_pass_alone_completes_CP5_7_through_CP5_10": false,
+    "newtonian_control_required_after_candidate_pass": true,
+    "holdout_may_select_sampler_or_settings": false,
+    "threshold_relaxation_after_result": false,
+    "failed_run_retained": true
+  }
+}

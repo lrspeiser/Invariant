@@ -1,0 +1,36 @@
+branch_id,kind,index,statement
+VQ00_STANDARD_FLRW_PECULIAR_CONTROL,LIMIT,0,v_los=0 gives pure FLRW
+VQ00_STANDARD_FLRW_PECULIAR_CONTROL,LIMIT,1,a_o=a_e gives the special-relativistic radial Doppler control
+VQ00_STANDARD_FLRW_PECULIAR_CONTROL,EQUIVALENCE,0,"mandatory nuisance/control, not a new load law"
+VQ01_DIRECT_LOAD_OPTICAL_DEPTH,LIMIT,0,eta=0 gives no additional redshift
+VQ01_DIRECT_LOAD_OPTICAL_DEPTH,LIMIT,1,Q=0 gives no additional redshift
+VQ01_DIRECT_LOAD_OPTICAL_DEPTH,EQUIVALENCE,0,constant Q is exactly degenerate with an exponential distance-redshift law on one distance range
+VQ02_SLOWED_LIGHT_NONLINEAR_EXPOSURE,LIMIT,0,beta=0 reduces exactly to VQ01 on the same Q
+VQ02_SLOWED_LIGHT_NONLINEAR_EXPOSURE,LIMIT,1,eta=0 leaves arrival delay but removes redshift
+VQ02_SLOWED_LIGHT_NONLINEAR_EXPOSURE,EQUIVALENCE,0,its first-order beta=0 spectrum is VQ01; the Q^2 morphology term is the discriminator
+VQ03_LOCAL_EQUILIBRIUM_LOAD,LIMIT,0,Gamma_b=0 removes density screening
+VQ03_LOCAL_EQUILIBRIUM_LOAD,LIMIT,1,uniform J_g and rho_b produce constant Q
+VQ03_LOCAL_EQUILIBRIUM_LOAD,EQUIVALENCE,0,the local steady D_g=0 limit of VQ05
+VQ04_YUKAWA_NONLOCAL_BARYON_FEED,LIMIT,0,homogeneous density gives J_g=A_feed rho_b for a normalized infinite-domain kernel
+VQ04_YUKAWA_NONLOCAL_BARYON_FEED,LIMIT,1,L_g controls smoothing rather than a new photon coupling
+VQ04_YUKAWA_NONLOCAL_BARYON_FEED,EQUIVALENCE,0,reduces to VQ03 when its computed J_g is supplied to the local equilibrium law
+VQ05_DIFFUSIVE_SOURCE_SINK_RESERVOIR,LIMIT,0,D_g=0 at steady state reduces pointwise to VQ03
+VQ05_DIFFUSIVE_SOURCE_SINK_RESERVOIR,LIMIT,1,uniform steady sources have Q=J_g/(Gamma_0+Gamma_b rho_b)
+VQ05_DIFFUSIVE_SOURCE_SINK_RESERVOIR,EQUIVALENCE,0,not distinct from VQ03 in the frozen uniform steady fixture; transient and spatial smoothing fixtures separate them
+VQ06_BARYONIC_COLUMN_ATTENUATION,LIMIT,0,sigma_g=0 gives unattenuated Yukawa load
+VQ06_BARYONIC_COLUMN_ATTENUATION,LIMIT,1,A_load=0 gives Q=0
+VQ06_BARYONIC_COLUMN_ATTENUATION,EQUIVALENCE,0,not equivalent to VQ04 because attenuation depends on intervening baryonic column
+VQ07_INVERSE_DENSITY_HUBBLE_MIMIC,LIMIT,0,n=0 gives Q=1 and a pure exponential Hubble mimic
+VQ07_INVERSE_DENSITY_HUBBLE_MIMIC,LIMIT,1,rho_star>0 prevents a void divergence
+VQ07_INVERSE_DENSITY_HUBBLE_MIMIC,EQUIVALENCE,0,constant line-of-sight mean Q is observationally degenerate with rescaling H_g
+VQ08_TWO_PHASE_VOID_MATTER,LIMIT,0,H_v=H_m gives a path-independent exponential Hubble mimic
+VQ08_TWO_PHASE_VOID_MATTER,LIMIT,1,L_v=0 or L_m=0 gives the corresponding single phase
+VQ08_TWO_PHASE_VOID_MATTER,EQUIVALENCE,0,"a binary coarse graining of VQ07, not a microscopic explanation"
+VQ09_PHOTON_CARRIED_LOAD_MEMORY,LIMIT,0,a=0 and q_gamma(emit)=0 gives no load
+VQ09_PHOTON_CARRIED_LOAD_MEMORY,LIMIT,1,b_0+b_b rho_b>0 gives finite memory
+VQ09_PHOTON_CARRIED_LOAD_MEMORY,LIMIT,2,eta_gamma=0 decouples frequency from memory
+VQ09_PHOTON_CARRIED_LOAD_MEMORY,EQUIVALENCE,0,fast relaxation approximates a local Q-weighted optical law; finite relaxation is order-sensitive
+VQ10_RESERVOIR_PLUS_SLOWED_PHOTON,LIMIT,0,beta=0 gives VQ01 evaluated on the reservoir Q
+VQ10_RESERVOIR_PLUS_SLOWED_PHOTON,LIMIT,1,D_g=0 at steady state gives VQ02 evaluated on VQ03
+VQ10_RESERVOIR_PLUS_SLOWED_PHOTON,LIMIT,2,eta=0 preserves only the travel-time prediction
+VQ10_RESERVOIR_PLUS_SLOWED_PHOTON,EQUIVALENCE,0,"its steady local beta=0 boundary is not a new branch; joint transient, Q^2, and delay signatures are"

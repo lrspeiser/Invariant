@@ -1,0 +1,189 @@
+{
+  "schema": "open-gravity-void-cosmology-source-shaped-synthetic-injection-matrix-1.0",
+  "package_id": "open-gravity-void-cosmology-source-shaped-synthetic-injection-matrix-v1",
+  "version": "v1.0.0",
+  "status": "FROZEN_SYNTHETIC_ONLY_PRE_RESPONSE",
+  "claim_class": "SYNTHETIC_DIRECTIONAL_SIGNAL",
+  "experiment_id": "void.cosmology-source-shaped-synthetic.v1",
+  "suite_seed": 26083117,
+  "object_count": 8,
+  "geometry_variants": [
+    "bounded-fraction-null",
+    "planck2018-edge0-primary",
+    "wmap5-edge0-control"
+  ],
+  "noise_families": [
+    "bulk-shear-flow",
+    "distance-measurement",
+    "distance-plus-flow",
+    "selection-mask-boundary",
+    "zero-noise"
+  ],
+  "truth_formula_ids": [
+    "C01_OBSERVER_ENDPOINT_LOCAL_VOID",
+    "C02_TARGET_ENDPOINT_LOCAL_VOID",
+    "C03_SINGLE_DOMINANT_VOID",
+    "C04_BOUNDED_FRACTION_NULL",
+    "VQ00_STANDARD_FLRW_FLOW_CONTROL",
+    "VQ08_TWO_PHASE_VOID_FRACTION"
+  ],
+  "law_constants": {
+    "c_km_s": 299792.458,
+    "delta_h_km_s_mpc": 6.74,
+    "h_m_km_s_mpc": 67.4,
+    "planck_h": 0.674,
+    "radial_mask_limit_h_inverse_mpc": 332.3856506347656
+  },
+  "noise": {
+    "bulk_velocity_coefficients_km_s": [120.0, -80.0, 60.0],
+    "distance_draw_scale": 1.0,
+    "mask_boundary_delta_h_fraction": 0.25,
+    "minimum_log_redshift_sigma": 0.00016678204759907602,
+    "shear_velocity_coefficients_km_s": [45.0, -30.0, -15.0, 25.0, -20.0, 10.0]
+  },
+  "scoring": {
+    "distinct_gap": 0.1,
+    "primary_metric": "diagonal-whitened-rmse",
+    "zero_noise_variance": 1e-18
+  },
+  "geometry_mode": "cf4-ray-vast-union-source-geometry",
+  "time_mode": "static-low-redshift-path-exposure",
+  "coordinate_frame": "observer-centered-icrs-cartesian",
+  "parameter_schema_path": "configs/open_gravity_full3d_phangs_synthetic_adapter_empty_parameters_v1.schema.json",
+  "output_directory": "runs/gravity/open-gravity-void-cosmology-source-shaped-synthetic-injection-matrix-v1",
+  "source_anchors": [
+    {
+      "bytes": 64800,
+      "id": "CANONICAL_VAST_ANGULAR_MASK",
+      "path": "runs/gravity/open-gravity-void-geometry-source-completion-v2/artifacts/mask-u8.bin",
+      "sha256": "e473e5f71860ab3d8580036c2d41ca637af66bc32a6e8701ceb9fc16444520fa"
+    },
+    {
+      "bytes": 26004440,
+      "id": "CF4_IDENTIFIER_ROLE_LEDGER",
+      "path": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/artifacts/identifier-ledger.jsonl",
+      "sha256": "356442b37f145e9f0f11eaeba57b1737817c02aa0c319c10e2208aecc095db6b"
+    },
+    {
+      "bytes": 2528953,
+      "id": "CF4_TABLE4_OPAQUE_ROW_CONTAINER",
+      "path": "work/private/open-gravity-void-source-v2/cf4-table4.dat.gz",
+      "sha256": "be91d4fae6fa01552ab3bc85db695411fca3249eeae08b566a712e6ea790bd99"
+    },
+    {
+      "bytes": 426486,
+      "id": "VAST1_MAXIMAL_SPHERES_AND_EDGE_FLAGS",
+      "path": "work/private/open-gravity-void-source-v2/vast-table1.dat",
+      "sha256": "fe430c4e31f879e5678479b6735d84e2e6ac6c26f5bd71115b56d8d2c1bdbeff"
+    },
+    {
+      "bytes": 3360828,
+      "id": "VAST2_ALL_SPHERE_UNION_GEOMETRY",
+      "path": "work/private/open-gravity-void-source-v2/vast-table2.dat.gz",
+      "sha256": "8e2a919f70883a5160b668660a06738d9ac0d091e751ee397431f64d4a77c9bf"
+    }
+  ],
+  "contract_bindings": [
+    {
+      "id": "CF4_IDENTIFIER_PARTITION_RECEIPT",
+      "path": "runs/gravity/open-gravity-void-correlation-ids-partition-v1/receipt.json",
+      "sha256": "baa80bf8d702802899256aa89d7b82416b62a397aeccaecac4edb3d965c94aaa"
+    },
+    {
+      "id": "CF4_VAST_ACQUISITION_CONFIG",
+      "path": "configs/open_gravity_void_cf4_vast_source_acquisition_v1.json",
+      "sha256": "58470b612d03f7bf0a3b555d8316922261468ba966f2777577870b25c3267fe4"
+    },
+    {
+      "id": "CF4_VAST_ACQUISITION_RECEIPT",
+      "path": "runs/gravity/open-gravity-void-cf4-vast-source-acquisition-v1/receipt.json",
+      "sha256": "f343f555bfac633ee14ab746a84009d6b2a735655a7a638666f9edf9536dfcdb"
+    },
+    {
+      "id": "GEOMETRY_V3_MODULE",
+      "path": "src/sigma_theory_compiler/open_gravity_void_geometry_source_completion_v3.py",
+      "sha256": "41139e24dfedd1fa0ff58e65e0d6a8c61661a0277069735179e123b4263976b4"
+    },
+    {
+      "id": "GEOMETRY_V3_RECEIPT",
+      "path": "runs/gravity/open-gravity-void-geometry-source-completion-v3/receipt.json",
+      "sha256": "a7777fc5554f5c1ea97709a1a42ef5a02beaf90cb0889689213a01570c8cdc96"
+    },
+    {
+      "id": "GRAVITATIONAL_LOAD_V4_MODULE",
+      "path": "src/sigma_theory_compiler/open_gravity_void_gravitational_load_v4.py",
+      "sha256": "2d54bc2dc118908e04eb5e99bbecbd28eb3b25fc6a8add7c79b27bdb6edf2669"
+    },
+    {
+      "id": "RUNNER_V2_AUDIT",
+      "path": "work/audits/open-gravity-synthetic-discovery-runner-v2-independent-audit-d67225ff.json",
+      "sha256": "cda03daed64b2fdd530ba95c5dacf336c35be1c0f8afaafef45af67ca0cca8e7"
+    },
+    {
+      "id": "RUNNER_V2_MODULE",
+      "path": "src/sigma_theory_compiler/open_gravity_synthetic_discovery_runner_v2.py",
+      "sha256": "d67225ff1405e57fa3634bd8bdda3337bad2d325a8ff0f791a96c214bcce7475"
+    },
+    {
+      "id": "VAST1_PARSER_RECEIPT",
+      "path": "runs/gravity/open-gravity-void-vast1-source-parser-contract-v1/receipt.json",
+      "sha256": "ba1bb89b3b1fbfda3814b11dcbaaa2f4b0478c67048d36513f02f242eeffc7e0"
+    },
+    {
+      "id": "VAST2_PARSER_RECEIPT",
+      "path": "runs/gravity/open-gravity-void-vast2-source-parser-contract-v2/receipt.json",
+      "sha256": "27e5f7c7856dce38665ee2a1a6451e919b5a8e0aeb8d9abe88f0ef8fab50c3a1"
+    }
+  ],
+  "adapter_blocks": [
+    {
+      "formula_id": "VQ01_DIRECT_TIME_EXPOSURE",
+      "reason": "SOURCE_BLOCKED: no externally supplied scalar Q field exists in the frozen CF4/VAST source contract"
+    },
+    {
+      "formula_id": "VQ02_SLOWED_RAY_TIME_EXPOSURE",
+      "reason": "SOURCE_BLOCKED: no Q path field exists for the nonlinear exposure and delay terms"
+    },
+    {
+      "formula_id": "VQ03_LOCAL_SOURCE_SINK",
+      "reason": "SOURCE_BLOCKED: J_g and rho_b are absent"
+    },
+    {
+      "formula_id": "VQ04_3D_HELMHOLTZ_BARYON_FEED",
+      "reason": "SOURCE_BLOCKED: no frozen 3D baryon density cube or boundary data exist"
+    },
+    {
+      "formula_id": "VQ05_3D_DIFFUSIVE_RESERVOIR",
+      "reason": "SOURCE_BLOCKED: no time-dependent source, initial state, or reservoir history exists"
+    },
+    {
+      "formula_id": "VQ06_3D_COLUMN_ATTENUATED_FEED",
+      "reason": "SOURCE_BLOCKED: no 3D baryonic density or attenuation cube exists"
+    },
+    {
+      "formula_id": "VQ07_INVERSE_DENSITY_HUBBLE_MIMIC",
+      "reason": "SOURCE_BLOCKED: a binary void mask is not a continuous rho_b estimator"
+    },
+    {
+      "formula_id": "VQ09_PHOTON_CARRIED_MEMORY",
+      "reason": "SOURCE_BLOCKED: no ordered Q/rho_b state history exists"
+    },
+    {
+      "formula_id": "VQ10_TIED_RESERVOIR_DELAY_REDSHIFT",
+      "reason": "SOURCE_BLOCKED: its required VQ05 reservoir state is absent"
+    }
+  ],
+  "access_contract": {
+    "cf4_allowed_source_fields": ["1PGC", "DEdeg", "DMzp", "Dist", "RAdeg", "e_DMzp"],
+    "cf4_measured_velocity_fields_decoded": 0,
+    "cf4_published_peculiar_velocity_fields_decoded": 0,
+    "confirmation_source_fields_decoded": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "paid_calls": 0,
+    "pantheon_files_opened": 0,
+    "real_response_values_decoded": 0,
+    "theory_or_nuisance_response_tuning_events": 0,
+    "validation_source_fields_decoded": 0
+  }
+}

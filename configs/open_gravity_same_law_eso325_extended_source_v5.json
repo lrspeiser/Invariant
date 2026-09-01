@@ -1,0 +1,178 @@
+{
+  "schema": "invariant-open-gravity-same-law-eso325-extended-source-5.0",
+  "package_id": "open-gravity-same-law-eso325-extended-source-v5",
+  "status": "APPEND_ONLY_PHYSICAL_UNIT_REPAIR_FROZEN_NO_ARRAY_DECODE",
+  "purpose": "Repair the strict V4 audit in physical units, bind the complete synthetic law against mutation, strengthen equivariance and convergence gates, and fully specify held-out predictive scoring while keeping ESO scientific arrays and all SLACS responses sealed.",
+  "v4_preservation": {
+    "path": "work/open-gravity-same-law-eso325-extended-source-v4-strict-blocked-audit/preservation.json",
+    "sha256": "1d04f120be97232e74ab7887a1dbf7be9d25024ec844240e63db717683463290",
+    "v4_receipt_path": "work/open-gravity-same-law-eso325-extended-source-v4-strict-blocked-audit/packet/receipt.json",
+    "v4_receipt_sha256": "5555b8e3e212ef569356b2b32b2a0a784e865e2227a306061c3b4fd8ee9e5c56",
+    "preservation_rule": "V4 and its artifacts are byte-exact blocked evidence. V5 never imports, rewrites, or upgrades a V4 claim."
+  },
+  "law_binding": {
+    "field_equations": {
+      "newton": "nabla^2 U = 4*pi*G*rho_total",
+      "yukawa": "(nabla^2 - mu^2) Y = 4*pi*G*rho_total"
+    },
+    "metric": "ds^2 = -(1 + 2*Phi/c^2)*c^2*dt^2 + (1 - 2*Psi/c^2)*(dx^2 + dy^2 + dz^2)",
+    "state_map": {
+      "Phi": "Phi = U + (4/3)*g*Y",
+      "Psi": "Psi = U + (2/3)*g*Y"
+    },
+    "matter_observable": "a_i = -partial_i Phi; units (km/s)^2/kpc",
+    "photon_observable": "alpha_hat_i = c^-2 * integral partial_i(Phi+Psi) dl; alpha_reduced_i = (D_ls/D_s)*alpha_hat_i",
+    "lens_mapping": "beta_i = theta_i - alpha_reduced_i(D_l*theta)",
+    "coefficients": {
+      "phi_yukawa": 1.3333333333333333,
+      "psi_yukawa": 0.6666666666666666,
+      "photon_integral_prefactor": 1.0
+    },
+    "constants": {
+      "G_kpc_km2_s2_Msun": 0.000004300917270036279,
+      "c_km_s": 299792.458,
+      "arcsec_per_radian": 206264.80624709636
+    },
+    "unit_ledger": {
+      "coordinate": "kpc",
+      "density": "Msun/kpc^3",
+      "U_Y_Phi_Psi": "(km/s)^2",
+      "potential_gradient": "(km/s)^2/kpc",
+      "line_element": "kpc",
+      "deflection": "radian",
+      "angular_diameter_distance": "Mpc"
+    }
+  },
+  "law_sha256": "f3573bb2c1a1d07a611c186290a083fed278c08b95bf3447124ed39326eaaf72",
+  "cosmology": {
+    "model": "Planck-2015-flat-LambdaCDM",
+    "H0_km_s_Mpc": 67.74,
+    "Omega_m": 0.3089,
+    "Omega_lambda": 0.6911,
+    "lens_redshift": 0.035,
+    "source_redshift": 2.1,
+    "distance_integral": "D_C(z)=c/H0*integral_0^z dz'/sqrt(Omega_m*(1+z')^3+Omega_lambda); D_A(0,z)=D_C(z)/(1+z); D_A(z_l,z_s)=(D_C(z_s)-D_C(z_l))/(1+z_s)",
+    "integration_tolerance": {"absolute_Mpc": 1e-10, "relative": 1e-10},
+    "frozen_distances": {
+      "D_l_Mpc": 148.4373468422846,
+      "D_s_Mpc": 1760.104018743264,
+      "D_ls_Mpc": 1710.545098103985,
+      "D_ls_over_D_s": 0.9718431864756126,
+      "lens_kpc_per_arcsec": 0.7196445653674095
+    }
+  },
+  "source_binding": [
+    {"role": "HST_F814W_LENS_LIGHT", "path": "work/private/open-gravity-eso325-source-v1/hst_10429_09_acs_wfc_f814w_j95t09_drc.fits", "bytes": 369486720, "sha256": "f2a711874a38cf6364d7222d17cb210e8800b054fb5e2f01bf3f8aa061ad484a"},
+    {"role": "HST_F475W_ARC_PLUS_LENS_LIGHT", "path": "work/private/open-gravity-eso325-source-v1/hst_10429_10_acs_wfc_f475w_j95t10_drc.fits", "bytes": 367663680, "sha256": "7e77aa1ca44a26f491fe0ac8d6bfd8614ff6d036a460967f39c7a4bfdf2d0d17"},
+    {"role": "MUSE_PRIMARY_CUBE", "path": "work/private/open-gravity-eso325-source-v1/ADP.2016-09-07T12_23_32.515.fits", "bytes": 7378352640, "sha256": "dea67d98c39284e7be30c78f3d34a61a4a834c816e1c2b809f0909298ec87367"},
+    {"role": "MUSE_ARCHIVE_WHITELIGHT_AUXILIARY", "path": "work/private/open-gravity-eso325-source-v1/ADP.2016-09-07T12_23_32.516.fits", "bytes": 1108800, "sha256": "8cf81fdc7f93e285444f7a83bce57cfcd974f165e6e9aa9b25093eb09a35f6e6"},
+    {"role": "PAPER_AND_SUPPLEMENT", "path": "work/private/open-gravity-lane7-eso325-supplement-v1/collett-2018-science-and-supplement.pdf", "bytes": 2703367, "sha256": "0a96efeb3f3fc4312a72e8286a9e8a3b93039fbd2443408f2f8af237408dacfe"},
+    {"role": "PUBLISHED_PYLENS_CODE_REFERENCE_ONLY", "path": "work/private/open-gravity-lane7-eso325-supplement-v1/pylens-1cb65f244b8ecf537efea2f93c5951a30d4dae36.tar.gz", "bytes": 652349, "sha256": "4996cb3d58b8032b3b96e2783227d41f5aca6eb388c77b371b1428990801c679"}
+  ],
+  "source_binding_sha256": "e06a0f5604edcceca33c44946ff5bffbeaa407570dcdedfaea339cbdfccf5f25",
+  "contract_hashes": {
+    "extended_density_contract": "0dab74b843c7d4fe8441b35b8f3c76086fb8aae1b7fb66521798c951876a9568",
+    "shared_state_contract": "64ae973fb010cf0d5439d232d14236d131b2ac7b060e32bfd51c2fb1bd688f17",
+    "predictive_likelihood_contract": "a51a01f0b25ac4e6ed82e41d098cac19cdeabf6f6983b2caa98273cbaf0abcad",
+    "reduction_readiness": "f69db12440d274f0791649cecf90a836bf735fddda2c74251fab714af91f869b",
+    "target_free_gate": "5dd1812be72968fc1c23001bc4aa9c137f3a50ab9ffa3e3f5434e9c8c868ebe3"
+  },
+  "extended_density_contract": {
+    "stellar_luminosity": "For luminous Gaussian j, nu_j(R,z)=L_j/((2*pi)^(3/2)*sigma_j^3*q_j)*exp(-(R^2+z^2/q_j^2)/(2*sigma_j^2)); rho_star=sum_j Upsilon_j*nu_j. Each component integrates to Upsilon_j*L_j over R,z.",
+    "stellar_ML": "Seven luminous Gaussians use six positive mass-to-light parameters because components 1 and 2 are tied. Upsilon_j is monotonically non-increasing with projected Gaussian scale.",
+    "black_hole": "rho_BH(r)=M_BH*(2*pi*epsilon_BH^2)^(-3/2)*exp(-r^2/(2*epsilon_BH^2)); epsilon_BH equals one finest scientific grid cell and must be halved in the convergence run.",
+    "pseudo_nfw": {
+      "ellipsoidal_radius": "m=sqrt(x_prime^2+y_prime^2+z_prime^2/q_DM^2) in the halo principal frame",
+      "density": "rho_DM(m)=rho_s*r_s^3/[m*(r_s^2+m^2)]*T(m), evaluated with the cell-integrated central value at m=0",
+      "scale_radius": "r_s=10*R_eff in the primary comparator; registered sensitivity values are 5*R_eff and a log-uniform free r_s/R_eff in [1,30]",
+      "truncation": "T=1 for m<=20*r_s; T=1-10*t^3+15*t^4-6*t^5 for 20*r_s<m<22*r_s with t=(m-20*r_s)/(2*r_s); T=0 for m>=22*r_s",
+      "normalization": "rho_s is solved linearly so projected dark mass inside the circular cylinder R<=R_E and |z|<=22*r_s is f_DM/(1-f_DM) times projected (stellar+BH) mass in the identical cylinder",
+      "flattening": "q_DM in [0.3,1]; halo centre and position angle equal the stellar centre and position angle in the primary comparator"
+    },
+    "grid": "Scientific density box extends to at least 22*r_s in each direction; isolated FFT solution uses padding factor 2, repeats at factor 4, then halves cell size at the same physical boundary. Failure of either convergence gate invalidates the score."
+  },
+  "shared_state_contract": {
+    "candidate": "EXTENDED_GR_PLUS_FIXED_PPN_YUKAWA",
+    "theory_parameters": {"g_prior": "Uniform[-0.5,0.5]", "range_kpc_prior": "LogUniform[0.1,31.622776601683793]"},
+    "primary_comparator": "GR_PLUS_STARS_PLUS_TRUNCATED_PSEUDONFW_PLUS_GAUSSIAN_BLACK_HOLE, obtained only by g=0 with the identical density, grids, masks, nuisance priors and likelihood",
+    "matter_route": "Only Phi enters the axisymmetric Jeans acceleration and projected second moments.",
+    "photon_route": "Only the same Phi+Psi state enters the line-of-sight deflection integral and extended-source ray map with the frozen D_l,D_s,D_ls.",
+    "forbidden": ["photon multiplier", "lens-only g", "lens-only range", "unexplained deflection normalization", "separate lensing mass", "separate image-delay coefficient"]
+  },
+  "predictive_likelihood_contract": {
+    "metric_not_evidence": "No marginal evidence or Bayes factor is claimed. The primary statistic is a fully specified held-out log predictive density difference.",
+    "sector_assignment": "For each valid HST pixel or MUSE bin centre, phi=atan2(Dec-Dec0,(RA-RA0)*cos(Dec0)) mod 2*pi and sector=floor(5*phi/(2*pi)). Sectors 0-3 train; sector 4 is held out. Boundary angles go to the higher numbered sector except 2*pi maps to 0.",
+    "posterior_draws": "Condition on training sectors only. Use 256-walker affine-invariant MCMC, discard at least 50 integrated autocorrelation times, then retain exactly 4096 equal-weight draws by deterministic stride. Require split-Rhat<=1.01 and bulk ESS>=1000 for every scalar; otherwise invalid.",
+    "hst_predictive_density": "For draw s, analytically marginalize the linear 80x80 source posterior: D_h|theta_s,D_t ~ Normal(A_h*m_s, C_hh + A_h*Lambda_s*A_h^T), where m_s and Lambda_s are the source mean/covariance conditioned only on training pixels. Evaluate the full normalized multivariate Gaussian log density including log determinant.",
+    "muse_predictive_density": "For draw s, form the joint empirical covariance blocks C_tt,C_hh,C_ht. Given training residual r_t=D_t-mu_t(theta_s), D_h|theta_s,D_t ~ Normal(mu_h(theta_s)+C_ht*C_tt^-1*r_t, C_hh-C_ht*C_tt^-1*C_th). Evaluate the full normalized multivariate Gaussian for concatenated held-out (v_los,sigma_los).",
+    "posterior_predictive_mixture": "For channel k, LPD_k=logsumexp_s(log p_k(D_h|theta_s,D_t))-log(4096). Joint LPD=LPD_HST+LPD_MUSE. Delta_LPD is candidate minus GR comparator on the same held-out values.",
+    "calibration": "Report held-out Mahalanobis distance and randomized quantile residuals per channel. Require the distance inside the 1%-99% chi-square predictive interval and residual absolute mean<=0.25 with variance in [0.5,2].",
+    "primary_survival": "Delta_LPD_joint>=10, Delta_LPD_HST>=2, Delta_LPD_MUSE>=2, both calibration gates pass, and the equal-tail 99.73% posterior interval for g excludes zero. No threshold may change after array decode.",
+    "registered_robustness": "Repeat once with sectors rotated by +pi/5. It is reported separately and cannot replace the primary sector result."
+  },
+  "reduction_readiness": {
+    "missing_external_inputs_before_any_scientific_array_decode": [
+      "exact revision, license, file list and SHA-256 manifest for the primary MILES stellar-template library",
+      "exact revision, G/K subset rule, license, file list and SHA-256 manifest for the Indo-US cross-check library",
+      "exact Gaia DR3 cone-query ADQL, retrieval timestamp, row schema and hash-bound result for the HST/MUSE astrometric field",
+      "exact pPXF or equivalent kinematic-extractor version/source hash and frozen invocation"
+    ],
+    "empirical_gates_only_after_a_separately_authorized_development_array_decode": [
+      "whether at least two valid empirical HST PSF stars per filter pass the frozen saturation/isolation cuts",
+      "whether at least three common Gaia/HST/MUSE sources permit <=0.03 arcsec registration RMS",
+      "whether the MUSE star fit passes the frozen 0.47-0.67 arcsec FWHM and beta>1.5 PSF limits",
+      "whether pipeline metadata or at least ten sky lines support the frozen MUSE LSF fit",
+      "whether blank-stamp HST covariance and MUSE bootstrap spatial/kinematic covariance are positive semidefinite and meet sample-count gates"
+    ],
+    "current_status": "SOURCE_BLOCKED_MISSING_EXTERNAL_TEMPLATE_GAIA_AND_EXTRACTOR_BINDINGS",
+    "rule": "Do not treat a post-decode empirical gate as a presently missing file. Do not decode arrays until the external-input list is complete in a later append-only authorization packet."
+  },
+  "target_free_gate": {
+    "physical_extent_kpc": 16.0,
+    "coarse_cells_per_axis": 33,
+    "fine_cells_per_axis": 65,
+    "coarse_cell_kpc": 0.5,
+    "fine_cell_kpc": 0.25,
+    "primary_padding_factor": 2,
+    "doubled_padding_factor": 4,
+    "total_mass_Msun": 100000000000.0,
+    "injected_g": 0.18,
+    "injected_range_kpc": 3.0,
+    "deterministic_noise_fraction": 0.005,
+    "required": {
+      "mass_relative_error_max": 1e-12,
+      "law_unit_audit": true,
+      "all_three_reflection_relative_error_max": 5e-10,
+      "all_six_axis_permutation_relative_error_max": 5e-10,
+      "doubled_padding_observable_relative_rms_max": 0.03,
+      "halved_cell_observable_relative_rms_max": 0.08,
+      "short_range_to_gr_relative_rms_max": 1e-6,
+      "recovered_g_absolute_error_max": 0.01,
+      "candidate_chi2_per_datum_max": 1.0,
+      "candidate_minus_gr_holdout_lpd_min": 10.0
+    }
+  },
+  "slacs_seal": {
+    "status": "SEALED_UNCHANGED",
+    "sample_manifest": {"path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/sample-manifest.json", "sha256": "37f33fcbaeb2013db37e07fd51e6aca1a7a04bf617b4cffd0f025be3c6de6971"},
+    "predictor_manifest": {"path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/predictor-source-manifest.json", "sha256": "af4c7b28e8b4b2a4417746b214f513a6aa56f557e3be3b9be83d248ec17312dd"},
+    "response_manifest": {"path": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/response-source-manifest.json", "sha256": "415911de9ef3ba3e43f3637ed8fe75b5d73304c626235a4e24362948acfc8068"},
+    "reserved_confirmation": 12,
+    "response_manifest_deserialized_by_v5": false,
+    "response_values_opened_by_v5": 0
+  },
+  "access_accounting": {
+    "scientific_fits_array_elements_decoded": 0,
+    "eso_response_values_opened": 0,
+    "eso_scores_computed": 0,
+    "slacs_response_values_opened": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "post_response_tuning_calls": 0
+  },
+  "outputs": {
+    "receipt": "runs/gravity/open-gravity-same-law-eso325-extended-source-v5/receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-same-law-eso325-extended-source-v5/artifacts"
+  }
+}

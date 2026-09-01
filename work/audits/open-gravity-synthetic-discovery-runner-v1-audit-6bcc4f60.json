@@ -1,0 +1,72 @@
+{
+  "schema": "open-gravity-synthetic-discovery-runner-audit-1.0",
+  "status": "BLOCK",
+  "audit_scope": "read-only generic synthetic discovery runner foundation",
+  "subject": {
+    "module": {
+      "path": "src/sigma_theory_compiler/open_gravity_synthetic_discovery_runner_v1.py",
+      "sha256": "6bcc4f60d3cf5a9c2923cb0e287c9485c35142d8e9b8a01a698440026a5d0e63"
+    },
+    "test": {
+      "path": "tests/test_open_gravity_synthetic_discovery_runner_v1.py",
+      "sha256": "4211e98c0b0e70edd67ed6c4e4e8c78e709a46bb54d2d0f7b65a29ad993a375d"
+    }
+  },
+  "official_checks": {
+    "pytest": "7 passed",
+    "ruff": "All checks passed"
+  },
+  "adversarial_checks": {
+    "path": "work/audits/test_open_gravity_synthetic_discovery_runner_v1_adversarial.py",
+    "result": "6 passed, 7 failed",
+    "passing_contracts": [
+      "eligible Cartesian parameter cells are complete",
+      "all SchemaViolation-invalid candidates are retained without a winner",
+      "valid full positive-definite covariance whitening succeeds",
+      "zero-variance and near-null covariance support violations are rejected",
+      "result hash body contains no native floats and canonical parameter hashing rejects floats",
+      "eligible replay-ledger admission/completion entries are adjacent and identity-bound"
+    ]
+  },
+  "blockers": [
+    {
+      "id": "B1_TIE_AND_SINGLE_CANDIDATE_DISTINCTNESS",
+      "counterexample": "Two exact zero-RMSE candidates with distinct_gap=0 are assigned one lexicographic winner and distinct=true; a single valid candidate with no comparator is also marked PROMISING_DISTINCT_SIGNATURE and distinct=true.",
+      "impact": "Tie membership, truth recovery, and distinct discovery can be decided by lexical order or by absence of any comparator."
+    },
+    {
+      "id": "B2_INELIGIBLE_EXECUTABLE_PARAMETER_CELLS_COLLAPSED",
+      "counterexample": "An executable cluster-only binding with registered parameter cells scale.one and scale.two in a galaxy scenario emits one blocked cell with parameter_cell_id=null and one ledger entry, not two exact blocked matrix cells.",
+      "impact": "The declared scenario x binding x parameter-cell matrix and replay ledger are incomplete for scenario-ineligible executable formulas."
+    },
+    {
+      "id": "B3_TRUTH_IDENTITY_UNVALIDATED",
+      "counterexample": "truth_formula_by_scenario='not-a-candidate' is accepted and scored; the winning registered formula is then reported with truth_recovered=false rather than rejecting the invalid truth map.",
+      "impact": "Recovery counts can be generated from a truth identity absent from the candidate registry."
+    },
+    {
+      "id": "B4_RESPONSE_BLIND_RELEASE_GATE_MISSING",
+      "counterexample": "SyntheticSuiteRelease(response_calibrated=true) is accepted by the function documented as response-blind.",
+      "impact": "The runner does not enforce its response-blind claim at the release boundary."
+    },
+    {
+      "id": "B5_UNCERTAINTY_TARGET_NOT_BOUND_TO_RESPONSE",
+      "counterexample": "A diagonal covariance whose UncertaintyRef applies_to_element_id is source.vector.acceleration is accepted to whiten response.vector.acceleration and produces a score.",
+      "impact": "A source uncertainty can be silently substituted for the response uncertainty."
+    },
+    {
+      "id": "B6_ADAPTER_EXCEPTIONS_NOT_FULLY_RETAINED",
+      "counterexample": "An adapter OSError('audit-adapter-io-failure') escapes run_discovery_matrix instead of producing NUMERICAL_INVALID cells.",
+      "impact": "One adapter failure can abort the matrix, violating retain-every-failure behavior."
+    }
+  ],
+  "scientific_data_access": {
+    "source_files_opened": 0,
+    "response_files_opened": 0,
+    "truth_payloads_opened": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "subject_files_modified": false
+}

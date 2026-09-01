@@ -1,0 +1,175 @@
+{
+  "schema_version": "invariant-open-gravity-differential-propagation-gw170817-coherent-config-5.0",
+  "analysis_id": "open-gravity-differential-propagation-gw170817-coherent-v5",
+  "status": "FROZEN_APPEND_ONLY_PRE_RESPONSE_WINDOW_AND_SCHEMA_REPAIR",
+  "purpose": "Correct only the blocked v4 time window and bind missing source-schema, HDF, DQ, Nyquist, and waveform-support facts before target-free injection gates or new strain access.",
+  "blocked_predecessor_v4": {
+    "config_path": "configs/open_gravity_differential_propagation_gw170817_coherent_v4.json",
+    "config_raw_sha256": "2347dc837410b52a3f35d710c9b78d296ae6d4485c214646157a95e149ad49d2",
+    "module_path": "src/sigma_theory_compiler/open_gravity_differential_propagation_gw170817_coherent_v4.py",
+    "module_raw_sha256": "4e6cce8fbf4a143575c39e2ad3bfb8ccb9390382b25bcdbc4ebcaf0229fc02d1",
+    "test_path": "tests/test_open_gravity_differential_propagation_gw170817_coherent_v4.py",
+    "test_raw_sha256": "7f4fa0273483ca49e3b723a307c9e2075a31cf47019cb0615f8978d7b141658e",
+    "prediction_path": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v4/prediction-receipt.json",
+    "prediction_raw_sha256": "73a7ec142194f18dbe2341aa13710a00002ca30acaf11ec6fe5988bdf1f8226e",
+    "prediction_content_sha256": "bceb78b66722bfd987ac8ba8251b7b23c631b46206b39188ecf6cc4f16bbb0bd",
+    "decision": "BLOCKED_PRE_RESPONSE_END_TAPER_AUDIT_NO_INJECTIONS_NO_STRAIN"
+  },
+  "science_inheritance": {
+    "source": "configs/open_gravity_differential_propagation_gw170817_coherent_v4.json",
+    "unchanged_sections": [
+      "predecessor_v3",
+      "sources",
+      "event",
+      "coherent_likelihood",
+      "nuisance_priors",
+      "transfer_branches",
+      "optimizer",
+      "target_free_gates",
+      "real_data_gr_gate",
+      "multiple_comparisons",
+      "robustness",
+      "separate_judgments",
+      "theory_health_preregistered",
+      "claim_boundary"
+    ],
+    "changed_section": "preprocessing only, plus source-schema and support validation that changes no scientific law, prior, optimizer, seed, threshold, or decision",
+    "merge_rule": "load v4 then replace preprocessing with corrected_preprocessing; all other listed sections must have canonical hashes equal to v4",
+    "post_freeze_scientific_retuning_allowed": false
+  },
+  "package": {
+    "module_path": "src/sigma_theory_compiler/open_gravity_differential_propagation_gw170817_coherent_v5.py",
+    "test_path": "tests/test_open_gravity_differential_propagation_gw170817_coherent_v5.py",
+    "prediction_receipt_path": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v5/prediction-receipt.json",
+    "artifact_directory": "runs/gravity/open-gravity-differential-propagation-gw170817-coherent-v5/artifacts",
+    "runtime_path": "work/private/open-gravity-lane2-lalsuite-runtime-v1/bin/python"
+  },
+  "corrected_preprocessing": {
+    "analysis_gps_start": 1187008690,
+    "analysis_duration_seconds": 256,
+    "analysis_gps_end_exclusive": 1187008946,
+    "analysis_sample_count": 1048576,
+    "sample_rate_hz": 4096,
+    "time_detrend": "linear",
+    "window": "Tukey alpha=0.1",
+    "tukey_alpha": 0.1,
+    "taper_duration_seconds_each_end": 12.8,
+    "flat_interior_gps": [1187008702.8, 1187008933.2],
+    "coalescence_gps": 1187008882.43,
+    "coalescence_seconds_from_start": 192.4300000667572,
+    "post_coalescence_flat_margin_seconds": 50.769999980926514,
+    "leading_order_23hz_chirp_seconds_at_1_1977_solar_mass": 111.95,
+    "estimated_23hz_signal_start_gps": 1187008770.48,
+    "estimated_23hz_signal_start_seconds_into_flat_interior": 67.6800000667572,
+    "signal_support_gate": "estimated 23 Hz start and coalescence must both lie in the Tukey flat interior; post-coalescence flat margin must exceed 16 seconds",
+    "l1_glitch_gate": {
+      "center_gps": 1187008881.389,
+      "zero_half_width_seconds": 0.1,
+      "cosine_rolloff_seconds_each_side": 0.5
+    },
+    "required_dq_flags": ["DATA", "CBC_CAT1"],
+    "dq_rate_hz": 1,
+    "base_fft_delta_f_hz": 0.00390625,
+    "frequency_stride_from_256_second_fft": 32,
+    "likelihood_delta_f_hz": 0.125,
+    "frequency_band_hz": [23.0, 2047.875],
+    "generator_f_max_hz": 2047.875,
+    "nyquist_hz": 2048.0,
+    "nyquist_rule": "exclude the special real-valued rFFT Nyquist bin from data, template, inner product, effective-sample count, and all hashes",
+    "notches": [],
+    "primary_psd": "PUBLISHED_GW170817_PSDS",
+    "psd_robustness": [
+      {
+        "id": "OFFSOURCE_EARLY",
+        "gps": [1187007090, 1187007602],
+        "method": "Welch Hann 16 s, 50 percent overlap, constant detrend, median average"
+      },
+      {
+        "id": "OFFSOURCE_LATE",
+        "gps": [1187010162, 1187010674],
+        "method": "Welch Hann 16 s, 50 percent overlap, constant detrend, median average"
+      },
+      {
+        "id": "OFFSOURCE_MEAN",
+        "parents": ["OFFSOURCE_EARLY", "OFFSOURCE_LATE"],
+        "method": "arithmetic mean"
+      }
+    ],
+    "psd_decision_rule": "the published PSD is primary; all three off-source alternatives are mandatory robustness outputs and cannot select a preferred result"
+  },
+  "source_schema_contract": {
+    "published_psd": {
+      "first_line_exact": "# Freq (Hz)\tLIGO_Hanford_PSD (1/Hz)\tLIGO_Livingston_PSD (1/Hz)\tVirgo_PSD (1/Hz)",
+      "columns": ["frequency_hz", "H1_psd_per_hz", "L1_psd_per_hz", "V1_psd_per_hz"],
+      "values_are": "one-sided power spectral density in 1/Hz, not amplitude spectral density",
+      "validation": "exact header, four finite numeric columns, strictly increasing frequency, every PSD positive, coverage includes 23 through 2048 Hz"
+    },
+    "calibration_envelopes": {
+      "first_line_exact": "# Frequency    Median Mag     Phase (Rad)    -1 Sigma Mag   -1 Sigma Phase +1 Sigma Mag   +1 Sigma Phase",
+      "columns": ["frequency_hz", "median_magnitude", "median_phase_rad", "minus1sigma_magnitude", "minus1sigma_phase_rad", "plus1sigma_magnitude", "plus1sigma_phase_rad"],
+      "magnitude_unit": "dimensionless response ratio",
+      "phase_unit": "radian",
+      "validation": "exact header in each H1/L1/V1 member, seven finite numeric columns, strictly increasing positive frequency, positive magnitude columns, coverage includes analysis band"
+    }
+  },
+  "hdf5_contract": {
+    "files": 3,
+    "strain_dataset": "/strain/Strain",
+    "strain_shape": [16777216],
+    "strain_dtype": "float64",
+    "strain_attributes": {
+      "Npoints": 16777216,
+      "Xlabel": "GPS time",
+      "Xspacing": 0.000244140625,
+      "Xstart": 1187006834,
+      "Xunits": "second",
+      "Ylabel": "Strain",
+      "Yunits": ""
+    },
+    "dq_dataset": "/quality/simple/DQmask",
+    "dq_shape": [4096],
+    "dq_dtype": "uint32",
+    "dq_attributes": {
+      "Bits": 7,
+      "Npoints": 4096,
+      "Xlabel": "GPS time",
+      "Xspacing": 1.0,
+      "Xstart": 1187006834,
+      "Xunits": "second",
+      "Ylabel": "DQmask"
+    },
+    "dq_shortnames_exact": ["DATA", "CBC_CAT1", "CBC_CAT2", "CBC_CAT3", "BURST_CAT1", "BURST_CAT2", "BURST_CAT3"],
+    "required_bitmask": 3,
+    "validation_rule": "all shapes, dtypes, scalar attributes and shortnames must match on all three files; fail closed before strain access"
+  },
+  "pre_freeze_dq_audit": {
+    "dq_values_read": 3840,
+    "strain_values_read": 0,
+    "per_detector": {
+      "H1": {"analysis_256": [256, 256], "psd_early": [512, 512], "psd_late": [512, 512]},
+      "L1": {"analysis_256": [256, 256], "psd_early": [512, 512], "psd_late": [512, 512]},
+      "V1": {"analysis_256": [256, 256], "psd_early": [512, 512], "psd_late": [512, 512]}
+    },
+    "tuple_meaning": "[seconds passing DATA and CBC_CAT1, seconds inspected]",
+    "status": "PASS_ALL_REQUIRED_DQ_SECONDS",
+    "audit_changed_science": false
+  },
+  "freeze_boundary": {
+    "v3_response_previously_opened": true,
+    "v4_response_opened": false,
+    "v5_strain_values_read_before_freeze": 0,
+    "v5_real_likelihood_values_before_freeze": 0,
+    "source_headers_opened_before_freeze": 3,
+    "dq_values_read_before_freeze": 3840,
+    "gw190425_status": "SEALED_NOT_ACQUIRED_NOT_OPENED",
+    "other_bns_holdouts_status": "SEALED_NOT_ACQUIRED_NOT_OPENED",
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "execution_gate": {
+    "required_order": ["validate_blocked_v4", "validate_inheritance", "validate_source_bytes_and_schemas", "validate_hdf_headers_and_dq_without_strain", "validate_runtime", "run_target_free_injections", "freeze_prediction_receipt", "independent_audit", "only_then_real_response"],
+    "real_response_allowed_by_v5_prediction_alone": false,
+    "independent_audit_required": true,
+    "failure_action": "retain every failure; no strain values may be read and no real score may be computed"
+  }
+}

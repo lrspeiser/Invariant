@@ -1,0 +1,64 @@
+{
+  "status": "frozen_before_composite_posterior_diagnostics_v4",
+  "purpose": "Replace convergence claims on 17 structurally non-identifiable primitive labels with claims on the exact 10-dimensional quotient seen by the development observables, without changing the model, primitive priors, likelihood, data, or thresholds.",
+  "source_smc_v2_sha256": "d39d786b6936be72dcacc185d0393e84e3e05bff965601c2a7493e8a9f074396",
+  "source_rejuvenation_v3_sha256": "19758b00d4b26b0b23bec3ade1a4b537ca4c62e033e83f1fbfc91c4adcd0456e",
+  "likelihood_split": "development_train",
+  "holdout_may_select_composites_or_thresholds": false,
+  "same_release_confirmation_rows_allowed": false,
+  "independent_target_rows_allowed": false,
+  "primitive_prior_semantics": "sample the unchanged 17 independent primitive priors and apply the exact deterministic pushforward; do not replace the induced joint composite prior with independent marginal approximations",
+  "stellar_clip_semantics": "retain published_stellar_mass_scale=clip(product,0.4,2.5), including its low-clip, continuous, and high-clip mixture components",
+  "exact_composite_coordinates": [
+    {"coordinate": "outer_nonthermal_fraction", "definition": "outer_nonthermal_fraction"},
+    {"coordinate": "nonthermal_radial_power", "definition": "nonthermal_radial_power"},
+    {"coordinate": "outer_pressure_boundary_sigma", "definition": "outer_pressure_boundary_sigma"},
+    {"coordinate": "density_error_sigma", "definition": "density_error_sigma"},
+    {"coordinate": "missing_stellar_to_gas_mass_ratio", "definition": "missing_stellar_to_gas_mass_ratio"},
+    {"coordinate": "clumping_amplitude", "definition": "clumping_amplitude"},
+    {"coordinate": "spherical_acceleration_scale", "definition": "spherical_acceleration_scale"},
+    {"coordinate": "projected_gas_geometry_scale", "definition": "projection_density_scale*(1+centering_radius_shift)*triaxial_radius_scale"},
+    {"coordinate": "published_stellar_acceleration_scale", "definition": "published_stellar_mass_scale/((1+centering_radius_shift)*triaxial_radius_scale)^2"},
+    {"coordinate": "temperature_density_calibration_scale", "definition": "xray_temperature_cross_calibration/projection_density_scale"}
+  ],
+  "exact_orbit_symmetry": {
+    "geometry_scale": "h -> lambda*h",
+    "projection_density_scale": "p -> p/lambda",
+    "published_stellar_mass_scale": "s -> lambda^2*s",
+    "xray_temperature_cross_calibration": "c -> c/lambda",
+    "invariants": ["p*h", "s/h^2", "c/p"],
+    "other_coordinates_unchanged": true
+  },
+  "rank_diagnostic": {
+    "anchors": 16,
+    "anchor_design": "scrambled_sobol_seed_596001_mapped_to_unit_hypercube_0.2_to_0.8",
+    "central_difference_step_in_unit_coordinates": 1e-05,
+    "training_rows_per_anchor": 80,
+    "required_rank_at_every_anchor": 10,
+    "maximum_relative_singular_value_for_first_null_direction": 1e-08,
+    "minimum_relative_singular_value_for_tenth_direction": 0.001
+  },
+  "forward_invariance_diagnostic": {
+    "base_point": "primitive_prior_midpoint_with_unclipped_stellar_product",
+    "lambda_range": [0.98, 1.02],
+    "lambda_cases": 32,
+    "maximum_absolute_log_prediction_difference": 1e-10,
+    "development_training_predictions_only": true
+  },
+  "unchanged_completion_thresholds": {
+    "maximum_rhat": 1.2,
+    "minimum_effective_samples": 50,
+    "maximum_standardized_between_replicate_median_spread": 0.25,
+    "maximum_standardized_smc_to_rejuvenated_median_shift": 0.25,
+    "all_10_composite_coordinates_must_pass": true
+  },
+  "adjudication": {
+    "composite_pass_alone_completes_CP5_7_through_CP5_10": false,
+    "newtonian_control_required_after_candidate_pass": true,
+    "simulation_based_calibration_required_before_completion": true,
+    "source_covariance_required_before_completion": true,
+    "primitive_labels_may_be_reported_as_separately_identified": false,
+    "threshold_relaxation_after_result": false,
+    "failed_run_retained": true
+  }
+}

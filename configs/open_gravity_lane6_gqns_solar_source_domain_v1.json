@@ -1,0 +1,171 @@
+{
+  "schema": "invariant-open-gravity-lane6-gqns-solar-source-domain-1.0",
+  "package_id": "open-gravity-lane6-gqns-solar-source-domain-v1",
+  "status": "FROZEN_RESPONSE_INDEPENDENT_SOLAR_SOURCE_DOMAIN_FALSIFIER",
+  "purpose": "Apply the unchanged Lane-6 GQNS source functional to frozen published Solar-System mass and orbit approximations, quantify its source-domain dependence and Solar-System force consequences, and retain exclusion or localization failures without opening an observational response payload.",
+  "supersedes_nothing": true,
+  "predecessor_binding": {
+    "config": {"path": "configs/open_gravity_lane6_same_grid_nonspherical_predictions_v1.json", "sha256": "1e11ff6ac54b50fd0a70c52184a3b96f7dd5315efc37ed5d91129795c93be22c"},
+    "module": {"path": "src/sigma_theory_compiler/open_gravity_lane6_same_grid_nonspherical_predictions_v1.py", "sha256": "b3953cba78d61fa368f73428574e52852d9404ac09acc259e63cd4f418fc9897"},
+    "test": {"path": "tests/test_open_gravity_lane6_same_grid_nonspherical_predictions_v1.py", "sha256": "6d59bba68c3aa0d6e49e9241cfa8ae9aa380110832ab804512ae158982528bf2"},
+    "receipt": {"path": "runs/gravity/open-gravity-lane6-same-grid-nonspherical-predictions-v1/receipt.json", "sha256": "5beb64d26c28e0daf7282872ce3f5089d250e0e3c4c037a2f3a3dabcef918883"}
+  },
+  "unchanged_gqns_law": {
+    "source": "rho_D=A_Q K_L*rho_b",
+    "helmholtz": "(lap-L^-2)rho_D=-A_Q L^-2 rho_b",
+    "poisson": "lap Phi=4*pi*G*(rho_b+rho_D)",
+    "kernel": "K_L(r)=exp(-r/L)/(4*pi*L^2*r)",
+    "anisotropy": "A_Q=sqrt(((lambda1-lambda2)^2+(lambda2-lambda3)^2+(lambda3-lambda1)^2)/(2*(lambda1+lambda2+lambda3)^2))",
+    "length": "L=sqrt(lambda1+lambda2+lambda3)",
+    "point_source_dark_force": "a_D=-A_Q*GM*[1-(1+r/L)exp(-r/L)]*r_vector/r^3",
+    "parameters_fit": 0,
+    "retuned": false
+  },
+  "published_sources": [
+    {
+      "id": "JPL_DE440_MASSES",
+      "url": "https://ssd.jpl.nasa.gov/astro_par.html",
+      "paper_url": "https://ssd.jpl.nasa.gov/doc/Park.2021.AJ.DE440.pdf",
+      "role": "DE440 Sun, planet-system, Earth, and Moon gravitational parameters",
+      "retrieved_utc_date": "2026-08-31"
+    },
+    {
+      "id": "JPL_APPROXIMATE_PLANET_POSITIONS",
+      "url": "https://ssd.jpl.nasa.gov/planets/approx_pos.html",
+      "role": "published Table-1 Keplerian elements and rates valid 1800-2050; explicitly lower accuracy than an integrated ephemeris",
+      "retrieved_utc_date": "2026-08-31"
+    },
+    {
+      "id": "JPL_DE440_DESCRIPTION",
+      "url": "https://ssd.jpl.nasa.gov/doc/de440_de441.html",
+      "role": "DE440 provenance, dynamical-model, ranging, and validity metadata",
+      "retrieved_utc_date": "2026-08-31"
+    },
+    {
+      "id": "INPOP08_CONSTANT_ACCELERATION_BOUND",
+      "url": "https://adsabs.harvard.edu/pdf/2010IAUS..261..159F",
+      "doi": "10.1017/S1743921309990330",
+      "role": "published conservative statement that a constant radial acceleration larger than one quarter of 8.75e-10 m/s^2 is incompatible with outer-planet observations",
+      "retrieved_utc_date": "2026-08-31"
+    },
+    {
+      "id": "INPOP19A_YUKAWA_METHOD",
+      "url": "https://arxiv.org/abs/2006.12304",
+      "doi": "10.1103/PhysRevD.102.021501",
+      "role": "nearest modern ephemeris refit method; used as a claim boundary, not as a substituted response dataset",
+      "retrieved_utc_date": "2026-08-31"
+    },
+    {
+      "id": "PUBLISHED_DE440_ASTEROID_MASS_SUMMARY",
+      "url": "https://doi.org/10.3389/fspas.2026.1765279",
+      "role": "published DE440/DE441 343-asteroid total GM used only as a 36-point ring sensitivity approximation",
+      "retrieved_utc_date": "2026-08-31"
+    },
+    {
+      "id": "SOLAR_J2_HMI_SENSITIVITY",
+      "url": "https://arxiv.org/abs/2107.10575",
+      "role": "published order-2e-7 solar J2 scale used only as an oblateness sensitivity, not as a fitted parameter",
+      "retrieved_utc_date": "2026-08-31"
+    }
+  ],
+  "constants": {
+    "au_km": 149597870.7,
+    "G_m3_kg_s2": 6.67430e-11,
+    "sun_radius_km": 695700.0,
+    "sun_J2_sensitivity": 2.2e-7,
+    "moon_distance_km": 384400.0,
+    "moon_period_days": 27.321661,
+    "moon_inclination_deg": 5.145,
+    "asteroid_ring_radius_au": 2.8,
+    "asteroid_ring_total_GM_km3_s2": 170.5321,
+    "asteroid_ring_points": 36,
+    "outer_planet_constant_radial_bound_m_s2": 2.1875e-10
+  },
+  "gm_km3_s2": {
+    "SUN": 132712440041.279419,
+    "MERCURY": 22031.868551,
+    "VENUS": 324858.592000,
+    "EARTH": 398600.435507,
+    "MOON": 4902.800118,
+    "MARS": 42828.375816,
+    "JUPITER": 126712764.1,
+    "SATURN": 37940584.8418,
+    "URANUS": 5794556.4,
+    "NEPTUNE": 6836527.10058
+  },
+  "jpl_table1_elements": {
+    "MERCURY": {"a": [0.38709927, 0.00000037], "e": [0.20563593, 0.00001906], "I": [7.00497902, -0.00594749], "L": [252.25032350, 149472.67411175], "varpi": [77.45779628, 0.16047689], "Omega": [48.33076593, -0.12534081]},
+    "VENUS": {"a": [0.72333566, 0.00000390], "e": [0.00677672, -0.00004107], "I": [3.39467605, -0.00078890], "L": [181.97909950, 58517.81538729], "varpi": [131.60246718, 0.00268329], "Omega": [76.67984255, -0.27769418]},
+    "EMB": {"a": [1.00000261, 0.00000562], "e": [0.01671123, -0.00004392], "I": [-0.00001531, -0.01294668], "L": [100.46457166, 35999.37244981], "varpi": [102.93768193, 0.32327364], "Omega": [0.0, 0.0]},
+    "MARS": {"a": [1.52371034, 0.00001847], "e": [0.09339410, 0.00007882], "I": [1.84969142, -0.00813131], "L": [-4.55343205, 19140.30268499], "varpi": [-23.94362959, 0.44441088], "Omega": [49.55953891, -0.29257343]},
+    "JUPITER": {"a": [5.20288700, -0.00011607], "e": [0.04838624, -0.00013253], "I": [1.30439695, -0.00183714], "L": [34.39644051, 3034.74612775], "varpi": [14.72847983, 0.21252668], "Omega": [100.47390909, 0.20469106]},
+    "SATURN": {"a": [9.53667594, -0.00125060], "e": [0.05386179, -0.00050991], "I": [2.48599187, 0.00193609], "L": [49.95424423, 1222.49362201], "varpi": [92.59887831, -0.41897216], "Omega": [113.66242448, -0.28867794]},
+    "URANUS": {"a": [19.18916464, -0.00196176], "e": [0.04725744, -0.00004397], "I": [0.77263783, -0.00242939], "L": [313.23810451, 428.48202785], "varpi": [170.95427630, 0.40805281], "Omega": [74.01692503, 0.04240589]},
+    "NEPTUNE": {"a": [30.06992276, 0.00026291], "e": [0.00859048, 0.00005105], "I": [1.77004347, 0.00035372], "L": [-55.12002969, 218.45945325], "varpi": [44.96476227, -0.32241464], "Omega": [131.78422574, -0.00508664]}
+  },
+  "time_grid": {
+    "coordinate": "TDB-compatible Julian centuries from J2000 used by the published approximation",
+    "start_centuries": 0.0,
+    "stop_centuries": 0.5,
+    "samples": 601,
+    "cadence": "1/1200 Julian century, approximately 30.4375 days",
+    "validity_boundary": "The JPL approximation is valid through 2050 and is not a precision ephemeris. The exclusion test relies on order-unity effects and reports approximation limitations explicitly."
+  },
+  "source_domains": [
+    {"id": "D00_SUN_SPHERE_ONLY", "members": ["SUN"], "sun_model": "SPHERE", "interpretation": "local host-only rule not present in Lane 6"},
+    {"id": "D01_SUN_OBLATE_ONLY", "members": ["SUN"], "sun_model": "J2_SENSITIVITY", "interpretation": "host-only sensitivity, not the original full-source law"},
+    {"id": "D02_SUN_INNER_BARYCENTERS", "members": ["SUN", "MERCURY", "VENUS", "EMB", "MARS"], "sun_model": "J2_SENSITIVITY", "interpretation": "named inner-system boundary"},
+    {"id": "D03_SUN_THROUGH_JUPITER", "members": ["SUN", "MERCURY", "VENUS", "EMB", "MARS", "JUPITER"], "sun_model": "J2_SENSITIVITY", "interpretation": "named boundary through Jupiter"},
+    {"id": "D04_SUN_THROUGH_SATURN", "members": ["SUN", "MERCURY", "VENUS", "EMB", "MARS", "JUPITER", "SATURN"], "sun_model": "J2_SENSITIVITY", "interpretation": "named boundary through Saturn"},
+    {"id": "D05_SUN_EIGHT_PLANETS", "members": ["SUN", "MERCURY", "VENUS", "EMB", "MARS", "JUPITER", "SATURN", "URANUS", "NEPTUNE"], "sun_model": "J2_SENSITIVITY", "interpretation": "closest finite approximation to the unchanged full Solar-System source law"},
+    {"id": "D06_MOON_SPLIT", "members": ["SUN", "MERCURY", "VENUS", "EARTH", "MOON", "MARS", "JUPITER", "SATURN", "URANUS", "NEPTUNE"], "sun_model": "J2_SENSITIVITY", "interpretation": "D05 with Earth-Moon barycenter resolved approximately"},
+    {"id": "D07_ASTEROID_RING", "members": ["SUN", "MERCURY", "VENUS", "EARTH", "MOON", "MARS", "JUPITER", "SATURN", "URANUS", "NEPTUNE", "ASTEROID_RING"], "sun_model": "J2_SENSITIVITY", "interpretation": "D06 plus a published-total-mass effective 36-point main-belt ring sensitivity"}
+  ],
+  "required_tests": [
+    "unchanged predecessor hashes and receipt",
+    "JPL element J2000 coordinate regression",
+    "A_Q and L dimensions and eigenvalue reconstruction",
+    "normalized Helmholtz kernel and point-source enclosed mass relation",
+    "arbitrary SO(3) covariance of A_Q, L, rho_D and force",
+    "translation invariance and co-located mass splitting",
+    "source-boundary and nonlinear decomposition failure",
+    "Moon, asteroid-ring and solar-oblateness sensitivity",
+    "best common-GM and per-planet inverse-square nuisance removal",
+    "comparison to frozen published outer-planet acceleration bound",
+    "all failures retained and no response payload access"
+  ],
+  "claim_boundary": {
+    "may_establish": [
+      "the unchanged global GQNS source functional has large Solar-System source-domain dependence",
+      "a bounded analytic far-field and two-radius no-common-rescaling result",
+      "a response-independent pre-fit incompatibility margin against a published acceleration bound"
+    ],
+    "does_not_establish": [
+      "a precision DE440 or INPOP refit",
+      "a new source-localization dynamics",
+      "a healthy covariant action",
+      "observational preference for any galaxy law",
+      "historical novelty",
+      "a confirmation-data result"
+    ]
+  },
+  "access_contract": {
+    "metadata_and_published_paper_web_queries_before_builder": 6,
+    "ephemeris_binary_files_downloaded": 0,
+    "observational_response_files_opened": 0,
+    "observational_response_rows_opened": 0,
+    "parameters_fit_to_responses": 0,
+    "network_calls_by_builder": 0,
+    "model_calls": 0,
+    "paid_calls": 0
+  },
+  "outputs": {
+    "receipt": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v1/receipt.json",
+    "time_series": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v1/artifacts/domain-time-series.csv",
+    "domain_summary": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v1/artifacts/domain-summary.csv",
+    "force_summary": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v1/artifacts/force-summary.csv",
+    "sensitivity": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v1/artifacts/source-domain-sensitivity.json",
+    "theorem": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v1/artifacts/bounded-negative-theorem.json",
+    "report": "runs/gravity/open-gravity-lane6-gqns-solar-source-domain-v1/artifacts/report.md"
+  }
+}
