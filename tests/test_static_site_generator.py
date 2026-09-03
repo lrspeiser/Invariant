@@ -147,6 +147,7 @@ def test_two_builds_are_byte_identical(tmp_path):
 def test_page_set_covers_every_queue_entry_and_campaign_world(pages, receipts):
     expected = {
         "index.html",
+        "logbook.html",
         "paper.html",
         "problems.html",
         "papers.html",
@@ -172,7 +173,7 @@ def test_page_set_covers_every_queue_entry_and_campaign_world(pages, receipts):
 
 
 def test_headline_numbers_are_read_from_receipts(pages, receipts):
-    tiles = _tile_values(_text(pages, "index.html"))
+    tiles = _tile_values(_text(pages, "logbook.html"))
     billion_counts = receipts["billion"]["counts"]
     lensing_counts = receipts["lensing"]["counts"]
     assert tiles["candidates_processed"] == str(billion_counts["processed"])
@@ -180,7 +181,7 @@ def test_headline_numbers_are_read_from_receipts(pages, receipts):
     assert tiles["cluster_pass"] == str(lensing_counts["cluster_pass"])
     assert tiles["sweep_hi"] == str(receipts["sweep"]["range"]["hi"])
     assert tiles["problem_count"] == str(len(receipts["queue"]["entries"]))
-    index_text = _text(pages, "index.html")
+    index_text = _text(pages, "logbook.html")
     assert f"{billion_counts['processed']:,}" in index_text
     assert f"{lensing_counts['lensing_pass']:,}" in index_text
 
@@ -289,7 +290,7 @@ def test_sealed_negative_is_the_headline_on_gravity(pages, receipts):
 
 
 def test_documented_failures_have_equal_billing(pages):
-    index_text = _text(pages, "index.html")
+    index_text = _text(pages, "logbook.html")
     method_text = _text(pages, "method.html")
     for text in (index_text, method_text):
         assert "0/21" in text
@@ -422,8 +423,10 @@ def test_internal_links_resolve_and_pages_are_self_contained(pages):
         parser = _audit(_text(pages, name))
         assert parser.link_tags == 0, name
         assert parser.srcs == [], (name, parser.srcs)
-        if name == "submit.html":
-            assert parser.script_tags >= 1
+        # index.html is the interactive wells instrument and submit.html
+        # carries the form handler; every other page stays script-free.
+        if name in ("submit.html", "index.html"):
+            assert parser.script_tags >= 1, name
         else:
             assert parser.script_tags == 0, name
         for href in parser.hrefs:
@@ -714,7 +717,7 @@ def test_mathml_present_for_both_sigma_identities_on_collatz(pages):
 
 
 def test_index_opens_with_the_gardner_passage(pages):
-    index_text = _text(pages, "index.html")
+    index_text = _text(pages, "logbook.html")
     assert GARDNER_OPENING in index_text
     assert index_text.index(GARDNER_OPENING) < index_text.index("<h2>")
 
@@ -760,17 +763,25 @@ def test_paper_page_structure_numbers_and_frankness(pages, receipts):
     prior_art = re.search(r"Prior-art audit: (\d+) records", goals)
     assert prior_art is not None
     assert f"{int(prior_art.group(1)):,}-record" in paper_text
-    assert 'href="/paper"' in _text(pages, "index.html")
+    assert 'href="/paper"' in _text(pages, "logbook.html")
 
 
-def test_grid_paper_and_typewriter_styling_on_every_page(pages):
+def test_dark_instrument_styling_on_every_page(pages):
+    """The site is set as a dark instrument: one token palette, system faces.
+
+    This replaced the typewriter-on-grid-paper contract when the wells viewer
+    became the landing page; a full-bleed canvas cannot be a typed sheet, so
+    the sheet pages were restyled to match the instrument rather than the
+    instrument being forced into the sheet.
+    """
     for name in sorted(pages):
         page_text = _text(pages, name)
-        assert page_text.count("repeating-linear-gradient") >= 4, name
-        assert '"Courier New"' in page_text, name
-        assert "prefers-color-scheme: dark" in page_text, name
-        assert "rotate(-0.5deg)" in page_text, name
-        assert "font-size: 17px" in page_text, name
+        assert "--ink-3:" in page_text, name
+        assert "ui-sans-serif" in page_text, name
+        assert "#0a0d13" in page_text, name
+        assert "color-scheme: dark" in page_text, name
+        assert '"Courier New"' not in page_text, name
+        assert "repeating-linear-gradient" not in page_text, name
 
 
 # ---------------------------------------------------------------------------
