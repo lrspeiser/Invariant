@@ -4199,3 +4199,224 @@ profile -- realistic in mass and radial distribution, not the actual members.
 Grid cells are 22-26 kpc, so structure inside individual galaxies is
 unresolved; a finer grid could raise the local effect, but the volume within
 50 kpc of a massive member is negligible and the projection integrates over it.
+
+---
+
+## ANISOTROPIC-VOID TEST PROGRAM: goals document and Run A
+
+Goals doc: https://claude.ai/code/artifact/0f9cacd4-00e2-4414-8021-67df473342ef
+Scripts: `g01_runA.py`, `g02_heff_control.py`
+
+The user supplied a full test program for a void-polarized anisotropic gravity
+hypothesis built on the conservative weak-field core
+
+    div( mu(X) K grad Psi ) = 4 pi G rho_b,   g = -grad Psi,   D_g = K g
+
+and asked for a goals document showing the formulas, the data going into them,
+and the outcomes. Run A (1-D galaxy screening) was executed on SPARC rather
+than described.
+
+### Run A outcome, 171 galaxies / 3,373 points
+
+    model                              RMS dex   vs Newton
+    D1 Newton, baryons only             0.5299      1.00x
+    D3 piecewise sqrt(a0 g_N)           0.2121      2.50x
+    M1 mu = X/(1+X)                     0.1995      2.66x
+    M2 mu = X/sqrt(1+X^2)               0.2013      2.63x
+    RAR reference                       0.1989      2.66x
+    K1xQ2 scalar void, best (a=1,n=2)   0.2539      2.09x
+
+### Three eliminations, all found before fitting
+
+**1. Every scalar K is structurally dead.** For K1 = exp(-alpha q) I, spherical
+symmetry integrates exactly to g = g_N exp(alpha q). Every candidate q is
+bounded in (0,1] and tends to 1 as the source is left behind, so
+g -> exp(alpha) g_N: an inverse-square law with a rescaled G. **No scalar void
+response can produce a flat rotation curve, for any alpha and any bounded q.**
+That removes K1 x Q1..Q4 -- eight of the 24 models -- analytically.
+
+**2. Q2 carries no new information.** The rank-2 theorem applies directly:
+q_g is point-local in |g_N|, so it lives inside the (log a_N, log r) span and
+cannot add anything beyond f(a_N, r). Q1/Q3 escape only via the *smoothed*
+rho_L, and Q4 by construction. **The discriminating power is in the scales
+L_rho and L_q, not the functional forms** -- a tournament varying m and n at
+fixed scales explores a direction the data cannot resolve.
+
+**3. The h_eff test cannot discriminate.** This was billed as the sharpest
+test: cylindrical confinement requires h_eff proportional to sqrt(M_b), slope
+exactly 1/2. Measured slope +0.4783 +- 0.0185, i.e. 1.2 sigma from 0.5, which
+reads as strong support.
+
+    source        slope s_h     error   scatter    n
+    real            +0.4783    0.0185    0.2201  169
+    RAR twin        +0.5372    0.0092    0.1095  169
+
+The RAR twin -- same galaxies, g_obs replaced by the acceleration-relation
+value exactly, containing no layer or anisotropy anywhere -- reproduces the
+slope to 0.059 dex. One line explains it: in the deep-MOND limit
+h_eff = R g_bar/g_obs = R sqrt(g_bar/a0) = sqrt(GM/a0). **h_eff ~ sqrt(M_b) is
+an identity of the acceleration relation, not evidence for flux confinement.**
+
+Consequence: the program's **vertical test becomes the primary discriminator**,
+because A_dyn = (g_R/g_R,N)/(K_z/K_z,N) is where confinement makes a claim a
+scalar relation does not (>1 versus ~1).
+
+### BTFR caveat recorded
+
+Measured slope +3.097 +- 0.085 against MOND's 4. **Not a refutation** -- V_f is
+the median of the last three points rather than an asymptotic velocity, and
+M_b is enclosed baryonic mass at the last measured radius, missing outer gas.
+Published slope on properly measured quantities is ~3.85-4. Recorded as the
+target the PDE tournament must hit using its *predicted* V_f.
+
+### Net effect on the program
+
+The 24-model tournament reduces to 16, the four void definitions reduce to
+three genuinely distinct ones, and the test billed as sharpest is uninformative.
+The first scientific question is no longer "does h_eff scale as sqrt(M)" but
+whether one universal tensor equation predicts the radial and vertical fields
+together.
+
+---
+
+## GOAL EXECUTION: anisotropic-void test program, Run A complete
+
+Code: `Invariant/work/gravitylab/` (data.py, models.py, qfield.py, solver.py,
+runA.py, runA_diagnostics.py, test_gates.py)
+
+Run A is the program's own first executable run. Executed in full this time,
+with the steps the earlier quick pass skipped.
+
+### Steps 1-3: ingest, declared cuts, frozen split
+
+Joined SPARC Table 1 (Lelli+ 2016: distances, inclinations, luminosities,
+V_flat, quality flags) to the rotation-curve tables. Cuts declared in code
+BEFORE any residual was examined:
+
+    Qual <= 2, i >= 30 deg, V_flat > 0, >= 5 points
+
+    175 galaxies with curves
+    -12 Qual 3     -10 i < 30 deg     -30 no V_flat
+    = 123 RETAINED, 2,858 radial points
+
+Stratified 60/20/20 by whole galaxy across 12 strata (mass x V_flat x gas
+fraction x quality), ordered inside each stratum by a hash of the NAME so the
+assignment cannot correlate with anything the models see.
+**75 train / 24 validation / 24 blind, sha256 e5f74522d2a4178d, frozen.**
+
+### Steps 4-7: nuisance sampling, fit on train, evaluate blind
+
+16 nuisance draws per galaxy over D ~ N(D0,eD), i ~ N(i0,ei),
+Ups_d ~ lognormal(0.5, 0.10 dex), Ups_b ~ lognormal(0.7, 0.10 dex), with the
+likelihood MARGINALISED over draws so no model can win by pushing a nuisance
+to its prior edge.
+
+    model                 free  chi2/pt tr  RMS tr  chi2/pt BL  RMS BL   lnL BL
+    D1 Newton                0      700.59  0.5394      728.00  0.5544  -104089
+    D2 AQUAL simple          1      134.21  0.1681       99.29  0.1590    -3810
+    D2 AQUAL standard        1      137.64  0.1720      107.38  0.1681    -5448
+    D3 piecewise             1      149.48  0.1798      121.43  0.1796    -7039
+    D4 flattened log         2      235.96  0.3665      282.16  0.3138   -35785
+    K1xQ1 rho                3      186.68  0.2406      160.72  0.2521    -8605
+    K1xQ2 g                  3      132.62  0.1806      106.19  0.1706    -3749
+    K1xQ3 rho+g              5      186.31  0.2403      160.40  0.2518    -8572
+    K1xQ4 nonlocal           6      186.56  0.2403      160.37  0.2524    -8584
+
+**No void model beats the scalar AQUAL benchmark on blind data.** The best of
+them needs three parameters to land worse than AQUAL's one, on both chi2 and
+RMS. Fitted a0 = 1.044e-10 from train alone, close to the canonical 1.2e-10.
+
+### The finding that was not expected
+
+**Q3 and Q4 collapse onto Q1.** Their fitted parameters are the same to three
+figures (rho_c = 2.86e-22, m = 0.647, alpha = 1.71) and their blind RMS agree
+to 0.0006 dex. The extra parameters do nothing: Q3's a0 goes to 7.1e-9 and
+Q4's to 6.4e-9, ~50x canonical, driving the acceleration term to negligible,
+and **Q4's nonlocality length fits to L_q = 0.12 kpc -- essentially zero.**
+
+The screened-Poisson field is solved properly (tridiagonal, banded, 22,600
+solves/sec), so this is not a solver failure. The data actively reject
+nonlocality at this level. That matters because the rank-2 argument said Q4
+was the one void definition carrying information the others could not.
+
+### Required diagnostics
+
+Residual correlations on held-out galaxies, Spearman rho of mean
+log10(g_obs/g_pred):
+
+    model              R/R_d  SB_eff    M_b   f_gas   incl   dist
+    D1 Newton         -0.097  -0.701 -0.596  +0.756 -0.204 -0.168
+    D2 AQUAL simple   -0.061  -0.006 -0.018  +0.064 -0.164 +0.062
+    K1xQ2 g           -0.034  -0.108 -0.104  +0.203 -0.198 -0.001
+    K1xQ4 nonlocal    -0.284  -0.610 -0.683  +0.593 -0.178 -0.304
+
+**AQUAL leaves essentially no structure. Q4 leaves Newton's structure.** Per
+the program's own galaxy-level rejection rule -- "residuals strongly correlate
+with surface brightness, gas fraction, or radius" -- Q1/Q3/Q4 are rejected.
+
+BTFR from each model's PREDICTED V_f (the program requires predicted, not
+observed): AQUAL +3.834 +- 0.028 (scatter 0.070 dex), K1xQ2 +3.530, K1xQ4
++3.060, Newton +2.897. MOND predicts 4.
+
+h_eff slope: AQUAL +0.5413, K1xQ2 +0.5211, K1xQ4 +0.3989, Newton +0.4094.
+
+### Run A verdict
+
+The scalar-tensor branch (K1 x Q1..Q4) is dead by the program's own rules,
+confirming on blind data what the analytic argument proved: for K = exp(-alpha q)I
+spherical symmetry gives g = g_N exp(alpha q), and bounded q forces
+g -> exp(alpha) g_N, an inverse-square law with a rescaled G.
+
+**The program must proceed to anisotropic K (K2 disk-axis, K3 tidal-axis,
+K4 full tidal tensor), which requires the PDE solver and the section 6 gates.**
+
+### Section 6 gates: a real bug caught
+
+Built the finite-volume tensor solver and ran the mandatory gates. First
+version used zero-flux (Neumann) boundaries and failed three of seven:
+analytic comparison stalled at 1.8e-2 with convergence order **-0.13**,
+eps_flux reached **0.32** against a 1e-5 threshold, and the box-size test moved
+**5.6%** against 0.5%.
+
+One root cause: **a sealed box is self-contradictory for an isolated source.**
+Gauss's law over any surface enclosing all the mass demands 4 pi G M of flux,
+but zero-flux edges force the total to zero, so the solver silently
+manufactures a compensating uniform background. Fixed with open boundaries --
+Dirichlet values from the exact constant-K monopole
+Psi = -GM/(sqrt(det K) sqrt(r^T K^-1 r)) -- so flux may leave the domain.
+
+### Section 6 gates: all seven pass, solver cleared
+
+    [PASS] 6.1 dimensional consistency, q bounded in (0,1]
+    [PASS] 6.2 eigenvalues of K exceed 1e-6
+    [PASS] 6.4 analytic constant-K, convergence order 1.99, error 3.63e-4
+    [PASS] 6.3 flux conservation, eps_flux = 6.3e-15 (threshold 1e-5)
+    [PASS] 6.5 curl at round-off, 4.7e-17
+    [PASS] 6.6 Newtonian recovery, 2.33e-4, order 2.0
+    [PASS] 6.7 domain convergence, 0.089% (threshold 0.5%)
+
+Three of the initial failures were bugs in the TESTS, not the solver, and each
+is worth keeping because each produced a plausible-looking wrong number:
+
+1. **Zero-flux boundaries.** Self-contradictory for an isolated source: Gauss's
+   law over a surface enclosing all the mass demands 4 pi G M, a sealed box
+   forces zero, so the solver manufactures a compensating uniform background.
+   Cost three gates at once. Fixed with open Dirichlet boundaries from the
+   exact constant-K monopole.
+
+2. **Flux measured on the wrong quantity.** Conservation must be checked on the
+   FACE fluxes the discretisation conserves; re-deriving a flux from a
+   centre-differenced gradient is a different quantity agreeing only to O(h^2).
+   It reported eps ~ 1e-2 on a solver that conserves to 1e-15 -- a factor of
+   1e13 of pure measurement error.
+
+3. **Wrong source geometry for the anisotropic comparison.** A sphere in r is
+   an ELLIPSOID in u = sqrt(r^T K^-1 r) and carries a u-space quadrupole
+   falling only as (sigma/u)^2. That floors the error near 1e-2 at EVERY
+   resolution. A flat error curve with resolution is the signature of a
+   modelling mismatch rather than a discretisation error, and that is what
+   distinguished it from a real solver bug. With a u-spherical source the error
+   drops to 3.6e-4 and converges at order 1.99.
+
+**Next: Run B, the axisymmetric PDE tournament over the 16 surviving
+Q x K x mu combinations (K1 eliminated, Q2 redundant), on the frozen split.**
