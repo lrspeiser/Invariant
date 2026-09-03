@@ -935,8 +935,43 @@ jobs:
       - name: Verify all historical binary evidence is available
         shell: bash
         run: |
+          set -euo pipefail
+          tmp="${RUNNER_TEMP:-/tmp}"
+
+          # Every LFS object this checkout references must resolve and be intact.
+          # fsck also reports a path that .gitattributes marks as LFS but that was
+          # committed as a raw blob (unexpectedGitObject), which is what happens
+          # when someone commits without 'git lfs install' active.
           git lfs fsck
-          test "$(git lfs ls-files -n | wc -l)" -eq 294
+
+          # .gitattributes and actual storage must agree in both directions.
+          # This replaces a hardcoded count that went stale on every legitimate
+          # binary addition: it stayed pinned at 294 while the tree grew to 453
+          # and then 517, which skipped the three steps below on every commit in
+          # between. Deriving the expectation from .gitattributes means new
+          # evidence never breaks the gate, while genuine drift still does.
+          git ls-files | git check-attr --stdin filter >"${tmp}/filter-attrs.txt"
+          sed -n 's/: filter: lfs$//p' "${tmp}/filter-attrs.txt" | sort >"${tmp}/attr-says-lfs.txt"
+          git lfs ls-files -n | sort >"${tmp}/stored-in-lfs.txt"
+
+          if ! diff -u "${tmp}/attr-says-lfs.txt" "${tmp}/stored-in-lfs.txt"; then
+            echo "::error::LFS attribute/storage mismatch (diff above)."
+            echo "'-' lines: .gitattributes says filter=lfs but the path is a raw blob."
+            echo "           Re-add it with 'git lfs install' active."
+            echo "'+' lines: the path is stored in LFS but no .gitattributes rule covers it."
+            echo "           Add the pattern, or migrate the file out of LFS."
+            exit 1
+          fi
+
+          # Evidence is append-only. Additions are always fine; a mass detachment
+          # or deletion should stop the pipeline. This is a floor, not an equality,
+          # so raise it deliberately if evidence is ever intentionally removed.
+          tracked="$(wc -l <"${tmp}/stored-in-lfs.txt")"
+          echo "LFS-tracked binary evidence files: ${tracked}"
+          if [ "${tracked}" -lt 517 ]; then
+            echo "::error::Expected at least 517 LFS-tracked files, found ${tracked}."
+            exit 1
+          fi
       - name: Install standalone-release test tools
         run: python -m pip install --editable ".[dev,release]"
       - name: Check standalone-release source
