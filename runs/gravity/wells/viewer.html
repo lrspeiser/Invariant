@@ -1,0 +1,755 @@
+<title>What the Orbits Require</title>
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#0a0d13; --panel:#131822; --panel-2:#1a2130; --line:#242e3f;
+  --ink:#dfe6f0; --ink-2:#93a1b6; --ink-3:#5d6b80;
+  --obs:#ffb347; --obs-2:#ff7a3d; --obs-dim:#6b4a22;
+  --bar:#54c8e0; --bar-2:#2a86a0; --bar-dim:#1e4d5c;
+  --acc:#8fdcee;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;
+ -webkit-font-smoothing:antialiased}
+#stage{position:fixed;inset:0}
+canvas#cv{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+canvas#cv.flat{cursor:default}
+canvas#cv.drag{cursor:grabbing}
+
+.panel{position:fixed;background:rgba(19,24,34,.93);border:1px solid var(--line);
+ border-radius:3px;backdrop-filter:blur(12px)}
+.ttl{font-size:.6rem;text-transform:uppercase;letter-spacing:.16em;
+ color:var(--ink-3);font-weight:600;margin:0 0 8px}
+
+#rail{top:14px;left:14px;bottom:14px;width:208px;padding:14px 0 10px;
+ display:flex;flex-direction:column}
+#rail h1{font-family:Georgia,"Times New Roman",serif;font-size:1.02rem;font-weight:600;
+ margin:0 14px 8px;letter-spacing:-.01em;line-height:1.2}
+#modes{display:flex;gap:3px;margin:0 14px 10px}
+#modes button{flex:1;padding:5px 0;font-size:.66rem;border-radius:2px}
+#modes button.on{background:var(--obs-dim);border-color:var(--obs);color:var(--obs)}
+#list{overflow-y:auto;flex:1;padding:0 8px}
+#list::-webkit-scrollbar{width:7px}
+#list::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.grp{font-size:.58rem;text-transform:uppercase;letter-spacing:.14em;
+ color:var(--ink-3);font-weight:600;margin:12px 6px 5px}
+.item{display:flex;justify-content:space-between;align-items:center;gap:6px;
+ padding:5px 8px;border-radius:2px;cursor:pointer;border:1px solid transparent}
+.item:hover{background:var(--panel-2)}
+.item.on{background:var(--panel-2);border-color:var(--obs-dim)}
+.item .nm{font-size:.76rem;font-weight:500;white-space:nowrap;overflow:hidden;
+ text-overflow:ellipsis}
+.item.on .nm{color:var(--obs)}
+.item .rt{font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:.66rem;
+ color:var(--ink-3);font-variant-numeric:tabular-nums;flex:none}
+.item.on .rt{color:var(--obs-2)}
+
+#right{position:fixed;top:14px;right:14px;bottom:14px;width:234px;
+ display:flex;flex-direction:column;gap:10px;overflow-y:auto;scrollbar-width:thin}
+#right::-webkit-scrollbar{width:7px}
+#right::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+#right>.panel{position:static;flex:none;padding:13px 14px}
+.row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.sw{position:relative;width:30px;height:16px;border-radius:9px;flex:none;
+ background:var(--panel-2);border:1px solid var(--line);cursor:pointer;
+ transition:background .15s}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;
+ border-radius:50%;background:var(--ink-3);transition:transform .15s,background .15s}
+.sw.on::after{transform:translateX(14px)}
+.sw.obs.on{background:var(--obs-dim)} .sw.obs.on::after{background:var(--obs)}
+.sw.bar.on{background:var(--bar-dim)} .sw.bar.on::after{background:var(--bar)}
+.sw.gen.on{background:#2c3a4d} .sw.gen.on::after{background:var(--acc)}
+.row label{font-size:.75rem;cursor:pointer;user-select:none}
+button{font-family:inherit;font-size:.72rem;color:var(--ink);cursor:pointer;
+ background:var(--panel-2);border:1px solid var(--line);border-radius:2px;
+ padding:6px 10px;transition:border-color .15s,color .15s}
+button:hover{border-color:var(--acc);color:var(--acc)}
+button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+
+.rd{display:flex;justify-content:space-between;gap:10px;align-items:baseline;
+ font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:.7rem;padding:3px 0;
+ font-variant-numeric:tabular-nums}
+.rd span:first-child{color:var(--ink-3);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+ font-size:.7rem}
+.rd .o{color:var(--obs)} .rd .b{color:var(--bar)}
+.big{font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:1.55rem;font-weight:600;
+ color:var(--obs);line-height:1;margin:4px 0 3px;font-variant-numeric:tabular-nums}
+.cap{font-size:.63rem;color:var(--ink-3);line-height:1.45}
+
+#exp{bottom:14px;left:236px;width:min(432px,calc(100vw - 740px));
+ padding:14px 16px;max-height:46vh;overflow-y:auto}
+#exp::-webkit-scrollbar{width:7px}
+#exp::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+#exp p{font-family:Georgia,"Times New Roman",serif;font-size:.79rem;line-height:1.62;
+ margin:0 0 .7rem;color:var(--ink-2)}
+#exp p:last-child{margin-bottom:0}
+#exp b{color:var(--ink);font-weight:600}
+#exp .o{color:var(--obs)} #exp .b{color:var(--bar)}
+#toggleExp{position:absolute;top:9px;right:11px;background:none;border:0;
+ color:var(--ink-3);font-size:.68rem;padding:2px 4px}
+#toggleExp:hover{color:var(--acc)}
+#exp.min{max-height:36px;overflow:hidden}
+#hint{position:fixed;bottom:52px;left:50%;transform:translateX(-50%);
+ font-size:.66rem;color:var(--ink-3);pointer-events:none;transition:opacity .6s}
+@media (max-width:1120px){ #exp{display:none} }
+@media (max-width:900px){ #rail{width:150px} #right{width:190px} }
+@media (max-height:560px){
+  #exp{display:none} .big{font-size:1.25rem} hr{margin:9px 0}
+}
+
+#colophon{position:fixed;left:14px;bottom:14px;right:14px;z-index:5;
+ font-size:.6rem;line-height:1.5;color:var(--ink-3);pointer-events:auto;
+ background:rgba(19,24,34,.92);border:1px solid var(--line);border-radius:3px;
+ padding:7px 11px;display:flex;gap:14px;flex-wrap:wrap;align-items:baseline}
+#colophon a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--line)}
+#colophon a:hover{color:var(--acc)}
+#colophon code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+ font-size:.94em;color:var(--ink-3)}
+#colophon .creed{flex:1;min-width:240px}
+#colophon .nav a{margin-right:.5rem;white-space:nowrap}
+@media (max-height:620px){ #colophon{position:static;margin:0} }
+</style>
+
+<div id="stage"><canvas id="cv"></canvas></div>
+
+<div class="panel" id="rail">
+  <h1>What the Orbits Require</h1>
+  <div id="modes">
+    <button data-m="well" class="on">Well</button>
+    <button data-m="lens">Lens</button>
+    <button data-m="clump">Clumps</button>
+  </div>
+  <div id="list"></div>
+</div>
+
+<div id="right">
+  <div class="panel" id="ctl"></div>
+  <div class="panel" id="read"></div>
+</div>
+
+<div class="panel" id="exp">
+  <button id="toggleExp">hide</button>
+  <div id="expBody"></div>
+</div>
+
+
+<div id="colophon">
+  <span class="nav">__NAV__</span>
+  <span class="creed">__CREED__</span>
+  <span>__PROVENANCE__</span>
+</div>
+<div id="hint">drag to rotate &middot; scroll to zoom</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const EXTRA = /*__EXTRA__*/null;
+const LENS = EXTRA.lens, GROUPS = EXTRA.groups;
+const KPCM = 3.0856775814913673e19, CKMS = 299792.458;
+const GNEWT = 6.674e-11, MSUN = 1.98892e30;
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+let W = 0, H = 0, DPR = 1;
+let mode = 'well', cur = 0, curLens = 'CLASH stack', curGrp = 0;
+let cam = {az:-0.62, el:0.46, dist:3.4, zoom:1};
+const show = {obs:true, bar:true, star:true, ray:false, lumps:true, smooth:true};
+let stars = null, tPrev = 0, lensTiles = null, lensKey = '';
+
+/* ============================ shared maths ============================ */
+const gU = g => g * KPCM / 1e6;
+const curveOf = (o, w) => (w === 'obs' ? o.g_obs : o.g_bar);
+
+function interp(xs, ys, x){
+  const n = xs.length;
+  if (x <= xs[0]) return ys[0];
+  if (x >= xs[n-1]) return ys[n-1];
+  let lo = 0, hi = n-1;
+  while (hi - lo > 1){ const m = (lo+hi) >> 1; if (xs[m] <= x) lo = m; else hi = m; }
+  const t = (x - xs[lo])/(xs[hi] - xs[lo]);
+  return ys[lo]*(1-t) + ys[hi]*t;
+}
+function gAt(o, R, w){
+  const r = o.r, g = curveOf(o, w), n = r.length;
+  if (R <= r[0]) return gU(g[0]) * (R / r[0]);
+  if (R >= r[n-1]){
+    const gl = gU(g[n-1]), rl = r[n-1];
+    return w === 'obs' ? gl*rl/R : gl*rl*rl/(R*R);
+  }
+  return gU(interp(r, g, R));
+}
+function phiAt(o, R, w){
+  const r = o.r, p = (w === 'obs' ? o.phi_obs : o.phi_bar), n = r.length;
+  if (R >= r[n-1]) return 0;
+  if (R <= r[0]) return p[0] - gU(curveOf(o,w)[0])*(r[0]-R)*0.5;
+  return interp(r, p, R);
+}
+const vCirc = (o, R, w) => Math.sqrt(Math.max(gAt(o,R,w)*R, 0));
+
+function band(){
+  const railW = (W <= 900 ? 150 : 208), rightW = (W <= 900 ? 190 : 234);
+  const l = 14 + railW + 14, r = W - 14 - rightW - 14;
+  return {l:l, r:r, c:(l+r)/2, w:r-l};
+}
+function caption(text, y){
+  const B = band();
+  ctx.font = '500 10px ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(147,161,182,.85)';
+  ctx.save(); ctx.beginPath(); ctx.rect(B.l, 0, B.w, H); ctx.clip();
+  ctx.fillText(text, B.c, y); ctx.restore();
+}
+function proj(x, y, z, S){
+  const ca = Math.cos(cam.az), sa = Math.sin(cam.az);
+  const X = x*ca - y*sa, Y = x*sa + y*ca;
+  const ce = Math.cos(cam.el), se = Math.sin(cam.el);
+  const depth = Y*ce + z*se, vy = z*ce - Y*se;
+  const f = cam.dist/(cam.dist + depth*0.42);
+  return [W/2 + X*S*f, H/2 - vy*S*f, depth];
+}
+function shadeQuad(q, S){
+  const P = q.p.map(function(v){ return proj(v[0], v[1], v[2], S); });
+  const d = (P[0][2]+P[1][2]+P[2][2]+P[3][2])/4;
+  const a = q.p[0], b = q.p[1], c = q.p[3];
+  const u = [b[0]-a[0], b[1]-a[1], b[2]-a[2]];
+  const v = [c[0]-a[0], c[1]-a[1], c[2]-a[2]];
+  const n = [u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]];
+  const L = Math.hypot(n[0], n[1], n[2]) || 1;
+  const lit = Math.abs((n[0]*0.35 + n[1]*0.25 + n[2]*0.90)/L);
+  return {P:P, d:d, lit:0.22 + 0.78*lit, extrap:q.extrap, w:q.w};
+}
+function paint(items){
+  items.sort(function(a,b){ return b.d - a.d; });
+  for (const it of items){
+    const P = it.P;
+    ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1]);
+    for (let i = 1; i < 4; i++) ctx.lineTo(P[i][0], P[i][1]);
+    ctx.closePath();
+    const L = it.lit, ex = it.extrap ? 0.42 : 1;
+    ctx.fillStyle = it.w === 'obs'
+      ? 'rgba(' + Math.round(255*L) + ',' + Math.round(150*L) + ',' + Math.round(60*L) + ',' + (0.34*ex) + ')'
+      : 'rgba(' + Math.round(70*L) + ',' + Math.round(180*L) + ',' + Math.round(210*L) + ',' + (0.46*ex) + ')';
+    ctx.fill();
+    ctx.strokeStyle = it.w === 'obs'
+      ? 'rgba(255,180,100,' + (0.26*ex) + ')' : 'rgba(120,215,240,' + (0.30*ex) + ')';
+    ctx.lineWidth = 0.6; ctx.stroke();
+  }
+}
+
+/* ============================== WELL MODE ============================== */
+const NR = 34, NT = 60;
+function buildMesh(o, w){
+  const rmax = o.r[o.r.length-1], rmin = o.r[0];
+  const deep = Math.abs(o.phi_obs[0]) || 1;
+  const rs = [], grid = [], quads = [];
+  for (let i = 0; i <= NR; i++) rs.push(rmax * Math.pow(i/NR, 1.35));
+  for (let i = 0; i <= NR; i++){
+    const R = rs[i], z = phiAt(o, R, w)/deep, ring = [];
+    for (let j = 0; j <= NT; j++){
+      const a = 2*Math.PI*j/NT;
+      ring.push([R*Math.cos(a)/rmax, R*Math.sin(a)/rmax, z]);
+    }
+    grid.push(ring);
+  }
+  for (let i = 0; i < NR; i++)
+    for (let j = 0; j < NT; j++)
+      quads.push({p:[grid[i][j], grid[i][j+1], grid[i+1][j+1], grid[i+1][j]],
+                  w:w, extrap: rs[i] < rmin});
+  return quads;
+}
+function resetParticles(){
+  const o = DATA[cur], rmax = o.r[o.r.length-1];
+  const R0 = rmax*0.72, v0 = vCirc(o, R0, 'obs');
+  stars = {};
+  for (const w of ['obs','bar'])
+    stars[w] = {x:R0, y:0, vx:0, vy:v0, trail:[], esc:false};
+  stars.dt = (2*Math.PI*R0/Math.max(v0,1e-6))/260;
+}
+function stepStar(s, o, w, dt){
+  if (s.esc) return;
+  const r = Math.hypot(s.x, s.y) || 1e-9, g = gAt(o, r, w);
+  s.vx += -g*s.x/r*dt; s.vy += -g*s.y/r*dt;
+  s.x += s.vx*dt; s.y += s.vy*dt;
+  if (Math.hypot(s.x, s.y) > o.r[o.r.length-1]*3.4) s.esc = true;
+  s.trail.push([s.x, s.y]);
+  if (s.trail.length > 900) s.trail.shift();
+}
+function drawWell(dtms){
+  const o = DATA[cur];
+  if (show.star && stars){
+    const k = Math.max(1, Math.round(dtms/16.7*3));
+    for (let i = 0; i < k; i++){
+      stepStar(stars.obs, o, 'obs', stars.dt);
+      stepStar(stars.bar, o, 'bar', stars.dt);
+    }
+  }
+  const S = Math.min(W,H)*0.30*cam.zoom;
+  let quads = [];
+  if (show.obs) quads = quads.concat(buildMesh(o,'obs'));
+  if (show.bar) quads = quads.concat(buildMesh(o,'bar'));
+  paint(quads.map(function(q){ return shadeQuad(q, S); }));
+
+  if (show.star && stars){
+    const rmax = o.r[o.r.length-1], deep = Math.abs(o.phi_obs[0]) || 1;
+    for (const w of ['bar','obs']){
+      if ((w === 'obs' && !show.obs) || (w === 'bar' && !show.bar)) continue;
+      const s = stars[w], col = w === 'obs' ? '255,179,71' : '84,200,224';
+      ctx.beginPath();
+      let started = false;
+      for (const pt of s.trail){
+        const p = proj(pt[0]/rmax, pt[1]/rmax,
+                       phiAt(o, Math.hypot(pt[0],pt[1]), w)/deep, S);
+        if (!started){ ctx.moveTo(p[0], p[1]); started = true; } else ctx.lineTo(p[0], p[1]);
+      }
+      ctx.strokeStyle = 'rgba(' + col + ',.55)'; ctx.lineWidth = 1.4; ctx.stroke();
+      const p = proj(s.x/rmax, s.y/rmax, phiAt(o, Math.hypot(s.x,s.y), w)/deep, S);
+      ctx.beginPath(); ctx.arc(p[0], p[1], 10, 0, 7);
+      ctx.fillStyle = 'rgba(' + col + ',.20)'; ctx.fill();
+      ctx.beginPath(); ctx.arc(p[0], p[1], 4.5, 0, 7);
+      ctx.fillStyle = 'rgba(' + col + ',1)'; ctx.fill();
+      if (s.esc){
+        ctx.font = '600 10px ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace';
+        ctx.fillStyle = 'rgba(' + col + ',.92)'; ctx.textAlign = 'center';
+        ctx.fillText('ESCAPED', p[0], p[1]-17);
+      }
+    }
+  }
+  if (show.ray){
+    const rmax = o.r[o.r.length-1];
+    function trace(w, exag){
+      const b = rmax*0.35, N = 420, L = rmax*3.0, dx = 2*L/N;
+      const pts = []; let ang = 0, yy = b;
+      for (let i = 0; i <= N; i++){
+        const xx = -L + 2*L*i/N, R = Math.hypot(xx, yy) || 1e-6;
+        ang += -(2*gAt(o,R,w)*(yy/R)/(CKMS*CKMS))*dx*exag;
+        yy += ang*dx; pts.push([xx, yy]);
+      }
+      return pts;
+    }
+    const raw = trace('obs', 1);
+    const drop = Math.abs(raw[raw.length-1][1] - rmax*0.35) || 1e-9;
+    const exag = Math.max(1, (0.30*rmax)/drop);
+    for (const w of ['bar','obs']){
+      if ((w === 'obs' && !show.obs) || (w === 'bar' && !show.bar)) continue;
+      const col = w === 'obs' ? '255,179,71' : '84,200,224';
+      const pts = trace(w, exag);
+      ctx.beginPath();
+      for (let i = 0; i < pts.length; i++){
+        const q = proj(pts[i][0]/rmax, pts[i][1]/rmax, 0.05, S);
+        if (i === 0) ctx.moveTo(q[0], q[1]); else ctx.lineTo(q[0], q[1]);
+      }
+      ctx.strokeStyle = 'rgba(' + col + ',.9)'; ctx.lineWidth = 1.7;
+      ctx.setLineDash([6,4]); ctx.stroke(); ctx.setLineDash([]);
+    }
+    caption('light paths, bending exaggerated ×'
+      + (exag >= 100 ? Math.round(exag/10)*10 : Math.round(exag))
+      + ' so it is visible', H-42);
+  }
+}
+
+/* ============================== LENS MODE ==============================
+   For a circular lens the reduced deflection is alpha = kbar(<theta)*theta,
+   so the lens equation collapses to beta = theta*(1 - kbar). Trace
+   BACKWARDS: for each pixel of sky, find where on the source plane it came
+   from, and read the brightness there.                                   */
+const SRC = (function(){
+  let s = 20260903;
+  function rnd(){ s = (s*1103515245 + 12345) & 0x7fffffff; return s/0x7fffffff; }
+  const g = [];
+  const hues = [[255,232,196],[196,220,255],[255,205,180],[214,240,255]];
+  for (let i = 0; i < 44; i++)
+    g.push({x:(rnd()-0.5)*2.5, y:(rnd()-0.5)*2.5, a:0.030+rnd()*0.055,
+            e:0.4+rnd()*0.5, th:rnd()*Math.PI,
+            h:hues[(rnd()*4)|0], b:0.4+rnd()*0.7});
+  return g;
+})();
+function srcBright(u, v, out){
+  let R = 0, G2 = 0, B = 0;
+  for (let i = 0; i < SRC.length; i++){
+    const q = SRC[i], dx = u - q.x, dy = v - q.y;
+    if (Math.abs(dx) > 0.35 || Math.abs(dy) > 0.35) continue;
+    const c = Math.cos(q.th), sn = Math.sin(q.th);
+    const p = (dx*c + dy*sn)/q.a, o2 = (-dx*sn + dy*c)/(q.a*q.e);
+    const d2 = p*p + o2*o2;
+    if (d2 > 16) continue;
+    const f = q.b*Math.exp(-d2*0.5);
+    R += q.h[0]*f; G2 += q.h[1]*f; B += q.h[2]*f;
+  }
+  out[0] = R; out[1] = G2; out[2] = B;
+}
+function kbarAt(L, Rkpc, w){
+  const arr = (w === 'obs') ? L.kbar_obs : L.kbar_bar, R = L.R, n = R.length;
+  if (Rkpc <= R[0]) return arr[0];
+  if (Rkpc >= R[n-1]) return arr[n-1]*(R[n-1]/Rkpc)*(R[n-1]/Rkpc);
+  return interp(R, arr, Rkpc);
+}
+function renderTiles(){
+  const L = LENS[curLens], px = 240;
+  const thE = L.thE_obs;
+  const halfKpc = thE ? (thE/206265*L.dl_kpc)*3.2 : L.R[L.R.length-1]*0.55;
+  const tiles = {}, rgb = [0,0,0];
+  for (const w of ['none','bar','obs']){
+    const off = document.createElement('canvas');
+    off.width = px; off.height = px;
+    const c2 = off.getContext('2d'), img = c2.createImageData(px, px);
+    for (let j = 0; j < px; j++){
+      for (let i = 0; i < px; i++){
+        const X = (i/px - 0.5)*2*halfKpc, Y = (j/px - 0.5)*2*halfKpc;
+        let u = X, v = Y;
+        if (w !== 'none'){
+          const th = Math.hypot(X, Y) || 1e-9;
+          const f = 1 - kbarAt(L, th, w);
+          u = X*f; v = Y*f;
+        }
+        srcBright(u/halfKpc, v/halfKpc, rgb);
+        const k = (j*px + i)*4;
+        img.data[k] = Math.min(255, rgb[0]);
+        img.data[k+1] = Math.min(255, rgb[1]);
+        img.data[k+2] = Math.min(255, rgb[2]);
+        img.data[k+3] = 255;
+      }
+    }
+    c2.putImageData(img, 0, 0);
+    tiles[w] = off;
+  }
+  lensTiles = {tiles:tiles, halfKpc:halfKpc};
+  lensKey = curLens;
+}
+function drawLens(){
+  const L = LENS[curLens];
+  if (lensKey !== curLens || !lensTiles) renderTiles();
+  const T = lensTiles;
+  // Centre the tiles in the clear band BETWEEN the two side panels, not on
+  // the whole canvas -- otherwise the rail and readout sit on top of them.
+  const B = band();
+  const gap = Math.max(8, Math.min(18, B.w*0.04));
+  const side = Math.max(52, Math.min((B.w - 2*gap)/3, H - 190));
+  const total = side*3 + gap*2, cx = B.c;
+  const x0 = cx - total/2, y0 = (H - side)/2 - 4;
+  const shortLbl = side < 150;
+  const tri = shortLbl
+    ? [['none','no lens','120,132,150'], ['bar','visible','84,200,224'],
+       ['obs','required','255,179,71']]
+    : [['none','no lens at all','120,132,150'],
+       ['bar','visible matter only','84,200,224'],
+       ['obs','the mass actually required','255,179,71']];
+  for (let i = 0; i < 3; i++){
+    const t = tri[i], x = x0 + i*(side+gap);
+    ctx.drawImage(T.tiles[t[0]], x, y0, side, side);
+    ctx.strokeStyle = 'rgba(' + t[2] + ',.55)'; ctx.lineWidth = 1;
+    ctx.strokeRect(x+0.5, y0+0.5, side-1, side-1);
+    ctx.font = '600 10.5px ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    ctx.fillStyle = 'rgb(' + t[2] + ')'; ctx.textAlign = 'center';
+    ctx.fillText(t[1].toUpperCase(), x + side/2, y0 - 12);
+    const te = t[0] === 'obs' ? L.thE_obs : (t[0] === 'bar' ? L.thE_bar : null);
+    if (te){
+      const rp = (te/206265*L.dl_kpc)/T.halfKpc*(side/2);
+      ctx.beginPath(); ctx.arc(x+side/2, y0+side/2, rp, 0, 7);
+      ctx.strokeStyle = 'rgba(' + t[2] + ',.8)'; ctx.lineWidth = 1;
+      ctx.setLineDash([4,4]); ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = '500 9.5px ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace';
+      ctx.fillStyle = 'rgba(' + t[2] + ',.95)';
+      ctx.fillText((shortLbl ? '' : 'Einstein ring ') + te.toFixed(0) + '"',
+                   x + side/2, y0 + side/2 - rp - 6);
+    } else if (t[0] !== 'none'){
+      ctx.font = '500 9.5px ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace';
+      ctx.fillStyle = 'rgba(' + t[2] + ',.65)';
+      ctx.fillText(shortLbl ? 'no ring' : 'no Einstein ring',
+                   x + side/2, y0 + side + 15);
+    }
+  }
+  caption('the same patch of background sky, ' + (2*T.halfKpc).toFixed(0)
+    + ' kpc across at the lens, seen three ways', y0 + side + 34);
+}
+
+/* ============================= CLUMP MODE =============================
+   Real member galaxies from AXES-SDSS. Each is a softened point well; the
+   smooth component is the isothermal one the members' own velocity
+   dispersion demands, M(<r) = 3 sigma^2 r / G.                          */
+function clumpField(g){
+  const R = g.Rrms*2.2, eps = 25;
+  const Ms = g.mL.map(function(v){ return v*1e10*EXTRA.ups_r; });
+  const sm = 3*g.sigma*g.sigma;
+  // CORED isothermal, not a pure log. The members constrain the mass out at
+  // roughly R_rms; they say nothing about the inner profile, and a pure ln r
+  // would put a spike at the centre that no measurement supports. The core is
+  // set to 0.12R and the inner region is drawn faded to mark it as unmeasured.
+  const rc = 0.12*R;
+  const deep = Math.abs(0.5*sm*Math.log((rc*rc)/(R*R + rc*rc)));
+  function phiG(x, y){
+    let s = 0;
+    for (let i = 0; i < Ms.length; i++){
+      const dx = x-g.mx[i], dy = y-g.my[i];
+      s += Ms[i]/Math.sqrt(dx*dx + dy*dy + eps*eps);
+    }
+    return -s*GNEWT*MSUN/(KPCM*1e6);
+  }
+  function phiS(x, y){
+    const r2 = x*x + y*y;
+    if (r2 >= R*R) return 0;
+    return 0.5*sm*Math.log((r2 + rc*rc)/(R*R + rc*rc));
+  }
+  return {R:R, rc:rc, deep:deep, zfloor:-1.05, phiG:phiG, phiS:phiS};
+}
+function drawClumps(){
+  const g = GROUPS[curGrp], F = clumpField(g);
+  const S = Math.min(W,H)*0.30*cam.zoom, N = 60, quads = [];
+  function mesh(fn, tag){
+    const grid = [], inner = [];
+    for (let i = 0; i <= N; i++){
+      const row = [];
+      for (let j = 0; j <= N; j++){
+        const x = (i/N - 0.5)*2*F.R, y = (j/N - 0.5)*2*F.R;
+        row.push([x/F.R, y/F.R, Math.max(F.zfloor, fn(x,y)/F.deep)]);
+        if (i < N && j < N) inner.push(Math.hypot(x, y) < F.rc);
+      }
+      grid.push(row);
+    }
+    let q = 0;
+    for (let i = 0; i < N; i++)
+      for (let j = 0; j < N; j++, q++)
+        quads.push({p:[grid[i][j], grid[i][j+1], grid[i+1][j+1], grid[i+1][j]],
+                    w:tag, extrap: tag === 'obs' && inner[q] === true});
+  }
+  if (show.smooth) mesh(function(x,y){ return F.phiS(x,y) + F.phiG(x,y); }, 'obs');
+  if (show.lumps) mesh(F.phiG, 'bar');
+  paint(quads.map(function(q){ return shadeQuad(q, S); }));
+  if (show.lumps){
+    let Lmax = 0;
+    for (let i = 0; i < g.mL.length; i++) if (g.mL[i] > Lmax) Lmax = g.mL[i];
+    for (let i = 0; i < g.mx.length; i++){
+      const z = Math.max(F.zfloor, ((show.smooth ? F.phiS(g.mx[i], g.my[i]) : 0)
+                 + F.phiG(g.mx[i], g.my[i]))/F.deep);
+      const p = proj(g.mx[i]/F.R, g.my[i]/F.R, z, S);
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], 1.3 + 3.2*Math.sqrt(g.mL[i]/Lmax), 0, 7);
+      ctx.fillStyle = 'rgba(255,240,210,.95)'; ctx.fill();
+    }
+  }
+  caption(g.mx.length + ' real member galaxies of AXES group ' + g.gid
+    + ' — each dot is one, and each has its own well', H-42);
+}
+
+/* ================================ loop ================================ */
+function draw(ts){
+  const dtms = Math.min(ts - tPrev, 60); tPrev = ts;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  ctx.clearRect(0,0,W,H);
+  const g0 = ctx.createRadialGradient(W/2, H*0.46, 0, W/2, H*0.46, Math.max(W,H)*0.72);
+  g0.addColorStop(0,'#111722'); g0.addColorStop(1,'#0a0d13');
+  ctx.fillStyle = g0; ctx.fillRect(0,0,W,H);
+  if (mode === 'well') drawWell(dtms);
+  else if (mode === 'lens') drawLens();
+  else drawClumps();
+  requestAnimationFrame(draw);
+}
+
+/* ================================= ui ================================= */
+function fmt(x){
+  const a = Math.abs(x);
+  if (a >= 1e5) return (x/1e3).toFixed(0) + 'k';
+  if (a >= 100) return x.toFixed(0);
+  if (a >= 10) return x.toFixed(1);
+  return x.toFixed(2);
+}
+function sw(k, cls, label){
+  return '<div class="row"><span class="sw ' + cls + (show[k] ? ' on' : '') +
+    '" data-k="' + k + '"></span><label data-k="' + k + '">' + label + '</label></div>';
+}
+const EXPL = {
+well:
+ '<p><b>The height of the sheet is the gravitational potential</b> &mdash; the depth of the well. It is the right thing to draw, because the same quantity governs both questions: stars roll along its slope, and light bends by how steep it is.</p>' +
+ '<p>The <span class="b">blue surface</span> is built from matter we can see. The <span class="o">amber surface</span> is built backwards from how things are observed to move. Both from the same measurements; neither is a model of dark matter.</p>' +
+ '<p><b>Watch the two stars.</b> Released at the same radius with the same speed &mdash; the speed actually observed there. On amber the star holds its orbit. On blue it climbs out and escapes: visible matter cannot hold a star moving that fast.</p>' +
+ '<p>Notice the <em>shape</em>. Visible matter makes a well with a rim, levelling off as gravity fades with 1/r&sup2;. The required well never levels off. That missing rim is the real puzzle; extra depth alone would be easy.</p>',
+lens:
+ '<p><b>This is what a telescope sees.</b> The same patch of background sky rendered three times: with no lens, through the mass we can see, and through the mass the cluster actually needs.</p>' +
+ '<p>Every pixel is traced backwards through the lens equation &beta; = &theta;(1 &minus; k&#772;), using the projected surface density computed from the measured profile. Nothing here is drawn by hand.</p>' +
+ '<p><b>Most of these clusters make no Einstein ring at all</b> &mdash; and that is not a failure of the data, it is their distance. A nearby lens needs far more mass to reach the critical density than a distant one. The X-COP clusters sit at z &asymp; 0.05&ndash;0.09, too close. <b>CLASH</b> is the sample selected for lensing, at z &asymp; 0.35, and it does make a ring.</p>' +
+ '<p>The point holds either way: with visible matter alone <b>none</b> of them makes a ring, and the sky is barely disturbed.</p>',
+clump:
+ '<p><b>Yes &mdash; a cluster really is many wells.</b> Every dot is a real member galaxy with a measured position, redshift and luminosity, and each carries its own. The <span class="b">blue surface</span> is the sum of all of them.</p>' +
+ '<p>The <span class="o">amber surface</span> adds the smooth component the members&rsquo; own motions demand: their velocity spread fixes M(&lt;r) = 3&sigma;&sup2;r/G. No dark matter is assumed &mdash; it is the same kind of inference as a rotation curve.</p>' +
+ '<p><b>So the lumps are real, and they are pinpricks.</b> Across 60 groups the galaxies together come to about 1.8% of the mass that has to be there, and the single brightest galaxy is roughly 0.3% of it. The big well is smooth, and it is not made of the lumps.</p>' +
+ '<p><b>And this is exactly where averaging becomes a real problem.</b> Newton and GR are linear, so a spherically averaged profile gives the same answer as summing over every galaxy. MOND and the whole RAR family are not &mdash; you have to solve the field equation on the lumpy source. Doing that properly (QUMOND on gas plus 300 members, against the identical mass smoothed) changes the answer by 0.8% in three dimensions and 2.7% in the innermost projected annulus, and it moves in the direction that makes MOND <em>worse</em> on clusters, not better. The cluster discrepancy is a factor of two; this is a few percent.</p>' +
+ '<p class="cap">AXES-SDSS groups (Damsted+ 2024). Stellar mass from r-band luminosity at &Upsilon;<sub>r</sub> = 2.5; the 140 brightest members are drawn. The members fix the mass out near R<sub>rms</sub> and say nothing about the inner profile, so the smooth well is given a core at 0.12R and its centre is drawn faded to mark it as unmeasured.</p>'
+};
+
+function refresh(){
+  document.getElementById('expBody').innerHTML = EXPL[mode];
+  const ctl = document.getElementById('ctl'), rd = document.getElementById('read');
+  cv.classList.toggle('flat', mode === 'lens');
+  document.getElementById('hint').style.display = mode === 'lens' ? 'none' : '';
+
+  if (mode === 'well'){
+    const o = DATA[cur];
+    ctl.innerHTML = '<p class="ttl">Surfaces</p>' +
+      sw('obs','obs','Required by motion') + sw('bar','bar','Made by visible matter') +
+      '<hr><p class="ttl">Test particle</p>' +
+      sw('star','gen','Release a star') + sw('ray','gen','Trace a light ray') +
+      '<div class="row" style="gap:6px;margin-top:9px">' +
+      '<button id="reset">Restart</button><button id="view">Reset view</button></div>';
+    const dO = Math.abs(o.phi_obs[0]), dB = Math.abs(o.phi_bar[0]), rr = dO/dB;
+    const rE = o.r[o.r.length-1];
+    rd.innerHTML = '<p class="ttl">Depth of the well</p>' +
+      '<div class="big" style="color:' + (rr>=1?'var(--obs)':'var(--bar)') + '">' +
+      rr.toFixed(1) + '&times;</div><p class="cap">' +
+      (rr>=1 ? 'times deeper than visible matter can account for'
+             : 'visible matter over-predicts here &mdash; the well needed is shallower than the matter would make') +
+      '</p><hr>' +
+      '<div class="rd"><span>radii measured</span><span>' + fmt(o.r[0]) + ' &ndash; ' + fmt(rE) + ' kpc</span></div>' +
+      '<div class="rd"><span>required depth</span><span class="o">' + fmt(dO) + ' km&sup2;/s&sup2;</span></div>' +
+      '<div class="rd"><span>matter&rsquo;s depth</span><span class="b">' + fmt(dB) + ' km&sup2;/s&sup2;</span></div>' +
+      '<div class="rd"><span>speed at edge, seen</span><span class="o">' + fmt(vCirc(o,rE,'obs')) + ' km/s</span></div>' +
+      '<div class="rd"><span>speed at edge, matter</span><span class="b">' + fmt(vCirc(o,rE,'bar')) + ' km/s</span></div>';
+    resetParticles();
+  } else if (mode === 'lens'){
+    const L = LENS[curLens];
+    let ko = 0, kb = 0;
+    for (let i = 0; i < L.kap_obs.length; i++){
+      if (L.kap_obs[i] > ko) ko = L.kap_obs[i];
+      if (L.kap_bar[i] > kb) kb = L.kap_bar[i];
+    }
+    ctl.innerHTML = '<p class="ttl">Lens</p>' +
+      '<div class="rd"><span>lens redshift</span><span>z = ' + L.z.toFixed(3) + '</span></div>' +
+      '<div class="rd"><span>source plane</span><span>z = ' + EXTRA.zs.toFixed(1) + '</span></div>' +
+      '<p class="cap" style="margin-top:9px">Every pixel back-traced through the lens equation from the measured mass profile.</p>';
+    rd.innerHTML = '<p class="ttl">Einstein radius</p>' +
+      '<div class="big">' + (L.thE_obs ? L.thE_obs.toFixed(0) + '&Prime;' : 'none') + '</div>' +
+      '<p class="cap">' + (L.thE_obs
+        ? 'with the required mass. Visible matter alone gives ' + (L.thE_bar ? L.thE_bar.toFixed(0) + '&Prime;' : 'none')
+        : 'this lens is too near to reach the critical density') + '</p><hr>' +
+      '<div class="rd"><span>peak &kappa;, required</span><span class="o">' + ko.toFixed(2) + '</span></div>' +
+      '<div class="rd"><span>peak &kappa;, visible</span><span class="b">' + kb.toFixed(2) + '</span></div>' +
+      '<div class="rd"><span>ratio</span><span>' + (ko/Math.max(kb,1e-9)).toFixed(1) + '&times;</span></div>' +
+      '<p class="cap" style="margin-top:9px">&kappa; is surface density in units of the critical value. Above 1 the lens makes arcs and multiple images.</p>';
+  } else {
+    const g = GROUPS[curGrp];
+    ctl.innerHTML = '<p class="ttl">Surfaces</p>' +
+      sw('smooth','obs','Total required') + sw('lumps','bar','The galaxies alone') +
+      '<div class="row" style="gap:6px;margin-top:9px"><button id="view">Reset view</button></div>';
+    rd.innerHTML = '<p class="ttl">The galaxies&rsquo; share</p>' +
+      '<div class="big">' + (100/g.ratio).toFixed(1) + '%</div>' +
+      '<p class="cap">of the mass their own motions demand</p><hr>' +
+      '<div class="rd"><span>members used</span><span>' + g.n + '</span></div>' +
+      '<div class="rd"><span>velocity spread</span><span>' + g.sigma.toFixed(0) + ' km/s</span></div>' +
+      '<div class="rd"><span>size, rms</span><span>' + g.Rrms.toFixed(0) + ' kpc</span></div>' +
+      '<div class="rd"><span>in stars</span><span class="b">' + Math.log10(g.Mstar).toFixed(2) + ' log M&#9737;</span></div>' +
+      '<div class="rd"><span>required</span><span class="o">' + Math.log10(g.Mdyn).toFixed(2) + ' log M&#9737;</span></div>' +
+      '<div class="rd"><span>ratio</span><span>' + g.ratio.toFixed(0) + '&times;</span></div>';
+  }
+  bindCtl(); buildList();
+}
+
+function buildList(){
+  const L = document.getElementById('list');
+  let html = '';
+  if (mode === 'well'){
+    let last = '';
+    DATA.forEach(function(o,i){
+      if (o.kind !== last){ last = o.kind;
+        html += '<p class="grp">' + (o.kind === 'galaxy' ? 'Galaxies' : 'Clusters') + '</p>'; }
+      html += '<div class="item' + (i===cur?' on':'') + '" data-i="' + i +
+        '"><span class="nm">' + o.name + '</span><span class="rt">' +
+        o.ratio.toFixed(1) + '&times;</span></div>';
+    });
+  } else if (mode === 'lens'){
+    const keys = Object.keys(LENS);
+    html += '<p class="grp">Makes a ring</p>';
+    keys.forEach(function(k){
+      if (!LENS[k].thE_obs) return;
+      html += '<div class="item' + (k===curLens?' on':'') + '" data-l="' + k +
+        '"><span class="nm">' + k + '</span><span class="rt">' +
+        LENS[k].thE_obs.toFixed(0) + '&Prime;</span></div>';
+    });
+    html += '<p class="grp">Too near for a ring</p>';
+    keys.forEach(function(k){
+      if (LENS[k].thE_obs) return;
+      let mx = 0;
+      for (let i = 0; i < LENS[k].kap_obs.length; i++)
+        if (LENS[k].kap_obs[i] > mx) mx = LENS[k].kap_obs[i];
+      html += '<div class="item' + (k===curLens?' on':'') + '" data-l="' + k +
+        '"><span class="nm">' + k + '</span><span class="rt">&kappa; ' +
+        mx.toFixed(2) + '</span></div>';
+    });
+  } else {
+    html += '<p class="grp">Groups with members</p>';
+    GROUPS.forEach(function(g,i){
+      html += '<div class="item' + (i===curGrp?' on':'') + '" data-g="' + i +
+        '"><span class="nm">Group ' + g.gid + '</span><span class="rt">' +
+        g.n + '</span></div>';
+    });
+  }
+  L.innerHTML = html;
+  L.querySelectorAll('.item').forEach(function(el){
+    el.onclick = function(){
+      if (el.dataset.i !== undefined) cur = +el.dataset.i;
+      else if (el.dataset.l !== undefined) curLens = el.dataset.l;
+      else curGrp = +el.dataset.g;
+      refresh();
+    };
+  });
+  const on = L.querySelector('.item.on');
+  if (on && on.scrollIntoView) on.scrollIntoView({block:'nearest'});
+}
+
+function bindCtl(){
+  document.querySelectorAll('#ctl .sw,#ctl label[data-k]').forEach(function(el){
+    el.onclick = function(){
+      const k = el.dataset.k; if (!k) return;
+      show[k] = !show[k];
+      const s = document.querySelector('#ctl .sw[data-k="' + k + '"]');
+      if (s) s.classList.toggle('on', show[k]);
+      if (k === 'star' && show.star) resetParticles();
+    };
+  });
+  const rb = document.getElementById('reset');
+  if (rb) rb.onclick = resetParticles;
+  const vb = document.getElementById('view');
+  if (vb) vb.onclick = function(){ cam.az = -0.62; cam.el = 0.46; cam.zoom = 1; };
+}
+
+document.querySelectorAll('#modes button').forEach(function(b){
+  b.onclick = function(){
+    mode = b.dataset.m;
+    document.querySelectorAll('#modes button').forEach(function(q){
+      q.classList.toggle('on', q === b); });
+    refresh();
+  };
+});
+const te = document.getElementById('toggleExp');
+te.onclick = function(){
+  const e = document.getElementById('exp');
+  e.classList.toggle('min');
+  te.textContent = e.classList.contains('min') ? 'show' : 'hide';
+};
+
+let drag = null;
+cv.addEventListener('pointerdown', function(e){
+  if (mode === 'lens') return;
+  drag = {x:e.clientX, y:e.clientY};
+  cv.classList.add('drag'); cv.setPointerCapture(e.pointerId);
+  document.getElementById('hint').style.opacity = '0';
+});
+cv.addEventListener('pointermove', function(e){
+  if (!drag) return;
+  cam.az += (e.clientX - drag.x)*0.008;
+  cam.el = Math.max(-0.15, Math.min(1.45, cam.el + (e.clientY - drag.y)*0.006));
+  drag = {x:e.clientX, y:e.clientY};
+});
+cv.addEventListener('pointerup', function(){ drag = null; cv.classList.remove('drag'); });
+cv.addEventListener('wheel', function(e){
+  if (mode === 'lens') return;
+  e.preventDefault();
+  cam.zoom = Math.max(0.4, Math.min(3.2, cam.zoom*(e.deltaY > 0 ? 0.93 : 1.075)));
+}, {passive:false});
+
+function resize(){
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = cv.clientWidth; H = cv.clientHeight;
+  cv.width = W*DPR; cv.height = H*DPR;
+}
+window.addEventListener('resize', resize);
+cur = Math.max(0, DATA.findIndex(function(o){ return o.name === 'DDO154'; }));
+resize(); refresh(); requestAnimationFrame(draw);
+</script>
