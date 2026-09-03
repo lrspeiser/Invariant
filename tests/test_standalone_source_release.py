@@ -85,7 +85,10 @@ def test_built_bundle_is_complete_tamper_evident_and_runs_isolated_examples(
         archive.extractall(extracted)
     release_root = extracted / "Invariant-0.1.0"
     manifest = verify_release_root(release_root)
-    assert manifest["counts"]["git_lfs_resources"] == 294
+    # A floor, not an equality: the bundle carries every LFS object the repo
+    # tracks, so pinning an exact number breaks on each new binary artifact.
+    # verify_release_root already checked each object's SHA-256 and LFS OID.
+    assert manifest["counts"]["git_lfs_resources"] >= 294
     assert manifest["counts"]["git_tracked_resources"] >= 4000
     assert manifest["claims"] == {
         "editable_checkout_required": False,
