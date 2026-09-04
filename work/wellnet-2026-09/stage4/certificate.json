@@ -1,0 +1,161 @@
+{
+ "generated_utc": "2026-09-04T19:50:32Z",
+ "lane": "work/wellnet-2026-09/stage4",
+ "stage": "4 (identifiability)",
+ "checks": [
+  "C1_responsive",
+  "C2_not_a_restatement",
+  "C3_exchangeable",
+  "C4_powered",
+  "C5_support",
+  "C6_out_of_grammar",
+  "C7_nuisance_distinct"
+ ],
+ "cases": {
+  "kappa-invariant rank statistic": {
+   "issued": false,
+   "checks": {
+    "C1_responsive": {
+     "passed": false,
+     "spread": 0.0,
+     "slope": 1.2852349716168976e-16,
+     "detail": "statistic moves 0.000e+00 over the effect range"
+    }
+   }
+  },
+  "per-cluster baryon radius control": {
+   "issued": false,
+   "checks": {
+    "C1_responsive": {
+     "passed": false,
+     "spread": 0.0,
+     "slope": -1.1908559924518262e-16,
+     "detail": "statistic moves 0.000e+00 over the effect range"
+    },
+    "C2_not_a_restatement": {
+     "passed": false,
+     "effect_span": 0.0,
+     "nuisance_span": 0.0,
+     "ratio": Infinity,
+     "detail": "a pure normalisation shift reproduces infx the statistic's whole effect range"
+    }
+   }
+  },
+  "CLASH r/R500 vs NFW-derived excess": {
+   "issued": false,
+   "checks": {
+    "C2_not_a_restatement": {
+     "passed": false,
+     "effect_span": 0.04999999999999999,
+     "nuisance_span": 0.404,
+     "ratio": 8.080000000000002,
+     "detail": "a pure normalisation shift reproduces 8.08x the statistic's whole effect range"
+    },
+    "C3_exchangeable": {
+     "passed": 0.0,
+     "realised_fpr": 0.05,
+     "nominal": 0.05,
+     "null_mean": -0.4650877356925964,
+     "null_sd": 0.06856631967530949,
+     "detail": "null mean -0.465 +- 0.069; realised FPR 0.050 vs nominal 0.05"
+    },
+    "C4_powered": {
+     "passed": false,
+     "z_at_predicted": 0.5852941176470589,
+     "responsiveness": 0.199,
+     "predicted_effect": 0.2,
+     "detail": "the theory predicts 0.2; through a pipeline of responsiveness 0.199 that is 0.59 sigma"
+    }
+   }
+  },
+  "degenerate in-grammar injection": {
+   "issued": false,
+   "checks": {
+    "C6_out_of_grammar": {
+     "passed": false,
+     "recovery": 0.0,
+     "detail": "recovers 0% of an out-of-grammar injection"
+    }
+   }
+  },
+  "X-COP relation quoted past measured T": {
+   "issued": false,
+   "checks": {
+    "C5_support": {
+     "passed": false,
+     "fraction_outside": 0.426056338028169,
+     "read": [
+      0.1,
+      1.52
+     ],
+     "measured": [
+      0.1,
+      0.915
+     ],
+     "detail": "reads 0.1-1.52; measured 0.1-0.915; 42.6% outside support"
+    }
+   }
+  },
+  "a well-posed statistic (POSITIVE CONTROL)": {
+   "issued": true,
+   "checks": {
+    "C1_responsive": {
+     "passed": true,
+     "spread": 0.9,
+     "slope": 0.8999999999999999,
+     "detail": "statistic moves 9.000e-01 over the effect range"
+    },
+    "C2_not_a_restatement": {
+     "passed": true,
+     "effect_span": 0.9,
+     "nuisance_span": 0.05,
+     "ratio": 0.05555555555555556,
+     "detail": "a pure normalisation shift reproduces 0.06x the statistic's whole effect range"
+    },
+    "C3_exchangeable": {
+     "passed": 1.0,
+     "realised_fpr": 0.05,
+     "nominal": 0.05,
+     "null_mean": 0.0029590405128888373,
+     "null_sd": 0.0992793747537359,
+     "detail": "null mean +0.003 +- 0.099; realised FPR 0.050 vs nominal 0.05"
+    },
+    "C4_powered": {
+     "passed": true,
+     "z_at_predicted": 3.4,
+     "responsiveness": 0.85,
+     "predicted_effect": 0.4,
+     "detail": "the theory predicts 0.4; through a pipeline of responsiveness 0.850 that is 3.40 sigma"
+    },
+    "C5_support": {
+     "passed": true,
+     "fraction_outside": 0.0,
+     "read": [
+      0.2,
+      0.9
+     ],
+     "measured": [
+      0.1,
+      0.95
+     ],
+     "detail": "reads 0.2-0.9; measured 0.1-0.95; 0.0% outside support"
+    },
+    "C6_out_of_grammar": {
+     "passed": true,
+     "recovery": 0.78,
+     "detail": "recovers 78% of an out-of-grammar injection"
+    },
+    "C7_nuisance_distinct": {
+     "passed": true,
+     "worst_corr": 0.16365400175642006,
+     "worst_nuisance": "M/L gradient",
+     "detail": "closest nuisance 'M/L gradient' matches at |r| = 0.164"
+    }
+   }
+  }
+ },
+ "known_bad_caught": 5,
+ "known_bad_total": 5,
+ "control_issued": true,
+ "opened_observational_data": false
+}

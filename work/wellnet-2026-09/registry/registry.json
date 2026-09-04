@@ -1,0 +1,147 @@
+{
+ "runs": [
+  {
+   "run_id": "AT-r500-audit",
+   "lane": "r500-audit",
+   "commit": "f90c9d57",
+   "registered_utc": "2026-09-04T19:49:05Z",
+   "depends_on": {
+    "catalogue_validation": 2,
+    "temperature_support": 1,
+    "holdout_seal": 1
+   },
+   "outputs": [
+    "results.json",
+    "REPORT.md"
+   ],
+   "status": "INVALIDATED_PENDING_RERUN",
+   "note": "",
+   "invalidated_by": [
+    "catalogue_validation v2 -> v3",
+    "temperature_support v1 -> v2",
+    "holdout_seal v1 -> v2"
+   ]
+  },
+  {
+   "run_id": "AV-tempclamp",
+   "lane": "tempclamp",
+   "commit": "f90c9d57",
+   "registered_utc": "2026-09-04T19:49:06Z",
+   "depends_on": {
+    "temperature_support": 1,
+    "holdout_seal": 1
+   },
+   "outputs": [
+    "results.json",
+    "REPORT.md"
+   ],
+   "status": "INVALIDATED_PENDING_RERUN",
+   "note": "",
+   "invalidated_by": [
+    "temperature_support v1 -> v2",
+    "holdout_seal v1 -> v2"
+   ]
+  },
+  {
+   "run_id": "AX-clash-audit",
+   "lane": "clash-audit",
+   "commit": "f90c9d57",
+   "registered_utc": "2026-09-04T19:49:06Z",
+   "depends_on": {
+    "catalogue_validation": 2,
+    "holdout_seal": 1
+   },
+   "outputs": [
+    "REPORT.md",
+    "ACQUISITION.json"
+   ],
+   "status": "INVALIDATED_PENDING_RERUN",
+   "note": "",
+   "invalidated_by": [
+    "catalogue_validation v2 -> v3",
+    "holdout_seal v1 -> v2"
+   ]
+  },
+  {
+   "run_id": "AY-baryon-reaudit",
+   "lane": "r500-audit",
+   "commit": "f90c9d57",
+   "registered_utc": "2026-09-04T19:49:06Z",
+   "depends_on": {
+    "temperature_support": 1,
+    "holdout_seal": 1
+   },
+   "outputs": [
+    "reaudit_baryon_radii.json"
+   ],
+   "status": "INVALIDATED_PENDING_RERUN",
+   "note": "",
+   "invalidated_by": [
+    "temperature_support v1 -> v2",
+    "holdout_seal v1 -> v2"
+   ]
+  },
+  {
+   "run_id": "IN-FLIGHT-transition",
+   "lane": "transition",
+   "commit": "f90c9d57",
+   "registered_utc": "2026-09-04T19:49:06Z",
+   "depends_on": {
+    "catalogue_validation": 2,
+    "temperature_support": 1,
+    "holdout_seal": 1
+   },
+   "outputs": [
+    "transition_results.json"
+   ],
+   "status": "INVALIDATED_PENDING_RERUN",
+   "note": "STILL RUNNING",
+   "invalidated_by": [
+    "catalogue_validation v2 -> v3",
+    "temperature_support v1 -> v2",
+    "holdout_seal v1 -> v2"
+   ]
+  },
+  {
+   "run_id": "IN-FLIGHT-scene",
+   "lane": "scene",
+   "commit": "f90c9d57",
+   "registered_utc": "2026-09-04T19:49:06Z",
+   "depends_on": {
+    "catalogue_validation": 2,
+    "holdout_seal": 1
+   },
+   "outputs": [
+    "scene results"
+   ],
+   "status": "INVALIDATED_PENDING_RERUN",
+   "note": "STILL RUNNING",
+   "invalidated_by": [
+    "catalogue_validation v2 -> v3",
+    "holdout_seal v1 -> v2"
+   ]
+  },
+  {
+   "run_id": "IN-FLIGHT-universes",
+   "lane": "universes",
+   "commit": "f90c9d57",
+   "registered_utc": "2026-09-04T19:49:06Z",
+   "depends_on": {
+    "identifiability_gate": 1
+   },
+   "outputs": [
+    "universes results"
+   ],
+   "status": "VALID",
+   "note": "synthetic; unaffected",
+   "invalidated_by": null
+  }
+ ],
+ "rules": {
+  "catalogue_validation": 2,
+  "temperature_support": 1,
+  "holdout_seal": 1,
+  "confirmation_status": 2,
+  "identifiability_gate": 1
+ }
+}
