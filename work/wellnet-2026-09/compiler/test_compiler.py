@@ -510,37 +510,37 @@ RECORDED_FAMILY_VERDICT = {
     "A3_qumond_rar":    (True,  set(), "same"),
     "X0_newton":        (True,  set(), "the Newtonian negative control passes "
                                        "everything"),
-    "B1_depth_mond":    (False, {"gate4_reciprocity_action"},
+    "B1_depth_mond":    (False, {C.GATE4},
                          "screen/REPORT.md: family B fails gauge invariance "
                          "and reciprocity; third-law violation 0.688"),
     "C1_wells_pow_p1":  (False, {"gate3_coarse_graining",
-                                 "gate4_reciprocity_action"},
+                                 C.GATE4},
                          "screen/REPORT.md: M_dyn moves 14% between 1 row and "
                          "10^4; third-law violation 0.564"),
     "C2_wells_pow_p05": (False, {"gate3_coarse_graining",
-                                 "gate4_reciprocity_action"},
+                                 C.GATE4},
                          "p = 0.5 fails selective refinement at slope 0.50"),
     "C3_wells_exp_p1":  (False, {"gate3_coarse_graining",
-                                 "gate4_reciprocity_action"}, "same as C1"),
+                                 C.GATE4}, "same as C1"),
     "C5_wells_pow_p2":  (False, {"gate3_coarse_graining",
-                                 "gate4_reciprocity_action"},
+                                 C.GATE4},
                          "p = 2 fails selective refinement at slope -1.00"),
     "D1_pairs_p1_q1":   (False, {"gate1_constant_K", "gate3_coarse_graining",
-                                 "gate4_reciprocity_action"},
+                                 C.GATE4},
                          "zero effect on an isolated object; no pairs in one "
                          "catalogue row"),
     "D2_pairs_p05_q1":  (False, {"gate1_constant_K", "gate3_coarse_graining",
-                                 "gate4_reciprocity_action"},
+                                 C.GATE4},
                          "||C|| ~ N^1; lambda_min(K) 3.4e-1 -> 8.3e-80"),
     "D3_pairs_p1_q3":   (False, {"gate1_constant_K", "gate3_coarse_graining",
-                                 "gate4_reciprocity_action"},
+                                 C.GATE4},
                          "q = 3 is the log-divergent marginal case"),
     "E1_tidal":         (False, {"gate3_coarse_graining",
-                                 "gate4_reciprocity_action"},
+                                 C.GATE4},
                          "classified CATALOGUE-ARTEFACTUAL; third-law "
                          "violation 0.197"),
     "E2_tidal_strong":  (False, {"gate3_coarse_graining",
-                                 "gate4_reciprocity_action"}, "same as E1"),
+                                 C.GATE4}, "same as E1"),
 }
 
 
@@ -556,7 +556,7 @@ def test_every_characterised_family_gets_the_recorded_verdict():
                           gate1=r["gate1_constant_K"][2],
                           gate2=r["gate2_potential_gauge"][2],
                           gate3=r["gate3_coarse_graining"][2],
-                          gate4=r["gate4_reciprocity_action"][2])
+                          gate4=r[C.GATE4][2])
         assert r["_verdict"] == ("ADMIT" if admit else "REJECT"), \
             (tag, r["_verdict"], r["_failed"], src)
         assert must_fail <= set(r["_failed"]), \
@@ -618,6 +618,277 @@ def test_probe_table_reproduces_run_AH_ordering():
             / t["galaxy_field"]["median_absPhi"]) > 10.0
 
 
+# ============ REPORT_v2 FIX 2: the curl identity and the gate's scope
+def test_curl_identity_holds_and_predicts_the_run_AR_value():
+    """curl g_alg = (grad nu) x g_N, derived and verified on the lane's own
+    field, with Run AR's own estimator reproduced.
+
+    Run AR measured `max|curl g| x 10 kpc / |g|` = 0.048 for the RAR and the
+    programme record then asserted that a field with curl cannot come from an
+    action.  THAT INFERENCE IS FALSE.  What is true is that 0.048 is exactly
+    what the identity predicts -- a known quantity, not an anomaly.
+    """
+    d = C.curl_identity("rar")
+    _rec("curl_identity_rar", **{k: v for k, v in d.items()
+                                 if k != "fd_convergence"})
+    # 1. the identity itself, with exact (complex-step) derivatives
+    assert d["identity_max_rel_residual"] < 1e-10, d["identity_max_rel_residual"]
+    # 2. the Newtonian control: the estimator must return round-off on a
+    #    curl-free field, otherwise it is measuring itself
+    assert d["curl_gN_max_q"] < 1e-12, d["curl_gN_max_q"]
+    # 3. Run AR's recorded number, reproduced at Run AR's own FD step
+    rel = d["run_AR_max_reproduced_rel"]
+    assert rel < 1e-6, (d["estimator_at_run_AR_step"], d["run_AR_recorded"])
+    # 4. the FD residual against the identity is SECOND ORDER in h, which is
+    #    what "the finite difference is approximating the identity" means
+    for s in d["fd_convergence_slopes"]:
+        assert 1.8 < s < 2.2, d["fd_convergence_slopes"]
+    # 5. the identity's prediction and the exact estimator agree
+    assert abs(d["identity_predicted_max_q"] - d["estimator_exact_max_q"]) \
+        < 1e-9 * d["estimator_exact_max_q"]
+
+
+def test_curl_identity_holds_on_every_row_run_AR_measured():
+    """All four analytic rows of Run AR's curl table, each with its OWN
+    calibration, reproduced by an independent implementation -- and the
+    identity verified on each.
+
+    The AQUAL row is the decisive one for the correction: AQUAL is the theory
+    that was BUILT to give MOND an action, and its ALGEBRAIC form still has a
+    curl of 0.049. If a non-zero curl meant "no action", this row alone would
+    refute the claim.
+
+    The tidal-gated row generalises the identity: with a0 -> a0[1 + A W(|T|)]
+    the multiplier F depends on TWO fields, grad F picks up a tidal term, and
+    curl(F g_N) = (grad F) x g_N still holds exactly.
+    """
+    rows = {}
+    for row in ("newton", "rar", "aqual", "tidal_scalar"):
+        d = C.curl_identity(row)
+        rows[row] = {k: v for k, v in d.items() if k != "fd_convergence"}
+        assert d["curl_gN_max_q"] < 1e-12, (row, d["curl_gN_max_q"])
+        assert d["run_AR_max_reproduced_rel"] < 1e-6, (
+            row, d["estimator_at_run_AR_step"], d["run_AR_recorded"])
+        if d["identity_measurable"]:
+            assert d["identity_max_rel_residual"] < 1e-10, (
+                row, d["identity_max_rel_residual"])
+        else:
+            # Newton: both sides are round-off, so the relative residual is
+            # 0/0 and is reported as not measurable rather than quoted.
+            assert row == "newton"
+            assert d["estimator_exact_max_q"] < 1e-12
+    _rec("curl_identity_all_rows", rows=rows)
+    assert rows["aqual"]["estimator_exact_max_q"] > 0.04
+    assert rows["tidal_scalar"]["estimator_exact_max_q"] > 1.0
+
+
+def test_curl_vanishes_in_spherical_symmetry():
+    """(grad nu) x g_N == 0 whenever grad|g_N| || g_N.
+
+    This is why every spherical channel in this programme -- including this
+    compiler's own radial Jacobian -- is blind to the obstruction the curl
+    measures.  Stated as a measurement, not as an assumption.
+    """
+    d = C.curl_spherical_control()
+    _rec("curl_spherical_control", **d)
+    for base, v in d["max_relative_antisymmetry"].items():
+        assert v < 1e-6, (base, v)
+
+
+def test_gate4_scope_is_declared_and_names_what_it_excludes():
+    """FIX 2(c): a future reader must not be able to repeat the error."""
+    s = C.GATE4_SCOPE
+    _rec("gate4_scope", title=s["title"], in_scope=s["in_scope"],
+         not_in_scope=sorted(s["not_in_scope"]),
+         the_error_this_replaces=s["the_error_this_replaces"],
+         renamed_from=C.GATE4_LEGACY, renamed_to=C.GATE4)
+    assert "velocity" in s["title"]
+    for cls in ("velocity_dependent", "vector_potential_gravitomagnetic",
+                "extra_propagating_field"):
+        assert cls in s["not_in_scope"], cls
+    assert "Lorentz" in s["not_in_scope"]["velocity_dependent"]
+    assert C.GATE4 in C.GATES and C.GATE4_LEGACY not in C.GATES
+
+
+def test_gate4_legacy_key_is_still_readable():
+    """REPORT.md and Run AM cite `gate4_reciprocity_action`.  The rename must
+    not silently break a committed reader."""
+    r = C.check(C.known_families()["A1_aqual"])
+    assert C.GATE4_LEGACY in r
+    assert r[C.GATE4_LEGACY] is r[C.GATE4]
+    hard = [g for g in C.GATES if g not in C.FLAG_ONLY and not r[g][0]]
+    assert hard == r["_failed"]          # the alias does not double-count
+
+
+def test_u_space_gradient_floor_is_measured_on_laws_that_are_gradients():
+    """The u-space instrument's floor, measured on laws known to be gradients
+    (nu(|u|)u is one for any nu), not assumed."""
+    out = {}
+    for tag in ("A1_aqual", "A2_qumond", "A3_qumond_rar", "X0_newton"):
+        d = C.u_space_integrability(C.known_families()[tag])
+        out[tag] = d.get("max_relative_antisymmetry")
+        assert d["applicable"] and d["is_a_gradient"], (tag, d)
+    c = C.Candidate("gn_gated", base="qumond", struct="tensor_d", inv="gn",
+                    form="sat", m=2.0, I0=1.0, A=3.0)
+    d = C.u_space_integrability(c)
+    out["tensor_d_gn_gated"] = d["max_relative_antisymmetry"]
+    assert d["is_a_gradient"], d       # K u = e^{2AW/3} u exactly
+    _rec("u_space_floor", measured=out, declared_floor=C.U_SPACE_FLOOR)
+    assert max(v for v in out.values()) < C.U_SPACE_FLOOR
+
+
+# ======= REPORT_v2 FIX 3: EXTERNAL positive controls, not regression tests
+def test_vector_potential_force_is_LABELLED_not_rejected():
+    """THE SHARPEST TEST, standalone so a failure names itself.
+
+    A gravitomagnetic vector-potential force has non-zero curl AND a
+    perfectly valid action.  It is exactly the case the published claim would
+    have mishandled.  If the compiler rejects it, the gate is still
+    mis-scoped.
+    """
+    cand, want, why = C.external_controls()["XC7_vector_potential_nonzero_curl"]
+    r = C.check(cand, cheap=False)
+    _rec("external_control_vector_potential", verdict=r["_verdict"],
+         labels=r["_labels"], failed=r["_failed"],
+         taxonomy=r["_taxonomy"]["primary"], why_known=why,
+         gate4=r[C.GATE4][2])
+    assert r["_verdict"] != "REJECT", r[C.GATE4][2]
+    assert r["_verdict"] == "OUTSIDE-CLASS", r["_verdict"]
+    assert r["_failed"] == [], r["_failed"]
+    assert any("OUTSIDE the scalar-potential class" in s
+               for s in r["_labels"]), r["_labels"]
+    assert r["_taxonomy"]["primary"] == "outside_declared_model_class"
+    assert r[C.GATE4][1]["out_of_declared_class"] is True
+
+
+def test_external_positive_controls_all_agree():
+    """Ten theory classes whose right answer is fixed by field theory written
+    down OUTSIDE this programme, plus two sub-threshold contrast rows."""
+    out = C.run_external_controls(cheap=False)
+    _rec("external_controls", **out)
+    bad = {k: v for k, v in out["rows"].items() if not v["agrees"]}
+    assert not bad, {k: (v["required"], v["verdict"], v["required_bin"],
+                         v["taxonomy_bin"]) for k, v in bad.items()}
+    # the suite must not be trivially all-ADMIT or all-REJECT
+    vs = {v["verdict"] for v in out["rows"].values()}
+    assert vs == {"ADMIT", "REJECT", "OUTSIDE-CLASS"}, vs
+
+
+def test_gate1_identifiability_threshold_is_measured_not_tuned():
+    """GATE 1 is a statement about identifiability, so it must depend on
+    amplitude and range -- and the SAME theory class must move between ADMIT
+    and `non_identifiable_on_this_bench` without ever entering an
+    inconsistency bin."""
+    scan = C.gate1_identifiability_scan()
+    _rec("gate1_identifiability_scan", **scan)
+    n_esc = sum(1 for row in scan["grid"].values()
+                for d in row.values() if d["escapes"])
+    n_tot = sum(len(row) for row in scan["grid"].values())
+    assert 0 < n_esc < n_tot, (n_esc, n_tot)     # a real threshold, not a
+    #                                              constant verdict
+    for tag in ("XCS_yukawa_subthreshold",
+                "XCS2_fR_scalar_tensor_subthreshold"):
+        cand = C.external_controls()[tag][0]
+        r = C.check(cand, cheap=False)
+        assert r["_taxonomy"]["primary"] == "non_identifiable_on_this_bench", \
+            (tag, r["_taxonomy"])
+        assert r["_failed"] == ["gate1_constant_K"], (tag, r["_failed"])
+
+
+# ============ REPORT_v2 FIX 1: the rejection taxonomy
+def test_taxonomy_partitions_every_rejection_into_exactly_one_bin():
+    cands = (list(C.known_families().values())
+             + [c for c, _, _ in C.external_controls().values()]
+             + list(C.external_axis_elements().values()))
+    counts, rows = {b: 0 for b in C.TAXONOMY_BINS}, {}
+    for c in cands:
+        r = C.check(c, cheap=False)
+        t = r["_taxonomy"]
+        assert t["primary"] in C.TAXONOMY_BINS, t
+        counts[t["primary"]] += 1
+        rows[c.name] = dict(verdict=r["_verdict"], primary=t["primary"],
+                            defects=[d["code"] for d in t["defects"]])
+        if r["_verdict"] == "REJECT":
+            assert t["defects"], (c.name, "rejected with no defect recorded")
+            assert t["primary"] != "admissible", c.name
+        if r["_verdict"] == "ADMIT":
+            assert t["primary"] == "admissible", (c.name, t["primary"])
+    _rec("taxonomy_partition", counts=counts, rows=rows)
+    # the taxonomy must actually SEPARATE things: a partition that puts
+    # everything in one bin is the failure mode the reviewer named
+    used = [b for b, n in counts.items() if n]
+    assert len(used) >= 4, counts
+
+
+def test_taxonomy_severity_order_is_declared_and_total():
+    _rec("taxonomy_doc", bins=list(C.TAXONOMY_BINS),
+         severity=list(C.TAXONOMY_SEVERITY), doc=C.TAXONOMY_DOC)
+    assert set(C.TAXONOMY_SEVERITY) < set(C.TAXONOMY_BINS)
+    assert set(C.TAXONOMY_DOC) == set(C.TAXONOMY_BINS)
+    assert C.TAXONOMY_SEVERITY[0] == "mathematically_inconsistent"
+
+
+# ============ REPORT_v2 FIX 4: the external axis the grammar never had
+def test_external_axis_element_lands_where_the_derivation_says():
+    """K = exp[f0 I + f_E e_ext e_ext^T].
+
+    CONSTANT couplings: K is a constant symmetric positive-definite tensor and
+    div[K grad Psi] = 4 pi G rho is the Euler-Lagrange equation of
+    L = -(1/8 pi G)(grad Psi)^T K (grad Psi) - rho Psi exactly.  ADMIT.
+
+    GATED couplings: (Ku)_i = a(|u|)u_i + b(|u|)(e.u)e_i has antisymmetric
+    part (e.u) b' [uhat_j e_i - uhat_i e_j], non-zero off the axis.  NOT a
+    gradient in u, so `physically_incomplete_as_written`.
+
+    NO OBSERVATIONAL CLAIM IS ATTACHED.  Run AO's 95% exclusion for this
+    hypothesis sits at e_kappa = 2.11, above the geometric maximum of 1.
+    """
+    F = C.external_axis_elements()
+    rows = {}
+    for tag, c in F.items():
+        r = C.check(c, cheap=False)
+        u = r[C.GATE4][1].get("u_space", {})
+        rows[tag] = dict(verdict=r["_verdict"], failed=r["_failed"],
+                         taxonomy=r["_taxonomy"]["primary"],
+                         gate1_escapes=r["gate1_constant_K"][1].get("escapes"),
+                         axis_misalignment_deg=r["gate1_constant_K"][1].get(
+                             "axis_misalignment_deg"),
+                         u_space_applicable=u.get("applicable"),
+                         u_space_antisymmetry=u.get(
+                             "max_relative_antisymmetry"),
+                         gate4=r[C.GATE4][2])
+    _rec("external_axis_element", rows=rows,
+         no_observational_claim="Run AO's 95% exclusion for an external-axis "
+                                "tensor sits at e_kappa = 2.11, above the "
+                                "geometric maximum of 1; no evidence claim "
+                                "is made or implied here")
+    a = rows["F1_ext_axis_const"]
+    assert a["verdict"] == "ADMIT", a
+    assert "b_independent_axis" in (a["gate1_escapes"] or []), a
+    assert a["u_space_antisymmetry"] < C.U_SPACE_FLOOR, a
+    b = rows["F2_ext_axis_gn_gated"]
+    assert b["verdict"] == "REJECT", b
+    assert b["taxonomy"] == "physically_incomplete_as_written", b
+    assert b["u_space_applicable"] and b["u_space_antisymmetry"] > 1e-3, b
+
+
+def test_external_axis_reduction_is_reported_against_the_exact_projector():
+    """The bench reduces k_r to exp(A W lambda); the exact projector value is
+    e^f0 [1 + (e^f_E - 1)(e.rhat)^2].  The size of the reduction must be
+    reported, not assumed away."""
+    c2 = np.linspace(0.0, 1.0, 21)
+    f0, fE = 0.0, 0.4
+    exact = C.external_axis_exact_k_r(f0, fE, np.sqrt(c2))
+    reduced = np.exp(f0 + fE * (c2 - 1.0 / 3.0))
+    rel = float(np.max(np.abs(exact - reduced) / exact))
+    _rec("external_axis_reduction", max_relative_difference=rel,
+         f0=f0, f_E=fE,
+         note="the declared radial reduction exp(A W lambda) against the "
+              "exact projector eigenvalue; the same approximation the bench "
+              "already makes for tensor_d and tensor_T")
+    assert rel < 0.15, rel          # reported, and small at this amplitude
+
+
 # ==================================================== discipline
 def test_no_observational_data_is_opened():
     """The data statement, asserted mechanically.
@@ -641,6 +912,14 @@ def test_no_observational_data_is_opened():
             C.check(c)
         C.constant_K_stretch_demo()
         C.phi_rule_spread()
+        # every code path added for REPORT_v2 is inside the interception too:
+        # the disc geometry and the curl identity, the external positive
+        # controls, the u-space test and the external-axis element.
+        C.curl_identity("rar", hs=(0.1, 0.05))
+        C.curl_spherical_control(n=8)
+        C.run_external_controls(cheap=True)
+        for c in C.external_axis_elements().values():
+            C.check(c)
     finally:
         builtins.open = real_open
     outside = [p for p in opened

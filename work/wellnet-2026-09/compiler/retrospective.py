@@ -69,10 +69,47 @@ def main(cheap: bool = True):
         if r["_flags"]:
             flagged += 1
 
+    # ---------------------------------------------------- THE TAXONOMY
+    # "97.2% rejected" conflates four verdicts that are not scientifically
+    # equivalent.  Re-partition every rejection explicitly, and cross-tabulate
+    # each gate's contribution to each bin.
+    bin_counts = Counter()
+    defect_counts = Counter()
+    gate_bin = defaultdict(Counter)          # gate -> bin -> n
+    bin_by_struct = defaultdict(Counter)     # struct -> bin -> n
+    for r, c in zip(results, cands):
+        t = r["_taxonomy"]
+        bin_counts[t["primary"]] += 1
+        bin_by_struct[c.struct][t["primary"]] += 1
+        for d in t["defects"]:
+            defect_counts[d["code"]] += 1
+            gate_bin[d["gate"]][d["bin"]] += 1
+    n = len(cands)
+    taxonomy = dict(
+        bins=list(C.TAXONOMY_BINS),
+        doc=C.TAXONOMY_DOC,
+        severity_order=list(C.TAXONOMY_SEVERITY),
+        primary_counts={b: int(bin_counts.get(b, 0)) for b in C.TAXONOMY_BINS},
+        primary_percent={b: round(100.0 * bin_counts.get(b, 0) / n, 2)
+                         for b in C.TAXONOMY_BINS},
+        per_gate_contribution_to_bin={g: dict(v) for g, v in gate_bin.items()},
+        defect_counts=dict(defect_counts),
+        primary_by_structure={k: dict(v) for k, v in bin_by_struct.items()},
+        headline=("; ".join(
+            f"{100.0 * bin_counts.get(b, 0) / n:.1f}% {b.replace('_', ' ')}"
+            for b in C.TAXONOMY_BINS if bin_counts.get(b, 0))),
+        note=("the single 'rejected' figure is retained above for continuity "
+              "with Run AM, but it is NOT the headline: it sums bins whose "
+              "scientific content differs. A mathematically inconsistent law "
+              "is dead; a law that is incomplete AS WRITTEN has a named "
+              "repair; a convention-dependent law needs a declaration, not a "
+              "new theory; a non-identifiable law needs a different "
+              "experiment."),
+    )
+
     # what the other three gates achieve without the blanket action gate
     without4 = sum(1 for r in results
-                   if any(not r[g][0] for g in hard_gates
-                          if g != "gate4_reciprocity_action"))
+                   if any(not r[g][0] for g in hard_gates if g != C.GATE4))
 
     surv_idx = [i for i, r in enumerate(recs) if r["survives"]]
     survivors = []
@@ -81,14 +118,16 @@ def main(cheap: bool = True):
         survivors.append(dict(
             name=r["_name"], verdict=r["_verdict"], failed=r["_failed"],
             flags=r["_flags"],
+            taxonomy=r["_taxonomy"]["primary"],
+            defects=[d["code"] for d in r["_taxonomy"]["defects"]],
             gate1=r["gate1_constant_K"][2],
             gate2=r["gate2_potential_gauge"][2],
             gate3=r["gate3_coarse_graining"][2],
-            gate4=r["gate4_reciprocity_action"][2],
+            gate4=r[C.GATE4][2],
             gate1_escapes=r["gate1_constant_K"][1].get("escapes"),
             gate1_joint_resid_dex=r["gate1_constant_K"][1].get(
                 "joint_resid_dex"),
-            gate4_asymmetry=r["gate4_reciprocity_action"][1]["asymmetry"]))
+            gate4_asymmetry=r[C.GATE4][1]["asymmetry"]))
 
     # cross-tabulate the compiler's verdict against the tournament's own
     tab = Counter()
@@ -127,10 +166,78 @@ def main(cheap: bool = True):
 
     tp = C.throughput(cands)
 
+    # ---- VERDICT INVARIANCE
+    # The REPORT_v2 work renames a gate, adds a model-class scope, adds an
+    # u-space integrability channel and re-partitions every rejection.  None
+    # of that is allowed to change a VERDICT on the searched grammar.  The
+    # reference numbers below were produced by running the COMMITTED
+    # pre-REPORT_v2 code against this same `tournament.json` (which was itself
+    # re-run after Run AM: 26 survivors now, 18 then, which is why these
+    # differ from the numbers printed in REPORT.md).
+    BASELINE = dict(rejected_total=3032, admitted_total=91,
+                    n_tournament_survivors=26, rejected_without_gate4=1702,
+                    per_gate_failures={"gate1_constant_K": 150,
+                                       "gate2_potential_gauge": 0,
+                                       "gate3_coarse_graining": 1560,
+                                       C.GATE4: 2980},
+                    unique_kills={"gate1_constant_K": 52,
+                                  "gate2_potential_gauge": 0,
+                                  "gate3_coarse_graining": 0,
+                                  C.GATE4: 1330})
+    got = dict(rejected_total=rejected,
+               admitted_total=len(cands) - rejected,
+               n_tournament_survivors=sum(1 for r in recs if r["survives"]),
+               rejected_without_gate4=without4,
+               per_gate_failures=dict(per_gate), unique_kills=dict(unique))
+    verdict_invariance = dict(
+        baseline=BASELINE, measured=got,
+        identical=bool(got == BASELINE),
+        note="the committed pre-REPORT_v2 compiler, run against this same "
+             "tournament.json, gives exactly these numbers. REPORT_v2 changes "
+             "how rejections are DESCRIBED, not which candidates are "
+             "rejected.")
+    assert got == BASELINE, ("REPORT_v2 changed a verdict on the searched "
+                             "grammar", BASELINE, got)
+
+    # ---- the external-axis basis element (FIX 4), through the same gates
+    ext_axis = {}
+    for tag, c in C.external_axis_elements().items():
+        r = C.check(c, cheap=False)
+        ext_axis[tag] = dict(
+            verdict=r["_verdict"], failed=r["_failed"],
+            taxonomy=r["_taxonomy"]["primary"],
+            defects=[dd["code"] for dd in r["_taxonomy"]["defects"]],
+            gate1_escapes=r["gate1_constant_K"][1].get("escapes"),
+            axis_misalignment_deg=r["gate1_constant_K"][1].get(
+                "axis_misalignment_deg"),
+            u_space=r[C.GATE4][1].get("u_space"),
+            gate1=r["gate1_constant_K"][2], gate3=r["gate3_coarse_graining"][2],
+            gate4=r[C.GATE4][2], note=c.note)
+    ext_axis["_provenance_census_of_the_searched_grammar"] = dict(
+        counts=dict(Counter(C.AXIS_PROVENANCE.get(c.struct, ("none", ""))[0]
+                            for c in cands)),
+        note="Run AO: network 1,560 / source 780 / isotropic 783 / EXTERNAL 0. "
+             "The 2-D shear phase channel was pointed at a hypothesis the "
+             "grammar could not express. This is a GRAMMAR COMPLETENESS FIX; "
+             "NO observational claim is attached to the new element, and none "
+             "can be: Run AO's 95% exclusion for it sits at an ellipticity of "
+             "2.11, above the geometric maximum of 1.")
+
     out = dict(
         source=TOURNAMENT,
         source_generated_utc=d.get("generated_utc"),
         n_candidates=len(cands),
+        taxonomy=taxonomy,
+        external_axis_element=ext_axis,
+        external_controls=C.run_external_controls(cheap=False),
+        curl_identity={row: {k: v for k, v in C.curl_identity(row).items()
+                             if k != "fd_convergence"}
+                       for row in C.CURL_ROWS},
+        curl_spherical_control=C.curl_spherical_control(),
+        action_first_scoping=C.action_first_scoping(taxonomy),
+        verdict_invariance=verdict_invariance,
+        gate_renamed=dict(frm=C.GATE4_LEGACY, to=C.GATE4,
+                          title=C.GATE4_TITLE, scope=C.GATE4_SCOPE),
         wall_seconds_cold=wall,
         throughput=tp,
         per_gate_failures=per_gate,
@@ -159,6 +266,25 @@ def main(cheap: bool = True):
               newline="\n") as fh:
         json.dump(out, fh, indent=1, default=float)
 
+    print()
+    print("TAXONOMY (the headline; the single rejection rate is not)")
+    for b in C.TAXONOMY_BINS:
+        k = bin_counts.get(b, 0)
+        if k:
+            print(f"  {b:<40} {k:>5}  {100.0 * k / len(cands):5.1f}%")
+    print("  per-gate contribution to each bin:")
+    for g, v in gate_bin.items():
+        print(f"    {g:<40} " + ", ".join(f"{b}={c}" for b, c in v.items()))
+    print()
+    print(f"VERDICT INVARIANCE vs the committed pre-REPORT_v2 compiler on the "
+          f"same tournament.json: "
+          f"{'IDENTICAL' if verdict_invariance['identical'] else 'CHANGED'}")
+    print()
+    print("EXTERNAL-AXIS ELEMENT K = exp[f0 I + f_E e_ext e_ext^T]")
+    for tag, v in ext_axis.items():
+        if tag.startswith("_"):
+            continue
+        print(f"  {tag:<26} {v['verdict']:<14} {v['taxonomy']}")
     print()
     print(f"REJECTED {rejected} / {len(cands)} "
           f"({100 * rejected / len(cands):.1f}%) before any data")

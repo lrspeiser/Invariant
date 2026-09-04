@@ -75,6 +75,7 @@ from __future__ import annotations
 
 import math
 import time
+from collections import Counter
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tuple
 
@@ -119,6 +120,86 @@ TOL_ASYM = 1.0e-9
 RUN_AH_PHI_SPREAD_DEX = 0.87
 RUN_AH_GATE_MARGIN_DEX = 0.90
 
+# ------------------------------------------------ GATE 4's DECLARED SCOPE
+#
+# CORRECTION, carried in the source so it cannot be lost.  Run AR measured
+# `max|curl g| * 10 kpc / |g|` and the programme record then said that a field
+# with curl cannot come from an action.  THAT IS FALSE AS STATED.  The Lorentz
+# force has non-zero curl and follows from
+#
+#       L = (1/2) m v^2 + q A.v - q phi
+#
+# because it is velocity-dependent and carries a vector potential;
+# gravitomagnetism is the gravitational analogue.  What a non-zero curl
+# actually shows is narrower and exact: for an ALGEBRAIC VECTOR PRESCRIPTION
+#
+#       g_alg = nu(|g_N|) g_N,        curl g_N = 0
+#   =>  curl g_alg = (grad nu) x g_N
+#
+# which is generically non-zero in a NONSPHERICAL system.  So a non-zero curl
+# shows that the ALGEBRAIC PRESCRIPTION is not the gradient of a single static
+# scalar potential.  It does NOT show that MOND has no action: AQUAL was built
+# to supply one, and its field-equation form is curl-free by construction.
+#
+#: The one model class GATE 4 adjudicates.
+MODEL_CLASS_IN_SCOPE = "static_scalar_potential"
+
+GATE4_TITLE = ("scalar-potential integrability under the declared static, "
+               "velocity-independent model class")
+
+#: Model classes GATE 4 explicitly does NOT apply to.  A candidate declaring
+#: one of these is LABELLED "action-based but OUTSIDE the scalar-potential
+#: class" and is NOT rejected.
+GATE4_OUT_OF_SCOPE = {
+    "velocity_dependent": (
+        "a velocity-dependent force. The Lorentz force is the standard "
+        "example: it has non-zero curl in the position-space sense and comes "
+        "from L = (1/2) m v^2 + q A.v - q phi. Nothing measured by this gate "
+        "bears on such a law."),
+    "vector_potential_gravitomagnetic": (
+        "a gravitomagnetic / vector-potential sector. g = -grad Phi - dA/dt "
+        "+ v x (curl A) is derived from an action and has non-zero curl by "
+        "design. This gate's criterion -- 'is the static field the gradient "
+        "of one scalar?' -- is simply not the right question for it."),
+    "extra_propagating_field": (
+        "a theory with extra PROPAGATING degrees of freedom (a dynamical "
+        "scalar, vector or tensor beyond Phi). The action exists but its "
+        "Euler-Lagrange system is not a single scalar equation for Phi, so "
+        "the QUMOND-form integrability criterion does not decide it."),
+    "relativistic_completion": (
+        "a relativistic completion. This bench is a weak-field bench and has "
+        "no jurisdiction over one."),
+}
+
+GATE4_SCOPE = dict(
+    title=GATE4_TITLE,
+    in_scope=(
+        "Laws written as a STATIC, VELOCITY-INDEPENDENT prescription for the "
+        "acceleration of a test particle, in which the whole content is a "
+        "single scalar potential (equivalently, a conductivity tensor K "
+        "acting on grad Phi_N with Phi_N still Newtonian). For these, and "
+        "ONLY these, the gate's criterion is exact: the law comes from an "
+        "action with Phi_N solving Poisson if and only if K(u)u is a gradient "
+        "in u = grad Phi_N."),
+    not_in_scope=GATE4_OUT_OF_SCOPE,
+    the_error_this_replaces=(
+        "'a field with curl cannot come from an action' -- FALSE as stated, "
+        "published in Run AR section AR.3 and repeated in the programme "
+        "record. Corrected here."),
+    what_a_nonzero_curl_does_show=(
+        "curl g_alg = (grad nu) x g_N exactly, for any algebraic vector "
+        "prescription g_alg = nu(|g_N|) g_N built on a curl-free g_N. A "
+        "non-zero value therefore shows that THE ALGEBRAIC PRESCRIPTION is "
+        "not derivable from a single static scalar potential. It says "
+        "nothing about the existence of an action for the theory the "
+        "prescription approximates."),
+)
+
+#: GATE 4 was called `gate4_reciprocity_action` in REPORT.md / Run AM.  The
+#: old key is kept as a DEPRECATED ALIAS in every result dict so committed
+#: downstream readers do not break; it is not a member of `GATES`.
+GATE_RENAMES = {"gate4_reciprocity_action": "gate4_scalar_potential_integrability"}
+
 DATA_STATEMENT = (
     "No observational data of any kind is opened by this module. Every number "
     "is produced from closed-form synthetic geometries defined in this file. "
@@ -143,7 +224,35 @@ AXIS_PROVENANCE = {
                                  "normalised tidal tensor"),
     "depth":       ("none",      "family B: a0 modulated by |Phi|, no axis"),
     "none":        ("none",      "base law, no response"),
+    # --- added by REPORT_v2 FIX 4: the external tidal axis the 3,123-candidate
+    # grammar never contained (Run AO: network 1560, source 780, isotropic 783,
+    # EXTERNAL 0).
+    "tensor_E":       ("external", "e_ext, a large-scale tidal axis DECLARED "
+                                   "from the environment; gated on an "
+                                   "invariant"),
+    "tensor_E_const": ("external", "e_ext, a large-scale tidal axis DECLARED "
+                                   "from the environment; constant couplings"),
+    # --- external positive controls (REPORT_v2 FIX 3)
+    "vector_A":       ("none",     "gravitomagnetic vector potential: the "
+                                   "force is velocity-dependent and has no "
+                                   "static preferred axis"),
+    "yukawa":         ("none",     "an isotropic finite-range scalar; no "
+                                   "preferred axis"),
+    "nonlocal_sym":   ("none",     "a symmetric nonlocal kernel; no preferred "
+                                   "axis"),
+    "indefinite_K":   ("source",   "dhat = ghat_N, but with a coupling that "
+                                   "drives an eigenvalue of K negative"),
 }
+
+#: The declared external tidal axis.  ONE global direction, fixed by the
+#: environment and NOT derived from any probe's own source -- that is what
+#: "external provenance" means operationally.  Run AO's measurement is that a
+#: source axis collapses by 5.3x as the source rounds while an external axis
+#: does not collapse at all, precisely because it is not the source's.
+E_EXT = np.array([0.0, 0.0, 1.0])
+
+#: Structures whose preferred axis is the declared external one.
+EXTERNAL_AXIS_STRUCTS = {"tensor_E", "tensor_E_const"}
 
 #: Which invariants are functionals of the Poisson-smooth fields (so a row
 #: list never enters), and which are read off a catalogue.
@@ -161,7 +270,12 @@ INVARIANT_SOURCE = {
 GAUGE_DEPENDENT_INVARIANTS = {"phi"}
 
 #: Structures whose response IS the tensor, with no invariant to gate on.
-CONSTANT_COUPLING_STRUCTS = {"wells", "pairs", "tidal_const"}
+CONSTANT_COUPLING_STRUCTS = {"wells", "pairs", "tidal_const", "tensor_E_const"}
+
+#: Structures with NO static, velocity-independent scalar response at all.
+#: `vector_A`'s entire content lives in the velocity-dependent sector, so the
+#: static reduction every gate on this bench uses sees K = I exactly.
+NO_STATIC_TENSOR = {"vector_A"}
 
 #: Structures built from a catalogue row list rather than a smooth field.
 CATALOGUE_STRUCTS = {"tensor_S", "wells", "pairs"}
@@ -183,7 +297,15 @@ EPS_T_DEFAULT = A0 / (10.0 * KPC)
 #: of any action in which Phi_N is the Newtonian potential.  A variational
 #: completion would have to promote the extra field to a dynamical one, which
 #: changes the law.
-ADMISSIBLE_SOURCES = {"none", "|grad Phi_N|", "grad Phi_N direction"}
+#: `declared external axis` is admissible for an ACTION -- a fixed direction
+#: supplied by the environment is a background field, and
+#: L = -(1/8 pi G)(grad Phi)^T K (grad Phi) - rho Phi with K built from that
+#: fixed direction and CONSTANT couplings is a perfectly ordinary quadratic
+#: action.  It is NOT admissible when the couplings are gated on an invariant:
+#: see `u_space_integrability`, which measures exactly that split.
+ADMISSIBLE_SOURCES = {"none", "|grad Phi_N|", "grad Phi_N direction",
+                      "declared external axis",
+                      "symmetric two-point kernel"}
 
 TENSOR_SOURCE = {
     "scalar_a0":   "none",
@@ -196,6 +318,12 @@ TENSOR_SOURCE = {
     "tensor_S":    "catalogue row list",
     "wells":       "catalogue row list",
     "pairs":       "catalogue row list",
+    "tensor_E":       "declared external axis",
+    "tensor_E_const": "declared external axis",
+    "vector_A":       "gravitomagnetic vector potential (velocity-dependent)",
+    "yukawa":         "symmetric two-point kernel",
+    "nonlocal_sym":   "symmetric two-point kernel",
+    "indefinite_K":   "grad Phi_N direction",
 }
 INVARIANT_FUNCTIONAL = {
     "one":    "none",
@@ -254,6 +382,20 @@ class Candidate:
     field_source: str = "smooth"                   # 'smooth' | 'rows'
     momentum_carrier: str = ""                     # downgrades GATE 4 to FLAG
     pair_kernel: Optional[Callable] = None         # explicit F(x, x')
+    #: The MODEL CLASS the candidate is written in.  GATE 4 is scoped to
+    #: `static_scalar_potential` and returns NO VERDICT outside it -- see
+    #: `GATE4_SCOPE`.  A candidate outside the class is LABELLED, never
+    #: rejected as inconsistent, because a perfectly valid action can produce
+    #: a field with non-zero curl (the Lorentz force does; gravitomagnetism is
+    #: its gravitational analogue).
+    model_class: str = "static_scalar_potential"
+    #: External-axis parameters for `tensor_E` / `tensor_E_const`:
+    #: {"f0": ..., "f_E": ..., "axis": (3,) unit vector}.
+    ext: Optional[Dict[str, Any]] = None
+    #: Shell Green's function Phi(r_i) from a unit shell at r_j, for the
+    #: external controls that are defined by an action rather than by this
+    #: programme's grammar.  Symmetric iff the control is meant to be.
+    green: Optional[Callable] = None
     note: str = ""
 
     def signature(self) -> Tuple:
@@ -264,19 +406,37 @@ class Candidate:
         """
         w = self.well or {}
         p = self.pair or {}
+        e = self.ext or {}
         return (self.base, self.struct, self.inv, self.form,
                 float(self.m), self.phi_rule, self.field_source,
                 w.get("family"), w.get("p"), w.get("q"), w.get("s"),
                 w.get("L"), w.get("exclude_nearest"),
                 p.get("p"), p.get("q"), p.get("s"),
-                bool(self.momentum_carrier), self.pair_kernel is not None)
+                bool(self.momentum_carrier), self.pair_kernel is not None,
+                self.model_class, e.get("f0"), e.get("f_E"),
+                self.green is not None)
 
     def responds(self) -> bool:
-        """Does the candidate have a live response term at all?"""
+        """Does the candidate have a live STATIC, VELOCITY-INDEPENDENT
+        response term at all?
+
+        `vector_A` deliberately returns False: its whole content is the
+        velocity-dependent sector, so the static reduction this bench uses
+        sees K = I exactly.  That is a statement about the BENCH's reduction,
+        not about the candidate, and GATE 4 says so in its own reason string
+        rather than letting the False be read as "no physics here".
+        """
+        if self.struct in NO_STATIC_TENSOR:
+            return False
         if self.struct in CONSTANT_COUPLING_STRUCTS:
+            return self.A != 0.0
+        if self.struct in ("yukawa", "nonlocal_sym"):
             return self.A != 0.0
         return not (self.form == "off" or self.inv == "one" or self.A == 0.0
                     or self.struct == "none")
+
+    def in_declared_model_class(self) -> bool:
+        return self.model_class == MODEL_CLASS_IN_SCOPE
 
 
 def _parse_well_tag(tag: str) -> Dict[str, Any]:
@@ -393,6 +553,39 @@ def mond_invert(F, k, a0, base="aqual"):
     raise ValueError(base)
 
 
+def extra_force_factor(cand: "Candidate", r) -> np.ndarray:
+    """g / g_N for the EXTERNAL CONTROLS defined by an extra symmetric kernel.
+
+    The radial force and the shell Green's function used by GATE 4 are two
+    consequences of ONE action, so they must be written from the same kernel
+    or the control tests nothing.  Both are declared here.
+
+      'yukawa'  Phi_x = -G alpha M exp(-r/lam)/r
+                => g/g_N = 1 + alpha (1 + r/lam) exp(-r/lam)
+                (a massive scalar of range lam; also the Brans-Dicke /
+                 f(R) weak-field limit with alpha = 1/(3 + 2 omega))
+
+      'gauss'   Phi_x = -G w0 M exp(-r^2 / 2 lam^2)
+                => g/g_N = 1 - w0 (r^3 / lam^2) exp(-r^2 / 2 lam^2)
+                (a genuinely nonlocal symmetric kernel -- NOT the Green's
+                 function of any local differential operator, which is the
+                 point of the control)
+
+    Spherical reduction with the point-mass-equivalent enclosed mass; a
+    declared caricature, like every other geometry on this bench.
+    """
+    r = np.asarray(r, float)
+    e = cand.ext or {}
+    lam = float(e.get("range_m", 300.0 * KPC))
+    prof = e.get("profile", "yukawa")
+    if prof == "gauss":
+        x = r / lam
+        return 1.0 - cand.A * (x ** 3) * np.exp(-np.clip(0.5 * x * x,
+                                                         0.0, 700.0))
+    x = r / lam
+    return 1.0 + cand.A * (1.0 + x) * np.exp(-np.clip(x, 0.0, 700.0))
+
+
 def radial_eigen(struct: str, lam, A: float, W) -> np.ndarray:
     """k_r = rhat^T K rhat for the response structures."""
     W = np.asarray(W, float)
@@ -401,10 +594,28 @@ def radial_eigen(struct: str, lam, A: float, W) -> np.ndarray:
         return np.ones_like(W)
     if struct == "iso_K":
         return np.exp(np.clip(-A * W, -700, 700))
-    if struct in ("tensor_S", "tensor_d", "tensor_T", "wells", "tidal_const"):
+    if struct in ("tensor_S", "tensor_d", "tensor_T", "wells", "tidal_const",
+                  "tensor_E", "tensor_E_const"):
+        # tensor_E:  K = exp[f0 I + f_E e e^T] = e^f0 [I + (e^f_E - 1) e e^T].
+        # The bench's declared radial reduction is the same one it uses for
+        # tensor_d and tensor_T -- k_r = exp(A W lambda) with lambda the
+        # radial component of the TRACELESS part, here (e.rhat)^2 - 1/3.
+        # `external_axis_exact_k_r` reports the exact projector eigenvalue
+        # alongside, so the reduction is visible rather than assumed.
         return np.exp(np.clip(A * W * lam, -700, 700))
     if struct == "pairs":                  # K = exp[-alpha C], C positive
         return np.exp(np.clip(-A * W * lam, -700, 700))
+    if struct == "vector_A":               # no static tensor sector at all
+        return np.ones_like(W)
+    if struct == "indefinite_K":
+        # NOT an exponential: k_r = 1 + A W lambda, which the grammar's own
+        # sign theorem does not protect.  A < -3 drives k_r negative on the
+        # probes, i.e. the quadratic form (grad Phi)^T K (grad Phi) loses
+        # positive-definiteness and the PDE changes type.
+        return 1.0 + A * W * lam
+    if struct in ("yukawa", "nonlocal_sym"):
+        return np.ones_like(W)             # isotropic; the content is in the
+                                           # two-point kernel, not in K
     raise ValueError(struct)
 
 
@@ -421,7 +632,17 @@ def predict_g(cand: Candidate, inv_fields, gN, lam) -> np.ndarray:
     if cand.struct in ("scalar_a0", "depth"):
         a_eff = np.maximum(cand.a0 * (1.0 + cand.A * W), 1e-14 * cand.a0)
         return g_of_gN(cand.base, gN, a_eff)
+    if cand.struct in ("yukawa", "nonlocal_sym") and cand.responds():
+        r = np.asarray(inv_fields.get("r_m"), float)
+        return g_of_gN(cand.base, gN, cand.a0) * extra_force_factor(cand, r)
     k_r = radial_eigen(cand.struct, lam, cand.A, W)
+    if cand.struct == "indefinite_K":
+        # A negative k_r is not a small number in an otherwise fine law: it is
+        # the statement that the field equation has changed type.  Returning
+        # a non-finite prediction is the honest outcome and `response_health`
+        # reports it as such.
+        return np.where(k_r > 0, mond_invert(gN, np.maximum(k_r, 1e-300),
+                                             cand.a0, cand.base), np.nan)
     return mond_invert(gN, k_r, cand.a0, cand.base)
 
 
@@ -522,11 +743,16 @@ class Probe:
 
     def misalign_deg(self, struct: str) -> float:
         """Median angle between the structure's preferred axis and rhat."""
-        if struct == "tensor_d":
+        if struct in ("tensor_d", "indefinite_K"):
             c = np.abs((self.dhat * self.rhat).sum(-1))
         elif struct in ("tensor_T", "tidal_const"):
             _, V = np.linalg.eigh(self.That)
             c = np.abs((V[..., -1] * self.rhat).sum(-1))
+        elif struct in EXTERNAL_AXIS_STRUCTS:
+            # The DECLARED external axis, which is not a functional of this
+            # probe's source at all.  Its misalignment with rhat is therefore
+            # a geometric fact about the probe sampling, not a fitted number.
+            c = np.abs(self.rhat @ E_EXT)
         else:
             return 0.0
         return float(np.degrees(np.arccos(np.clip(np.median(c), -1.0, 1.0))))
@@ -562,7 +788,11 @@ def make_probe(name: str, comps: Sequence[Plummer], centre, radii,
     That = T0 / np.maximum(tnorm, 1e-300)[..., None, None]
     inv = dict(one=np.ones_like(r), gn=gN / A0, phi=np.abs(phi),
                rhobar=np.maximum(rho, 1e-40),
-               tidal=np.maximum(tnorm, 1e-45), qbar=_qbar_of(comps, pts))
+               tidal=np.maximum(tnorm, 1e-45), qbar=_qbar_of(comps, pts),
+               # not an invariant of the grammar: the probe radius in metres,
+               # carried so the finite-range EXTERNAL CONTROLS (Yukawa,
+               # scalar-tensor) can be evaluated on the same probes.
+               r_m=r)
     return Probe(name=name, centre=centre, pts=pts, rhat=rhat, r=r, gN=gN,
                  gvec=gv, dhat=dhat, That=That, phi_inf=phi, inv=inv,
                  wells=wells, note=note)
@@ -743,8 +973,14 @@ def probe_lambda(cand: Candidate, pname: str) -> np.ndarray:
     """
     p = probes()[pname]
     st = cand.struct
-    if st == "tensor_d":
+    if st in ("tensor_d", "indefinite_K"):
         return (p.dhat * p.rhat).sum(-1) ** 2 - 1.0 / 3.0
+    if st in EXTERNAL_AXIS_STRUCTS:
+        # lambda_E = (e_ext . rhat)^2 - 1/3, the radial component of the
+        # traceless part of the external projector e e^T.
+        e = np.asarray((cand.ext or {}).get("axis", E_EXT), float)
+        e = e / np.linalg.norm(e)
+        return (p.rhat @ e) ** 2 - 1.0 / 3.0
     if st == "tensor_T":
         return np.einsum("pi,pij,pj->p", p.rhat, p.That, p.rhat)
     if st == "tidal_const":
@@ -1796,12 +2032,17 @@ def gate4_key(cand: Candidate) -> Tuple:
     functional of rho the response reads.  The amplitude is kept in the key
     anyway, because the reported VALUE depends on it and the compiler must not
     quote a number it did not measure for this setting."""
+    e = cand.ext or {}
     return ("g4", cand.base, cand.struct, cand.inv, cand.form, float(cand.m),
             float(cand.I0), float(cand.A), cand.field_source,
             bool(cand.momentum_carrier), cand.pair_kernel is not None,
             (cand.tidal_const or {}).get("eps_T"),
             None if cand.pair is None else tuple(sorted(
-                (k, v) for k, v in cand.pair.items())))
+                (k, v) for k, v in cand.pair.items())),
+            # the model class scopes the gate and the external-axis
+            # parameters change what K is, so both belong in the key
+            cand.model_class, e.get("f0"), e.get("f_E"), e.get("range_m"),
+            e.get("profile"), cand.green is not None)
 
 
 def gate3(cand: Candidate, cheap: bool = True
@@ -1936,7 +2177,7 @@ def _invariants_radial(r, comp):
     qb = np.full_like(r, comp.M / (comp.M + M_NL))
     return dict(one=np.ones_like(r), gn=F / A0, phi=np.abs(phi),
                 rhobar=np.maximum(rho, 1e-40),
-                tidal=np.maximum(tid, 1e-45), qbar=qb), F, rho
+                tidal=np.maximum(tid, 1e-45), qbar=qb, r_m=r), F, rho
 
 
 #: The screen lane's own ceiling on the condition number of K.  Conjugate
@@ -1960,23 +2201,44 @@ def response_health(cand: Candidate) -> Dict[str, Any]:
     candidate on a numerical accident.
     """
     P = probes()
-    conds, finite = [], True
+    conds, finite, kmins = [], True, []
+    # `1 + A W` for scalar_a0 / depth rescales a0; it is NOT an eigenvalue of
+    # the kinetic operator, so the positive-definiteness test does not apply
+    # to those structures (a negative a_eff is caught by the existing
+    # clamp-and-check on `finite_positive_g` instead).
+    is_K_eigenvalue = cand.struct not in ("scalar_a0", "depth", "none")
     for nm in GATE1_PROBES:
         p = P[nm]
         lam = probe_lambda(cand, nm)
         W = response_W(cand, p.inv)
         if cand.struct in ("scalar_a0", "depth"):
             k = np.abs(1.0 + cand.A * W)
+            kraw = np.abs(1.0 + cand.A * W)
         else:
             k = radial_eigen(cand.struct, lam, cand.A, W)
-        k = np.asarray(k, float)
+            kraw = k
+        k = np.abs(np.asarray(k, float))
+        kmins.append(float(np.min(np.asarray(kraw, float))))
         conds.append(float(k.max() / max(k.min(), 1e-300)))
-        g = predict_g(cand, p.inv, p.gN, lam)
+        with np.errstate(invalid="ignore"):
+            g = predict_g(cand, p.inv, p.gN, lam)
         finite = finite and bool(np.all(np.isfinite(g)) and np.all(g > 0))
     cond = max(conds)
+    kmin = min(kmins)
+    # POSITIVE-DEFINITENESS of the kinetic operator.  The weak-field
+    # Lagrangian is L = -(1/8 pi G)(grad Phi)^T K (grad Phi) - rho Phi, so an
+    # eigenvalue of K that goes negative is not a small numerical defect: the
+    # kinetic term stops being sign-definite, the elliptic operator changes
+    # type, and the theory carries a ghost.  The exponential grammar is
+    # protected from this by its own sign theorem (k = exp(.) > 0); anything
+    # OUTSIDE that grammar is not, and this is where such a candidate is
+    # caught.
+    posdef = bool(kmin > 0.0) if is_K_eigenvalue else True
     return dict(k_condition=cond, finite_positive_g=finite,
-                cond_max=COND_MAX,
-                degenerate=bool(cond > COND_MAX or not finite))
+                cond_max=COND_MAX, min_k_eigenvalue=kmin,
+                k_is_an_eigenvalue_of_the_kinetic_operator=is_K_eigenvalue,
+                positive_definite=posdef,
+                degenerate=bool(cond > COND_MAX or not finite or not posdef))
 
 
 def jacobian_asymmetry(cand: Candidate,
@@ -2007,6 +2269,31 @@ def jacobian_asymmetry(cand: Candidate,
     third-law violation is a property of "the response depends on position",
     not of anisotropy.
     """
+    if cand.green is not None:
+        # The candidate declares its own shell Green's function
+        # Phi(r_i) <- unit shell at r_j.  Used by the EXTERNAL CONTROLS, whose
+        # correct answer is fixed by an action written down outside this
+        # programme rather than by this programme's grammar.  The SAME
+        # symmetry statistic is applied, so the instrument is being tested,
+        # not bypassed.
+        rj = np.array(rs_kpc) * KPC
+        J = np.array([[float(cand.green(ri, rr)) for rr in rj] for ri in rj])
+        nrm = np.abs(J).max()
+        if nrm == 0 or not np.isfinite(nrm):
+            return dict(asymmetry=float("inf"), worst_pair=float("inf"),
+                        n=len(rj), kind="declared_green",
+                        window_kpc=[float(rj[0] / KPC), float(rj[-1] / KPC)],
+                        note="the declared Green's function is degenerate")
+        return dict(asymmetry=float(np.linalg.norm(J - J.T)
+                                    / max(np.linalg.norm(J), 1e-300)),
+                    worst_pair=float(np.abs(J - J.T).max() / nrm),
+                    n=len(rj), kind="declared_green",
+                    window_kpc=[float(rj[0] / KPC), float(rj[-1] / KPC)],
+                    r_shell_kpc=[float(v / KPC) for v in rj],
+                    note="delta Phi(r_i)/delta m_j from the candidate's own "
+                         "declared two-point kernel; symmetric iff that "
+                         "kernel is")
+
     r, comp = _radial_background()
     inv, F, rho = _invariants_radial(r, comp)
     eps_T = (cand.tidal_const or {}).get("eps_T", EPS_T_DEFAULT)
@@ -2320,7 +2607,66 @@ ROWLIST_RESPONSE = {"tensor_S", "wells", "pairs"}
 
 
 def gate4(cand: Candidate) -> Tuple[bool, Dict[str, Any], str]:
-    """GATE 4 -- reciprocity and action."""
+    """GATE 4 -- SCALAR-POTENTIAL INTEGRABILITY under the declared static,
+    velocity-independent model class.
+
+    Renamed from `reciprocity and action`.  The old name licensed a wrong
+    inference -- that a field with non-zero curl cannot come from an action --
+    which is FALSE (the Lorentz force has curl and comes from
+    L = (1/2)mv^2 + qA.v - q phi; gravitomagnetism is the gravitational
+    analogue).  The gate's actual criterion is exact but SCOPED:
+
+        within the static, velocity-independent, single-scalar-potential
+        model class, the QUMOND-form law comes from an action with Phi_N
+        still solving Poisson IFF K(u)u is a gradient in u = grad Phi_N.
+
+    OUT OF SCOPE, and LABELLED rather than rejected: velocity-dependent
+    forces, vector-potential / gravitomagnetic sectors, theories with extra
+    propagating fields, relativistic completions.  See `GATE4_SCOPE`.
+
+    Channels:
+      A  (verdict-bearing) reciprocity of a declared pair kernel;
+         positive-definiteness of the kinetic operator; whether the response
+         reads a functional of rho that is not grad Phi_N; the functional
+         Jacobian delta Phi(x)/delta rho(y); and -- new -- the direct u-space
+         test of whether K(u)u is a gradient, which is not blind to
+         direction-only obstructions the way the radial Jacobian is.
+      B  (REPORTED, NEVER verdict-bearing) the curl of the ALGEBRAIC vector
+         prescription. AQUAL and the RAR both have non-zero curl in this
+         sense and both must ADMIT, so a non-zero value here is a scope
+         statement, not a rejection.
+    """
+    # ---- SCOPE.  A candidate outside the declared model class is LABELLED.
+    if not cand.in_declared_model_class():
+        why_out = GATE4_OUT_OF_SCOPE.get(
+            cand.model_class, "a model class this gate does not adjudicate")
+        val = dict(out_of_declared_class=True,
+                   model_class=cand.model_class,
+                   in_scope_class=MODEL_CLASS_IN_SCOPE,
+                   scope=GATE4_SCOPE,
+                   label="action-based but OUTSIDE the scalar-potential class",
+                   jacobian=dict(kind="not_applicable"),
+                   reciprocity=dict(applicable=False),
+                   asymmetry=float("nan"), tol=TOL_ASYM,
+                   momentum_carrier=cand.momentum_carrier,
+                   rowlist_response=False,
+                   health=dict(k_condition=1.0, finite_positive_g=True,
+                               cond_max=COND_MAX, min_k_eigenvalue=1.0,
+                               positive_definite=True, degenerate=False),
+                   response_field=dict(tensor=TENSOR_SOURCE.get(cand.struct,
+                                                                "unknown"),
+                                       invariant="none", admissible=True),
+                   variational=None)
+        return (True, val,
+                f"OUT OF DECLARED SCOPE. This gate adjudicates the "
+                f"'{MODEL_CLASS_IN_SCOPE}' class only; this candidate "
+                f"declares '{cand.model_class}', which is {why_out} "
+                f"LABELLED 'action-based but OUTSIDE the scalar-potential "
+                f"class'. NOT REJECTED: a non-zero curl is perfectly "
+                f"consistent with an action, and the published claim that it "
+                f"is not was wrong. This gate returns NO VERDICT on this "
+                f"candidate; gates 1, 2 and 3 still apply to it.")
+
     rec = kernel_reciprocity(cand)
     jac = jacobian_asymmetry(cand)
     asym = float(jac["asymmetry"])
@@ -2329,14 +2675,43 @@ def gate4(cand: Candidate) -> Tuple[bool, Dict[str, Any], str]:
     rowlist = cand.struct in ROWLIST_RESPONSE and cand.responds()
     health = response_health(cand) if cand.responds() else dict(
         k_condition=1.0, finite_positive_g=True, cond_max=COND_MAX,
-        degenerate=False)
+        min_k_eigenvalue=1.0, positive_definite=True, degenerate=False)
     src = response_field(cand)
+    usp = u_space_integrability(cand)
 
     val = dict(jacobian=jac, reciprocity=rec, asymmetry=asym, tol=TOL_ASYM,
                momentum_carrier=cand.momentum_carrier,
                rowlist_response=rowlist, health=health, response_field=src,
+               u_space=usp, scope=GATE4_SCOPE,
+               model_class=cand.model_class, out_of_declared_class=False,
                variational=bool(src["admissible"] and asym <= TOL_ASYM
-                                and not health["degenerate"]))
+                                and not health["degenerate"]
+                                and usp.get("is_a_gradient", True)))
+
+    # ---- channel A: K(u)u must be a gradient in u.  This is the exact
+    # criterion and it is NOT blind to direction-only obstructions.
+    if usp.get("applicable") and not usp["is_a_gradient"]:
+        return (False, val,
+                f"K(u)u is NOT a gradient in u = grad Phi_N: the u-space "
+                f"Jacobian dM_i/du_j has relative antisymmetry "
+                f"{usp['max_relative_antisymmetry']:.3e} against a measured "
+                f"floor of {U_SPACE_FLOOR:.0e}. Within the declared static, "
+                f"velocity-independent scalar-potential class this is exactly "
+                f"equivalent to 'no action produces this law as written'. It "
+                f"is NOT a claim that no action exists for any theory with "
+                f"this response -- promoting the gating field to a dynamical "
+                f"one, or moving to a vector-potential sector, both change "
+                f"the answer and both leave this gate's scope.")
+
+    if health["degenerate"] and not health.get("positive_definite", True):
+        return (False, val,
+                f"the kinetic operator LOSES POSITIVE-DEFINITENESS: the "
+                f"smallest eigenvalue of K on the probes is "
+                f"{health['min_k_eigenvalue']:.3e} <= 0, so "
+                f"-(1/8 pi G)(grad Phi)^T K (grad Phi) is not sign-definite, "
+                f"the elliptic operator changes type and the theory carries a "
+                f"ghost mode. This is a mathematical inconsistency, not a "
+                f"missing completion: there is nothing to complete.")
 
     if health["degenerate"]:
         return (False, val,
@@ -2360,10 +2735,13 @@ def gate4(cand: Candidate) -> Tuple[bool, Dict[str, Any], str]:
         return (False, val,
                 "the response is a functional of a CATALOGUE ROW LIST, not of "
                 "rho, so delta g(x)/delta rho(y) is not even defined without "
-                "the cataloguer's partition: no action over rho can produce "
-                "this law. No momentum carrier is declared. (The pair kernel "
-                "itself is reciprocal where one exists -- reciprocity is not "
-                "the third law.)")
+                "the cataloguer's partition: no action OVER rho can produce "
+                "this law as written. No momentum carrier is declared. (The "
+                "pair kernel itself is reciprocal where one exists -- "
+                "reciprocity is not the third law.) SCOPE: this is a "
+                "statement about a functional of a PARTITION, which is a "
+                "representation choice; it is not a claim that no theory "
+                "with a network-like response can be variational.")
     if cand.momentum_carrier and not src["admissible"]:
         return (True, val,
                 f"the response reads '{src['tensor']}' / '{src['invariant']}', "
@@ -2388,18 +2766,35 @@ def gate4(cand: Candidate) -> Tuple[bool, Dict[str, Any], str]:
                 f"'{src['invariant']}' (invariant), and neither is a function "
                 f"of grad Phi_N alone. In the QUMOND form the law comes from "
                 f"an action with Phi_N still solving Poisson only if K(u)u is "
-                f"a gradient in u = grad Phi_N; it is not here, so no action "
-                f"produces this law as written and momentum is not conserved. "
-                f"No momentum carrier is declared." + floor)
+                f"a gradient in u = grad Phi_N; it is not here, so NO ACTION "
+                f"IN THE DECLARED STATIC, VELOCITY-INDEPENDENT "
+                f"SCALAR-POTENTIAL CLASS produces this law AS WRITTEN and "
+                f"momentum is not conserved in that class. No momentum "
+                f"carrier is declared. SCOPE: a variational completion may "
+                f"well exist OUTSIDE that class -- promoting the gating field "
+                f"to a dynamical one is the standard route, and it is exactly "
+                f"how AQUAL supplies an action for MOND. This gate does not "
+                f"exclude it; it says the law as written is not it."
+                + floor)
     if asym <= TOL_ASYM:
         return (True, val,
                 f"the response reads only '{src['tensor']}' / "
                 f"'{src['invariant']}', so K(u)u is a gradient in "
-                f"u = grad Phi_N and the law is AQUAL/QUMOND with a redefined "
+                f"u = grad Phi_N"
+                + (f" (u-space antisymmetry "
+                   f"{usp['max_relative_antisymmetry']:.2e} against a floor "
+                   f"of {U_SPACE_FLOOR:.0e})" if usp.get("applicable") else "")
+                + f" and the law is AQUAL/QUMOND with a redefined "
                 f"interpolating function; the functional Jacobian "
                 f"delta Phi(x)/delta rho(y) is symmetric to {asym:.2e} "
                 f"(round-off floor {TOL_ASYM:.0e}), confirming it. This does "
-                f"NOT prove a relativistic completion exists.")
+                f"NOT prove a relativistic completion exists. NOTE: the "
+                f"ALGEBRAIC vector form of this same law generally has "
+                f"non-zero curl in a nonspherical system -- "
+                f"curl g_alg = (grad nu) x g_N -- and that is not a defect: "
+                f"it is the difference between the algebraic prescription and "
+                f"the field-equation form, which is curl-free by "
+                f"construction.")
     if cand.momentum_carrier:
         return (True, val,
                 f"functional Jacobian is asymmetric at {asym:.3e}, but a "
@@ -2409,16 +2804,59 @@ def gate4(cand: Candidate) -> Tuple[bool, Dict[str, Any], str]:
     return (False, val,
             f"functional Jacobian delta Phi(r_i)/delta m_j is ASYMMETRIC at "
             f"{asym:.3e} (worst pair {jac['worst_pair']:.3e}), so no action "
-            f"produces this law as written and momentum is not conserved. No "
-            f"momentum carrier is declared.")
+            f"IN THE DECLARED STATIC, VELOCITY-INDEPENDENT SCALAR-POTENTIAL "
+            f"CLASS produces this law as written and momentum is not "
+            f"conserved in that class. No momentum carrier is declared. "
+            f"SCOPE: velocity-dependent forces, vector-potential sectors and "
+            f"theories with extra propagating fields are NOT adjudicated by "
+            f"this gate.")
 
 
 # ==================================================== 8. the compiler itself
+GATE4 = "gate4_scalar_potential_integrability"
+GATE4_LEGACY = "gate4_reciprocity_action"
+
 GATES = ("gate1_constant_K", "gate2_potential_gauge",
-         "gate3_coarse_graining", "gate4_reciprocity_action")
+         "gate3_coarse_graining", GATE4)
+
+GATE_TITLES = {
+    "gate1_constant_K": "constant-K degeneracy",
+    "gate2_potential_gauge": "potential gauge (flag only)",
+    "gate3_coarse_graining": "coarse graining",
+    GATE4: GATE4_TITLE,
+}
 
 #: Gate 2 is a FLAG, never an elimination -- the brief is explicit about it.
 FLAG_ONLY = {"gate2_potential_gauge"}
+
+
+def _finish(out: Dict[str, Any], c: Candidate) -> Dict[str, Any]:
+    """Verdict, flags and labels from the four gate results."""
+    hard = [g for g in GATES if g not in FLAG_ONLY and not out[g][0]]
+    flags, labels = [], []
+    g2 = out["gate2_potential_gauge"][1]
+    if g2.get("gauge_dependent"):
+        flags.append("CONVENTION-DEPENDENT (potential gauge)"
+                     + (" -- VERDICT CHANGES ACROSS RULES"
+                        if g2.get("verdict_changes_across_rules") else ""))
+    g4v = out[GATE4][1]
+    out_of_class = bool(g4v.get("out_of_declared_class"))
+    if out_of_class:
+        labels.append(g4v.get(
+            "label", "action-based but OUTSIDE the scalar-potential class"))
+    if out[GATE4][0] and c.momentum_carrier:
+        flags.append("momentum carrier declared but not verified")
+    # DEPRECATED ALIAS: REPORT.md and Run AM cite the old key.
+    out[GATE4_LEGACY] = out[GATE4]
+    out["_name"] = c.name
+    out["_verdict"] = ("REJECT" if hard
+                       else ("OUTSIDE-CLASS" if out_of_class else "ADMIT"))
+    out["_failed"] = hard
+    out["_flags"] = flags
+    out["_labels"] = labels
+    out["_model_class"] = c.model_class
+    out["_taxonomy"] = taxonomy_of(out, c)
+    return out
 
 
 def check(candidate, cheap: bool = True) -> Dict[str, Any]:
@@ -2426,29 +2864,17 @@ def check(candidate, cheap: bool = True) -> Dict[str, Any]:
 
     Returns {gate: (pass, measured_value, reason)} for the four gate keys in
     `GATES`, plus underscore-prefixed metadata (`_name`, `_verdict`,
-    `_failed`, `_flags`).
+    `_failed`, `_flags`, `_labels`, `_taxonomy`).  The pre-rename key
+    `gate4_reciprocity_action` is kept as a deprecated alias.
     """
     c = candidate if isinstance(candidate, Candidate) else Candidate(**candidate)
     out: Dict[str, Any] = {
         "gate1_constant_K": gate1(c),
         "gate2_potential_gauge": gate2(c),
         "gate3_coarse_graining": gate3(c, cheap=cheap),
-        "gate4_reciprocity_action": gate4(c),
+        GATE4: gate4(c),
     }
-    hard = [g for g in GATES if g not in FLAG_ONLY and not out[g][0]]
-    flags = []
-    g2 = out["gate2_potential_gauge"][1]
-    if g2.get("gauge_dependent"):
-        flags.append("CONVENTION-DEPENDENT (potential gauge)"
-                     + (" -- VERDICT CHANGES ACROSS RULES"
-                        if g2.get("verdict_changes_across_rules") else ""))
-    if out["gate4_reciprocity_action"][0] and c.momentum_carrier:
-        flags.append("momentum carrier declared but not verified")
-    out["_name"] = c.name
-    out["_verdict"] = "REJECT" if hard else "ADMIT"
-    out["_failed"] = hard
-    out["_flags"] = flags
-    return out
+    return _finish(out, c)
 
 
 _STRUCT_CACHE: Dict[Tuple, Dict[str, Any]] = {}
@@ -2475,15 +2901,8 @@ def check_many(cands: Iterable, cheap: bool = True) -> List[Dict[str, Any]]:
         r = {"gate1_constant_K": gate1(cc),
              "gate2_potential_gauge": gate2(cc),
              "gate3_coarse_graining": gate3(cc, cheap=cheap),
-             "gate4_reciprocity_action": g4}
-        hard = [g for g in GATES if g not in FLAG_ONLY and not r[g][0]]
-        r["_name"] = cc.name
-        r["_verdict"] = "REJECT" if hard else "ADMIT"
-        r["_failed"] = hard
-        r["_flags"] = (["CONVENTION-DEPENDENT (potential gauge)"]
-                       if r["gate2_potential_gauge"][1].get("gauge_dependent")
-                       else [])
-        out.append(r)
+             GATE4: g4}
+        out.append(_finish(r, cc))
     return out
 
 
@@ -2583,6 +3002,69 @@ def known_families() -> Dict[str, Candidate]:
     return F
 
 
+# ------------------------------- the EXTERNAL AXIS basis element (FIX 4)
+def external_axis_elements() -> Dict[str, Candidate]:
+    """K = exp[f0 I + f_E e_ext e_ext^T] -- the grammar completeness fix.
+
+    Run AO established that NOT ONE of the 3,123 tournament candidates carries
+    an external tidal axis (network 1,560 / source 780 / isotropic 783 /
+    EXTERNAL 0), so the built and calibrated 2-D shear phase channel was
+    pointed at a hypothesis the grammar could not express.  The element is
+    added here and put through the gates.
+
+    Two members, because the split between them is the whole content:
+
+      `F1_ext_axis_const`  f0, f_E CONSTANT.  K is then a constant symmetric
+          positive-definite tensor, and div[K grad Psi] = 4 pi G rho is the
+          Euler-Lagrange equation of
+              L = -(1/8 pi G)(grad Psi)^T K (grad Psi) - rho Psi
+          exactly.  Variational by construction.
+
+      `F2_ext_axis_gn_gated`  f_E = f_E(|grad Phi_N|).  Then, writing
+          (Ku)_i = a(|u|) u_i + b(|u|)(e.u) e_i, the antisymmetric part of
+          dM_i/du_j is  (e.u) b'(|u|) [uhat_j e_i - uhat_i e_j],  which
+          vanishes only where e || uhat.  NOT a gradient in u.
+
+    NO OBSERVATIONAL CLAIM IS ATTACHED TO EITHER.  Run AO's 95% exclusion for
+    this hypothesis sits at an ellipticity of 2.11, above the geometric
+    maximum of 1, so the present sample cannot exclude physically allowed
+    amplitudes.  This is a grammar completeness fix, not evidence.
+    """
+    out: Dict[str, Candidate] = {}
+    out["F1_ext_axis_const"] = Candidate(
+        "F1_ext_axis_const", base="aqual", struct="tensor_E_const",
+        inv="one", form="off", A=0.4,
+        ext=dict(f0=0.0, f_E=0.4, axis=E_EXT),
+        note="K = exp[f0 I + f_E e_ext e_ext^T], f0 and f_E CONSTANT; "
+             "e_ext a large-scale tidal axis declared from the environment")
+    out["F2_ext_axis_gn_gated"] = Candidate(
+        "F2_ext_axis_gn_gated", base="aqual", struct="tensor_E",
+        inv="gn", form="inv", m=1.0, I0=1.0, A=0.4,
+        ext=dict(f0=0.0, axis=E_EXT),
+        note="the same element with f_E gated on |grad Phi_N|/a0")
+    out["F3_ext_axis_tidal_gated"] = Candidate(
+        "F3_ext_axis_tidal_gated", base="aqual", struct="tensor_E",
+        inv="tidal", form="inv", m=2.0, I0=1.0e-33, A=0.4,
+        ext=dict(f0=0.0, axis=E_EXT),
+        note="the same element with f_E gated on the tidal invariant |T|")
+    return out
+
+
+def external_axis_exact_k_r(f0: float, fE: float, cos_theta) -> np.ndarray:
+    """The EXACT radial eigenvalue of K = exp[f0 I + f_E e e^T].
+
+    e e^T is a projector, so exp[f0 I + f_E e e^T]
+        = e^f0 [ I + (e^f_E - 1) e e^T ]
+    and rhat^T K rhat = e^f0 [1 + (e^f_E - 1) (e.rhat)^2] exactly.  The
+    bench's declared reduction uses exp(A W lambda) with lambda the traceless
+    radial component, the same approximation it already uses for tensor_d and
+    tensor_T; this function exists so the size of that approximation is
+    reported rather than assumed.
+    """
+    c2 = np.asarray(cos_theta, float) ** 2
+    return math.exp(f0) * (1.0 + (math.exp(fE) - 1.0) * c2)
+
+
 # ------------------------------------------------------- structural theorems
 def exponential_grammar_sign_theorem(n: int = 200000,
                                      seed: int = 3) -> Dict[str, Any]:
@@ -2613,6 +3095,1246 @@ def bounded_response_check(form: str) -> Dict[str, Any]:
                 note="a response confined to a bounded range cannot change "
                      "the asymptotic force law; it can only renormalise the "
                      "constant in front of it")
+
+
+# =================================================== 9. THE CURL IDENTITY
+#
+#   For an ALGEBRAIC VECTOR PRESCRIPTION  g_alg = nu(|g_N|) g_N  built on a
+#   curl-free Newtonian field,
+#
+#       curl g_alg = curl(nu g_N) = (grad nu) x g_N + nu (curl g_N)
+#                  = (grad nu) x g_N                     [ curl g_N = 0 ]
+#
+#   and, since grad nu = nu'(|g_N|) grad|g_N|,
+#
+#       curl g_alg = nu'(|g_N|) ( grad|g_N| ) x g_N.
+#
+#   This vanishes identically iff grad|g_N| is parallel to g_N -- i.e. iff the
+#   level surfaces of |g_N| are the field's own equipotentials, which is the
+#   SPHERICAL case.  In a nonspherical system it is generically non-zero, and
+#   its size is set entirely by how fast nu is turning, not by any pathology.
+#
+#   Run AR measured max|curl g| x 10 kpc / |g| = 0.048 for the RAR in a disc
+#   galaxy and the programme record then said a field with curl cannot come
+#   from an action.  That inference is wrong (see GATE4_SCOPE).  What is true
+#   is that 0.048 is exactly what the identity above PREDICTS -- it is the
+#   value of a known quantity, not an anomaly -- and what it establishes is
+#   that the ALGEBRAIC PRESCRIPTION is not the gradient of a single static
+#   scalar potential.  AQUAL's field-equation form of the same law is
+#   curl-free by construction and comes from an action.
+#
+# The disc used here is a declared closed-form caricature.  Its four component
+# masses are QUOTED CONSTANTS, copied from Run AR's report so that the
+# reproduction of 0.048 is a like-for-like check; they are floats in this file
+# and no file is read to obtain them.
+
+#: The disc's SHAPE parameters -- Hernquist bulge plus three Miyamoto-Nagai
+#: discs, (kind, a/kpc, b/kpc).  Run AR treated these as measured baryonic
+#: inputs rather than fitted parameters.
+DISC_SHAPE = (("hern", 0.5, 0.0), ("mn", 3.0, 0.28),
+              ("mn", 4.4, 0.9), ("mn", 7.0, 0.085))
+
+#: Run AR calibrated the four component masses SEPARATELY FOR EACH LAW, so
+#: each row of its curl table is a different baryon model.  All four are
+#: carried here as QUOTED CONSTANTS -- floats in this file, not a data read --
+#: so every row can be reproduced like-for-like rather than only one.
+DISC_MASSES = {
+    "newton": (22340791139.054028, 5.4098776192633275e-05,
+               1.3524694048158319e-05, 192446908537.971),
+    "rar": (15518218009.882872, 57212932910.81545,
+            14303233227.703863, 9.445406508473345e-05),
+    "aqual": (8497939556.1659, 61446807098.05014,
+              15361701774.512535, 0.00010743699864526236),
+    "tidal_scalar": (4284164432.0764375, 67530598367.12024,
+                     16882649591.78006, 7.150729476294863e-05),
+}
+DISC_MASSES["qumond"] = DISC_MASSES["rar"]
+
+#: Run AR's a0 per row, and the tidal gate it froze.
+A0_RUN_AR = 1.0844e-10
+A0_RUN_AR_TIDAL = 1.002e-10
+TIDAL_GATE_RUN_AR = dict(A=16.0, m=2.0, I0=1.0e-33, form="inv")
+TIDAL_INVARIANT_H = 0.02          # Run AR's relative FD step for |T|
+
+
+def _disc_components(law: str):
+    ms = DISC_MASSES.get(law, DISC_MASSES["rar"])
+    return tuple((k, m, a, b) for (k, a, b), m in zip(DISC_SHAPE, ms))
+
+
+#: Kept for readability: the RAR row's components, the one the brief names.
+DISC_COMPONENTS = _disc_components("rar")
+
+#: Run AR's curl window and normalising length, reproduced exactly.
+CURL_R_KPC = (6.0, 80.0)
+CURL_Z_KPC = (1.0, 60.0)
+CURL_N = 40
+CURL_L_KPC = 10.0
+
+#: Run AR's recorded values, for a like-for-like comparison.  Constants, not a
+#: data read.
+RUN_AR_CURL = {"newton": dict(max=3.818359451301293e-05,
+                              median=1.7536999328322103e-06),
+               "rar": dict(max=0.048247659463176634,
+                           median=0.00044116734006837473),
+               "aqual": dict(max=0.04874994949537201,
+                             median=0.0003715519349327636),
+               "tidal_scalar": dict(max=1.0825307663221144,
+                                    median=0.00047739537643482616)}
+RUN_AR_CURL_FD_STEP_KPC = 0.05
+
+
+def disc_gN(R_kpc, z_kpc, complex_ok: bool = False, law: str = "rar"):
+    """(g_R, g_N_z) of the declared disc, closed form.
+
+    Sign convention is Run AR's: both components are the magnitudes of the
+    inward-pointing force, so the acceleration vector is -(g_R Rhat + g_z zhat)
+    and the phi-component of its curl is -(d g_R/dz - d g_z/dR).
+    """
+    dt = complex if complex_ok else float
+    R = np.asarray(R_kpc, dt) * KPC
+    z = np.asarray(z_kpc, dt) * KPC
+    gR = np.zeros(np.broadcast(R, z).shape, dtype=dt)
+    gz = np.zeros_like(gR)
+    for kind, M, a, b in _disc_components(law):
+        if M <= 0.0:
+            continue
+        Ms = M * MSUN
+        if kind == "hern":
+            r = np.sqrt(R ** 2 + z ** 2)
+            if not complex_ok:
+                r = np.maximum(r, 1e-6 * KPC)
+            f = G * Ms / (r + a * KPC) ** 2
+            gR = gR + f * R / r
+            gz = gz + f * z / r
+        else:
+            zb = np.sqrt(z ** 2 + (b * KPC) ** 2)
+            s = a * KPC + zb
+            den = (R ** 2 + s ** 2) ** 1.5
+            gR = gR + G * Ms * R / den
+            gz = gz + G * Ms * z * s / (zb * den)
+    return gR, gz
+
+
+def _nu_rar_c(x):
+    """RAR nu, written so it is complex-analytic (no expm1, no maximum)."""
+    return 1.0 / (1.0 - np.exp(-np.sqrt(x)))
+
+
+def _nu_aqual_c(x):
+    """AQUAL/QUMOND nu for mu = x/(1+x):  nu = (1 + sqrt(1 + 4/x))/2."""
+    return 0.5 * (1.0 + np.sqrt(1.0 + 4.0 / x))
+
+
+NU_OF_BASE = {"newton": lambda x: np.ones_like(x),
+              "rar": _nu_rar_c,
+              "aqual": _nu_aqual_c,
+              "qumond": _nu_aqual_c}
+
+
+def disc_tidal_invariant(R_kpc, z_kpc, h: float = TIDAL_INVARIANT_H,
+                         complex_ok: bool = False, law: str = "tidal_scalar"):
+    """|T|, the Frobenius norm of the Newtonian tidal tensor on the disc.
+
+    The SAME construction Run AR used (`orbit_model.MWBaryons.
+    tidal_invariant`), including its relative finite-difference step, so the
+    tidal row of its curl table can be reproduced like-for-like.  In the
+    window R in [6, 80] kpc, |z| in [1, 60] kpc none of Run AR's guard clamps
+    is active, so the complex-step form below is the same function.
+    """
+    R = np.asarray(R_kpc, complex if complex_ok else float)
+    z = np.asarray(z_kpc, complex if complex_ok else float)
+    dR = h * np.abs(np.real(R))
+    dz = h * np.abs(np.real(z))
+
+    def g(a, b):
+        return disc_gN(a, b, complex_ok=complex_ok, law=law)
+
+    gR_p, gz_p = g(R + dR, z)
+    gR_m, gz_m = g(R - dR, z)
+    gR_zp, gz_zp = g(R, z + dz)
+    gR_zm, gz_zm = g(R, z - dz)
+    d_RR = -(gR_p - gR_m) / (2 * dR * KPC)
+    d_zz = -(gz_zp - gz_zm) / (2 * dz * KPC)
+    d_Rz = -0.5 * ((gR_zp - gR_zm) / (2 * dz * KPC)
+                   + (gz_p - gz_m) / (2 * dR * KPC))
+    gR, _ = g(R, z)
+    d_pp = -gR / (R * KPC)
+    return np.sqrt(d_RR ** 2 + d_zz ** 2 + d_pp ** 2 + 2 * d_Rz ** 2)
+
+
+def _W_inv_c(I, m):
+    """W = 1/(1 + I^m), complex-safe (the `inv` form Run AR froze)."""
+    return 1.0 / (1.0 + I ** m)
+
+
+def disc_multiplier(R_kpc, z_kpc, base: str = "rar", a0: float = A0_RUN_AR,
+                    gate: Optional[Dict[str, Any]] = None,
+                    complex_ok: bool = False, law: Optional[str] = None):
+    """F = |g_alg| / |g_N|: the SCALAR multiplier of the algebraic law.
+
+    With a gate, a0 -> a0[1 + A W(|T|/T0)], so F depends on TWO fields and
+    the identity generalises to  curl(F g_N) = (grad F) x g_N  with grad F
+    picking up a tidal term.  The identity's FORM does not change; only what
+    is inside grad F does.
+    """
+    law = law or base
+    gR, gz = disc_gN(R_kpc, z_kpc, complex_ok=complex_ok, law=law)
+    gn = np.sqrt(gR ** 2 + gz ** 2)
+    if gate:
+        T = disc_tidal_invariant(R_kpc, z_kpc, complex_ok=complex_ok, law=law)
+        a0e = a0 * (1.0 + gate["A"] * _W_inv_c(T / gate["I0"], gate["m"]))
+    else:
+        a0e = a0
+    return NU_OF_BASE[base](gn / a0e)
+
+
+def disc_g_alg(R_kpc, z_kpc, base: str = "rar", a0: float = A0_RUN_AR,
+               complex_ok: bool = False,
+               gate: Optional[Dict[str, Any]] = None,
+               law: Optional[str] = None):
+    """The ALGEBRAIC vector prescription g_alg = F(fields) g_N."""
+    law = law or base
+    gR, gz = disc_gN(R_kpc, z_kpc, complex_ok=complex_ok, law=law)
+    F = disc_multiplier(R_kpc, z_kpc, base, a0, gate, complex_ok, law)
+    return F * gR, F * gz
+
+
+def _curl_grid():
+    R = np.geomspace(*CURL_R_KPC, CURL_N)
+    z = np.geomspace(*CURL_Z_KPC, CURL_N)
+    return np.meshgrid(R, z, indexing="ij")
+
+
+#: Run AR's four analytic curl rows, each with its own calibration.
+CURL_ROWS = {
+    "newton": dict(base="newton", a0=A0_RUN_AR, gate=None, law="newton"),
+    "rar": dict(base="rar", a0=A0_RUN_AR, gate=None, law="rar"),
+    "aqual": dict(base="aqual", a0=A0_RUN_AR, gate=None, law="aqual"),
+    "tidal_scalar": dict(base="aqual", a0=A0_RUN_AR_TIDAL,
+                         gate=TIDAL_GATE_RUN_AR, law="tidal_scalar"),
+}
+
+
+def curl_identity(row: str = "rar", hs=(0.4, 0.2, 0.1, 0.05, 0.025, 0.0125),
+                  base: Optional[str] = None,
+                  a0: Optional[float] = None) -> Dict[str, Any]:
+    """DERIVE AND VERIFY  curl g_alg = (grad nu) x g_N  on the lane's own field.
+
+    Three things are measured, all on the declared disc:
+
+    1.  The identity itself, with EXACT derivatives (complex-step, which has
+        no subtractive cancellation, so the residual is round-off and not a
+        differencing artefact).  Both sides are computed independently:
+        LHS = d_z(nu g_R) - d_R(nu g_z),  RHS = (d_z nu) g_R - (d_R nu) g_z.
+
+    2.  The Newtonian control, curl g_N, which must be zero to round-off --
+        otherwise the estimator, not the law, is producing the number.
+
+    3.  Run AR's own estimator, `max|curl g| x 10 kpc / |g|`, at Run AR's own
+        finite-difference step, so its recorded value can be compared
+        like-for-like; plus the h -> 0 convergence of the FD residual, which
+        must be second order if the identity is what is being approximated.
+    """
+    cfg = dict(CURL_ROWS.get(row, CURL_ROWS["rar"]))
+    if base is not None:
+        cfg["base"] = base
+        cfg.setdefault("law", base)
+    if a0 is not None:
+        cfg["a0"] = a0
+    base, a0, gate, law = cfg["base"], cfg["a0"], cfg["gate"], cfg["law"]
+
+    RR, ZZ = _curl_grid()
+    gRv, gzv = disc_g_alg(RR, ZZ, base, a0, gate=gate, law=law)
+    mag = np.sqrt(gRv ** 2 + gzv ** 2) / (CURL_L_KPC * KPC)
+
+    # ---- 1. exact derivatives by complex step
+    hc = 1.0e-30
+
+    def d_dz(f):
+        return f(RR, ZZ + 1j * hc).imag / (hc * KPC)
+
+    def d_dR(f):
+        return f(RR + 1j * hc, ZZ).imag / (hc * KPC)
+
+    def gR_alg(a, b):
+        return disc_g_alg(a, b, base, a0, True, gate, law)[0]
+
+    def gz_alg(a, b):
+        return disc_g_alg(a, b, base, a0, True, gate, law)[1]
+
+    def nu_f(a, b):
+        return disc_multiplier(a, b, base, a0, gate, True, law)
+
+    lhs = d_dz(gR_alg) - d_dR(gz_alg)
+    gRN, gzN = disc_gN(RR, ZZ, law=law)
+    rhs = d_dz(nu_f) * gRN - d_dR(nu_f) * gzN
+
+    def gRN_c(a, b):
+        return disc_gN(a, b, complex_ok=True, law=law)[0]
+
+    def gzN_c(a, b):
+        return disc_gN(a, b, complex_ok=True, law=law)[1]
+
+    curl_gN = d_dz(gRN_c) - d_dR(gzN_c)
+
+    den = max(float(np.abs(lhs).max()), 1e-300)
+    ident_max = float(np.abs(lhs - rhs).max() / den)
+    ident_rms = float(np.sqrt(np.mean((lhs - rhs) ** 2))
+                      / max(np.sqrt(np.mean(lhs ** 2)), 1e-300))
+    # For a curl-free law (Newton) BOTH sides are round-off, so the RELATIVE
+    # residual of the identity is 0/0 and means nothing.  Say so rather than
+    # quoting it.
+    ident_measurable = bool(float((np.abs(lhs) / mag).max()) > 1.0e-12)
+
+    # ---- 3. Run AR's estimator, at Run AR's step and in the continuum
+    def estimator(h):
+        gRp, _ = disc_g_alg(RR, ZZ + h, base, a0, gate=gate, law=law)
+        gRm, _ = disc_g_alg(RR, ZZ - h, base, a0, gate=gate, law=law)
+        _, gzp = disc_g_alg(RR + h, ZZ, base, a0, gate=gate, law=law)
+        _, gzm = disc_g_alg(RR - h, ZZ, base, a0, gate=gate, law=law)
+        c = (gRp - gRm) / (2 * h * KPC) - (gzp - gzm) / (2 * h * KPC)
+        q = np.abs(c) / mag
+        return c, float(q.max()), float(np.median(q))
+
+    conv = []
+    for h in hs:
+        c, mx, md = estimator(h)
+        conv.append(dict(h_kpc=h, max_q=mx, median_q=md,
+                         rel_residual=float(np.abs(c - rhs).max() / den)))
+    slopes = [math.log(conv[i]["rel_residual"] / conv[i + 1]["rel_residual"])
+              / math.log(conv[i]["h_kpc"] / conv[i + 1]["h_kpc"])
+              for i in range(len(conv) - 1)]
+
+    _, mx_ar, md_ar = estimator(RUN_AR_CURL_FD_STEP_KPC)
+    q_exact = np.abs(lhs) / mag
+    q_pred = np.abs(rhs) / mag
+    rec = RUN_AR_CURL.get(row)
+    return dict(
+        row=row, base=base, a0=a0, gated=bool(gate), calibration=law,
+        window=dict(R_kpc=list(CURL_R_KPC), z_kpc=list(CURL_Z_KPC),
+                    n=CURL_N, L_kpc=CURL_L_KPC),
+        identity_max_rel_residual=ident_max,
+        identity_rms_rel_residual=ident_rms,
+        identity_measurable=ident_measurable,
+        curl_gN_max_q=float((np.abs(curl_gN) / mag).max()),
+        estimator_exact_max_q=float(q_exact.max()),
+        estimator_exact_median_q=float(np.median(q_exact)),
+        identity_predicted_max_q=float(q_pred.max()),
+        identity_predicted_median_q=float(np.median(q_pred)),
+        estimator_at_run_AR_step=dict(h_kpc=RUN_AR_CURL_FD_STEP_KPC,
+                                      max_q=mx_ar, median_q=md_ar),
+        run_AR_recorded=rec,
+        run_AR_max_reproduced_rel=(None if rec is None else
+                                   float(abs(mx_ar - rec["max"])
+                                         / max(rec["max"], 1e-300))),
+        fd_convergence=conv, fd_convergence_slopes=slopes,
+        statement=(
+            "curl g_alg = (grad nu) x g_N, verified to "
+            f"{ident_max:.2e} relative with exact derivatives. The measured "
+            "curl is a PREDICTION of the identity, not an anomaly. It shows "
+            "the ALGEBRAIC VECTOR PRESCRIPTION is not the gradient of a "
+            "single static scalar potential; it does NOT show that MOND has "
+            "no action -- AQUAL's field-equation form of the same law is "
+            "curl-free by construction."))
+
+
+def curl_spherical_control(n: int = 60) -> Dict[str, Any]:
+    """The other side of the identity: in a SPHERICAL system it is zero.
+
+    grad|g_N| is parallel to g_N for any spherical source, so
+    (grad nu) x g_N vanishes identically -- which is exactly why the
+    tournament's spherical channels, and this compiler's own radial Jacobian,
+    are BLIND to the obstruction the curl measures.  Stated numerically so the
+    blindness is a measured property of the bench, not an assumption.
+    """
+    comp = Plummer(1.0e11 * MSUN, 4.0 * KPC)
+    rng = np.random.default_rng(11)
+    x = rng.normal(size=(n, 3))
+    x = x / np.linalg.norm(x, axis=1, keepdims=True) * (
+        np.geomspace(2.0, 200.0, n) * KPC)[:, None]
+    h = 1.0e-4 * KPC
+    out = {}
+    for base in ("rar", "aqual"):
+        def g_alg(p):
+            gv = comp.g(p)
+            gn = np.linalg.norm(gv, axis=-1)
+            return NU_OF_BASE[base](gn / A0_RUN_AR)[..., None] * gv
+        Jc = np.zeros((n, 3, 3))
+        for j in range(3):
+            e = np.zeros(3)
+            e[j] = h
+            Jc[:, :, j] = (g_alg(x + e) - g_alg(x - e)) / (2 * h)
+        anti = Jc - np.transpose(Jc, (0, 2, 1))
+        out[base] = float(np.abs(anti).max()
+                          / max(np.abs(Jc).max(), 1e-300))
+    return dict(max_relative_antisymmetry=out, n=n,
+                statement="in a spherical system grad|g_N| || g_N, so "
+                          "(grad nu) x g_N == 0 and the algebraic "
+                          "prescription IS a gradient. Every spherical "
+                          "channel in this programme is therefore blind to "
+                          "the obstruction the curl measures.")
+
+
+# ============================== 10. u-SPACE INTEGRABILITY (GATE 4 channel A)
+def _K_of_u(cand: Candidate, u: np.ndarray) -> np.ndarray:
+    """K(u) u for a candidate whose K is a function of u = grad Phi_N alone.
+
+    Returns the (N,3) image M(u) = K(u) u.  Raises for a candidate whose K is
+    NOT a function of u -- those are excluded structurally, not measured.
+    """
+    gn = np.linalg.norm(u, axis=-1)
+    uh = u / np.maximum(gn, 1e-300)[:, None]
+    W = (np.ones_like(gn) if cand.struct in CONSTANT_COUPLING_STRUCTS
+         else (np.zeros_like(gn) if (cand.form == "off" or cand.inv == "one")
+               else W_of(cand.form, (gn / A0) / cand.I0, cand.m)))
+    A = float(cand.A)
+    st = cand.struct
+    if st in ("scalar_a0", "depth", "none", "iso_K"):
+        if st == "iso_K":
+            k = np.exp(np.clip(-A * W, -700, 700))
+            g = mond_invert(gn, k, cand.a0, cand.base)
+        else:
+            a_eff = np.maximum(cand.a0 * (1.0 + A * W), 1e-14 * cand.a0)
+            g = g_of_gN(cand.base, gn, a_eff)
+        return (g / np.maximum(gn, 1e-300))[:, None] * u
+    if st == "tensor_d":
+        # K = exp[A W (uhat uhat^T - I/3)], for which K u = e^{2AW/3} u.
+        return np.exp(np.clip(2.0 * A * W / 3.0, -700, 700))[:, None] * u
+    if st in EXTERNAL_AXIS_STRUCTS:
+        e = np.asarray((cand.ext or {}).get("axis", E_EXT), float)
+        e = e / np.linalg.norm(e)
+        f0 = float((cand.ext or {}).get("f0", 0.0))
+        fE = A * W                     # the external-axis coupling
+        pre = math.exp(f0)
+        return pre * (u + (np.exp(np.clip(fE, -700, 700)) - 1.0)[:, None]
+                      * (u @ e)[:, None] * e[None, :])
+    raise ValueError(f"K is not a function of u alone for struct '{st}'")
+
+
+K_IS_A_FUNCTION_OF_U = {"scalar_a0", "iso_K", "tensor_d", "none",
+                        "tensor_E", "tensor_E_const"}
+
+
+def u_space_integrability(cand: Candidate, n: int = 240,
+                          seed: int = 20260904) -> Dict[str, Any]:
+    """IS K(u)u A GRADIENT IN u = grad Phi_N?  The exact GATE 4 criterion.
+
+    In QUMOND form  lap Psi = div[K(.) grad Phi_N]  with Phi_N still solving
+    Poisson, the system is the Euler-Lagrange system of an action IF AND ONLY
+    IF the map M(u) = K(u)u is a gradient in u-space, i.e. iff the Jacobian
+    dM_i/du_j is symmetric.  Measured directly, on a 3-D cloud of u vectors,
+    with no spherical reduction -- which matters, because the spherical
+    reduction the radial Jacobian uses is BLIND to any obstruction whose only
+    signature is a direction (see `curl_spherical_control`).
+
+    Worked cases, all reproduced numerically here:
+
+      K = phi(|u|) I            M = phi(|u|) u,   dM = phi' uhat_j u_i
+                                + phi delta_ij -- symmetric.  GRADIENT.
+      K = exp[a(|u|)(uu^T-I/3)] K u = e^{2a/3} u -- the same form.  GRADIENT.
+      K = exp[f0 I + f_E e e^T] with CONSTANT f0, f_E: M = K u is linear with
+                                a symmetric matrix.  GRADIENT.
+      the same with f_E = f_E(|u|): the antisymmetric part is
+                                (e.u) f_E' e^{f0+f_E} [uhat_j e_i - uhat_i e_j]
+                                which vanishes only where e || uhat.  NOT a
+                                gradient -- and this is the external-axis
+                                element of FIX 4, decided by derivation.
+    """
+    if cand.struct not in K_IS_A_FUNCTION_OF_U:
+        return dict(applicable=False, struct=cand.struct,
+                    note=f"K is not a function of u = grad Phi_N for "
+                         f"structure '{cand.struct}': it reads "
+                         f"{TENSOR_SOURCE.get(cand.struct, 'an unknown field')}"
+                         f", so the question 'is K(u)u a gradient in u' does "
+                         f"not arise. The structural argument decides it.")
+    if cand.inv not in ("one", "gn") and cand.responds():
+        return dict(applicable=False, struct=cand.struct, invariant=cand.inv,
+                    note=f"the coupling is gated on '{cand.inv}', which is "
+                         f"not a function of u, so K is not a function of u.")
+    rng = np.random.default_rng(seed)
+    d = rng.normal(size=(n, 3))
+    d /= np.linalg.norm(d, axis=1, keepdims=True)
+    u = d * (10 ** rng.uniform(-13.0, -8.0, n))[:, None]
+    h = 1.0e-6
+    J = np.zeros((n, 3, 3))
+    for j in range(3):
+        du = np.zeros((n, 3))
+        du[:, j] = h * np.linalg.norm(u, axis=-1)
+        J[:, :, j] = (_K_of_u(cand, u + du) - _K_of_u(cand, u - du)) \
+            / (2 * du[:, j])[:, None]
+    anti = J - np.transpose(J, (0, 2, 1))
+    scale = np.maximum(np.abs(J).max(axis=(1, 2)), 1e-300)
+    per_point = np.abs(anti).max(axis=(1, 2)) / scale
+    val = float(per_point.max())
+    return dict(applicable=True, struct=cand.struct, n=n,
+                max_relative_antisymmetry=val,
+                median_relative_antisymmetry=float(np.median(per_point)),
+                floor=U_SPACE_FLOOR, is_a_gradient=bool(val <= U_SPACE_FLOOR),
+                note="dM_i/du_j for M(u) = K(u)u, central differences in "
+                     "u-space; symmetric iff the QUMOND-form law comes from "
+                     "an action with Phi_N still Newtonian")
+
+
+#: Central-difference floor of the u-space Jacobian symmetry test, measured on
+#: the base laws (which are gradients exactly) rather than assumed.
+U_SPACE_FLOOR = 1.0e-7
+
+
+# ================================== 11. THE REJECTION TAXONOMY (FIX 1)
+#
+# "3,036 of 3,123 rejected (97.2%)" conflates verdicts that are NOT
+# scientifically equivalent.  A law with an indefinite kinetic operator is
+# dead; a law that has no action AS WRITTEN but would have one if its gating
+# field were promoted to a dynamical one is a to-do list; a law that depends
+# on the arbitrary additive zero of Phi has an ill-posed FORMULA, not
+# necessarily an ill-posed theory; and a law that a coordinate stretch can
+# imitate is internally consistent and merely unmeasurable ON THIS BENCH.
+# Lumping the four together overstates the result.
+
+TAXONOMY_BINS = (
+    "mathematically_inconsistent",
+    "representation_convention_dependent",
+    "physically_incomplete_as_written",
+    "not_decidable_on_this_bench",
+    "non_identifiable_on_this_bench",
+    "outside_declared_model_class",
+    "admissible",
+)
+
+TAXONOMY_DOC = {
+    "mathematically_inconsistent": (
+        "Dimensional inconsistency, an ill-posed PDE, loss of a "
+        "positive-definite kinetic operator, violation of a DECLARED "
+        "symmetry, or mesh-dependent physical predictions with NO physical "
+        "scale (no continuum limit at all). NO REPAIR IS NAMED: these are "
+        "dead inside the declared class and outside it."),
+    "representation_convention_dependent": (
+        "The prediction depends on a CONVENTION rather than on the world: "
+        "the arbitrary additive zero of Phi, or a cataloguer's partition of "
+        "one fixed continuous mass distribution. This kills the FORMULA AS "
+        "WRITTEN, not every theory of its kind -- a physical boundary "
+        "condition, an environmental scalar, a covariant field or a "
+        "partition-independent representation can define a meaningful "
+        "potential DIFFERENCE or a well-defined continuum functional. REPAIR: "
+        "declare the convention; the physics content does not change."),
+    "physically_incomplete_as_written": (
+        "There is no action for the law AS WRITTEN inside the declared "
+        "static, velocity-independent scalar-potential class, but a "
+        "variational completion may well exist if the gating field is "
+        "promoted to a dynamical one -- which is precisely how AQUAL supplies "
+        "an action for MOND. REPAIR: add the field; the theory changes."),
+    "not_decidable_on_this_bench": (
+        "The field equation AT THIS SETTING is too ill-conditioned for the "
+        "bench's solver to reach its declared tolerance: the condition number "
+        "of K exceeds 1e8 across the probes, above which a float64 conjugate-"
+        "gradient solve cannot reach a 1e-11 relative residual. This is a "
+        "property of the AMPLITUDE and of the SOLVER, not of the functional "
+        "form -- the same family at a smaller amplitude is decided normally, "
+        "and a badly conditioned uniformly elliptic operator is NOT an "
+        "ill-posed one. Used only when no structural defect is present. "
+        "REPAIR: a smaller amplitude, or a better-conditioned solve."),
+    "non_identifiable_on_this_bench": (
+        "Internally consistent and possibly true, but no EXPERIMENT on this "
+        "bench can identify it: a constant tensor degenerate with a "
+        "coordinate stretch, a source deprojection, an inclination or a "
+        "mass-to-light offset. REPAIR: a different experiment, not a "
+        "different theory."),
+    "outside_declared_model_class": (
+        "The candidate declares a model class GATE 4 does not adjudicate -- "
+        "velocity-dependent forces, vector-potential / gravitomagnetic "
+        "sectors, extra propagating fields, relativistic completions. "
+        "LABELLED 'action-based but OUTSIDE the scalar-potential class'. NOT "
+        "a rejection."),
+    "admissible": "Passes every gate that applies to it.",
+}
+
+#: Severity order used to pick ONE primary bin per candidate, most binding
+#: obstruction first.  The ordering is by WHAT IT TAKES TO REPAIR:
+#:   1. mathematically inconsistent      -- no repair named
+#:   2. representation / convention      -- the formula has no determinate
+#:      content until a convention is declared, so the variational question
+#:      does not even arise for it; this is PRIOR to (3)
+#:   3. physically incomplete as written -- well-posed but non-variational;
+#:      repairable by changing the theory
+#:   4. not decidable on this bench      -- the SETTING is too ill-conditioned
+#:      for the solver; the family is untouched
+#:   5. non-identifiable on this bench   -- the theory is fine; the bench is
+#:      not
+TAXONOMY_SEVERITY = ("mathematically_inconsistent",
+                     "representation_convention_dependent",
+                     "physically_incomplete_as_written",
+                     "not_decidable_on_this_bench",
+                     "non_identifiable_on_this_bench")
+
+
+def _g3_has_continuum_limit(g3val: Dict[str, Any]) -> bool:
+    """Does GATE 3's own measurement show a continuum limit exists?"""
+    pc = g3val.get("pair_collapse")
+    if pc is not None:
+        return bool(pc.get("has_continuum_limit"))
+    sel = g3val.get("selective_refinement")
+    if sel is not None:
+        by_p = sel.get("by_p", {})
+        if by_p and not any(v.get("admissible") for v in by_p.values()):
+            # the weight of a refined object against an untouched one moves as
+            # N^(1-p) with no limit: mesh-dependent with NO physical scale
+            return False
+    rep = g3val.get("representation")
+    if rep is not None and "drift" in rep:
+        d = rep["drift"]
+        ks = sorted(d)
+        if len(ks) >= 2:
+            return bool(d[ks[-1]] < d[ks[0]])
+    return True
+
+
+def taxonomy_of(res: Dict[str, Any], cand: Candidate) -> Dict[str, Any]:
+    """Re-partition ONE compiler verdict into the explicit taxonomy.
+
+    Returns the primary bin, the full (non-exclusive) defect list with the
+    gate that produced each, and the bin each gate contributed to -- so the
+    partition can be audited and re-cut without re-running the compiler.
+    """
+    g1, g2 = res["gate1_constant_K"], res["gate2_potential_gauge"]
+    g3, g4 = res["gate3_coarse_graining"], res[GATE4]
+    v4 = g4[1]
+    defects: List[Dict[str, str]] = []
+
+    def add(code, bin_, gate, note):
+        defects.append(dict(code=code, bin=bin_, gate=gate, note=note))
+
+    # ---- GATE 4 ------------------------------------------------------
+    if v4.get("out_of_declared_class"):
+        add("outside_declared_model_class", "outside_declared_model_class",
+            GATE4,
+            f"declares model class '{cand.model_class}'; GATE 4 adjudicates "
+            f"'{MODEL_CLASS_IN_SCOPE}' only and returns no verdict")
+    elif not g4[0]:
+        health = v4.get("health", {})
+        rec = v4.get("reciprocity", {})
+        usp = v4.get("u_space", {})
+        # ORDER MATTERS AND IS DECLARED.  GATE 4's own control flow returns on
+        # the numerical-health check FIRST, which would otherwise let a
+        # SOLVER limitation mask a STRUCTURAL defect and inflate the
+        # mathematically-inconsistent bin.  The taxonomy therefore consults
+        # the structural findings -- which are recorded in the gate's value
+        # dict whether or not the gate returned on them -- BEFORE the
+        # conditioning one, and uses conditioning only as a last resort.
+        if not health.get("positive_definite", True):
+            add("indefinite_kinetic_operator", "mathematically_inconsistent",
+                GATE4,
+                f"min eigenvalue of K = "
+                f"{health.get('min_k_eigenvalue', float('nan')):.3e} <= 0: "
+                f"the kinetic term is not sign-definite and the elliptic "
+                f"operator changes type")
+        elif not health.get("finite_positive_g", True):
+            add("no_bounded_solution", "mathematically_inconsistent", GATE4,
+                "the predicted acceleration is not finite and positive "
+                "everywhere on the probes: the field equation has no bounded "
+                "solution at this setting")
+        elif rec.get("applicable") and not rec.get("reciprocal") \
+                and not cand.momentum_carrier:
+            add("violates_declared_reciprocity", "mathematically_inconsistent",
+                GATE4,
+                f"F(x,x') != F(x',x) at "
+                f"{rec.get('max_relative_asymmetry', float('nan')):.2e} "
+                f"relative with no momentum carrier declared: a DECLARED "
+                f"symmetry of the model class is violated")
+        elif v4.get("rowlist_response"):
+            lim = _g3_has_continuum_limit(g3[1])
+            add("functional_derivative_undefined_without_a_partition",
+                ("representation_convention_dependent" if lim
+                 else "mathematically_inconsistent"), GATE4,
+                "delta g(x)/delta rho(y) is not defined without the "
+                "cataloguer's partition"
+                + (": a continuum limit exists, so this is a representation "
+                   "choice, repairable by declaring one"
+                   if lim else
+                   ": and GATE 3 finds NO continuum limit, so there is no "
+                   "partition-independent functional to declare"))
+        elif usp.get("applicable") and not usp.get("is_a_gradient", True):
+            add("K_of_u_is_not_a_gradient",
+                "physically_incomplete_as_written", GATE4,
+                f"u-space Jacobian antisymmetry "
+                f"{usp.get('max_relative_antisymmetry', float('nan')):.3e} > "
+                f"{U_SPACE_FLOOR:.0e}: no action in the declared class "
+                f"produces this law as written; promoting the gating field "
+                f"to a dynamical one is the named repair")
+        elif not v4.get("response_field", {}).get("admissible", True):
+            src = v4["response_field"]
+            if cand.inv in GAUGE_DEPENDENT_INVARIANTS:
+                add("response_reads_an_undetermined_additive_constant",
+                    "representation_convention_dependent", GATE4,
+                    "the response reads |Phi_N|, which is defined only up to "
+                    "a constant, so the FORMULA AS WRITTEN has no "
+                    "determinate content until a boundary rule is declared. "
+                    "A physical boundary condition, an environmental scalar "
+                    "or a covariant potential DIFFERENCE all repair it")
+            else:
+                add("not_variational_as_written",
+                    "physically_incomplete_as_written", GATE4,
+                    f"the response reads '{src.get('tensor')}' / "
+                    f"'{src.get('invariant')}', not a function of "
+                    f"grad Phi_N, so K(u)u is not a gradient in u; a "
+                    f"variational completion may exist with the gating field "
+                    f"promoted to a dynamical one")
+        elif health.get("degenerate"):
+            add("unsolvable_at_this_amplitude", "not_decidable_on_this_bench",
+                GATE4,
+                f"condition number of K = "
+                f"{health.get('k_condition', float('nan')):.3e} > "
+                f"{COND_MAX:.0e} across the probes, above which a float64 CG "
+                f"solve cannot reach its declared 1e-11 residual. NO "
+                f"structural defect was found for this candidate: the "
+                f"rejection is a property of the fitted AMPLITUDE and of the "
+                f"solver, not of the functional form")
+        else:
+            add("jacobian_asymmetric", "physically_incomplete_as_written",
+                GATE4,
+                f"the functional Jacobian delta Phi(r_i)/delta m_j is "
+                f"asymmetric at {v4.get('asymmetry', float('nan')):.3e} "
+                f"against a floor of {TOL_ASYM:.0e}")
+
+    # ---- GATE 3 ------------------------------------------------------
+    if not g3[0]:
+        lim = _g3_has_continuum_limit(g3[1])
+        add("coarse_graining_dependent",
+            ("representation_convention_dependent" if lim
+             else "mathematically_inconsistent"), "gate3_coarse_graining",
+            ("the response moves when ONE fixed continuous mass distribution "
+             "is re-tabulated, but a continuum limit exists: the defect is "
+             "the representation, repairable by declaring one"
+             if lim else
+             "the response has NO continuum limit under re-tabulation: a "
+             "mesh-dependent physical prediction with no physical scale"))
+
+    # ---- GATE 1 ------------------------------------------------------
+    if not g1[0]:
+        add("degenerate_with_a_coordinate_stretch",
+            "non_identifiable_on_this_bench", "gate1_constant_K",
+            f"the prediction on every probe is reproduced by an undistorted "
+            f"law acting on a stretched source to "
+            f"{g1[1].get('joint_resid_dex', float('nan')):.2e} dex: an "
+            f"EXPERIMENT on this bench cannot identify it. The theory is not "
+            f"thereby inconsistent")
+
+    # ---- GATE 2 (flag only; contributes a defect, never a rejection) ---
+    if g2[1].get("verdict_changes_across_rules"):
+        add("potential_zero_point_changes_the_verdict",
+            "representation_convention_dependent", "gate2_potential_gauge",
+            "the on/off verdict itself changes across defensible boundary "
+            "rules: the galaxy screens are decided by the convention")
+
+    rejected = bool(res["_failed"])
+    if not rejected:
+        primary = ("outside_declared_model_class"
+                   if v4.get("out_of_declared_class") else "admissible")
+    else:
+        present = {d["bin"] for d in defects}
+        primary = next((b for b in TAXONOMY_SEVERITY if b in present),
+                       "physically_incomplete_as_written")
+    return dict(primary=primary, defects=defects,
+                bins_present=sorted({d["bin"] for d in defects}),
+                rejected=rejected)
+
+
+# ============================ 12. EXTERNAL POSITIVE CONTROLS (FIX 3)
+#
+# "35 of 35 tests agree with previous programme verdicts" is regression
+# testing: it risks validating the compiler against the conclusions that
+# shaped it.  The controls below have answers fixed OUTSIDE this programme --
+# by textbook field theory -- and the compiler is scored against those.
+#
+# The sharpest of them is the vector-potential case.  It has non-zero curl and
+# a perfectly valid action, and it is EXACTLY the case the published claim
+# ("a field with curl cannot come from an action") would have mishandled.  If
+# the compiler rejects it, the gate is still mis-scoped.
+
+def _yukawa_shell_green(alpha: float, lam: float) -> Callable:
+    """Phi at r_i from a unit-mass thin shell at r_j, for
+
+        L = -(1/8 pi G)|grad Phi|^2 - (1/2)[|grad chi|^2 + chi^2/lam^2]
+            - rho (Phi + alpha chi)
+
+    The Newtonian part is -G/max(r_i, r_j).  The Yukawa part, shell-averaged,
+    is  -G alpha (lam / (r_i r_j)) sinh(r_< / lam) exp(-r_> / lam).  BOTH are
+    manifestly symmetric under i <-> j, because the underlying two-point
+    kernel is a function of |x - y| alone -- which is what "derived from an
+    action" buys you.
+    """
+    def green(ri, rj):
+        lo, hi = (ri, rj) if ri <= rj else (rj, ri)
+        newt = -G / hi
+        yuk = -G * alpha * (lam / (ri * rj)) * math.sinh(lo / lam) \
+            * math.exp(-hi / lam)
+        return newt + yuk
+    return green
+
+
+def _sym_nonlocal_green(w0: float, lam: float) -> Callable:
+    """Phi at r_i from a unit shell at r_j for a SYMMETRIC nonlocal action
+
+        S_int = -(1/2) Int Int rho(x) W(|x - y|) rho(y) d3x d3y,
+        W(d) = -G[1/d + w0 exp(-d^2 / 2 lam^2)]
+
+    Shell-averaged, the Gaussian part is
+        -G w0 (lam^2 / (r_i r_j)) [exp(-(r_i-r_j)^2/2lam^2)
+                                   - exp(-(r_i+r_j)^2/2lam^2)]
+    which is symmetric by inspection.  A symmetric W is the definition of a
+    reciprocal nonlocal interaction and it comes from an action; the compiler
+    must ADMIT it.  A GAUSSIAN kernel is used rather than a Yukawa one on
+    purpose: it is not the Green's function of any local differential
+    operator, so the control really is testing nonlocality and not just a
+    second field.
+    """
+    def green(ri, rj):
+        lo, hi = (ri, rj) if ri <= rj else (rj, ri)
+        gauss = -G * w0 * (lam ** 2 / (ri * rj)) * (
+            math.exp(-((ri - rj) ** 2) / (2 * lam ** 2))
+            - math.exp(-((ri + rj) ** 2) / (2 * lam ** 2)))
+        return -G / hi + gauss
+    return green
+
+
+def _non_reciprocal_catalogue_kernel(beta: float = 0.6) -> Callable:
+    """A DELIBERATELY non-reciprocal catalogue force.
+
+        F(x, x') = -G [1 + beta |x| / (|x| + |x'|)] / |x - x'|
+
+    The bracket is not symmetric under x <-> x', so the object nearer the
+    catalogue centre pulls harder than it is pulled.  Newton's third law is
+    violated by construction and the compiler must REJECT it.
+    """
+    def k(x, y):
+        dx = float(np.linalg.norm(np.asarray(x) - np.asarray(y)))
+        rx = float(np.linalg.norm(x))
+        ry = float(np.linalg.norm(y))
+        return -G * (1.0 + beta * rx / max(rx + ry, 1e-300)) \
+            / max(dx, 1e-3 * KPC)
+    return k
+
+
+def external_controls() -> Dict[str, Tuple[Candidate, str, str]]:
+    """{tag: (candidate, required_verdict, why the answer is known)}.
+
+    `required_verdict` is one of ADMIT / REJECT / OUTSIDE-CLASS and is fixed
+    by field theory written down outside this programme, NOT by any verdict
+    this programme has reached.
+    """
+    C: Dict[str, Tuple[Candidate, str, str]] = {}
+    C["XC1_newton_poisson"] = (
+        Candidate("XC1_newton_poisson", base="newton", struct="none",
+                  inv="one", form="off", A=0.0,
+                  note="lap Phi = 4 pi G rho, from "
+                       "L = -(1/8 pi G)|grad Phi|^2 - rho Phi"),
+        "ADMIT",
+        "the canonical variational field theory of gravity in the weak "
+        "field. If a pre-data admissibility compiler rejects Newton, the "
+        "compiler is broken.")
+    C["XC2_aqual"] = (
+        Candidate("XC2_aqual", base="aqual", struct="none", inv="one",
+                  form="off", A=0.0,
+                  note="div[mu(|grad Phi|/a0) grad Phi] = 4 pi G rho, from "
+                       "L = -(1/8 pi G) a0^2 f(|grad Phi|^2/a0^2) - rho Phi"),
+        "ADMIT",
+        "Bekenstein & Milgrom 1984 constructed AQUAL PRECISELY to give MOND "
+        "an action. Its field equation is the Euler-Lagrange equation of a "
+        "written-down Lagrangian, it conserves momentum, energy and angular "
+        "momentum, and its field is curl-free by construction.")
+    C["XC3_qumond"] = (
+        Candidate("XC3_qumond", base="qumond", struct="none", inv="one",
+                  form="off", A=0.0,
+                  note="lap Psi = div[nu(|grad Phi_N|/a0) grad Phi_N], from "
+                       "a two-potential Lagrangian"),
+        "ADMIT",
+        "QUMOND is a bi-potential Lagrangian theory (Milgrom 2010); K(u)u is "
+        "a gradient in u = grad Phi_N by construction for nu(|u|)u.")
+    C["XC4_yukawa_from_action"] = (
+        Candidate("XC4_yukawa_from_action", base="newton", struct="yukawa",
+                  inv="one", form="off", A=1.0,
+                  ext=dict(range_m=10.0 * KPC, profile="yukawa"),
+                  green=_yukawa_shell_green(1.0, 10.0 * KPC),
+                  note="a massive scalar of range 10 kpc coupled to rho with "
+                       "strength alpha = 1.0"),
+        "ADMIT",
+        "a Yukawa scalar is the textbook example of a variational "
+        "modification: its two-point kernel is a function of |x - y| alone, "
+        "so it is reciprocal and its functional Jacobian is symmetric "
+        "exactly. The range is chosen INSIDE the probes' 10-30 kpc span so "
+        "the control tests admissibility rather than sensitivity; a "
+        "long-range weak Yukawa is genuinely degenerate with a "
+        "mass-to-light offset and GATE 1 is right to say so -- see "
+        "`XCS_yukawa_subthreshold`.")
+    _W0, _LAMG = -0.35, 8.0 * KPC
+    C["XC5_symmetric_nonlocal_action"] = (
+        Candidate("XC5_symmetric_nonlocal_action", base="newton",
+                  struct="nonlocal_sym", inv="one", form="off", A=_W0,
+                  ext=dict(range_m=_LAMG, profile="gauss"),
+                  green=_sym_nonlocal_green(_W0, _LAMG),
+                  pair_kernel=lambda x, y: -G * (
+                      1.0 / max(float(np.linalg.norm(np.asarray(x)
+                                                     - np.asarray(y))),
+                                1e-3 * KPC)
+                      + _W0 * math.exp(
+                          -float(np.linalg.norm(np.asarray(x)
+                                                - np.asarray(y))) ** 2
+                          / (2 * _LAMG ** 2))),
+                  note="S_int = -(1/2) Int Int rho W(|x-y|) rho with "
+                       "W(d) = -G[1/d + w0 exp(-d^2/2 lam^2)], w0 = -0.35, "
+                       "lam = 8 kpc: symmetric, and NOT the Green's function "
+                       "of any local operator"),
+        "ADMIT",
+        "a nonlocal action with a SYMMETRIC kernel is variational and "
+        "reciprocal by construction. Nonlocality is not the defect; "
+        "ASYMMETRY is. A compiler that rejects all nonlocal laws is "
+        "over-rejecting.")
+    _OMEGA = -1.0            # Brans-Dicke omega = -1: the string dilaton
+    _ALPHA_ST = 1.0 / (3.0 + 2.0 * _OMEGA)                     # = 1.0
+    C["XC6_scalar_tensor_weak_field"] = (
+        Candidate("XC6_scalar_tensor_weak_field", base="newton",
+                  struct="yukawa", inv="one", form="off", A=_ALPHA_ST,
+                  ext=dict(range_m=10.0 * KPC, profile="yukawa"),
+                  green=_yukawa_shell_green(_ALPHA_ST, 10.0 * KPC),
+                  note="scalar-tensor weak field, Brans-Dicke omega = -1 "
+                       "(the low-energy string dilaton): alpha = 1/(3+2w) = 1 "
+                       "with a scalaron range of 10 kpc"),
+        "ADMIT",
+        "the weak-field limit of a scalar-tensor theory is a Newtonian term "
+        "plus a Yukawa term with coupling alpha = 1/(3 + 2 omega); omega = -1 "
+        "is the low-energy string / dilaton value, so alpha = 1 exactly. "
+        "Derived from the Brans-Dicke action; both terms have symmetric "
+        "two-point kernels.")
+    C["XCS_yukawa_subthreshold"] = (
+        Candidate("XCS_yukawa_subthreshold", base="newton", struct="yukawa",
+                  inv="one", form="off", A=0.05,
+                  ext=dict(range_m=3000.0 * KPC, profile="yukawa"),
+                  green=_yukawa_shell_green(0.05, 3000.0 * KPC),
+                  note="the SAME action with alpha = 0.05 and a 3 Mpc range: "
+                       "over every probe this is a constant rescaling of G"),
+        "REJECT",
+        "the CONTRAST control. Same theory class, same action, sub-threshold "
+        "parameters: over the probes a 3 Mpc-range Yukawa is a constant "
+        "rescaling of G and is therefore degenerate with the "
+        "mass-to-light ratio and the distance. The required verdict is a "
+        "REJECTION IN THE `non_identifiable_on_this_bench` BIN and nothing "
+        "stronger -- the theory is perfectly consistent, this bench just "
+        "cannot see it. If the compiler put this in a mathematical-"
+        "inconsistency bin the taxonomy would be broken.")
+    C["XCS2_fR_scalar_tensor_subthreshold"] = (
+        Candidate("XCS2_fR_scalar_tensor_subthreshold", base="newton",
+                  struct="yukawa", inv="one", form="off",
+                  A=1.0 / 3.0, ext=dict(range_m=5.0 * KPC, profile="yukawa"),
+                  green=_yukawa_shell_green(1.0 / 3.0, 5.0 * KPC),
+                  note="Brans-Dicke omega = 0, i.e. f(R) gravity: "
+                       "alpha = 1/3, scalaron range 5 kpc -- the BEST case "
+                       "for identifiability at that fixed alpha"),
+        "REJECT",
+        "the second CONTRAST control, and a real limitation this suite "
+        "exposes. f(R) gravity fixes alpha = 1/3, and at THAT amplitude no "
+        "choice of range makes the deviation exceed GATE 1's 0.040 dex on "
+        "this bench's three probes: a two-parameter coordinate stretch "
+        "absorbs it to 0.019 dex. The required verdict is a rejection in the "
+        "`non_identifiable_on_this_bench` bin. This is a statement about the "
+        "PROBE GEOMETRY, not about f(R) gravity, and it is exactly the "
+        "distinction the taxonomy exists to preserve.")
+    C["XC7_vector_potential_nonzero_curl"] = (
+        Candidate("XC7_vector_potential_nonzero_curl", base="newton",
+                  struct="vector_A", inv="one", form="off", A=1.0,
+                  model_class="vector_potential_gravitomagnetic",
+                  momentum_carrier="gravitomagnetic vector potential A",
+                  note="g = -grad Phi - dA/dt + v x (curl A), from "
+                       "L = (1/2) m v^2 + m A.v - m Phi. NON-ZERO CURL, "
+                       "PERFECTLY VALID ACTION."),
+        "OUTSIDE-CLASS",
+        "THE SHARPEST TEST. The Lorentz force has non-zero curl and follows "
+        "from L = (1/2)mv^2 + qA.v - q phi; gravitomagnetism is the exact "
+        "gravitational analogue and is a limit of general relativity. This "
+        "is the case the published claim 'a field with curl cannot come from "
+        "an action' would have mishandled. It must be LABELLED 'action-based "
+        "but OUTSIDE the scalar-potential class', NOT rejected.")
+    C["XC8_non_reciprocal_catalogue_force"] = (
+        Candidate("XC8_non_reciprocal_catalogue_force", base="newton",
+                  struct="none", inv="one", form="off", A=0.0,
+                  pair=dict(p=1.0, q=1.0, s=2.0, L=10.0 * KPC),
+                  pair_kernel=_non_reciprocal_catalogue_kernel(0.6),
+                  note="F(x,x') = -G[1 + 0.6 |x|/(|x|+|x'|)]/|x-x'|"),
+        "REJECT",
+        "Newton's third law is violated by construction: the bracket is not "
+        "symmetric under x <-> x'. Momentum is not conserved and no action "
+        "over rho produces it. Independent of anything this programme "
+        "found.")
+    C["XC9_coarse_graining_well_count"] = (
+        Candidate("XC9_coarse_graining_well_count", base="newton",
+                  struct="wells", inv="one", form="off", A=0.5,
+                  well=dict(family="plaw", p=0.0, q=2.0, s=1.0, L=10.0 * KPC),
+                  note="K = exp[sT S] with S built from a WELL COUNT: p = 0, "
+                       "so a 4e11 Msun host counts no more than a 1e9 dwarf"),
+        "REJECT",
+        "a law whose value depends on how finely a mass distribution happens "
+        "to be tabulated has no continuum limit and therefore no physical "
+        "content. This is a mathematical fact about N^(1-p) weights, not a "
+        "programme verdict.")
+    C["XC10_indefinite_kinetic_energy"] = (
+        Candidate("XC10_indefinite_kinetic_energy", base="newton",
+                  struct="indefinite_K", inv="gn", form="sat", m=1.0,
+                  I0=1.0, A=-6.0,
+                  note="k_r = 1 + A W with A = -6: K acquires a NEGATIVE "
+                       "eigenvalue, so (grad Phi)^T K (grad Phi) is not "
+                       "sign-definite"),
+        "REJECT",
+        "a kinetic term that is not sign-definite carries a ghost: the "
+        "energy is unbounded below and the elliptic operator changes type. "
+        "This is standard field theory, not a programme verdict.")
+    return C
+
+
+#: Where a control must land in the taxonomy, when the BIN and not just the
+#: verdict is the thing being tested.  A rejection in the wrong bin is a
+#: broken taxonomy even when the verdict is right.
+EXTERNAL_CONTROL_REQUIRED_BIN = {
+    "XC7_vector_potential_nonzero_curl": "outside_declared_model_class",
+    "XC8_non_reciprocal_catalogue_force": "mathematically_inconsistent",
+    "XC9_coarse_graining_well_count": "mathematically_inconsistent",
+    "XC10_indefinite_kinetic_energy": "mathematically_inconsistent",
+    "XCS_yukawa_subthreshold": "non_identifiable_on_this_bench",
+    "XCS2_fR_scalar_tensor_subthreshold": "non_identifiable_on_this_bench",
+}
+
+
+def gate1_identifiability_scan(alphas=(0.1, 1.0 / 3.0, 1.0, 3.0),
+                               ranges_kpc=(2.0, 3.0, 5.0, 10.0, 20.0, 30.0,
+                                           100.0, 1000.0)) -> Dict[str, Any]:
+    """WHERE GATE 1's identifiability threshold sits, measured not asserted.
+
+    GATE 1 is a statement about whether an EXPERIMENT can identify a law, so
+    it necessarily depends on the law's amplitude and range.  The external
+    control suite therefore has to name parameter values, and the honest test
+    is not "does a Yukawa admit" but "does the SAME theory class move between
+    ADMIT and `non_identifiable_on_this_bench` -- and never into a
+    mathematical-inconsistency bin -- as its parameters cross the threshold".
+    This scan exhibits the threshold so the control's parameter choice is a
+    reported measurement rather than a tuning.
+    """
+    grid = {}
+    for a in alphas:
+        row = {}
+        for lk in ranges_kpc:
+            c = Candidate("scan", base="newton", struct="yukawa", inv="one",
+                          form="off", A=float(a),
+                          ext=dict(range_m=float(lk) * KPC,
+                                   profile="yukawa"))
+            ok, v, _ = gate1(c)
+            row[float(lk)] = dict(
+                escapes=bool(ok),
+                max_single_probe_resid_dex=float(
+                    v["max_single_probe_resid_dex"]),
+                joint_resid_dex=float(v["joint_resid_dex"]))
+        grid[float(a)] = row
+    ident = {a: sorted(lk for lk, d in row.items() if d["escapes"])
+             for a, row in grid.items()}
+    return dict(tol_dex=TOL_DEX, grid=grid, identifiable_ranges_kpc=ident,
+                probe_span_kpc=[10.0, 30.0],
+                statement="a Yukawa is identifiable on this bench only when "
+                          "its range is comparable to the probes' own 10-30 "
+                          "kpc span AND its coupling is of order unity; "
+                          "outside that window it is degenerate with a "
+                          "coordinate stretch, which is a limitation of the "
+                          "PROBE GEOMETRY and is binned as "
+                          "`non_identifiable_on_this_bench`, never as an "
+                          "inconsistency")
+
+
+def run_external_controls(cheap: bool = False) -> Dict[str, Any]:
+    """Score the compiler against answers fixed outside this programme."""
+    rows, n_ok = {}, 0
+    for tag, (cand, want, why) in external_controls().items():
+        r = check(cand, cheap=cheap)
+        got = r["_verdict"]
+        want_bin = EXTERNAL_CONTROL_REQUIRED_BIN.get(tag)
+        got_bin = r["_taxonomy"]["primary"]
+        ok = (got == want) and (want_bin is None or got_bin == want_bin)
+        n_ok += int(ok)
+        g4 = r[GATE4]
+        rows[tag] = dict(
+            required=want, verdict=got, agrees=ok, why_known=why,
+            required_bin=want_bin, taxonomy_bin=got_bin,
+            failed=r["_failed"], labels=r["_labels"], flags=r["_flags"],
+            taxonomy=got_bin,
+            model_class=cand.model_class,
+            gate1=r["gate1_constant_K"][2],
+            gate2=r["gate2_potential_gauge"][2],
+            gate3=r["gate3_coarse_graining"][2],
+            gate4=g4[2],
+            gate4_out_of_class=bool(g4[1].get("out_of_declared_class")),
+            gate4_asymmetry=g4[1].get("asymmetry"),
+            note=cand.note)
+    return dict(n=len(rows), n_agree=n_ok, all_agree=bool(n_ok == len(rows)),
+                rows=rows,
+                statement="external positive controls: the required verdicts "
+                          "come from field theory written down outside this "
+                          "programme, so agreement is validation rather than "
+                          "regression testing")
+
+
+# ============ 13. SCOPING: generating candidates FROM admissible actions
+#
+# The reviewer's structural suggestion is to invert the generator -- start
+# from
+#
+#   L = -(1/8 pi G)(grad Phi)^T K(q, I) (grad Phi) - (Z(q)/2)|grad q|^2
+#       - V(q) - rho Phi
+#   K = exp[ f0(I) I + f_T(I) That + f_E(I) e_ext e_ext^T ]
+#
+# vary automatically, and emit the field equations -- so that symmetry,
+# reciprocity and scalar-potential integrability hold BY CONSTRUCTION rather
+# than being tested for afterwards.  This function scores that proposal
+# against the compiler's OWN measured taxonomy: which bins the inversion
+# empties by construction, which gates survive it, and which get harder.
+
+#: For each defect the compiler measures, whether the action-first generator
+#: prevents it BY CONSTRUCTION, and why.
+ACTION_FIRST_FATE = {
+    "functional_derivative_undefined_without_a_partition": (
+        "PREVENTED", "the Lagrangian above has no row-list atom: K reads "
+        "q, I, That and e_ext, all fields. A catalogue partition cannot enter "
+        "a term that is not written."),
+    "coarse_graining_dependent": (
+        "PREVENTED", "same reason: no row-list atom exists to be re-tabulated."),
+    "not_variational_as_written": (
+        "PREVENTED", "the field equations ARE the Euler-Lagrange system, so "
+        "'no action produces this law' is not expressible."),
+    "K_of_u_is_not_a_gradient": (
+        "PREVENTED", "varying a scalar functional of grad Phi gives a "
+        "gradient in grad Phi identically."),
+    "jacobian_asymmetric": (
+        "PREVENTED", "the second variation of an action is a Hessian and a "
+        "Hessian is symmetric."),
+    "violates_declared_reciprocity": (
+        "PREVENTED", "a two-point kernel obtained by inverting an elliptic "
+        "operator derived from an action is symmetric identically."),
+    "indefinite_kinetic_operator": (
+        "PARTLY", "K = exp[...] with a symmetric exponent is positive "
+        "definite identically, so the Phi sector is safe. Z(q) >= 0 and the "
+        "sign of V''(q) are NOT automatic and still need checking: a wrong "
+        "sign there is a ghost in the q sector."),
+    "no_bounded_solution": (
+        "PARTLY", "ellipticity is automatic; boundedness of the SOLUTION on "
+        "a given source is not, and neither is the existence of a stable "
+        "vacuum for V(q)."),
+    "response_reads_an_undetermined_additive_constant": (
+        "SURVIVES", "nothing stops an author writing V(q) or the coupling "
+        "with |Phi| in it. GATE 2 is untouched by the inversion and is "
+        "needed exactly as it is."),
+    "potential_zero_point_changes_the_verdict": (
+        "SURVIVES", "as above: this is a property of what the author writes, "
+        "not of how the field equations are generated."),
+    "degenerate_with_a_coordinate_stretch": (
+        "SURVIVES, AND MATTERS MORE", "a constant K is degenerate with "
+        "x -> K^(-1/2) x whatever action produced it. Generating only "
+        "admissible actions raises the fraction of the search that reaches "
+        "GATE 1, so GATE 1 becomes the binding constraint rather than a "
+        "residual one."),
+    "unsolvable_at_this_amplitude": (
+        "SURVIVES", "the conditioning of K at a given amplitude is a "
+        "numerical property of the setting; the generator does not bound "
+        "f0, f_T, f_E."),
+}
+
+
+def action_first_scoping(taxonomy: Optional[Dict[str, Any]] = None
+                         ) -> Dict[str, Any]:
+    """How much of this gate machinery survives inverting the generator.
+
+    `taxonomy` is the retrospective's own taxonomy block; when given, the
+    prevented / surviving split is computed from the MEASURED defect counts
+    rather than asserted.
+    """
+    fate = {k: dict(fate=v[0], why=v[1])
+            for k, v in ACTION_FIRST_FATE.items()}
+    out: Dict[str, Any] = dict(
+        proposal=("generate candidates FROM admissible actions: "
+                  "L = -(1/8 pi G)(grad Phi)^T K(q,I)(grad Phi) "
+                  "- (Z(q)/2)|grad q|^2 - V(q) - rho Phi, "
+                  "K = exp[f0(I) I + f_T(I) That + f_E(I) e_ext e_ext^T], "
+                  "with automatic variation emitting the field equations"),
+        per_defect_fate=fate,
+        gates=dict(
+            gate1_constant_K="SURVIVES INTACT, and becomes the binding gate. "
+                             "Degeneracy with a coordinate stretch is a "
+                             "property of K, not of its provenance.",
+            gate2_potential_gauge="SURVIVES INTACT. An action may still be "
+                                  "written with |Phi| in V(q) or in the "
+                                  "coupling.",
+            gate3_coarse_graining="BECOMES VACUOUS for this grammar, because "
+                                  "the grammar has no row-list atom. It must "
+                                  "be KEPT for any future grammar that adds "
+                                  "one -- the cost of keeping it is zero and "
+                                  "the cost of losing it is family C.",
+            gate4_scalar_potential_integrability=(
+                "ITS VERDICT BECOMES VACUOUS; ITS MEASUREMENTS DO NOT. "
+                "Integrability holds by construction, so the pass/fail is "
+                "uninformative. But the u-space antisymmetry, the curl "
+                "identity and the reciprocity measurement are still the only "
+                "things that catch a BUG in the variation code -- an "
+                "automatic differentiator that emits the wrong field "
+                "equation produces an asymmetric Jacobian, and nothing else "
+                "on this bench would notice. Demote to a self-test of the "
+                "generator, do not delete."),
+        ),
+        what_it_would_cost=dict(
+            symbolic_variation="the largest single item. Varying a functional "
+                               "of (Phi, grad Phi, q, grad q) with K a matrix "
+                               "exponential of invariants needs either a "
+                               "symbolic layer or forward-mode AD through the "
+                               "matrix exponential. The compiler already has "
+                               "the pieces for the second: `_K_of_u` is the "
+                               "map that would be differentiated, and "
+                               "`u_space_integrability` already differentiates "
+                               "it numerically.",
+            new_solver="the emitted system is TWO coupled equations (Phi and "
+                       "q), not one algebraic prescription. Every channel in "
+                       "the tournament scores an algebraic reduction, so "
+                       "either the channels change or each candidate needs a "
+                       "coupled solve -- which is the PDE-per-candidate cost "
+                       "the pre-data compiler was built to avoid.",
+            reusable=("Plummer/probe geometry, the gauge rule population, "
+                      "every GATE 1 and GATE 3 routine, the curl module, the "
+                      "u-space test, the whole taxonomy, and the external "
+                      "control suite all carry over unchanged."),
+            rewritten=("the candidate grammar (`Candidate`, `radial_eigen`, "
+                       "`predict_g`, `probe_lambda`) and GATE 4's control "
+                       "flow."),
+        ),
+        recommendation=(
+            "WORTH DOING, but not as a replacement for the gates. The "
+            "inversion removes the two bins that dominate the taxonomy and "
+            "leaves the two that do not: what it cannot do is tell you "
+            "whether the law it generated is MEASURABLE, which is GATE 1's "
+            "job and the one that survives every reformulation. Build the "
+            "generator, keep GATES 1 and 2 as they are, keep GATE 3 dormant "
+            "against future grammars, and demote GATE 4 to a self-test of "
+            "the variation code."),
+    )
+    if taxonomy:
+        dc = taxonomy.get("defect_counts", {})
+        tot = sum(dc.values()) or 1
+        agg = Counter()
+        for code, n in dc.items():
+            agg[ACTION_FIRST_FATE.get(code, ("SURVIVES", ""))[0]] += n
+        out["measured_on_the_3123"] = dict(
+            defects_total=int(tot),
+            by_fate={k: int(v) for k, v in agg.items()},
+            percent_prevented_by_construction=round(
+                100.0 * agg.get("PREVENTED", 0) / tot, 1),
+            bins_emptied=[b for b in ("mathematically_inconsistent",
+                                      "representation_convention_dependent",
+                                      "physically_incomplete_as_written")],
+            note="'prevented' counts DEFECT INSTANCES, not candidates: a "
+                 "candidate may carry more than one. The bins are emptied "
+                 "only of the defects the inversion prevents; GATE 2's "
+                 "gauge defects and GATE 1's degeneracies remain in them.")
+    return out
 
 
 if __name__ == "__main__":            # pragma: no cover
