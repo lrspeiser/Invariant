@@ -33,6 +33,29 @@ OK = "VALID"
 DEAD = "INVALIDATED_PENDING_RERUN"
 QUARANTINE = "QUARANTINED"
 
+# ------------------------------------------------------- output permission states
+# A numerically quarantined result can still steer the researcher.  Seeing that an
+# invalid run favours a radius law can shape which parameterisations are generated
+# next, which data are acquired, which boundary rules are emphasised, and which
+# later result gets described as confirmatory.  So invalidation has TWO effects,
+# not one, and the second is the one that was missing.
+DIAGNOSTIC_ONLY = "DIAGNOSTIC_ONLY"
+ADMISSIBLE = "SCIENTIFICALLY_ADMISSIBLE"
+
+PERMITTED_USE = {
+    DIAGNOSTIC_ONLY: ("locate implementation defects ONLY. May not alter "
+                      "scientific hypotheses, priors, candidate selection, "
+                      "acquisition priorities, or register conclusions. Any "
+                      "hypothesis inspired by such a run is EXPLORATORY and "
+                      "requires a fresh, independently specified test."),
+    ADMISSIBLE: ("may alter the model register and future experiment design"),
+}
+
+# Headline estimates and model rankings from a diagnostic-only run stay SEALED
+# until the corrected re-run completes.  Logs and failure diagnostics stay open.
+SEALED_KEYS = ("hierarchy", "ranking", "bic", "dbic", "beta", "alpha",
+               "best_model", "significance", "sigma", "transfer", "held")
+
 # ------------------------------------------------------------------- the rules
 # A RULE is a shared assumption that runs depend on.  When one changes, its
 # `version` bumps and every run pinned to an older version is invalidated.
@@ -112,7 +135,8 @@ def register(run_id, lane, depends_on, outputs=(), note=""):
     rec = dict(run_id=run_id, lane=lane, commit=_commit(),
                registered_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                depends_on={r: RULES[r]["version"] for r in depends_on},
-               outputs=list(outputs), status=OK, note=note, invalidated_by=None)
+               outputs=list(outputs), status=OK, note=note, invalidated_by=None,
+               output_state=ADMISSIBLE)
     db["runs"] = [r for r in db["runs"] if r["run_id"] != run_id] + [rec]
     _save(db)
     return rec
@@ -138,6 +162,9 @@ def invalidate_for_rule(rule, verbose=True):
                 hit.append(r)
             r["status"] = DEAD
             r["invalidated_by"] = reasons
+            # the second effect: the outputs stop being usable as EVIDENCE,
+            # not merely as numbers in the register
+            r["output_state"] = DIAGNOSTIC_ONLY
     _save(db)
     if verbose:
         print(f"rule '{rule}' is at v{cur}")
@@ -169,14 +196,21 @@ def report():
     print("-" * 78)
     for r in sorted(db["runs"], key=lambda x: x["run_id"]):
         print(f"{r['run_id']:<28} {r['status']:<26} {r['lane']}")
+        st = r.get("output_state", ADMISSIBLE)
+        if st != ADMISSIBLE:
+            print(f"    output state: {st}")
         for why in (r["invalidated_by"] or []):
             print(f"    invalidated by: {why}")
     n_dead = sum(1 for r in db["runs"] if r["status"] != OK)
     print()
     print(f"{len(db['runs'])} runs, {n_dead} invalidated pending rerun")
     if n_dead:
-        print("Quarantined outputs must NOT enter the scientific register until "
-              "re-run under the current rules.")
+        print()
+        print(f"{DIAGNOSTIC_ONLY}: {PERMITTED_USE[DIAGNOSTIC_ONLY]}")
+        print()
+        print("Sealed keys (headline estimates and model rankings) from those runs:")
+        print("  " + ", ".join(SEALED_KEYS))
+        print("Logs and failure diagnostics remain open; the numbers above do not.")
     return db
 
 

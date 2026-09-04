@@ -1,0 +1,229 @@
+{
+ "caught": 5,
+ "missed": 0,
+ "false_alarms": 0,
+ "n_must_fail": 5,
+ "n_must_pass": 2,
+ "cases": [
+  {
+   "id": "CERT.SHARED_DENOMINATOR.001",
+   "mechanism": "statistic and effect share a denominator",
+   "must_fail": true,
+   "issued": false,
+   "verdict": "CAUGHT",
+   "checks": {
+    "C2_not_a_restatement": {
+     "passed": true,
+     "target_responsiveness": 1.0,
+     "control_responsiveness": 0.97,
+     "ratio": 0.97,
+     "detail": "a control lever reproduces 0.97x the target's responsiveness"
+    },
+    "C7_nuisance_distinct": {
+     "passed": false,
+     "worst_corr": 1.0,
+     "worst_nuisance": "the shared denominator",
+     "detail": "closest nuisance 'the shared denominator' matches at |r| = 1.000"
+    }
+   }
+  },
+  {
+   "id": "CERT.SELECTION_MIMIC.001",
+   "mechanism": "the selection function has the signal's shape",
+   "must_fail": true,
+   "issued": false,
+   "verdict": "CAUGHT",
+   "checks": {
+    "C7_nuisance_distinct": {
+     "passed": false,
+     "worst_corr": 0.9994077394733876,
+     "worst_nuisance": "selection function",
+     "detail": "closest nuisance 'selection function' matches at |r| = 0.999"
+    }
+   }
+  },
+  {
+   "id": "CERT.NONMONOTONE_RESPONSE.001",
+   "mechanism": "responsive where tested, flat where predicted",
+   "must_fail": true,
+   "issued": false,
+   "verdict": "CAUGHT",
+   "checks": {
+    "C1_responsive": {
+     "passed": true,
+     "spread": 0.9974949866040544,
+     "slope": 2.046938210924991,
+     "detail": "statistic moves 9.975e-01 over the effect range"
+    },
+    "C4_powered": {
+     "passed": 0.0,
+     "z_at_predicted": 1.1021821192326177e-15,
+     "responsiveness": 1.8369701987210297e-16,
+     "predicted_effect": 0.3,
+     "detail": "the theory predicts 0.3; through a pipeline of responsiveness 0.000 that is 0.00 sigma"
+    }
+   }
+  },
+  {
+   "id": "CERT.UNDERPOWERED_AT_PREDICTION.001",
+   "mechanism": "powered at a convenient amplitude, not the predicted",
+   "must_fail": true,
+   "issued": false,
+   "verdict": "CAUGHT",
+   "checks": {
+    "C1_responsive": {
+     "passed": true,
+     "spread": 0.6,
+     "slope": 0.5999999999999999,
+     "detail": "statistic moves 6.000e-01 over the effect range"
+    },
+    "C4_powered": {
+     "passed": false,
+     "z_at_predicted": 0.48,
+     "responsiveness": 0.6,
+     "predicted_effect": 0.04,
+     "detail": "the theory predicts 0.04; through a pipeline of responsiveness 0.600 that is 0.48 sigma"
+    }
+   }
+  },
+  {
+   "id": "CERT.NULL.NONEXCHANGEABLE.001",
+   "mechanism": "permuted label is a function of the measurement",
+   "must_fail": true,
+   "issued": false,
+   "verdict": "CAUGHT",
+   "checks": {
+    "C3_exchangeable": {
+     "passed": 0.0,
+     "realised_fpr": 0.05,
+     "nominal": 0.05,
+     "null_mean": -0.27995008050072473,
+     "null_sd": 0.04890601294321984,
+     "detail": "null mean -0.280 +- 0.049; realised FPR 0.050 vs nominal 0.05"
+    }
+   }
+  },
+  {
+   "id": "CERT.VALID.CLEAN_EFFECT.001",
+   "mechanism": "a clean, well-supported, well-powered effect",
+   "must_fail": false,
+   "issued": true,
+   "verdict": "correctly passed",
+   "checks": {
+    "C1_responsive": {
+     "passed": true,
+     "spread": 1.1,
+     "slope": 1.0999999999999996,
+     "detail": "statistic moves 1.100e+00 over the effect range"
+    },
+    "C2_not_a_restatement": {
+     "passed": true,
+     "target_responsiveness": 1.1,
+     "control_responsiveness": 0.08,
+     "ratio": 0.07272727272727272,
+     "detail": "a control lever reproduces 0.07x the target's responsiveness"
+    },
+    "C3_exchangeable": {
+     "passed": 1.0,
+     "realised_fpr": 0.05,
+     "nominal": 0.05,
+     "null_mean": 0.0004923458220164098,
+     "null_sd": 0.09031176726963427,
+     "detail": "null mean +0.000 +- 0.090; realised FPR 0.050 vs nominal 0.05"
+    },
+    "C4_powered": {
+     "passed": true,
+     "z_at_predicted": 5.500000000000001,
+     "responsiveness": 1.1,
+     "predicted_effect": 0.45,
+     "detail": "the theory predicts 0.45; through a pipeline of responsiveness 1.100 that is 5.50 sigma"
+    },
+    "C5_support": {
+     "passed": true,
+     "fraction_outside": 0.0,
+     "read": [
+      0.3,
+      0.8
+     ],
+     "measured": [
+      0.2,
+      0.95
+     ],
+     "detail": "reads 0.3-0.8; measured 0.2-0.95; 0.0% outside support"
+    },
+    "C6_out_of_grammar": {
+     "passed": true,
+     "recovery": 0.82,
+     "detail": "recovers 82% of an out-of-grammar injection"
+    },
+    "C7_nuisance_distinct": {
+     "passed": true,
+     "worst_corr": 0.712306566531119,
+     "worst_nuisance": "seeing",
+     "detail": "closest nuisance 'seeing' matches at |r| = 0.712"
+    }
+   }
+  },
+  {
+   "id": "CERT.VALID.MODEST_BUT_HONEST.001",
+   "mechanism": "a smaller effect, honestly powered",
+   "must_fail": false,
+   "issued": true,
+   "verdict": "correctly passed",
+   "checks": {
+    "C1_responsive": {
+     "passed": true,
+     "spread": 0.4,
+     "slope": 0.39999999999999997,
+     "detail": "statistic moves 4.000e-01 over the effect range"
+    },
+    "C2_not_a_restatement": {
+     "passed": true,
+     "target_responsiveness": 0.4,
+     "control_responsiveness": 0.05,
+     "ratio": 0.125,
+     "detail": "a control lever reproduces 0.12x the target's responsiveness"
+    },
+    "C3_exchangeable": {
+     "passed": 1.0,
+     "realised_fpr": 0.05,
+     "nominal": 0.05,
+     "null_mean": 4.4707980059955274e-05,
+     "null_sd": 0.030152437658946082,
+     "detail": "null mean +0.000 +- 0.030; realised FPR 0.050 vs nominal 0.05"
+    },
+    "C4_powered": {
+     "passed": true,
+     "z_at_predicted": 4.0,
+     "responsiveness": 0.4,
+     "predicted_effect": 0.3,
+     "detail": "the theory predicts 0.3; through a pipeline of responsiveness 0.400 that is 4.00 sigma"
+    },
+    "C5_support": {
+     "passed": true,
+     "fraction_outside": 0.0,
+     "read": [
+      0.4,
+      0.7
+     ],
+     "measured": [
+      0.3,
+      0.9
+     ],
+     "detail": "reads 0.4-0.7; measured 0.3-0.9; 0.0% outside support"
+    },
+    "C6_out_of_grammar": {
+     "passed": true,
+     "recovery": 0.61,
+     "detail": "recovers 61% of an out-of-grammar injection"
+    },
+    "C7_nuisance_distinct": {
+     "passed": true,
+     "worst_corr": 0.2327633020737121,
+     "worst_nuisance": "PSF size",
+     "detail": "closest nuisance 'PSF size' matches at |r| = 0.233"
+    }
+   }
+  }
+ ]
+}
