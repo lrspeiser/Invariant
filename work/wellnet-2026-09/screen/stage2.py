@@ -143,7 +143,12 @@ def g2_two_body(cand, seps_kpc=(8.0, 16.0, 32.0, 64.0), n=48, M=4e10 * MSUN,
         Mt = 2 * M
         rho = F.normalise_mass(rho, box.vol, Mt)
         wx, wm = np.stack([c1, c2]), np.array([M, M])
-        Fref = G * M * M / d ** 2
+        # The quantities compared below are ACCELERATIONS (-grad Psi), so the
+        # reference has to be an acceleration too: the field one of the two
+        # masses produces at the midpoint.  Normalising an acceleration by the
+        # pair FORCE G M^2 / d^2 is a units error and makes every number look
+        # like 1e-50.
+        Fref = G * M / (0.5 * d) ** 2
         r = SC.solve_candidate(cand, rho, box, wx, wm, Mt)
         nl = FS.solve_newton(rho, box, Mtot=Mt)
         fm = FS.force_at(r["Psi"], box, np.zeros(3))
@@ -169,7 +174,7 @@ def g2_two_body(cand, seps_kpc=(8.0, 16.0, 32.0, 64.0), n=48, M=4e10 * MSUN,
     ok = worst < REJECT["midpoint"]
     return dict(passed=bool(ok), value=float(worst), tol=REJECT["midpoint"],
                 per_separation=out,
-                detail=("|F(midpoint)| / (G M^2 / d^2), minus the Newtonian "
+                detail=("|g(midpoint)| / (G M / (d/2)^2), minus the Newtonian "
                         "null on the same grid. 'max_axial_excess' is the "
                         "largest departure of the on-axis force from Newton "
                         "anywhere inside the pair"))
@@ -296,8 +301,8 @@ def g6g7_cluster(cand, n=44, Lbox=6000.0, M=1e14 * MSUN, a=400 * KPC,
             r = SC.solve_candidate(cand, rho, box, wx, wm, M)
             res[N] = dict(v=_vprof(r, box, R), resid=float(r["resid"]),
                           cond=r.get("K_cond"))
-        except (MemoryError, AssertionError) as e:
-            fails[N] = str(e)
+        except (MemoryError, AssertionError, F.SingularK) as e:
+            fails[N] = f"{type(e).__name__}: {e}"
     nl = FS.solve_newton(rho, box, Mtot=M)
     vN = _vprof(nl, box, R)
     have = sorted(res)
@@ -334,9 +339,9 @@ GEOMS = [("G1_point_mass", g1_point_mass),
          ("G6G7_cluster_subdivision", g6g7_cluster)]
 
 
-def run_stage2(cand, verbose=True, only=None):
+def run_stage2(cand, verbose=True, only=None, merge_into=None):
     out = dict(candidate=cand.name, family=cand.family, kind=cand.kind,
-               geometries={})
+               geometries=dict(merge_into or {}))
     t0 = time.time()
     for key, fn in GEOMS:
         if only and key not in only:
@@ -344,6 +349,9 @@ def run_stage2(cand, verbose=True, only=None):
         t = time.time()
         try:
             r = fn(cand)
+        except F.SingularK as e:
+            r = dict(passed=False, reject=f"singular: {e}",
+                     error=f"SingularK: {e}")
         except Exception as e:                        # noqa: BLE001
             r = dict(passed=False, error=f"{type(e).__name__}: {e}",
                      trace=traceback.format_exc(limit=3))
@@ -357,6 +365,22 @@ def run_stage2(cand, verbose=True, only=None):
     out["verdict"] = "PASS" if not out["failed"] else "FAIL"
     out["seconds"] = round(time.time() - t0, 2)
     return out
+
+
+def rerun(geoms, path="stage2_results.json"):
+    """Re-run named geometries for every candidate already in the results file
+    and merge them back, leaving the other geometries untouched.  Used when a
+    bug is found in one geometry -- re-running all seven to fix one would also
+    churn unrelated numbers."""
+    doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    for nm, r in doc.items():
+        print(f"=== RERUN {geoms} for {nm}", flush=True)
+        new = run_stage2(SC.ALL[nm], only=geoms, merge_into=r["geometries"])
+        doc[nm] = new
+        print(f"    -> {new['verdict']}  failed={new['failed']}")
+    Path(path).write_text(json.dumps(doc, indent=1), encoding="utf-8")
+    print("wrote", path)
+    return doc
 
 
 def main(names=None, path="stage2_results.json"):

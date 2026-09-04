@@ -76,11 +76,10 @@ def gpu_guard(fn):
         try:
             return fn(*a, **kw)
         except Exception as e:                          # noqa: BLE001
-            if _cp is None or not isinstance(
-                    e, (_cp.cuda.memory.OutOfMemoryError,
-                        _cp.cuda.runtime.CUDARuntimeError)):
+            mod = type(e).__module__ or ""
+            if _cp is None or not mod.startswith("cupy"):
                 raise
-            GPU_FALLBACKS.append(f"{fn.__name__}: {type(e).__name__}")
+            GPU_FALLBACKS.append(f"{fn.__name__}: {type(e).__name__}: {e}"[:200])
             kw["use_gpu"] = False
             return fn(*a, **kw)
     return wrap

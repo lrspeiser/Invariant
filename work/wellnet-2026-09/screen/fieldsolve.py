@@ -133,30 +133,41 @@ def _spherical_mond_bc(box, Mtot, a0, form="simple", nrad=4000, far=60.0):
     return np.interp(rr, r, Psi_r)
 
 
-def solve_aqual(rho, box, a0=F.A0, form="simple", Mtot=None, iters=60,
-                damp=0.5, tol=1e-11):
-    """Damped Picard for div[mu(|grad Psi|/a0) grad Psi] = 4 pi G rho."""
+def solve_aqual(rho, box, a0=F.A0, form="simple", Mtot=None, iters=40,
+                damp=0.7, tol=1e-11, picard_tol=1e-8):
+    """Damped Picard for div[mu(|grad Psi|/a0) grad Psi] = 4 pi G rho.
+
+    The inner linear solve is given a TOLERANCE SCHEDULE rather than the final
+    tolerance from the start: while the coefficient mu(|grad Psi|) is still
+    moving there is no point converging the linear problem to 1e-11, so the
+    inner tolerance is tightened geometrically and only the last few Picard
+    steps pay full price.  This is the standard inexact-Newton argument and it
+    changes nothing about the answer -- the loop still exits on the OUTER
+    change falling below picard_tol with the inner solve at its final
+    tolerance.
+    """
     M = float(rho.sum() * box.vol) if Mtot is None else Mtot
     bc = _spherical_mond_bc(box, M, a0, form)
     mu = F.mu_simple if form == "simple" else F.mu_standard
     Psi = bc.copy()
-    hist = []
+    hist, inner = [], []
+    zero = np.zeros(box.shape)
     for k in range(iters):
         gx, gy, gz = np.gradient(Psi, box.h, edge_order=2)
         gmag = np.sqrt(gx ** 2 + gy ** 2 + gz ** 2)
         X = np.maximum(gmag, 1e-30) / a0
         m = np.clip(mu(X), 1e-8, None)
-        A = F.iso_A(box.shape, 1.0)
-        A = (m, m.copy(), m.copy(), np.zeros(box.shape),
-             np.zeros(box.shape), np.zeros(box.shape))
-        new, it, rel = S.solve(rho, A, box.h, bc, tol=tol, maxiter=4000)
+        A = (m, m.copy(), m.copy(), zero, zero.copy(), zero.copy())
+        itol = max(tol, 1e-4 * 0.35 ** k)
+        new, it, rel = S.solve(rho, A, box.h, bc, tol=itol, maxiter=4000)
         d = float(np.abs(new - Psi).max() / max(np.abs(new).max(), 1e-300))
         hist.append(d)
+        inner.append(rel)
         Psi = (1 - damp) * Psi + damp * new
-        if d < 1e-8:
+        if d < picard_tol and itol <= tol:
             break
     return dict(Psi=Psi, iters=k + 1, resid=hist[-1], picard=hist,
-                shell_spread=0.0, K_shell=np.eye(3))
+                inner_resid=inner, shell_spread=0.0, K_shell=np.eye(3))
 
 
 def solve_qumond(rho, box, a0=F.A0, form="simple", Mtot=None, A0_field=None,

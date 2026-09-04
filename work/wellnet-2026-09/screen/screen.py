@@ -52,6 +52,13 @@ MSUN = F.MSUN
 A0 = F.A0
 
 # ------------------------------------------------------------------ tolerances
+# Conjugate gradients on a system of condition number kappa cannot reach a
+# relative residual below about kappa * eps_machine.  With the 1e-11 target of
+# solver.py that forecloses anything above ~5e4, but the screen only refuses at
+# 1e9, where even a 1e-7 residual is out of reach; between the two the solve is
+# attempted and its residual reported.
+COND_MAX = 1e9
+
 TOL = dict(
     covariance=1e-10,        # algebraic covariance is exact arithmetic
     grid_covariance=1e-6,    # 90-degree lattice rotation of a solved field
@@ -146,6 +153,25 @@ def tidal_analytic(points, wx, wm, soft=0.05 * KPC, block=512, pblock=8192,
     return out
 
 
+@F.gpu_guard
+def _smooth_rho(points, wx, wm, L, block=1024, pblock=8192, use_gpu=None):
+    """rho_L(x) = sum_a M_a (2 pi L^2)^{-3/2} exp(-|x - x_a|^2 / 2 L^2)."""
+    xp, gpu = _xp(use_gpu)
+    points = np.asarray(points, float)
+    WX, WM = xp.asarray(wx), xp.asarray(wm)
+    norm = (2 * np.pi * L ** 2) ** -1.5
+    out = np.empty(len(points))
+    for s in range(0, len(points), pblock):
+        P = xp.asarray(points[s:s + pblock])
+        acc = xp.zeros(P.shape[0])
+        for i in range(0, WX.shape[0], block):
+            d2 = ((WX[None, i:i + block] - P[:, None]) ** 2).sum(-1)
+            acc += (WM[None, i:i + block] * xp.exp(-d2 / (2 * L ** 2))).sum(1)
+        acc = acc * norm
+        out[s:s + pblock] = F.asnumpy(acc) if gpu else acc
+    return out
+
+
 def That_from_T(T, prm):
     tr = np.trace(T, axis1=-2, axis2=-1)
     T0 = T - tr[..., None, None] * np.eye(3) / 3.0
@@ -172,6 +198,13 @@ def K_at(cand, points, wx, wm, use_gpu=None):
     if cand.kind == "tidal":
         T = tidal_analytic(points, wx, wm)
         return F.K_from_T(That_from_T(T, prm), prm)
+    if cand.kind == "smoothrho":
+        # rho_L(x) = sum_a M_a (2 pi L^2)^{-3/2} exp(-|x - x_a|^2 / 2 L^2)
+        # A law with a REAL coherence length: the sum is a quadrature of a
+        # convolution, so once the partition is finer than L it stops moving.
+        rho = _smooth_rho(points, wx, wm, prm["L"], use_gpu=use_gpu)
+        k = np.exp(prm["s"] * rho / prm["rho0"])
+        return k[:, None, None] * np.eye(3)[None]
     if cand.kind == "count":
         cnt = np.zeros(len(points))
         for s in range(0, len(points), 8192):
@@ -189,7 +222,7 @@ def K_at(cand, points, wx, wm, use_gpu=None):
 
 
 TENSOR_KINDS = {"wells", "wells_linear", "pairs", "pairs_linear", "tidal",
-                "count", "newton"}
+                "count", "smoothrho", "newton"}
 
 
 def solve_candidate(cand, rho, box, wx, wm, Mtot, tol=1e-11):
@@ -209,11 +242,29 @@ def solve_candidate(cand, rho, box, wx, wm, Mtot, tol=1e-11):
         return FS.solve_qumond(rho, box, a0=cand.prm["a0"], Mtot=Mtot,
                                A0_field=A0f, tol=tol)
     K = K_at(cand, box.pts, wx, wm)
-    r = FS.solve_K(rho, K, box, Mtot=Mtot, tol=tol)
     ev = np.linalg.eigvalsh(K)
-    r["K_eig_min"] = float(ev.min())
-    r["K_eig_max"] = float(ev.max())
-    r["K_cond"] = float((ev[:, 2] / np.maximum(ev[:, 0], 1e-300)).max())
+    lo, hi = float(ev.min()), float(ev.max())
+    cond = float((ev[:, 2] / np.maximum(ev[:, 0], 1e-300)).max())
+    # A degenerate K is a property of the candidate, not of the solver, and it
+    # has to be reported as one.  Handing a system with condition number 1e12
+    # to conjugate gradients produces eight thousand useless iterations and a
+    # residual that looks like a convergence failure; refusing it up front says
+    # what actually happened.  Family D at p < 1 reaches this because
+    # ||C|| grows like N^(2-2p), so exp[-alpha C] collapses as the catalogue is
+    # refined.
+    if lo <= 0.0 or cond > COND_MAX or not np.isfinite(cond):
+        raise F.SingularK(
+            f"response tensor degenerate: lambda_min = {lo:.3e}, "
+            f"lambda_max = {hi:.3e}, condition number = {cond:.3e}. The field "
+            f"equation div[K grad Psi] = 4 pi G rho is not solvable to the "
+            f"required tolerance with this K: conjugate gradients on a system "
+            f"of condition number kappa cannot reach a relative residual below "
+            f"about kappa * 2e-16 in float64, so kappa > {COND_MAX:.0e} "
+            f"forecloses the 1e-11 target before a single iteration runs")
+    r = FS.solve_K(rho, K, box, Mtot=Mtot, tol=tol)
+    r["K_eig_min"] = lo
+    r["K_eig_max"] = hi
+    r["K_cond"] = cond
     return r
 
 
@@ -242,6 +293,14 @@ _ctrl(F.Candidate("X2_count_wells", "control", "count",
 _ctrl(F.Candidate("X3_pairs_linear", "control", "pairs_linear",
                   F._pD(alpha=3.0), F._DIMS_D,
                   "K = I - alpha C instead of exp[-alpha C]."))
+_ctrl(F.Candidate("X4_smooth_density", "control", "smoothrho",
+                  dict(L=8.0 * KPC, rho0=4.0e-22, s=0.5),
+                  dict(L=LENGTH, rho0=dimx.DENSITY, s=DIMLESS),
+                  "K = exp[s rho_L/rho_0] I with rho_L the mass density "
+                  "smoothed on a fixed length L. Positive control for the "
+                  "OTHER branch of the coherence test: this law has a genuine "
+                  "physical scale, so its drift must stop once the partition "
+                  "is finer than L and stay stopped."))
 
 ALL = dict(F.CANDIDATES)
 ALL.update(CONTROLS)
@@ -631,15 +690,12 @@ def s7_asymptotics(cand, wx, wm):
         g0 = FS.spherical_g(cand, r0, float(wm[0]),
                             PhiN=-G * wm[0] / r0)
     sl0 = float(np.gradient(np.log(g0), np.log(r0))[:5].mean())
-    # direction discontinuity of K at a well (families C, D read n_a there)
-    disc = None
-    if cand.kind in TENSOR_KINDS:
-        eps = 1e-3 * KPC
-        e = np.eye(3)
-        pa = wx[0] + eps * e
-        pb = wx[0] - eps * e
-        Ka, Kb = K_at(cand, pa, wx, wm), K_at(cand, pb, wx, wm)
-        disc = float(np.abs(Ka - Kb).max() / max(np.abs(Ka).max(), 1e-300))
+    # Direction discontinuity of K at a catalogue point.  n_a n_a^T is EVEN in
+    # n_a, so approaching along +e and -e gives the same limit; the genuine
+    # discontinuity is between DIFFERENT lines of approach, and it survives
+    # eps -> 0.  The softening r_soft has to be pushed well below eps or it is
+    # the regulator, not the law, that is being measured.
+    disc = _well_discontinuity(cand, wx, wm)
     ok = finite and (slope_out < -0.5) and (sl0 > -3.5)
     return dict(passed=ok, value=slope_out, tol=None,
                 slope_large_r=slope_out, slope_small_r=sl0,
@@ -652,6 +708,39 @@ def s7_asymptotics(cand, wx, wm):
 
 
 # ====================================================== S8 asymptotic gain
+def _well_discontinuity(cand, wx, wm, eps_frac=1e-3):
+    """max_|e|=1 spread of K(x_a + eps e) over the direction e, as eps -> 0.
+
+    For family C the limit is  |exp[s_T(2/3) f] - exp[-s_T(1/3) f]|  with
+    f = w_a / sum_b w_b the fractional weight of that one row: the response
+    tensor has no value AT a catalogue point, only a direction-dependent limit.
+    The jump does not shrink with eps, so it is not a resolution effect.
+    """
+    if cand.kind not in TENSOR_KINDS:
+        return None
+    d = np.linalg.norm(wx - wx[0], axis=1)
+    d[0] = np.inf
+    nn = float(d.min()) if len(wx) > 1 else 10 * KPC
+    eps = eps_frac * nn
+    prm = dict(cand.prm)
+    for k in ("r_soft", "d_soft"):
+        if k in prm:
+            prm[k] = min(prm[k], eps * 1e-3)
+    c2 = cand.copy_with(prm=prm)
+    dirs = F._fib_dirs(24)
+    out = {}
+    for tag, W, M in (("N_partition", wx, wm),
+                      ("single_well", wx[:1], wm[:1])):
+        K = K_at(c2, W[0] + eps * dirs, W, M)
+        spread = float((K.max(0) - K.min(0)).max() / max(np.abs(K).max(), 1e-300))
+        out[tag] = spread
+    out["eps_kpc"] = eps / KPC
+    out["nearest_neighbour_kpc"] = nn / KPC
+    out["softening_used_kpc"] = min(
+        [prm[k] for k in ("r_soft", "d_soft") if k in prm] or [0.0]) / KPC
+    return out
+
+
 def s8_gain_bound(cand, wx, wm):
     """Can the law supply an UNBOUNDED boost g/g_N at large radius?
 
@@ -776,6 +865,13 @@ def s10_reciprocity(cand, n=40, Lbox=120.0):
         law_rel, ident_rel, extra = float(np.linalg.norm(Fl) / Fref), None, {}
     else:
         K = K_at(cand, box.pts, wx, wm)
+        ev = np.linalg.eigvalsh(K)
+        cnd = float((ev[:, 2] / np.maximum(ev[:, 0], 1e-300)).max())
+        if ev.min() <= 0 or cnd > COND_MAX or not np.isfinite(cnd):
+            raise F.SingularK(
+                f"response tensor degenerate (lambda_min = {ev.min():.3e}, "
+                f"condition number = {cnd:.3e}); no bounded solution to "
+                f"compare forces with")
         r = FS.solve_K(rho, K, box, Mtot=Mtot)
         Fl = FS.net_force(rho, r["Psi"], box)
         law_rel = float(np.linalg.norm(Fl) / Fref)
@@ -920,13 +1016,26 @@ def _classify(drift, step, scales, L_kpc, beta_step, tol=None):
     if not sN:
         return "catalogue-artefactual", None
     growing = step[sN[-1]] > step[sN[len(sN) // 2]] * 1.5
-    if growing or (beta_step is None) or beta_step < 0.05:
+    # A fitted exponent is not enough on its own: a series that drifts by
+    # 0.44 +- 0.05 across four decades of N can still return beta ~ 0.07 and be
+    # called "convergent".  Require the successive-refinement STEP to have
+    # actually fallen by at least a factor of three, which is what "converging"
+    # has to mean if the word is to do any work.  The step series is used
+    # rather than the drift because when the cloud reference is infeasible the
+    # finest partition becomes the reference and its drift is zero by
+    # construction, which would make any series look infinitely convergent.
+    fell = step[sN[0]] / max(step[sN[-1]], 1e-300)
+    if (growing or beta_step is None or beta_step < 0.05 or fell < 3.0):
         return "catalogue-artefactual", None
-    inside = [N for N in have if scales.get(N, np.inf) < L_kpc]
+    # "the partition scale is below L" is not enough: a one-point quadrature of
+    # a kernel of width L has relative error O((l/L)^2), so the drift only
+    # becomes negligible a decade below L, not just below it.  The criterion is
+    # therefore l_N < L/10.
+    inside = [N for N in have if scales.get(N, np.inf) < L_kpc / 10.0]
     if inside:
         n0 = inside[0]
-        after = max(step[N] for N in sN if N >= n0) if any(
-            N >= n0 for N in sN) else 0.0
+        after = max([drift[N] for N in have if N >= n0]
+                    + [step[N] for N in sN if N >= n0])
         if after < tol:
             return "coherence-limited", n0
     n_safe = next((N for N in have if all(drift[M] < tol
@@ -941,8 +1050,8 @@ def _Kseries(cand, parts, pts, Ns):
         scales[N] = _partition_scale(wx, wm)
         try:
             out[N] = K_at(cand, pts, wx, wm)
-        except MemoryError as e:
-            fails[N] = str(e)
+        except (MemoryError, F.SingularK) as e:
+            fails[N] = f"{type(e).__name__}: {e}"
     return out, scales, fails
 
 
@@ -971,7 +1080,7 @@ def s11_coarse_uniform(cand, cloud, pts, Ns=(1, 2, 4, 10, 40, 100, 400, 1000,
     try:
         ref = K_at(cand, pts, qx, qm)
         n_ref = len(qm)
-    except MemoryError:
+    except (MemoryError, F.SingularK):
         ref = Ks[have[-1]]
         n_ref = have[-1]
         ref_kind = "finest feasible partition (cloud reference infeasible)"
@@ -1026,13 +1135,12 @@ def s11b_coarse_potential(cand, n=48, Lbox=90.0, Ns=(1, 10, 100, 10000),
         wx, wm = parts[N]
         F.check_partition(wx, wm, M)
         try:
-            K = K_at(cand, box.pts, wx, wm)
-            r = FS.solve_K(rho, K, box, Mtot=M)
+            r = solve_candidate(cand, rho, box, wx, wm, M)
             assert r["resid"] < 1e-8, f"CG stalled at {r['resid']:.2e}"
             Phi[N] = r["Psi"]
             Vc[N] = FS.vcirc_axis(r["Psi"], box, R)
-        except (MemoryError, AssertionError) as e:
-            fails[N] = str(e)
+        except (MemoryError, AssertionError, F.SingularK) as e:
+            fails[N] = f"{type(e).__name__}: {e}"
     have = sorted(Phi)
     if len(have) < 2:
         return dict(passed=False, value=None,
@@ -1087,14 +1195,14 @@ def s12_coarse_selective(cand, pts, Ns=(1, 4, 16, 64, 256, 1024, 4096)):
         F.check_partition(wx, wm, M1 + M2)
         try:
             res[N] = K_at(cand, probe, wx, wm)
-        except MemoryError as e:
-            fails[N] = str(e)
+        except (MemoryError, F.SingularK) as e:
+            fails[N] = f"{type(e).__name__}: {e}"
     have = sorted(res)
     ref_kind = "full cloud (independent)"
     try:
         ref = K_at(cand, probe, np.vstack([q1[0], c2[None]]),
                    np.concatenate([q1[1], [M2]]))
-    except MemoryError:
+    except (MemoryError, F.SingularK):
         ref = res[have[-1]]
         ref_kind = "finest feasible partition"
     nref = max(np.abs(ref).max(), 1e-300)
@@ -1256,7 +1364,9 @@ def run_screen(cand, Nq=32768, nprobe=(10, 20), verbose=False, skip=()):
               lambda: s11_coarse_uniform(cand, (qx, qm), pts, Ns=Ns))
     NsP = (1, 10, 100, 10000)
     if cand.kind in ("pairs", "pairs_linear"):
-        NsP = (1, 10, 100, 400)
+        # family D costs O(P N^2) on a 48^3 grid; 256 rows is already
+        # 32,640 pair evaluations per cell and is the practical ceiling
+        NsP = (1, 10, 100, 256)
     run("S11b_coarse_potential",
         lambda: s11b_coarse_potential(cand, Ns=NsP))
     Ns2 = (1, 4, 16, 64, 256, 1024, 4096)
@@ -1563,6 +1673,134 @@ def sweep_D(ps=(0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0),
                 rate_per_second=round(counts["total"] / max(dt, 1e-9)))
 
 
+def analysis_coherence_scaling(targets=(("C1_wells_pow_p1", "L"),
+                                        ("C3_wells_exp_p1", "L"),
+                                        ("C5_wells_pow_p2", "L"),
+                                        ("D1_pairs_p1_q1", "sigma_perp"),
+                                        ("E1_tidal", None),
+                                        ("X4_smooth_density", "L"),
+                                        ("X2_count_wells", "L")),
+                               Ls_kpc=(2.0, 4.0, 8.0, 16.0, 32.0),
+                               Nfix=(100, 1000), Nq=16384):
+    """The decisive test of whether a law's discreteness is physical.
+
+    Both a genuine coherence-length law and a row-counting law can converge
+    under refinement, so "does it converge?" does not separate them.  What
+    separates them is WHAT SETS the catalogue resolution you need:
+
+      * a law with a real coherence length L is a quadrature of a kernel of
+        width L, so its error is a function of l_N / L and the drift at fixed N
+        falls steeply as L is increased.  d ln(drift)/d ln L is around -2.
+      * a law whose discreteness comes from the row list has structure on the
+        scale of the distance to the nearest row, which no parameter controls,
+        so the drift at fixed N barely moves with L.  The slope is near zero.
+
+    Family C's directional factor (n_a n_a^T - I/3) turns over when the field
+    point moves by of order its distance to well a.  That distance is set by
+    the partition, not by L, which is why L does not buy accuracy.
+    """
+    qx, qm = galaxy_cloud(Nq=Nq)
+    pts = probe_points(8, 16)
+    N_ref_fallback = 4000
+    parts = F.nested_partitions(qx, qm, sorted(set(Nfix) | {N_ref_fallback}))
+    out = {}
+    for nm, param in targets:
+        c0 = ALL[nm]
+        rows = {}
+        ref_kind = "full cloud"
+        grid = Ls_kpc if param else (0.0,)
+        for L in grid:
+            c = c0 if param is None else c0.copy_with(prm={param: L * KPC})
+            try:
+                try:
+                    ref = K_at(c, pts, qx, qm)
+                except MemoryError:
+                    # family D cannot afford the full cloud as a reference
+                    # (16,384 rows is 1.3e8 pairs); the finest affordable
+                    # partition stands in and the substitution is recorded
+                    ref = K_at(c, pts, *parts[N_ref_fallback])
+                    ref_kind = f"partition with {N_ref_fallback} rows"
+                nref = max(np.abs(ref).max(), 1e-300)
+                rows[L] = {str(N): float(np.abs(K_at(c, pts, *parts[N]) - ref).max()
+                                         / nref) for N in Nfix}
+            except (MemoryError, F.SingularK) as e:
+                rows[L] = {"error": f"{type(e).__name__}: {e}"}
+        slopes = {}
+        for N in Nfix:
+            xs, ys = [], []
+            for L in grid:
+                v = rows[L].get(str(N))
+                if param and v and v > 0:
+                    xs.append(np.log(L))
+                    ys.append(np.log(v))
+            slopes[str(N)] = (float(np.polyfit(xs, ys, 1)[0])
+                              if len(xs) >= 3 else None)
+        sl = [v for v in slopes.values() if v is not None]
+        mean_slope = float(np.mean(sl)) if sl else None
+        if mean_slope is None and param is None:
+            verdict = ("no free spatial scale to sweep: the law has no length "
+                       "parameter of its own, it reads the field of the rows")
+        elif mean_slope is None:
+            verdict = "sweep failed; see drift_by_scale for the reason"
+        elif mean_slope <= -2.0:
+            verdict = ("drift is set by the law's own length: a wider kernel "
+                       "buys accuracy at fixed catalogue resolution")
+        elif mean_slope <= -1.0:
+            verdict = ("drift is only partly set by the law's length; the "
+                       "directional factor still has no scale of its own")
+        else:
+            verdict = "drift is set by the row list, not by the law's length"
+        out[nm] = dict(
+            parameter=param, scale_kpc=list(grid), drift_by_scale=rows,
+            reference=ref_kind,
+            slope_by_N=slopes, mean_slope=mean_slope,
+            partition_scale_kpc={str(N): _partition_scale(*parts[N]) / KPC
+                                 for N in Nfix},
+            verdict=verdict)
+    return out
+
+
+def analysis_D_collapse(Ns=(10, 25, 50, 100, 200, 400, 800),
+                        names=("D1_pairs_p1_q1", "D2_pairs_p05_q1",
+                               "D3_pairs_p1_q3"), Nq=32768):
+    """What the pair tensor's growth does to K itself.
+
+    K = exp[-alpha C], so ||C|| ~ N^(2-2p) means ln lambda_min(K) falls LINEARLY
+    in N^(2-2p).  At p = 1/2 that is exponential collapse of the response
+    tensor with catalogue resolution: the same galaxy described by more rows
+    has a smaller and smaller K, hence a larger and larger effective G, without
+    limit.  This is not a law that converges slowly; it is a law with no
+    continuum limit.
+    """
+    qx, qm = galaxy_cloud(Nq=Nq)
+    parts = F.nested_partitions(qx, qm, Ns)
+    pts = probe_points(6, 12)
+    out = {}
+    for nm in names:
+        c = F.CANDIDATES[nm]
+        lmin, lmax = {}, {}
+        for N in Ns:
+            wx, wm = parts[N]
+            try:
+                C = F.C_pairs(pts, wx, wm, c.prm)
+                ev = np.linalg.eigvalsh(F.K_from_C(C, c.prm))
+                lmin[N], lmax[N] = float(ev.min()), float(ev.max())
+            except (MemoryError, F.SingularK) as e:
+                lmin[N] = None
+                lmax[N] = f"{type(e).__name__}: {e}"
+        have = [N for N in Ns if lmin.get(N)]
+        slope = None
+        if len(have) >= 3:
+            y = np.log(np.array([lmin[N] for N in have]))
+            slope = float(np.polyfit(np.array(have, float), y, 1)[0])
+        out[nm] = dict(p=c.prm["p"], q=c.prm["q"],
+                       lambda_min={str(k): v for k, v in lmin.items()},
+                       lambda_max={str(k): v for k, v in lmax.items()},
+                       d_ln_lambda_min_dN=slope,
+                       collapses=bool(slope is not None and slope < -1e-3))
+    return out
+
+
 def analysis_momentum_identity(name="C1_wells_pow_p1", ns=(32, 40, 52, 64),
                                Lbox=120.0):
     """Show that the third-law violation is the continuum identity, not the grid.
@@ -1763,6 +2001,7 @@ def main(path="screen_results.json", Nq=32768, include_controls=True,
     doc["analyses"] = dict(
         C4_gN_cancellation=analysis_C4_gN_cancellation(),
         D_pair_scaling=analysis_D_scaling(),
+        D_response_collapse=analysis_D_collapse(),
         momentum_identity=analysis_momentum_identity())
     if verbose:
         print("sensitivities ...", flush=True)

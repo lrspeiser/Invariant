@@ -64,7 +64,7 @@ def main(a="screen_results.json", b="stage2_results.json"):
             if k == "S7_asymptotics":
                 extra = (f" slope_out={num(v,'slope_large_r')}"
                          f" slope_in={num(v,'slope_small_r')}"
-                         f" Kdisc={num(v,'K_discontinuity_at_well')}")
+                         f" Kdisc={v.get('K_discontinuity_at_well')}")
             if k == "S8_gain_bound":
                 extra = (f" boost20kpc={num(v,'boost_at_20kpc')}"
                          f" boost2e4={num(v,'boost_at_2e4kpc')}"
