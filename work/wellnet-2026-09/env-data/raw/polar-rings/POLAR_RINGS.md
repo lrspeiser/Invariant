@@ -7,8 +7,12 @@ Acquired 2026-09-03/04 UTC. Every downloaded file has a sibling `<name>.manifest
 
 ## 0. The headline, stated plainly
 
-**No polar-ring galaxy in the published literature reachable from arXiv, VizieR, CDS or NED
-has a numerically tabulated rotation curve in BOTH planes.**
+**No polar-ring galaxy has a numerically tabulated rotation curve in BOTH planes anywhere in the
+59 arXiv e-print sources and 8 VizieR/CDS tables acquired here** — which, between them, cover every
+PRG kinematics, HI, CO, photometry and catalogue paper the searches surfaced from 1993 to 2026.
+This is a bounded negative, not a proof: it does not exclude a table hiding in a journal-hosted
+supplement I could not fetch (A&A returns HTTP 403 to programmatic requests), nor in the two
+pre-arXiv classics named in §2.
 
 Two systems have a tabulated rotation curve in *one* plane:
 
@@ -24,6 +28,11 @@ Nine systems (Tier A below) do have rotation measured **independently in both pl
 least one plane resolved in radius. For those, the curves would have to be recovered by digitising
 published figures, or by re-reducing archival data (SAO 6-m SCORPIO long-slit and Fabry-Perot,
 WSRT/ATCA HI, MUSE, WALLABY cubes), or by asking the authors.
+
+The closest thing to a ready-made two-plane *pair* anywhere in the literature reached here is
+**Iodice et al. 2003, ApJ 585, 730**, which puts a host-plane and a ring-plane velocity on the same
+diagram for five systems — **NGC 4650A, NGC 660, NGC 2685, UGC 7576 and A0136-0801** — with the
+ring value tabulated (`iodice2003_table1_PRG_TF.tsv`) and the host value plotted only. See §6.5.
 
 ---
 
@@ -63,7 +72,7 @@ Yu 2026 — not its photographic atlas or its tabulated rotation velocities.
 The PRC's structure, as reported consistently across those papers: **157 objects — 6
 kinematically confirmed (category A), 27 good candidates (B), 73 possible (C), 51 related (D)**.
 
-### 1.3 arXiv e-print sources — 58 papers
+### 1.3 arXiv e-print sources — 59 papers
 
 All under `eprints/`, raw `.tar.gz` kept with manifests. Four papers whose e-print "source" is
 dvips PostScript rather than LaTeX were additionally pulled as PDFs into `pdfs/`.
@@ -80,17 +89,21 @@ out to be far more valuable than the brief expected.
    It is arXiv:1904.02513, *"Metallicity and ionization state of the gas in polar-ring galaxies."*
    Its Table 1 is an **observing log** (cz, R_eff, slit PA, date, exposure, seeing, wavelength
    range) for 15 SPRC galaxies; its Table 2 is **metallicity**. The line-of-sight velocities of
-   stars and ionized gas exist only in its Figure 4 (`SPRC_velocities_bin_addNew.eps`). It does
+   stars and ionized gas exist only as a figure (the file `SPRC_velocities_bin_addNew.eps` in its
+   e-print source). It does
    deliver kinematic *confirmation* of polar structure in **13 of 15** galaxies, and it does
    tabulate the two slit position angles per galaxy, which is the sky-projected angle between the
    components. That is genuinely useful — it is just not rotation curves.
 
-2. **"Arnaboldi et al. 1997, A&A 325, 145" does not exist.** The NGC 4650A HI paper is
-   **Arnaboldi, Capaccioli, Cappellaro, Held & Sparke 1997, AJ 113, 585**, *"New HI Observations
-   of the prototype Polar Ring Galaxy NGC 4650A"* (ATCA). It is not on arXiv (verified by title
-   and author queries against the arXiv API) and not in VizieR. A&A 325 in 1997 carries
-   Reshetnikov & Sotnikova, *Global structure and formation of polar-ring galaxies*, A&A 325, 933
-   (= arXiv:astro-ph/9704047, acquired), and Hagen-Thorn & Reshetnikov 1997 A&A 319, 430 (IC 1689).
+2. **The NGC 4650A HI paper is not "A&A 325, 145".** Every later paper acquired here that cites
+   the ATCA HI observations of NGC 4650A cites **Arnaboldi et al. 1997, AJ 113, 585**,
+   *"New HI Observations of the prototype Polar Ring Galaxy NGC 4650A"* (Iodice+2015 cites it as
+   `Arn97`; Swaters & Rubin 2003 as "Arnaboldi et al. 1997"). It is **not on arXiv** (verified by
+   title and author queries against the arXiv API, which returned zero hits) and **not in VizieR**.
+   Nearby 1997 A&A volumes carry different PRG papers that WERE acquired: Reshetnikov 1997
+   A&A 325, 933 (= arXiv:astro-ph/9704047, *Global structure and formation of polar-ring
+   galaxies*) and Hagen-Thorn & Reshetnikov 1997 A&A 319, 430 (IC 1689, the kinematic-confirmation
+   reference for PRC B-03 in Yu+2026).
 
 3. **"Iodice et al. 2002, A&A 391, 103" is not an HI paper.** Verified independently: the BibTeX
    key `2002A&A...391..103I` in the bibliographies of Freitas-Lemes et al. 2012 (arXiv:1208.3421)
@@ -109,9 +122,9 @@ out to be far more valuable than the brief expected.
      of 40 kinematically confirmed PRGs**, with the kinematic-confirmation reference for every
      one. This is now the census backbone.
    * **Khoperskov, Moiseev, Khoperskov & Saburova 2014, MNRAS 441, 2650** (arXiv:1404.1247) —
-     whose Figure 12 caption enumerates the **21 PRGs with a published dark-halo axis ratio**,
-     i.e. the set for which someone has actually done a two-plane dynamical analysis, with the
-     primary reference for each.
+     whose halo-axis-ratio comparison figure has a caption enumerating the **21 PRGs with a
+     published dark-halo axis ratio**, i.e. the set for which someone has actually done a
+     two-plane dynamical analysis, with the primary reference for each.
 
 5. **NGC 2685 is not a classical polar ring.** Jozsa et al. 2009 show its HI is one extremely
    warped, kinematically **coherent** disk, inclined ~70 deg to the lenticular body inside and
@@ -157,14 +170,21 @@ per-cell references). Tiers are this lane's own classification:
 * **B** — rotation *detected* in both planes, but at least one plane has no usable V(r) or V_max.
 * **C** — kinematically confirmed PRG, rotation published in one plane only.
 
+Position angles quoted below are SLIT or fitted-KINEMATIC angles where the source is a
+spectroscopic paper; the inter-plane angles in the "Angle" column are PHOTOMETRIC deprojections
+(two-fold degenerate, hence the "or") except for NGC 4650A, whose 93 deg is the difference of two
+measured MUSE position angles, and NGC 4632 / NGC 6156, where 90 deg is imposed by the model.
+For SPRC-7, SPRC-260, SPRC-10, SPRC-14 and SPRC-69 the component position angles in the
+inventory TSV come from Smirnova & Moiseev 2013 and are PHOTOMETRIC, not slit, angles.
+
 ### Tier A — 9 systems
 
 | System | PRC/SPRC | Host plane | Polar plane | Angle | Curve in both? |
 |---|---|---|---|---|---|
 | **NGC 4650A** | A-05 | stars, long slit, PA 62-63; **tabulated, 23 pts, 0-25.6"** | HI (ATCA) + Halpha/[OIII] + MUSE 2-D, PA 152-160 | **93 deg** (MUSE PAs 67 / 160) | yes (host tabulated, polar figures) |
-| **NGC 4262** | SPRC-33 | stars, SCORPIO-2 slits PA 0 and 160 | HI ring (WSRT), to ~15 kpc | 50 +/- 6 **or** 88 +/- 6 | yes, figures only |
+| **NGC 4262** | SPRC-33 | stars, SCORPIO-2 slits at PA 0 and 160 | HI ring (WSRT), to ~15 kpc | 50 +/- 6 **or** 88 +/- 6 | yes, figures only |
 | **SPRC-7** | SPRC-7 | stars, SCORPIO slit PA 150, asym.-drift corrected | ionized gas Hbeta, scanning FP field, tilted-ring, to ~23 kpc | 58 +/- 9 **or** 73 +/- 12 | yes, figures only |
-| **SPRC-260** | SPRC-260 | stars, SAO 6-m long slit, PA 82 | ionized gas, FP field, PA 15 | 57 **or** 87 | yes, figures only |
+| **SPRC-260** | SPRC-260 | stars, SAO 6-m long slit | ionized gas, FP field | 57 **or** 87 | yes, figures only |
 | **NGC 4632** | WALLABY | HI main body, 3DBarolo tilted-ring, i_g=62.5 | HI anomalous gas, MCGSuite polar ring | 90 by construction; beta = 335 +/- 5 | host curve + single ring v_rot |
 | **NGC 6156** | WALLABY | HI main body, 3DBarolo, i_g=51 | HI anomalous gas | 90 by construction; beta = 153 +/- 5 | host curve + single ring v_rot |
 | **A0136-0801** | A-01 | stars, long slit (SWR83, Whitmore+87) | Halpha **2-D Fabry-Perot field**, >2000 pixels | "nearly perpendicular"; no number located | yes, figures only |
@@ -192,8 +212,9 @@ ESO 415-G26, Arp 230, IC 1689, MCG-05-07-001.
 
 ### The 21-system halo-shape roster
 
-Khoperskov et al. 2014 Fig. 12 lists every PRG with a published minor-to-major dark-halo axis
-ratio — i.e. every system somebody has analysed dynamically using the polar component. This is the
+Khoperskov et al. 2014 (arXiv:1404.1247) carry a figure captioned "The minor-to-major axis ratio
+of the DM halo obtained for different well-studied PRGs", whose caption enumerates every system
+with a published halo axis ratio — i.e. every system somebody has analysed dynamically using the polar component. This is the
 best available answer to "which PRGs have been used as two-plane probes":
 
 A0136-0801, AM 1934-563, AM 2020-504, AM 226-3206, Arp 230, ESO 415-G26, IC 2006, MCG-5-7-1,
@@ -248,12 +269,28 @@ SPRC-2, 10, 12, 14, 27, 37, 40) — a directly measured sky-projected angle, not
 Baryons: **10.5e9 Msun in the host plane, 22.2e9 Msun in the polar plane, 32.7e9 total.**
 The DM row is a fit and must never be used as data under the programme's constraint 2.
 
-The independent **Combes & Arnaboldi 1996** decomposition of the same galaxy, reproduced verbatim
-in Lüghausen, Famaey & Kroupa 2013 (arXiv:1304.4931, Sect. 3), agrees to 10-20% per component:
-Plummer bulge 0.2e9 Msun with r_p = 0.17 kpc; Miyamoto-Nagai host disk 11e9 Msun,
-h_r = 0.748 kpc, h_z = 0.3 kpc; stellar polar ring 9.5e9 Msun, h_r1 = 6.8, h_r2 = 5.95 kpc;
-gaseous polar ring 6.4e9 Msun, h_r1 = 15.3, h_r2 = 3.4 kpc. **Two independent baryonic models of
-the same two-plane system agreeing at the 10-20% level is a strong asset for a gravity test.**
+The earlier **Combes & Arnaboldi 1996** decomposition of the same galaxy is reproduced verbatim in
+Lüghausen, Famaey & Kroupa 2013 (arXiv:1304.4931, Sect. 3): Plummer bulge 0.2e9 Msun with
+r_p = 0.17 kpc; Miyamoto-Nagai host disk 11e9 Msun, h_r = 0.748 kpc, h_z = 0.3 kpc; stellar polar
+ring 9.5e9 Msun, h_r1 = 6.8, h_r2 = 5.95 kpc; gaseous polar ring 6.4e9 Msun, h_r1 = 15.3,
+h_r2 = 3.4 kpc; total baryons 27.1e9 Msun.
+
+**Compare the two carefully — they are not independent, and they do not agree everywhere.**
+The *geometry* is identical (Iodice+2015 reuse the Combes & Arnaboldi radii verbatim: 5.95/6.8 kpc
+for the stellar polar disk, 3.4/15.3 kpc for the gas), so the two models are not independent
+measurements of shape. The *masses* differ component by component:
+
+| Component | Combes & Arnaboldi 1996 | Iodice+2015 | difference |
+|---|---|---|---|
+| bulge | 0.2e9 | 0.2e9 | 0% |
+| host disk | 11e9 | 10.3e9 | 7% |
+| **polar stellar disk** | **9.5e9** | **15e9** | **+58%** |
+| polar gas disk | 6.4e9 | 7.2e9 | 12% |
+| total baryons | 27.1e9 | 32.7e9 | 21% |
+
+The polar stellar disk mass is uncertain at the ~50% level, and it is the component that
+dominates the polar-plane g_bar. **Any two-plane gravity test on NGC 4650A must carry that as an
+explicit systematic**, not adopt one number.
 
 ### 6.2 NGC 2685 — complete
 
@@ -275,7 +312,9 @@ coherent reading and the reason. Do not attach the published labels without re-c
 
 ### 6.4 NIR photometry for five classical southern PRGs
 
-Iodice et al. 2002 A&A 391, 103 / 391, 117 (arXiv:astro-ph/0206055 and 0206057): CASPIR J, H, Kn
+Iodice et al. 2002, Papers I and II (arXiv:astro-ph/0206055 = A&A 391, 103, verified; and
+arXiv:astro-ph/0206057, the companion paper, whose page number was not independently verified):
+CASPIR J, H, Kn
 imaging of **A0136-0801, ESO 415-G26, Arp 230, AM 2020-504, ESO 603-G21**, with 2-D
 bulge+disk decompositions of the host (Sersic n, mu_0, r_h in arcsec and kpc, axis ratio q_d,
 B/D). This is the closest thing to the 3.6 um / K-band photometry the brief asked for.
@@ -283,8 +322,18 @@ B/D). This is the closest thing to the 3.6 um / K-band photometry the brief aske
 ### 6.5 Global photometry across the whole population
 
 * `iodice2003_table1_PRG_TF.tsv` — 16 PRGs with M_Kn, M_B, cz, HI dV20 (Iodice+2003 ApJ 585, 730).
-  **dV20 is the polar-plane linewidth only**; the host-plane offsets exist only as arrows in the
-  paper's Figure 2.
+  **dV20 in this table is the polar-plane linewidth only.** But the paper also states, in the text,
+  that it computed log(dV) for the HOST galaxies of the five best-studied systems —
+  **NGC 4650A, NGC 660, NGC 2685, UGC 7576 and A0136-0801** — "using optical absorption-line
+  rotation curves along the host galaxy equatorial plane", from Sackett et al. 1994, van Driel
+  et al. 1995, Simien & Prugniel 1997, Whitmore et al. 1990 and Schweizer et al. 1983. Those five
+  host-plane velocities are plotted as large crosses, with an arrow to the ring value, in the
+  paper's S0 Tully-Fisher figure (`iodicee_fig8.ps`) — **and are nowhere tabulated**. For
+  NGC 4650A specifically the host circular velocity was derived from the stellar rotation and
+  dispersion of Combes & Arnaboldi 1996 by converting to an equivalent gas linewidth with an
+  assumed 10 km/s dispersion. So: **five systems have a published host-plane AND polar-plane
+  velocity from one paper, and the host half of every pair is a figure.** Their finding is that the
+  five host galaxies fall ON the spiral TF relation while the rings sit off it.
 * `vizier_vanDriel2002_HI4_table1.tsv` — 33 southern PRGs with B_T, D25, W50, W20, I_HI, distance,
   log L_B, log M_HI, M_HI/L_B.
 * `vizier_Huchtmeier1997_HI2_table1.tsv` — 44 northern PRC objects with B_T, D25, S_HI, V_HI, dv20.
@@ -298,8 +347,20 @@ B/D). This is the closest thing to the 3.6 um / K-band photometry the brief aske
 ## 7. What a follow-up would have to do
 
 1. **Digitise figures.** For the 9 Tier-A systems the two-plane curves exist as published plots.
-   NGC 4650A (Sackett+94 Fig. 5, Iodice+2015 Figs. 8-9), NGC 4262 and SPRC-7 (Khoperskov+2014
-   Fig. 3), NGC 4632/6156 (Deg+2023 panel E of each best-model figure).
+   The relevant figure files are already extracted under `eprints/`, identifiable from their
+   captions. Verified present in the extracted trees:
+   * `eprints/1404.1247_Khoperskov2014_oblate/fig_obsRC_1.eps`, `fig_obsRC_2.eps` — the OBSERVED
+     rotation curves of the stars and gas for SPRC-7 and NGC 4262; plus `fig_obsstar1-3.eps`
+     (long-slit stellar V and sigma) and `fig_kin2d_1.eps`, `fig_kin2d_2.eps` (the polar-component
+     velocity fields).
+   * `eprints/2309.05841_Deg2023_WALLABY_NGC4632_NGC6156/Figures/NGC4632_BestModel.pdf` and
+     `NGC6156_BestModel.pdf` — panel E is the rotation curve; the polar ring is the starred last
+     radial point in each right-hand panel.
+   * `eprints/1509.01112_Iodice2015_NGC4650A_MUSE/kin_fold.jpg` (folded host-plane stellar
+     velocity profile at P.A. 67), `kin_maj_conf.jpg`, `kin_min_conf.jpg`, `prof_PR_gas.jpg`
+     (polar-disk gas rotation curve at P.A. 160).
+   * `eprints/1107.1966_Moiseev2011_SPRC/SPRC-{10,14,39,60,69,178}_res-eps-converted-to.pdf` —
+     the two-slit line-of-sight velocity cuts for gas and stars.
 2. **Request or re-reduce archival data.** SAO 6-m SCORPIO/SCORPIO-2 long-slit and FP cubes
    (Moiseev's group), WSRT NGC 4262, ATCA NGC 4650A, MUSE NGC 4650A (ESO archive), WALLABY PDR1
    cubes for NGC 4632/NGC 6156 (CASDA — the kinematic models are *not* in VizieR; a METAcat search
