@@ -1,0 +1,40 @@
+OBSERVED  S1_hse=-0.7884  S1_phys=-0.7790  S2_hse=0.1734  S3_hse=-0.4803
+          within-cluster mean Spearman -0.7596
+          cross-cluster corr(mean y, ln R500) = +0.5000
+
+[A] R500-scrambling null on the REAL data
+    S1 null: mean -0.7724 sd 0.0102; observed -0.7884 at percentile 5.8
+    S2 null: mean 0.1769 sd 0.0020; observed 0.1734 at percentile 4.3
+
+[B] forward synthetic null: NO true dependence of the excess on any radius
+    S1_hse null: mean -0.1417 sd 0.0403 [p05 -0.2059, p95 -0.0723]
+    observed -0.7884  ->  percentile 0.00, z = -16.07
+    noiseless (pure pipeline bias): S1_hse = -0.2067
+
+[C] null sensitivity
+    white noise only                   S1 null -0.1336 +- 0.0283   pct of observed 0.00
+    fully correlated bins              S1 null -0.1633 +- 0.0550   pct of observed 0.00
+    2x quoted errors                   S1 null -0.1281 +- 0.0419   pct of observed 0.00
+    4x quoted errors                   S1 null -0.1619 +- 0.0536   pct of observed 0.00
+    R500 smeared 10% extra             S1 null -0.1415 +- 0.0454   pct of observed 0.00
+    R500 smeared 25% extra             S1 null -0.1347 +- 0.0484   pct of observed 0.00
+    R500 from raw pointwise crossing   S1 null -0.1319 +- 0.0417   pct of observed 0.00
+    T calibration 10% per cluster      S1 null -0.1462 +- 0.0474   pct of observed 0.00
+
+[D] absolute-radius null (excess organised by r in kpc, not by r/R500)
+    injected slope -0.472 dex/dex on ABSOLUTE radius
+    S1_hse -0.8006 +- 0.0199, S1_phys -0.7824 +- 0.0203
+    S1_hse - S1_phys = -0.01817 +- 0.00702  (observed -0.00946)
+
+[E] responsiveness: d(corr_measured)/d(corr_injected)
+    s=+0.000  corr_inj -0.1188  corr_meas -0.1498 +- 0.0395  slope_meas -0.1394
+    s=-0.250  corr_inj -0.9241  corr_meas -0.5894 +- 0.0308  slope_meas -0.3715
+    s=-0.500  corr_inj -0.9785  corr_meas -0.8207 +- 0.0179  slope_meas -0.6048
+    s=-0.750  corr_inj -0.9900  corr_meas -0.9138 +- 0.0093  slope_meas -0.8372
+    s=-1.000  corr_inj -0.9943  corr_meas -0.9515 +- 0.0055  slope_meas -1.0709
+    s=-1.354  corr_inj -0.9968  corr_meas -0.9734 +- 0.0032  slope_meas -1.4013
+    s=-2.000  corr_inj -0.9985  corr_meas -0.9856 +- 0.0019  slope_meas -1.9991
+    d(corr_meas)/d(corr_inj): 0.867 over the full range, 0.757 near the null
+    d(slope_meas)/d(slope_inj): 0.930
+
+wrote job1_results.json  (32.9 s)

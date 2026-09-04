@@ -1,0 +1,38 @@
+T1  rank/correlation primitives
+   [PASS] ties share the average rank  -- [0.5 0.5 2.  4.  4.  4. ]
+   [PASS] spearman of a monotone map is +1
+   [PASS] spearman is invariant to positive rescaling of either axis
+
+T2  THE CANCELLATION LEMMA -- R500 drops out of the numerator
+   [PASS] g_obs identical for R500 scaled by 0.55x and 2.30x, when the profile is republished in those same units  -- max rel diff 1.64e-13
+   [PASS] g_bar does not depend on R500 at all
+
+T3  monotone-invariance: the R500 tautology cannot act WITHIN a cluster
+   [PASS] within-cluster Spearman is bit-identical across a 10x range of R500  -- [-0.48735475051264526, -0.48735475051264526, -0.48735475051264526, -0.48735475051264526]
+      (this is the point: any per-cluster normalisation is a monotone map, so
+       it CANNOT change a within-cluster rank statistic. R500 can only act
+       across clusters.)
+
+T4  make_truth is self-consistent
+   [PASS] R500_true satisfies the overdensity definition and equals R500_pub  -- max rel error 8.09e-04
+
+T5  the HSE integration inverts the bench's gradient formula
+   [PASS] g recovered from the constructed T matches the injected g  -- max rel error 0.022 over 200 kpc - 0.9 r_bnd
+
+T6  noiseless pipeline recovery (this is where the pipeline bias lives)
+      noiseless y - y_true : median -0.0057 dex, rms 0.1060, range -1.045 to +0.214
+      noiseless S1_hse = -0.2067   S1_phys = -0.1704
+   [PASS] a flat truth does not come back with a strong radial trend  -- S1_hse = -0.2067 with ZERO noise and a FLAT truth -- this is pure pipeline bias
+
+T7  responsiveness is non-zero (the monotone-invariant-statistic trap)
+      S1_hse vs injected slope 0,-0.5,-1,-1.5 : -0.2067, -0.9362, -0.9797, -0.9877
+   [PASS] dS1/d(injected slope) != 0  -- spread 0.7809
+
+T8  ingest guards actually fire
+   [PASS] missing cluster returns None or raises
+   [PASS] Herbonnet table is 100 rows (two table* envs joined)
+
+T9  baryon-only radii use no total mass
+   [PASS] baryonic_radii references no M500/R500 header quantity  -- gas density and n_e only
+
+all tests pass

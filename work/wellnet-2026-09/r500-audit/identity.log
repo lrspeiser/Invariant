@@ -1,0 +1,18 @@
+rank[ indicators | log r ]            = 13  of 13 columns
+rank[ indicators | log(r/R500) ]      = 13  of 13 columns
+rank[ indicators | log r | log(r/R500)] = 13  of 14 columns
+-> adding log(r/R500) to a model that already has log r and per-cluster
+   levels adds 0 independent direction(s).
+   residual of log(r/R500) on that span: max |e| = 5.154e-14, rms = 4.908e-15
+   within-cluster demeaned log r vs log(r/R500): max diff = 8.327e-16
+
+variance of the RAR residual: total 0.05595, between-cluster 0.00544 (9.7%), within-cluster 0.05052 (90.3%)
+   R500 can only ever act on the between-cluster part.
+   corr(per-cluster mean residual, log10 R500) = +0.5000 over 12 clusters (r^2 = 0.250)
+   -> R500 could at most explain 2.43% of the total residual variance
+
+leverage: R500 spans 1054-1430 kpc (a factor 1.36); sd(ln R500) = 0.1086 against sd(ln r) = 0.7231 inside one cluster, ratio 0.150
+   fixed-effects fit, indicators + log r         RSS = 16.632046, slope = -0.4817
+   fixed-effects fit, indicators + log(r/R500)   RSS = 16.632046, slope = -0.4817
+
+wrote identity_results.json
