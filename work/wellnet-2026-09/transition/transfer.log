@@ -1,0 +1,37 @@
+==============================================================================
+FROZEN TRANSFER, with the prediction interval done properly
+==============================================================================
+   intrinsic scatters (frozen, from H_P): LoCuSS 0.2565, SL within 0.2004, SL cluster-common 0.1937
+
+   HELD OUT = LOCUSS   (trained on ('efeds', 'sl'))
+      model    pred S    obs S  ln resid  sigma_pred   sigma  (naive, wrong)
+      H0        1.000    1.661    +0.507       0.132   +3.86  (+8.4)
+      H_M       1.304    1.661    +0.242       0.132   +1.84  (+4.0)
+      H_R       1.219    1.661    +0.310       0.132   +2.35  (+5.2)
+      H_G       1.625    1.661    +0.022       0.132   +0.17  (+0.5)
+      H_MR      1.294    1.661    +0.250       0.132   +1.90  (+4.2)
+
+   HELD OUT = SL   (trained on ('efeds', 'locuss'))
+      model    pred S    obs S  ln resid  sigma_pred   sigma  (naive, wrong)
+      H0        1.000    4.048    +1.401       0.360   +3.89  (+34.9)
+      H_M       1.286    4.048    +1.149       0.360   +3.19  (+28.6)
+      H_R       3.467    4.048    +0.206       0.360   +0.57  (+3.9)
+      H_G       1.492    4.048    +0.984       0.360   +2.73  (+24.9)
+      H_MR      3.487    4.048    +0.211       0.360   +0.59  (+3.7)
+
+   HELD OUT = EFEDS   (trained on ('locuss', 'sl'))
+      model        chi2   chi2/N  key parameters
+      H0        3588.42   1.0664  
+      H_M       6779.74   2.0148  c=+0.670 alpha=-0.289
+      H_R       3885.39   1.1546  c=+0.637 beta=+0.050
+      H_G       6539.69   1.9434  c=-0.070 gamma=-0.300
+      H_MR      7327.86   2.1777  c=+0.682 alpha=-0.288 beta=+0.050
+
+==============================================================================
+eFEDS ALONE, extrapolated: the cleanest statement in the lane
+==============================================================================
+   eFEDS-only H_R:  beta = -0.4000 [-0.4500, -0.3500],  c = +0.2609
+   at r/R500 = 1.000:  predicted S = 1.298 [1.298, 1.298]   observed 1.661   ln difference +0.247
+   at r/R500 = 0.119:  predicted S = 3.045 [2.738, 3.388]   observed 4.059   ln difference +0.287
+
+   wrote transfer_results.json

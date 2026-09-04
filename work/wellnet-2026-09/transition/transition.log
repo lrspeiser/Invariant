@@ -1,0 +1,235 @@
+
+==============================================================================
+TRANSITION LANE -- one common observable space for S(M, r)
+==============================================================================
+
+   started 2026-09-04T18:41:45Z
+   declaration decl.py sha256 = 521ea654f122f7367f8ec7a82b095bce1cf01bde4781dce45d3ddc86c1576100
+   frozen law: RAR (Lelli+2017 interpolation), a0 = 1.0844e-10 m/s^2, SPARC train
+   hierarchy: H0, H_P, H_M, H_R, H_G, H_MR, H_T
+   primary mass = M_gas500_dyn, primary R500 = R500_dyn
+
+==============================================================================
+PART 1.  INGEST
+==============================================================================
+   eFEDS   ingested 496 systems / 3365 shear points  (assert 496 / 3365)  cuts={'ingested': 542, 'finite_density_params': 542, 'finite_z_R500': 542, 'vikhlinin_beta_gt_1_3': 542}
+           identifiers echoed: 082626.5-003429, 082751.7-002853, ... 094007.3+035754
+   LoCuSS  ingested 41 clusters / 41 observable rows (assert 41/41, 13 and 28 columns) -> 27 usable
+           cuts={'ingested': 41, 'has_accept': 27, 'has_LK': 27, 'finite_MWL': 27, 'r500_solved': 27}
+           identifiers echoed: Abell0068, Abell0141, Abell0209 ... Abell2631
+   SL      A2744      accept=ABELL_2744           images=149 spec-systems= 22 gas shells=59 r=[0.011,1.314] Mpc R500_dyn=0.845 R500_MCXC=1.236 (sep 1.52')
+   SL      A370       accept=ABELL_0370           images=138 spec-systems= 39 gas shells=32 r=[0.013,0.800] Mpc R500_dyn=0.794 R500_MCXC=ABSENT (sep 132.80')
+   SL      AS1063     accept=ABELL_1063S          images= 48 spec-systems= 10 gas shells=41 r=[0.012,0.999] Mpc R500_dyn=0.960 R500_MCXC=1.426 (sep 0.15')
+   SL      MACSJ0717  accept=MACS_J0717.5+3745    images=165 spec-systems=  8 gas shells=39 r=[0.015,1.176] Mpc R500_dyn=0.867 R500_MCXC=1.360 (sep 1.59')
+   SL      MACSJ1149  accept=MACS_J1149.5+2223    images= 97 spec-systems=  9 gas shells=41 r=[0.016,1.285] Mpc R500_dyn=0.768 R500_MCXC=1.220 (sep 0.26')
+   SL      MCXC rows read: 1745; match radius 3.0'
+   SL      excluded: {'MACSJ0416': 'multiple-image catalogue present (Caminha+2017, Bergamini+2023) but no ACCEPT deprojected n_e profile, so no baryon model'}
+
+   GATE M_gas,500: n = 414, median mine/published = 0.9994, scatter 0.0469 dex  ->  PASS
+
+   Intrinsic scatters, estimated ONCE under H_P (free per-survey offsets,
+   so no between-survey structure can leak in) and FROZEN for every model:
+      sigma_int LoCuSS          0.2565
+      sigma_int SL within-cluster 0.2004
+      sigma_int SL cluster-common 0.1937
+
+==============================================================================
+PART 2.  DESIGN AND LEVERAGE -- measured BEFORE any residual is seen
+==============================================================================
+   efeds   n= 3365  ln(M/M0)  -8.86  -2.88  -0.46 | ln(r/R500)  -1.05  +1.09  +3.32 | ln(g/a0)  -13.23  -5.57  -2.60
+   locuss  n=   27  ln(M/M0)  -1.49  -0.01  +1.47 | ln(r/R500)  +0.00  +0.00  +0.00 | ln(g/a0)   -3.23  -2.36  -1.14
+   sl      n=   49  ln(M/M0)  +0.26  +0.45  +0.75 | ln(r/R500)  -3.11  -2.26  -0.31 | ln(g/a0)   -2.64  -2.05  -1.09
+
+   POOLED correlation of the three candidate axes:
+      ln M       +1.0000  -0.3040  +0.7508
+      ln r/R500  -0.3040  +1.0000  -0.6527
+      ln g/a0    +0.7508  -0.6527  +1.0000
+
+   R^2 of ln(g/a0) on [1, ln M, ln r/R500], pooled = 0.762219   residual sd 0.8783
+      -> the acceleration axis is NOT an independent story to the extent this is 1.
+
+   BETWEEN-survey vs WITHIN-survey spread of each axis (ln units, sd):
+      lnM   between  1.626 | within  1.455  0.668  0.205 | survey means  -3.182  +0.033  +0.461
+      lnx   between  1.326 | within  0.684  0.000  0.635 | survey means  +1.057  +0.000  -2.132
+      lng   between  1.737 | within  1.733  0.497  0.565 | survey means  -5.852  -2.402  -1.971
+
+   The three SURVEY MEANS in (ln M, ln r/R500): correlation = -0.8208
+      With 3 points a correlation near -1 means the surveys lie on
+      a LINE in the (mass, radius) plane, so between-survey
+      information alone cannot separate mass from radius.  Only
+      WITHIN-survey slopes can.
+
+   LoCuSS RADIUS COORDINATE -- three definitions, all disqualified
+   from carrying radial information:
+      R500 = r500(M_WL)  ->  ln(r/R500) is identically 0.000 .. 0.000: NO SPREAD, hence no leverage on beta.
+      R500 = R500_dyn    ->  corr(ln S, ln r/R500) = +0.8848.  ALGEBRAIC: with
+         M_dyn ~ r^m near the aperture, ln(r/R500_dyn) = ln S/(3-m) EXACTLY.
+
+==============================================================================
+PART 3.  SHARED-QUANTITY AUDIT and the H0 NULL
+==============================================================================
+
+   CONSTRUCTION EXPRESSIONS, written out before any correlation is believed.
+
+   eFEDS   S enters as Sigma_s(r) on the 3-D mass; the datum is g_+ from
+           DECADE galaxy shapes, weights and photo-z.  The MODEL side depends
+           on the Bahar+2022 Vikhlinin parameters (n0, rs, eps, beta, alpha)
+           and z.  M = M_gas(<R500_cat) and R500_cat depend on those SAME
+           density parameters and on Bahar's R500.  -> the regressors share
+           the density fit with the model, but NOT with the datum.  This is
+           propagated fit noise, not an algebraic identity (the Run AI
+           distinction).
+   LoCuSS  S = M_WL / M_dyn(r500_WL).  M_WL appears in the numerator AND sets
+           the aperture r500_WL, so it appears in the denominator too through
+           M_dyn(r500_WL).  M = M_gas(<r500_WL) shares the ACCEPT density with
+           the denominator.  -> heavily shared; simulated below.
+   SL      S = 1/kappa_bar(theta).  theta is from HST image positions; the
+           model side is ACCEPT gas + the declared stellar template.  M and
+           r/R500 use ACCEPT and MCXC.  -> the datum (theta) shares nothing
+           with the regressors; the model side shares ACCEPT gas with M.
+
+   The null expectation is therefore NOT zero for alpha, and NOT zero for beta.
+   It is measured.
+
+   eFEDS beta regressor  D = d ln g_+/d beta at beta = 0:  median +0.7702, sd 0.7127  (cf. ln(r/R500) median +1.0876)
+
+   LINEARISED estimator on the real data:  c=+0.3384 alpha=-0.0080 beta=-0.0971
+
+   H0 NULL, 200 realisations per scaling.  The TRUTH is S = 1 EXACTLY in
+   all three surveys, and every REGRESSOR is rebuilt from the redrawn inputs
+   rather than held fixed -- see nulls.py for what shares what.
+      eFEDS   Bahar Vikhlinin parameters redrawn from their published
+              marginal errors at three variance scalings (0.25/0.5/1.0),
+              because Bahar publishes NO covariance and the parameters are
+              strongly covariant; plus fresh DECADE shape noise.
+      LoCuSS  M_WL redrawn about M_dyn(R500_dyn) -- its H0 value -- and the
+              aperture r500_WL, ln M and ln S all recomputed from it, so the
+              shared-numerator path is live.  ACCEPT n_e shells redrawn.
+      SL      image radii redrawn about the frozen law's Einstein radius, so
+              ln S and ln(r/R500) move together exactly as they do in the
+              data.  ACCEPT n_e shells redrawn.
+   H0' amplitudes taken from H_P: LoCuSS S = 1.689,  SL S = 4.062
+      scale 0.25:  E[c|H0]=+0.4633 +-0.0423   E[alpha|H0]=+0.11974 +-0.02091   E[beta|H0]=-0.04336 +-0.07367
+      scale 0.50:  E[c|H0]=+0.5131 +-0.0407   E[alpha|H0]=+0.13794 +-0.01585   E[beta|H0]=-0.01838 +-0.06645
+      scale 1.00:  E[c|H0]=-56.9850 +-798.0094   E[alpha|H0]=-16.83511 +-237.79177   E[beta|H0]=-67.82272 +-925.29061
+
+   FISHER sigma vs NULL sd -- never quote the first alone:
+      c      Fisher 0.09713   null sd 798.00939   ratio  0.000
+      alpha  Fisher 0.04125   null sd 237.79177   ratio  0.000
+      beta   Fisher 0.04907   null sd 925.29061   ratio  0.000
+
+==============================================================================
+PART 4.  THE PRESPECIFIED HIERARCHY
+==============================================================================
+
+   N = 3441 data points (3365 shear + 27 LoCuSS + 49 SL).  ln N = 8.144
+
+   model   k      -2lnL        AIC        BIC     dBIC   parameters
+   H0      0    3485.60    3485.60    3485.60     6.93   offset_efeds=-0.0141 offset_locuss=+0.4095 offset_sl=+1.2897
+   H_P     3    3454.24    3460.24    3478.67     0.00   offset_efeds=-0.0178 offset_locuss=+0.5240 offset_sl=+1.4018
+   H_M     2    3472.34    3476.34    3488.62     9.96   c=+0.3386 alpha=+0.0200 offset_efeds=-0.2508 offset_locuss=+0.1432 offset_sl=+0.9685
+   H_R     2    3467.14    3471.14    3483.43     4.77   c=+0.3481 offset_efeds=-0.2246 offset_locuss=+0.1375 offset_sl=+0.7840 beta=-0.1000
+   H_G     2    3465.65    3469.65    3481.94     3.27   c=+0.6564 offset_efeds=-0.1775 offset_locuss=+0.0828 offset_sl=+0.8518 gamma=+0.1000
+   H_MR    3    3467.13    3473.13    3491.56    12.90   c=+0.3438 alpha=-0.0045 offset_efeds=-0.2290 offset_locuss=+0.1413 offset_sl=+0.7902 beta=-0.1000
+
+   Best non-pipeline model on BIC: H_G  (dBIC +3.27 from the overall best, H_P)
+   H_P (three free amplitudes, NO physics) sits at dBIC +0.00.
+
+   TRANSITION MODEL H_T: declared in advance, admitted only if the
+   power-law hierarchy fails to describe the pooled data.  Admitted = True
+   H_T     3    3440.19    3446.19    3464.62     0.00   c=-0.6234 offset_efeds=-0.1377 offset_locuss=+0.0527 offset_sl=+0.7650 A=+1.2000 lnxt=+1.0986  A=1.200 x_t=3.000
+
+   Profile 68% intervals (Delta(-2lnL) = 1):
+      beta  (H_MR) = -0.100 [-0.150, -0.100]
+      gamma (H_G)  = +0.100 [+0.100, +0.150]
+
+==============================================================================
+PART 5.  RESPONSIVENESS  d(estimate)/d(injected)
+==============================================================================
+
+   Injected with the FULL nonlinear fitter as well as the linearised one: the
+   headline numbers come from the full fitter, so that is what must be shown
+   to move.  Injection sizes are scaled to each axis's lever arm -- ln(M/M0)
+   spans 9.3 in the pooled sample against 4.4 for ln(r/R500), so an equal
+   injection in alpha is a much larger perturbation of the data than in beta.
+   The injection replaces the model part and keeps the observed residual, so
+   the noise realisation is unchanged.
+
+   alpha  injected  [-0.1, -0.05, 0.0, 0.05, 0.1]
+          recovered [np.float64(-0.0774), np.float64(-0.0283), np.float64(0.02), np.float64(0.0673), np.float64(0.1138)]   (full fitter)
+          recovered [np.float64(-0.1269), np.float64(-0.0624), np.float64(-0.008), np.float64(0.0385), np.float64(0.0784)]   (linearised)
+          d(est)/d(inj) = 0.9559 full, 1.0229 linearised;  spread 0.1912 over 0.20 injected
+
+   beta   injected  [-0.3, -0.15, 0.0, 0.15, 0.3]
+          recovered [np.float64(-0.4), np.float64(-0.25), np.float64(-0.1), np.float64(0.05), np.float64(0.2)]   (full fitter)
+          recovered [np.float64(-0.3824), np.float64(-0.2431), np.float64(-0.0971), np.float64(0.0574), np.float64(0.2225)]   (linearised)
+          d(est)/d(inj) = 1.0000 full, 1.0068 linearised;  spread 0.6000 over 0.60 injected
+
+==============================================================================
+PART 6.  FROZEN TRANSFER -- fit two surveys, predict the third, ONCE
+==============================================================================
+
+   Declared in decl.py before any fit: train = ('efeds', 'sl'),
+   held out = locuss.
+
+   HONESTY NOTE, also declared in advance: the LoCuSS excess (E median 1.62)
+   is already in the programme record and has been read by this lane's author.
+   The freeze is PROCEDURAL -- the model space and the code were written and
+   hashed first, and the held-out survey is touched once -- not epistemic.
+   It is not a blind test in the strong sense and is not reported as one.
+
+   Leave-one-survey-out is run for all three so the reader sees every
+   extrapolation, not only the declared one.
+
+   HELD OUT = LOCUSS   (trained on ('efeds', 'sl'))
+      model    pred S    obs S      chi2  mean pull   sigma
+      H0        1.000    1.661     98.64     +1.618   +8.41
+      H_M       1.304    1.661     47.00     +0.776   +4.03
+      H_R       1.219    1.661     53.27     +0.998   +5.19
+      H_MR      1.294    1.661     45.74     +0.805   +4.19
+      H_G       1.625    1.661     42.82     +0.089   +0.46
+
+   HELD OUT = SL   (trained on ('efeds', 'locuss'))
+      model    pred S    obs S      chi2  mean pull   sigma
+      H0        1.000    4.048   1260.81     +4.984  +34.89
+      H_M       1.286    4.048    862.19     +4.088  +28.61
+      H_R       3.467    4.048    133.77     +0.552   +3.86
+      H_MR      3.487    4.048    148.50     +0.530   +3.71
+      H_G       1.492    4.048    670.78     +3.560  +24.92
+
+   HELD OUT = EFEDS   (trained on ('locuss', 'sl'))
+      model        chi2   chi2/N
+      H0        3588.42   1.0664
+      H_M       6779.74   2.0148
+      H_R       3885.39   1.1546
+      H_MR      7327.86   2.1777
+      H_G       6539.69   1.9434
+
+==============================================================================
+PART 7.  POWER
+==============================================================================
+
+   Per-survey amplitudes from H_P (free, no physics):
+      efeds   ln S = -0.0178   S = 0.982
+      locuss  ln S = +0.5240   S = 1.689
+      sl      ln S = +1.4018   S = 4.062
+      alpha  required eFEDS->SL +0.3897   eFEDS->LoCuSS +0.1686
+      beta   required eFEDS->SL -0.4452   eFEDS->LoCuSS -0.5128
+      gamma  required eFEDS->SL +0.3658   eFEDS->LoCuSS +0.1571
+
+   MEASURED joint slopes (linearised, null-referenced):
+      alpha  = -0.0080   null mean -16.83511   null sd 237.79177   -> +0.07 sigma from its own null
+      beta   = -0.0971   null mean -67.82272   null sd 925.29061   -> +0.07 sigma from its own null
+
+   THE DISCRIMINATOR -- what eFEDS measures INTERNALLY (496 systems, 3365
+   points, real spread on all three axes) against what each story NEEDS
+   in order to reach the other surveys:
+      alpha  eFEDS-only -0.0055 [-0.0255,+0.0145]   needs +0.3897   ->  19.8 sigma away
+      beta   eFEDS-only -0.4000 [-0.4500,-0.3500]   needs -0.4452   ->   0.9 sigma away
+      gamma  eFEDS-only +0.2000 [+0.1500,+0.2500]   needs +0.3658   ->   3.3 sigma away
+
+   DETECTABLE SEPARATION at 5 sigma (null sd scaling as 1/sqrt(N_survey-equivalent)):
+      alpha  5 sigma = +1188.9588; the value required to explain the SL offset is +0.3897  ->  0.0 sigma if real
+      beta   5 sigma = +4626.4530; the value required to explain the SL offset is -0.4452  ->  0.0 sigma if real
+
+   wrote transition_results.json in 1678s

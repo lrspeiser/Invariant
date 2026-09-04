@@ -1,0 +1,40 @@
+==============================================================================
+PRIMARY: strong lensing collapsed to one point per cluster
+==============================================================================
+   SL sample: 4 clusters (from 49 image systems)
+      A2744      22 systems  S = 4.198  ln(r/R500) = -2.380  e = 0.0269  (within-cluster sd 0.125)
+      AS1063     10 systems  S = 3.009  ln(r/R500) = -2.294  e = 0.0326  (within-cluster sd 0.097)
+      MACSJ0717   8 systems  S = 5.353  ln(r/R500) = -1.198  e = 0.0774  (within-cluster sd 0.212)
+      MACSJ1149   9 systems  S = 4.017  ln(r/R500) = -2.174  e = 0.1261  (within-cluster sd 0.377)
+
+   scatters under H_P, frozen for every model: LoCuSS 0.2565, SL within 0.0000, SL cluster 0.2014
+
+   HIERARCHY (SL aggregated)  (N = 3396, ln N = 8.130)
+   model   k      -2lnL        BIC     dBIC   parameters
+   H_R     2    3532.77    3549.03     0.00   c=+0.397 beta=-0.350
+   H_T     3    3526.39    3550.78     1.75   c=-0.791 A=+1.400 lnxt=+1.099
+   H_MR    3    3530.64    3555.04     6.00   c=+0.343 alpha=-0.063 beta=-0.400
+   H_P     3    3543.25    3567.64    18.61   
+   H_G     2    3554.88    3571.14    22.11   c=+0.655 gamma=+0.100
+   H0      0    3574.32    3574.32    25.29   
+   H_M     2    3561.15    3577.41    28.38   c=+0.337 alpha=+0.020
+
+   FROZEN TRANSFER (SL aggregated)
+      held out LOCUSS   model    pred S    obs S  ln resid   sigma
+                       H0        1.000    1.661    +0.507   +3.86
+                       H_M       1.299    1.661    +0.246   +1.87
+                       H_R       1.333    1.661    +0.220   +1.67
+                       H_G       1.621    1.661    +0.024   +0.18
+                       H_MR      1.246    1.661    +0.288   +2.19
+      held out SL       model    pred S    obs S  ln resid   sigma
+                       H0        1.000    4.059    +1.401   +3.87
+                       H_M       1.286    4.059    +1.149   +3.18
+                       H_R       3.304    4.059    +0.206   +0.57
+                       H_G       1.518    4.059    +0.984   +2.72
+                       H_MR      3.287    4.059    +0.211   +0.58
+
+   eFEDS ALONE: beta = -0.4000 [-0.4500, -0.3500], c = +0.2609
+      at r/R500 = 1.000: predicted S = 1.298 [1.298, 1.298]   observed 1.661   +1.97 sigma
+      at r/R500 = 0.134: predicted S = 2.903 [2.625, 3.210]   observed 4.059   +0.90 sigma
+
+   wrote final_results.json in 637s

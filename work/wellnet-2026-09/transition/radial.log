@@ -1,0 +1,32 @@
+==============================================================================
+eFEDS INTERNAL RADIAL SLOPE, refitted in radial windows
+(3-D slip, re-projected; amplitude profiled out)
+==============================================================================
+   all radii            n =  3365   beta = -0.400   68% [-0.450, -0.350]
+   r/R500 < 1.3         n =   467   beta = -0.050   68% [-0.450, +0.400]
+   r/R500 < 2.0         n =  1036   beta = -0.250   68% [-0.400, +0.000]
+   r/R500 < 3.2         n =  1823   beta = -0.150   68% [-0.250, -0.050]
+   r/R500 < 5.0         n =  2581   beta = -0.350   68% [-0.400, -0.300]
+   r/R500 > 2.0         n =  2329   beta = -0.800   68% [-1.050, -0.600]
+   r/R500 > 3.2         n =  1542   beta = -0.250   68% [-0.700, +0.150]
+   1.0 < r/R500 < 5.0   n =  2352   beta = -0.450   68% [-0.550, -0.300]
+
+   B-MODE (cross component), all radii:
+      chi2 variation across the whole beta grid = 0.00
+      the same on the TANGENTIAL component       = 106.29
+   -> the cross component carries no lensing signal, so its profile
+      in beta must be nearly FLAT.  A 'best-fitting' beta from a
+      flat profile is meaningless -- the number that matters is how
+      much chi2 beta buys, and on the B-mode that is 0.0 against
+      106.3 on the real signal.
+
+   declared split (the closure lane's, by sorted system id):
+      TRAIN beta = -0.500 [-0.600, -0.400]   n = 1709
+      HELD  beta = -0.300 [-0.400, -0.200]   n = 1656
+
+   INNER vs OUTER: -0.250 against -0.800  ->  1.8 sigma apart.
+   A single power law in r/R500 is therefore not an adequate
+   description of the eFEDS residual, and the steep outer value
+   sits where the Vikhlinin density fit is extrapolated.
+
+   wrote radial_results.json

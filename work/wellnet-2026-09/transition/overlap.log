@@ -1,0 +1,184 @@
+
+
+##############################################################################
+#  STRONG-LENS SELECTION: no_theta_cut
+##############################################################################
+==============================================================================
+THE OVERLAP TEST -- eFEDS groups vs strong-lens clusters at the
+SAME r/R500, differing by more than a decade in mass
+==============================================================================
+
+   r/R500 in [0.2, 0.8)
+      eFEDS   n =  106 points, median M_gas500 = 7.70e+12 Msun
+              S = 1.698  [1.334, 2.065]
+      SL      n =   7 image systems in 2 clusters [np.str_('A2744'), np.str_('MACSJ0717')], median M_gas500 = 1.93e+14 Msun
+              S = 6.092  +- 0.157 in ln
+      mass ratio SL/eFEDS = 25.0x   at the SAME r/R500
+      ln S difference = +1.277  ->  +4.7 sigma
+      implied alpha if the difference is MASS: +0.3967
+
+   r/R500 in [0.3, 0.8)
+      eFEDS   n =  106 points, median M_gas500 = 7.70e+12 Msun
+              S = 1.698  [1.334, 2.065]
+      SL      n =   6 image systems in 2 clusters [np.str_('A2744'), np.str_('MACSJ0717')], median M_gas500 = 1.93e+14 Msun
+              S = 6.277  +- 0.160 in ln
+      mass ratio SL/eFEDS = 25.0x   at the SAME r/R500
+      ln S difference = +1.307  ->  +4.8 sigma
+      implied alpha if the difference is MASS: +0.4060
+
+   r/R500 in [0.2, 1.3)
+      eFEDS   n =  467 points, median M_gas500 = 6.02e+12 Msun
+              S = 1.380  [1.216, 1.549]
+      SL      n =   7 image systems in 2 clusters [np.str_('A2744'), np.str_('MACSJ0717')], median M_gas500 = 1.93e+14 Msun
+              S = 6.092  +- 0.157 in ln
+      mass ratio SL/eFEDS = 32.0x   at the SAME r/R500
+      ln S difference = +1.485  ->  +7.5 sigma
+      implied alpha if the difference is MASS: +0.4282
+
+   band 0.8-1.3: eFEDS 361, SL 0 -- too few, skipped
+
+==============================================================================
+eFEDS ALONE: S in radial bands.  This is the only internal radial
+information any survey here has.
+==============================================================================
+   r/R500  0.50- 0.80  n=   99  median x=  0.69  S =  1.820 [ 1.429,  2.213]  median M_gas500 = 6.57e+12
+   r/R500  0.80- 1.30  n=  361  median x=  1.07  S =  1.303 [ 1.122,  1.496]  median M_gas500 = 5.47e+12
+   r/R500  1.30- 2.00  n=  569  median x=  1.65  S =  1.230 [ 1.084,  1.380]  median M_gas500 = 6.02e+12
+   r/R500  2.00- 3.20  n=  787  median x=  2.55  S =  1.230 [ 1.109,  1.334]  median M_gas500 = 6.44e+12
+   r/R500  3.20- 5.00  n=  758  median x=  4.00  S =  0.741 [ 0.631,  0.851]  median M_gas500 = 6.96e+12
+   r/R500  5.00- 8.00  n=  645  median x=  6.12  S =  0.668 [ 0.543,  0.804]  median M_gas500 = 4.76e+12
+   r/R500  8.00-35.00  n=  139  median x= 10.00  S =  0.355 [ 0.100,  0.708]  median M_gas500 = 6.59e+11
+
+   eFEDS internal radial slope  beta = -0.4102 +- 0.0968   (weighted fit to the 7 bands above)
+   For comparison, a PURE radius story joining eFEDS at r/R500 ~ 2.5 to the
+   strong-lens cores at ~0.1 needs beta = -0.7937.
+
+==============================================================================
+IS THE eFEDS INTERNAL RADIAL SLOPE REAL?  three checks
+==============================================================================
+   1. declared train/held split (the closure lane's, by sorted id)
+      TRAIN beta = -0.5229 +- 0.1278 (7 bands)
+      HELD  beta = -0.3620 +- 0.1452 (7 bands)
+      difference -0.1609 +- 0.1934  ->  -0.8 sigma
+
+   2. r/R500 < 3.2 only, where the Vikhlinin fit is not far extrapolated
+      beta = -0.1897 +- 0.1466 (4 bands)
+
+   3. the SAME statistic on the B-mode (cross) component, which must be flat
+      beta = -0.0691 +- 0.1626 (7 bands)
+
+==============================================================================
+MATCHED-RADIUS COMPARISON 2: eFEDS vs LoCuSS at r/R500 ~ 1
+==============================================================================
+   eFEDS  r/R500 0.8-1.3, n = 361, median M_gas500 = 5.47e+12:  S = 1.303 [1.122, 1.496]
+   LoCuSS r/R500 = 1 exactly, n = 27, median M_gas500 = 9.86e+13:  S = 1.689 +- 0.061 in ln
+   mass ratio 18.0x at the SAME radius  ->  ln S difference +0.259 (+1.7 sigma)
+   implied alpha = +0.0897
+
+   *** The two matched-radius comparisons DISAGREE: alpha = +0.397
+   from eFEDS-vs-SL at r/R500 ~ 0.5, but +0.090 from eFEDS-vs-LoCuSS at
+   r/R500 ~ 1, over comparable mass ratios (25x and 18x).
+   A single mass power law cannot produce both.
+
+==============================================================================
+STRONG-LENS CLUSTERS: their OWN internal radial slope, at fixed
+mass, from many image systems in one cluster
+==============================================================================
+   A2744      n=22  ln r span 2.80  beta = +0.1648 +- 0.0277
+   AS1063     n=10  ln r range only 0.60 -- too narrow, skipped
+   MACSJ0717  n= 8  ln r span 1.38  beta = +0.4269 +- 0.0596
+   MACSJ1149  n= 9  ln r span 1.24  beta = -0.4970 +- 0.2530
+   combined  beta = +0.2045 +- 0.0250   (eFEDS internal: -0.4102 +- 0.0968)
+
+
+##############################################################################
+#  STRONG-LENS SELECTION: theta_lt_100
+##############################################################################
+==============================================================================
+THE OVERLAP TEST -- eFEDS groups vs strong-lens clusters at the
+SAME r/R500, differing by more than a decade in mass
+==============================================================================
+
+   r/R500 in [0.2, 0.8)
+      eFEDS   n =  106 points, median M_gas500 = 7.70e+12 Msun
+              S = 1.698  [1.334, 2.065]
+      SL      n =   5 image systems in 1 clusters [np.str_('MACSJ0717')], median M_gas500 = 1.93e+14 Msun
+              S = 5.510  +- 0.195 in ln
+      mass ratio SL/eFEDS = 25.0x   at the SAME r/R500
+      ln S difference = +1.177  ->  +4.0 sigma
+      implied alpha if the difference is MASS: +0.3656
+
+   r/R500 in [0.3, 0.8)
+      eFEDS   n =  106 points, median M_gas500 = 7.70e+12 Msun
+              S = 1.698  [1.334, 2.065]
+      SL      n =   4 image systems in 1 clusters [np.str_('MACSJ0717')], median M_gas500 = 1.93e+14 Msun
+              S = 5.865  +- 0.200 in ln
+      mass ratio SL/eFEDS = 25.0x   at the SAME r/R500
+      ln S difference = +1.239  ->  +4.2 sigma
+      implied alpha if the difference is MASS: +0.3849
+
+   r/R500 in [0.2, 1.3)
+      eFEDS   n =  467 points, median M_gas500 = 6.02e+12 Msun
+              S = 1.380  [1.216, 1.549]
+      SL      n =   5 image systems in 1 clusters [np.str_('MACSJ0717')], median M_gas500 = 1.93e+14 Msun
+              S = 5.510  +- 0.195 in ln
+      mass ratio SL/eFEDS = 32.0x   at the SAME r/R500
+      ln S difference = +1.384  ->  +6.0 sigma
+      implied alpha if the difference is MASS: +0.3993
+
+   band 0.8-1.3: eFEDS 361, SL 0 -- too few, skipped
+
+==============================================================================
+eFEDS ALONE: S in radial bands.  This is the only internal radial
+information any survey here has.
+==============================================================================
+   r/R500  0.50- 0.80  n=   99  median x=  0.69  S =  1.820 [ 1.429,  2.213]  median M_gas500 = 6.57e+12
+   r/R500  0.80- 1.30  n=  361  median x=  1.07  S =  1.303 [ 1.122,  1.496]  median M_gas500 = 5.47e+12
+   r/R500  1.30- 2.00  n=  569  median x=  1.65  S =  1.230 [ 1.084,  1.380]  median M_gas500 = 6.02e+12
+   r/R500  2.00- 3.20  n=  787  median x=  2.55  S =  1.230 [ 1.109,  1.334]  median M_gas500 = 6.44e+12
+   r/R500  3.20- 5.00  n=  758  median x=  4.00  S =  0.741 [ 0.631,  0.851]  median M_gas500 = 6.96e+12
+   r/R500  5.00- 8.00  n=  645  median x=  6.12  S =  0.668 [ 0.543,  0.804]  median M_gas500 = 4.76e+12
+   r/R500  8.00-35.00  n=  139  median x= 10.00  S =  0.355 [ 0.100,  0.708]  median M_gas500 = 6.59e+11
+
+   eFEDS internal radial slope  beta = -0.4102 +- 0.0968   (weighted fit to the 7 bands above)
+   For comparison, a PURE radius story joining eFEDS at r/R500 ~ 2.5 to the
+   strong-lens cores at ~0.1 needs beta = -0.7313.
+
+==============================================================================
+IS THE eFEDS INTERNAL RADIAL SLOPE REAL?  three checks
+==============================================================================
+   1. declared train/held split (the closure lane's, by sorted id)
+      TRAIN beta = -0.5229 +- 0.1278 (7 bands)
+      HELD  beta = -0.3620 +- 0.1452 (7 bands)
+      difference -0.1609 +- 0.1934  ->  -0.8 sigma
+
+   2. r/R500 < 3.2 only, where the Vikhlinin fit is not far extrapolated
+      beta = -0.1897 +- 0.1466 (4 bands)
+
+   3. the SAME statistic on the B-mode (cross) component, which must be flat
+      beta = -0.0691 +- 0.1626 (7 bands)
+
+==============================================================================
+MATCHED-RADIUS COMPARISON 2: eFEDS vs LoCuSS at r/R500 ~ 1
+==============================================================================
+   eFEDS  r/R500 0.8-1.3, n = 361, median M_gas500 = 5.47e+12:  S = 1.303 [1.122, 1.496]
+   LoCuSS r/R500 = 1 exactly, n = 27, median M_gas500 = 9.86e+13:  S = 1.689 +- 0.061 in ln
+   mass ratio 18.0x at the SAME radius  ->  ln S difference +0.259 (+1.7 sigma)
+   implied alpha = +0.0897
+
+   *** The two matched-radius comparisons DISAGREE: alpha = +0.366
+   from eFEDS-vs-SL at r/R500 ~ 0.5, but +0.090 from eFEDS-vs-LoCuSS at
+   r/R500 ~ 1, over comparable mass ratios (25x and 18x).
+   A single mass power law cannot produce both.
+
+==============================================================================
+STRONG-LENS CLUSTERS: their OWN internal radial slope, at fixed
+mass, from many image systems in one cluster
+==============================================================================
+   A2744      n=21  ln r span 1.31  beta = +0.1084 +- 0.0406
+   AS1063     n=10  ln r range only 0.60 -- too narrow, skipped
+   MACSJ0717  n= 7  ln r span 0.93  beta = +0.4193 +- 0.0838
+   MACSJ1149  n= 9  ln r span 1.24  beta = -0.4970 +- 0.2530
+   combined  beta = +0.1540 +- 0.0362   (eFEDS internal: -0.4102 +- 0.0968)
+
+   wrote overlap_results.json
