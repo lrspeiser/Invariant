@@ -1,0 +1,154 @@
+== INGEST ==
+  n_rows                             217
+  n_with_track_file                  217
+  n_usable_3d                        68
+  n_usable_6d                        29
+  n_gated_D                          71
+  n_gated_pm                         8
+  n_gated_vrad                       18
+  n_unit_kpc                         85
+  n_superluminal                     34
+  agrees_with_summary_3d             False
+  agrees_with_summary_6d             False
+  n_streams_6d                       26
+  n_streams_3d                       60
+  n_polar_within_10deg_3d            15
+  n_beyond_25kpc_3d                  14
+  n_polar_within_10deg_6d_dedup      5
+  n_beyond_25kpc_6d_dedup            3
+  sha256_summary                     0cf6f3260fe4247ad51457e4b4982ab08c0acd09d1e2d606001059b6dd4b416a
+
+== PREDICT ==
+  primary reference point (median stream R, |z|/2): R = 11.28 kpc, |z| = 3.59 kpc
+
+-- newton  (control)
+    solved newton on 256^2 in 6s
+    iter 0: solved-vs-data RMS 6.67 km/s, median completion/algebraic = 1.0006
+    solved newton on 400^2 in 57s
+    iter 1: solved-vs-data RMS 6.68 km/s, median completion/algebraic = 1.0005
+   in-plane RMS (solved) 6.68 km/s, M_b = 2.148e+11 Msun
+   PREDICTED A_dyn: primary 1.00105, solar 1.00270
+   profile A_dyn: [0.99986 1.00031 1.00065 1.00042 1.00029 1.00041 1.00147]
+
+-- rar  (BASE_rar, tournament _checkpoint.json a0)
+    solved rar on 256^2 in 7s
+    iter 0: solved-vs-data RMS 8.44 km/s, median completion/algebraic = 0.9966
+    solved rar on 400^2 in 61s
+    iter 1: solved-vs-data RMS 8.53 km/s, median completion/algebraic = 0.9967
+   in-plane RMS (solved) 8.53 km/s, M_b = 8.703e+10 Msun
+   PREDICTED A_dyn: primary 1.00617, solar 1.04883
+   profile A_dyn: [1.00675 1.00548 1.00287 1.00142 1.00086 1.00091 1.00193]
+
+-- aqual  (AQUAL base at the same a0)
+    picard  0 cg= 1190 dPsi=1.668e+00 rel=9.76e-11
+    picard  1 cg= 1328 dPsi=4.122e-01 rel=9.90e-11
+    picard  2 cg= 1275 dPsi=1.692e-01 rel=9.88e-11
+    picard  3 cg= 1226 dPsi=3.009e-02 rel=9.80e-11
+    picard  4 cg= 1167 dPsi=1.817e-03 rel=9.91e-11
+    picard  5 cg= 1100 dPsi=4.668e-04 rel=9.75e-11
+    picard  6 cg= 1058 dPsi=1.225e-04 rel=9.99e-11
+    picard  7 cg= 1008 dPsi=4.258e-05 rel=9.69e-11
+    picard  8 cg=  958 dPsi=1.401e-05 rel=9.95e-11
+    picard  9 cg=  919 dPsi=4.968e-06 rel=9.74e-11
+    picard 10 cg=  862 dPsi=1.749e-06 rel=9.85e-11
+    picard 11 cg=  823 dPsi=6.321e-07 rel=9.97e-11
+    picard 12 cg=  794 dPsi=2.295e-07 rel=9.67e-11
+    solved aqual on 256^2 in 66s
+    iter 0: solved-vs-data RMS 8.25 km/s, median completion/algebraic = 0.9971
+    picard  0 cg= 1845 dPsi=2.332e+00 rel=9.74e-11
+    picard  1 cg= 2059 dPsi=5.066e-01 rel=9.96e-11
+    picard  2 cg= 1996 dPsi=2.412e-01 rel=9.80e-11
+    picard  3 cg= 1917 dPsi=5.936e-02 rel=9.79e-11
+    picard  4 cg= 1836 dPsi=3.890e-03 rel=9.91e-11
+    picard  5 cg= 1724 dPsi=6.834e-04 rel=9.80e-11
+    picard  6 cg= 1678 dPsi=1.971e-04 rel=9.93e-11
+    picard  7 cg= 1577 dPsi=5.656e-05 rel=9.89e-11
+    picard  8 cg= 1514 dPsi=2.002e-05 rel=1.00e-10
+    picard  9 cg= 1449 dPsi=6.756e-06 rel=9.98e-11
+    picard 10 cg= 1367 dPsi=2.435e-06 rel=9.98e-11
+    picard 11 cg= 1292 dPsi=8.702e-07 rel=9.90e-11
+    picard 12 cg= 1242 dPsi=3.179e-07 rel=9.95e-11
+    picard 13 cg= 1181 dPsi=1.166e-07 rel=9.99e-11
+    solved aqual on 400^2 in 651s
+    iter 1: solved-vs-data RMS 8.32 km/s, median completion/algebraic = 0.9972
+   in-plane RMS (solved) 8.32 km/s, M_b = 8.531e+10 Msun
+   PREDICTED A_dyn: primary 1.00135, solar 1.01198
+   profile A_dyn: [1.00036 1.00205 1.00149 1.00104 1.00098 1.00134 1.0028 ]
+
+-- tidal_scalar  (aqual|scalar_a0|tidal|inv m=2|T0=1e-33, A=+16.0 (tournament REPORT.md section 0.4))
+    picard  0 cg= 1177 dPsi=1.200e+01 rel=9.24e-11
+    picard  1 cg= 1403 dPsi=8.561e-01 rel=9.64e-11
+    picard  2 cg= 1370 dPsi=6.805e-01 rel=9.94e-11
+    picard  3 cg= 1334 dPsi=4.061e-01 rel=9.62e-11
+    picard  4 cg= 1265 dPsi=1.328e-01 rel=9.91e-11
+    picard  5 cg= 1216 dPsi=1.264e-02 rel=9.95e-11
+    picard  6 cg= 1133 dPsi=1.949e-03 rel=9.90e-11
+    picard  7 cg= 1100 dPsi=5.648e-04 rel=9.55e-11
+    picard  8 cg= 1059 dPsi=1.498e-04 rel=9.75e-11
+    picard  9 cg= 1019 dPsi=5.246e-05 rel=9.89e-11
+    picard 10 cg=  956 dPsi=1.719e-05 rel=9.69e-11
+    picard 11 cg=  934 dPsi=6.189e-06 rel=9.50e-11
+    picard 12 cg=  894 dPsi=2.205e-06 rel=9.80e-11
+    picard 13 cg=  853 dPsi=8.091e-07 rel=9.99e-11
+    picard 14 cg=  804 dPsi=2.982e-07 rel=9.95e-11
+    solved tidal_scalar on 256^2 in 64s
+    iter 0: solved-vs-data RMS 8.17 km/s, median completion/algebraic = 0.9976
+    picard  0 cg= 1852 dPsi=2.249e+01 rel=9.46e-11
+    picard  1 cg= 2206 dPsi=9.181e-01 rel=9.93e-11
+    picard  2 cg= 2154 dPsi=8.016e-01 rel=9.95e-11
+    picard  3 cg= 2062 dPsi=5.741e-01 rel=9.88e-11
+    picard  4 cg= 1994 dPsi=2.624e-01 rel=9.63e-11
+    picard  5 cg= 1919 dPsi=4.209e-02 rel=1.00e-10
+    picard  6 cg= 1808 dPsi=5.288e-03 rel=9.95e-11
+    picard  7 cg= 1726 dPsi=1.401e-03 rel=9.98e-11
+    picard  8 cg= 1618 dPsi=2.538e-04 rel=9.89e-11
+    picard  9 cg= 1609 dPsi=1.023e-04 rel=9.75e-11
+    picard 10 cg= 1517 dPsi=2.846e-05 rel=9.92e-11
+    picard 11 cg= 1476 dPsi=1.076e-05 rel=9.79e-11
+    picard 12 cg= 1428 dPsi=3.617e-06 rel=9.98e-11
+    picard 13 cg= 1361 dPsi=1.335e-06 rel=9.99e-11
+    picard 14 cg= 1279 dPsi=4.802e-07 rel=9.99e-11
+    picard 15 cg= 1208 dPsi=1.781e-07 rel=9.95e-11
+    solved tidal_scalar on 400^2 in 716s
+    iter 1: solved-vs-data RMS 8.17 km/s, median completion/algebraic = 0.9975
+   in-plane RMS (solved) 8.17 km/s, M_b = 8.870e+10 Msun
+   PREDICTED A_dyn: primary 1.00255, solar 1.01297
+   profile A_dyn: [1.0003  1.00261 1.00406 1.00863 1.01799 1.02397 1.04373]
+
+-- wellnet_tensor  (aqual|tensor_S[plaw p=0]|phi|sat|m=2|Phi0=3e12, A from tournament finalise.json survivor_hygiene[0])
+    picard  0 cg= 1194 dPsi=1.692e+00 rel=9.62e-11
+    picard  1 cg= 1330 dPsi=4.129e-01 rel=9.88e-11
+    picard  2 cg= 1278 dPsi=1.686e-01 rel=9.61e-11
+    picard  3 cg= 1228 dPsi=2.928e-02 rel=9.50e-11
+    picard  4 cg= 1169 dPsi=1.790e-03 rel=9.82e-11
+    picard  5 cg= 1101 dPsi=4.671e-04 rel=9.74e-11
+    picard  6 cg= 1043 dPsi=1.228e-04 rel=9.93e-11
+    picard  7 cg= 1009 dPsi=4.293e-05 rel=9.91e-11
+    picard  8 cg=  960 dPsi=1.409e-05 rel=9.77e-11
+    picard  9 cg=  922 dPsi=5.005e-06 rel=9.81e-11
+    picard 10 cg=  866 dPsi=1.762e-06 rel=9.62e-11
+    picard 11 cg=  828 dPsi=6.367e-07 rel=9.78e-11
+    picard 12 cg=  797 dPsi=2.312e-07 rel=9.62e-11
+    solved wellnet_tensor on 256^2 in 45s
+    iter 0: solved-vs-data RMS 8.13 km/s, median completion/algebraic = 0.9953
+    picard  0 cg= 1848 dPsi=2.345e+00 rel=9.93e-11
+    picard  1 cg= 2067 dPsi=5.048e-01 rel=9.95e-11
+    picard  2 cg= 1997 dPsi=2.387e-01 rel=9.99e-11
+    picard  3 cg= 1919 dPsi=5.760e-02 rel=9.96e-11
+    picard  4 cg= 1840 dPsi=3.694e-03 rel=9.95e-11
+    picard  5 cg= 1729 dPsi=6.793e-04 rel=9.99e-11
+    picard  6 cg= 1681 dPsi=1.922e-04 rel=9.90e-11
+    picard  7 cg= 1585 dPsi=5.649e-05 rel=9.88e-11
+    picard  8 cg= 1520 dPsi=1.982e-05 rel=9.95e-11
+    picard  9 cg= 1456 dPsi=6.735e-06 rel=9.88e-11
+    picard 10 cg= 1373 dPsi=2.420e-06 rel=9.98e-11
+    picard 11 cg= 1297 dPsi=8.665e-07 rel=9.93e-11
+    picard 12 cg= 1246 dPsi=3.163e-07 rel=9.88e-11
+    picard 13 cg= 1187 dPsi=1.160e-07 rel=1.00e-10
+    solved wellnet_tensor on 400^2 in 719s
+    iter 1: solved-vs-data RMS 8.22 km/s, median completion/algebraic = 0.9954
+   in-plane RMS (solved) 8.22 km/s, M_b = 8.720e+10 Msun
+   PREDICTED A_dyn: primary 1.01097, solar 1.02590
+   profile A_dyn: [1.01971 1.01385 1.00677 1.00356 1.00221 1.00202 1.00321]
+
+wrote C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\orthogonal\orthogonal_results.json

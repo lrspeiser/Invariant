@@ -98,6 +98,27 @@ def assert_vizier_tsv(path, expect_catalog=None, min_rows=1):
                                  % (path, line.strip()))
         if not line.startswith("#"):
             break
+    # CRITICAL #2 -- the GENERIC-SEARCH FALLTHROUGH.
+    # A '+' in a catalogue id (every J/A+A/... catalogue) is decoded as a SPACE
+    # by the query-string parser. VizieR then silently runs a generic KEYWORD
+    # SEARCH and returns hundreds of kilobytes of completely unrelated
+    # catalogues, at HTTP 200, as well-formed TSV, with NO '#INFO Error=' line.
+    # Neither the HTML check nor the Error= check above catches it.
+    # ALWAYS percent-encode '+' as %2B in the -source= parameter.
+    titles = [l for l in txt.splitlines() if l.startswith("#Title:")]
+    names = [l for l in txt.splitlines() if l.startswith("#Name:")]
+    if len(titles) > 4:
+        raise AssertionError(
+            "VizieR GENERIC-SEARCH FALLTHROUGH in %s: %d '#Title:' lines means a "
+            "keyword search was run, not a catalogue fetch. Percent-encode '+' as "
+            "%%2B in -source=. First titles: %s"
+            % (path, len(titles), [t[:70] for t in titles[:3]]))
+    if expect_catalog and names:
+        if not any(expect_catalog.lower() in n.lower() for n in names):
+            raise AssertionError(
+                "VizieR returned a catalogue that is NOT %r: '#Name:' lines are %s"
+                % (expect_catalog, [n[:70] for n in names[:4]]))
+
     lines = [l for l in txt.splitlines()]
     hdr_idx = None
     for i, l in enumerate(lines):
