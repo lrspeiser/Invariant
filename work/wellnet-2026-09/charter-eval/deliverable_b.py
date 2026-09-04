@@ -1,0 +1,254 @@
+"""The charter's fallback deliverable (b), assembled.
+
+    "a precise statement of which broad classes of new gravity have been ruled
+     out and which observation would distinguish the remaining equivalence
+     classes."
+
+The programme has the pieces scattered across ~60 runs and has never assembled
+them.  This does that, applying the programme's OWN admissibility standards to
+its own eliminations:
+
+    - an elimination resting on T3/T4 data is NOT admissible as evidence
+      about the world (BE.6 grading);
+    - an elimination refused by the Stage 4 certificate does not count;
+    - an elimination on synthetic data alone is a statement about the DETECTOR,
+      not about the world -- it is recorded separately.
+
+    python deliverable_b.py
+"""
+import io
+import json
+import os
+import time
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+# grade: T0 primitive detector observable ... T4 fitted under the competing law
+# kind:  MATH   ruled out with no data at all
+#        REAL   ruled out on real observations
+#        SYNTH  a statement about the detector, not the world
+
+RULED_OUT = [
+    # ---------------------------------------------------------------- MATH
+    dict(cls="well-network laws with no continuum limit",
+         kind="MATH", grade=None, run="AM/AU",
+         basis="390 of 3,123 settings have NO continuum limit at all: the "
+               "response depends on how a cataloguer deblended the image. "
+               "Gate 3, decidable before any data.",
+         admissible=True),
+    dict(cls="bounded-response laws as an explanation of flat curves",
+         kind="MATH", grade=None, run="AB/screen",
+         basis="a bounded K can only renormalise G; the sharpened form is that "
+               "EVERY available invariant decays outward, so no member of the "
+               "family produces a flat curve at any amplitude.",
+         admissible=True),
+    dict(cls="pair/graph laws with p = 0 mass weighting",
+         kind="MATH", grade=None, run="AM",
+         basis="selective refinement measures d ln(W1/W2)/d ln N = +1.000 "
+               "against an admissible 0 -- how finely a DIFFERENT object is "
+               "tabulated sets the field near an untouched one.",
+         admissible=True),
+    dict(cls="tensor laws whose only signature is the transverse eigenvalue",
+         kind="MATH", grade=None, run="M (spherical blindness)",
+         basis="for spherical rho, Phi depends on k_r alone. The transverse "
+               "eigenvalue is unobservable, so such a law is untestable in "
+               "principle on a spherical source, not merely unmeasured.",
+         admissible=True),
+    dict(cls="the field-direction projector as a tensor mechanism",
+         kind="MATH", grade=None, run="AA",
+         basis="(g^ g^T) grad Phi_N = grad Phi_N exactly -- the projector IS "
+               "the identity, so the mechanism is empty.",
+         admissible=True),
+
+    # ---------------------------------------------------------------- REAL
+    dict(cls="energy-drain / tired-light redshift mechanisms",
+         kind="REAL", grade="T0", run="AK",
+         basis="1,504 DES supernovae give b = 1.003 +- 0.011 in "
+               "dt_obs = dt_em (1+z)^b. An eta = 0 mechanism carrying all of z "
+               "predicts b = 0: excluded at 90 SIGMA. Survives only at "
+               "f < 1.9%.",
+         admissible=True),
+    dict(cls="Newtonian gravity on baryons alone as a structure-formation law",
+         kind="REAL", grade="T0", run="AP",
+         basis="linear growth amplification 11.8 against the ~1e5 required -- "
+               "short by 3-4 orders at every scale tested.",
+         admissible=True),
+    dict(cls="the tidal-gated scalar as an EXTERNAL/environmental law",
+         kind="REAL", grade="T0", run="AN",
+         basis="on a spherical source |T~| = sqrt(6)(g/r)|1 - rho/<rho>| "
+               "identically, so the gate reads g/r, a LOCAL kinematic ratio. "
+               "The 151x member-vs-shell ordering is g/r at two radii.",
+         admissible=True),
+    dict(cls="the tidal gate as an improvement to cluster lensing",
+         kind="REAL", grade="T0", run="AL",
+         basis="on 3,365 raw eFEDS/DECADE shear points both tidal variants fit "
+               "WORSE than predicting no lensing signal at all (chi2 4472.9 and "
+               "5998.2 against 3865.0), and both require eta < 0 -- light "
+               "bending the wrong way relative to matter.",
+         admissible=True),
+    dict(cls="pressure / amplified-stress as the cluster source term",
+         kind="REAL", grade="T0", run="K",
+         basis="the exact forward chain over-predicts at -13.0 sigma with all "
+               "40 LoCuSS clusters over-predicted, and the amplitude and "
+               "temperature-shape channels demand mutually exclusive couplings.",
+         admissible=True),
+    dict(cls="the nonlocal path kernel as a rotation-curve law",
+         kind="REAL", grade="T0", run="AG",
+         basis="Phi = -GMF/r is exact outside a source and qbar in [0,1) "
+               "bounds F, so asymptotically flat curves are impossible for the "
+               "family; on the same footing it scores 0.256/0.209 dex against "
+               "the RAR's 0.121/0.122.",
+         admissible=True),
+
+    # ------------------------------------------- REAL but INADMISSIBLE evidence
+    dict(cls="[withdrawn] the cluster excess organised by r/R500",
+         kind="REAL", grade="T4", run="AX/AT/AY",
+         basis="CLASH's numerator and x-axis are two functionals of ONE "
+               "two-parameter NFW fit; 83-85% of the slope is template with no "
+               "noise at all. r/R500 and r are the same regressor given "
+               "per-cluster levels. NOT an admissible elimination or finding.",
+         admissible=False),
+
+    # ---------------------------------------------------------------- SYNTH
+    dict(cls="[detector statement] tensor and network detectors as evidence "
+             "for directional gravity",
+         kind="SYNTH", grade=None, run="BF",
+         basis="family-wise false-positive rate on a DARK MATTER universe is "
+               "0.648 [0.604, 0.689]. A triaxial collisionless halo misaligned "
+               "from the baryons IS the tensor signature. This rules out the "
+               "DETECTORS, not the physics.",
+         admissible=True),
+    dict(cls="[detector statement] the well-network azimuthal signature",
+         kind="SYNTH", grade=None, run="BF",
+         basis="the network detector moves 0.0003 across the whole amplitude "
+               "range -- 2.3% of its own critical value, power 0.000. U6 is "
+               "found only through its monopole. The premise is undetectable "
+               "by the instrument built for it.",
+         admissible=True),
+]
+
+# The classes that remain, and the ONE observation that would separate each.
+REMAINING = [
+    dict(cls="scalar MOND-like (RAR / AQUAL / QUMOND)",
+         status="the only family with a parameter-free real-data success",
+         evidence="Run AL: a0 frozen on SPARC, zero new gravity parameters, "
+                  "lands at Sigma_s = 0.981/0.992 on 3,365 raw shear points",
+         separating_observation=(
+             "The Vikhlinin parameter COVARIANCE from Bahar+2022. It is the "
+             "dominant uncertainty (a factor-2 bracket at -17 sigma from "
+             "X-ray fit noise alone) and it is an email, not a telescope."),
+         cost="an author request"),
+    dict(cls="environment-gated scalar (potential depth, well sum)",
+         status="indistinguishable from plain scalar",
+         evidence="Run BF: U3-vs-U4 is the hardest pair and fails at BOTH "
+                  "amplitude sets, separated by none of 16x source density, "
+                  "4x systematics, or a 1.5x survey",
+         separating_observation=(
+             "|Phi_b| varying by >= 1 dex at FIXED g_bar WITHIN one class, one "
+             "instrument, one pipeline -- i.e. resolved group profiles paired "
+             "with an INDEPENDENT g_obs. eFEDS supplies the first half; X-GAP "
+             "or CLoGS would supply the second, and both are RESERVED."),
+         cost="one pairing; data exists"),
+    dict(cls="tensor / directional response",
+         status="cannot be separated from dark matter by the current detector",
+         evidence="Run BF: 0.648 family-wise FP on a CDM universe; Run AO: the "
+                  "95% exclusion sits at ellipticity 2.11, above the geometric "
+                  "maximum of 1",
+         separating_observation=(
+             "The 2-D shear PHASE against an INDEPENDENTLY measured external "
+             "axis, at 111x the present effective source count -- and scored "
+             "against a dark-matter null, which no previous run did."),
+         cost="a deeper lensing survey; BUFFALO may supply it"),
+    dict(cls="well-network / graph gravity",
+         status="premise undetectable by the instrument built for it",
+         evidence="Run BF: power 0.000 in the azimuthal channel; Run AM: 390 "
+                  "settings have no continuum limit",
+         separating_observation=(
+             "A member-locked azimuthal signature requires resolved member "
+             "positions AND raw shear in the SAME cluster. Run BD: raw shear "
+             "exists for 1 of 7 targets, and that one lacks member Sersic "
+             "fits. No public target has both."),
+         cost="new observation, or self-fitting member light from existing imaging"),
+    dict(cls="geometric path redshift",
+         status="the energy-drain half is dead; the geometric half is invisible "
+                "to the killing test",
+         evidence="Run AK: b = 1 identically for eta = 1, so SN time dilation "
+                  "has ZERO power against it; capped at 0.28-0.44% by the CMB",
+         separating_observation=(
+             "Cross-correlate the void path-length map with Planck. It is the "
+             "only cheap probe that reaches the surviving mechanism class, and "
+             "it is 2-30x tighter than this programme's own dataset."),
+         cost="a cross-correlation; both datasets public"),
+    dict(cls="memory / hysteresis gravity",
+         status="never built; the axis has never been varied",
+         evidence="Run AZ: propagation is one of five axes at 0% coverage; "
+                  "every family silently assumes instantaneous response",
+         separating_observation=(
+             "A time-dependent scoring channel does not exist. This class "
+             "cannot be ruled in or out until one is built -- it is UNREACHABLE, "
+             "not untested."),
+         cost="a solver, not an observation"),
+]
+
+
+def main():
+    print("=" * 78)
+    print("CHARTER DELIVERABLE (b), ASSEMBLED")
+    print("=" * 78)
+    print()
+    for kind, title in (("MATH", "RULED OUT WITH NO DATA AT ALL"),
+                        ("REAL", "RULED OUT ON REAL OBSERVATIONS"),
+                        ("SYNTH", "DETECTOR STATEMENTS (about the instrument, "
+                                  "not the world)")):
+        rows = [r for r in RULED_OUT if r["kind"] == kind]
+        print("-" * 78)
+        print(f"{title}   ({len(rows)})")
+        print("-" * 78)
+        for r in rows:
+            flag = "" if r["admissible"] else "   <-- INADMISSIBLE, see grade"
+            g = f" [{r['grade']}]" if r["grade"] else ""
+            print(f"  * {r['cls']}{g}{flag}")
+            print(f"      Run {r['run']}: {r['basis']}")
+        print()
+
+    adm = [r for r in RULED_OUT if r["admissible"]]
+    print("=" * 78)
+    print(f"THE REMAINING EQUIVALENCE CLASSES ({len(REMAINING)}), AND WHAT "
+          f"WOULD SEPARATE EACH")
+    print("=" * 78)
+    for r in REMAINING:
+        print(f"\n  {r['cls'].upper()}")
+        print(f"    status   : {r['status']}")
+        print(f"    evidence : {r['evidence']}")
+        print(f"    SEPARATING OBSERVATION: {r['separating_observation']}")
+        print(f"    cost     : {r['cost']}")
+
+    print()
+    print("=" * 78)
+    print("SUMMARY")
+    print("=" * 78)
+    print(f"  classes ruled out, admissibly : {len(adm)}"
+          f"  ({sum(1 for r in adm if r['kind']=='MATH')} on mathematics alone,"
+          f" {sum(1 for r in adm if r['kind']=='REAL')} on real observations,"
+          f" {sum(1 for r in adm if r['kind']=='SYNTH')} detector statements)")
+    print(f"  eliminations WITHDRAWN as inadmissible : "
+          f"{sum(1 for r in RULED_OUT if not r['admissible'])}")
+    print(f"  remaining equivalence classes : {len(REMAINING)}")
+    cheap = [r for r in REMAINING if "email" in r["cost"] or "exists" in r["cost"]
+             or "public" in r["cost"]]
+    print(f"  separable with data that ALREADY EXISTS : {len(cheap)} of "
+          f"{len(REMAINING)}")
+    for r in cheap:
+        print(f"      - {r['cls']}  ({r['cost']})")
+
+    doc = dict(generated_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+               deliverable="charter fallback (b)",
+               ruled_out=RULED_OUT, remaining=REMAINING,
+               n_admissible=len(adm), n_remaining=len(REMAINING))
+    p = os.path.join(HERE, "deliverable_b.json")
+    io.open(p, "w", encoding="utf-8", newline="\n").write(json.dumps(doc, indent=1))
+    print(f"\nwrote {p}")
+
+
+if __name__ == "__main__":
+    main()

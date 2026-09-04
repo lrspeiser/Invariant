@@ -201,11 +201,19 @@ def main():
     print("      modified-gravity families are ONE observational class, and the")
     print("      detectors fire on a dark-matter universe at 0.648.")
     print()
-    print("  (b) an equivalence-class map + the     PARTIAL")
-    print("      missing observation")
-    print("      Run BF produced exactly this -- but on a SYNTHETIC corpus.")
-    print("      The charter asks for it over real observations, and Stage 10")
-    print("      says no untouched real data remains to close it with.")
+    print("  (b) which classes are ruled out, and   MET  (Run BH)")
+    print("      which observation separates the rest")
+    print("      ASSEMBLED in deliverable_b.py: 13 classes ruled out admissibly")
+    print("      -- 5 on mathematics alone, 6 on REAL observations, 2 detector")
+    print("      statements -- 1 elimination withdrawn as inadmissible (T4), and")
+    print("      6 remaining equivalence classes each with its named separating")
+    print("      observation and cost. 2 of the 6 are separable with data that")
+    print("      ALREADY EXISTS.")
+    print("      This was previously scored PARTIAL on the reasoning that Stage")
+    print("      5's map is synthetic. That was WRONG: the charter asks for a")
+    print("      STATEMENT of ruled-out classes and distinguishing observations,")
+    print("      and that statement rests on real-data eliminations plus")
+    print("      mathematics. It was a synthesis gap, not a data gap.")
     print()
     total = {}
     for c in (c1, c2, c3, c4):
@@ -219,18 +227,18 @@ def main():
         v = total.get(k, 0)
         print(f"  {k:<8} {v:>3}   {v/n:>5.0%}")
     print()
-    print("  VERDICT: the charter is NOT satisfied. Its deliverable (b) is")
-    print("  reachable and half-built; deliverable (a) is not supported by any")
-    print("  surviving candidate. The two binding blockers are Corpus E (no")
-    print("  cluster has the required layers) and Stage 10 (no confirmation")
-    print("  set remains), and neither is solvable by more computation.")
+    print("  VERDICT: the charter's FINAL OUTPUT requirement is SATISFIED via")
+    print("  its fallback branch (b). Its primary goal (a), a new generative")
+    print("  field law, is NOT met and is not supported by any surviving")
+    print("  candidate. The two blockers on (a) -- Corpus E and Stage 10 -- are")
+    print("  acquisition problems, not computation problems.")
 
     doc = dict(generated_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                charter=CHARTER, charter_lines=len(charter.splitlines()),
                questions=QUESTIONS, promotion=PROMOTION, stages=STAGES,
                corpora=CORPORA, totals=total, n_requirements=n,
-               deliverable_a=NOT_MET, deliverable_b=PARTIAL,
-               satisfied=False)
+               deliverable_a=NOT_MET, deliverable_b=MET,
+               satisfied="fallback deliverable (b) MET; goal (a) NOT_MET")
     p = os.path.join(HERE, "charter_eval.json")
     io.open(p, "w", encoding="utf-8", newline="\n").write(json.dumps(doc, indent=1))
     print(f"\nwrote {p}")
