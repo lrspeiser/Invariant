@@ -1,0 +1,409 @@
+{
+ "numerator_regeneration": {
+  "n": 84,
+  "mean_dex": 0.0035343715999720422,
+  "sd_dex": 0.00836306376027944,
+  "max_abs_dex": 0.02894010247998935,
+  "median_abs_dex": 0.00446596859355175,
+  "published_error_min_dex": 0.044,
+  "published_error_median_dex": 0.08549999999999999,
+  "published_error_max_dex": 0.267,
+  "ratio_sd_to_median_published_error": 0.0978136112313385,
+  "by_level": {
+   "BCG": {
+    "n": 20,
+    "mean": -0.0016490810049732297,
+    "sd": 0.005261870581440945
+   },
+   "100kpc": {
+    "n": 18,
+    "mean": 0.00269123630003835,
+    "sd": 0.006147117823123979
+   },
+   "200kpc": {
+    "n": 20,
+    "mean": 0.0028631498433507653,
+    "sd": 0.007723454576521333
+   },
+   "400kpc": {
+    "n": 15,
+    "mean": 0.007272332765459192,
+    "sd": 0.009211807244182612
+   },
+   "600kpc": {
+    "n": 11,
+    "mean": 0.010461690249774785,
+    "sd": 0.008937159072243999
+   }
+  }
+ },
+ "R500_closure": {
+  "max_rel_diff": 0.014030268803590262,
+  "median_rel_diff": 0.0035341437133949993,
+  "note": "R500 from published M500c (overdensity definition) vs R500 solved directly on M_NFW(<r|M200,c200).  Agreement proves M500c is the NFW mass at R500, i.e. the SAME two numbers.",
+  "overdensity_identity_max_dev": 8.881784197001252e-15
+ },
+ "degrees_of_freedom": {
+  "published_rows": 84,
+  "clusters": 20,
+  "free_numbers_in_the_lensing_chain": 40,
+  "per_cluster_free_numbers": 2,
+  "rows_per_cluster_min": 3,
+  "rows_per_cluster_max": 5,
+  "within_cluster_radial_shape_dof": 1,
+  "note": "Every g_tot value for cluster i is M_NFW(<r|M200_i,c200_i).  With a per-cluster level absorbing M200_i, the ENTIRE within-cluster radial shape is set by the single number c200_i.  84 rows, 20 independent radial-shape numbers.",
+  "per_cluster_slope_vs_c200": {
+   "y": {
+    "n": 13,
+    "pearson_slope_vs_c200": 0.2972173844820887,
+    "spearman": 0.1100413695761459,
+    "mean_slope": -0.16646014937731304
+   },
+   "a0": {
+    "n": 13,
+    "pearson_slope_vs_c200": 0.11944714946284686,
+    "spearman": 0.07702895870330213,
+    "mean_slope": -0.4393728056844047
+   }
+  }
+ },
+ "job3_admissibility": {
+  "numerator_is": "G * M_NFW(<r | M200_i, c200_i) / r^2",
+  "numerator_source": "Tian+2020 Sec 2.1; Umetsu+2016 Table 2 posteriors",
+  "quote_tian": "we use the CLASH lensing constraints on the total mass profile M_tot(<r) of each individual CLASH cluster assuming a spherical NFW profile",
+  "quote_umetsu_t2": "Cluster parameters derived from single spherical NFW fits to individual surface mass density profiles reconstructed from combined strong-lensing, weak-lensing shear and magnification measurements",
+  "quote_umetsu_t3": "Cluster mass estimates M_3D(<r) from single spherical NFW fits to individual surface mass density profiles",
+  "repo_lineage_statement": "runs/gravity/g4/cluster-lensing-exploration-v7.json, data_lineage.lensing: 'strong-lensing, weak-lensing shear, and magnification constraints converted by the source paper to spherical NFW Mtot posteriors and then gtot'; data_lineage.gr_model_independent_target = false",
+  "raw_shear_available_in_repo": false,
+  "can_be_rebuilt_from_raw_shear": false,
+  "why": "Three separate model layers stand between the CLASH shear catalogues and the published g_tot, and NONE of them is invertible from the table: (i) the joint SL+WL+magnification reconstruction of kappa assumes GR light bending with no gravitational slip, so kappa is a GR-derived convergence map; (ii) the deprojection to M_3D(<r) assumes spherical symmetry; (iii) the profile is a TWO-PARAMETER NFW FIT, i.e. a parametric mass model of exactly the kind standing constraint 2 excludes.  The published table contains only the output of (iii).  Recovering a raw-shear numerator would require the CLASH shear catalogues and the Umetsu+2016 kappa reconstruction, neither of which is in this repo.",
+  "verdict": "INADMISSIBLE under standing constraint 2 as currently sourced",
+  "published_lensing_products": [
+   {
+    "product": "M200c, c200c per cluster",
+    "source": "Umetsu+2016 Table 2",
+    "kind": "two-parameter spherical NFW fit",
+    "admissible": false
+   },
+   {
+    "product": "M2500c..M200m, M(<1.5Mpc)",
+    "source": "Umetsu+2016 Table 3",
+    "kind": "the same NFW fit, evaluated at overdensity radii",
+    "admissible": false
+   },
+   {
+    "product": "M_2D(<theta), theta = 10-40 arcsec",
+    "source": "Umetsu+2016 Table 1",
+    "kind": "Zitrin+2015 parametric strong-lensing models, mass tied to light by construction",
+    "admissible": false
+   },
+   {
+    "product": "S/N of g_+ and n_mu per cluster",
+    "source": "Umetsu+2014 Table 5",
+    "kind": "a summary statistic, not a profile",
+    "admissible": false
+   },
+   {
+    "product": "non-parametric kappa(R) profiles",
+    "source": "Umetsu+2016 Figure 'kappa'",
+    "kind": "shown in figures, NOT tabulated anywhere in the e-print; and still a GR-derived convergence map",
+    "admissible": false
+   }
+  ],
+  "vizier_availability": {
+   "checked": [
+    "J/ApJ/821/116 (Umetsu+2016)",
+    "J/ApJ/795/163 (Umetsu+2014)",
+    "J/ApJ/755/56 (Umetsu+2012)"
+   ],
+   "all_absent": true,
+   "meta_search": "METAcat title=*Umetsu* returns only J/ApJ/890/148 (XXL, Umetsu+2020)",
+   "positive_control": "J/ApJ/896/70 (Tian+2020) resolves and is the table this lane uses"
+  },
+  "route_if_it_is_ever_wanted": "The CLASH/Subaru Suprime-Cam shear catalogues themselves, scored the way Run AL.5 scored raw eFEDS/HSC shear -- the law predicting g_+ rather than being compared against somebody's NFW posterior.  They are not on VizieR and not in any of these e-prints."
+ },
+ "per_cluster": [
+  {
+   "name": "A209",
+   "z": 0.206,
+   "M200_1e14": 15.4,
+   "c200": 2.7,
+   "M500_1e14": 9.64,
+   "R500_lens_kpc": 1411.5985630859636,
+   "R500_nfw_kpc": 1415.3592021447078,
+   "R500_xray_kpc": 1310.0,
+   "kT_keV": 7.3,
+   "n_points": 5
+  },
+  {
+   "name": "A2261",
+   "z": 0.224,
+   "M200_1e14": 23.1,
+   "c200": 3.7,
+   "M500_1e14": 15.65,
+   "R500_lens_kpc": 1649.2672529654105,
+   "R500_nfw_kpc": 1651.7906655738443,
+   "R500_xray_kpc": 1230.0,
+   "kT_keV": 7.6,
+   "n_points": 5
+  },
+  {
+   "name": "A383",
+   "z": 0.187,
+   "M200_1e14": 7.98,
+   "c200": 5.9,
+   "M500_1e14": 5.88,
+   "R500_lens_kpc": 1204.5345421969266,
+   "R500_nfw_kpc": 1207.5802351455316,
+   "R500_xray_kpc": 940.0,
+   "kT_keV": 6.5,
+   "n_points": 4
+  },
+  {
+   "name": "A611",
+   "z": 0.288,
+   "M200_1e14": 15.76,
+   "c200": 3.9,
+   "M500_1e14": 10.73,
+   "R500_lens_kpc": 1423.2996142166446,
+   "R500_nfw_kpc": 1428.4708152777105,
+   "R500_xray_kpc": 1300.0000000000002,
+   "kT_keV": 7.9,
+   "n_points": 5
+  },
+  {
+   "name": "MACS0329",
+   "z": 0.45,
+   "M200_1e14": 8.65,
+   "c200": 6.7,
+   "M500_1e14": 6.51,
+   "R500_lens_kpc": 1137.5486465903725,
+   "R500_nfw_kpc": 1139.7140027139856,
+   "R500_xray_kpc": 1050.0,
+   "kT_keV": 8.0,
+   "n_points": 3
+  },
+  {
+   "name": "MACS0416",
+   "z": 0.397,
+   "M200_1e14": 10.74,
+   "c200": 2.9,
+   "M500_1e14": 6.85,
+   "R500_lens_kpc": 1179.4650836928668,
+   "R500_nfw_kpc": 1182.5190074633517,
+   "R500_xray_kpc": 2100.0,
+   "kT_keV": 7.5,
+   "n_points": 3
+  },
+  {
+   "name": "MACS0429",
+   "z": 0.399,
+   "M200_1e14": 9.76,
+   "c200": 4.6,
+   "M500_1e14": 6.85,
+   "R500_lens_kpc": 1178.6172768663846,
+   "R500_nfw_kpc": 1183.8357419997883,
+   "R500_xray_kpc": 1070.0000000000002,
+   "kT_keV": 6.0,
+   "n_points": 3
+  },
+  {
+   "name": "MACS0647",
+   "z": 0.584,
+   "M200_1e14": 13.9,
+   "c200": 4.1,
+   "M500_1e14": 9.49,
+   "R500_lens_kpc": 1227.24073857712,
+   "R500_nfw_kpc": 1234.793603771965,
+   "R500_xray_kpc": 1670.0,
+   "kT_keV": 13.3,
+   "n_points": 3
+  },
+  {
+   "name": "MACS0717",
+   "z": 0.548,
+   "M200_1e14": 26.77,
+   "c200": 1.8,
+   "M500_1e14": 14.98,
+   "R500_lens_kpc": 1448.339214665217,
+   "R500_nfw_kpc": 1448.0754910979272,
+   "R500_xray_kpc": 1520.0,
+   "kT_keV": 12.5,
+   "n_points": 5
+  },
+  {
+   "name": "MACS0744",
+   "z": 0.686,
+   "M200_1e14": 18.03,
+   "c200": 3.5,
+   "M500_1e14": 11.94,
+   "R500_lens_kpc": 1274.802596002729,
+   "R500_nfw_kpc": 1281.2329357198887,
+   "R500_xray_kpc": 1010.0000000000001,
+   "kT_keV": 8.9,
+   "n_points": 5
+  },
+  {
+   "name": "MACS1115",
+   "z": 0.355,
+   "M200_1e14": 16.66,
+   "c200": 3.0,
+   "M500_1e14": 10.67,
+   "R500_lens_kpc": 1387.8661293613943,
+   "R500_nfw_kpc": 1393.4756565556288,
+   "R500_xray_kpc": 1250.0,
+   "kT_keV": 8.0,
+   "n_points": 3
+  },
+  {
+   "name": "MACS1149",
+   "z": 0.544,
+   "M200_1e14": 25.02,
+   "c200": 2.1,
+   "M500_1e14": 14.57,
+   "R500_lens_kpc": 1437.1488339789312,
+   "R500_nfw_kpc": 1441.3016998431003,
+   "R500_xray_kpc": 1100.0,
+   "kT_keV": 8.7,
+   "n_points": 3
+  },
+  {
+   "name": "MACS1206",
+   "z": 0.439,
+   "M200_1e14": 18.17,
+   "c200": 3.7,
+   "M500_1e14": 12.24,
+   "R500_lens_kpc": 1409.6570390646405,
+   "R500_nfw_kpc": 1414.499265993368,
+   "R500_xray_kpc": 1430.0,
+   "kT_keV": 10.8,
+   "n_points": 5
+  },
+  {
+   "name": "MACS1720",
+   "z": 0.387,
+   "M200_1e14": 14.5,
+   "c200": 4.1,
+   "M500_1e14": 9.96,
+   "R500_lens_kpc": 1341.0123110424638,
+   "R500_nfw_kpc": 1346.5342299982624,
+   "R500_xray_kpc": 1050.0,
+   "kT_keV": 6.6,
+   "n_points": 4
+  },
+  {
+   "name": "MACS1931",
+   "z": 0.352,
+   "M200_1e14": 15.28,
+   "c200": 4.4,
+   "M500_1e14": 10.51,
+   "R500_lens_kpc": 1382.3589564839433,
+   "R500_nfw_kpc": 1393.90717097576,
+   "R500_xray_kpc": 1110.0000000000002,
+   "kT_keV": 6.7,
+   "n_points": 5
+  },
+  {
+   "name": "MS2137",
+   "z": 0.313,
+   "M200_1e14": 13.56,
+   "c200": 2.7,
+   "M500_1e14": 8.28,
+   "R500_lens_kpc": 1294.2800519223697,
+   "R500_nfw_kpc": 1308.515721260048,
+   "R500_xray_kpc": 930.0000000000001,
+   "kT_keV": 5.9,
+   "n_points": 3
+  },
+  {
+   "name": "RXJ1347",
+   "z": 0.451,
+   "M200_1e14": 34.25,
+   "c200": 3.2,
+   "M500_1e14": 22.33,
+   "R500_lens_kpc": 1714.932894500755,
+   "R500_nfw_kpc": 1720.6395264033906,
+   "R500_xray_kpc": 1600.0,
+   "kT_keV": 15.5,
+   "n_points": 5
+  },
+  {
+   "name": "RXJ1532",
+   "z": 0.362,
+   "M200_1e14": 5.98,
+   "c200": 5.2,
+   "M500_1e14": 4.17,
+   "R500_lens_kpc": 1012.1885689886994,
+   "R500_nfw_kpc": 1026.3898466915323,
+   "R500_xray_kpc": 1220.0,
+   "kT_keV": 5.5,
+   "n_points": 5
+  },
+  {
+   "name": "RXJ2129",
+   "z": 0.234,
+   "M200_1e14": 6.14,
+   "c200": 5.6,
+   "M500_1e14": 4.48,
+   "R500_lens_kpc": 1083.3623443485153,
+   "R500_nfw_kpc": 1086.6093727691311,
+   "R500_xray_kpc": 1170.0,
+   "kT_keV": 5.8,
+   "n_points": 5
+  },
+  {
+   "name": "RXJ2248",
+   "z": 0.348,
+   "M200_1e14": 18.78,
+   "c200": 3.6,
+   "M500_1e14": 12.45,
+   "R500_lens_kpc": 1464.7251024494024,
+   "R500_nfw_kpc": 1474.670335674234,
+   "R500_xray_kpc": 1710.0,
+   "kT_keV": 12.4,
+   "n_points": 5
+  }
+ ],
+ "provenance_table": [
+  {
+   "quantity": "excess numerator  g_obs(r)",
+   "source": "Tian+2020 fig2.dat col log(gtot)",
+   "derived_from": "G M_NFW(<r | M200_i, c200_i) / r^2",
+   "root_measurement": "Umetsu+2016 joint SL+WL+magnification kappa, spherical NFW fit",
+   "assumes_GR": "yes -- kappa from GR deflection, no slip",
+   "assumes_a_halo_model": "yes -- NFW, 2 parameters"
+  },
+  {
+   "quantity": "excess denominator  g_bar(r)",
+   "source": "Tian+2020 fig2.dat col log(gbar)",
+   "derived_from": "G [M_gas(<r) + M_star(<r)] / r^2",
+   "root_measurement": "Donahue+2014 Chandra X-ray gas + Cooke+2016 BCG stellar mass + Chiu+2018 satellite stars",
+   "assumes_GR": "no",
+   "assumes_a_halo_model": "no"
+  },
+  {
+   "quantity": "x-axis radius  r",
+   "source": "Tian+2020 fig2.dat col Rad",
+   "derived_from": "fixed grid 14-30 kpc (BCG) and 100/200/400/600 kpc",
+   "root_measurement": "none -- a chosen radial grid",
+   "assumes_GR": "no",
+   "assumes_a_halo_model": "no"
+  },
+  {
+   "quantity": "x-axis normaliser  R500_i",
+   "source": "Umetsu+2016 Table 3 M500c -> overdensity definition",
+   "derived_from": "M_NFW(<R500 | M200_i, c200_i) = (4/3)pi 500 rho_c R500^3",
+   "root_measurement": "THE SAME Umetsu+2016 NFW fit as the numerator",
+   "assumes_GR": "yes",
+   "assumes_a_halo_model": "yes -- the same NFW"
+  },
+  {
+   "quantity": "independent X-ray normaliser  R500_X,i",
+   "source": "Donahue+2014 CLASH-X Chandra JACO hydrostatic r500",
+   "derived_from": "X-ray hydrostatic mass profile",
+   "root_measurement": "Chandra spectroscopy; no lensing anywhere",
+   "assumes_GR": "no (Newtonian HSE)",
+   "assumes_a_halo_model": "partly -- JACO parametric v_circ model, but not tied to the lensing fit"
+  }
+ ]
+}

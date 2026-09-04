@@ -1,0 +1,22 @@
+C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\clash-audit\tests.py:82: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+  d.append((float(a_dm[m6] - a_dm[m1]), float(a_inv[m6] - a_inv[m1])))
+  [ok ] 84 rows, 20 clusters  
+  [ok ] table1 RAR counts match fig2 row counts per cluster  
+  [ok ] wrong catalogue identifier is rejected  
+  [ok ] truncated column list is rejected  
+  [ok ] ranks are tie-corrected (Run AL bug does not recur)  tied ranks [1. 1. 1.] vs naive [0. 1. 2.]
+  [ok ] r_delta solves the overdensity condition  ratio-1 = 0.00e+00
+  [ok ] R500 prop M200^(1/3) at fixed c200  ratio 2.00000000 vs 2
+  [ok ] deep-MOND a0 and full-RAR-inversion a0 agree on the 100->600 drop  n=11  -0.3495 vs -0.3472
+  [ok ] record's within-CLASH a0 drop reproduced (-0.347 +- 0.057)  -0.3472 +- 0.0571, n=11
+  [ok ] log(r/R500) adds no rank beside cluster indicators + log r  rank 21 -> 21
+  [ok ] fixed-effects slope is bit-invariant under ANY per-cluster normaliser  0.0222374864 / 0.0222374864 / 0.0222374864
+  [ok ] Abel projection reproduces the analytic NFW Sigma  max rel err 0.00216 at TRUNC = 50 Mpc
+  [ok ] that check would have failed at the original TRUNC = 5 Mpc  max rel err would have been 0.2103
+  [ok ] NFW fitter recovers (M200,c200) from a noiseless NFW  M 1.203e+15 c 3.496
+  [ok ] flat truth has exactly the excess it was given  
+  [ok ] sloped truth has exactly the injected slope  -0.3000000000
+  [ok ] M_bar(<r) from g_bar is monotone and cluster-scale within each cluster  median 6.91e+12 Msun
+  [ok ] a baryon-only normaliser is severely contaminated by g_bar  between-cluster corr(log R_norm, log g_bar at 200 kpc): R500_lens=+0.17, R500_xray=+0.05, R500_TX=+0.26, Rb_gas=+0.48, Rb_M=-0.99, Rb_g=+0.53  -> worst = Rb_M
+
+18/18 checks passed
