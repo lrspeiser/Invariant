@@ -1,57 +1,119 @@
 {
   "file": "ned_objdir_polar_ring_systems.csv",
-  "source_url": "https://ned.ipac.caltech.edu/tap/sync",
-  "retrieved_utc": "2026-09-04T04:56:23Z",
-  "sha256": "dbb2e30176110a7ac1e40ad6e7e6fbef8d784fb87bcba3de0949ec46e372ff1c",
-  "bytes": 46,
-  "row_count": 0,
-  "column_count": 7,
+  "source_url": "https://ned.ipac.caltech.edu/cgi-bin/objsearch",
+  "retrieved_utc": "2026-09-04T05:41:51Z",
+  "sha256": "d1786f31b3c9144a8abd26663454346167516637e8e484c6da1f0d7bdc2d2ec7",
+  "bytes": 3243,
+  "row_count": 35,
+  "column_count": 17,
+  "delimiter": "| (pipe) -- NED 'ascii_bar' output format",
   "columns": [
     {
-      "name": "prefname",
-      "unit": "NED preferred object name"
+      "name": "No.",
+      "unit": "NED result index within the single-object query (always 1)"
     },
     {
-      "name": "ra",
+      "name": "Object Name",
+      "unit": "NED preferred name"
+    },
+    {
+      "name": "RA",
       "unit": "deg (J2000)"
     },
     {
-      "name": "dec",
+      "name": "DEC",
       "unit": "deg (J2000)"
     },
     {
-      "name": "z",
+      "name": "Type",
+      "unit": "NED object type (G = galaxy)"
+    },
+    {
+      "name": "Velocity",
+      "unit": "km/s (heliocentric cz)"
+    },
+    {
+      "name": "Redshift",
       "unit": "dimensionless"
     },
     {
-      "name": "zunc",
-      "unit": "dimensionless"
+      "name": "Redshift Flag",
+      "unit": "NED redshift quality/source flag"
     },
     {
-      "name": "prefphytype",
-      "unit": "NED preferred object type"
+      "name": "Magnitude and Filter",
+      "unit": "mag, with the filter appended"
     },
     {
-      "name": "z_bibcode",
-      "unit": "bibcode of the adopted redshift"
+      "name": "Separation",
+      "unit": "arcmin (0 for a name query)"
+    },
+    {
+      "name": "References",
+      "unit": "count of NED references"
+    },
+    {
+      "name": "Notes",
+      "unit": "count"
+    },
+    {
+      "name": "Photometry Points",
+      "unit": "count"
+    },
+    {
+      "name": "Positions",
+      "unit": "count"
+    },
+    {
+      "name": "Redshift Points",
+      "unit": "count"
+    },
+    {
+      "name": "Diameter Points",
+      "unit": "count"
+    },
+    {
+      "name": "Associations",
+      "unit": "count"
     }
   ],
-  "query": "One ADQL query per object to NED TAP (sync): SELECT prefname, ra, dec, z, zunc, prefphytype, z_bibcode FROM NEDTAP.objdir WHERE prefname = '<name>'",
-  "extraction": "Concatenated raw NED TAP CSV rows, values unmodified.",
-  "unresolved_names": [
-    "NGC 4632 [timeout]",
-    "NGC 6156 [timeout]",
-    "NGC 4111 [timeout]",
-    "NGC 3718 [timeout]",
-    "NGC 4650A [timeout]",
-    "NGC 2685 [timeout]",
-    "NGC 660",
-    "NGC 4262 [timeout]",
-    "UGC 7576",
-    "UGC 9796",
-    "IC 1689",
-    "MCG-05-07-001",
-    "NGC 7625 [timeout]"
+  "query": "GET https://ned.ipac.caltech.edu/cgi-bin/objsearch?objname=<name>&extend=no&out_csys=Equatorial&out_equinox=J2000.0&of=ascii_bar&obj_sort=RA+or+Longitude&list_limit=5&img_stamp=NO -- one request per object",
+  "extraction": "Raw NED ascii_bar main-information rows, values unmodified; only the single data line (the one beginning \"1|\") is kept from each response and the shared header written once. All 37 queried names resolved: 30 on the first pass, 7 (NGC 4650A, UGC 9796, IC 1689, ARP 230, NGC 4632, NGC 6156, UGC 4385) on a second pass after transient no-response failures. Rows were then DEDUPLICATED on (Object Name, RA, Dec), which collapsed 1 duplicate rows arising from distinct query names that NED cross-identifies to the same object; see cross_identifications.",
+  "unresolved_names": [],
+  "note": "SUPPLEMENTARY. Positions and redshifts for the 40 kinematically confirmed PRGs are already carried by yu2026_table1_confirmed_PRGs.tsv (Yu et al. 2026 took them from NED), and NGC 4632 / NGC 6156 by Deg et al. 2023 Table 1. NED TAP was unusable throughout this acquisition window (every sync query timed out; batched queries returned HTTP 202), so the classic objsearch CGI was used instead. This file adds independent NED positions, heliocentric velocities, redshifts and an apparent magnitude for the systems inventoried in POLAR_RINGS.md, plus the cross-identifications recorded above.",
+  "cross_identifications": [
+    {
+      "queried": [
+        "MCG -05-07-001",
+        "ESO 415-G026"
+      ],
+      "ned_object": "ESO 415- G 026",
+      "ra_deg": 37.08376,
+      "dec_deg": -31.881,
+      "comment": "VERIFIED by two independent single-name queries returning byte-identical rows. This object is PRC A-02 in Yu et al. 2026 Table 1. CONSEQUENCE: the Khoperskov et al. 2014 dark-halo-axis-ratio roster lists \"ESO 415-G26\" and \"MCG-5-7-1\" as SEPARATE entries with different references (1987ApJ...314..439W vs 1996ASPC..106..168C + 2013AJ....145...34S), so that roster most likely double-counts one galaxy and contains 20 distinct systems, not 21. Stated as an inference, not a certainty: it is also possible that \"MCG-5-7-1\" in that figure caption denotes a different object under a mistyped designation."
+    },
+    {
+      "queried": [
+        "ARP 230",
+        "IC 51"
+      ],
+      "ned_object": "IC 0051",
+      "ra_deg": 11.60097,
+      "dec_deg": -13.44224,
+      "comment": "Arp 230 = IC 51 = PRC B-01. Expected, not a new finding."
+    },
+    {
+      "queried": [
+        "AM 1934-563",
+        "PGC 089058"
+      ],
+      "ned_object": "AM 1934-563 (GTrpl) vs AM 1934-563 NED02 (G)",
+      "ra_deg": null,
+      "dec_deg": null,
+      "comment": "These are NOT the same entry: the bare name AM 1934-563 resolves to a galaxy TRIPLE (type GTrpl, 294.66646 -56.45439, z=0.038904) while PGC 089058 resolves to the individual member AM 1934-563 NED02 (294.66002 -56.45796, z=0.038857). PRC B-18 in Yu et al. 2026 is PGC 089058, i.e. the MEMBER. Both rows are retained."
+    }
   ],
-  "note": "SUPPLEMENTARY ONLY. Positions and redshifts for the 40 kinematically confirmed PRGs are already carried by yu2026_table1_confirmed_PRGs.tsv, which took them from NED. NED prefname matching is exact and the TAP service was intermittently slow/queued during acquisition, so an unresolved name here means either a name-spelling mismatch or a service timeout, NOT that the object is unknown to NED."
+  "known_quirks": [
+    "The query \"NGC 5907\" returns a row whose Object Name is the compound designation \"NGC 5907:[IDD2022] X026\", but its position (228.97183, +56.32988), magnitude (11.12) and reference count (600) are those of the galaxy NGC 5907 itself, not of a sub-component. Treat the row as NGC 5907 but do not propagate the compound name."
+  ]
 }

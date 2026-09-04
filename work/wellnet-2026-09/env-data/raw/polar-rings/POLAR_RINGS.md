@@ -77,6 +77,27 @@ kinematically confirmed (category A), 27 good candidates (B), 73 possible (C), 5
 All under `eprints/`, raw `.tar.gz` kept with manifests. Four papers whose e-print "source" is
 dvips PostScript rather than LaTeX were additionally pulled as PDFs into `pdfs/`.
 
+### 1.4 NED — 35 objects
+
+`ned_objdir_polar_ring_systems.csv` — NED main-information rows (position, heliocentric velocity,
+redshift, type, apparent magnitude, reference counts) for every system in the inventory.
+**NED's TAP service was unusable throughout the acquisition window** (every `sync` query timed out
+above 50 s; batched queries returned HTTP 202 queued), so the classic `objsearch` CGI was used
+instead; 37 names were queried, 30 resolved on the first pass and 7 on a retry.
+
+Two cross-identifications fell out of this, both recorded in the manifest:
+
+* **MCG-05-07-001 = ESO 415-G026 = PRC A-02.** Verified by two independent single-name queries
+  returning byte-identical rows. This collapses one phantom system out of the inventory and
+  implies the Khoperskov+2014 halo-shape roster double-counts (see §4).
+* **AM 1934-563 is a galaxy TRIPLE, not the PRG.** The bare name resolves to type `GTrpl` at
+  294.66646 -56.45439; the polar-ring galaxy is the member **AM 1934-563 NED02** = PGC 089058 =
+  PRC B-18 at 294.66002 -56.45796. Do not use the triple's entry for the galaxy.
+
+One quirk to not propagate: querying `NGC 5907` returns the compound preferred name
+`NGC 5907:[IDD2022] X026`, but the row's position, magnitude (11.12) and 600 references are the
+galaxy's own.
+
 ---
 
 ## 2. Corrections to the brief's premises
@@ -163,7 +184,7 @@ decomposition of these was located.
 
 ## 4. Systems with genuine two-plane kinematics
 
-Full machine-readable version: **`polar_rings_two_plane_inventory.tsv`** (22 rows, 23 columns,
+Full machine-readable version: **`polar_rings_two_plane_inventory.tsv`** (21 rows, 23 columns,
 per-cell references). Tiers are this lane's own classification:
 
 * **A** — rotation measured *independently* in both planes, at least one resolved in radius.
@@ -206,9 +227,9 @@ velocity gradients swapping between them), NGC 660 (highly inclined rather than 
 AM 2020-504 (ring RC at PA 17 from Freitas-Lemes+2012; host from Arnaboldi+1993), NGC 4111
 (SAURON IFU, two-component gas decomposition).
 
-### Tier C — 4 systems with only one plane published
+### Tier C — 3 systems with only one plane published
 
-ESO 415-G26, Arp 230, IC 1689, MCG-05-07-001.
+ESO 415-G26 (= MCG-05-07-001, see below), Arp 230 (= IC 51 = PRC B-01), IC 1689.
 
 ### The 21-system halo-shape roster
 
@@ -221,9 +242,17 @@ A0136-0801, AM 1934-563, AM 2020-504, AM 226-3206, Arp 230, ESO 415-G26, IC 2006
 NGC 660, NGC 2685, NGC 3718, NGC 4262, NGC 4650A, NGC 4753, NGC 5122, NGC 5907, SPRC-7,
 SPRC-260, UGC 4261, UGC 7576, UGC 9796.
 
-Cross-matching against the 40-object confirmed census, **seven** of these 21 are NOT in it:
+**One entry in that roster is a duplicate.** NED resolves the designation **MCG-05-07-001** to
+**ESO 415-G026** — two independent single-name `objsearch` queries returned byte-identical rows at
+RA 37.08376, Dec -31.88100, which is PRC A-02. Khoperskov et al. list "ESO 415-G26" and
+"MCG-5-7-1" as separate entries with different references (Whitmore+1987 vs Cox 1996 +
+Schiminovich+2013), so the roster most likely covers **20 distinct galaxies, not 21**. Stated as an
+inference: "MCG-5-7-1" there could instead be a mistyped designation for some other object.
+
+Cross-matching against the 40-object confirmed census, **seven** of these 21 entries are NOT in it:
 **AM 226-3206, IC 2006, MCG-5-7-1, NGC 3718, NGC 4753, NGC 5907, UGC 4261** — so their "polar"
-status rests on weaker evidence. (UGC 4261 = PRC C-24 was *explicitly excluded* by Yu et al. 2026
+status rests on weaker evidence. (If MCG-5-7-1 is indeed ESO 415-G26 as NED says, that reduces to
+six genuinely absent systems.) (UGC 4261 = PRC C-24 was *explicitly excluded* by Yu et al. 2026
 "because lack of kinematically evidence for PRG identification", together with SPRC-201.)
 The remaining fourteen are all in the census; note that AM 1934-563 = PRC B-18 = PGC 089058,
 so it *is* confirmed, kinematically, by Reshetnikov et al. 2006 A&A 446, 447.

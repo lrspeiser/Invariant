@@ -198,12 +198,12 @@ ROWS = [
   "partial", "B", "IFU two-plane decomposition, but the two-component nature is inferred from the sigma map rather than from two independently resolved rotators. NOT among the 40 confirmed PRGs of Yu+2026."],
 
  # ---------------------------------------------------------------- TIER C ---
- ["ESO 415-G26", "PRC A-02", "37.08376", "-31.88100", "0.01536", "69 (Yu+26 D_L)",
+ ["ESO 415-G26", "PRC A-02 / MCG-05-07-001", "37.08376", "-31.88100", "0.01536", "69 (Yu+26 D_L)",
   "stars (long slit)", "", "", "", "CURVE (figure only)", "Whitmore+1987 ApJ 314,439",
   "HI (global profile only)", "", "HI dV20 = 360; V85/2 = 164 +/- 9 assuming edge-on", "",
   "GLOBAL LINEWIDTH ONLY", "van Driel+2002 A&A 386,140; Masters+2014; Yu+2026",
   "", "PRC category A", "YES - M_Kn=-22.69, M_B=-19.24 (Iodice+2003); JHKn CASPIR + 2D bulge+disk fit (Iodice+2002a)",
-  "C", "Short-ring PRG. Host-plane stellar rotation exists (Whitmore+1987) but the polar plane has only an unresolved HI linewidth in the sources acquired here."],
+  "C", "Short-ring PRG. Host-plane stellar rotation exists (Whitmore+1987) but the polar plane has only an unresolved HI linewidth in the sources acquired here. CROSS-ID VERIFIED AGAINST NED: the designation MCG-05-07-001 resolves to THIS object (two independent NED objsearch queries returned byte-identical rows at 37.08376, -31.88100). The Khoperskov+2014 halo-shape roster lists ESO 415-G26 and MCG-5-7-1 as SEPARATE entries with different references, so that roster most likely double-counts one galaxy and contains 20 distinct systems rather than 21 -- stated as an inference, since MCG-5-7-1 there could instead be a mistyped designation for a different object."],
 
  ["Arp 230", "PRC B-01 / IC 51", "11.60097", "-13.44224", "0.00574", "26 (Yu+26 D_L)",
   "stars", "", "", "", "not located in the acquired sources", "Whitmore+1990 PRC; Schiminovich+2013 AJ 145,34",
@@ -219,11 +219,6 @@ ROWS = [
   "", "", "partial - M_B=-20.40 (Iodice+2003); logM*=10.4, NUV-r=4.7 (Yu+2026)",
   "C", "FAST did not detect HI (3-sigma upper limit), so the older van Gorkom+1987 dV20 = 300 km/s and the newer limit are in tension; treat the HI velocity with caution."],
 
- ["MCG-05-07-001", "", "", "", "", "",
-  "", "", "", "", "not located in the acquired sources", "Cox+1996 ASPC 106,168",
-  "HI", "", "", "", "not located in the acquired sources", "Cox+1996 ASPC 106,168; Schiminovich+2013 AJ 145,34",
-  "", "", "not located",
-  "C", "Appears in the Khoperskov+2014 compilation of PRGs with a measured dark-halo axis ratio, but is NOT among the 40 kinematically confirmed PRGs of Yu+2026 and no position/redshift was picked up in the acquired catalogues under this spelling."],
 ]
 
 
