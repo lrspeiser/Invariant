@@ -1,0 +1,121 @@
+{
+  "file": "potential_depth_ladder.csv",
+  "produced_by": "code/ladder.py (this lane)",
+  "retrieved_utc": "2026-09-04T04:55:14Z",
+  "sha256": "0aa416205a6e9392317d72e1b6e8e33f50d2985863d808459e11f7dadbd8d3f8",
+  "bytes": 1650091,
+  "row_count": 4150,
+  "column_count": 20,
+  "columns": [
+    {
+      "name": "system",
+      "unit": "object identifier, prefixed by source"
+    },
+    {
+      "name": "class",
+      "unit": "ladder rung name"
+    },
+    {
+      "name": "class_rank",
+      "unit": "1..6, isolated galaxies to massive clusters"
+    },
+    {
+      "name": "source",
+      "unit": "catalogue"
+    },
+    {
+      "name": "probe",
+      "unit": "measurement type for g_obs"
+    },
+    {
+      "name": "r_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "Mb_Msun",
+      "unit": "Msun -- baryonic mass implied by g_bar at this radius"
+    },
+    {
+      "name": "g_bar",
+      "unit": "m s^-2 -- G M_b(<r)/r^2 (disk field for SPARC)"
+    },
+    {
+      "name": "g_obs",
+      "unit": "m s^-2"
+    },
+    {
+      "name": "nu_obs",
+      "unit": "dimensionless -- g_obs/g_bar"
+    },
+    {
+      "name": "abs_Phi_b",
+      "unit": "m^2 s^-2 -- |Phi_b(r)| with the stated outer boundary condition"
+    },
+    {
+      "name": "S_shape",
+      "unit": "dimensionless -- |Phi_b|/(g_bar r); >= 1 for spherical M_b"
+    },
+    {
+      "name": "e_lg_gbar",
+      "unit": "dex, 1 sigma, per-point random"
+    },
+    {
+      "name": "e_lg_gobs",
+      "unit": "dex, 1 sigma, per-point random"
+    },
+    {
+      "name": "sys_lg_Mb",
+      "unit": "dex, 1 sigma, COHERENT per system (mass calibration)"
+    },
+    {
+      "name": "tier",
+      "unit": "1 = primary, 2 = flagged (stellar-mass-only baryons)"
+    },
+    {
+      "name": "phi_method",
+      "unit": "how |Phi_b| was obtained for this row"
+    },
+    {
+      "name": "baryon_method",
+      "unit": "what M_b contains"
+    },
+    {
+      "name": "gobs_method",
+      "unit": "how g_obs was measured"
+    },
+    {
+      "name": "assumes",
+      "unit": "physical assumptions the row's g_obs depends on"
+    }
+  ],
+  "n_systems": 317,
+  "rows_by_class": {
+    "field_galaxy": 3389,
+    "massive_cluster": 595,
+    "rich_group": 53,
+    "poor_group": 22,
+    "low_mass_cluster": 51,
+    "small_group": 40
+  },
+  "rows_by_source": {
+    "SPARC": 3389,
+    "X-COP": 588,
+    "Sun+2009": 66,
+    "Lovisari+2015": 40,
+    "Gonzalez+2013": 15,
+    "J/A+A/690/A52 groups": 52
+  },
+  "conventions": {
+    "Phi_b": "Phi_b(r) = -[ Int_r^Rmax g_bar dr' + g_bar(Rmax)*Rmax ], i.e. all baryonic mass inside Rmax and a Newtonian point-mass tail outside it. Rmax is the outermost radius at which that system's baryons are measured. Identical to work/wellnet-2026-09/phi_rank.py tail='point'.",
+    "lower_bound": "For spherical M_b(<r), |Phi_b(r)| >= g_bar(r)*r exactly, so every single-radius row is a strict LOWER BOUND on |Phi_b|, not an estimate.",
+    "stellar_masses": "Measured only for the 12 Gonzalez+2013 systems and 7 of 12 X-COP clusters. Everywhere else stars come from log10(M*/Mgas) = 7.598 - 0.620 log10(Mgas/Msun), fitted here on those 12 Gonzalez systems (rms 0.064 dex over log10 Mgas = 12.82-13.83) and EXTRAPOLATED below that range for the groups.",
+    "g_obs_optical_groups": "eta sigma^2 / r_rms with eta = 2 (isotropic isothermal sphere). Anisotropy is not measured; eta in [1,3] is the plausible range and moves log nu by -0.30 to +0.18 dex."
+  },
+  "sealed_holdouts": "KiDS weak lensing and wide binaries are NOT in this file and were dropped by probe name before any value was read (66 rows of the 4093-row source table).",
+  "known_limitations": [
+    "The optical-group rung (tier 2) has stellar-only baryons: its g_bar is a lower bound and its nu_obs an upper bound by a factor of a few.",
+    "Sun+2009 r500 quantities exist for only 23 of 43 groups; rows flagged 'S' (scaling relation) are excluded, so most Sun systems contribute one radius (r2500) and therefore S = 1.",
+    "Every X-ray rung assumes hydrostatic equilibrium. A uniform 10-30% HSE bias is a CLASS-LEVEL systematic and is budgeted in results.json.",
+    "SPARC rows use Upsilon* = 0.5 disk / 0.7 bulge, which this programme has separately measured to disagree with dynamical determinations by 0.4-0.55 dex; that is also a class-level systematic."
+  ]
+}

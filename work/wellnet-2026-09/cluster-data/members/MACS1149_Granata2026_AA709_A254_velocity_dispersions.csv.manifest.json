@@ -1,0 +1,51 @@
+{
+  "file": "MACS1149_Granata2026_AA709_A254_velocity_dispersions.csv",
+  "source_url": "https://arxiv.org/e-print/2603.26869",
+  "exact_query": "HTTP GET https://arxiv.org/e-print/2603.26869 (gzip tar) -> member 'aa.tex' -> the \\begin{longtable} ... \\end{longtable} block carrying \\label{tab:table1149}; data rows taken after the \\endfoot marker.",
+  "retrieved_utc": "2026-09-04T04:30:46Z",
+  "sha256": "46cb25d110c45a09daf069cdfe3fdf47362d1874dad744874d52598cf180c72e",
+  "bytes": 2280,
+  "row_count": 51,
+  "column_count": 7,
+  "columns": [
+    {
+      "name": "ID",
+      "unit": "",
+      "description": "Granata+2026 catalogue ID; matches the ID column of the VizieR J/A+A/709/A254 structural table for the same cluster"
+    },
+    {
+      "name": "RA_deg",
+      "unit": "deg",
+      "description": "Right ascension (J2000), MEASURED"
+    },
+    {
+      "name": "Dec_deg",
+      "unit": "deg",
+      "description": "Declination (J2000), MEASURED"
+    },
+    {
+      "name": "ID_MUSE",
+      "unit": "",
+      "description": "MUSE spectroscopic catalogue identifier"
+    },
+    {
+      "name": "sigma_kms",
+      "unit": "km/s",
+      "description": "MEASURED line-of-sight stellar velocity dispersion from a pPXF fit to the VLT/MUSE spectrum, extracted in a 1.5 arcsec aperture from F814W-surface-brightness-weighted cubes"
+    },
+    {
+      "name": "e_sigma_kms",
+      "unit": "km/s",
+      "description": "1-sigma statistical uncertainty on sigma"
+    },
+    {
+      "name": "SN",
+      "unit": "",
+      "description": "Spectral signal-to-noise ratio of the MUSE spectrum"
+    }
+  ],
+  "extraction": "Parsed from the LaTeX source of the accepted manuscript arXiv:2603.26869 = A&A 709, A254. The four velocity-dispersion catalogues are each a SINGLE 'longtable' environment, not a pair of 'table*' environments, so the split-table truncation failure mode does not apply here. Rows were split on the LaTeX row terminator and cells on '&'; \\textbf{} bolding (which marks the BCG) and LaTeX math/escape markup were stripped and '$-$' was converted to '-'. ROW-COUNT ASSERTION: the four tables parsed to 213 rows in total, exactly the '213 measured sigma values across the four clusters' stated in the paper abstract and in the CDS ReadMe for J/A+A/709/A254. Per-cluster parsed counts: A2744=76, AS1063=34, MACS0416=52, MACS1149=51.",
+  "note": "Granata et al. 2026 A&A 709, A254, appendix velocity-dispersion catalogue for MACS J1149.6+2223. MEASURED: RA/Dec (J2000) and the line-of-sight STELLAR VELOCITY DISPERSION sigma of cluster member galaxies, from pPXF fits to VLT/MUSE integral-field spectra (spectral S/N >= 10, statistical uncertainty typically below 5 per cent), with its 1-sigma error and the spectral S/N. This is a genuine kinematic OBSERVABLE, not a lens-model output. MEMBERSHIP: every galaxy listed is a confirmed cluster member. This table is NOT in VizieR -- the VizieR catalogue J/A+A/709/A254 carries only the structural parameters. Join on the ID column to MACS1149_Granata2026_AA709_A254_members_structural.raw.tsv to attach effective radius, Sersic index, axis ratio and position angle. No stellar mass and no redshift in this table.",
+  "raw_response_file": "Granata2026_AA709_A254_arXiv-2603.26869_aa.tex",
+  "raw_response_file_sha256": "1eddca725a7f16d85f24af98cc3438c65471fa2c7035f4d5c03dafbbc777e910"
+}

@@ -1,0 +1,55 @@
+{
+ "file": "HFF2_Zitrin_lensmodel_input_arcs.tsv",
+ "source_url": "https://archive.stsci.edu/missions/hlsp/frontier/<cluster>/models/zitrin-nfw/v3/hlsp_frontier_model_<cluster>_zitrin-nfw_v3_arcs.txt",
+ "exact_query": "Two direct file GETs: https://archive.stsci.edu/missions/hlsp/frontier/abell2744/models/zitrin-nfw/v3/hlsp_frontier_model_abell2744_zitrin-nfw_v3_arcs.txt ; https://archive.stsci.edu/missions/hlsp/frontier/macs0416/models/zitrin-nfw/v3/hlsp_frontier_model_macs0416_zitrin-nfw_v3_arcs.txt",
+ "retrieved_utc": "2026-09-04T04:34:29Z",
+ "sha256": "dd0e83099283921315db1c5ebf6e62820db972c27e3f2e895d546f4a6d80b55b",
+ "bytes": 17283,
+ "row_count": 177,
+ "column_count": 10,
+ "columns": [
+  {
+   "name": "cluster",
+   "unit": "---"
+  },
+  {
+   "name": "image_id",
+   "unit": "---"
+  },
+  {
+   "name": "system_id",
+   "unit": "---"
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": "---"
+  },
+  {
+   "name": "z_flag",
+   "unit": "---"
+  },
+  {
+   "name": "z_free_in_model",
+   "unit": "---"
+  },
+  {
+   "name": "z_spec_reference",
+   "unit": "---"
+  },
+  {
+   "name": "id_reference",
+   "unit": "---"
+  }
+ ],
+ "extraction": "Parsed the Zitrin team *_arcs.txt input image lists from the MAST HFF lens models. Unlike the CATS files these carry explicit provenance: Z_SPEC (0.000000 when absent), REDSHIFT_REF, Z_ADOPT (adopted from previous works or photometric z) and F? (whether the redshift was left FREE, i.e. model-optimised). z_flag='spec' when Z_SPEC>0, else 'adopted_phot_or_model' using Z_ADOPT. The zitrin-nfw and zitrin-ltm-gauss files are byte-identical (same sha256) so only one copy is parsed per cluster. No arc position angles are present.",
+ "note": "EMBEDDED-IN-LENS-MODEL IMAGE LIST for 2 of the 6 clusters (Zitrin ships arcs.txt only for Abell 2744 and MACS J0416). Per cluster (images / spectroscopic / adopted-nonspec): Abell 2744 83/15/68; MACS J0416.1-2403 94/53/41. The z_free_in_model column (Y/N) records whether that system's redshift was a FREE PARAMETER optimised by the lens model - Y means the redshift is model-optimised, not measured.",
+ "raw_response_file": "hlsp_frontier_model_abell2744_zitrin-nfw_v3_arcs.txt; hlsp_frontier_model_macs0416_zitrin-nfw_v3_arcs.txt"
+}

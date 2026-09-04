@@ -1,0 +1,65 @@
+%%% This style file is an add-on modification to the emulateapj.sty
+%%% by Maxim Markevitch <maxim@head-cfa.harvard.edu> and 
+%%% Alexey Vikhlinin <alexey@head-cfa.harvard.edu>.
+%%% 
+%%% We'd rather have single column floats than double-column references,
+%%% so we'll overwrite aspects of emulateapj to avoid using the 
+%%% multicol environment.  One should encase the front material
+%%% with the \twocolumn[] command.
+%%% You may still need to have the multicols style accessible...
+%%%
+%%% Daniel Eisenstein, 5/18/97
+
+\renewenvironment{slocitlum}[1]{\relax}{\relax}
+
+\renewenvironment{references}[0]{
+    %%% \vspace{3pt plus 3pt}
+    \vspace{0.5in plus 3pt}
+    \centerline{\footnotesize REFERENCES}
+    \vspace{-5pt}
+    %%% \begin{multicols}{2}[\hbox to \textwidth{\centerline{\footnotesize
+    %%% REFERENCES}} \vspace{-5pt}]
+    \parindent=0cm \parskip=0cm
+    \footnotesize \baselineskip=8pt \interlinepenalty \@M
+    \hyphenpenalty=10000
+    \def\refpar{\par\hangindent=1.2em\hangafter=1}}
+{}
+%%% {\end{multicols}}
+
+% redefine thebibliography
+\renewenvironment{thebibliography}[1]{
+            %%% \vspace{3pt plus 3 pt}                                      % AV
+            \vspace{0.5in plus 3 pt}
+            \centerline{\footnotesize REFERENCES} 
+	    \vspace{-5pt}
+            %%% \begin{multicols}{2}[\hbox                                  % AV
+                %%% to \textwidth{\centerline{\footnotesize                 % AV
+                %%% REFERENCES}} \vspace{-5pt}]                             % AV
+      \list{
+           \@biblabel{\@arabic\c@enumiv}}%
+           {
+                \@openbib@code
+                \parindent=0pt \parskip=0pt \parsep=0pt % AV
+                \bibindent=0pt                          %
+                \footnotesize \baselineskip=8pt  \interlinepenalty \@M  % AV
+                \hyphenpenalty=10000
+                \itemindent=-1.0em                      %
+                \itemsep=0pt                            %
+                \listparindent=0pt                      %
+                \settowidth\labelwidth{\@biblabel{#1}}  %
+                \labelsep=0pt                           %
+                \leftmargin=1.0em
+                \advance\leftmargin\labelsep
+                \usecounter{enumiv}%
+                \let\p@enumiv\@empty
+                \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+                \sloppy\clubpenalty4000\widowpenalty4000%
+                \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+
+%%% We'd like the tablewidth to be single-column
+% \tablewidth\textwidth
+\tablewidth{8.85cm}
+\tablefontsize{\footnotesize}

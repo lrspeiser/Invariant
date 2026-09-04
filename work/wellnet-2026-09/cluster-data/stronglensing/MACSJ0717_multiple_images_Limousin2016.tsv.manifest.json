@@ -1,0 +1,56 @@
+{
+ "file": "MACSJ0717_multiple_images_Limousin2016.tsv",
+ "source_url": "https://arxiv.org/e-print/1510.08077",
+ "exact_query": "arXiv e-print tarball 1510.08077 (Limousin et al. 2016, A&A 588, A99); LaTeX sources table.tex + table2.tex",
+ "retrieved_utc": "2026-09-04T04:34:28Z",
+ "sha256": "25faafb7843d08a033b150ef90b82d47fc4e501aafa69a19409916766091af6c",
+ "bytes": 12209,
+ "row_count": 165,
+ "column_count": 10,
+ "columns": [
+  {
+   "name": "image_id",
+   "unit": "---"
+  },
+  {
+   "name": "system_id",
+   "unit": "---"
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": "---"
+  },
+  {
+   "name": "z_flag",
+   "unit": "---"
+  },
+  {
+   "name": "z_err_lo",
+   "unit": "---"
+  },
+  {
+   "name": "z_err_hi",
+   "unit": "---"
+  },
+  {
+   "name": "quality",
+   "unit": "---"
+  },
+  {
+   "name": "notes",
+   "unit": "---"
+  }
+ ],
+ "extraction": "Parsed BOTH halves of the multiple-image table, which the paper splits across two separate table* environments (table.tex = label multipletable1; table2.tex = label multipletable2, captioned '... continued ...'). Parsing only the first would silently truncate. Parsed counts asserted non-zero for each half: table.tex=48, table2.tex=117. z_flag priority spec > model > phot. The z_model column holds three values (non-cored, cored, NFW); the first is adopted and the full triple is kept in notes.",
+ "note": "MACS J0717.5+3745: 61 systems, 165 images. Redshift provenance per image: 24 SPECTROSCOPIC (measured on this image), 3 spectroscopic propagated from another image of the same system (total spectroscopic 27), 41+46 model-predicted/optimised, 36 photometric, 0 geometric-predicted, 15 with no redshift. Limousin et al. 2016 A&A 588,A99. NOT AVAILABLE IN VIZIER (J/A+A/588/A99 returns the VizieR generic fallback page) - recovered from the arXiv LaTeX source. Model redshifts are LENS-MODEL-OPTIMISED, not measured. NO arc position angles. NO time delays.",
+ "raw_response_file": "arxiv_1510.08077_Limousin2016_table.tex + arxiv_1510.08077_Limousin2016_table2.tex",
+ "row_count_verification": "PAPER-COUNT ASSERTION PASSED. Limousin et al. 2016 Sect. 2.3 states: 'bringing the grand total to 61 multiple-image systems in MACS J0717.5+3745, comprised of 165 individual images', with Table 1 holding the 48 pre-HFF images and Table 2 the 117 HFF-discovered images. Parsed: table.tex=48 images, table2.tex=117 images, total=165 images in 61 systems. EXACT MATCH on images (165=48+117) and systems (61). Note that the LARGER half (117 of 165, i.e. 71%) lives in the second table* environment, so parsing only the first table would have silently discarded most of the catalogue."
+}

@@ -1,0 +1,101 @@
+{
+  "file": "sat_host_orientation_crossref.tsv",
+  "source_url": "(derived: join of files already acquired in this lane)",
+  "retrieved_utc": "2026-09-04T04:35:45Z",
+  "sha256": "d5ccf5774582273a44268f6c7d77eb211781d9d32ef18e2be853990b298fe77a",
+  "bytes": 11773,
+  "row_count": 132,
+  "column_count": 20,
+  "columns": [
+    {
+      "name": "survey",
+      "unit": ""
+    },
+    {
+      "name": "host_name",
+      "unit": ""
+    },
+    {
+      "name": "host_id",
+      "unit": ""
+    },
+    {
+      "name": "pgc",
+      "unit": ""
+    },
+    {
+      "name": "n_satellites_in_survey",
+      "unit": ""
+    },
+    {
+      "name": "ba_survey",
+      "unit": ""
+    },
+    {
+      "name": "PA_survey_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "sersic_survey",
+      "unit": ""
+    },
+    {
+      "name": "logR25_hyperleda",
+      "unit": ""
+    },
+    {
+      "name": "ba_hyperleda",
+      "unit": ""
+    },
+    {
+      "name": "PA_hyperleda_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "ba_ungc",
+      "unit": ""
+    },
+    {
+      "name": "inclination_ungc_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "W50_ungc_kms",
+      "unit": "km/s"
+    },
+    {
+      "name": "vAmp_ungc_kms",
+      "unit": "km/s"
+    },
+    {
+      "name": "Kmag_ungc",
+      "unit": "mag"
+    },
+    {
+      "name": "Bmag_ungc",
+      "unit": "mag"
+    },
+    {
+      "name": "dist_Mpc",
+      "unit": "Mpc"
+    },
+    {
+      "name": "has_orientation",
+      "unit": ""
+    },
+    {
+      "name": "has_inplane_rotation",
+      "unit": ""
+    }
+  ],
+  "query": "LEFT JOIN of sat_saga_dr3_tableC1_hosts.tsv (on PGC) with sat_hyperleda_saga_hosts_PA.tsv, and of sat_elves_table1_hosts.tsv (on galaxy name, with Messier aliases) with sat_ungc_karachentsev2013_catalog.tsv. No values recomputed except ba_hyperleda = 10**(-logR25), the catalogue's own definition.",
+  "measurement_or_model": "MEASUREMENT (all joined columns are observed photometric shape or HI line width); the file itself is a DERIVED JOIN, not an upstream product.",
+  "note": "DERIVED JOIN TABLE. Per-host summary of what disk-orientation and in-plane-rotation information exists, for the two surveys that pair many satellites with one host. SAGA hosts with full orientation (b/a AND PA): 101 of 101. ELVES hosts with b/a AND PA (PA from HyperLEDA): 24 of 31. Hosts with an in-plane HI rotation measure: SAGA 0, ELVES 27.",
+  "acquisition_job": "JOB2 streams-satellites",
+  "saga_hosts_with_ba_and_PA": 101,
+  "saga_hosts_total": 101,
+  "elves_hosts_with_full_orientation_ba_and_PA": 24,
+  "elves_hosts_total": 31,
+  "saga_hosts_with_HI_rotation": 0,
+  "elves_hosts_with_HI_rotation": 27
+}

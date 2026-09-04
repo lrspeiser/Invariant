@@ -1,0 +1,55 @@
+==============================================================================
+VALIDATION GATES -- anisotropic response tensors
+backend: CuPy / GPU
+==============================================================================
+
+==============================================================================
+5  isotropy: a spherically symmetric well distribution
+==============================================================================
+   Read literally the requirement is 'S -> 0'.  That is true AT THE
+   CENTRE and false anywhere else, and the difference matters, so
+   both are measured.
+
+   (a) 1440 wells in an exact octahedral orbit, field point at the centre
+       plaw      |S| at the centre 4.952e-17   |K - exp(s0) I|_max 4.441e-16
+       expo      |S| at the centre 5.910e-17   |K - exp(s0) I|_max 8.882e-16
+       gscreen   |S| at the centre 4.150e-17   |K - exp(s0) I|_max 4.441e-16
+
+   (b) 2e+06 wells uniform in a 1.5 Mpc ball, probe on the x axis
+       The continuum column is a 2-D Gauss-Legendre quadrature of
+       the same integral -- the exact answer the Monte-Carlo must
+       reproduce.  Monte-Carlo noise on S_rr is ~1/sqrt(N) = 7.1e-04.
+
+       r (kpc)   S_rr (MC)   S_rr (exact)    difference    form residual
+             0    -0.000432    +0.000000     4.32e-04      0.6674
+           100    -0.000133    +0.000016     1.49e-04      0.9768
+           300    +0.000460    +0.000159     3.01e-04      0.9413
+           600    +0.001638    +0.000844     7.94e-04      0.5942
+           900    +0.003610    +0.003320     2.90e-04      0.1901
+          1200    +0.017115    +0.016479     6.36e-04      0.0436
+          2500    +0.515068    +0.515045     2.28e-05      0.0002
+   [PASS] 5 S = 0 at the centre; off-centre S matches the exact spherical form
+          exact octahedral configuration, |S| at the centre: 5.910e-17 (round-off)
+          K there equals exp(s_0) I to 4.4e-16 -- an isotropic rescaling, no preferred direction
+          random ball, |S_rr| at the centre 4.32e-04 against Monte-Carlo noise 7.1e-04
+          largest |MC - exact quadrature| over all probe radii: 7.94e-04 (1.1 sigma_MC)
+          OFF-CENTRE S IS NOT ZERO AND MUST NOT BE: at 1200 kpc inside the ball S_rr = +0.0171, at 2500 kpc outside it +0.5151.
+          Reading 'S -> 0 for a spherical distribution' as a statement about every
+          point is wrong -- the direction field n_a(x) seen from an off-centre point
+          is not isotropic.  What symmetry requires is the form lambda(r)(rhat rhat
+          - I/3), and the largest residual from that form, over the probes where |S|
+          rises above the Monte-Carlo floor, is 0.0436.
+
+==============================================================================
+6  convergence with grid resolution and with domain size
+==============================================================================
+   (a) resolution, fixed 6 Mpc box, shell-averaged |g| (units a0)
+      n=32   h= 187.5 kpc  0.62165 0.60754 0.65381
+      n=48   h= 125.0 kpc  0.63701 0.61214 0.65373   change +2.47% +0.76% -0.01%
+      n=64   h=  93.8 kpc  0.64527 0.61366 0.65395   change +1.30% +0.25% +0.03%
+      n=96   h=  62.5 kpc  0.65104 0.61531 0.65414   change +0.89% +0.27% +0.03%
+      self-convergence order (32,48,64): 1.53 2.73 -2.63
+      64 -> 96 largest change: 0.894%
+
+   (b) domain size, h held at ~62 kpc
+      L=   4 Mpc n=64   h= 62.5 kpc  0.65114 0.61529 0.65294

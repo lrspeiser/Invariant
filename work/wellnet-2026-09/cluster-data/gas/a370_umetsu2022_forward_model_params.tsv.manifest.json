@@ -1,0 +1,53 @@
+{
+  "file": "a370_umetsu2022_forward_model_params.tsv",
+  "source_url": "https://arxiv.org/e-print/2203.03647 (LaTeX source of Umetsu et al. 2022, ApJ 934, 169, arXiv:2203.03647)",
+  "exact_query": "Table 9 ('X-ray model parameter constraints derived from forward modeling of Chandra observations'), file table9.tex in the arXiv e-print tarball for 2203.03647. Only the 7 cluster-emission parameters are transcribed; the 10 calibration nuisance parameters N_i are omitted.",
+  "retrieved_utc": "2026-09-04T04:28:06Z",
+  "sha256": "3f2e1ea571d044060595db77a8729fa9a09e9cb2ce0f4b92746fea4311616363",
+  "bytes": 497,
+  "row_count": 7,
+  "column_count": 5,
+  "columns": [
+    {
+      "name": "parameter",
+      "unit": "---"
+    },
+    {
+      "name": "value",
+      "unit": "see unit column"
+    },
+    {
+      "name": "error",
+      "unit": "see unit column"
+    },
+    {
+      "name": "unit",
+      "unit": "---"
+    },
+    {
+      "name": "note",
+      "unit": "---"
+    }
+  ],
+  "extraction": "Transcribed verbatim from the published LaTeX table (table9.tex). The kpc equivalents in the note column are the paper's own commented-out values in the LaTeX source. Raw table9.tex kept in raw_paper_tables/a370_umetsu2022_table9.tex.",
+  "note": "Abell 370 (z=0.375), Chandra ACIS. ANALYTIC MODEL, not a tabulated profile. Forward fit (mbproj2, Sanders 2017) to Chandra X-ray SURFACE BRIGHTNESS profiles in 10 energy bands, 49 linearly spaced radial bins over theta in [10,200] arcsec = 51.6-1032 kpc. Functional forms (paper Eq. 8): n_e(r) = n_e0 * [1 + (r/r_c)^2]^(-3*beta/2)   [beta-model]; T_3D(r) = T_0 * (r/r_t)^a / [1 + (r/r_t)^2]^(c/2)   [Vikhlinin et al. 2006 form]. Both n_e(r) and T_3D(r) are 3D DEPROJECTED quantities, obtained by forward-projecting the 3D model and fitting the projected surface brightness, ASSUMING SPHERICAL SYMMETRY. Fit fixed z=0.375, N_H=2.89e20 cm^-2, Z=0.3 Zsun. NO core excision (fit starts at 10 arcsec). The paper ALSO derives a hydrostatic mass from these parameters - that M_HSE is NOT included here and must not be used as an observation.",
+  "core_excised": false,
+  "deprojected": true,
+  "derived_assumes_newtonian_hse": false,
+  "cluster": "Abell 370",
+  "redshift": 0.375,
+  "instrument": "Chandra ACIS",
+  "reference": "Umetsu et al. (2022), arXiv:2203.03647, Table 9",
+  "is_parametric_model_not_tabulated_profile": true,
+  "fit_radial_range_arcsec": [
+    10,
+    200
+  ],
+  "fit_radial_range_kpc": [
+    51.6,
+    1032.4
+  ],
+  "has_ne_profile": true,
+  "has_T_profile": true,
+  "surface_brightness_model": "S_X(r_perp) = n_e0*n_p0*r_c*Lambda_X*B(3beta-1/2,1/2)*[1+(r_perp/r_c)^2]^(1/2-3beta)  (paper Eq. 10)"
+}

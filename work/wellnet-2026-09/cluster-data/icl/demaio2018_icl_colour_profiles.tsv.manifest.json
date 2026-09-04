@@ -1,0 +1,31 @@
+{
+  "file": "demaio2018_icl_colour_profiles.tsv",
+  "source_url": "https://arxiv.org/e-print/1710.11313",
+  "exact_query": "GET https://arxiv.org/e-print/1710.11313 -> tar.gz -> tables/tabular_color_table.tex AND tables/tabular_color_table_x2.tex (BOTH \\input files, from two separate table* environments)",
+  "retrieved_utc": "2026-09-04T04:24:33Z",
+  "sha256": "0f94d598589bf11781e608b1b7c35ee6bc04ee6fe7460a34b45530877d629c94",
+  "bytes": 12308,
+  "row_count": 229,
+  "column_count": 4,
+  "columns": [
+    {
+      "name": "Cluster",
+      "unit": ""
+    },
+    {
+      "name": "log_r_kpc",
+      "unit": "log10(kpc)"
+    },
+    {
+      "name": "F110W_minus_F160W_mag",
+      "unit": "mag"
+    },
+    {
+      "name": "source_table_env",
+      "unit": ""
+    }
+  ],
+  "extraction": "*** LATEX SPLIT-TABLE TRAP HANDLED: the colour profiles are split across TWO table* environments (table:tabular_color and table:tabular_color_x2). Parsing only the first would have silently dropped 7 of the 23 systems -- INCLUDING the target cluster MACS1149. In addition, the last two cluster blocks inside tabular_color_table.tex are COMMENTED OUT (leading %) because they were moved into the continuation table; the parser skips commented lines so those 7 clusters are counted exactly once. Recovered 16 clusters from environment 1 and 7 from environment 2 = 23, asserted against the paper's stated sample of 23 groups and clusters. Reshaped from the published 4-clusters-wide wide format into long format.",
+  "note": "DeMaio et al. 2018, MNRAS 474, 3009 -- radial colour profiles of the BCG+ICL. TARGET CLUSTERS PRESENT: RXJ2248 (= Abell S1063), MACS0416, MACS1149. MACS0717 excluded by the authors. *** THIS IS A COLOUR PROFILE, NOT A SURFACE-BRIGHTNESS PROFILE. It gives F110W-F160W colour as a function of radius; it does NOT give mu_ICL(r). DeMaio et al. 2018 present their surface-brightness profiles only as a figure -- no mu(r) table is published in the paper or its arXiv source. *** BAND: HST WFC3-IR F110W minus F160W (observed frame). ICL/BCG SEPARATION METHOD: none -- this is the BCG+ICL system profiled continuously in radius. The paper treats the inner ~10 kpc as BCG-dominated and radii beyond that as increasingly ICL-dominated, but applies no decomposition. RADIAL RANGE: log10(r/kpc) from about 0.54 (~3.5 kpc) outward; each profile is terminated where the colour uncertainty exceeds 0.2 mag in 3 consecutive dlog(r)=0.05 bins. SB LIMIT: profiles reach ~26-27 mag/arcsec2 for the CLASH clusters, ~25-26 mag/arcsec2 for the groups. MASS-MODEL DEPENDENCE: none -- purely photometric.",
+  "raw_response_file": "icl/raw/demaio2018_arXiv1710.11313_tabular_color_table.tex ; icl/raw/demaio2018_arXiv1710.11313_tabular_color_table_x2.tex"
+}

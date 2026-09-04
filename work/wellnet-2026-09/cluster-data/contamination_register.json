@@ -1,0 +1,866 @@
+{
+  "purpose": "Quarantine register. Every acquired file whose manifest text or explicit flags indicate a dependence on a dark-matter halo profile, Newtonian hydrostatic equilibrium, a mass-follows-light construction, a scaling relation, or SED/population-synthesis modelling. Files listed here are NOT automatically unusable -- most are usable as INPUTS (measured baryonic quantities) or as context. What they must never be is the thing a gravity law is scored against.",
+  "how_to_read": "A hit is a keyword match on the manifest note plus column names, so it is deliberately over-inclusive: it flags files that merely DISCUSS a caveat as well as files that embody one. Read the note excerpt before acting. The explicit_manifest_flags are authoritative; the textual_indicators are a net.",
+  "n_files_flagged": 63,
+  "by_kind": {
+    "NFW / dark-matter halo profile assumed": [
+      "gas/bolocam_sz/ABELL_0370.tgz",
+      "gas/bolocam_sz/ABELL_2744.tgz",
+      "gas/bolocam_sz/ABELL_S1063.tgz",
+      "gas/bolocam_sz/MACS_J0416.1-2403.tgz",
+      "gas/bolocam_sz/MACS_J0717.5+3745.tgz",
+      "gas/bolocam_sz/MACS_J1149.6+2223.tgz",
+      "gas/xcop_A2029/A2029_hydro_mass.fits",
+      "stronglensing/HFF2_Zitrin_lensmodel_input_arcs.tsv",
+      "stronglensing/MACSJ0717_multiple_images_Limousin2016.tsv"
+    ],
+    "Newtonian hydrostatic equilibrium assumed": [
+      "bcg/demaio2018_cluster_sample.tsv",
+      "contamination_register.json",
+      "gas/a370_umetsu2022_chandra_deprojection.tsv",
+      "gas/a370_umetsu2022_forward_model_params.tsv",
+      "gas/accept_ABELL_0370.tsv",
+      "gas/accept_ABELL_1063S.tsv",
+      "gas/accept_ABELL_2029.tsv",
+      "gas/accept_ABELL_2744.tsv",
+      "gas/accept_MACS_J0717_5p3745.tsv",
+      "gas/accept_MACS_J1149_5p2223.tsv",
+      "gas/accept_all_profiles.dat",
+      "gas/bolocam_sz/ABELL_0370.tgz",
+      "gas/bolocam_sz/ABELL_2744.tgz",
+      "gas/bolocam_sz/ABELL_S1063.tgz",
+      "gas/bolocam_sz/MACS_J0416.1-2403.tgz",
+      "gas/bolocam_sz/MACS_J0717.5+3745.tgz",
+      "gas/bolocam_sz/MACS_J1149.6+2223.tgz",
+      "gas/mcxc_raw.tsv",
+      "gas/mcxc_targets.tsv",
+      "gas/xcop_A2029/A2029_hydro_mass.fits"
+    ],
+    "mass model needed to define the aperture (R500 / R200 / M500)": [
+      "bcg/demaio2018_bcg_icl_luminosity_mass.tsv",
+      "bcg/demaio2018_cluster_sample.tsv",
+      "gas/bolocam_sz/ABELL_0370.tgz",
+      "gas/bolocam_sz/ABELL_2744.tgz",
+      "gas/bolocam_sz/ABELL_S1063.tgz",
+      "gas/bolocam_sz/MACS_J0416.1-2403.tgz",
+      "gas/bolocam_sz/MACS_J0717.5+3745.tgz",
+      "gas/bolocam_sz/MACS_J1149.6+2223.tgz",
+      "gas/erass1_emain_raw.tsv",
+      "gas/macsj0416_erass1_global.tsv",
+      "gas/macsj0416_ogrean2015_global_properties.tsv",
+      "gas/mcxc_raw.tsv",
+      "gas/mcxc_targets.tsv",
+      "gas/xcop_A2029/A2029_density_L1.fits",
+      "gas/xcop_A2029/A2029_density_L1_HDU1.tsv",
+      "gas/xcop_A2029/A2029_entropy.fits",
+      "gas/xcop_A2029/A2029_hydro_mass.fits",
+      "gas/xcop_A2029/A2029_pressure.fits",
+      "gas/xcop_A2029/A2029_temperature.fits",
+      "icl/deoliveira2022_icl_fractions_A370_AS1063.tsv",
+      "icl/kluge2021_host_cluster_params.tsv",
+      "icl/montes_trujillo2018_icl_fractions.tsv"
+    ],
+    "parametric lens model output, or redshift optimised by a lens model": [
+      "gas/macsj0416_bonamigo2017_sx_dpie_params.tsv",
+      "stronglensing/AS1063_multiple_images_Caminha2016.tsv",
+      "stronglensing/HFF2_Zitrin_lensmodel_input_arcs.tsv",
+      "stronglensing/HFF6_CATS_lensmodel_input_arcs.tsv",
+      "stronglensing/HFF6_multiple_images_Richard2014.tsv",
+      "stronglensing/MACSJ0717_multiple_images_Limousin2016.tsv",
+      "weaklensing/buffalo_a370/hlsp_buffalo_hst-subaru_multi_abell370_multi_v1.0_lenstool.cat",
+      "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_f814w_v1.0_galcat-redseq.cat",
+      "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_multi_v1.0_galcat-full.dat",
+      "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_multi_v1.0_sl-gold.dat"
+    ],
+    "placeholder / dummy column, not a measurement": [
+      "members/HFFDS_abell1063clu_v3.9.zout",
+      "members/HFFDS_abell2744clu_v3.9.zout",
+      "members/HFFDS_abell370clu_v3.9.zout",
+      "members/HFFDS_macs0416clu_v3.9.zout",
+      "members/HFFDS_macs0717clu_v3.9.zout",
+      "members/HFFDS_macs1149clu_v3.9.zout",
+      "stronglensing/HFF6_CATS_lensmodel_input_arcs.tsv",
+      "weaklensing/buffalo_a370/hlsp_buffalo_hst-subaru_multi_abell370_multi_v1.0_lenstool.cat",
+      "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_f814w_v1.0_galcat-redseq.cat",
+      "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_multi_v1.0_galcat-full.dat",
+      "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_multi_v1.0_sl-gold.dat"
+    ],
+    "projected, not deprojected (or vice versa) - geometry assumption": [
+      "gas/a370_umetsu2022_chandra_deprojection.tsv",
+      "gas/a370_umetsu2022_forward_model_params.tsv",
+      "gas/a370_umetsu2022_global_properties.tsv",
+      "gas/accept_ABELL_0370.tsv",
+      "gas/accept_ABELL_1063S.tsv",
+      "gas/accept_ABELL_2029.tsv",
+      "gas/accept_ABELL_2744.tsv",
+      "gas/accept_MACS_J0717_5p3745.tsv",
+      "gas/accept_MACS_J1149_5p2223.tsv",
+      "gas/accept_all_profiles.dat",
+      "gas/bolocam_sz/ABELL_0370.tgz",
+      "gas/bolocam_sz/ABELL_2744.tgz",
+      "gas/bolocam_sz/ABELL_S1063.tgz",
+      "gas/bolocam_sz/MACS_J0416.1-2403.tgz",
+      "gas/bolocam_sz/MACS_J0717.5+3745.tgz",
+      "gas/bolocam_sz/MACS_J1149.6+2223.tgz",
+      "gas/gas_profile_qa.json",
+      "gas/macsj0416_bonamigo2017_sx_dpie_params.tsv",
+      "gas/xcop_A2029/A2029_density_L1.fits",
+      "gas/xcop_A2029/A2029_density_L1_HDU1.tsv",
+      "gas/xcop_A2029/A2029_entropy.fits",
+      "gas/xcop_A2029/A2029_pressure.fits",
+      "gas/xcop_A2029/A2029_temperature.fits",
+      "gas/xcop_A2029/spectral_results_A2029.fits",
+      "gas/xcop_A2029/spectral_results_A2029_HDU1.tsv"
+    ],
+    "scaling relation, not a direct measurement": [
+      "contamination_register.json",
+      "gas/macsj0416_erass1_global.tsv",
+      "gas/mcxc_raw.tsv",
+      "gas/mcxc_targets.tsv"
+    ],
+    "stellar mass from SED / population synthesis fitting": [
+      "bcg/demaio2018_bcg_icl_luminosity_mass.tsv",
+      "icl/montes_trujillo2018_radial_age_metallicity.tsv",
+      "members/A370_Bradac2019_MNRAS489_99_a370pr_zphys.raw.tsv",
+      "members/HFF6_Shipley2018_ApJS235_14_clugal_photometry.raw.tsv",
+      "members/HFFDS_abell1063clu_v3.9.fout",
+      "members/HFFDS_abell1063clu_v3.9.zout",
+      "members/HFFDS_abell2744clu_v3.9.fout",
+      "members/HFFDS_abell2744clu_v3.9.zout",
+      "members/HFFDS_abell370clu_v3.9.fout",
+      "members/HFFDS_abell370clu_v3.9.zout",
+      "members/HFFDS_macs0416clu_v3.9.fout",
+      "members/HFFDS_macs0416clu_v3.9.zout",
+      "members/HFFDS_macs0717clu_v3.9.fout",
+      "members/HFFDS_macs0717clu_v3.9.zout",
+      "members/HFFDS_macs1149clu_v3.9.fout",
+      "members/HFFDS_macs1149clu_v3.9.zout",
+      "members/MACS0717_ASTRODEEP_DiCriscienzo2017_AA607_A30_m0717clz_zphys.raw.tsv",
+      "stronglensing/MACSJ1149_SNRefsdal_time_delays_Kelly2023.tsv"
+    ]
+  },
+  "entries": [
+    {
+      "file": "bcg/demaio2018_bcg_icl_luminosity_mass.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "DeMaio et al. 2018, MNRAS 474, 3009. TARGET CLUSTERS PRESENT: RXJ2248 (= Abell S1063 = RXC J2248.7-4431), MACS0416 (= MACSJ0416.1-2403), MACS1149 (= MACSJ1149.5+2223). *** MACS0717 IS DELIBERATELY EXCLUDED by the authors: 'we exclude MACS0717 from the final sample because it is a very dynamic systems of 4 merging clusters with no clear central BCG to which to anchor the radial profiles'. *** Abell"
+    },
+    {
+      "file": "bcg/demaio2018_cluster_sample.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "DeMaio et al. 2018 sample definition table -- supplied as the aperture/context companion to demaio2018_bcg_icl_luminosity_mass.tsv (it maps the short cluster keys to full names and gives r500 so the 10/50/100 kpc apertures can be expressed in r/r500). *** MASS-MODEL DEPENDENCE FLAG: M500 and r500 here are X-RAY DERIVED -- converted from X-ray temperature kT using the Vikhlinin et al. 2009 kT-M rel"
+    },
+    {
+      "file": "contamination_register.json",
+      "explicit_manifest_flags": {
+        "is_raw_observable": false
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "scaling relation, not a direct measurement"
+      ],
+      "declared_raw_observable": false,
+      "note_excerpt": "DERIVED register, not downloaded. Lists every acquired file whose manifest indicates a dependence on a dark-matter halo profile, Newtonian hydrostatic equilibrium, a mass-follows-light construction, a scaling relation, or SED/population-synthesis modelling. Deliberately over-inclusive: it is a keyword net over manifest notes and column names, so it also flags files that merely DISCUSS a caveat. Th"
+    },
+    {
+      "file": "gas/a370_umetsu2022_chandra_deprojection.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 370 (z=0.375). Instrument: Chandra ACIS (archival). THIS IS A DEPROJECTED PROFILE: background-subtracted Chandra spectra in 0.4-7.0 keV were jointly fit in four concentric annuli and deprojected onto spherical shells ASSUMING SPHERICAL SYMMETRY (outer boundary condition set from a 200-400 arcsec annulus). Both n_e(r) AND T_gas(r) are given, and both are DEPROJECTED 3D quantities. Radial rang"
+    },
+    {
+      "file": "gas/a370_umetsu2022_forward_model_params.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 370 (z=0.375), Chandra ACIS. ANALYTIC MODEL, not a tabulated profile. Forward fit (mbproj2, Sanders 2017) to Chandra X-ray SURFACE BRIGHTNESS profiles in 10 energy bands, 49 linearly spaced radial bins over theta in [10,200] arcsec = 51.6-1032 kpc. Functional forms (paper Eq. 8): n_e(r) = n_e0 * [1 + (r/r_c)^2]^(-3*beta/2)   [beta-model]; T_3D(r) = T_0 * (r/r_t)^a / [1 + (r/r_t)^2]^(c/2)   ["
+    },
+    {
+      "file": "gas/a370_umetsu2022_global_properties.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 370. GLOBAL X-ray temperature only (single value, not a profile) - the radial T(r) for this cluster is in a370_umetsu2022_chandra_deprojection.tsv. *** THIS TEMPERATURE IS CORE-EXCISED *** : measured from the Chandra spectrum over the radial range [50,500] h^-1 kpc, i.e. an inner excision radius of 71.4 kpc and an outer radius of 714.3 kpc for h=0.7. kT = 8.77 (+0.33/-0.34) keV."
+    },
+    {
+      "file": "gas/accept_ABELL_0370.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "contains_hse_mass_column": true
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 370. ACCEPT (Cavagnolo et al. 2009, ApJS 182, 12) Chandra ACIS deprojected profile, 32 radial bins spanning 0.0-806.2 kpc. n_e(r) [nelec] IS a deprojection of the Chandra surface brightness assuming spherical symmetry. T(r) [Tx] IS a radial profile but is the PROJECTED spectroscopic temperature interpolated onto the density bins, not a deprojected 3D temperature. NO core excision. Mgrav is h"
+    },
+    {
+      "file": "gas/accept_ABELL_1063S.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "contains_hse_mass_column": true
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell S1063 = RXC J2248.7-4431. Instrument: Chandra ACIS (archival, as of 2008 Aug). z=0.354. ACCEPT table1 average cluster temperature <kT> = 11.96 keV. Radial range 0.0-1011.6 kpc (41 bins). n_e(r) [column nelec] IS a deprojection of the Chandra surface brightness assuming spherical symmetry. T(r) [column Tx] IS a radial profile, but is the PROJECTED spectroscopic temperature interpolated onto t"
+    },
+    {
+      "file": "gas/accept_ABELL_2029.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "contains_hse_mass_column": true
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 2029. Instrument: Chandra ACIS (archival, as of 2008 Aug). z=0.0765. ACCEPT table1 average cluster temperature <kT> = 7.38 keV. Radial range 0.0-500.1 kpc (73 bins). n_e(r) [column nelec] IS a deprojection of the Chandra surface brightness assuming spherical symmetry. T(r) [column Tx] IS a radial profile, but is the PROJECTED spectroscopic temperature interpolated onto the density bins, not "
+    },
+    {
+      "file": "gas/accept_ABELL_2744.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "contains_hse_mass_column": true
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 2744. Instrument: Chandra ACIS (archival, as of 2008 Aug). z=0.308. ACCEPT table1 average cluster temperature <kT> = 9.18 keV. Radial range 0.0-1325.6 kpc (59 bins). n_e(r) [column nelec] IS a deprojection of the Chandra surface brightness assuming spherical symmetry. T(r) [column Tx] IS a radial profile, but is the PROJECTED spectroscopic temperature interpolated onto the density bins, not "
+    },
+    {
+      "file": "gas/accept_MACS_J0717_5p3745.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "contains_hse_mass_column": true
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "MACS J0717.5+3745. Instrument: Chandra ACIS (archival, as of 2008 Aug). z=0.548. ACCEPT table1 average cluster temperature <kT> = 10.5 keV. Radial range 0.0-1191.1 kpc (39 bins). n_e(r) [column nelec] IS a deprojection of the Chandra surface brightness assuming spherical symmetry. T(r) [column Tx] IS a radial profile, but is the PROJECTED spectroscopic temperature interpolated onto the density bin"
+    },
+    {
+      "file": "gas/accept_MACS_J1149_5p2223.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "contains_hse_mass_column": true
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "MACS J1149.5+2223. Instrument: Chandra ACIS (archival, as of 2008 Aug). z=0.544. ACCEPT table1 average cluster temperature <kT> = 8.4 keV. Radial range 0.0-1301.0 kpc (41 bins). n_e(r) [column nelec] IS a deprojection of the Chandra surface brightness assuming spherical symmetry. T(r) [column Tx] IS a radial profile, but is the PROJECTED spectroscopic temperature interpolated onto the density bins"
+    },
+    {
+      "file": "gas/accept_all_profiles.dat",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "ACCEPT (Cavagnolo et al. 2009, ApJS 182, 12). Chandra ACIS archival sample, 242 distinct cluster names / 239 clusters. Contains ALL clusters, not only the seven targets. nelec = electron density from deprojection of the Chandra X-ray surface brightness profile under an assumption of SPHERICAL SYMMETRY (Cavagnolo+2009 Sect. 3.2; for clusters flagged 'a' in table1 a best-fit beta-model was used for "
+    },
+    {
+      "file": "gas/bolocam_sz/ABELL_0370.tgz",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "presupposes_dark_matter": false,
+        "contains_model_product": true,
+        "is_raw_observable": true
+      },
+      "textual_indicators": [
+        "NFW / dark-matter halo profile assumed",
+        "Newtonian hydrostatic equilibrium assumed",
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": true,
+      "note_excerpt": "Abell 370. Bolocam 140 GHz (2.1 mm) Sunyaev-Zel'dovich observation from the BOXSZ sample (Sayers et al. 2013, ApJ 768, 177; IRSA DOI 10.26131/IRSA562). Archive position 02:39:52.80 -01:34:35.99. The UNFILTERED and FILTERED SZ decrement images are RAW OBSERVABLES: the SZ decrement is proportional to the Compton-y parameter, i.e. the line-of-sight integral of the ELECTRON PRESSURE n_e * kT_e. This i"
+    },
+    {
+      "file": "gas/bolocam_sz/ABELL_2744.tgz",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "presupposes_dark_matter": false,
+        "contains_model_product": true,
+        "is_raw_observable": true
+      },
+      "textual_indicators": [
+        "NFW / dark-matter halo profile assumed",
+        "Newtonian hydrostatic equilibrium assumed",
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": true,
+      "note_excerpt": "Abell 2744. Bolocam 140 GHz (2.1 mm) Sunyaev-Zel'dovich observation from the BOXSZ sample (Sayers et al. 2013, ApJ 768, 177; IRSA DOI 10.26131/IRSA562). Archive position 00:14:15.96 -30:23:31.13. The UNFILTERED and FILTERED SZ decrement images are RAW OBSERVABLES: the SZ decrement is proportional to the Compton-y parameter, i.e. the line-of-sight integral of the ELECTRON PRESSURE n_e * kT_e. This "
+    },
+    {
+      "file": "gas/bolocam_sz/ABELL_S1063.tgz",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "presupposes_dark_matter": false,
+        "contains_model_product": true,
+        "is_raw_observable": true
+      },
+      "textual_indicators": [
+        "NFW / dark-matter halo profile assumed",
+        "Newtonian hydrostatic equilibrium assumed",
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": true,
+      "note_excerpt": "Abell S1063 = RXC J2248.7-4431. Bolocam 140 GHz (2.1 mm) Sunyaev-Zel'dovich observation from the BOXSZ sample (Sayers et al. 2013, ApJ 768, 177; IRSA DOI 10.26131/IRSA562). Archive position 22:48:43.95 -44:31:51.31. The UNFILTERED and FILTERED SZ decrement images are RAW OBSERVABLES: the SZ decrement is proportional to the Compton-y parameter, i.e. the line-of-sight integral of the ELECTRON PRESSU"
+    },
+    {
+      "file": "gas/bolocam_sz/MACS_J0416.1-2403.tgz",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "presupposes_dark_matter": false,
+        "contains_model_product": true,
+        "is_raw_observable": true
+      },
+      "textual_indicators": [
+        "NFW / dark-matter halo profile assumed",
+        "Newtonian hydrostatic equilibrium assumed",
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": true,
+      "note_excerpt": "MACS J0416.1-2403. Bolocam 140 GHz (2.1 mm) Sunyaev-Zel'dovich observation from the BOXSZ sample (Sayers et al. 2013, ApJ 768, 177; IRSA DOI 10.26131/IRSA562). Archive position 04:16:08.38 -24:04:20.78. The UNFILTERED and FILTERED SZ decrement images are RAW OBSERVABLES: the SZ decrement is proportional to the Compton-y parameter, i.e. the line-of-sight integral of the ELECTRON PRESSURE n_e * kT_e"
+    },
+    {
+      "file": "gas/bolocam_sz/MACS_J0717.5+3745.tgz",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "presupposes_dark_matter": false,
+        "contains_model_product": true,
+        "is_raw_observable": true
+      },
+      "textual_indicators": [
+        "NFW / dark-matter halo profile assumed",
+        "Newtonian hydrostatic equilibrium assumed",
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": true,
+      "note_excerpt": "MACS J0717.5+3745. Bolocam 140 GHz (2.1 mm) Sunyaev-Zel'dovich observation from the BOXSZ sample (Sayers et al. 2013, ApJ 768, 177; IRSA DOI 10.26131/IRSA562). Archive position 07:17:31.40 +37:45:23.99. The UNFILTERED and FILTERED SZ decrement images are RAW OBSERVABLES: the SZ decrement is proportional to the Compton-y parameter, i.e. the line-of-sight integral of the ELECTRON PRESSURE n_e * kT_e"
+    },
+    {
+      "file": "gas/bolocam_sz/MACS_J1149.6+2223.tgz",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "presupposes_dark_matter": false,
+        "contains_model_product": true,
+        "is_raw_observable": true
+      },
+      "textual_indicators": [
+        "NFW / dark-matter halo profile assumed",
+        "Newtonian hydrostatic equilibrium assumed",
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": true,
+      "note_excerpt": "MACS J1149.5+2223. Bolocam 140 GHz (2.1 mm) Sunyaev-Zel'dovich observation from the BOXSZ sample (Sayers et al. 2013, ApJ 768, 177; IRSA DOI 10.26131/IRSA562). Archive position 11:49:35.40 +22:24:05.00. The UNFILTERED and FILTERED SZ decrement images are RAW OBSERVABLES: the SZ decrement is proportional to the Compton-y parameter, i.e. the line-of-sight integral of the ELECTRON PRESSURE n_e * kT_e"
+    },
+    {
+      "file": "gas/erass1_emain_raw.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "eRASS1 galaxy clusters and groups in the Western Galactic Hemisphere (Bulbul et al. 2024, A&A 685, A106), full 'emain' table, all 12247 entries. Downloaded in full because VizieR cone search via -c/-c.rs silently returned 0 rows even for positive controls (A2744, A2029), so positional matching was done numerically instead."
+    },
+    {
+      "file": "gas/gas_profile_qa.json",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false,
+        "is_raw_observable": false
+      },
+      "textual_indicators": [
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": false,
+      "note_excerpt": "DERIVED QA, not downloaded. Sanity scan of the six ACCEPT deprojected profiles. TWO FINDINGS THE DOWNSTREAM CODE MUST HANDLE. (1) ACCEPT stores its radial bins in DESCENDING radius order in every file - code that assumes ascending order will silently integrate the profile backwards. (2) n_e(r) is not monotonic: Abell 2744 has 27 upward steps in 58 bin-to-bin differences, i.e. the spherical deproje"
+    },
+    {
+      "file": "gas/macsj0416_bonamigo2017_sx_dpie_params.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "parametric lens model output, or redshift optimised by a lens model",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "MACS J0416.1-2403 (z=0.396). Instrument: Chandra, ObsIDs 16236, 16237, 16304, 16523 (+others), 0.7-4.0 keV surface-brightness map, 3.94 arcsec pixels. PARAMETRIC MODEL OF THE X-RAY SURFACE BRIGHTNESS, not a tabulated profile and not a deprojected n_e(r). The X-ray surface brightness is modelled as the sum of three SPHERICAL (vanishing ellipticity) dPIE components; the gas density follows from S_X "
+    },
+    {
+      "file": "gas/macsj0416_erass1_global.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "scaling relation, not a direct measurement",
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "MACS J0416.1-2403. Instrument: eROSITA (eRASS1 survey, 142.9 s exposure). *** GLOBAL / INTEGRATED QUANTITIES ONLY - THERE IS NO RADIAL PROFILE IN THIS CATALOGUE *** eRASS1 emain is a detection catalogue: it reports count rates, fluxes and luminosities inside fixed apertures (300 kpc and R500), not n_e(r) or T(r). *** THE TEMPERATURE IS UNUSABLE ***: the KT column is EMPTY for this cluster; only a "
+    },
+    {
+      "file": "gas/macsj0416_ogrean2015_global_properties.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "MACS J0416.1-2403 (z=0.396). Instrument: Chandra ACIS-I, 5 ObsIDs, ~324 ks total. *** GLOBAL TEMPERATURE ONLY - THERE IS NO TABULATED RADIAL n_e(r) OR T(r) PROFILE *** kT = 10.06 (+0.50/-0.49) keV. *** NOT CORE-EXCISED *** : the spectrum was extracted from a FULL CIRCLE of radius 1.2 Mpc (approximately R500, from Sayers et al. 2013) centred at 04:16:08.8 -24:04:14.0, with no central region removed"
+    },
+    {
+      "file": "gas/mcxc_raw.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": true
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "scaling relation, not a direct measurement",
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Full MCXC catalogue, all 1743 clusters (file contains 1743 data lines). MCXC meta-catalogue (Piffaretti, Arnaud, Pratt, Pointecouteau, Melin 2011, A&A 534, A109). *** THIS IS A SCALING-RELATION PRODUCT, NOT A PROFILE AND NOT A TEMPERATURE MEASUREMENT *** The MCXC contains NO temperature column at all. L500 is a ROSAT-based 0.1-2.4 keV luminosity homogenised to an overdensity of 500; M500 and R500 "
+    },
+    {
+      "file": "gas/mcxc_targets.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": true
+      },
+      "textual_indicators": [
+        "Newtonian hydrostatic equilibrium assumed",
+        "scaling relation, not a direct measurement",
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Global X-ray properties for 5 of the 7 target clusters. MCXC meta-catalogue (Piffaretti, Arnaud, Pratt, Pointecouteau, Melin 2011, A&A 534, A109). *** THIS IS A SCALING-RELATION PRODUCT, NOT A PROFILE AND NOT A TEMPERATURE MEASUREMENT *** The MCXC contains NO temperature column at all. L500 is a ROSAT-based 0.1-2.4 keV luminosity homogenised to an overdensity of 500; M500 and R500 are then obtaine"
+    },
+    {
+      "file": "gas/xcop_A2029/A2029_density_L1.fits",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 2029. Instrument: XMM-Newton EPIC (X-COP mosaic), Ghirardini et al. 2019 A&A 621, A41 / Eckert et al. X-COP. THIS IS A DEPROJECTED ELECTRON DENSITY PROFILE n_e(r), obtained by deprojecting the azimuthally-averaged X-ray surface brightness under an assumption of SPHERICAL SYMMETRY using the L1-penalty (multiscale) method. Radial range 2.26-2212.1 kpc = 0.0016-1.564 R500 (R500=1414.0 kpc). NO "
+    },
+    {
+      "file": "gas/xcop_A2029/A2029_density_L1_HDU1.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 2029 deprojected electron density profile, XMM-Newton / X-COP. Columns R_IN,R_OUT in kpc; NE,NE_LOW,NE_HIGH in cm^-3. R500=1414.0 kpc, M500=8.6511e14 Msun, z=0.0766. Deprojected assuming spherical symmetry. No core excision."
+    },
+    {
+      "file": "gas/xcop_A2029/A2029_entropy.fits",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 2029, XMM-Newton + Planck SZ (X-COP, Ghirardini et al. 2019 A&A 621, A41). DEPROJECTED 3D entropy K/K500 profile, assuming spherical symmetry. IMPORTANT: values are DIMENSIONLESS, self-similar-scaled. Convert with the header constants: R500=1414.0 kpc, T500=None keV, M500=8.6511e14 Msun, z=0.0766. Radii RW_X / RW_SZ are already in R/R500. NO core excision. The temperature here is the DEPROJE"
+    },
+    {
+      "file": "gas/xcop_A2029/A2029_hydro_mass.fits",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": true
+      },
+      "textual_indicators": [
+        "NFW / dark-matter halo profile assumed",
+        "Newtonian hydrostatic equilibrium assumed",
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "*** NOT AN OBSERVATION *** Abell 2029 HYDROSTATIC mass profile from X-COP (Ettori et al. 2019 A&A 621, A39 / Eckert et al. 2019). Every mass column here is obtained by solving the NEWTONIAN hydrostatic equilibrium equation for the gas, i.e. it presupposes exactly the gravity law under test. Included only for reference/comparison; it MUST NOT be used as an observational constraint. Radii in kpc, ma"
+    },
+    {
+      "file": "gas/xcop_A2029/A2029_pressure.fits",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 2029, XMM-Newton + Planck SZ (X-COP, Ghirardini et al. 2019 A&A 621, A41). DEPROJECTED 3D pressure P/P500 profile, assuming spherical symmetry. IMPORTANT: values are DIMENSIONLESS, self-similar-scaled. Convert with the header constants: R500=1414.0 kpc, T500=None keV, M500=8.6511e14 Msun, z=0.0766. Radii RW_X / RW_SZ are already in R/R500. NO core excision. The temperature here is the DEPROJ"
+    },
+    {
+      "file": "gas/xcop_A2029/A2029_temperature.fits",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)",
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 2029, XMM-Newton + Planck SZ (X-COP, Ghirardini et al. 2019 A&A 621, A41). DEPROJECTED 3D temperature T/T500 profile, assuming spherical symmetry. IMPORTANT: values are DIMENSIONLESS, self-similar-scaled. Convert with the header constants: R500=1414.0 kpc, T500=8.229501237850764 keV, M500=8.6511e14 Msun, z=0.0766. Radii RW_X / RW_SZ are already in R/R500. NO core excision. The temperature he"
+    },
+    {
+      "file": "gas/xcop_A2029/spectral_results_A2029.fits",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 2029. XMM-Newton EPIC spectral fits in concentric annuli (X-COP). KT is the PROJECTED (spectroscopic, along the line of sight) temperature in keV -- it is NOT deprojected. Annuli span 0.00-17.0 arcmin; at z=0.0766 (1 arcmin ~= 87.2 kpc) that is ~0-1482 kpc. NO core excision: the innermost annulus runs from 0.0 arcmin. This is the file that carries T(r) in PHYSICAL units (keV); A2029_temperat"
+    },
+    {
+      "file": "gas/xcop_A2029/spectral_results_A2029_HDU1.tsv",
+      "explicit_manifest_flags": {
+        "derived_assumes_newtonian_hse": false
+      },
+      "textual_indicators": [
+        "projected, not deprojected (or vice versa) - geometry assumption"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 2029 PROJECTED spectroscopic temperature profile in keV, XMM-Newton / X-COP. RADIUS,WIDTH in arcmin (bin = RADIUS +/- WIDTH). KT,KT_LO,KT_HI in keV. Not deprojected. No core excision (innermost annulus starts at 0 arcmin)."
+    },
+    {
+      "file": "icl/deoliveira2022_icl_fractions_A370_AS1063.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "*** PRODUCT 3 (ICL fraction) for ABELL 370 and ABELL S1063 -- the two HFF clusters MISSING from Jimenez-Teja et al. 2018. de Oliveira, Jimenez-Teja et al. 2022 (MNRAS), 'The intracluster light on Frontier Fields clusters Abell 370 and Abell S1063'. BANDS: HST F435W, F606W, F814W (observed frame). ICL/BCG SEPARATION METHOD: CICLE -- same wavelet/CHEF-based algorithm as Jimenez-Teja+2018, so these t"
+    },
+    {
+      "file": "icl/kluge2021_host_cluster_params.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Kluge et al. 2021, ApJS 252, 27 -- 'Photometric dissection of intracluster light'. INCLUDES A2029. *** CAVEAT: this deposited table contains HOST CLUSTER parameters only (velocity dispersion, richness, gravitational radius/mass, integrated satellite brightness, phase-space densities) -- it does NOT contain per-cluster ICL fractions. Kluge+2021 report ICL fractions only as SAMPLE AVERAGES over the "
+    },
+    {
+      "file": "icl/montes_trujillo2018_icl_fractions.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "mass model needed to define the aperture (R500 / R200 / M500)"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "*** PRODUCT 3 (ICL fraction) for all six HFF clusters: A2744, MACSJ0416.1-2403, MACSJ0717.5+3745, MACSJ1149.5+2223, Abell S1063, Abell 370. *** BAND: rest-frame V (synthesised from the 7 HST ACS+WFC3 bands listed in montes_trujillo2018_hff_centres_sblimits.tsv). SB LIMIT: 30.2-31.9 mag/arcsec2 depending on band (see the companion centres/SB-limits file); the ICL analysis itself is cut at mu_V = 26"
+    },
+    {
+      "file": "icl/montes_trujillo2018_radial_age_metallicity.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "*** RADIAL-RANGE DEFINITION for the Montes & Trujillo 2018 ICL measurement, plus the ICL stellar-population gradients. This is the companion file to icl/montes_trujillo2018_icl_fractions.tsv -- the 'R_limit' referred to in that file's column names is the outermost radius listed here for each cluster. R_limit per cluster (kpc): Abell 2744 = 200; MACSJ0416.1-2403 = 93.9; MACSJ0717.5+3745 = 137; MACS"
+    },
+    {
+      "file": "members/A370_Bradac2019_MNRAS489_99_a370pr_zphys.raw.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Bradac et al. 2019 MNRAS 489, 99 table a370pr: photometric-redshift and physical-parameter catalogue for ABELL 370. MEASURED: RA/Dec; zsp = spectroscopic redshift where available. MODEL-DERIVED: zbest (median photo-z), zphEAZY, zphOAR, and Mstar + SFR from SED fitting with and without nebular emission. LENS-MODEL DERIVED: Magnif (median magnification over public HFF v4 models) -- NOT an observatio"
+    },
+    {
+      "file": "members/HFF6_Shipley2018_ApJS235_14_clugal_photometry.raw.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235, 14 (HFF-DeepSpace) 'clugal' = combined CLUSTER-field photometric catalogue for ALL SIX Hubble Frontier Fields clusters (Abell 2744, MACS J0416.1-2403, MACS J0717.5+3745, MACS J1149.5+2223, Abell S1063/RXC J2248.7-4431, Abell 370). Column 'Cl' selects the cluster. MEASURED: RAJ2000, DEJ2000, image x/y, total fluxes in up to 22 bands (HST UVIS/ACS/WFC3 F225W..F160W, Kec"
+    },
+    {
+      "file": "members/HFFDS_abell1063clu_v3.9.fout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace FAST output (.fout) for the Abell S1063 / RXC J2248.7-4431 CLUSTER pointing, catalogue version v3.9. ENTIRELY MODEL-DERIVED (FAST SED fitting at fixed redshift z, Bruzual & Charlot 2003 templates, Chabrier IMF, Calzetti dust): lmass = log10 stellar mass [Msun], lsfr, lssfr, lage, Av, ltau, metal, chi2. Column 'z' is the redshift the fit was done at (z_"
+    },
+    {
+      "file": "members/HFFDS_abell1063clu_v3.9.zout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace EAZY output (.zout) for the Abell S1063 / RXC J2248.7-4431 CLUSTER pointing, catalogue version v3.9. MODEL-DERIVED: photometric redshifts from EAZY SED fitting -- z_a, z_m1, z_peak (the recommended photo-z), z_m2, and the 68/95/99 per cent confidence intervals l68/u68/l95/u95/l99/u99, plus chi2 and odds/qz quality statistics. z_spec is the compiled SPE"
+    },
+    {
+      "file": "members/HFFDS_abell2744clu_v3.9.fout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace FAST output (.fout) for the Abell 2744 CLUSTER pointing, catalogue version v3.9. ENTIRELY MODEL-DERIVED (FAST SED fitting at fixed redshift z, Bruzual & Charlot 2003 templates, Chabrier IMF, Calzetti dust): lmass = log10 stellar mass [Msun], lsfr, lssfr, lage, Av, ltau, metal, chi2. Column 'z' is the redshift the fit was done at (z_spec if available el"
+    },
+    {
+      "file": "members/HFFDS_abell2744clu_v3.9.zout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace EAZY output (.zout) for the Abell 2744 CLUSTER pointing, catalogue version v3.9. MODEL-DERIVED: photometric redshifts from EAZY SED fitting -- z_a, z_m1, z_peak (the recommended photo-z), z_m2, and the 68/95/99 per cent confidence intervals l68/u68/l95/u95/l99/u99, plus chi2 and odds/qz quality statistics. z_spec is the compiled SPECTROSCOPIC redshift "
+    },
+    {
+      "file": "members/HFFDS_abell370clu_v3.9.fout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace FAST output (.fout) for the Abell 370 CLUSTER pointing, catalogue version v3.9. ENTIRELY MODEL-DERIVED (FAST SED fitting at fixed redshift z, Bruzual & Charlot 2003 templates, Chabrier IMF, Calzetti dust): lmass = log10 stellar mass [Msun], lsfr, lssfr, lage, Av, ltau, metal, chi2. Column 'z' is the redshift the fit was done at (z_spec if available els"
+    },
+    {
+      "file": "members/HFFDS_abell370clu_v3.9.zout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace EAZY output (.zout) for the Abell 370 CLUSTER pointing, catalogue version v3.9. MODEL-DERIVED: photometric redshifts from EAZY SED fitting -- z_a, z_m1, z_peak (the recommended photo-z), z_m2, and the 68/95/99 per cent confidence intervals l68/u68/l95/u95/l99/u99, plus chi2 and odds/qz quality statistics. z_spec is the compiled SPECTROSCOPIC redshift w"
+    },
+    {
+      "file": "members/HFFDS_macs0416clu_v3.9.fout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace FAST output (.fout) for the MACS J0416.1-2403 CLUSTER pointing, catalogue version v3.9. ENTIRELY MODEL-DERIVED (FAST SED fitting at fixed redshift z, Bruzual & Charlot 2003 templates, Chabrier IMF, Calzetti dust): lmass = log10 stellar mass [Msun], lsfr, lssfr, lage, Av, ltau, metal, chi2. Column 'z' is the redshift the fit was done at (z_spec if avail"
+    },
+    {
+      "file": "members/HFFDS_macs0416clu_v3.9.zout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace EAZY output (.zout) for the MACS J0416.1-2403 CLUSTER pointing, catalogue version v3.9. MODEL-DERIVED: photometric redshifts from EAZY SED fitting -- z_a, z_m1, z_peak (the recommended photo-z), z_m2, and the 68/95/99 per cent confidence intervals l68/u68/l95/u95/l99/u99, plus chi2 and odds/qz quality statistics. z_spec is the compiled SPECTROSCOPIC re"
+    },
+    {
+      "file": "members/HFFDS_macs0717clu_v3.9.fout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace FAST output (.fout) for the MACS J0717.5+3745 CLUSTER pointing, catalogue version v3.9. ENTIRELY MODEL-DERIVED (FAST SED fitting at fixed redshift z, Bruzual & Charlot 2003 templates, Chabrier IMF, Calzetti dust): lmass = log10 stellar mass [Msun], lsfr, lssfr, lage, Av, ltau, metal, chi2. Column 'z' is the redshift the fit was done at (z_spec if avail"
+    },
+    {
+      "file": "members/HFFDS_macs0717clu_v3.9.zout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace EAZY output (.zout) for the MACS J0717.5+3745 CLUSTER pointing, catalogue version v3.9. MODEL-DERIVED: photometric redshifts from EAZY SED fitting -- z_a, z_m1, z_peak (the recommended photo-z), z_m2, and the 68/95/99 per cent confidence intervals l68/u68/l95/u95/l99/u99, plus chi2 and odds/qz quality statistics. z_spec is the compiled SPECTROSCOPIC re"
+    },
+    {
+      "file": "members/HFFDS_macs1149clu_v3.9.fout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace FAST output (.fout) for the MACS J1149.5+2223 CLUSTER pointing, catalogue version v3.9. ENTIRELY MODEL-DERIVED (FAST SED fitting at fixed redshift z, Bruzual & Charlot 2003 templates, Chabrier IMF, Calzetti dust): lmass = log10 stellar mass [Msun], lsfr, lssfr, lage, Av, ltau, metal, chi2. Column 'z' is the redshift the fit was done at (z_spec if avail"
+    },
+    {
+      "file": "members/HFFDS_macs1149clu_v3.9.zout",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Shipley et al. 2018 ApJS 235,14 HFF-DeepSpace EAZY output (.zout) for the MACS J1149.5+2223 CLUSTER pointing, catalogue version v3.9. MODEL-DERIVED: photometric redshifts from EAZY SED fitting -- z_a, z_m1, z_peak (the recommended photo-z), z_m2, and the 68/95/99 per cent confidence intervals l68/u68/l95/u95/l99/u99, plus chi2 and odds/qz quality statistics. z_spec is the compiled SPECTROSCOPIC re"
+    },
+    {
+      "file": "members/MACS0717_ASTRODEEP_DiCriscienzo2017_AA607_A30_m0717clz_zphys.raw.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Di Criscienzo et al. 2017 A&A 607, A30 (ASTRODEEP) table m0717clz: photometric-redshift and physical-parameter catalogue for the MACS J0717.5+3745 CLUSTER field, HFF. MODEL-DERIVED: zbest (median photo-z from 6 codes, or spec-z where f_zbest=1), Mstar and SFR from SED fitting (Salpeter IMF), with and without nebular emission; magnif = lens-model magnification (LENS-MODEL DERIVED, not an observatio"
+    },
+    {
+      "file": "stronglensing/AS1063_multiple_images_Caminha2016.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "parametric lens model output, or redshift optimised by a lens model"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell S1063 / RXC J2248.7-4431: 16 systems, 48 images. Redshift provenance per image: 25 SPECTROSCOPIC (measured on this image), 5 spectroscopic propagated from another image of the same system (total spectroscopic 30), 18+0 model-predicted/optimised, 0 photometric, 0 geometric-predicted, 0 with no redshift. Caminha et al. 2016 A&A 587,A80. NOT AVAILABLE IN VIZIER (J/A+A/587/A80 returns the VizieR"
+    },
+    {
+      "file": "stronglensing/HFF2_Zitrin_lensmodel_input_arcs.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "NFW / dark-matter halo profile assumed",
+        "parametric lens model output, or redshift optimised by a lens model"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "EMBEDDED-IN-LENS-MODEL IMAGE LIST for 2 of the 6 clusters (Zitrin ships arcs.txt only for Abell 2744 and MACS J0416). Per cluster (images / spectroscopic / adopted-nonspec): Abell 2744 83/15/68; MACS J0416.1-2403 94/53/41. The z_free_in_model column (Y/N) records whether that system's redshift was a FREE PARAMETER optimised by the lens model - Y means the redshift is model-optimised, not measured."
+    },
+    {
+      "file": "stronglensing/HFF6_CATS_lensmodel_input_arcs.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "parametric lens model output, or redshift optimised by a lens model",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "EMBEDDED-IN-LENS-MODEL IMAGE LIST. This is the multiple-image list used as INPUT constraints by the CATS/Lenstool team, not an independent published observation catalogue. Per cluster (images/systems): Abell 2744 109/39; Abell 370 101/35; Abell S1063 / RXC J2248.7-4431 72/27; MACS J0416.1-2403 116/41; MACS J0717.5+3745 132/51; MACS J1149.5+2223 145/45. CRITICAL CAVEAT: the redshift column is the A"
+    },
+    {
+      "file": "stronglensing/HFF6_multiple_images_Richard2014.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "parametric lens model output, or redshift optimised by a lens model"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Uniform cross-cluster baseline covering all six Hubble Frontier Fields clusters in one schema. Per cluster (images / systems / spectroscopic): Abell 2744 52/17/8; MACS J0416.1-2403 47/17/24; MACS J0717.5+3745 47/16/29; MACS J1149.5+2223 35/12/9; Abell S1063 / RXC J2248.7-4431 41/14/16; Abell 370 34/12/11. zprior = SPECTROSCOPIC, zmodel = LENS-MODEL-OPTIMISED (flagged 'model'); '_sys' suffix means "
+    },
+    {
+      "file": "stronglensing/MACSJ0717_multiple_images_Limousin2016.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "NFW / dark-matter halo profile assumed",
+        "parametric lens model output, or redshift optimised by a lens model"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "MACS J0717.5+3745: 61 systems, 165 images. Redshift provenance per image: 24 SPECTROSCOPIC (measured on this image), 3 spectroscopic propagated from another image of the same system (total spectroscopic 27), 41+46 model-predicted/optimised, 36 photometric, 0 geometric-predicted, 15 with no redshift. Limousin et al. 2016 A&A 588,A99. NOT AVAILABLE IN VIZIER (J/A+A/588/A99 returns the VizieR generic"
+    },
+    {
+      "file": "stronglensing/MACSJ1149_SNRefsdal_time_delays_Kelly2023.tsv",
+      "explicit_manifest_flags": {},
+      "textual_indicators": [
+        "stellar mass from SED / population synthesis fitting"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "MACS J1149.5+2223 - MEASURED TIME DELAYS for the five images (S1-S4, SX) of SN Refsdal. 40 rows = 4 image pairs x 5 measurement methods x 2 quantities (time delay in days, magnification ratio mu_i/mu_1). Method 'Combined' is the paper's adopted weighted combination and is the row to use. These are RAW OBSERVABLES (light-curve measurements), not lens-model outputs. Headline: SX-S1 = 376.02 d, 16-84"
+    },
+    {
+      "file": "weaklensing/buffalo_a370/hlsp_buffalo_hst-subaru_multi_abell370_multi_v1.0_lenstool.cat",
+      "explicit_manifest_flags": {
+        "presupposes_dark_matter": false,
+        "is_raw_observable": true
+      },
+      "textual_indicators": [
+        "parametric lens model output, or redshift optimised by a lens model",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": true,
+      "note_excerpt": "Abell 370. BUFFALO lensing DR1 COMBINED weak-lensing constraint catalogue: HST/BUFFALO shapes plus ground-based Subaru/Suprime-Cam shapes from Umetsu et al. 2022. LENSTOOL input format. 18556 sources spanning RA 39.765-40.197, Dec -1.840 to -1.330 (about 0.43 x 0.51 deg). Ellipticity is carried as the (a, b, theta) ellipse, which is equivalent information to (e1, e2). ONLY 877 of 18556 sources (4."
+    },
+    {
+      "file": "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_f814w_v1.0_galcat-redseq.cat",
+      "explicit_manifest_flags": {
+        "redshift_column_is_placeholder": true
+      },
+      "textual_indicators": [
+        "parametric lens model output, or redshift optimised by a lens model",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 370. red-sequence-selected cluster-member catalogue (no magnitude cut applied). MEASURED per galaxy: RA, Dec, F814W MAG_AUTO, and the SExtractor shape moments a, b, theta -- so axis ratio q = b/a and position angle ARE available. Effective radius R_e and Sersic index n are NOT: no Sersic fit is provided. TRAP: the z column is a hard-coded 0.0 LENSTOOL placeholder, NOT a measured redshift. Me"
+    },
+    {
+      "file": "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_multi_v1.0_galcat-full.dat",
+      "explicit_manifest_flags": {
+        "redshift_column_is_placeholder": true
+      },
+      "textual_indicators": [
+        "parametric lens model output, or redshift optimised by a lens model",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": null,
+      "note_excerpt": "Abell 370. cluster-member galaxies actually used in the Niemiec+2023 lens models: red-sequence members plus 20 non-red-sequence galaxies, magF814W < 22.6. MEASURED per galaxy: RA, Dec, F814W MAG_AUTO, and the SExtractor shape moments a, b, theta -- so axis ratio q = b/a and position angle ARE available. Effective radius R_e and Sersic index n are NOT: no Sersic fit is provided. TRAP: the z column "
+    },
+    {
+      "file": "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_multi_v1.0_sl-gold.dat",
+      "explicit_manifest_flags": {
+        "presupposes_dark_matter": false,
+        "is_raw_observable": true
+      },
+      "textual_indicators": [
+        "parametric lens model output, or redshift optimised by a lens model",
+        "placeholder / dummy column, not a measurement"
+      ],
+      "declared_raw_observable": true,
+      "note_excerpt": "Abell 370. BUFFALO lensing DR1 gold-class-only strong-lensing constraint catalogue in LENSTOOL format (columns a, b, theta, mag are dummy placeholders). RAW OBSERVABLE: multiple-image sky positions with SYSTEM.IMAGE identifiers and redshifts. Astrometry is Gaia-aligned. PLATINUM = MUSE detection with no clear HST counterpart. See the sibling README for per-system caveats (system 2 is split into 20"
+    }
+  ]
+}

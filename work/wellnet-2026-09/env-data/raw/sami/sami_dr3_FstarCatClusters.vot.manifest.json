@@ -1,0 +1,62 @@
+{
+ "file": "sami_dr3_FstarCatClusters.vot",
+ "cleaned_file": "sami_dr3_FstarCatClusters.tsv",
+ "source_url": "https://datacentral.org.au/vo/tap/sync",
+ "service": "Data Central (AAO/Macquarie) IVOA TAP v1.0, anonymous access",
+ "access_credentials": "none - public anonymous POST, no login, no API key, no terms accepted",
+ "query": "SELECT * FROM sami_dr3.FstarCatClusters",
+ "query_parameters": {
+  "REQUEST": "doQuery",
+  "LANG": "ADQL",
+  "FORMAT": "votable",
+  "MAXREC": "1000000"
+ },
+ "count_check_query": "SELECT COUNT(*) AS n FROM sami_dr3.FstarCatClusters",
+ "count_check_value": 183,
+ "retrieved_utc": "2026-09-04T04:28:34Z",
+ "sha256": "b9ba1e266e2afc4530d9bc2493db744ea8922f4df241956c910b7eeccd374806",
+ "bytes": 24873,
+ "cleaned_sha256": "419e2073357f8675e2ed8d808e1ef3c08d2593955846b966a9c42656bbc32a2e",
+ "cleaned_bytes": 9227,
+ "row_count": 183,
+ "column_count": 5,
+ "columns": [
+  {
+   "name": "CATID",
+   "unit": null,
+   "datatype": "char",
+   "ucd": "meta.id",
+   "description": "Object identifier"
+  },
+  {
+   "name": "RA",
+   "unit": "deg",
+   "datatype": "char",
+   "ucd": "pos.eq.ra",
+   "description": "J2000 Right Ascension of object"
+  },
+  {
+   "name": "Dec",
+   "unit": "deg",
+   "datatype": "char",
+   "ucd": "pos.eq.dec",
+   "description": "J2000 Declination of object"
+  },
+  {
+   "name": "r",
+   "unit": "mag",
+   "datatype": "float",
+   "ucd": "phot.mag",
+   "description": "r-band PSF magnitude"
+  },
+  {
+   "name": "priority",
+   "unit": null,
+   "datatype": "int",
+   "ucd": "meta.code.class",
+   "description": "Priority class for targets"
+  }
+ ],
+ "reference": "Croom et al. 2021, MNRAS 505, 991 - the SAMI Galaxy Survey Data Release 3",
+ "extraction": "SELECT * over the TAP table, VOTable saved byte-for-byte; TSV is a direct astropy Table -> pandas dump with no unit conversion, no cut, no join."
+}

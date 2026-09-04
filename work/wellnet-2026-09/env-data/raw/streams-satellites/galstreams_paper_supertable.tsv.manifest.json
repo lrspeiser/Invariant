@@ -1,0 +1,72 @@
+{
+  "file": "galstreams_paper_supertable.tsv",
+  "source_url": "https://arxiv.org/e-print/2204.10326",
+  "source_file_within_archive": "super_table_1of2.tex + super_table_2of2.tex",
+  "retrieved_utc": "2026-09-03T21:20:00Z",
+  "sha256": "7f89fc3e63370260060115514df87584d961287ccb35d417246ff19c9dc2eda7",
+  "bytes": 9325,
+  "row_count": 126,
+  "column_count": 14,
+  "columns": [
+    {
+      "name": "StreamName",
+      "unit": "stream name"
+    },
+    {
+      "name": "TrackName",
+      "unit": "track id"
+    },
+    {
+      "name": "InfoFlags",
+      "unit": "4-char flag"
+    },
+    {
+      "name": "Imp",
+      "unit": "ep|po|st"
+    },
+    {
+      "name": "On",
+      "unit": "1 = default track"
+    },
+    {
+      "name": "Length_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "RA_i_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "DEC_i_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "D_i_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "RA_f_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "DEC_f_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "D_f_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "TRefs",
+      "unit": "track reference code"
+    },
+    {
+      "name": "DRefs",
+      "unit": "discovery reference code"
+    }
+  ],
+  "query": "extract_galstreams_supertable.py -- parses BOTH halves of the split LaTeX table",
+  "extraction": "Verbatim transcription of the published table. No unit conversion, no derivation. GUARDED AGAINST THE SPLIT-TABLE FAILURE MODE: 63 rows from 1of2 + 63 rows from 2of2 = 126 = the paper's own \\Ntracks macro (asserted).",
+  "measurement_or_model": "MEASUREMENT (published end points, lengths, distances) with the InfoFlags/Imp columns labelling which tracks are great-circle constructions rather than empirical tracks.",
+  "note": "126 rows = paper \\Ntracks. 101 distinct StreamName values; the paper's \\Nunique=95 counts streams AFTER merging compound names (AAU-ATLAS/AAU-AliqaUma, Cetus/Cetus-New/Cetus-Palca, Jhelum/Jhelum-a/Jhelum-b, M68/M68-Fjorm, NGC3201/NGC3201-Gjoll), so 101 != 95 is expected, not a transcription error. This table describes galstreams v1.0; the shipped v1.2.1 has 217 tracks."
+}

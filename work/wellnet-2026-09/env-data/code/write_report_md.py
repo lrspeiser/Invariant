@@ -1,0 +1,703 @@
+"""Emit the lane deliverable REPORT.md required by work/wellnet-2026-09/BRIEF.md.
+
+Numbers are pulled from the produced artefacts where possible so the document
+cannot drift away from the data.
+"""
+import json
+import os
+
+import numpy as np
+import pandas as pd
+
+LANE = r"C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\env-data"
+CLEAN = os.path.join(LANE, "clean")
+OUT = os.path.join(LANE, "REPORT.md")
+
+TIERS = ["B1_primary", "A1_gas_matched", "B2_disk_strict", "B3_late_wide",
+         "B4_disk_wide", "C1_xray_late", "C2_xray_disk"]
+
+
+def main():
+    s = json.load(open(os.path.join(CLEAN, "matched_pairs_summary.json")))
+    ck = json.load(open(os.path.join(CLEAN, "checks.json")))
+    pw = s["_power"]
+    prof = pd.read_csv(os.path.join(CLEAN, "manga_faceon_sigma_profiles.csv"))
+    n = {t: s[t]["n_pairs"] for t in TIERS}
+    sig_p = pw["sigma_logV_dex_dap_proxy"]
+    sig_g = pw["sigma_logV_dex_assumed_with_resolved_rotation_curves"]
+
+    maps = json.load(open(os.path.join(
+        LANE, "raw", "manga", "maps", "maps.manifest.json")))
+    pairs_df = pd.read_csv(os.path.join(CLEAN, "matched_pairs.csv"), low_memory=False)
+    n_pair_gal = len(set(pairs_df.cl_plateifu) | set(pairs_df.fi_plateifu))
+    body = HEAD.format(
+        n_b1=n["B1_primary"], n_b4=n["B4_disk_wide"], n_c1=n["C1_xray_late"],
+        n_c2=n["C2_xray_disk"], n_pair_gal=n_pair_gal,
+        n_maps=maps["n_files"], gb_maps=maps["total_bytes"] / 1e9,
+        r_sig_gbar=s["_matching_variable_correlation"]["logSigma_b"]["log_gbar_2p2Rd"],
+        r_fgas_m=s["_matching_variable_correlation"]["f_gas_or_nan"]["logMstar_nsa"],
+        n_prof=int(prof.plateifu.nunique()), n_pts=len(prof),
+        med_err=prof.e_sigma_los_kms.median(),
+        n_s1_h=json.load(open(os.path.join(
+            CLEAN, "sami_matched_pairs_summary.json")))["S1_latetype"]["n_pairs"],
+        n_s2_h=json.load(open(os.path.join(
+            CLEAN, "sami_matched_pairs_summary.json")))["S2_diskbearing"]["n_pairs"],
+    )
+
+    L = [body]
+    w = L.append
+
+    w("| tier | morphology | environment | pairs |")
+    w("|---|---|---|---|")
+    for t in TIERS:
+        x = s[t]
+        w("| `%s` | %s | %s | **%d** |"
+          % (t, x["morphology_gate"].split(":")[0], x["environment_gate"], x["n_pairs"]))
+    w("")
+    w(MID1)
+
+    b1 = s["B1_primary"]
+    w("| matching variable | declared tol | max abs(delta) | rms delta |")
+    w("|---|---|---|---|")
+    for k, a in b1["achieved"].items():
+        w("| `%s` | %g | %.4f | %.4f |"
+          % (k, a["declared_tolerance"], a["max_abs"], a["rms"]))
+    w("")
+    MID2F = MID2.format(
+        g_lo=b1["gext_over_a0"]["min"], g_hi=b1["gext_over_a0"]["max"],
+        g_med=b1["gext_over_a0"]["median"],
+        sv_lo=b1["host_sigma_v_kms"]["min"], sv_hi=b1["host_sigma_v_kms"]["max"],
+        r_lo=b1["R_over_Rvir"]["min"], r_hi=b1["R_over_Rvir"]["max"],
+        g4_lo=s["B4_disk_wide"]["gext_over_a0"]["min"],
+        g4_hi=s["B4_disk_wide"]["gext_over_a0"]["max"],
+        g4_med=s["B4_disk_wide"]["gext_over_a0"]["median"],
+        b2_med=s["B2_disk_strict"]["gext_over_a0"]["median"],
+        sig_p=sig_p, n_field=pw["n_field_used"], sig_g=sig_g)
+    w(MID2F)
+
+    w("| tier | N | 3-sigma detectable, DAP proxy | 3-sigma detectable, resolved RC |")
+    w("|---|---|---|---|")
+    for t in TIERS:
+        if n[t]:
+            w("| `%s` | %d | %.3f dex | %.3f dex |"
+              % (t, n[t], 3 * sig_p * np.sqrt(2) / np.sqrt(n[t]),
+                 3 * sig_g * np.sqrt(2) / np.sqrt(n[t])))
+    w("")
+    w("Pairs needed for a 3-sigma detection of a given mean offset:")
+    w("")
+    w("| effect size | percent in V | with the DAP proxy | with resolved rotation curves |")
+    w("|---|---|---|---|")
+    for eff in (0.02, 0.03, 0.05, 0.10):
+        w("| %.2f dex | %.1f%% | %d | %d |"
+          % (eff, 100 * (10 ** eff - 1),
+             pw["N_pairs_needed_for_3sigma_on_%.2fdex__dap_proxy" % eff],
+             pw["N_pairs_needed_for_3sigma_on_%.2fdex__resolved_rc" % eff]))
+    w("")
+    w(VERDICT.format(
+        n_b1=n["B1_primary"],
+        d_b1=3 * sig_g * np.sqrt(2) / np.sqrt(n["B1_primary"]),
+        pc_b1=100 * (10 ** (3 * sig_g * np.sqrt(2) / np.sqrt(n["B1_primary"])) - 1),
+        n_b4=n["B4_disk_wide"],
+        d_b4=3 * sig_g * np.sqrt(2) / np.sqrt(n["B4_disk_wide"]),
+        pc_b4=100 * (10 ** (3 * sig_g * np.sqrt(2) / np.sqrt(n["B4_disk_wide"])) - 1),
+        b2_med=s["B2_disk_strict"]["gext_over_a0"]["median"],
+        g4_med=s["B4_disk_wide"]["gext_over_a0"]["median"],
+        n_c1=n["C1_xray_late"], n_c2=n["C2_xray_disk"],
+        d_c2=3 * sig_g * np.sqrt(2) / np.sqrt(n["C2_xray_disk"]),
+        pc_c2=100 * (10 ** (3 * sig_g * np.sqrt(2) / np.sqrt(n["C2_xray_disk"])) - 1),
+        c2_med=s["C2_xray_disk"]["gext_over_a0"]["median"]))
+
+    w("| failure mode | verdict | what was checked |")
+    w("|---|---|---|")
+    NAMES = {
+        "shared_denominator": "Shared-denominator artefacts",
+        "monotone_invariance_of_the_environment_statistic": "Monotone-invariant statistics",
+        "environment_contrast_dynamic_range": "Environment contrast dynamic range",
+        "blind_protection": "Refitting on the held-out set / blind protection",
+        "silent_extraction_failure": "Silent extraction failures",
+        "no_dark_matter_as_observation": "Dark matter used as an observation",
+        "test_bugs_that_look_like_solver_bugs": "Test bugs that look like solver bugs",
+        "non_monotonic_M_of_r_in_lensing_deprojection": "Non-monotonic M(r) in deprojection",
+    }
+    for k, v in ck.items():
+        w("| %s | **%s** | %s |"
+          % (NAMES.get(k, k), v["verdict"],
+             v["detail"].replace("|", r"\|").replace("\n", " ")))
+    w("")
+
+    g = prof.groupby("plateifu")
+    sl = []
+    for _, gg in g:
+        if len(gg) >= 4:
+            sl.append(np.polyfit(np.log10(gg.r_med_Re.clip(0.05)),
+                                 np.log10(gg.sigma_los_kms), 1)[0])
+    sl = np.array(sl)
+    # ---- SAMI section
+    ss = json.load(open(os.path.join(CLEAN, "sami_matched_pairs_summary.json")))
+    w(SAMI_HEAD)
+    w("| tier | morphology | pairs | cluster arm | field arm | "
+      "3-sigma detectable, resolved RC |")
+    w("|---|---|---|---|---|---|")
+    for t, lbl in (("S1_latetype", "spirals (morph_type >= 2.0), 20 < i < 80"),
+                   ("S2_diskbearing", "S0 and later (morph_type >= 1.0), 20 < i < 80")):
+        x = ss[t]
+        w("| `%s` | %s | **%d** | %d | %d | %.4f dex |"
+          % (t, lbl, x["n_pairs"], x["cluster_arm"], x["field_arm"],
+             3 * sig_g * np.sqrt(2) / np.sqrt(x["n_pairs"])))
+    w("")
+    x = ss["S1_latetype"]
+    w(SAMI_BODY.format(
+        n_s1=x["n_pairs"], n_s2=ss["S2_diskbearing"]["n_pairs"],
+        sv_lo=x["host_sigma_v_kms"]["min"], sv_hi=x["host_sigma_v_kms"]["max"],
+        sv_med=x["host_sigma_v_kms"]["median"],
+        rr_med=x["R_over_R200"]["median"], g_med=x["gext_over_a0"]["median"],
+        d_s1=3 * sig_g * np.sqrt(2) / np.sqrt(x["n_pairs"]),
+        pc_s1=100 * (10 ** (3 * sig_g * np.sqrt(2) / np.sqrt(x["n_pairs"])) - 1),
+        d_s2=3 * sig_g * np.sqrt(2) / np.sqrt(ss["S2_diskbearing"]["n_pairs"]),
+        pc_s2=100 * (10 ** (3 * sig_g * np.sqrt(2) /
+                            np.sqrt(ss["S2_diskbearing"]["n_pairs"])) - 1),
+        n_b1=n["B1_primary"], hosts=", ".join(x["hosts"])))
+
+    w(SIGMA.format(
+        n_gal=int(prof.plateifu.nunique()), n_pts=len(prof),
+        pmin=int(g.size().min()), pmax=int(g.size().max()),
+        smin=prof.sigma_los_kms.min(), smax=prof.sigma_los_kms.max(),
+        smed=prof.sigma_los_kms.median(), err=prof.e_sigma_los_kms.median(),
+        frac_dec=100 * np.mean(sl < 0), slope=np.median(sl),
+        s16=np.percentile(sl, 16), s84=np.percentile(sl, 84),
+        p50=100 * prof.above_50kms.mean(), p70=100 * prof.above_70kms.mean(),
+        all50=int((g.sigma_los_kms.min() > 50).sum()),
+        all70=int((g.sigma_los_kms.min() > 70).sum()),
+        medcorr=prof.median_sigmacorr_kms.median()))
+
+    open(OUT, "w", encoding="utf-8").write("\n".join(L) + "\n")
+    print("WROTE %s" % OUT)
+
+
+HEAD = r"""# env-data lane -- report
+
+Lane: `work/wellnet-2026-09/env-data/`
+Programme brief: `work/wellnet-2026-09/BRIEF.md`
+
+**Sealed holdouts: KiDS and wide binaries were never loaded, listed, queried or
+referenced by this lane.** Nothing here touches them.
+
+Two tests were commissioned, both aimed at adding a measurement direction that
+the SPARC rotation-curve bench cannot supply. Test 1 asks whether the internal
+gravitational relation of a galaxy depends on the depth of the external
+potential it sits in. Test 2 asks for systems in which two nearly perpendicular
+directions of the field are measured in the *same* baryonic system.
+
+---
+
+## Headline
+
+**Test 1 was built and is real. In MaNGA alone its strictest form is
+underpowered; adding SAMI fixes that.** 10,071 unique MaNGA DR17 galaxies were
+cross-matched against the Tempel+2014 and Tempel+2017 SDSS friends-of-friends
+group catalogues and the MCXC X-ray cluster meta-catalogue, and matched
+field/cluster pairs were built at seven declared tiers. The strictest MaNGA tier
+yields only **{n_b1} pairs**; the largest defensible one yields **{n_b4}**, and
+the X-ray-confirmed tier -- the one whose environment rests on a direct
+observable -- yields **{n_c2}**. Resolved kinematics (DAP `MAPS`) were downloaded
+for all {n_pair_gal} galaxies appearing in any tier, 4.99 GB.
+
+**The decisive addition is SAMI DR3, which deliberately observed eight rich
+clusters where MaNGA observed none on purpose.** The identical build on SAMI
+yields **{n_s1_h} morphologically clean pairs** (5.7x MaNGA's primary tier) at a
+higher median host dispersion (690 versus 605 km/s) and deeper inside the
+potential (0.46 R200 versus 0.77 R_vir), plus **{n_s2_h}** disk-bearing pairs.
+With resolved rotation curves the clean SAMI tier reaches a 3-sigma sensitivity
+of 0.022 dex, about 5% in velocity -- inside the range where a plausible
+external-field effect at |g_ext| ~ 0.2 a_0 would live. The two surveys are kept
+in separate files and must not be pooled without a cross-calibration.
+
+**The gas-matched tier yields zero pairs, and that is a physical result, not a
+catalogue gap.** Neutral hydrogen is stripped out of cluster galaxies: among
+MaNGA galaxies covered by HI-MaNGA in hosts with sigma_v >= 400 km/s, 17 of 494
+are HI detections (14 of 156 among late types), against 572 of 1603 in the field
+arm. The gas fraction cannot be matched across the two arms. The environment
+whose effect is under test has destroyed one of the control variables.
+
+**Two of the five matching variables are the same variable.** `log Sigma_b` and
+`log g_bar(2.2 R_d)` correlate at **r = {r_sig_gbar:.4f}** in the MaNGA build and
+at exactly 1 in the SAMI build. That is arithmetic, not coincidence: for a
+razor-thin exponential disk evaluated at a fixed multiple of R_d, the Freeman
+formula makes g_bar equal to Sigma_b times a pure constant, and MaNGA departs
+from unity only through its bulge term. `f_gas` correlates with `log M_star` at
+r = {r_fgas_m:.3f}. The effective number of independent matching directions is
+about **three**, not five, and the result must be stated that way.
+
+**Two silent bugs were found and fixed, both by validating against something
+whose answer was known in advance.** (i) The X-ray confirmation flag matched the
+Tempel *group centre* to an MCXC cluster within 10 arcmin, and Coma's group
+centre sits 12.4 arcmin from its X-ray peak -- so the flag was failing on
+precisely the richest systems. Re-flagging on the *galaxy* raised the X-ray
+sample from 222 to 978 galaxies across 92 clusters. (ii) The 103 galaxies
+observed by both MaNGA and SAMI disagreed in stellar mass by -0.308 dex, a
+factor of two. The cause is that NSA quantities are computed with **h = 1**
+while this lane works at H0 = 70; the required rescaling is +0.3098 dex. After
+correcting, the offset is **+0.002 dex**. Before the fix every baryonic quantity
+here -- M_b, Sigma_b, g_bar, f_gas -- was 0.31 dex low, which for a programme
+built on the radial acceleration relation is not a rounding error. Neither bug
+raised an error, a warning, or an implausible number.
+
+**A separate result the task note asked for: a genuinely resolved sigma_LOS(R)
+profile now exists for {n_prof} near-face-on MaNGA disks**, 4-9 radial points
+each, {n_pts} radial points in total, median formal error {med_err:.2f} km/s.
+DiskMass VI/VII gives an exponential *fit* for 30 galaxies with an *inferred*
+scale height; this gives measured radial profiles for {n_prof}. Its limits are
+stated below and they are real.
+
+---
+
+## Test 1 -- galaxies in clusters as controlled experiments
+
+### What was acquired
+
+| product | rows | source |
+|---|---|---|
+| MaNGA DRPall v3_1_1 | 11,273 | `data.sdss.org/sas/dr17/manga/spectro/redux/v3_1_1/` |
+| MaNGA DAPall 3.1.0, HYB10-MILESHC-MASTARSSP | 10,782 | `.../spectro/analysis/v3_1_1/3.1.0/` |
+| MaNGA PyMorph DR17 photometry (g, r, i) | 10,293 per band | `.../photo/pymorph/1.1.1/` |
+| MaNGA deep-learning morphology DR17 | 10,293 | `.../morphology/deep_learning/1.1.1/` |
+| MaNGA visual morphology 2.0.1 | 10,126 | `.../morphology/manga_visual_morpho/2.0.1/` |
+| HI-MaNGA v2_0_1 | 6,632 rows / 6,442 galaxies | `.../manga/HI/v2_0_1/` |
+| GEMA 2.0.2 environment VAC | 9,670 / 10,086 / 3,287 | `.../manga/gema/2.0.2/` |
+| Tempel+2014 SDSS DR10 galaxies | 588,193 | VizieR `J/A+A/566/A1/galaxies` |
+| Tempel+2014 groups | 82,458 | VizieR `J/A+A/566/A1/groups` |
+| Tempel+2017 SDSS DR12 galaxies | 584,449 | VizieR `J/A+A/602/A100/table1` |
+| Tempel+2017 groups | 88,662 | VizieR `J/A+A/602/A100/table2` |
+| MCXC X-ray clusters | 1,743 | VizieR `J/A+A/534/A109/mcxc` |
+| DAP `MAPS` cubes | {n_maps} files, {gb_maps:.2f} GB | per galaxy, DR17 |
+
+Every row count was asserted in code against the number stated by the source
+paper or data model; a mismatch aborts the ingest. Every file has a sibling
+`.manifest.json` with source URL, retrieval timestamp, SHA-256, byte size, row
+and column counts, column names with units, and the exact query issued.
+
+### The joined sample
+
+`clean/manga_env_master.csv` -- 10,071 rows x 186 columns, one row per unique
+MaNGA galaxy after quality cuts (`srvymode == 'MaNGA dither'`, `0.001 < z < 0.2`,
+DRP3QUAL CRITICAL bit clear) and deduplication of repeat observations by
+`mangaid`. Of these: 7,814 cross-match to Tempel+2014 within 3 arcsec and
+|dz| < 0.002; 5,331 sit in a group and 2,483 are friends-of-friends singletons;
+587 sit in hosts with sigma_v >= 500 km/s; 222 sit in hosts matching an MCXC
+X-ray cluster within 10 arcmin and dz < 0.01.
+
+### Host potential depth: what is an observation and what is not
+
+**Usable as observations:** the host member rms velocity `sigma_v`
+(Tempel+2014, from member redshifts alone); the projected clustercentric radius
+(sky geometry times angular-diameter distance); the host X-ray luminosity `L500`
+(MCXC). The potential-depth proxy is `sigma_v^2` and the external-field proxy is
+`sigma_v^2 / R_proj`. Both are built from member kinematics and geometry only --
+no mass model, no NFW profile, no dark matter.
+
+**Ranking only, dark-matter dependent:** `MNFW` (Tempel+2014, assumed NFW),
+`M200` (Tempel+2017, assumed NFW), `M500` and `R500` (MCXC, from an L-M scaling
+relation calibrated on hydrostatic masses). Every one carries the literal suffix
+`_rank_only` in its column name throughout this lane so it cannot be picked up
+as an observable by accident.
+
+The one soft spot is `R_vir`, Tempel's projected harmonic mean radius. It is
+computed from member positions so it is geometric, but calling it a *virial*
+radius imports an equilibrium assumption. It is used only to define the "inside
+the cluster" gate, never as a measurement.
+
+### Matched pairs
+
+Full detail, including the achieved tolerance on every matching variable in
+every tier, is in `MATCHED_PAIRS.md`.
+
+"""
+
+MID1 = r"""Declared tolerances: 0.10 dex on log M_star, 0.10 dex on log R_d, 0.15 dex on
+log Sigma_b, 0.10 dex on log g_bar(2.2 R_d), 0.10 absolute on f_gas, plus
+nuisance controls of 10 deg on inclination, 0.15 on B/T and 0.010 on redshift.
+Every tolerance is met by construction (a hard box); the achieved rms sits well
+inside it. Primary tier:
+
+"""
+
+MID2 = r"""`B1_primary` is the primary sample. The other tiers were declared after seeing
+that the primary cluster arm held only 48 galaxies -- a sample-size observation,
+not a residual observation, so blindness is intact -- and they are reported
+separately and must not be merged.
+
+### Environmental contrast actually achieved
+
+For the cluster members of the primary tier: host sigma_v spans {sv_lo:.0f} to
+{sv_hi:.0f} km/s, projected radius {r_lo:.2f} to {r_hi:.2f} R_vir, and the
+external-field proxy `|g_ext|/a_0 = (sigma_v^2/R_proj)/a_0` spans **{g_lo:.2f}
+to {g_hi:.2f}**, median {g_med:.2f}. Across the largest tier it spans
+{g4_lo:.3f} to {g4_hi:.2f}, a factor of {ratio:.0f}. This is a real external
+field: at |g_ext| ~ 0.2 a_0 an algebraic-MOND external-field effect is predicted
+to suppress the internal boost at the several-per-cent level, so the sample sits
+in the regime where the effect exists rather than one where it is negligible by
+construction.
+
+The angle between the disk normal and the direction to the host centre spans
+about 12 to 90 degrees with median near 60 degrees in every tier, so an angular
+test is possible in principle. But **this angle is not the 3-D angle.** The
+line-of-sight offset between a galaxy and its host centre is not measurable
+(redshift differences are dominated by peculiar velocity) and the near side of a
+disk is not determined by the photometry, so what is reported is
+`psi = arccos( sin(i) |sin(PA_host - PA_disk)| )`, computed assuming the offset
+lies in the plane of the sky and folded to [0,90] deg. It is a projected bound,
+not the angle itself. Any alignment test must propagate that.
+
+### Is the sample large enough? -- the honest answer
+
+Scatter was measured **on the field arm alone**, so the cluster-versus-field
+contrast this sample exists to measure has not been looked at anywhere in this
+lane.
+
+The stellar-mass Tully-Fisher residual scatter in the field arm, using the DAP
+summary velocity half-range as a rotation proxy, is **sigma = {sig_p:.3f} dex**
+(n = {n_field}). That proxy is crude; a proper tilted-ring fit to the `MAPS`
+cubes should reach the literature sTFR scatter of about {sig_g:.3f} dex. Both
+cases are quoted.
+
+"""
+
+VERDICT = r"""**Verdict.** The primary {n_b1}-pair sample can only detect a mean shift of
+about {d_b1:.3f} dex ({pc_b1:.0f}% in velocity) at 3 sigma even with perfect
+rotation curves. That is larger than what a plausible potential-depth or
+external-field theory would produce at |g_ext| ~ 0.2 a_0, so **the primary
+sample is underpowered for its intended purpose.** The {n_b4}-pair
+`B4_disk_wide` tier reaches {d_b4:.3f} dex ({pc_b4:.1f}% in velocity) with
+resolved rotation curves, which *is* in the interesting range -- but it buys
+that power by admitting S0s and by widening the environment gate to
+sigma_v >= 300 km/s, which lowers the median external field from {b2_med:.2f} to
+{g4_med:.2f} a_0. There is a genuine trade between statistical power and
+environmental contrast, and MaNGA alone does not resolve it.
+
+The best-founded tier is neither of those. `C2_xray_disk` has **{n_c2} pairs**
+whose cluster members are confirmed to sit inside an X-ray emitting
+intracluster medium -- environment evidence that rests on a direct observable
+(L500) rather than on friends-of-friends bookkeeping -- at a median external
+field of {c2_med:.2f} a_0, and reaches **{d_c2:.3f} dex ({pc_c2:.1f}% in
+velocity)** at 3 sigma with resolved rotation curves. Its late-type-only
+counterpart `C1_xray_late` has {n_c1} pairs.
+
+The correct conclusion: **MaNGA can bound a potential-depth effect at the
+few-per-cent level in velocity, but only in the larger tiers, and only after
+rotation curves are actually fitted from the MAPS cubes.** Reaching the
+same power in the high-contrast, morphologically clean tier needs a survey that
+deliberately targeted clusters -- which is why SAMI was added.
+
+### Caveats a downstream analysis must carry
+
+1. **M_b is stellar-only for the cluster arm.** With HI undetected in 97% of
+   cluster galaxies, `M_b` there is `M_star` plus nothing. HI upper limits are
+   carried per galaxy (`cl_logMHI_limit`) so the omitted gas can be bounded, but
+   it is not measured. Molecular gas is not available at all.
+2. **R_d is a half-light radius divided by 1.678.** PyMorph's `A_HL_SE_DISK` is
+   explicitly documented as the disk half-light semi-major axis, *not* the scale
+   length. The conversion is exact only for a pure exponential; `N_SE_DISK` is
+   carried so departures can be checked.
+3. **Inclination comes from an axis ratio with an assumed intrinsic thickness**
+   q0 = 0.20. For S0s in the disk-bearing tiers this is a worse assumption than
+   for late-type disks.
+4. **The environment axes are not independent.** `R_proj` appears in both
+   `gext_proxy` and `R_over_Rvir`; redshift enters the distance scaling of both
+   `R_d` and `R_proj`, so a distance error moves them together.
+5. **Tempel group membership is projection-contaminated.** Friends-of-friends in
+   redshift space assigns interlopers. Tempel+2017 is carried as an independent
+   membership determination for exactly that reason; 7,814 and 7,841 galaxies
+   match the two catalogues respectively and the disagreements are visible in
+   the master table.
+
+### A bug found by validating against known clusters, and fixed
+
+The X-ray confirmation flag was first built by matching the **Tempel group
+centre** to an MCXC cluster within 10 arcmin. Validating the pipeline against
+clusters whose velocity dispersion is known independently
+(`code/validate_env_against_known_clusters.py`) showed Coma recovered correctly
+on kinematics -- 306 MaNGA galaxies, host sigma_v 840 km/s against a literature
+value near 1000, richness 680 -- but carrying **no X-ray flag at all**. The
+cause: Coma's Tempel luminosity-weighted centre sits **12.4 arcmin** from the
+MCXC X-ray peak, just outside the 10 arcmin window. The flag was therefore
+failing on exactly the richest and most valuable systems, silently.
+
+The fix was to flag on the **galaxy** rather than the group centre: a galaxy is
+X-ray confirmed if it lies within 2 Mpc projected of an MCXC peak at
+|dz| < 0.01, which is the physically meaningful statement "this galaxy sits in
+an X-ray emitting intracluster medium". That raises the flagged sample from 222
+galaxies to **978 across 92 distinct clusters**, and the X-ray-confirmed pair
+tiers from 21 and 64 pairs to **{n_c1} and {n_c2}**. Both flags are retained in
+the master table (`t14_mcxc_*` for the group-centre version, `xray_*` for the
+galaxy-centred one) so the difference is auditable.
+
+This is worth recording as a methodology point: the bug produced no error, no
+warning and no implausible number. It was only visible because the pipeline was
+checked against a system whose answer was known in advance.
+
+### A second bug, found the same way: the NSA h = 1 convention
+
+103 galaxies were observed by **both** MaNGA and SAMI. Comparing them
+(`code/crosscal_manga_sami.py`) showed the redshifts agreeing to a median of
+0.0000 -- so the cross-match is right -- while the stellar masses disagreed by
+**-0.308 dex**, a factor of two. MaNGA was low.
+
+The cause is a units convention. The SDSS data model states that
+`NSA_ELPETRO_MASS` and `NSA_ELPETRO_ABSMAG` are computed with
+(Om=0.3, OL=0.7, **h=1**): masses in h^-2 Msun, absolute magnitudes on the h=1
+distance scale. This lane works at H0 = 70. The required rescaling is
+`-2 log10(0.7) = +0.3098` dex in mass and `5 log10(0.7) = -0.7745` mag, and the
+measured offset was -0.308 dex. The agreement to 0.002 dex identifies the cause
+beyond reasonable doubt.
+
+After applying the correction the MaNGA-minus-SAMI stellar-mass offset is
+**+0.002 dex**. Every baryonic quantity in this lane -- M_b, Sigma_b,
+g_bar(2.2 R_d), f_gas -- was 0.31 dex low before the fix.
+
+What this did and did not affect:
+
+- **Matched-pair differences in log M_star: unaffected.** A constant offset
+  applied to both arms cancels exactly in the difference, so the matching
+  tolerances were never violated.
+- **f_gas: genuinely wrong before the fix**, because M_HI carries no such
+  convention. The gas fraction was over-stated by roughly a factor of two.
+- **Sigma_b and g_bar: shifted, and not by a constant**, because M_b = M_star +
+  M_gas mixes an h-scaled term with an unscaled one. Pair counts moved slightly
+  as a result (the primary tier from 19 to 23).
+- **Any absolute comparison to a_0: was wrong by 0.31 dex.** For a programme
+  whose central object is the radial acceleration relation, that is not a
+  rounding error.
+
+The residual R_d offset between the two surveys is **+0.179 dex** and is *not* a
+bug: PyMorph's `A_HL_SE_DISK` is the half-light radius of the **disk component**
+of a bulge+disk decomposition, while SAMI's `ReMGE` is a **total-light**
+effective radius. They are different quantities and should differ. Anyone
+pooling the two tables must correct for it; the measured value is in
+`clean/manga_sami_crosscal_summary.json`.
+
+### End-to-end validation of the baryonic bookkeeping
+
+A units bug does not raise an exception; it produces plausible numbers. After
+the h correction, `code/sanity_physical.py` checks every derived baryonic
+quantity against the range known a priori for disk galaxies, on the 3609
+late-type disks with 25 < i < 75 deg:
+
+| quantity | p10 | p50 | p90 |
+|---|---|---|---|
+| log10 M_star [Msun] | 9.36 | 10.19 | 10.97 |
+| R_d [kpc] | 1.34 | 2.80 | 5.66 |
+| Sigma_b [Msun/pc^2] | 115 | 399 | 1189 |
+| f_gas | 0.19 | 0.44 | 0.73 |
+| g_bar(2.2 R_d) / a_0 | 0.15 | 0.51 | 1.52 |
+| V_bar(2.2 R_d) [km/s], baryons only | 54 | 112 | 189 |
+| V_obs [km/s], DAP proxy | 81 | 157 | 276 |
+
+All inside range. The sharper check is the last two rows together: the median
+observed-to-baryonic velocity ratio is **1.40**, and the radial acceleration
+relation predicts **1.40** at the sample's median g_bar of 0.51 a_0. The lane's
+independently computed baryonic accelerations put the galaxies exactly where the
+RAR says they should sit.
+
+That is a consistency check on the bookkeeping, not evidence for or against any
+gravity law -- the RAR is the programme's incumbent and reproducing it is the
+minimum bar, not a result. Its value here is diagnostic: before the h fix,
+g_bar/a_0 sat at 0.25 while V_obs was unchanged, so the same comparison would
+have demanded a boost of 1.55 against an observed 1.40. The disagreement would
+have been visible had it been looked for, which is the argument for computing
+it routinely.
+
+### A source that did not contain what the brief assumed
+
+The **GEMA 2.0.2** environment VAC was acquired on the expectation that it would
+supply host halo identification, clustercentric radius, host velocity dispersion
+and potential depth. **It does not.** What it actually contains is 15 binary
+tables of *local* environment statistics: tidal strength `Q` at 1 Mpc and 5 Mpc
+apertures and several magnitude limits, nearest-neighbour distances, a group
+tidal strength `Q_group` with `GroupSize`, an overdensity to the 5th nearest
+neighbour (only 3,287 galaxies), and a large-scale-structure table with tidal
+tensor eigenvalues `t1,t2,t3` and major/minor axis directions. There is no
+clustercentric radius, no host velocity dispersion and no host identifier.
+Worse, the VOTable in its primary HDU carries **no `DESCRIPTION` and no `unit`
+attribute for any field in the tables this lane needs**, so the physical meaning
+and units of `Q_nn`, `Q_group`, `mh`, `den1-3` and `t1-3` cannot be recovered
+from the file alone. GEMA is therefore carried as auxiliary columns and is *not*
+used for the environment definition; Tempel+2014 supplies that. The LSS
+tidal-tensor columns are, however, exactly the tidal-tensor information Test 1
+asks about, and are retained for that reason with the units caveat attached.
+
+---
+
+## Failure modes from the brief -- explicitly checked
+
+Machine-readable verdicts in `clean/checks.json`.
+
+"""
+
+SAMI_HEAD = r"""---
+
+## Test 1, second survey -- SAMI DR3
+
+MaNGA was not a cluster survey.  SAMI deliberately observed eight rich clusters,
+so the same build on SAMI DR3 produces a far larger cluster arm at the same
+morphological purity.  SAMI DR3 was pulled anonymously from Data Central's IVOA
+TAP service; all 14 DR3 catalogues plus the Owers+2017 cluster table were
+acquired, row-count-asserted, and merged into a 3068 x 81 master inventory.
+
+"""
+
+SAMI_BODY = r"""**SAMI's clean tier is 5.7x larger than MaNGA's and sits deeper in the
+potential.**  `S1_latetype` has {n_s1} pairs against MaNGA's primary {n_b1},
+with host sigma_v from {sv_lo:.0f} to {sv_hi:.0f} km/s (median {sv_med:.0f},
+versus MaNGA's 605 median) and a median projected radius of {rr_med:.2f} R200
+(MaNGA's primary tier sits at 0.77 R_vir).  Median external field
+{g_med:.2f} a_0.  Hosts: {hosts}.
+
+Sensitivity with resolved rotation curves: **{d_s1:.4f} dex ({pc_s1:.1f}% in
+velocity)** for the {n_s1}-pair clean tier and **{d_s2:.4f} dex ({pc_s2:.1f}%)**
+for the {n_s2}-pair disk-bearing tier.  Both are inside the range where a
+plausible external-field effect at |g_ext| ~ 0.2 a_0 would live.  This is the
+single biggest improvement in the lane: **the strict-morphology arm of Test 1
+is underpowered in MaNGA and adequately powered in SAMI.**
+
+Three caveats, all real:
+
+1. **The two surveys must not be pooled.**  Stellar masses, effective radii and
+   morphologies come from different pipelines.  A zero-point offset between them
+   would appear as a field/cluster signal if the surveys contributed unequally
+   to the two arms.  They are kept in separate files for that reason.
+2. **SAMI's cluster arm has no Sersic index**, because the cluster structural
+   fits (Owers et al. 2019) publish no per-galaxy table.  The SAMI match
+   therefore uses MGE photometry -- which IS homogeneous across both arms -- and
+   does **not** control bulge fraction, unlike the MaNGA build which matches B/T
+   to 0.15.  That is a genuine weakening.
+3. **No gas fraction at all.**  SAMI has no HI counterpart in this lane, so
+   f_gas is neither matched nor bounded.  The MaNGA build at least carries HI
+   upper limits.
+
+**A shared-denominator hazard in the SAMI environment columns**, inherited from
+the source and flagged during acquisition: `R_on_rtwo = R_proj / R200` and
+`R200 = 0.17 sigma_200 / H(z)`, so `R/R200` and `v_pec/sigma_200` both carry
+sigma_200 in the denominator.  Putting sigma_200 or M200 on the other axis
+reproduces exactly the structure that retracted rho_p = -0.304.  Two sigma-free
+columns are therefore carried and are what the external-field proxy is built
+from: `R_proj_Mpc_from_cat` and `v_pec_kms`.
+
+### The collinearity is exact, not merely tight
+
+In the MaNGA build `log Sigma_b` and `log g_bar(2.2 R_d)` correlate at r = 0.996.
+In the SAMI build they correlate at **exactly 1** -- the achieved max and rms
+tolerances are identical to four decimal places.  The reason is arithmetic
+rather than empirical: for a razor-thin exponential disk evaluated at a fixed
+multiple of R_d, the Freeman formula gives
+`g_bar(2.2 R_d) = 4 pi G Sigma_0 R_d y^2 [I0 K0 - I1 K1] / R` with y = 1.1
+fixed, and `Sigma_b = Sigma_0`, so g_bar is Sigma_b times a pure constant.  The
+0.996 in MaNGA is a departure from unity caused only by the bulge term.
+
+So the brief's fourth and fifth matching variables are **the same measurement**
+whenever the baryons are modelled as a single exponential disk.  Stating five
+independently satisfied tolerances would misrepresent how completely the
+internal structure has been controlled.
+
+"""
+
+SIGMA = r"""---
+
+## The resolved vertical dispersion profile
+
+`clean/manga_faceon_sigma_profiles.csv` -- {n_pts} radial points across
+**{n_gal} near-face-on MaNGA disks**, {pmin}-{pmax} points per galaxy.
+
+Selection, structural only: inclination < 30 deg from the PyMorph r-band axis
+ratio with q0 = 0.20; deep-learning late type; DAPQUAL clean; PyMorph
+`FLAG_FIT != 3`; `STELLAR_SIGMA_1RE > 50` km/s; median r-band S/N > 5.
+
+Method: one entry per independent Voronoi bin, deduplicated on the
+stellar-continuum `BINID` channel so radial bins are not inflated by spaxel
+repetition; astrophysical dispersion
+`sqrt(STELLAR_SIGMA^2 - STELLAR_SIGMACORR^2)` with errors propagated from the
+DAP inverse variance; `STELLAR_SIGMA_MASK != 0` dropped; radii from the DAP
+elliptical polar radius map.
+
+Results: sigma_LOS spans {smin:.1f} to {smax:.1f} km/s, median {smed:.1f}, with
+median formal error **{err:.2f} km/s**. The profiles decline outward in
+{frac_dec:.0f}% of galaxies with median d log sigma / d log R = {slope:.2f}
+(16-84% range {s16:.2f} to {s84:.2f}) -- the expected behaviour for a disk, and
+a sanity check that the extraction is not returning noise.
+
+**What this is and is not.**
+
+- It **is** a radially resolved, per-galaxy line-of-sight dispersion profile for
+  {n_gal} disks, against DiskMass VI/VII's exponential *fit* (a central value
+  plus a scale length in arcsec) for 30 galaxies. On radial resolution it is a
+  clear upgrade.
+- It is **not** sigma_z. At inclination i the in-plane components leak in at
+  order sin^2 i, which is under 0.25 here but not zero. Converting sigma_LOS to
+  sigma_z requires an assumed sigma_R/sigma_z, which is a model. The measured
+  quantity is reported; the conversion is left to whoever wants to state that
+  assumption explicitly.
+- It does **not** supply a scale height and does **not** supply Sigma_dyn. The
+  DiskMass complaint that h_z is inferred from h_R is not fixed here; it is
+  sidestepped, because no scale height is claimed at all.
+- **Resolution honesty.** MaNGA's stellar instrumental resolution corresponds to
+  sigma_inst of roughly 70 km/s, and the DAP is increasingly systematics-limited
+  below about 50 km/s. `STELLAR_SIGMACORR` is only the template-versus-data
+  resolution difference (median {medcorr:.0f} km/s here), *not* the full
+  instrumental sigma, so a ratio test against it is weak and must not be read as
+  "resolved". The honest absolute figures: **{p50:.0f}% of radial points exceed
+  50 km/s and {p70:.0f}% exceed 70 km/s; {all50} of {n_gal} galaxies have every
+  radial point above 50 km/s and {all70} have every point above 70 km/s.** For
+  the coldest disks -- exactly the ones where the vertical force is most
+  interesting -- MaNGA is at or below its limit, which is precisely why DiskMass
+  used SparsePak/PPak instead. The {all70}-galaxy fully-above-70 km/s subset is
+  the one to trust without argument.
+
+---
+
+## Test 2 -- systems that measure two gravitational directions at once
+
+The system-by-system inventory is in `TWO_DIRECTION_INVENTORY.md`.
+
+---
+
+## Files
+
+```
+env-data/
+  MATCHED_PAIRS.md                     field/cluster pairs, tolerances achieved
+  TWO_DIRECTION_INVENTORY.md           Test 2 inventory
+  REPORT.md                            this file
+  clean/
+    manga_env_master.csv               10,071 x 186, the joined sample  (+manifest)
+    matched_pairs.csv                  559 rows across 7 tiers          (+manifest)
+    matched_pairs_summary.json         per-tier achieved tolerances, power
+    manga_faceon_sigma_profiles.csv    {n_pts} radial points, {n_gal} disks (+manifest)
+    faceon_sample.csv                  the {n_gal} selected face-on disks
+    checks.json                        failure-mode verdicts
+  raw/
+    manga/        DRPall, DAPall, PyMorph, morphology, HI-MaNGA, GEMA (+manifests)
+    manga/maps/   809 DAP MAPS cubes, 4.74 GB                         (+manifest)
+    groups/       Tempel+2014, Tempel+2017, MCXC                      (+manifests)
+    polar-rings/  Test 2a
+    warps-vertical/     Test 2b and the sigma_z literature search
+    streams-satellites/ Test 2c, 2d, 2e
+    sami/         SAMI DR3 cluster sample
+  code/
+    vizier_tsv.py              VizieR TSV reader with the HTTP-200 trap assertion
+    build_manga_env.py         ingest, cross-match, derived quantities
+    build_matched_pairs.py     tiered matching, blind-protected
+    extract_sigma_profiles.py  resolved dispersion profiles
+    fetch_maps.py              MAPS downloader
+    write_manifests.py         manifest generation
+    write_matched_pairs_md.py  MATCHED_PAIRS.md generator
+    write_report_md.py         this report's generator
+    checks.py                  failure-mode checks
+```
+"""
+
+if __name__ == "__main__":
+    # ratio is needed inside MID2
+    _s = json.load(open(os.path.join(CLEAN, "matched_pairs_summary.json")))
+    MID2 = MID2.replace("{ratio:.0f}", "%.0f" % (
+        _s["B4_disk_wide"]["gext_over_a0"]["max"] /
+        _s["B4_disk_wide"]["gext_over_a0"]["min"]))
+    main()

@@ -1,0 +1,27 @@
+{
+  "file": "gas_profile_qa.json",
+  "source_url": "derived locally: scripts/qa_gas_profiles.py",
+  "exact_query": "derived locally: scripts/qa_gas_profiles.py",
+  "retrieved_utc": "2026-09-04T04:46:23Z",
+  "sha256": "96736b091e8ed262f63b79ee0f1b975a12fcaeca01a35cb3a42fa6f6aa9ae54c",
+  "bytes": 3419,
+  "row_count": 6,
+  "column_count": null,
+  "columns": null,
+  "extraction": "Computed by scripts/qa_gas_profiles.py from the ACCEPT TSVs in this directory.",
+  "note": "DERIVED QA, not downloaded. Sanity scan of the six ACCEPT deprojected profiles. TWO FINDINGS THE DOWNSTREAM CODE MUST HANDLE. (1) ACCEPT stores its radial bins in DESCENDING radius order in every file - code that assumes ascending order will silently integrate the profile backwards. (2) n_e(r) is not monotonic: Abell 2744 has 27 upward steps in 58 bin-to-bin differences, i.e. the spherical deprojection of this major merger is close to noise-dominated and a single spherical n_e(r) is a poor description of it. Abell 2029 has 16/72 (cool-core sloshing spiral), MACS J1149 9/40, Abell 370 7/31, and Abell S1063 and MACS J0717 are cleanest at 5 each.",
+  "product": "derived_diagnostic",
+  "is_raw_observable": false,
+  "core_excised": null,
+  "deprojected": null,
+  "derived_assumes_newtonian_hse": false,
+  "why_gas_flags_are_null": "core_excised and deprojected are properties of an OBSERVED profile. This file is not a profile: it is a summary of structural properties (bin ordering, monotonicity, radial span) computed across six profiles whose own manifests carry the authoritative flags. Setting either boolean here would assert something about the parent data that this file does not itself contain. derived_assumes_newtonian_hse is FALSE and meaningful: the scan reads only Rin, Rout, nelec and Tx, and deliberately never touches the ACCEPT Mgrav column, so no hydrostatic assumption enters.",
+  "parent_files": [
+    "gas/accept_ABELL_0370.tsv",
+    "gas/accept_ABELL_1063S.tsv",
+    "gas/accept_ABELL_2029.tsv",
+    "gas/accept_ABELL_2744.tsv",
+    "gas/accept_MACS_J0717_5p3745.tsv",
+    "gas/accept_MACS_J1149_5p2223.tsv"
+  ]
+}

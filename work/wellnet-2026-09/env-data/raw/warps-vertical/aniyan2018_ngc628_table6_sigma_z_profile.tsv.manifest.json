@@ -1,0 +1,130 @@
+{
+  "file": "aniyan2018_ngc628_table6_sigma_z_profile.tsv",
+  "source_url": "https://arxiv.org/pdf/1802.00465v1",
+  "source_paper": "Aniyan, Freeman, Arnaboldi et al. 2018, MNRAS 476, 1909, 'Resolving the Disc-Halo Degeneracy I: A Look at NGC 628'",
+  "source_location_within_document": "Table 6, page 16 of the arXiv v1 PDF, typeset rotated 90 degrees",
+  "exact_query": "HTTP GET https://arxiv.org/pdf/1802.00465v1 ; parsed with PyMuPDF after page.set_rotation(90)",
+  "retrieved_utc": "2026-09-04T04:44:01Z",
+  "sha256": "e0f001a072fa418e2e357d1664ad21b857ae473a1a0017e2d312334c3812025c",
+  "bytes": 800,
+  "source_pdf_sha256": "98af43b1aa575adf109fcd93949e17cc799eb4fe847ed8b55d349f7b70df7edc",
+  "row_count": 5,
+  "column_count": 26,
+  "columns": [
+    {
+      "name": "R_kpc",
+      "unit": "kpc, galactocentric radius"
+    },
+    {
+      "name": "B_I",
+      "unit": "mag, B-I colour"
+    },
+    {
+      "name": "sigma_z",
+      "unit": "km/s, vertical velocity dispersion of the HOT disc component"
+    },
+    {
+      "name": "e_sigma_z",
+      "unit": "km/s"
+    },
+    {
+      "name": "Sigma_T",
+      "unit": "Msun/pc^2, TOTAL disc surface density"
+    },
+    {
+      "name": "e_Sigma_T",
+      "unit": "Msun/pc^2"
+    },
+    {
+      "name": "Sigma_C_gas",
+      "unit": "Msun/pc^2, observed gas surface density (THINGS+HERACLES)"
+    },
+    {
+      "name": "e_Sigma_C_gas",
+      "unit": "Msun/pc^2"
+    },
+    {
+      "name": "b_offset",
+      "unit": "dimensionless, offset parameter of the vertical distribution"
+    },
+    {
+      "name": "e_b_offset",
+      "unit": "dimensionless"
+    },
+    {
+      "name": "LC_LD",
+      "unit": "per cent, cold/hot luminosity split"
+    },
+    {
+      "name": "F_C",
+      "unit": "dimensionless, ratio of cold to hot stellar surface density"
+    },
+    {
+      "name": "Sigma_D",
+      "unit": "Msun/pc^2, hot stellar layer"
+    },
+    {
+      "name": "e_Sigma_D",
+      "unit": "Msun/pc^2"
+    },
+    {
+      "name": "Sigma_C_star",
+      "unit": "Msun/pc^2, cold stellar layer"
+    },
+    {
+      "name": "e_Sigma_C_star",
+      "unit": "Msun/pc^2"
+    },
+    {
+      "name": "ML_B",
+      "unit": "Msun/Lsun, extinction-corrected M/L in B"
+    },
+    {
+      "name": "e_ML_B",
+      "unit": "Msun/Lsun"
+    },
+    {
+      "name": "ML_V",
+      "unit": "Msun/Lsun, extinction-corrected M/L in V"
+    },
+    {
+      "name": "e_ML_V",
+      "unit": "Msun/Lsun"
+    },
+    {
+      "name": "ML_R",
+      "unit": "Msun/Lsun, extinction-corrected M/L in R"
+    },
+    {
+      "name": "e_ML_R",
+      "unit": "Msun/Lsun"
+    },
+    {
+      "name": "ML_I",
+      "unit": "Msun/Lsun, extinction-corrected M/L in I"
+    },
+    {
+      "name": "e_ML_I",
+      "unit": "Msun/Lsun"
+    },
+    {
+      "name": "ML_36",
+      "unit": "Msun/Lsun, extinction-corrected M/L in the 3.6 um band"
+    },
+    {
+      "name": "e_ML_36",
+      "unit": "Msun/Lsun"
+    }
+  ],
+  "extraction": "Verbatim transcription. No unit conversion, no derivation, no cross-table join. Each token was required to match one of three strict patterns (value, value +/- error, or n/m) and each radius block was asserted to yield exactly 26 fields.",
+  "validation": {
+    "method": "Refit the paper's own model sigma_z(R) = sigma_z(0) exp(-R / 2 h_dyn) to the transcribed points and compare against the values the paper states independently in its section 8.",
+    "refit_sigma_z0_kms": 74.41,
+    "paper_sigma_z0_kms": "73.6 +/- 9.8",
+    "refit_h_dyn_arcsec": 92.65,
+    "paper_h_dyn_arcsec": "92.7 +/- 13.1",
+    "assumed_distance_Mpc": 8.6,
+    "verdict": "PASS - both published fit parameters recovered from the transcribed table, so the rotated-text transcription is not scrambled."
+  },
+  "note": "This is the RESOLVED sigma_z(R) profile for NGC 628 that the lane's warps-vertical acquisition could not transcribe from the LaTeX source. sigma_z is the HOT disc component from a two-Gaussian decomposition; a cold component exists and is reported separately in the paper. IMPORTANT: Sigma_T is NOT an independent observation - it is derived as sigma_z^2 / (2 pi G h_z) with h_z = 398 +/- 88 pc INFERRED from an h_R/h_z relation, exactly the correlated-by-construction problem the programme already recorded for DiskMass VI/VII. sigma_z, B-I and Sigma_C_gas are measurements; Sigma_T, Sigma_D, Sigma_C_star and the M/L columns are derived and carry that inference. Instrumental resolution: VIRUS-W 14.7 km/s for the two inner radii, PN.S for the three outer radii (individual PN velocity errors of order a few km/s), so every tabulated sigma_z sits above the instrumental floor."
+}

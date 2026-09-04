@@ -1,0 +1,200 @@
+==============================================================================
+VALIDATION GATES -- anisotropic response tensors
+backend: CuPy / GPU
+==============================================================================
+
+==============================================================================
+A1  closed-form symmetric 3x3 matrix exponential
+==============================================================================
+   [PASS] A1 expm matches scipy.linalg.expm
+          generic                    max rel err 2.441e-13
+          large |M| ~ 12             max rel err 2.387e-12
+          two equal, gap 0           max rel err 2.774e-13
+          three equal, gap 0         max rel err 9.203e-17
+          two equal, gap 1e-12       max rel err 4.778e-13
+          three equal, gap 1e-12     max rel err 6.553e-17
+          two equal, gap 1e-08       max rel err 1.870e-13
+          three equal, gap 1e-08     max rel err 1.296e-16
+          two equal, gap 1e-05       max rel err 1.176e-13
+          three equal, gap 1e-05     max rel err 2.960e-16
+          two equal, gap 0.001       max rel err 1.323e-13
+          three equal, gap 0.001     max rel err 9.191e-17
+          analytic eigenvalues       max abs err 2.881e-08
+          worst overall 2.387e-12, threshold 1e-9
+
+==============================================================================
+A2  operator identical to work/gravitylab/solver.py
+==============================================================================
+   [PASS] A2 operator, flux and diagonal reproduce solver.py
+          operator max abs difference   0.000e+00  (bit-identical)
+          face fluxes max difference    0.000e+00
+          GPU vs CPU operator           0.000e+00
+          Jacobi diagonal vs A e_ijk    3.553e-15
+
+==============================================================================
+A3  channel kernel: GPU vs CPU, and the cost of the tube cutoff
+==============================================================================
+   [PASS] A3 GPU kernel exact, cutoff cost measured
+          780 pairs, 4000 points, mode='clip'
+          GPU vs CPU, no cutoff:  max rel diff 2.063e-15
+          cutoff 3 sigma: max err/peak 8.28e-03, median per-point rel err 1.34e-01
+          cutoff 4 sigma: max err/peak 2.52e-04, median per-point rel err 3.00e-03
+          cutoff 5 sigma: max err/peak 2.48e-06, median per-point rel err 3.16e-05
+          cutoff 6 sigma: max err/peak 9.80e-09, median per-point rel err 1.47e-07
+          default for every number in the report: 6 sigma
+
+==============================================================================
+A4  sign convention: which alpha strengthens gravity along a channel
+==============================================================================
+   FIRST the analytic anchor.  For a UNIFORM K = diag(k_par,1,1)
+   the exact monopole Psi = -GM/(sqrt(det K) sqrt(r^T K^-1 r))
+   gives |g|_along / |g|_across = sqrt(k_par/k_perp) at equal r.
+   So LOWERING the conductivity along an axis WEAKENS |g| along it:
+   flux is diverted into the better-conducting transverse
+   directions faster than the extra resistance raises the
+   gradient.  (The opposite intuition -- 'poor conductor needs a
+   bigger gradient' -- is only right when there is nowhere to
+   divert to, i.e. for a RADIALLY ALIGNED K in spherical symmetry,
+   where |g| ~ k_rad^-1 Newtonian and k_rad^-3/4 deep-MOND.  Both
+   facts are true and they are not in conflict; the map uses the
+   second, this gate pins the first.)
+
+      k_par=0.4   measured along/across 0.6228   analytic sqrt(k_par/k_perp) 0.6325
+      k_par=2.5   measured along/across 1.5662   analytic sqrt(k_par/k_perp) 1.5811
+      largest departure from the analytic value: 1.52%
+
+   NOW the tube.  Two 1e13 Msun wells 1.2 Mpc apart on the z axis,
+   a Gaussian source between them, mu = 1 so only K acts.  Each run
+   is normalised by the same source solved at K = I.
+
+      K = exp[-alpha C]  (alpha>0) |g|/|g_K=I|  along 1.0075  across 1.0162   ratio 0.9914
+      K = exp[+alpha C]            |g|/|g_K=I|  along 0.9909  across 0.9838   ratio 1.0072
+   [PASS] A4 sign convention fixed by measurement, not by intuition
+          uniform-K anchor reproduces sqrt(k_par/k_perp) to 1.52%
+          K = exp[-alpha C], alpha > 0 (the brief's sign): the response along
+            the channel relative to across it is 0.9914 < 1 -- gravity is WEAKER
+            along the line joining the wells and stronger transverse to it.
+          K = exp[+alpha C]: 1.0072 > 1 -- this is the sign that makes the
+            response STRONGER ALONG THE CHANNELS.
+          Both are implemented as sign=-1 and sign=+1 and both are scanned in
+          the mechanism map.  The naive argument (a poorer conductor needs a
+          larger gradient) is wrong here because flux can be diverted; it is
+          right only where no diversion is possible, i.e. for a radially aligned
+          K in spherical symmetry, which is the regime the shell-averaged
+          boost lives in.
+
+==============================================================================
+1  K is symmetric positive definite everywhere, whole search range
+==============================================================================
+      108 weight settings x 5 amplitudes = 540 tensor fields, 110592 cells each
+      eigenvalues of S stay inside [-1/3, 2/3] as the traceless
+      normalised form requires:  min -0.3333  max 0.6666
+   [PASS] 1 min eigenvalue of K > 0 for every family and parameter
+          well-network K : min eigenvalue 1.8318e-02, max condition number 4.034e+02
+          pair-channel K : min eigenvalue 5.9326e-07, max condition number 5.174e+01
+          C is positive semi-definite as required: min eig of C >= 0 on every sample
+          numpy eigvalsh cross-check on 4000 cells: min 2.2936e-02, asymmetry 0.000e+00
+          failures: 0
+
+==============================================================================
+2  flux conservation on the FACE fluxes the scheme conserves
+==============================================================================
+   Not on a flux re-derived from a centre-differenced gradient --
+   that is a different quantity, agreeing only to O(h^2), and it
+   is what previously reported 1e-2 on a solver good to 1e-15.
+
+      well-network K, A_T=-3   (CG residual 1.0e-13 after 1834 iterations)
+         half-width   6  M_enc = 7.510e+13 Msun   eps_flux = 7.657e-15
+         half-width  10  M_enc = 1.389e+14 Msun   eps_flux = 6.847e-15
+         half-width  14  M_enc = 1.890e+14 Msun   eps_flux = 3.043e-15
+         half-width  18  M_enc = 2.111e+14 Msun   eps_flux = 3.290e-14
+      pair-channel K, alpha=1e-3   (CG residual 8.8e-14 after 155 iterations)
+         half-width   6  M_enc = 7.510e+13 Msun   eps_flux = 1.325e-14
+         half-width  10  M_enc = 1.389e+14 Msun   eps_flux = 1.099e-14
+         half-width  14  M_enc = 1.890e+14 Msun   eps_flux = 2.341e-16
+         half-width  18  M_enc = 2.111e+14 Msun   eps_flux = 8.382e-16
+   [PASS] 2 eps_flux < 1e-5 on every closed surface
+          worst closed surface: 3.290e-14   threshold 1e-5
+
+==============================================================================
+3  curl(g) at round-off
+==============================================================================
+      well-network K, A_T=-3       n=32   normalised |curl| = 4.8215e-17
+      well-network K, A_T=-3       n=48   normalised |curl| = 4.8143e-17
+      pair-channel K, alpha=1e-3   n=32   normalised |curl| = 4.7878e-17
+      pair-channel K, alpha=1e-3   n=48   normalised |curl| = 4.7907e-17
+   [PASS] 3 curl(g) stays at round-off
+          worst normalised |curl|: 4.822e-17   round-off is ~1e-16
+          g = -grad Phi is a gradient by construction, so this can only fail
+          if the post-processing is wrong -- which is what it checks.
+
+==============================================================================
+4  Newtonian recovery: K -> I, mu -> 1
+==============================================================================
+      n=32   rel L2 vs -GM/r = 1.1491e-03
+      n=48   rel L2 vs -GM/r = 5.2461e-04
+      n=72   rel L2 vs -GM/r = 2.2966e-04
+      n=32   constant-K analytic rel L2 = 1.7888e-03
+      n=48   constant-K analytic rel L2 = 8.0520e-04
+      n=72   constant-K analytic rel L2 = 3.5706e-04
+   [PASS] 4 Newtonian and constant-K analytic limits recovered at 2nd order
+          K -> I, mu -> 1 vs -GM/r : 2.2966e-04, order 1.99
+          constant anisotropic K   : 3.5706e-04, order 1.99
+          the second uses a source spherical in u = sqrt(r^T K^-1 r); a
+          sphere in r is an ellipsoid in u and floors the error near 1e-2.
+
+==============================================================================
+5  isotropy: a spherically symmetric well distribution
+==============================================================================
+   Read literally the requirement is 'S -> 0'.  That is true AT THE
+   CENTRE and false anywhere else, and the difference matters, so
+   both are measured.
+
+   (a) 1440 wells in an exact octahedral orbit, field point at the centre
+       plaw      |S| at the centre 4.952e-17   |K - exp(s0) I|_max 4.441e-16
+       expo      |S| at the centre 5.910e-17   |K - exp(s0) I|_max 8.882e-16
+       gscreen   |S| at the centre 4.150e-17   |K - exp(s0) I|_max 4.441e-16
+
+   (b) 3e5 wells uniform in a 1.5 Mpc ball, probe on the x axis
+       r (kpc)    S_rr      lambda    |S - lambda(rr-I/3)|/|S|
+             0   +0.00391  +0.00586     0.7431
+           100   +0.00339  +0.00509     0.7019
+           300   +0.00046  +0.00068     0.9893
+           600   +0.00172  +0.00258     0.8937
+           900   +0.00419  +0.00629     0.6312
+          1200   +0.02047  +0.03070     0.1238
+          2500   +0.51513  +0.77270     0.0008
+   [FAIL] 5 S = 0 at the centre; S keeps the radial symmetry form elsewhere
+          exact octahedral configuration, |S| at the centre: 5.910e-17 (round-off)
+          K there equals exp(s_0) I to 0e+00 -- an isotropic rescaling, no preferred direction
+          random ball, |S_rr| at the centre: 3.909e-03 (Monte-Carlo, N=3e5, expected ~1/sqrt(N) = 1.8e-03)
+          OFF-CENTRE S IS NOT ZERO and must not be: at 900 kpc inside the ball S_rr = +0.0042.
+          What symmetry does require is that S keep the form lambda(r)(rhat rhat - I/3);
+          the largest residual from that form over all probes is 0.9893 of |S|.
+
+==============================================================================
+6  convergence with grid resolution and with domain size
+==============================================================================
+   (a) resolution, fixed 6 Mpc box, shell-averaged |g| (units a0)
+      n=32   h= 187.5 kpc  0.62165 0.60754 0.65381
+      n=48   h= 125.0 kpc  0.63701 0.61214 0.65373   change +2.47% +0.76% -0.01%
+      n=64   h=  93.8 kpc  0.64527 0.61366 0.65395   change +1.30% +0.25% +0.03%
+      n=96   h=  62.5 kpc  0.65104 0.61531 0.65414   change +0.89% +0.27% +0.03%
+      self-convergence order (32,48,64): 1.53 2.73 -2.63
+      64 -> 96 largest change: 0.894%
+
+   (b) domain size, h held at ~62 kpc
+      L=   4 Mpc n=64   h= 62.5 kpc  0.65114 0.61529 0.65294
+Traceback (most recent call last):
+  File "C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tensor\test_gates_wellnet.py", line 761, in <module>
+    sel = XP.abs(R - rk * KPC) < c["dx"]
+    
+  File "C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tensor\test_gates_wellnet.py", line 626, in gate6_convergence
+    for n in (32, 48, 64, 96):
+    
+  File "C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tensor\test_gates_wellnet.py", line 354, in _cluster_solve
+    c = CL.build(n=n, Lbox=Lbox, seed=seed)
+  File "C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tensor\cluster.py", line 97, in build
+    R = np.sqrt(X ** 2 + Y ** 2 + Z ** 2)
+                         ~~^^~~
+numpy._core._exceptions._ArrayMemoryError: Unable to allocate 6.75 MiB for an array with shape (96, 96, 96) and data type float64

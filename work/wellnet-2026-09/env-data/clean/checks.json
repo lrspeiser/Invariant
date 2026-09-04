@@ -1,0 +1,34 @@
+{
+  "shared_denominator": {
+    "verdict": "PASS",
+    "detail": "No galaxy-internal measurement enters any environment variable, and no environment variable enters any internal variable. Overlap of the two column sets: []. Environment provenance: {'t14_grp_sigma_v': 'member redshifts of the host group only', 't14_Rproj_kpc': 'sky separation to the group centre times the angular-diameter distance of the galaxy', 'R_over_Rvir_t14': \"the above divided by the group's projected harmonic radius\", 'gext_proxy_ms2': 'sigma_v^2 / R_proj', 't14_mcxc_L500_1e44': 'ROSAT/other X-ray luminosity of the host', 't14_Ngal': 'FoF richness of the host'}. NOTE for the analysis lane: R_proj appears in BOTH gext_proxy and R_over_Rvir, so those two are NOT independent environment axes (Pearson r = -0.180 on the cluster arm); and the redshift z enters both the distance scaling of R_d and of R_proj, so a distance error moves both together."
+  },
+  "monotone_invariance_of_the_environment_statistic": {
+    "verdict": "PASS",
+    "detail": "median |g_ext|/a_0 versus the sigma_v threshold: sigma_v>=300: N=591, g_ext/a0=0.210; sigma_v>=350: N=434, g_ext/a0=0.238; sigma_v>=400: N=357, g_ext/a0=0.255; sigma_v>=500: N=281, g_ext/a0=0.272; sigma_v>=600: N=244, g_ext/a0=0.283; sigma_v>=700: N=172, g_ext/a0=0.337; sigma_v>=800: N=162, g_ext/a0=0.333. Spread over the tested range = 0.127 in units of a_0 (61% of the smallest value), so d(statistic)/d(threshold) != 0 and the environment ranking is not degenerate."
+  },
+  "environment_contrast_dynamic_range": {
+    "verdict": "PASS",
+    "detail": "In the largest tier the cluster-side |g_ext|/a_0 spans 0.028 to 2.161 (factor 77.2), 10th-90th percentile 0.051 to 0.442. An external-field effect of any monotone form must vary across this range; if a headline statistic does not, that is a bug, not a null."
+  },
+  "blind_protection": {
+    "verdict": "PASS",
+    "detail": "Matching space = ['f_gas_or_nan', 'incl_deg', 'logMstar_nsa', 'logRd', 'logSigma_b', 'log_gbar_2p2Rd', 'pym_r_BT_SE', 'z']. Kinematic columns in it: []. The field/cluster split uses only sigma_v, richness and R_proj/R_vir. The only kinematic quantity read anywhere in the pair builder is the field-arm Tully-Fisher scatter used for the power calculation, and the cluster arm is excluded from that fit, so the contrast under test has not been looked at."
+  },
+  "silent_extraction_failure": {
+    "verdict": "PASS",
+    "detail": "Every ingest asserts its row count against the number stated by the source (mismatches: none). The VizieR reader additionally asserts that the response carries #Table and #Column lines and that the header names match the #Column declarations one for one, which is what catches VizieR's HTTP-200-generic-page failure. MAPS download: 902 of 882 files retrieved, 0 failures."
+  },
+  "no_dark_matter_as_observation": {
+    "verdict": "PASS",
+    "detail": "Dark-matter-dependent columns, all suffixed `_rank_only`: ['t14_grp_MNFW_rank_only', 't17_grp_M200_rank_only', 't14_mcxc_M500_rank_only', 't14_mcxc_R500_rank_only', 't17_mcxc_M500_rank_only', 't17_mcxc_R500_rank_only', 'xray_M500_rank_only', 'xray_R500_rank_only', 'xray_R_over_R500_rank_only']. None of them enters any matching variable, the quality gate, the field/cluster split, or any derived baryonic quantity. The environment ranking uses sigma_v (member kinematics) and L500 (X-ray), both observables."
+  },
+  "test_bugs_that_look_like_solver_bugs": {
+    "verdict": "N/A",
+    "detail": "No PDE solver is exercised in this lane; this failure mode belongs to the gravitylab solver lanes."
+  },
+  "non_monotonic_M_of_r_in_lensing_deprojection": {
+    "verdict": "N/A",
+    "detail": "No lensing deprojection is performed in this lane. The only lensing-adjacent quantity touched is MCXC L500, an X-ray luminosity."
+  }
+}

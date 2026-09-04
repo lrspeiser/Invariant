@@ -1,0 +1,207 @@
+{
+  "audit": "Public availability of RAW weak-lensing shear/ellipticity catalogues for the seven target clusters",
+  "performed_utc": "2026-09-04T04:40:00Z",
+  "definition_of_the_product": "A per-source table carrying, at minimum, sky position and the two measured ellipticity/shear components with their errors. A convergence map, a mass map, an aperture-mass map, or an NFW-fitted mass is NOT this product and was not accepted as a substitute.",
+  "headline": "A public per-source shear catalogue exists for exactly ONE of the seven targets: Abell 370.",
+  "acquired": [
+    {
+      "cluster": "Abell 370",
+      "files": [
+        "weaklensing/buffalo_a370/hlsp_buffalo_hst_multi_abell370_multi_v1.0_wl.fits",
+        "weaklensing/buffalo_a370/hlsp_buffalo_hst-subaru_multi_abell370_multi_v1.0_lenstool.cat"
+      ],
+      "n_sources": {
+        "hst_only": 3557,
+        "hst_plus_subaru": 18556
+      },
+      "columns_present": [
+        "RA",
+        "Dec",
+        "e1",
+        "e2",
+        "var_e1",
+        "var_e2",
+        "a",
+        "b",
+        "theta",
+        "magnitudes",
+        "S/N"
+      ],
+      "per_source_redshift": "877 of 18556 in the combined catalogue; none in the HST-only catalogue",
+      "source": "BUFFALO HLSP, niemiec-lensing-dr1, DOI 10.17909/t9-w6tj-wp63",
+      "reference": "Niemiec et al. 2023, arXiv:2307.03778"
+    }
+  ],
+  "not_available": [
+    {
+      "cluster": "Abell 2744",
+      "verdict": "no public per-source shear catalogue; no public shear profile TABLE either",
+      "checked": [
+        {
+          "source": "BUFFALO HLSP https://archive.stsci.edu/hlsps/buffalo/abell2744/catalogs/",
+          "result": "directory contains only pagul-v2.0 photometric catalogue; no lensing subdirectory",
+          "checked_utc": "2026-09-04T04:20:00Z"
+        },
+        {
+          "source": "Medezinski et al. 2016, ApJ 817, 24 (Subaru/Suprime-Cam WL), arXiv:1507.03992 source tarball",
+          "result": "tarball contains only .tex/.bbl; published tables are the colour-selection table, the substructure table and the NFW multi-halo fit table. The binned tangential reduced-shear profile g_+ appears ONLY as a figure (fig:gt1D), never as a data table."
+        },
+        {
+          "source": "VizieR J/ApJ/817/24",
+          "result": "VizieR error: Table or Catalog not found"
+        },
+        {
+          "source": "Harvey et al. 2024, MNRAS 529, 802 (JWST pyRRG-JWST WL of A2744), arXiv:2401.16478",
+          "result": "data availability statement points only at the CODE repository https://github.com/davidharvey1986/pyRRG; the repository tree (1645 paths) contains only TinyTim PSF libraries and source, no A2744 shear catalogue"
+        },
+        {
+          "source": "HFF MAST https://archive.stsci.edu/pub/hlsp/frontier/abell2744/catalogs/",
+          "result": "contains only a Subaru ASTROMETRY catalogue, no shapes"
+        },
+        {
+          "source": "HFF lens-model deliverables .../models/cats/v4.1/",
+          "result": "only an arcs.txt multiple-image list plus mass-model FITS; no weak-lensing input catalogue is shipped"
+        },
+        {
+          "source": "Zenodo API search",
+          "result": "no matching deposit"
+        },
+        {
+          "source": "Abriola et al. 2024, A&A 684, A193 (arXiv:2402.08364) source tarball -- Magellan/MegaCam gri weak lensing, mccd + ngmix pipeline, 31'x33' field to m_lim=28.7 in g",
+          "result": "no data availability statement and no catalogue released anywhere in the manuscript; the released product is the reconstructed surface mass distribution, which is a convergence map and therefore excluded"
+        },
+        {
+          "source": "Kim et al. 2026, 'Weak-lensing Analysis of Intracluster Filaments in Abell 2744' (arXiv:2604.07445) source tarball",
+          "result": "no data availability statement, no shear catalogue released"
+        }
+      ]
+    },
+    {
+      "cluster": "MACS J0416.1-2403",
+      "verdict": "no public per-source shear catalogue; no public shear profile table",
+      "checked": [
+        {
+          "source": "BUFFALO HLSP macs0416/catalogs/",
+          "result": "pagul-v2.0 photometry only"
+        },
+        {
+          "source": "CLASH HLSP https://archive.stsci.edu/pub/hlsp/clash/macs0416/catalogs/subaru/",
+          "result": "Suprime-Cam PHOTOMETRY and photo-z catalogues only. The readme states the 2010 R-band image 'should be used for shape measurements' -- i.e. shapes were never released, only the imaging and photometry they were measured from."
+        },
+        {
+          "source": "Umetsu et al. 2014, ApJ 795, 163 (arXiv:1404.1375) source tarball, tables 1-8",
+          "result": "Table 3 gives only summary background-sample statistics (N_g, n_g, z_eff); Table 5 gives only the S/N of the g_+ profile; Table 6 gives NFW masses. NO binned shear profile is tabulated."
+        },
+        {
+          "source": "Umetsu et al. 2016, ApJ 821, 116 (arXiv:1507.04385) source tarball, tables 1-5",
+          "result": "all tables are NFW halo parameters, spherical-overdensity masses, and concentration comparisons. No shear data."
+        },
+        {
+          "source": "VizieR J/ApJ/795/163 and J/ApJ/821/116",
+          "result": "VizieR error: Table or Catalog not found (both)"
+        }
+      ]
+    },
+    {
+      "cluster": "MACS J0717.5+3745",
+      "verdict": "no public per-source shear catalogue; no public shear profile table",
+      "checked": [
+        {
+          "source": "BUFFALO HLSP macs0717/catalogs/",
+          "result": "pagul-v2.0 photometry only"
+        },
+        {
+          "source": "CLASH HLSP macs0717/catalogs/subaru/",
+          "result": "photometry and photo-z only"
+        },
+        {
+          "source": "Jauzac et al. 2018, 'Growing a Cosmic Beast' (arXiv:1711.01324) source tarball",
+          "result": "sections hstwlcat.tex and subwlcat.tex DESCRIBE the HST and Subaru weak-lensing catalogues but no catalogue is released; the published tables are substructure positions and masses derived from the mass reconstruction"
+        },
+        {
+          "source": "Umetsu et al. 2014/2016",
+          "result": "as for MACS J0416 -- no shear tabulated"
+        }
+      ]
+    },
+    {
+      "cluster": "MACS J1149.5+2223",
+      "verdict": "no public per-source shear catalogue; no public shear profile table",
+      "checked": [
+        {
+          "source": "BUFFALO HLSP macs1149/catalogs/",
+          "result": "pagul-v2.0 photometry only"
+        },
+        {
+          "source": "CLASH HLSP macs1149/catalogs/subaru/",
+          "result": "photometry and photo-z only"
+        },
+        {
+          "source": "Finner et al. 2017 (arXiv:1806.00698) source tarball",
+          "result": "single .tex, no data availability statement, no catalogue released"
+        },
+        {
+          "source": "Umetsu et al. 2014/2016",
+          "result": "no shear tabulated"
+        }
+      ]
+    },
+    {
+      "cluster": "Abell S1063 (RXC J2248.7-4431)",
+      "verdict": "no public per-source shear catalogue; no public shear profile table",
+      "checked": [
+        {
+          "source": "BUFFALO HLSP abells1063/catalogs/",
+          "result": "pagul-v2.0 photometry only. NOTE: the MAST HLSP landing page contains a link to .../abells1063/catalogs/niemiec-lensing-dr1/..._abell370_..._readme.txt -- this is a BROKEN link on the MAST page (the path 404s) and must not be mistaken for an AS1063 lensing release."
+        },
+        {
+          "source": "CLASH HLSP rxj2248/catalogs/subaru/",
+          "result": "directory exists but is EMPTY -- no Subaru catalogue at all for this cluster"
+        },
+        {
+          "source": "Gruen et al. 2013, MNRAS 432, 1455 (arXiv:1304.0764) source tarball",
+          "result": "WFI weak lensing. The tangential-alignment/B-mode profile is a FIGURE only; the two published tables are the NFW mass conversions and the SED-type fractions. No shear data table."
+        }
+      ]
+    },
+    {
+      "cluster": "Abell 2029",
+      "verdict": "no public per-source shear catalogue; the underlying raw IMAGING is public but the reduced shear catalogue is not",
+      "checked": [
+        {
+          "source": "LoVoCCS II, Fu et al. 2024, ApJ (arXiv:2402.10337) source tarball",
+          "result": "states verbatim: 'The LoVoCCS DECam exposures are publicly available on the NOIRLab Astro Data Archive website.' -- i.e. the EXPOSURES are public, not the shear catalogue. The paper's released products are aperture-mass maps, which are excluded by the no-mass-map rule."
+        },
+        {
+          "source": "Sharma et al. 2025, 'Weak-Lensing Detection of Intercluster Filaments' (arXiv:2510.26318) source tarball",
+          "result": "uses the LoVoCCS shear catalogue (HSM/re-Gaussianization, n_g = 7-12 arcmin^-2, effective source z = 0.51) but releases no catalogue and carries no data availability statement"
+        },
+        {
+          "source": "LoVoCCS GitHub organisation (7 repositories)",
+          "result": "repositories cover X-ray data/analyses, BCG identification and SZ; NO weak-lensing shear catalogue repository exists"
+        },
+        {
+          "source": "literature search",
+          "result": "the only dedicated A2029 weak-lensing work located is a 2002-2003 conference-era analysis (astro-ph/0209190); no modern public catalogue"
+        }
+      ],
+      "recoverable_in_principle": "Yes. LoVoCCS DECam u,g,r,i,z exposures of A2029 are public at https://astroarchive.noirlab.edu and could be re-reduced into a shear catalogue. That is a separate multi-week image-processing project, not a data-acquisition task."
+    }
+  ],
+  "explicitly_not_touched": [
+    {
+      "item": "KiDS Weak Gravitational Lensing Catalog (Zenodo DOI 10.5281/zenodo.16366035)",
+      "reason": "KiDS is a PERMANENT SEALED HOLDOUT under the programme brief. It surfaced in a Zenodo keyword search and was deliberately NOT downloaded, opened or inspected. It also does not cover any target cluster.",
+      "action_taken": "none - link recorded only"
+    },
+    {
+      "item": "https://archive.stsci.edu/pub/hlsp/frontier/internal/",
+      "reason": "redirects to an STScI SSO login. Access-controlled; no attempt made to circumvent.",
+      "action_taken": "none"
+    }
+  ],
+  "mass_maps_deliberately_not_downloaded": {
+    "reason": "Programme rule: a GR-derived convergence map, an NFW-fitted mass or a parametric lens model whose mass is tied to light by construction is not an observation. Such products are available in bulk (BUFFALO lenstool_niemiec a/b1/b2/b3/c1/c2/d1/d2/e kappa, gamma, psi, deflection and magnification FITS; HFF lens models from CATS, Sharon, GLAFIC, Zitrin, Keeton, Williams, Diego, Bradac, Merten; CLASH Merten and Zitrin models) and were located but NOT downloaded.",
+    "if_needed_for_debugging": "They are one directory listing away and must be labelled debug_only if ever pulled."
+  }
+}

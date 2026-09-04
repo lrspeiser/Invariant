@@ -1,0 +1,47 @@
+{
+ "file": "HFF6_CATS_lensmodel_input_arcs.tsv",
+ "source_url": "https://archive.stsci.edu/missions/hlsp/frontier/<cluster>/models/cats/<ver>/hlsp_frontier_model_<cluster>_cats_<ver>_arcs.txt",
+ "exact_query": "Six direct file GETs: https://archive.stsci.edu/missions/hlsp/frontier/abell2744/models/cats/v4.1/hlsp_frontier_model_abell2744_cats_v4.1_arcs.txt; https://archive.stsci.edu/missions/hlsp/frontier/abell370/models/cats/v4/hlsp_frontier_model_abell370_cats_v4_arcs.txt; https://archive.stsci.edu/missions/hlsp/frontier/abells1063/models/cats/v4.1/hlsp_frontier_model_abells1063_cats_v4.1_arcs.txt; https://archive.stsci.edu/missions/hlsp/frontier/macs0416/models/cats/v4.1/hlsp_frontier_model_macs0416_cats_v4.1_arcs.txt; https://archive.stsci.edu/missions/hlsp/frontier/macs0717/models/cats/v4.1/hlsp_frontier_model_macs0717_cats_v4.1_arcs.txt; https://archive.stsci.edu/missions/hlsp/frontier/macs1149/models/cats/v4.1/hlsp_frontier_model_macs1149_cats_v4.1_arcs.txt",
+ "retrieved_utc": "2026-09-04T04:34:29Z",
+ "sha256": "25d4053d8e07e9668b15f78a76cbe01a016df0049306ae58134fc9a666f4aeea",
+ "bytes": 60769,
+ "row_count": 675,
+ "column_count": 8,
+ "columns": [
+  {
+   "name": "cluster",
+   "unit": "---"
+  },
+  {
+   "name": "image_id",
+   "unit": "---"
+  },
+  {
+   "name": "system_id",
+   "unit": "---"
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z_adopted",
+   "unit": "---"
+  },
+  {
+   "name": "z_provenance",
+   "unit": "---"
+  },
+  {
+   "name": "model_version",
+   "unit": "---"
+  }
+ ],
+ "extraction": "Parsed the CATS Lenstool-format *_arcs.txt input image lists shipped with the MAST HFF lens models. Columns are 'id RA Dec a b theta z mag'; only id, RA, Dec and z are real - the file header states 'The other columns give placeholder values', and the a/b/theta/mag columns were verified constant per file (theta is 0.0 or 50.0), so THERE ARE NO ARC POSITION ANGLES here. Latest version per cluster taken (v4.1, or v4 for Abell 370 where no v4.1 exists).",
+ "note": "EMBEDDED-IN-LENS-MODEL IMAGE LIST. This is the multiple-image list used as INPUT constraints by the CATS/Lenstool team, not an independent published observation catalogue. Per cluster (images/systems): Abell 2744 109/39; Abell 370 101/35; Abell S1063 / RXC J2248.7-4431 72/27; MACS J0416.1-2403 116/41; MACS J0717.5+3745 132/51; MACS J1149.5+2223 145/45. CRITICAL CAVEAT: the redshift column is the ADOPTED model-input redshift and mixes spectroscopic, photometric and model-optimised values with NO flag distinguishing them - the file format carries no provenance -- EXCEPT for Abell S1063, whose CATS file wraps model-optimised (non-spectroscopic) redshifts in parentheses, e.g. (2.16); those 22 rows are flagged z_provenance=model_optimised_parenthesised. For a genuine spectroscopic/model split for these same clusters use the published catalogues in this directory (Mahler 2018, Bergamini 2023, Caminha 2016/2017, Lagattuta 2019, Limousin 2016, Chan 2020, Richard 2014). Only the CATS and Zitrin teams ship an image list at all; Sharon/Johnson, GLAFIC, Keeton, Williams/GRALE, Diego and Bradac ship only a readme plus FITS maps. No mass/convergence/magnification maps were downloaded.",
+ "raw_response_file": "hlsp_frontier_model_abell2744_cats_v4.1_arcs.txt; hlsp_frontier_model_abell370_cats_v4_arcs.txt; hlsp_frontier_model_abells1063_cats_v4.1_arcs.txt; hlsp_frontier_model_macs0416_cats_v4.1_arcs.txt; hlsp_frontier_model_macs0717_cats_v4.1_arcs.txt; hlsp_frontier_model_macs1149_cats_v4.1_arcs.txt"
+}

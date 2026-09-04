@@ -1,0 +1,632 @@
+\documentclass[longauth,traditabstract]{aa} 
+\usepackage{graphicx}
+\usepackage{lscape}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{txfonts}
+\usepackage{natbib}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{url}
+\usepackage[pdfpagemode=UseThumbs,colorlinks=true,bookmarks=true]{hyperref}
+\hypersetup{citecolor={blue},linkcolor={blue},urlcolor={blue}}
+\bibpunct{(}{)}{;}{a}{ }{,}
+
+\def\jfb#1{\noindent {\color{red}{\bf[JFB]:} #1}}
+
+\begin{document} 
+    \title{Kinematic alignment of non-interacting CALIFA galaxies}
+    \subtitle{Quantifying the impact of bars on stellar and ionised gas velocity field orientations}
+
+   \author{J.~K.~Barrera-Ballesteros
+          \inst{1,2}\fnmsep\thanks{\email{jkbb@iac.es}}
+          \and
+          J.~Falc\'{o}n-Barroso\inst{1,2}
+      	  \and
+          B.~Garc\'{\i}a-Lorenzo\inst{1,2}
+	  \and
+	  G.~van~de~Ven\inst{3} 
+          \and
+          J.~A.~L.~Aguerri\inst{1,2}
+          \and
+          J.~Mendez-Abreu\inst{1,2,4}
+          \and
+          K.~Spekkens\inst{5}
+          \and
+          S.~F.~S\'{a}nchez\inst{6,7,8} 
+          \and
+          B.~Husemann\inst{9,10}
+          \and
+          D.~Mast\inst{6,8} 
+          \and
+          R.~Garc\'{\i}a-Benito\inst{6}
+          \and 
+          J.~Iglesias-Paramo\inst{6,8} 
+          \and
+          A.~del~Olmo\inst{6}
+          \and
+          I.~M\'{a}rquez\inst{6}
+          \and
+          J.~Masegosa\inst{6}
+          \and
+          C.~Kehrig\inst{6}
+          \and
+          R.~A.~Marino\inst{11}
+          \and
+          L.~Verdes-Montenegro\inst{6}
+          \and
+          B.~Ziegler\inst{12}
+          \and
+          D.~H.~MacIntosh\inst{13}
+          \and 
+          J.~Bland-Hawthorn\inst{14}
+          \and
+          C.~J.~Walcher\inst{10}
+          \and
+          the CALIFA Collaboration
+          }
+
+   \institute{Instituto de Astrof\'{i}sica de Canarias, Calle V\'{i}a Lact\'{e}a s/n, E-38205, Spain
+         \and
+         Departamento de Astrof\'{i}sica, Universidad de La Laguna (ULL), E-38200 La Laguna, Tenerife, Spain
+         \and
+          Max-Planck Institute for Astronomy, K\"{o}nigstul 17, 69117 Heidelberg, Germany    
+         \and
+         School of Physics and Astronomy, University of St Andrews, North Haugh, St Andrews, KY16 9SS, UK
+         \and
+	  Department of Physics, Royal Military Collage of Canada, PO Box 17000, Station Forces, Kingston, Ontario, K7K7B4, Canada
+	 \and
+          Instituto de Astrof\'{i}sica de  Andaluc\'{i}a (CSIC), Glorieta de la Astronom\'{i}a S/N, 18008 Granada, Spain
+          	 \and
+	 Instituto de Astronom\'{\i}a, Universidad Nacional Auton\'{o}ma de Mexico, A.P. 70-264, 04510, M\'exico,D.F.
+         \and
+	  Centro Astron\'{o}mico Hispano Alem\'{a}n de Calar Alto (CSIC-MPG), C/ Jes\'{u}s Durb\'{a}n Rem\'{o}n 2-2, 4004 Almer\'{\i}a, Spain.
+	  \and
+	 European Southern Observatory, ESO Headquarters, Karl-Schwarzschild-Str. 2, 85748 Garching b. M\"{u}nchen, Germany
+	 \and
+	 Leibniz-Institut f\"{u}r Astrophysik Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany
+	 \and 
+	 CEI Campus Moncloa, UCM-UPM, Departamento de Astrof\'{\i}sica y CC. de la Atm\'{o}sfera, Facultad de CC. F\'{\i}sicas, Universidad Complutense de Madrid, Avda. Complutense S/N, 28040 Madrid, Spain
+	 \and
+	 University of Vienna, Departament of Astrophysics, T\"{u}rkenschanzstr. 17, 1180 Vienna, Austria
+	 \and
+	 Department of Physics \& Astronomy, University of Missouri-Kansas City, 5110 Rockhill Road, Kansas City, MO, USA
+	 \and
+	 Sydney Institute for Astronomy, School of Physics A28, University of Sydney, NSW 2006, Australia  }
+
+\abstract{We present 80 stellar and ionised gas velocity maps from the Calar
+Alto Legacy Integral Field Area (CALIFA) survey in order to characterize the kinematic orientation of non-interacting galaxies. The study of galaxies in isolation is a key step towards understanding how fast-external processes, such as major mergers, affect kinematic properties in galaxies. We derived the global and individual (projected approaching and receding sides) kinematic position angles (PAs) for both the stellar and ionised gas line-of-sight velocity distributions. When compared to the photometric PA, we find that morpho-kinematic differences are smaller than 22 degrees in 90 \%  of the sample for both components; internal kinematic misalignments are generally smaller than 16 degrees. We find a tight relation between the global stellar and ionised gas kinematic PA consistent with circular-flow pattern motions in both components. This relation also holds generally  in barred galaxies across the bar and galaxy disk scales. Our findings suggest that even in the presence of strong bars, both the stellar and the gaseous components tend to follow the gravitational potential of the disk. As a result, kinematic orientation can be used to assess the degree of external distortions in interacting galaxies.}
+
+\keywords{Galaxies: kinematics and dynamics $-$ Galaxies: photometry $-$ Galaxies: structure $-$ Galaxies: evolution }
+\maketitle
+
+%===============================================================
+\section{Introduction}
+
+To first order, galaxies are rotationally-supported disk systems
+\cite[for a historical review see e.g.,][]{2001ARA&A..39..137S}. The
+observed line-of-sight velocity distributions are expected to show a regular
+rotation pattern in the form of the so-called ``spider diagram'', with the
+position angle (PA) of the minimum and maximum aligned with the optical major
+axis. However, several physical processes can disturb this regular behaviour. On
+the one hand, kinematic perturbations can be induced by external factors such as
+ram-pressure stripping \citep[e.g.,][]{2008A&A...483..783K} or galactic mergers
+\citep[e.g.,][]{2003ApJ...597..893N}. On the other hand,
+kinematic departures from regular rotation can be due to internal instabilities
+such as spiral arms or bars  \citep[][]{2008gady.book.....B,
+2013pss5.book..923S}. To disentangle the perturbations due to external processes
+it is necessary first to study in detail the possible kinematic perturbations
+due to internal processes in both stars and gas.
+
+Integral-field spectroscopy (IFS) is a unique tool to study the kinematic
+properties across the entire galaxies. Even though 3D spectroscopic surveys are now feasible for a large set of galaxies  \citep[e.g.: GHASP, GH$\alpha$FaS, ATLAS$^{\mathrm{3D}}$,  SAMI; ][]{2008MNRAS.388..500E, 2008PASP..120..665H, 2011MNRAS.413..813C, 2012MNRAS.421..872C}, these surveys have usually focused on the study of the kinematics of  early-type systems \citep[e.g.: SAURON, ATLAS$^{\mathrm{3D}}$; ][]{2004MNRAS.352..721E, 2011MNRAS.414.2923K} or on specific wavelength range like H$\alpha$ range in spiral galaxies in different environments \citep[e.g., GHASP, and GH$\alpha$FaS][]{2009ApJ...704.1657F, 2008MNRAS.388..500E}.
+
+The CALIFA survey \citep{2012A&A...538A...8S} provides an unique opportunity to
+study simultaneously the stellar and ionised gas global kinematics in a sample
+of galaxies that covers a wide range of morphological types, stellar masses and
+environments. The spectral and spatial coverage provided by the CALIFA IFS data
+allow us to study the effect of structures such as bars in non-interacting
+galaxies on the global kinematics. Bars are frequent elliptical-like structures
+present in disk galaxies. About 40$-$50 \% of nearby disk galaxies
+observed in optical wavelengths show bars features
+\citep[e.g.,][]{2007AAS...211.9712M,2008ApJ...675.1194B,2009A&A...495..491A}.
+This fraction is even higher (about 60$-$70 \%) for near-infrared
+observations \citep[e.g.,][]{2000AJ....119..536E, 2000ApJ...529...93K,
+2007ApJ...657..790M}. Hydrodynamical simulations of these systems show that the
+bar component contributes only between 10 and 20 \% of the disk potential
+\citep[e.g., ][]{2010MNRAS.407L..41S}, and yet it can produce important changes
+in the gas dynamics. Bars are thought to be very efficient in redistributing
+angular momentum, energy and mass in both luminous and dark matter components
+\citep[e.g.,][]{1985MNRAS.213..451W, 1998ApJ...493L...5D,
+2000ApJ...543..704D,2003MNRAS.341.1179A,2006ApJ...637..214M,
+2006ApJ...637..567S, 2006ApJ...639..868S,2009ApJ...707..218V}. The effects of
+this angular momentum redistribution is different in gas and stars due to their
+different properties \citep[e.g.,][]{1982MNRAS.199..151T}. For example, flows
+are observed within the co-rotation radius towards the galaxy centre only in the
+gas component \citep[e.g.,][]{2002A&A...386...42R}.
+
+The aim of this paper is to characterize the stellar and the ionised gas kinematics for a sample of non-interacting galaxies by means of their global orientation. In a companion paper (Barrera-Ballesteros et al., in preparation) we will use the results of the present study to quantify how much the kinematic of a sample of interacting galaxies differentiates with respect to the kinematics of isolated ones. In other words, the result from this work will yield a yardstick describing kinematic distortions due to internal processes with which to compare to kinematic disturbances induced by major merger events. 
+
+The paper is organized as follows. In Section 2, we present the sample as well as the methods for extracting the stellar and ionised gas kinematics. The procedure used to derive directly the kinematic PA from the velocity maps is presented in Section 3. Section 4 presents the kinematic characterization of the non-interacting galaxies: morpho-kinematic and kinematic misalignments are compared against different bar strengths as well as at different radii of barred galaxies. The impact of bars in the velocity field is discussed in Section 5. Our findings and main conclusions are summarized in Section 6.
+
+%================================================================
+\section{Sample and observations}
+
+\subsection{Sample selection}
+\label{sec:sample}
+
+The sample presented in this work is drawn from the CALIFA mother sample
+\citep[][]{2012A&A...538A...8S} observed until November 2013. This mother sample includes 939 galaxies, selected from the SDSS DR7 \citep{2009ApJS..182..543A}. The selection criteria is such that galaxies included are in the nearby Universe with redshifts  0.005\,$<z<$\,0.03 and their isophotal diameter in the SDSS $r$-band is 
+45$^{\prime\prime}$\,$\lesssim D_{25}\lesssim$\,80$^{\prime\prime}$.
+
+Using the SDSS $r$-band images of the observed galaxies we select 80
+galaxies without evident signatures of interaction such as tidal
+tails, bridges, rings, shells or any other morphological distortion caused by
+a merging. Moreover, we consider galaxies isolated from companions
+within a physical radius of 250\,kpc, a systemic velocity difference
+smaller than 1000\,km\,s$^{-1}$ and a difference in magnitude in the SDSS
+r-band images larger than 2\,mag (position and systemic velocities were taken from NED\footnote{NASA/IPAC Extragalactic database. http://ned.ipac.caltech.edu/} ). We use a conservative physical radius for rejecting close companions with respect to pairs-survey criteria \citep[e.g.,][]{2008AJ....135.1877E}. The systemic velocity selection criteria is supported by recent cosmological simulations \citep{2013MNRAS.tmp.2336M}. Finally, we also selected those galaxies for which stellar and ionised gas signal-to-noise (S/N) ratios allow us a reliable estimation of their kinematic properties (see section \ref{sec:vel_fields}).
+
+It is important to note that these selection criteria does not exclude from our sample galaxies
+with minor companions or galaxies located in the outskirts of groups. However, we estimate the perturbation caused by tidal forces induced by companions by means of the f-value \citep{2004A&A...420..873V}. Values larger than -2 are required to produce sizeable effects on a disk galaxy. We were able to measure in 71 objects the f-value. We found that 95\% of these galaxies have f-values smaller than -2 with a mean value of -4.0. This suggests that our sample is a fairly
+representation of isolated galaxies. In fact, 10 galaxies from our
+sample are also part of the AMIGA sample \citep[Analysis of the interstellar
+Medium of Isolated GAlaxies, ][ CALIFA id: 2, 30, 131, 152, 275, 743, 748, 777, 779, 856]{2005A&A...436..443V}. AMIGA sample is defined based on strict isolation criteria, and shows different physical properties at all wavelengths studied so far than galaxies in denser environments (even field galaxies). These 10 galaxies
+are located in the region of lower tidal forces and number density of AMIGA full sample (Fig. 6 in \cite{2007A&A...472..121V}).
+
+Our non-interacting sample includes different morphological types, bar strengths and a relatively wide range of  luminosities (-24\,$\lesssim$\,$M_r$\,$\lesssim$\,$-19$; where $M_r$ is the absolute magnitude in SDSS $r$-band). Morphological types and bar strengths were obtained by visual inspection of the SDSS $r$-band images by different members of the collaboration (Walcher et al., in preparation, see also table \ref{table_morph}). Even more, the sample is dominated by Sbs and Sc morphological types, which are also the dominant population of the AMIGA sample,
+hence characteristic of isolated galaxies. Finally, from a visual inspection of the velocity maps we exclude from our sample the early-type galaxy NGC\,5623. This galaxy presents a stellar counter-rotating disk, presumably originated from an early encounter, and thus it will be included in the sample of interacting galaxies of Barrera-Ballesteros et al. (in prep.).
+
+%-----------------------------------------------------------------------------
+\begin{figure*}[!htb]
+\begin{centering}
+\includegraphics[width=\linewidth,angle=0,clip=true]{fig_NGC0036_stellar_gas_MC.pdf}
+\caption{\label{kin_example}Example of the method used to determine projected kinematic position angles (PAs) from the velocity maps of the galaxy \object{NGC\,36}. Left most panel shows the SDSS $r$-band image of the galaxy. White solid line represents the photometric PA measured at the same galactocentric distance as the kinematic PA ($\mathrm{PA_{morph}}$, measured from the $r$-band image; see section \ref{sec:Robust_Kinematic}). Dashed line represents the photometric PA measured at the outermost isophotes of the image (PA$\mathrm{_{morph}^{out}}$, see section \ref{sec:Impact}). Middle-left and middle-right panels show the stellar and ionised gas velocity maps, respectively. Green points highlight the locations where the maximum velocity is located at given radius, determined from the position-velocity diagram. Black lines for each kinematic side represent the average kinematic PA (PA$_{\mathrm{kin}}$), while black thin lines along the zero-velocity curve show the average minor kinematic PA. Right panel shows the distance from the galactic centre versus the maximum for the stellar (blue points) and ionised gas (red points) components. The curve along  0\,km\,s$^{-1}$ represent the velocities along the zero-velocity curve.  The error bars represent the uncertainty in velocity determined from Monte Carlo simulations.}
+\end{centering}
+\end{figure*}
+%-----------------------------------------------------------------------------
+
+\subsection{CALIFA velocity maps}
+\label{sec:vel_fields}
+Observations were carried out using the PPAK instrument at Calar Alto
+Observatory \citep{2005PASP..117..620R}. Its main component consists of 331
+fibers of 2\farcs7 diameter each, concentrated in a single hexagon bundle
+covering a field-of-view of $74\arcsec\times64\arcsec$, with a filling factor of
+$\sim$ 60\%\,. Three dithered pointings are taken for each object to reach a filling factor of 100\% across the entire FoV. The final data cube consists of more than 4000 spectra at a sampling of $1\arcsec\times1\arcsec$ per spaxel \cite[see details in][]{Husemann_12}. The CALIFA survey has two spectral setups, V500 and V1200, low and intermediate resolution, respectively. Objects included in this work have been observed in the V500 setup. This setup has a nominal resolution of $\lambda$/$\Delta\lambda$\,$\sim$\,850 at $\sim$5000\AA\ and its nominal wavelength range is 3745$-$7300\AA.However, the final data cube has an homogenized spectral resolution (FWHM) over the entire wavelength range of 6.0\AA\ and the wavelength sampling per spaxel is 2.0\AA. The total exposure time per pointing is fixed for all the observed objects to 45 min. The data reduction is performed by a pipeline designed specifically for the CALIFA survey. Detailed reduction process is explained by \cite{2012A&A...538A...8S} and improvements on this pipeline are presented by \cite{Husemann_12}. 
+
+The stellar kinematic extraction method for the CALIFA survey will be presented in Falc\'{o}n-Barroso et al. (in prep.). Here we highlight the main steps. Spaxels with continuum S/N\,$<$\,3 in the original V500 cube were considered unreliable and therefore not considered in further analysis. To achieve a minimum S/N of 20, we used a Voronoi-binning scheme for optical IFS data implemented by \cite{2003MNRAS.342..345C}. We will refer to these Voronoi bins as ``voxels''. From this selection in the continuum S/N, a large fraction of the voxels ($\sim$80\%) have the same size as the spaxels of the cube. The remaining fraction of the voxels are located in the outer regions of the galaxies and include a range between three or five spaxels. To derive the line-of-sight velocity maps, for each cube, a non-linear combination of a subset of stellar templates from the Indo-U.S. library \citep{2004ApJS..152..251V} is fit to each voxel using the penalized pixel-fitting method \citep[pPXF,][]{2004PASP..116..138C}.  Errors for each voxel, determined via Monte Carlo simulations, range from 5 to 20\,km\,s$^{-1}$ for inner to outer voxels, respectively. Note that these uncertainties are smaller than the spectral sampling per spaxels from the data cubes. Since each spaxel offers a wide range of absorption lines to fit its line-of-sight velocity, the spectral location of these absorption features can be determine even at scales smaller than the spectral sampling.  Figure\,\ref{kin_example} (middle-left panel) shows an example of a stellar kinematic maps for one of our galaxies
+
+The detailed description of the ionised-gas kinematic extraction method for the CALIFA survey is provided by Garc\'{\i}a-Lorenzo et al. (2014, submitted). Briefly, to obtain the ionised-gas emission in each spaxel we subtracted the stellar continuum spectra derived from the best stellar pPXF fit in its corresponding voxel. No binning was done for the ionized gas.  We assumed that the stellar populations in each voxel are rather smooth and do not change from spaxel to spaxel within each voxel. A cross-correlation (CC) method is used to measure the velocity of the ionised-gas \citep[see ][for details on the method]{2013MNRAS.tmp..534G}. The method compares the spectrum in each spaxel in a given wavelength range  with a template that includes the H$\alpha$+[NII]$\lambda\lambda$6548,6584 emission lines (6508$-$6623\AA). The template corresponds to a Gaussian model for each emission line in the given wavelength range, shifted to the systemic velocity reported in NED and assuming a velocity dispersion equals to the instrumental resolution ($\sigma$ $\sim$ 90\,km\,s$^{-1}$ at the H$\alpha$ emission line). We selected spaxels with S/N \,$>$\, 8  in this emission line for the ionised gas velocity maps. Garc\'{\i}a-Lorenzo et al. (2014, submitted) present examples on the kinematic fitting per spaxel and the extraction of the ionized gas component. Fig.~\ref{kin_example} (middle-right panel) shows an example of an ionised-gas velocity maps. Estimated uncertainties in the location of the maximum of the CC function are $\sim$10\,km\,s$^{-1}$. Both the pPXF and the CC methods are able to determine velocity
+dispersion maps  however, due to the low spectra resolution of the V500 data we
+did not attempt any further analysis of these maps. They are also not required for the work presented here.
+
+%==================================================================
+\section{Kinematic position angles from velocity maps}
+\label{sec:Robust_Kinematic}
+
+Appendix~\ref{sec:maps} shows the complete set of stellar and ionised gas
+velocity maps for the galaxies in this study. Some of them are also presented 
+in Falc\'{o}n-Barroso et al. (in prep., for stellar kinematics in the V1200 setup) and
+Garc\'{\i}a-Lorenzo et al. (2014, submitted for the ionised gas).
+
+In the last years, several analytic methods have been developed to determine
+kinematic properties from two-dimensional velocity distributions. These models
+consider symmetric velocity distributions, either by assuming a thin disk
+geometry \citep[e.g., ][]{2003AJ....125.1164B, 2008MNRAS.388..500E},
+pure-circular motion on elliptical galaxies \citep{2006MNRAS.366..787K} or
+symmetrical radial distortions with respect to some axis
+\citep{2007ApJ...664..204S}. Even though these methods
+yield good results for symmetric velocity maps, they may provide (depending on
+its use) biased or uncertain results for galaxies with strong departures from
+order motions. 
+
+The aim of this paper is to establish the observed (i.e., projected) typical ranges of kinematic parameters expected for non-interacting galaxies. From those kinematic values, we will be able to shade some light on the possible kinematic distortions induced by an interaction. For this reason, we provide in this study a quantitative characterization of the kinematics of galaxies through parameters derived \textit{directly} from their stellar and ionised gas velocity
+distributions. No assumption on the behaviour of the galactic components is
+made. We will use the same method on our sample of interacting galaxies in order 
+to make a consistent comparison. A pure-rotational velocity field can be caracterized by several parameters: kinematic centre, systemic velocity, global orientation of the field (i.e., kinematic PA), and its inclination with respect to the sky's plane. In this study we restrict ourselves only to kinematic projected properties of the sample. We consider that an estimation of the inclination via the velocity distribution would require assuming an intrinsic behavior on the kinematic component \citep[e.g., tilted-ring modeling, ][]{2007A&A...468..731J}. Although, this could be the case of some of the non-interacting galaxies presented in this study (restricted even only to the nebular component), it might not be the case for highly asymmetric velocity fields, such as those exhibit by interacting/merging galaxies. In the work presented here we focus mainly on the characterzation of the velocity fields via  their different components kinematic PAs. 
+
+In order to determine the global orientation of the velocity maps first it is necessary to set the kinematic centre. For an ideal pure rotating disk the kinematic centre should be at the position with the largest velocity gradient (or gradient peak, GP hereafter) and in agreement with optical nucleus.  The reader is refered to Garc\'ia-Lorenzo et al. (2014, submitted) for details of the method used to determine the velocity gradient in the CALIFA ionized gas velocity fields.  Briefly, in a region of $10\arcsec\times10\arcsec$ centred in the optical nuclei we determine the velocity gradient  in each spaxel with respect to the surrounding spaxels. Then, we select the positions where  the velocity gradient is larger than its average inside this box. Finally, the GP is estimated from the weighted average location of the selected positions, using as weights the velocity gradient at each location.
+
+ For an observed velocity field the GP does not always coincided with the optical nucleus (ON hereafter). Taking the size of the original fiber as the minimum distance to report an offset between the GP and ON (i.e., 2.7$\arcsec$). We find that a large fraction of the sample in their stellar component do not present a significant offset between these two positions (69/80) with a mean offset of 1.5 and standard deviation of 1.1 arcsecs.  In the rest of the stellar velocity fields this offset is due to possible SNe in the central region (e.g.,  NGC~7478) or the possibility in barred galaxies that the GP is located at the end of bar (e.g.  NGC~6004). The ionized gas present similar offsets (mean offset of 1.3 and standard deviation of 0.9 arcsecs). However the fraction of galaxies with small offsets is larger (74/80). The galaxies with large offsets are either edge on galaxies (e.g., UGC~841) or patchy in emission (e.g., NGC~4956).   Finally, as  kinematic centre we choose either ON or GP, depending on the best symmetry of the rotational curve (see details below). In all the cases with large offset in the GP (in both components) the ON yields a more symmetric velocity curve than the GP. This yield that in 21/80  and 5/80 velocity fields the ON was selected as the kinematic centre for the stellar and ionized gas components, respectively.   As we note above most of the offsets are smaller than the original spatial resolution of the instrument, in particular, for the stellar component where spatial binning  is done (although small for the nuclear region) this yield a larger number of fields where the ON was selected as kinematic centre. In tables \ref{table_Skin} and \ref{table_Gkin} we list the gradient peak location with respect to the optical centre when  the choice for the kinematic centre was the  GP, and the systemic velocity derived for both components as the mean value within a 2.7$\arcsec$ radius of the kinematic centre.
+
+
+%-----------------------------------------------------------------------------
+ \begin{figure}[!htb]
+ \includegraphics[width=\linewidth]{MK_KK_join_err.pdf} 
+ \caption{Difference between the morphological PA ($\mathrm{PA_{morph}}$) and
+ kinematic PA ($\mathrm{PA_{kin}}$) against the total stellar mass for the
+ stellar (top) and the ionised gas (middle), as well as the stellar versus ionised-gas kinematic PA (bottom). Both kinematic sides of the velocity maps were compared  with $\mathrm{PA_{morph}}$ (top panels) and between each component (bottom panel). In each panel, the green-filled circles represent the non-barred
+ galaxies, blue diamonds are weakly-barred galaxies and violet squares correspond
+ to barred galaxies. For early-type galaxies we use open circles. Dashed lines
+ represent the 2$\sigma$ dispersion of the sample. Labels indicate the
+ 3$\sigma$ outliers. Error bars are determined from Monte Carlo simulations.} 
+ \label{PA_morph} 
+ \end{figure}
+%-----------------------------------------------------------------------------
+
+The major (projected) kinematic axis (PA$_{\mathrm{kin}}$, hereafter) provides a measurement of the global kinematic orientation. It can be determined directly from the positions of the spaxels defining the kinematic lines of nodes \citep{1992ApJ...387..503N}. In practice, we plot the radial velocity for all the spaxels up to a given radius in a position-velocity diagram centred in the kinematic centre previously assigned (see right panel of Fig.~\ref{kin_example}). We then choose those spaxels with the maximum (minimum) projected velocity at the receding (approaching) side at different radii. Finally, for each side, we identify the selected spaxels in the velocity map. The average of their polar coordinates provides an estimation of PA$_{\mathrm{kin}}$ and their standard deviation ($\delta$PA$_{\mathrm{kin}}$) measures the scatter of these points around the straight line defining the kinematic PA. Following a similar procedure, we also determine the minor (receding and approaching) kinematic PA by selecting the spaxels with the lowest velocity differences respect to the kinematic center. To compare the stellar and the ionised gas kinematic PA we pick the common maximum radius where both components can be measured. Although PA$_{\mathrm{kin}}$ is usually defined as the angle between the north and the receding side of the velocity field \citep[e.g., ][]{1997MNRAS.292..349S}, for the sake of homogeneity, we report the approaching and receding kinematic PAs independently (PA$_{\mathrm{kin,app}}$ and PA$_{\mathrm{kin,rec}}$) between 0 and 180 degrees from North to East. Typical errors in PA$_{\mathrm{kin}}$ and $\delta$PA$_{\mathrm{kin}}$ are of the order of 7 $^\circ$ obtained from Monte Carlo simulations. We have also investigated the uncertainties introduced by the Voronoi binning in the stellar velocity maps (by artificially increasing the level of binning in a few of our galaxies) and established that they could bias the determination of PA$_{\mathrm{kin}}$ at most 4$^\circ$.\looseness-2 
+
+In this study, for comparison, we also estimate the photometric orientations
+$\mathrm{PA_{morph}}$ of the galaxies by fitting an ellipse model using the
+standard task \textit{ellipse} of IRAF\footnote{ IRAF is distributed by the
+Optical Astronomy Observatory, which is operated by the Association of
+Universities for research in Astronomy (AURA) under cooperative agreement with the National Science Fundation} on the isophotes of the SDSS $r$-band image at two galactocentric distances: 1) at the same galactocentric distance where PA$_{\mathrm{kin}}$  are derived ($\mathrm{PA_{morph}}$, see solid white line in left panel of Fig.~\ref{kin_example}) and 2) at the outer most isophotes of the image (PA$\mathrm{_{morph}^{out}}$, see dotted white line in left panel of Fig.~\ref{kin_example}). We use the ellipticity of the latter  ($\epsilon$) as an homogeneous proxy for the inclination of the galaxies in our sample (see Table \ref{table_morph}).  All the position angles used in this work, as well as the radial distances where they have been computed, are presented in Tables~\ref{table_Skin} and \ref{table_Gkin}.
+%-----------------------------------------------------------------------------
+ \begin{figure*}[t]
+ \minipage{0.5\textwidth}
+ \includegraphics[width=\linewidth]{KK_stellar.pdf}
+ \endminipage\hfill
+ \minipage{0.5\textwidth}
+ \includegraphics[width=\linewidth]{KK_gas.pdf}
+ \endminipage\hfill
+ \caption{Internal kinematic misalignment between the receding PA
+ ($\mathrm{PA_{kin,rec}}$) and approaching ($\mathrm{PA_{kin,app}}$) kinematic
+ position angle against the stellar mass. In each panel the green-filled circles
+ represent the non-barred galaxies, blue diamonds correspond to weakly-barred
+ galaxies and violet squares represent the barred galaxies. Open circles
+ represent the early-type galaxies. Dashed lines represent the 2$\sigma$
+ dispersion of the sample ($\sim$15$^\circ$). Labels indicate the 3$\sigma$
+ outliers. Error bars at the left-top of each panel represent the typical error determined from Monte Carlo simulations.}
+ \label{PA_kin} 
+ \end{figure*}
+%-----------------------------------------------------------------------------
+%
+%
+%=========================================================
+\section{Kinematic alignment of galaxies}
+\label{sec:alignments}
+%
+%
+%
+\subsection{Global morpho-kinematic misalignments}
+\label{sec:mk_mis}
+
+In Fig.~\ref{PA_morph} we show the morpho-kinematic PA misalignment (i.e.,
+$\mathrm{PA_{morph}}-\mathrm{PA_{kin}}$) for the stellar and ionised-gas
+components (top and middle panels, respectively) against the total stellar mass
+of the galaxies (from Walcher et al., in preparation). Since there is no
+preference between the kinematic approaching and receding PA, both of them were
+compared with respect to $\mathrm{PA_{morph}}$. We do not find any trend between
+the stellar mass and the morpho-kinematic PA misalignment, in any component, for
+our sample of galaxies.
+
+About 90\% of the galaxies have morpho-kinematic misalignments smaller than 21(stellar)/ 22 (ionised gas) degrees. The mean misalignment and standard deviation are $\sim$0$^\circ$ and $\sim$10$^\circ$, respectively  in both components.  This indicates a global agreement between morphology and kinematics regardless the morphological type or bar strength. Barred galaxies present in both components the larger morpho-kinematic difference and the larger error bars (see tags in Fig.~\ref{PA_morph}). On the one hand, larger differences in the stellar component are observed in  IC~1683, NGC~5735, and NGC~171. For the two former galaxies the kinematic PA is similar to PA$\mathrm{_{morph}^{out}}$ rather than  $\mathrm{PA_{morph}}$. However $\mathrm{PA_{kin}}$ of NGC~171 is not similar to any of the photometric PA presented here (see Fig. \ref{PA_bars}). On the other hand for the ionised component, NGC~3687 and NGC~5735 present dissagrements with the photometric and kinematic PA. Similarly as in the stellar component, this galaxies seems to be more aligned to PA$\mathrm{_{morph}^{out}}$ than $\mathrm{PA_{morph}}$.
+In Sec.~\ref{sec:Impact}, we study the impact of deriving the kinematic PA at different radius, in particular for barred galaxies. 
+
+\cite{2011MNRAS.414.2923K} found that for 90\% of the ATLAS$^{\mathrm{3D}}$
+galaxies displayed stellar morpho-kinematic misalignments smaller than
+16$^\circ$ in their stellar component. From a sample of 24 early-type bulges,
+\cite{2006MNRAS.369..529F} found that 80\% showed stellar morpho-kinematic
+differences smaller than 20$^\circ$. Our results, based on a sample of
+non-interacting galaxies with a wide range of morphological types, are
+consistent with those findings. For the ionised-gas, the Fabry-Perot survey of
+late-type spirals and irregular galaxies, GHASP \citep[][]{2008MNRAS.388..500E},
+reported a 85\% of the objects with morpho-kinematic misalignments smaller than
+15$^\circ$. These results are also in agreement with our findings. Similar
+results have also been found for smaller samples \citep[e.g.][]{2008A&A...488..117K}.
+
+Although we present along this study projected kinematic properties of non-interacting galaxies, in Appendix \ref{sec:inclination_effects} we study the possible impact of the inclination for the determination of kinematic properties. In Fig.~\ref{PA_morph_e} we plot the previous morpho-kinematic misalignments with respect to the photometric ellipticity as a proxy for the inclination ($\epsilon$, see Sec.~\ref{sec:Robust_Kinematic}). As is expected, larger misalignments are found at low ellipticities whereas at high ellipticities the morpho-kinematic misalignements get reduced due to the projection effects. However, we suggest that even at low ellipticities this misalignments reduced significantly (see Sec.~\ref{sec:Impact}).
+
+Our results suggest that for a non-interacting galaxy the misalignment between the photometric and global (stellar- and/or ionised gas-) kinematic orientation is small for a wide range of morphologies and stellar masses (smaller than 20$^\circ$, with a mean value of  $\sim$ 0$^\circ$). This also held for galaxies with  strict isolation critera (i.e., AMIGA subsample), where the average misalignment for these galaxies is $\sim$1$^\circ$ with a standard deviation of 8$^\circ$ and 5$^\circ$ for the stellar and ionized gas component, respectively. As we noted previously only a small fraction of galaxies (2/80, barred) show large morpho-kinematic misalignments.
+
+
+In the bottom panel of Fig.~\ref{PA_morph} we show the difference
+between the stellar and ionised gas kinematic PA (i.e.$\mathrm{PA_{kin}^{stellar}}-\mathrm{PA_{kin}^{gas}}$). As in previous plots, we separate our sample according to their different bar strengths. In this stellar mass range, we do not find any trend. Barred and non-barred galaxies present similar alignments between their components. In fact, the mean difference for these components orientations is $\sim$1$^\circ$ with a standard deviation of $\sim$7$^\circ$. For 90\% of the galaxies, the global orientation of the stellar and the ionised gas velocity fields agrees, with differences smaller than 16$^\circ$. The only galaxy that seems to present large kinematic misalignment between both components is the late-type barred galaxy NGC~171. The large uncertainties in  the ionized gas component as well the fact that the locations of maximum velocity  present a large deviation from a straight line in the gas component suggest that the strong bar is the driver that distorted the ionised gas velocity field. From the SDSS $r$-band image, this object presents a bar as large as the FoV of the instrument with an extended ring. This is the only galaxy with these features in the sample presented here. In Fig.~\ref{PA_kin_e1} we plot these misalignments respect to the ellipticity. For a wide range of inclinations the alignment between both components is consistent. Summarizing, our measurements reveal small morpho-kinematics misalignments for both component as well as small stellar versus gas kinematic misalignments for barred galaxies, comparable to those for non-barred galaxies. At the spatial and spectral resolution of CALIFA survey, both components thus seem to follow a similar kinematic pattern even in the presence of bars.
+
+%-----------------------------------------------------------------------------
+\subsection{Internal kinematic PA misalignments}
+\label{sec:int_kin}
+
+In Sec.~\ref{sec:Robust_Kinematic} we estimated kinematic PA from the approaching
+and receding side as well as their departures from a straight line
+($\mathrm{PA_{kin,rec}}$, $\mathrm{PA_{kin,app}}$,
+$\delta\mathrm{PA_{kin,rec}}$, $\delta\mathrm{PA_{kin,app}}$). This allows us to
+study the internal kinematic misalignment, defined as $|\mathrm{PA_{kin,rec}}-\mathrm{PA_{kin,app}}|-180^\circ$, which should be zero for a regular rotational pattern. Figure~\ref{PA_kin} presents these misalignments for
+the stellar (left) and the ionised gas (right) components.
+
+We find that $\sim$ 92\% of the objects have internal kinematic misalignment smaller
+than 15$^\circ$ for both the stellar and the ionised gas. This is for different stellar masses and ellipticities (see Fig.~\ref{PA_kin_e}). Assuming that our objects are a representative sample of isolated galaxies, we suggest that any distortion in the line-of-sight velocity distribution that produces a kinematic misalignment larger than those values is not caused by internal processes. The kinematic deviations from a straight line $\delta$PA$_{\mathrm{kin}}$ range from 5$^\circ$ to  40$^\circ$  in both  components for a large fraction of the sample ($\sim$\,90\%). The mean value of these deviations is twice for the stellar component with respect to the ionized gas ($\sim$ 15$^\circ$ and $\sim$ 7$^\circ$). Their standard deviation is also twice for stars respect to the stellar component ($\sim$ 8$^\circ$ and 4$^\circ$, respectively). In Fig.~\ref{Histo_dis}(top-panel) we plot the distribution of  $\delta$PA$_{\mathrm{kin}}$ for different barred strengths.  The fact that the mean deviation of the stellar component is almost twice the deviation from the ionized gas could be explained by different factors. On the one hand, although we are allow to determine in each spaxel the stellar velocity with relatively small uncertainty, the change of velocity for joint spaxels could be smaller than the spectral resolution leading in a higher scatter in the positions of maximum velocity. On the other hand,  the method used here to derived kinematic properties is entirely based on the symmetry that a pure rotational velocity field should display. Therefore, any deviation translates in a perturbation in any of the parameters we are using to quantify or velocity fields. Small $\delta$PA$_{\mathrm{kin}}$ in the ionized gas indicates that gas lies in a thin disk, while the stellar component present 'dynamical-heated' structures (e.g., dynamical heated disk, pressure-supported bulge, etc).
+
+As we mention above, the barred galaxy \object{NGC\,171}  is the object where is more difficult to trace a symmetric velocity field in its ionised gas component (see Appendix~\ref{sec:maps}), the deviation of the maximmum-velocity positions from a straight line is of the order of $\delta$PA$_{\mathrm{kin}}$ $\sim$90$^\circ$. In Sec.~\ref{sec:Discussion}, we discuss the possible relation of $\delta$PA$_{\mathrm{kin}}$ with the level of bar strength of the non-interacting galaxies.
+%-----------------------------------------------------------------------------
+ \begin{figure*}[t]
+ \minipage{0.5\textwidth}
+ \includegraphics[width=\linewidth]{MK_BARS_STELLAR.pdf}
+ \endminipage\hfill
+ \minipage{0.5\textwidth}
+ \includegraphics[width=\linewidth]{KK_BARS_STELLAR.pdf}
+  \endminipage\hfill
+  \minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{MK_BARS_GAS.pdf}
+  \endminipage\hfill
+  \minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{KK_BARS_GAS.pdf}
+  \endminipage\hfill
+ \caption{Left panels: Morpho-kinematic PA misalignments at different regions of
+ the galaxy against the stellar mass for both the stellar (top panel) and the
+ ionised gas (bottom panel) components in a subsample of low-inclined galaxies. 
+ In each of these panels, the red points represent the morpho-kinematic PA
+ misalignment between PA$\mathrm{_{morph}^{out}}$ (see table \ref{table_morph})
+ and  PA$\mathrm{_{kin}}$ at r$\mathrm{_{in}}$. Blue points represent the
+ morpho-kinematic misalignment between PA$\mathrm{_{morph}^{out}}$ and
+ PA$\mathrm{_{kin}}$ up to r$\mathrm{_{out}}$ (see section \ref{sec:Impact} for
+ details). Filled circles, squares and stars represent non-barred, weakly-barred
+ and strongly-barred galaxies, respectively. Right panels: Difference between the
+ kinematic PA derived at r$\mathrm{_{in}}$ and r$\mathrm{_{out}}$ against the
+ stellar mass for both the stellar (top panel) and the ionised gas (bottom panel)
+ components. In the panels we highlight those objects with larger misalignments.}
+ \label{PA_bars}
+ \end{figure*}
+%-----------------------------------------------------------------------------
+
+
+%-----------------------------------------------------------------------------
+\subsection{Dependence on the measuring radius}
+\label{sec:Impact}
+
+In previous sections, to compare the PA$_{\mathrm{kin}}$ of both components, we used the same distance to average the polar coordinates of positions defined by the lines of nodes (see Sec.~\ref{sec:Robust_Kinematic}). In our data, usually
+the stellar velocity map limits this distance where the average is done. For barred galaxies, it is similar (and a few times smaller) than half the length of the bar (see r$\mathrm{_{bar}}$ in table \ref{table_morph}  and r in tables \ref{table_Skin} \ref{table_Gkin}).
+For the majority of the galaxies, the ionised gas extends further out for these galaxies. Our results could therefore be biased because of measuring the average kinematic orientation on a distance similar or close to the bar length.
+
+To study the impact of this distance in the global orientation of the
+galaxies, we calculated the morpho-kinematic misalignments at different radii in
+a sub-sample of 49 low-inclined galaxies ($\epsilon<0.5$ ).  PA$_{\mathrm{kin}}$ is computed 
+up to two different radius, r$_{\mathrm{out}}$ and r$_{\mathrm{in}}$ (see table
+\ref{table_kin_bar}). The former defines the largest extension of the velocity
+map in any component. For barred galaxies r$_{\mathrm{in}}$ defines the bar
+length, for non-barred galaxies we define it as half of the r$_{\mathrm{out}}$.
+PA$_{\mathrm{kin}}$(r$_{\mathrm{out}}$)  is the average of the polar coordinates
+from  r$_{\mathrm{in}}$ to r$_{\mathrm{out}}$, while
+PA$_{\mathrm{kin}}$(r$_{\mathrm{in}}$) is the average from the kinematic centre
+up to r$_{\mathrm{in}}$.
+
+Left panels of Fig.~\ref{PA_bars} show, for both components, the morpho-kinematic misalignment respect to the orientation of an ellipse at the outermost region of each galaxy (PA$\mathrm{_{morph}^{out}}$ ).. Red symbols correspond to misalignments with PA$_{\mathrm{kin}}$(r$_{\mathrm{in}}$), while blue ones represent misalignments for PA$_{\mathrm{kin}}$(r$_{\mathrm{out}}$ ). Note that in most of the cases PA$\mathrm{_{morph}^{out}}$ is measured at larger radii than  PA$_{\mathrm{kin}}$(r$_{\mathrm{out}}$). Right panels compare the difference between PA$_{\mathrm{kin}}$(r$_{\mathrm{in}}$) and PA$_{\mathrm{kin}}$(r$_{\mathrm{out}}$). Figure~\ref{PA_bars} evidences the similar alignment of the kinematic PA for different morphologies  at the different measuring radius, r$_{\mathrm{in}}$ and r$_{\mathrm{out}}$, in particular for barred galaxies. On the one hand, the comparison of kinematic PAs and PA$\mathrm{_{morph}^{out}}$
+(left panels) reveals that 90\% of the objects have differences smaller than
+16$^\circ$ (20$^\circ$) for the outer (inner) region in the stellar component.
+Differences became smaller for the ionised gas (13$^\circ$ and 20$^\circ$ for
+outer and inner regions, respectively). On the other hand, when we compare PA$_{\mathrm{kin}}$ at the inner and outer radii (right panels), we find that 90\% of the galaxies have differences smaller than 20$^\circ$ (16$^\circ$) for the stellar (ionised gas) component. These plots quantify what we observed in velocity fields; at different radii the orientation of the major kinematic PA remains rather constant. Moreover at different radii, PA$_{\mathrm{kin}}$ seems to be aligned with the orientation of the major photometric axis rather than other morphological local features such as bars. We find one outlier in both components: the strongly barred late-type galaxy (\object{NGC\,171}). This galaxy presents the smallest ellipticity in the sample (see Fig.~\ref{PA_morph_e}), making difficult to determine a reliable estimation of PA$\mathrm{_{morph}^{out}}$. From these morpho-kinematic differences as well as the differences presented in Sections \ref{sec:mk_mis} and \ref{sec:int_kin} we suggest that  for this sample of non-interacting galaxies, the stars and the ionised gas follow the potential of the disk. 
+%-----------------------------------------------------------------------------
+ \begin{figure}[!htb]
+ \begin{center}
+ \includegraphics[width=\linewidth]{dispersions.pdf}
+ \end{center}
+   \caption{Top: Histograms of the kinematic departure from a straight line in the velocity maps measured via $\delta$PA$_{\mathrm{kin}}^{\mathrm{stellar}}$ (left) and $\delta$PA$_{\mathrm{kin}}^{\mathrm{gas}}$ (right) separated by  different bar strengths. Dashed-lines represent the non-barred galaxies, dotted-lines correspond to the weakly-barred galaxies and solid-lines shows the distribution of strong barred galaxies. Middle: Apparent flattening of the galaxies via the ellipticity,  as in previous figures, the green-filled circles represent the non-barred galaxies, blue diamonds correspond to weakly-barred galaxies and violet squares represent the barred galaxies. Bottom: Difference between the  PA of the disk (PA$_{\mathrm{disk}}$) and the PA of the bar (PA$_{\mathrm{bar}}$) for strongly-barred galaxies only. Arrows in middle and bottom gas panels indicate the galaxy NGC~171 ($\delta$PA$_{\mathrm{kin}}^{\mathrm{gas}} \sim $ 90 $^{\circ}$ ) }
+ \label{Histo_dis} 
+ \end{figure}
+%-----------------------------------------------------------------------------
+
+\section{The impact of bars in velocity maps}
+\label{sec:Discussion}
+
+Simultaneous comparisons of the stellar and ionised gas resolved kinematics in
+barred galaxies are rather scarce. \cite{2006MNRAS.369..529F} studied those
+cases found in a sample of 24 spiral bulges. The sample included nine barred
+galaxies. Kinematic misalignments between the two components for these galaxies
+ranged from 1$^{\circ}$ to 38$^{\circ}$. A subsequent detailed study of the galaxy
+NGC\,5448 \citep{2005MNRAS.364..773F} revealed a kinematic misalignment between
+these two components of 25$^{\circ}$. These differences are explained by the fact
+that the morphological PA of the galaxies was measured within the same FoV
+probed by their kinematics (i.e. the inner regions of those galaxies). The
+PA$\mathrm{_{morph}}$ in those cases are thus biased due to the bar.
+Throughout this study we find that the global kinematic orientation (measured by
+the major-axis kinematic PA) for the stellar and the ionised gas are aligned for
+non-interacting objects in the CALIFA survey (see Fig.~\ref{PA_morph} and
+\ref{PA_kin}). This result appears to hold at different radial lengths of the 
+galaxies (Fig.~\ref{PA_bars}), even for barred galaxies. To quantify the departures from perfect axisymmetry in the global kinematic orientation, we plot in top panels of Fig.~\ref{Histo_dis} histograms showing the deviations from a perfect straight line observed in the stellar and ionised-gas kinematic maps ($\delta$PA$_{\mathrm{kin}}^{\mathrm{stellar}}$, $\delta$PA$_{\mathrm{kin}}^{\mathrm{gas}}$). As we already note in Sec.~\ref{sec:int_kin} the mean value of these deviations is larger for the stellar component in comparison to the ionized gas. For both components the strongly barred galaxies present slightly larger values respect to the non-barred galaxies. In particular the ionised gas component presents a difference between the distribution of barred and non-barred galaxies. This suggest that although the global kinematic orientation is stable in non-interacting galaxies, in particular for barred galaxies, some other kinematic parameters such as $\delta$PA$_{\mathrm{kin}}^{\mathrm{gas}}$ (at higher spatial and spectral resolution as the present velocity fields ) can be sensitive to the presence of
+strong bars. 
+%-----------------------------------------------------------------------------
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[width=\linewidth]{KK_minor.pdf}
+\end{center}
+\caption{ Misalignment between the major and minor kinematic PA for a subsample of low-inclined galaxies($\epsilon$~<~0.5). 0$^{\circ}$ represents perpendicularity between major and minor axes (see section~\ref{sec:Discussion}   for details). Left panels show these misalignments as function of the stellar mass for the stellar (top) and the ionised gas (bottom) components. Right panels present these kinematic  misalignment as function of the morphological alignment of the bar with respect to the disk for barred galaxies. As in previous figures,  the green-filled circles represent the non-barred galaxies, blue diamonds correspond to weakly-barred galaxies and violet squares represent the barred galaxies. Dotted-violet lines represent the mean value for the barred galaxies while dashed-green lines represent the mean value for the non-barred galaxies.}
+\label{minor} 
+\end{figure}
+%-----------------------------------------------------------------------------
+
+It is important to note that  there is still a fair fraction of strongly barred
+systems with $\delta$PA$_{\mathrm{kin}}$ consistent with those observed in
+non-barred galaxies. We have investigated whether this effect is caused by the flattening of the galaxy,or due to the relative orientation of the bar with respect to the disk major axis. This is shown in the middle and lower panels of 
+Fig.~\ref{Histo_dis}. The projected deviation of the kinemtic PA ($\delta$PA$_{\mathrm{kin}}$) seems to grow at lower apparent flattening of the galaxy (as a surrogate for inclination). This trend is particular clear for barred galaxies, it may be induced by projections effects. Using the method presented in this study, any kinematic deviation from a straight line would be more easily quantified in  a  nearly face-on velocity field  than in the same field viewed as edge-on. For high inclined galaxies with large kinematic deviations, we may even trace vertical motions rather than radial deviation from a circular velocity field. Note however that other kinematic indicators such as the intrinsic kinematic misalignment do not present a clear trend respect to the ellipticity (see Appendix~\ref{sec:inclination_effects}). As for the orientation of the bar with respect to the disk major axis, the kinematic deviations covers a wide range of values for a given alignment between the bar and disk orientation, indicating that at least for barred galaxies the orientation of the bar with respect to the disk may not affect drastically the scatter in the location of  maximum velocities. 
+
+The velocity maps of barred galaxies often show, however, clear signatures of
+perturbations from a symmetric velocity field \citep[e.g.,
+][]{2005MNRAS.360.1201H, 2009ApJ...704.1657F}. A characteristic ``S''-shape in
+the zero-velocity curve is observed in several of these ionised gas kinematic
+maps \citep[e.g.,][]{1980ApJ...242..913P, 2001AJ....121.2540G,
+2006MNRAS.365..367E}. For a pure rotating disk galaxy the major and minor axis are perpendicular everywhere \citep[]{1998gaas.book.....B}. To account for the distortion in the zero-curve velocity we estimate the difference between the above kinematic PAs. For each low-inclined galaxy ($\epsilon <$ 0.5) we estimate the largest departure among the four kinematic PAs (approaching and receding major PAs and their corresponding minor PAs). 0$^{\circ}$ represents perpendicularity between major and minor axes. In Fig.~\ref{minor} we represent these departures against the stellar mass (left panels) and the photometric alignment of the bar respect to the disk for barred galaxies  (right panels) for the stellar (top panels) and nebular components (bottom panels).  For the stellar component, almost all the low-inclined galaxies present differences smaller than $\sim$30$^{\circ}$ except for the barred galaxy NGC~6155. Even more, strongly-barred galaxies spread homogeneously in this range as the non-barred objects. The average departure between strongly and non barred galaxies is  similar ($\sim$11$^{\circ}$ and $\sim$15$^{\circ}$, respectively). The ionised gas component display a wide range of differences between the major and minor kinematic PAs. In particular, strongly-barred galaxies present a wider range of  differences than non-barred sample. The average of this difference for the barred galaxies is larger  ($\sim$24$^{\circ}$) respect to the unbarred galaxies ($\sim$15$^{\circ}$). According to numerical simulations, the difference between the major and minor kinematic PA is best seen in velocity fields where the bar makes an angle of 45$^{\circ}$ with  the major axis of the galaxy \citep[e.g., ][]{1984PhR...114..319A, 2012MNRAS.425L..10S}. Due to the moderate sub-sample of barred galaxies in this study and the rather large uncertainty in determine the minor kinematic PA, it is not clear weather larger differences in the kinematic PAs are observed at this specific angle between the bar and the disk PA. Note however, that for the stellar component an increment in this difference seems to be present at PA$_{\mathrm{disk}}$ - PA$_{\mathrm{bar}}$ $\sim$ 50$^{\circ}$. In the ionised gas,  for a given morphological alignment between the bar and the disk we find a broad range of differences between the major and minor kinematic PA. Given the spectral and spatial resolution in our velocities distributions, we consider that the difference between the major and minor kinematic PAs is a sensitive indicator of the presence of a bar in particular for the ionised gas component. Detailed individual studies are required in order to explain the shape and length of the distortion in this velocity curve as well as to determine if the ionized gas is more sensitive component to the bar potential. These issues are  beyond the scope of this study, however our results motivate numerical simulations to address the nature of the kinematics in non-interacting galaxies. As opposed to the previous kinematic indicators (see Fig.~\ref{PA_morph} and~\ref{PA_kin}) this indicator of kinematic distortion varies significantly for non-interacting galaxies making difficult to use it as a discriminator to distinguish the kinematic distortion produced by the merging event or a secular process.   
+\\
+
+
+%================================================================
+\section{Conclusions}
+\label{sec:conclusions}
+
+We have studied the stellar and ionised-gas kinematics for a sample of 80
+non-interacting galaxies in the CALIFA survey. The fraction of barred and
+non-barred objects in this sample is similar. We find that for 90\% of the
+sample the global orientation of the stellar and ionised gas is fairly aligned
+(misalignment smaller than $\sim$ 20$^\circ$) with respect to the global photometric orientation of the galaxy, including barred and non-barred objects. From the method used to measure the major kinematic PA we study the internal kinematic PA misalignments namely, the difference between the receding and approaching kinematic PA. We find intrinsic aligned velocity fields in both components for a large fraction of the sample (intrinsic misalignments smaller than 15$^\circ$ degrees for the stellar and the ionised gas components). 
+
+We also compared the derived kinematic PA for the stellar and the
+ionised gas components. We observe a tight alignment (16$^\circ$ degrees of
+difference) between both components for the majority of this non-interacting
+sample. This result holds even in barred galaxies when the comparison is carried
+out either at the radius of the bar or further out, the radius of the disk. From
+these results we suggest that the global kinematics in non-interacting galaxies in
+both the stellar and the ionised gas components (measured by the major kinematic position angle) seems to be dominated by the mass of the disk, rather than  other morphological component that can induce non-circular
+patterns in the observed velocity fields such as bars. Even though locally bars
+can redistribute the angular momentum, energy and mass; the global kinematic
+pattern that dominates across the galactic disk -including the bar- is
+consistent with a regular rotational pattern. 
+
+We will use the results presented in this paper to gauge the kinematic 
+distortions caused by external forces in galaxies that undergo a merger event in Barrera-Ballesteros et al. (in prep.).  
+
+
+%==================================================================
+\section*{Acknowledgements}
+We thank the referee for a thorough reading of this work and his/her comments and suggestions. We also thank Lindsay Holmes for allow us to use her DiskFit kinematic modelling for comparison with our results. This study makes use of the data provided by the Calar Alto Legacy Field Area (CALIFA) survey (http://www.califa.caha.es). Based on observations collected at the Centro Astron\'{o}mico Hispano Alem\'{a}n (CAHA) at Calar Alto, operated jointly by the Max-Planck-Institut f\"{u}r Astronomie and the Instituto de Astrof\'{\i}sica de Andalucia (CSIC). CALIFA is the first legacy survey performed at the Calar Alto. The CALIFA collaboration would like to thank to the IAA-CSIC and MPIA-MPG as major partners of the observatory, and CAHA itself, for the unique access to the telescope time and support  in manpower and infrastructures. The CALIFA collaboration also thanks the CAHA staff for the dedication to this project. J.~B.-B. and B.~G.-L. thank the support from the Plan Nacional de I+D+i (PNAYA) funding programs (AYA2012-39408-C02-02) of Spanish Ministry of Economy and Competitiveness (MINECO).
+%
+J.~F.-B. acknowledges support from the Ram\'on y Cajal Program, grants
+AYA2010-21322-C03-02 from the Spanish Ministry of Economy and Competitiveness
+(MINECO). We also acknowledge support from the FP7 Marie Curie Actions of the
+European Commission, via the Initial Training Network DAGAL under REA grant
+agreement number 289313. R.A.M is funded by the Spanish program of International Campus of Excellence Moncloa (CEI).
+%
+L.~V.~M. acknowledges support from the Grant AYA2011-30491-C02-01 co-financed by MICINN and FEDER funds, and the Junta de Andalucia (Spain) grants P08-FQM-4205 and TIC-114.
+%
+J.I.P. acknowledges financial support from the Spanish MINECO under grant AYA2010-21887-C04-01 and from Junta de
+Andaluc\'{\i}a Excellence Project PEX2011-FQM7058.
+%
+J.M.A. acknowledges support from the European Research Council Starting Grant (SEDmorph; P.I. V. Wild)
+
+\bibliographystyle{aa} 
+\bibliography{noInter_final}
+
+%\listofobjects
+
+
+%====================================================================
+\begin{appendix}
+
+\section{Kinematic alignments versus apparent ellipticity}
+\label{sec:inclination_effects} 
+
+All the kinematic parameters presented in this study are determined on the plane of the sky. Therefore, it is expected that any intrinsic kinematic property would be affected by the inclination of the galaxy with respect to the plane of the sky. In this appendix we show the same kinematic misalignments presented in section \ref{sec:alignments} with respect to the apparent ellipticity as proxy of the apparent inclination of the galaxies.
+
+%-----------------------------------------------------------------------------
+  \begin{figure}[!htb]
+   \includegraphics[width=\linewidth]{Hist_eps.pdf}
+   \caption{\label{ell_hist} Distribution of the ellipticity as proxy of the inclination for the galaxies used in this study. Dashed-lines represent the non-barred galaxies, dotted-lines correspond to the weakly-barred galaxies and solid-lines shows the distribution of strong barred galaxies.}
+  \end{figure}
+%-----------------------------------------------------------------------------
+
+In Figure \ref{ell_hist} we plot the distribution of the non-interacting galaxies with respect to the ellipticity. We have a fair coverage of galaxies at different inclinations , in particular for the low-inclined ones ($\epsilon$~<~0.5). In order to have consistent  results, we also try to have the same fraction of barred vs unbarred galaxies at different ellipticity bins.
+
+In Figure \ref{PA_morph_e} we plot the morpho-kinematic misalignments explained in section \ref{sec:mk_mis} against the ellipticity for both components as well as the internal kinematic misalignment in each component ( Fig.~\ref{PA_kin_e}) and the comparison of the kinematic PA between the stars and the gas ( Fig.~\ref{PA_kin_e1}).  We find large morpho-kinematic misalignments in galaxies with low ellipticities ($\epsilon$\,<\,0.3, see Fig.~\ref{PA_morph_e}).
+ 
+For the kinematic parameters independent of the morphology (i.e., Figs.~\ref{PA_kin_e} and ~\ref{PA_kin_e1}), we find rather similar values at different ellipticity bins. In each panel of these figures we plot an estimation of the projections effects as function of the ellipticity assuming a face-on misalignment of 60$^{\circ}$ (see Fig.~\ref{PA_morph_e}) in any of the (morpho-) kinematic indicators. This value was chosen to  approximately match the  misalignments found at large ellipticities. Within uncertainties all the galaxies  display internal kinematic misalignments smaller as the ones expected for their inclinations. In other words for these misalignments we do not find large scatters at low ellipticities as expected for a quantity heavily affected by projection effects.
+
+  
+%-----------------------------------------------------------------------------
+  \begin{figure}[!htb]
+    \includegraphics[width=\linewidth]{MK_stellar_eps.pdf}
+    \includegraphics[width=\linewidth]{MK_gas_eps.pdf}
+    \caption{\label{PA_morph_e} Difference between the morphological PA ($\mathrm{PA_{morph}}$) and the kinematic PA ($\mathrm{PA_{kin}}$) against the ellipticity of the outermost isophote of the galaxy for the stars (top panel) and the ionised gas (bottom panel). Both kinematic sides of the velocity maps were compared with $\mathrm{PA_{morph}}$. In each panel, the green-filled circles represent the non-barred galaxies, blue diamonds are weakly-barred galaxies and violet squares correspond to barred galaxies. For early-type galaxies we use empty circles. Labels indicate the 3-$\sigma$ outliers. Dashed lines represent the projection effect of a morpho-kinematic misalignment of 60$^{\circ}$ measured in the plane of the galaxy. In each panel, the grey area represents the 2$\sigma$ dispersion of the sample.}
+  \end{figure}
+%-----------------------------------------------------------------------------
+  
+%-----------------------------------------------------------------------------
+  \begin{figure}[!htb]
+    \includegraphics[width=\linewidth]{KK_stellar_eps.pdf}
+    \includegraphics[width=\linewidth]{KK_gas_eps.pdf}
+    \caption{\label{PA_kin_e} Internal kinematic misalignment between the receding PA ($\mathrm{PA_{kin,rec}}$) and approaching ($\mathrm{PA_{kin,app}}$) kinematic position angle against the ellipticity. In each panel the green-filled circles represent the non-barred galaxies, blue diamonds correspond to weakly-barred galaxies and violet squares represent the barred galaxies. Empty circles represent the early-type galaxies. Labels indicate the 3-$\sigma$ outlier. Dashed lines represent the projection effect of a morpho-kinematic misalignment of 60$^{\circ}$ measured in the plane of the galaxy.  In each panel, the grey area represents the 2$\sigma$ dispersion of the sample.}
+  \end{figure}
+    
+%-----------------------------------------------------------------------------
+  \begin{figure}[!htb]
+    \includegraphics[width=\linewidth]{KK_both_comp_eps.pdf}
+    \caption{\label{PA_kin_e1} Stellar and ionised gas difference respect the ellipticity. the green-filled circles represent the non-barred galaxies, blue diamonds correspond to weakly-barred galaxies and violet squares represent the barred galaxies. Empty circles represent the early-type galaxies. Dashed lines represent the projection effect of a morpho-kinematic misalignment of 60$^{\circ}$ measured in the plane of the galaxy. In each panel, the grey area represents the 2$\sigma$ dispersion of the sample.}
+  \end{figure}
+%-----------------------------------------------------------------------------
+
+
+\clearpage
+\newpage
+
+\section{Tables}
+%################ TABLE ######################
+ \input{tabletex_morph_prop.txt}
+%#############################################
+
+%################ TABLE ######################
+ \input{tabletex_Skin_prop.txt}
+%#############################################
+
+%################ TABLE ######################
+ \input{tabletex_Gkin_prop.txt}
+%#############################################
+
+%################ TABLE ######################
+ \input{tabletex_kin_prop_bar.txt}
+%#############################################
+
+
+\clearpage
+\newpage
+
+\section{Stellar and Ionized velocity fields}
+\label{sec:maps}
+In this appendix we present the velocity field of the 80 non-interacting galaxies.
+Each row present one galaxy similar as in Fig.\ref{kin_example}.
+From left to right: SDSS r-band image of the galaxy. White solid line represents the photometric PA measured at the same galactocentric distance as the kinematic PA ($\mathrm{PA_{morph}}$, see section \ref{sec:Robust_Kinematic}). Dashed line represents the photometric PA measured at the outermost isophote of the image (PA$\mathrm{_{morph}^{out}}$, see section \ref{sec:Impact}).
+Next two panels show the stellar and ionised gas velocity maps, respectively. Green points highlight the locations where the maximum velocity is located at given radius, determined from the position-velocity diagram. Black lines for each kinematic side represent the average kinematic PA (PA$_{\mathrm{kin}}$), while white thin lines along the zero-velocity curve show the average minor kinematic PA. Next panel  shows the distance from the galactic centre versus the maximum for the stellar (blue) and ionised gas (red) components. The curve along  0\,km\,s$^{-1}$ represent the velocities along the zero-velocity curve. Uncertainty in velocity are determined from Monte Carlo simulations. Last panel shows the dependence of the different PA with respect to the radius. $\mathrm{PA_{morph}}$,  $\mathrm{PA_{kin}^{stellar}}$  and  $\mathrm{PA_{kin}^{gas}}$  are represented by open  circles, filled blue diamonds and filled red squares, respectively. For barred galaxies we highlight with dashed lines the length of the bar and its orientation.
+
+ \begin{figure*}[!htb]
+ \includegraphics[width=\linewidth]{app_stellar_gas_MC_1.pdf}
+  \caption{\label{app} Stellar and ionised gas velocity fields for the sample of galaxies used in this study.}
+  \end{figure*}
+
+ \begin{figure*}[!htb]
+  \addtocounter{figure}{-1}
+ \includegraphics[width=\linewidth]{app_stellar_gas_MC_2.pdf}
+  \caption{\label{app1} - \textit{continued}}
+  \end{figure*}
+  
+ \begin{figure*}[!htb]
+   \addtocounter{figure}{-1}
+ \includegraphics[width=\linewidth]{app_stellar_gas_MC_3.pdf}
+ \caption{\label{app2} - \textit{continued}}
+ \end{figure*}
+ 
+ \begin{figure*}[!htb]
+ \includegraphics[width=\linewidth]{app_stellar_gas_MC_4.pdf}
+  \addtocounter{figure}{-1}
+  \caption{\label{app3} - \textit{continued}}
+  \end{figure*}
+
+
+ 
+  \begin{figure*}[!htb]
+  \includegraphics[width=\linewidth]{app_stellar_gas_MC_5.pdf}
+  \addtocounter{figure}{-1}
+  \caption{\label{app4} - \textit{continued}}
+  \end{figure*}
+
+  \begin{figure*}[!htb]
+  \includegraphics[width=\linewidth]{app_stellar_gas_MC_6.pdf}
+  \addtocounter{figure}{-1}
+  \caption{\label{app5} - \textit{continued}}
+  \end{figure*}
+ 
+  \begin{figure*}[!htb]
+  \includegraphics[width=\linewidth]{app_stellar_gas_MC_7.pdf}
+  \addtocounter{figure}{-1}
+  \caption{\label{app6} - \textit{continued}}
+  \end{figure*}
+ 
+  \begin{figure*}[!htb]
+  \includegraphics[width=\linewidth]{app_stellar_gas_MC_8.pdf}
+  \addtocounter{figure}{-1}
+  \caption{\label{app7} - \textit{continued}}
+  \end{figure*}
+ 
+  \begin{figure*}[!htb]
+  \includegraphics[width=\linewidth]{app_stellar_gas_MC_9.pdf}
+  \addtocounter{figure}{-1}
+  \caption{\label{app8} - \textit{continued}}
+  \end{figure*}
+ 
+ \begin{figure*}[!htb]
+ \includegraphics[width=\linewidth]{app_stellar_gas_MC_10.pdf}
+  \addtocounter{figure}{-1}
+  \caption{\label{app9} - \textit{continued}}
+  \end{figure*}
+
+
+\end{appendix}
+
+\end{document}

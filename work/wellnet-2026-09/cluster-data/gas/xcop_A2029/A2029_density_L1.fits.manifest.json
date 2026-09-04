@@ -1,0 +1,75 @@
+{
+  "file": "A2029_density_L1.fits",
+  "source_url": "https://drive.switch.ch/index.php/s/j3WUOYXWgv9Jbnz/download  (allfiles.tar.gz, X-COP public data release, linked from https://dominiqueeckert.wixsite.com/xcop/data)",
+  "exact_query": "curl -sL 'https://drive.switch.ch/index.php/s/j3WUOYXWgv9Jbnz/download' -o allfiles.tar.gz ; tar xzf allfiles.tar.gz A2029/<file>",
+  "retrieved_utc": "2026-09-04T04:21:38Z",
+  "sha256": "473594d299944c0f818a37f47f9810f50090de49cbc0e163cab26120f21fb84b",
+  "bytes": 14400,
+  "row_count": 63,
+  "column_count": 5,
+  "columns": [
+    {
+      "name": "R_IN",
+      "unit": "kpc"
+    },
+    {
+      "name": "R_OUT",
+      "unit": "kpc"
+    },
+    {
+      "name": "NE",
+      "unit": "cm-3"
+    },
+    {
+      "name": "NE_LOW",
+      "unit": "cm-3"
+    },
+    {
+      "name": "NE_HIGH",
+      "unit": "cm-3"
+    }
+  ],
+  "extraction": "Upstream FITS, byte-for-byte as shipped in allfiles.tar.gz. HDU1 'DENSITY' = n_e(r) in physical units (63 rows). HDU2 'SCALED_NE' = same profile scaled to R/R500 and self-similar density (63 rows). Companion TSV of HDU1 written alongside.",
+  "note": "Abell 2029. Instrument: XMM-Newton EPIC (X-COP mosaic), Ghirardini et al. 2019 A&A 621, A41 / Eckert et al. X-COP. THIS IS A DEPROJECTED ELECTRON DENSITY PROFILE n_e(r), obtained by deprojecting the azimuthally-averaged X-ray surface brightness under an assumption of SPHERICAL SYMMETRY using the L1-penalty (multiscale) method. Radial range 2.26-2212.1 kpc = 0.0016-1.564 R500 (R500=1414.0 kpc). NO core excision: the innermost bin starts at 2.26 kpc. n_e is a MEASURED/deprojected quantity, not derived from a mass model.",
+  "extra_header": {
+    "CLUSTER": "A2029",
+    "REDSHIFT": 0.0766,
+    "R500": 1414.0,
+    "ERR_R500": 16.0,
+    "M500": 8.6511,
+    "ERR_M500": 0.29367,
+    "RA": 227.73418,
+    "DEC": 5.744432
+  },
+  "second_hdu": {
+    "name": "SCALED_NE",
+    "row_count": 63,
+    "columns": [
+      {
+        "name": "RW_X",
+        "unit": "R/R500"
+      },
+      {
+        "name": "NE",
+        "unit": "cm-3"
+      },
+      {
+        "name": "ERR_NE_LO",
+        "unit": "cm-3"
+      },
+      {
+        "name": "ERR_NE_HI",
+        "unit": "cm-3"
+      }
+    ]
+  },
+  "cluster": "Abell 2029",
+  "r_min_kpc": 2.26,
+  "r_max_kpc": 2212.1,
+  "r_min_R500": 0.0016,
+  "r_max_R500": 1.5645,
+  "has_ne_profile": true,
+  "core_excised": false,
+  "deprojected": true,
+  "derived_assumes_newtonian_hse": false
+}

@@ -1,0 +1,55 @@
+{
+  "file": "manga_gas_star_misalignment.csv",
+  "produced_by": "env-data/code/measure_gas_star_misalignment.py",
+  "produced_utc": "2026-09-04T05:00:42Z",
+  "sha256": "093f4a9880990e95940c4d06290f4ee60051796b16deb31db8ae8a16268660ae",
+  "bytes": 272847,
+  "row_count": 900,
+  "column_count": 24,
+  "columns": [
+    {
+      "name": "plateifu",
+      "unit": "MaNGA plate-IFU"
+    },
+    {
+      "name": "pa_stellar_deg",
+      "unit": "deg, kinematic PA of the stellar velocity field, from +y toward +x"
+    },
+    {
+      "name": "pa_gas_deg",
+      "unit": "deg, same for the H-alpha velocity field"
+    },
+    {
+      "name": "misalign_deg",
+      "unit": "deg, |PA_stellar - PA_gas| folded to [0,180]; 0 co-rotating, 90 orthogonal (polar gas), 180 counter-rotating"
+    },
+    {
+      "name": "grad_stellar",
+      "unit": "km/s per spaxel, fitted gradient amplitude"
+    },
+    {
+      "name": "grad_gas",
+      "unit": "km/s per spaxel"
+    },
+    {
+      "name": "n_spx_stellar",
+      "unit": "spaxels used"
+    },
+    {
+      "name": "n_spx_gas",
+      "unit": "spaxels used"
+    },
+    {
+      "name": "ha_channel_label",
+      "unit": "DAP channel label, asserted to be H-alpha"
+    }
+  ],
+  "source": "SDSS DR17 MaNGA DAP MAPS, DAPTYPE HYB10-MILESHC-MASTARSSP, held in raw/manga/maps/",
+  "sample": "Every cube this lane holds: the union of the matched-pair galaxies and the near-face-on dispersion sample. This is NOT a misalignment-selected sample, so the fractions below are incidence rates within those two selections, not within MaNGA.",
+  "method": "Weighted least-squares plane fit V = a + b x + c y inside 1.5 R_eff on the unmasked spaxels; PA = atan2(b, c). Stellar fit weighted by the DAP inverse variance, gas fit weighted by H-alpha flux. Minimum 30 spaxels.",
+  "caveats": [
+    "This is a SCREEN, not a measurement of record. A linear gradient recovers the global rotation axis only; it cannot see a kinematically decoupled core, a warp, or a counter-rotating inner disk, and it degrades on a disturbed field.",
+    "Anything flagged here requires a proper kinematic position-angle fit (Krajnovic et al. 2006) on the same cube before it counts as a detection.",
+    "A near-face-on galaxy has an ill-defined PA in both components, so small gradients give unstable angles. Filter on grad_stellar and grad_gas before using misalign_deg."
+  ]
+}

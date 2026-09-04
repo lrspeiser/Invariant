@@ -1,0 +1,137 @@
+{
+ "file": "A2744_Owers2011_ApJ728_27_table5.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJ/728/27/table5&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/ApJ/728/27/table5",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/ApJ/728/27/ReadMe -> 1509 records",
+ "retrieved_utc": "2026-09-04T04:29:57Z",
+ "sha256": "546c5a9a55a6d614c398c8f84da67feaaed5f0c7095a5e99c38299b9cb61f09b",
+ "bytes": 83739,
+ "row_count": 1509,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "rmag",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "cz",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "e_cz",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "q_cz",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "r_cz",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "xm",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Simbad",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "Abell 2744 (z=0.308). Owers, Randall, Nulsen, Couch, David & Kempner 2011, ApJ 728, 27 ('The dissection of Abell 2744'), table 5 'Combined redshift catalog'. 1509 rows. IMPORTANT COMPOSITION: 259 of the 1509 rows are stars/foreground objects with cz<3000 km/s and these are exactly the rows with quality flag q_cz=6; the remaining 1250 rows are extragalactic. This reconciles with the published statement of 1237 extragalactic redshifts within 15 arcmin (the extra ~13 lie just outside 15 arcmin). The paper identifies 343 cluster members; there is NO membership column in the VizieR table, so members must be re-derived downstream. An indicative |dv|<3000 km/s rest-frame cut gives 418 galaxies - larger than the published 343 because Owers et al. applied additional substructure-aware selection. Instrument: AAOmega on the 3.9 m Anglo-Australian Telescope (2006 Sep 12-16), plus literature redshifts from Couch & Sharples, Boschin+2006 and Braglia+2009 (column r_cz gives the source, so this catalogue is a heterogeneous COMPILATION, not a single homogeneous survey). Selection function: targets drawn from the SuperCOSMOS Sky Survey photometric catalogue, r_F band; magnitudes span 16.5-23.0, no colour preselection stated. Quality flag q_cz runs 3-6 (3=lowest usable, 6=star). Sky coverage: to ~15.3 arcmin (~4.2 Mpc projected); 90% within ~3.8 Mpc. This is the widest-field spectroscopy available for A2744.",
+ "coverage": {
+  "cluster": "Abell 2744",
+  "centre_ra_deg": 3.58625,
+  "centre_dec_deg": -30.38861,
+  "z_cluster": 0.308,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 272.15,
+  "max_sep_arcmin": 15.4,
+  "p90_sep_arcmin": 13.87,
+  "median_sep_arcmin": 9.15,
+  "max_R_proj_Mpc": 4.19,
+  "p90_R_proj_Mpc": 3.776,
+  "member_max_R_proj_Mpc": 4.19
+ },
+ "counts": {
+  "n_rows": 1509,
+  "n_total_redshifts": 1509,
+  "n_members_published_definition": null,
+  "n_within_3000kms_indicative": 418,
+  "quality_flag_column": "q_cz",
+  "quality_flag_counts": {
+   "3": 493,
+   "4": 443,
+   "5": 314,
+   "6": 259
+  },
+  "member_flag_column": null,
+  "member_flag_counts": null
+ },
+ "raw_response_file": "raw/A2744_Owers2011_ApJ728_27_table5.raw.tsv",
+ "raw_sha256": "b295291f60d75e33a8a942152c1f89e9bb435269293d469875ab7a1630e917bc",
+ "raw_bytes": 142968
+}

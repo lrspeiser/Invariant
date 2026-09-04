@@ -1,0 +1,61 @@
+{
+  "file": "A2029_temperature.fits",
+  "source_url": "https://drive.switch.ch/index.php/s/j3WUOYXWgv9Jbnz/download  (allfiles.tar.gz, X-COP public data release, linked from https://dominiqueeckert.wixsite.com/xcop/data)",
+  "exact_query": "curl -sL 'https://drive.switch.ch/index.php/s/j3WUOYXWgv9Jbnz/download' -o allfiles.tar.gz ; tar xzf allfiles.tar.gz A2029/<file>",
+  "retrieved_utc": "2026-09-04T04:21:38Z",
+  "sha256": "4264ab2c3f0ebe8484a1096c285968ef3c24867dd5b0d4f360839d14d69c0a9c",
+  "bytes": 14400,
+  "row_count": 14,
+  "column_count": 3,
+  "columns": [
+    {
+      "name": "RW_X",
+      "unit": "R/R500"
+    },
+    {
+      "name": "T_X",
+      "unit": "T/T500"
+    },
+    {
+      "name": "eT_X",
+      "unit": "T/T500"
+    }
+  ],
+  "extraction": "Upstream FITS as shipped. HDU1 'XRAY' = X-ray-only temperature T/T500 profile (14 rows); HDU2 'XSZ' = joint X-ray+SZ (Planck) temperature T/T500 profile (7 rows).",
+  "note": "Abell 2029, XMM-Newton + Planck SZ (X-COP, Ghirardini et al. 2019 A&A 621, A41). DEPROJECTED 3D temperature T/T500 profile, assuming spherical symmetry. IMPORTANT: values are DIMENSIONLESS, self-similar-scaled. Convert with the header constants: R500=1414.0 kpc, T500=8.229501237850764 keV, M500=8.6511e14 Msun, z=0.0766. Radii RW_X / RW_SZ are already in R/R500. NO core excision. The temperature here is the DEPROJECTED 3D temperature, unlike the projected spectroscopic kT in spectral_results_A2029.fits.",
+  "extra_header": {
+    "CLUSTER": "A2029",
+    "REDSHIFT": 0.0766,
+    "R500": 1414.0,
+    "ERR_R500": 16.0,
+    "M500": 8.6511,
+    "ERR_M500": 0.29367,
+    "T500": 8.229501237850764,
+    "RA": 227.73418,
+    "DEC": 5.744432
+  },
+  "second_hdu": {
+    "name": "XSZ",
+    "row_count": 7,
+    "columns": [
+      {
+        "name": "RW_SZ",
+        "unit": "R/R500"
+      },
+      {
+        "name": "T_SZ",
+        "unit": "T/T500"
+      },
+      {
+        "name": "eT_SZ",
+        "unit": "T/T500"
+      }
+    ]
+  },
+  "cluster": "Abell 2029",
+  "has_T_profile": true,
+  "units_are_self_similar_scaled": true,
+  "core_excised": false,
+  "deprojected": true,
+  "derived_assumes_newtonian_hse": false
+}

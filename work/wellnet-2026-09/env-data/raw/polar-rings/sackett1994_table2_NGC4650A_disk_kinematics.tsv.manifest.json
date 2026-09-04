@@ -1,0 +1,36 @@
+{
+  "file": "sackett1994_table2_NGC4650A_disk_kinematics.tsv",
+  "source_url": "https://arxiv.org/pdf/astro-ph/9406015",
+  "source_file_within_archive": "page 7 of the arXiv PDF (the e-print SOURCE is dvips PostScript, not LaTeX)",
+  "paper": "Sackett P.D., Rix H.-W., Jarvis B.J. & Freeman K.C. 1994, 'The Flattened Dark Halo of Polar Ring Galaxy NGC 4650A: A Conspiracy of Shapes?', ApJ 436, 629 (arXiv:astro-ph/9406015)",
+  "retrieved_utc": "2026-09-04T04:26:55Z",
+  "sha256": "9b3dc27cd2eb83ce20fcd6ad62d70015a1a7963c0f07b7eb96c623e3795e69aa",
+  "bytes": 623,
+  "row_count": 23,
+  "column_count": 5,
+  "columns": [
+    {
+      "name": "R_arcsec",
+      "unit": "arcsec (galactocentric radius along the CENTRAL DISK major axis, PA~63 deg; negative = approaching/NE side)"
+    },
+    {
+      "name": "V_kms",
+      "unit": "km/s (STELLAR line-of-sight velocity relative to systemic; NOT inclination-corrected, NOT asymmetric-drift corrected)"
+    },
+    {
+      "name": "e_V_kms",
+      "unit": "km/s (1-sigma)"
+    },
+    {
+      "name": "sigma_kms",
+      "unit": "km/s (stellar line-of-sight velocity dispersion, with 19 km/s already subtracted in quadrature for pixel interpolation + template mismatch)"
+    },
+    {
+      "name": "e_sigma_kms",
+      "unit": "km/s (1-sigma)"
+    }
+  ],
+  "query": "GET https://arxiv.org/pdf/astro-ph/9406015 ; pdftotext -f 7 -l 7",
+  "extraction": "Verbatim transcription of published Table 2. pdftotext emits the three table columns as three separate text runs; they were re-zipped and the block lengths asserted equal (23 each) plus a monotonic-radius check. No unit conversion, no derivation, no inclination correction applied.",
+  "note": "THIS IS THE HOST-DISK-PLANE ROTATION CURVE OF NGC 4650A (stellar absorption lines, long slit at the central disk major axis). The POLAR-plane counterpart is NOT tabulated in this paper: Sect. 4.1 states the models were fitted to Halpha velocities (from Nicholson 1989's Fabry-Perot field) outward of 10 arcsec and required to match 'the deprojected HI speed of 105-125 km/s at 90 arcsec', with a 'measured polar HI linewidth of 240 km/s'. Radii from -17.33 to -23.93 arcsec on the NE side are absent because a foreground star contaminated those spectra; the +-20-30 arcsec data were combined into the single outermost bin on each side. Adopted distance: v_LG = 2625 km/s with H0 = 75 km/s/Mpc (=> ~35 Mpc); I-band m_I = 11.43. Model disk: M_D = 6.0e9 Msun, h = 4.7 arcsec, i = 68 deg (thin disk) or M_D = 5.25e9 Msun, h = 4.4 arcsec, i = 78 deg (thick disk); ring mass M_R = 10e9 / 9.7e9 Msun."
+}

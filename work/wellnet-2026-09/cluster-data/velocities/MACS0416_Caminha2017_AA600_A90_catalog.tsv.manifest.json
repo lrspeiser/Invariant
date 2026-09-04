@@ -1,0 +1,133 @@
+{
+ "file": "MACS0416_Caminha2017_AA600_A90_catalog.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J%2FA%2BA%2F600%2FA90%2Fcatalog&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/A+A/600/A90/catalog",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/A+A/600/A90/ReadMe -> 4594 records",
+ "retrieved_utc": "2026-09-04T04:37:40Z",
+ "sha256": "db78fdf6dfcfda9dc361acd15e8507c17f159c8cc0a2daad6019fb88a1a41ecf",
+ "bytes": 309670,
+ "row_count": 4594,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "CLASHVLT",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "q_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "r_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Rmag",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "Simbad",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "MACS J0416.1-2403 (z=0.396). Caminha, Grillo, Rosati, Balestra, Mercurio, Vanzella et al. 2017, A&A 600, A90, table 'catalog' = 'Full redshift catalog, combining the MUSE and VIMOS measurements'. 4594 redshifts - the largest MACS0416 catalogue in this product, and a superset of Balestra+2016. Quality: column q_z, values 2-9 (CLASH-VLT convention: 2=likely, 3=secure, 4=highly secure, 9=single emission line). Column r_z (1-6) gives the provenance of each redshift. Instrument: VLT/VIMOS (CLASH-VLT large programme) combined with VLT/MUSE for the core. Selection function: CLASH-VLT VIMOS targets are photometrically preselected from Subaru/Suprime-Cam imaging with a Kron R-band limit around R<24 plus colour-colour preselection designed to enhance the yield of cluster members and lensed background sources - this is a COLOUR-PRESELECTED sample, so the radial selection function is not uniform and completeness varies with radius and galaxy colour. Rmag column (ESO-WFI 2.2m Kron R, AB) is provided. Sky coverage: to ~17.4 arcmin (~5.5 Mpc projected); 90% within ~4.2 Mpc - genuinely wide-field, so a resolved sigma(R) is feasible for this cluster.",
+ "coverage": {
+  "cluster": "MACS J0416.1-2403",
+  "centre_ra_deg": 64.03812,
+  "centre_dec_deg": -24.06754,
+  "z_cluster": 0.396,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 320.4,
+  "max_sep_arcmin": 17.13,
+  "p90_sep_arcmin": 13.25,
+  "median_sep_arcmin": 8.84,
+  "max_R_proj_Mpc": 5.49,
+  "p90_R_proj_Mpc": 4.245,
+  "member_max_R_proj_Mpc": 5.277
+ },
+ "counts": {
+  "n_rows": 4594,
+  "n_total_redshifts": 4594,
+  "n_members_published_definition": null,
+  "n_within_3000kms_indicative": 982,
+  "quality_flag_column": "q_z",
+  "quality_flag_counts": {
+   "2": 726,
+   "3": 3512,
+   "4": 6,
+   "5": 5,
+   "9": 345
+  },
+  "member_flag_column": null,
+  "member_flag_counts": null
+ },
+ "raw_response_file": "raw/MACS0416_Caminha2017_AA600_A90_catalog.raw.tsv",
+ "raw_sha256": "32103c1b18a45eeb74b977fcc6c690da93d02e75e5ff7792333e3bea271664cd",
+ "raw_bytes": 351703
+}

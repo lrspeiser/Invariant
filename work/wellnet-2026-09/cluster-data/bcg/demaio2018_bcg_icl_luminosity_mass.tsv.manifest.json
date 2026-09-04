@@ -1,0 +1,55 @@
+{
+  "file": "demaio2018_bcg_icl_luminosity_mass.tsv",
+  "source_url": "https://arxiv.org/e-print/1710.11313",
+  "exact_query": "GET https://arxiv.org/e-print/1710.11313 -> tar.gz -> tables/sm_lum_fit_table_chab_july42017.tex (\\input into the sidewaystable* labelled table:best_fit)",
+  "retrieved_utc": "2026-09-04T04:24:33Z",
+  "sha256": "3a19611d257a5888c7ef6de09e6fb7df49a295d2b15bb1239caf34c000d95e43",
+  "bytes": 2740,
+  "row_count": 23,
+  "column_count": 10,
+  "columns": [
+    {
+      "name": "Cluster",
+      "unit": ""
+    },
+    {
+      "name": "z",
+      "unit": ""
+    },
+    {
+      "name": "colour_gradient_F110W_F160W",
+      "unit": "mag/arcsec2 per log(kpc)"
+    },
+    {
+      "name": "best_fit_radius_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "L_lt10kpc_1e11Lsun",
+      "unit": "1e11 Lsun"
+    },
+    {
+      "name": "L_lt50kpc_1e11Lsun",
+      "unit": "1e11 Lsun"
+    },
+    {
+      "name": "L_lt100kpc_1e11Lsun",
+      "unit": "1e11 Lsun"
+    },
+    {
+      "name": "Mstar_lt10kpc_1e11Msun",
+      "unit": "1e11 Msun"
+    },
+    {
+      "name": "Mstar_lt50kpc_1e11Msun",
+      "unit": "1e11 Msun"
+    },
+    {
+      "name": "Mstar_lt100kpc_1e11Msun",
+      "unit": "1e11 Msun"
+    }
+  ],
+  "extraction": "arXiv source tarball; the table body lives in a separate \\input file (tables/sm_lum_fit_table_chab_july42017.tex), parsed directly. Row count asserted ==23 against the paper text 'This sample of 23 groups and clusters'. arXiv id VERIFIED by title match: 'Lost but not Forgotten: Intracluster Light in Galaxy Groups and Clusters'. Asymmetric errors appear as 'a b' after macro stripping, meaning +a/-b as printed in the source (x^{+a}_{-b}); symmetric errors appear as '+/- e'.",
+  "note": "DeMaio et al. 2018, MNRAS 474, 3009. TARGET CLUSTERS PRESENT: RXJ2248 (= Abell S1063 = RXC J2248.7-4431), MACS0416 (= MACSJ0416.1-2403), MACS1149 (= MACSJ1149.5+2223). *** MACS0717 IS DELIBERATELY EXCLUDED by the authors: 'we exclude MACS0717 from the final sample because it is a very dynamic systems of 4 merging clusters with no clear central BCG to which to anchor the radial profiles'. *** Abell 2744, Abell 370 and Abell 2029 are not in this sample either (not CLASH / not observed). BAND: HST WFC3-IR F160W for the luminosities (the F110W-F160W colour gradient is the fitted quantity); stellar masses use a Chabrier IMF and a BC03 SSP colour-M/L relation. *** ICL/BCG SEPARATION METHOD: NONE. These are BCG+ICL COMBINED quantities integrated in fixed CIRCULAR APERTURES of r<10, 50 and 100 kpc centred on the BCG. The r<10 kpc aperture is BCG-dominated and the r<100 kpc aperture contains BCG+ICL; the paper does not decompose them. Treat the aperture difference (100 kpc minus 10 kpc) as an ICL PROXY only, not as a published ICL measurement. *** RADIAL RANGE / SB LIMIT: the underlying SB profiles are terminated once 3 consecutive dlog(r)=0.05 bins have >0.2 mag/arcsec2 uncertainty, which occurs at ~26-27 mag/arcsec2 for the CLASH clusters and ~25-26 mag/arcsec2 for the groups. MASS-MODEL DEPENDENCE: the tabulated L and M* are photometric and aperture-based, so NOT mass-model dependent. (The companion sample table's M500/r500 ARE X-ray derived -- see demaio2018_cluster_sample.tsv.) Quoted M* uncertainties exclude the systematic M/L (model + IMF) error and assume no M/L gradient in the ICL.",
+  "raw_response_file": "bcg/raw/demaio2018_arXiv1710.11313_sm_lum_fit_table.tex"
+}

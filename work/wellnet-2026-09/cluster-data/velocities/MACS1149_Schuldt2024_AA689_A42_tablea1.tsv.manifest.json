@@ -1,0 +1,151 @@
+{
+ "file": "MACS1149_Schuldt2024_AA689_A42_tablea1.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J%2FA%2BA%2F689%2FA42%2Ftablea1&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/A+A/689/A42/tablea1",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/A+A/689/A42/ReadMe -> 432 records",
+ "retrieved_utc": "2026-09-04T04:37:41Z",
+ "sha256": "9428d52f16c4ad73e624cee0a9d723f31837a00bd29dc726a3e4a48252119784",
+ "bytes": 32467,
+ "row_count": 432,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "CLASHVLT",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "HST",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "q_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Mult",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "s_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "F814W",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "FileName",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "r_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Simbad",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "MACS J1149.5+2223 (z=0.542). Schuldt, Grillo, Caminha, Mercurio, Rosati, Morishita, Stiavelli, Suyu et al. 2024, A&A 689, A42, table A.1 'MUSE catalog from new pointing'. 432 redshifts - the largest spectroscopic catalogue available for MACS J1149 and the best available for this cluster. Quality: column q_z; columns Mult (multiple-image flag), s_z, F814W magnitude and r_z (reference) are also present, and CLASHVLT / HST identifiers allow cross-matching. Instrument: VLT/MUSE (an additional pointing beyond the original Grillo+2016 field), combined with CLASH-VLT VIMOS identifiers. Selection function: MUSE datacube detection over the extended pointing footprint; F814W-based continuum priors plus blind line detection. Sky coverage: to ~1.7 arcmin (~0.65 Mpc projected); 90% within ~0.49 Mpc. WARNING: only ~151 objects lie within |dv|<3000 km/s of the cluster, so the member count is marginal for a resolved sigma(R) field and the radial baseline is sub-Mpc.",
+ "coverage": {
+  "cluster": "MACS J1149.5+2223",
+  "centre_ra_deg": 177.39875,
+  "centre_dec_deg": 22.39861,
+  "z_cluster": 0.5422,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 381.96,
+  "max_sep_arcmin": 1.7,
+  "p90_sep_arcmin": 1.29,
+  "median_sep_arcmin": 0.86,
+  "max_R_proj_Mpc": 0.651,
+  "p90_R_proj_Mpc": 0.493,
+  "member_max_R_proj_Mpc": 0.557
+ },
+ "counts": {
+  "n_rows": 432,
+  "n_total_redshifts": 432,
+  "n_members_published_definition": null,
+  "n_within_3000kms_indicative": 151,
+  "quality_flag_column": "q_z",
+  "quality_flag_counts": {
+   "2": 304,
+   "3": 109,
+   "9": 19
+  },
+  "member_flag_column": null,
+  "member_flag_counts": null
+ },
+ "raw_response_file": "raw/MACS1149_Schuldt2024_AA689_A42_tablea1.raw.tsv",
+ "raw_sha256": "aa9808239d1bf4780e3c2fab7e3b85da152a07e8ef65444731a843fb9b994105",
+ "raw_bytes": 53915
+}

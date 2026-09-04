@@ -1,0 +1,257 @@
+% Baltic Astronomy Document Style BALTLAT6.STY  (updated 2007 Dec 05).
+
+\font\norma=cmr10
+\font\normbf=cmbx10
+\font\smallbf=cmbx9
+\font\smalit=cmti9
+\font\itl=cmti9
+\def\em{\it}
+\def\norm{\normalsize}
+%SOME LITHUANIAN LETTERS
+\def\ac{a\kern-.35em\accent'30\kern-.05em}
+\def\Ac{A\kern-.35em\accent'30\kern-.05em}
+\def\uc{u\kern-.35em\accent'30\kern-.05em}
+\def\Uc{U\kern-.35em\accent'30\kern-.05em}
+\def\msf{\footnotesize}
+
+
+%\@options
+\lineskip 1pt
+\normallineskip 1pt
+\def\baselinestretch{1}
+\parskip 1pt
+\textwidth=125mm
+\textheight=190mm
+%\oddsidemargin=25.4mm
+%\evensidemargin=9.78mm
+\oddsidemargin=2.2mm % at twoside, but for the same position of text
+\evensidemargin=2.2mm % at twoside, but for the same position of text
+\baselineskip=11pt
+
+
+
+\def\titlehead#1{\vskip-15mm{\noindent\it #1\norm}
+\vskip15mm
+\thispagestyle{empty}}
+
+\def\fpagehead#1{
+\thispagestyle{myheadings}
+\markright{\it Baltic Astronomy, vol.#1.}
+\markboth{\it Baltic Astronomy, vol.#1.}
+{\it Baltic Astronomy, vol.#1.}
+\norm}
+
+
+\def\resthead#1#2{
+\pagestyle{amyheadings}
+\markright{\it #1}
+\markboth{\it #2}{\it #1}
+\norm}
+\def\runninghead{\resthead}
+
+
+
+\marginparwidth 2cm
+\marginparsep 10pt
+\topmargin 22.17pt
+
+\headheight 12pt
+\headsep 25pt
+
+\advance\textheight by \topskip
+\columnsep 10pt
+\columnseprule 0pt
+\footnotesep 8.4pt
+
+\skip\footins 10.8pt plus 4pt minus 2pt
+\floatsep 12pt plus 2pt minus 4pt
+\textfloatsep 10pt plus 2pt minus 4pt
+\intextsep 10pt plus 4pt minus 4pt
+
+
+\def\captionb#1#2{\small\vspace{2mm}
+\vbox{\baselineskip=9.5pt\hhuad{\bf Fig.\,#1.}
+ \,#2} \baselineskip=11pt}
+
+\def\captionr#1#2{\small\vspace{2mm}
+\vbox{\baselineskip=9.5pt{\bf Fig.\,#1.}
+ \,#2} \baselineskip=11pt}
+
+\def\captionc#1#2{\small\begin{center}\vspace{2mm}
+\vbox{\baselineskip=9.5pt{\bf Fig.\,#1.}
+ \,#2}\end{center}\baselineskip=11pt}
+
+
+\leftmargini 2.5em
+\leftmarginii 2.2em
+\leftmarginiii 1.87em
+\leftmarginiv 1.7em
+\leftmarginv 1em
+\leftmarginvi 1em
+
+
+
+\def\titleb#1{\noindent\hskip-.1pt{\parbox{123mm}{\bf #1}}\vspace{11mm}\norm}
+
+\def\authorb#1#2{  #1$^{#2}$}
+\def\addressb#1#2{\noindent{  $^{#1}$\,}
+      \vtop{\hsize120mm\it\noindent\baselineskip10pt #2}\vskip.3mm\norm}
+
+
+\def\authorl{\noindent\hskip.1pt}
+\def\endauthorl{\vskip1mm\par\norm}
+
+\def\addressl{\noindent\vskip.1pt}
+\def\endaddressl{\vskip5mm\par\norm}
+
+\def\submitb#1{\vskip2mm \noindent #1\vskip8mm}
+
+\def\thanks#1{\vspace{4mm} ACKNOWLEDGMENTS.\ \ #1\par}
+
+\def\sectionb#1#2{\vspace{5mm}\hbox{\kern-.9pt
+{#1.\ \ }\vtop{\noindent #2}\nopagebreak}
+\vspace{1mm} \noindent\baselineskip=11pt}
+
+\def\subsectionb#1#2{\vspace{3mm}\hbox{\kern-.9pt
+{\it #1.\ \ }\vtop{\noindent\it #2}\nopagebreak}
+\vspace{.5mm} \noindent\baselineskip=11pt}
+
+\def\subsubsectionb#1#2{\vspace{3mm}\hbox{\kern-.9pt
+{#1.\ \ }\vtop{\noindent #2}\nopagebreak}
+\vspace{.5mm} \noindent\baselineskip=11pt}
+
+
+\def\summary{\vskip-5pt\noindent
+\rightskip=0pc\leftskip=1pc%\parindent=\z@
+ \baselineskip 10pt
+{\bf Abstract.\ }}
+\def\endsummary{\par\norm}
+
+
+\def\keywords{\vskip 5pt\noindent
+\rightskip=0pc\leftskip=1pc%\parindent=\z@
+ \baselineskip 10pt
+{\bf Key words:\ }}
+\def\endkeywords{\par\norm}
+
+
+
+% REFERENCES
+%
+\def\References{\vskip4mm
+{\noindent
+  REFERENCES\hfill}
+  \vskip1mm
+
+\norm}
+\def\refb{\baselineskip=10pt
+\vskip.3mm
+\hangindent12pt\hangafter=1
+\noindent\ignorespaces}
+\def\endrefb{\endgroup}
+%
+
+
+\def\ps@myheadings{\let\@mkboth\@gobbletwo
+\def\@oddhead{\hbox{}\it\rightmark \hfil\norm}
+\def\@oddfoot{}\def\@evenhead{\it\leftmark\hbox {}\hfil\norm}
+\def\@evenfoot{}\def\sectionmark##1{}\def\subsectionmark##1{}}
+
+\def\ps@amyheadings{\let\@mkboth\@gobbletwo
+\def\@oddhead{\hbox{}\it\rightmark \hfil\norma \thepage\norm}
+\def\@oddfoot{}\def\@evenhead{\thepage\hfil\leftmark\hbox {}}
+\def\@evenfoot{}\def\sectionmark##1{}\def\subsectionmark##1{}}
+
+%TABLE TOOLS
+\def\tablerule{\noalign{\vskip.7ex}\noalign{\hrule}\noalign{\vskip.5ex}}
+\def\hhuad{\vrule height0pt depth0pt width10pt}%3.5mm
+\def\huad{\vrule height0pt depth0pt width5pt}  %1.75mm
+\def\sadd{\vrule height0pt depth0pt width.2em}
+\def\badd{\vrule height0pt depth0pt width2em}
+\def\add{\vrule height0pt depth0pt width.5em}
+\def\addu{\vrule height0pt depth0pt width1.3em}
+\def\addXcm{\vrule height0pt depth0pt width10truecm}
+\def\qua{\vrule height0pt depth0pt width2pt}
+\def\lhstrut{\vrule height10pt depth7pt width0pt}
+\def\hstrut{\vrule height10pt depth0pt width0pt}
+\def\lstrut{\vrule height0pt depth6pt width0pt}   %all of them
+\def\llstrut{\vrule height1pt depth10pt width0pt} %not visible
+\def\sstrut{\vrule height10pt depth5pt width0pt}
+\def\hhstrut{\vrule height18pt depth0pt width0pt}
+\def\lls{\vrule height0pt depth8pt width0pt}
+\def\ddown{\lower2.5ex\hbox}
+\def\ddow{\lower1.7ex\hbox}
+\def\down{\lower1ex\hbox}
+\def\uppp{\raise1ex\hbox}
+\def\dnnn{\lower1ex\hbox}
+\def\uuppp{\raise2ex\hbox}
+\def\vm{\vskip3mm}
+\def\hd{\hskip9.5mm}
+\def\hs{\hskip2mm}
+\def\hm{\hskip4mm}
+\def\hll{\hd&\hfil\hd}
+\def\hlm{\hm&\hfil\hm}
+% ASTRONOMICAL ABBREVIATIONS
+%
+\def\sun{\hbox{$\odot$}}
+\def\sq{\hbox{\rlap{$\sqcap$}$\sqcup$}}
+\def\degr{\hbox{$^\circ$}}
+\def\dgr{$^\circ\!$}
+\def\arcmin{\hbox{$^\prime$}}
+\def\arcsec{\hbox{$^{\prime\prime}$}}
+\def\fd{\hbox{$.\!^{\rm d}$}}
+\def\fh{\hbox{$.\!^{\rm h}$}}
+\def\fm{\hbox{$.\!^{\rm m}$}}
+\def\fs{\hbox{$.\!^{\rm s}$}}
+\def\fdg{\hbox{$.\!^\circ$}}
+\def\farcm{\hbox{$.\mkern-4mu^\prime$}}
+\def\farcs{\hbox{$.\!\!^{\prime\prime}$}}
+\def\fp{\hbox{$.\!\!^{\scriptscriptstyle\rm p}$}}
+
+%\def~{\penalty100\thinspace}
+\def\ts{\thinspace}
+\def\oc{ $O\!-\!C$ }
+\def\gmode{$g$-mode}
+\def\pmode{$p$-mode}
+\def\gmodes{$g$-modes}
+\def\pmodes{$p$-modes}
+\def\etal{et al.} %ApJlikes it this way now
+\def\msun{$\,M_{\odot}$}
+\def\rsun{$\,R_{\odot}$}
+\def\lsun{$\,L_{\odot}$}
+\def\te{$T_{\rm e}\,$}
+\def\Te{$T_{\rm e}\,$}
+\def\mstr{$\,M_{\star}$}
+\def\rstr{$\,R_{\star}$}
+\def\lstr{$\,L_{\star}$}
+\def\angstr{\small A\kern-.57em\raise1.8ex\hbox{${\scriptscriptstyle\circ}$}$\,$}
+\def\Pdot{$\dot P$}
+\def\Tdot{$\dot T$}
+\def\Rdot{$\dot R$}
+\def\Tmax{$T_{\rm max}$}
+\def\mitstar{$M\!$\raisebox{-.4ex}{$\star$}}
+\def\mstar#1{$10^{-{#1}} {\rm M}_{\star}$}
+\def\mh{${\rm M}_{\rm H}$}
+\def\mhe{${\rm M_{\rm He}}$}
+%the same definitions for using them in the math
+\def\msunm{\,M_{\odot}}
+\def\rsunm{\,R_{\odot}}
+\def\lsunm{\,L_{\odot}}
+\def\teff{T_{\rm eff}}
+\def\Teff{T_{\rm eff}}
+\def\mstrm{\,M_{\star}}
+\def\rstrm{\,R_{\star}}
+\def\lstrm{\,L_{\star}}
+\def\Pdotm{\dot P}
+\def\Tdotm{\dot T}
+\def\Rdotm{\dot R}
+\def\Tmaxm{T_{\rm max}}
+\def\mstarm#1{10^{-{#1}} {\rm M}_{\star}}
+\def\mhm{{\rm M}_{\rm H}}
+\def\mhem{{\rm M_{\rm He}}}
+%\chardef\o="1C
+%\chardef\O="1F
+
+%\ps@plain
+\pagenumbering{arabic}
+\onecolumn

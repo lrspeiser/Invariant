@@ -1,0 +1,39 @@
+{
+  "file": "montes_trujillo2018_radial_age_metallicity.tsv",
+  "source_url": "https://arxiv.org/e-print/1710.03240",
+  "exact_query": "GET https://arxiv.org/e-print/1710.03240 -> tar.gz -> ff_mnras.tex -> table env with \\label{table:agemet} (Appendix table)",
+  "retrieved_utc": "2026-09-04T04:31:09Z",
+  "sha256": "7d43ac78f5b6cb5cc755f71b895e6dffb77ac98578bd2df497f01081b3c58f08",
+  "bytes": 5395,
+  "row_count": 90,
+  "column_count": 6,
+  "columns": [
+    {
+      "name": "Cluster",
+      "unit": ""
+    },
+    {
+      "name": "bin_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "R_inner_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "R_outer_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "Age_Gyr",
+      "unit": "Gyr"
+    },
+    {
+      "name": "FeH",
+      "unit": "dex"
+    }
+  ],
+  "extraction": "arXiv source tarball; LaTeX table environment identified by \\label{table:agemet}. The published table is 6-clusters-wide (13 columns: 1 radial bin + 6x[Age,Fe/H]); reshaped to long format. The cluster column ordering was verified against the table's own \\multicolumn header rather than assumed. Cells printed as \\cdots (no measurement) are dropped, which is what makes the last populated bin per cluster equal R_limit. Assertion: Abell 2744 R_limit == 200 kpc.",
+  "note": "*** RADIAL-RANGE DEFINITION for the Montes & Trujillo 2018 ICL measurement, plus the ICL stellar-population gradients. This is the companion file to icl/montes_trujillo2018_icl_fractions.tsv -- the 'R_limit' referred to in that file's column names is the outermost radius listed here for each cluster. R_limit per cluster (kpc): Abell 2744 = 200; MACSJ0416.1-2403 = 93.9; MACSJ0717.5+3745 = 137; MACSJ1149.5+2223 = 137; Abell S1063 = 137; Abell 370 = 137. Innermost bin is 0-0.5 kpc, so the radial coverage is 0 -> R_limit, centred on the BCG(s). The paper defines the ICL region as R > 50 kpc, so the ICL proper is sampled only over 50 kpc -> R_limit, i.e. roughly 50-94 kpc for MACS0416, 50-137 kpc for four clusters, and 50-200 kpc for A2744. R_limit is defined by the authors as the farthest spatial bin with accurate ages and metallicities (bins where more than 4 filters are reliable). Ages and metallicities are medians over 500 jackknife realizations of the photometry, from SED fitting the 7-band HST photometry against Vazdekis et al. 2016 models. MASS-MODEL DEPENDENCE: none -- photometric/SED based.",
+  "raw_response_file": "icl/raw/montes_trujillo2018_arXiv1710.03240_ff_mnras.tex"
+}

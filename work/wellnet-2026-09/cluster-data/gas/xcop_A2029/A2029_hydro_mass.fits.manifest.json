@@ -1,0 +1,103 @@
+{
+  "file": "A2029_hydro_mass.fits",
+  "source_url": "https://drive.switch.ch/index.php/s/j3WUOYXWgv9Jbnz/download  (allfiles.tar.gz, X-COP public data release, linked from https://dominiqueeckert.wixsite.com/xcop/data)",
+  "exact_query": "curl -sL 'https://drive.switch.ch/index.php/s/j3WUOYXWgv9Jbnz/download' -o allfiles.tar.gz ; tar xzf allfiles.tar.gz A2029/<file>",
+  "retrieved_utc": "2026-09-04T04:21:38Z",
+  "sha256": "d3ec44af51eeaeefce21bbdfb7f08e9b0860fcb30b0b15250328ecb91d056884",
+  "bytes": 20160,
+  "row_count": 100,
+  "column_count": 12,
+  "columns": [
+    {
+      "name": "RADIUS",
+      "unit": "kpc"
+    },
+    {
+      "name": "M_FORW",
+      "unit": "Msun"
+    },
+    {
+      "name": "EM_FORW",
+      "unit": "Msun"
+    },
+    {
+      "name": "M_NFW",
+      "unit": "Msun"
+    },
+    {
+      "name": "EM_NFW",
+      "unit": "Msun"
+    },
+    {
+      "name": "M_EIN",
+      "unit": "Msun"
+    },
+    {
+      "name": "EM_EIN",
+      "unit": "Msun"
+    },
+    {
+      "name": "M_ISO",
+      "unit": "Msun"
+    },
+    {
+      "name": "EM_ISO",
+      "unit": "Msun"
+    },
+    {
+      "name": "M_BUR",
+      "unit": "Msun"
+    },
+    {
+      "name": "EM_BUR",
+      "unit": "Msun"
+    },
+    {
+      "name": "EM_HER",
+      "unit": "Msun"
+    }
+  ],
+  "extraction": "Upstream FITS as shipped. HDU1 'HYDRO_MASS' = M(<r) for 5 mass models (FORW=forward/non-parametric, NFW, EIN=Einasto, ISO=isothermal, BUR=Burkert). HDU2 'PARAMS' = best-fit rs and c200 per model.",
+  "note": "*** NOT AN OBSERVATION *** Abell 2029 HYDROSTATIC mass profile from X-COP (Ettori et al. 2019 A&A 621, A39 / Eckert et al. 2019). Every mass column here is obtained by solving the NEWTONIAN hydrostatic equilibrium equation for the gas, i.e. it presupposes exactly the gravity law under test. Included only for reference/comparison; it MUST NOT be used as an observational constraint. Radii in kpc, masses in Msun. R500=1414.0 kpc.",
+  "extra_header": {
+    "CLUSTER": "A2029",
+    "REDSHIFT": 0.0766,
+    "R500": 1414.0,
+    "ERR_R500": 16.0,
+    "M500": 8.6511,
+    "ERR_M500": 0.29367,
+    "RA": 227.73418,
+    "DEC": 5.744432
+  },
+  "second_hdu": {
+    "name": "PARAMS",
+    "row_count": 5,
+    "columns": [
+      {
+        "name": "MODEL",
+        "unit": "---"
+      },
+      {
+        "name": "RS",
+        "unit": "kpc"
+      },
+      {
+        "name": "eRS",
+        "unit": "kpc"
+      },
+      {
+        "name": "C200",
+        "unit": "---"
+      },
+      {
+        "name": "eC200",
+        "unit": "---"
+      }
+    ]
+  },
+  "cluster": "Abell 2029",
+  "row_count_models": 5,
+  "core_excised": false,
+  "deprojected": true,
+  "derived_assumes_newtonian_hse": true
+}

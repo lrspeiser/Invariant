@@ -1,0 +1,137 @@
+{
+ "file": "A2744_Bergamini2023_AA670_A60_tableb1.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J%2FA%2BA%2F670%2FA60%2Ftableb1&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/A+A/670/A60/tableb1",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/A+A/670/A60/ReadMe -> 225 records",
+ "retrieved_utc": "2026-09-04T04:37:41Z",
+ "sha256": "5af2721ad0613c0afa0bc4eabafce612efaf1cdfb27446c6380e63e90a1e6452",
+ "bytes": 11754,
+ "row_count": 225,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Type",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "ID",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "mF160W",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "zsp",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "r_zsp",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Simbad",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "Abell 2744 (z=0.308). Bergamini, Acebron, Grillo et al. 2023, A&A 670, A60 ('New high-precision strong lensing modeling of Abell 2744'), table B.1. 225 rows of cluster members used in the strong-lensing model: 202 with Type='s' (SPECTROSCOPIC member, zsp populated) and 23 with Type='p' (PHOTOMETRIC member, zsp empty). n_members_published_definition counts the 202 spectroscopic members. Instrument: compiled MUSE + VIMOS + literature spectroscopy (column r_zsp a-e gives the source). Selection function: SEVERELY BIASED FOR KINEMATICS - these are red-sequence cluster members selected specifically to be included as lensing-model galaxy-scale perturbers within the HST/strong-lensing field of view, magnitude-limited in F160W. It is a member LIST, not a redshift survey, so it must NOT be treated as a fair kinematic sample. Included for cross-identification of secure members only. Sky coverage is confined to the HST Frontier Fields footprint.",
+ "coverage": {
+  "cluster": "Abell 2744",
+  "centre_ra_deg": 3.58625,
+  "centre_dec_deg": -30.38861,
+  "z_cluster": 0.308,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 272.15,
+  "max_sep_arcmin": 2.7,
+  "p90_sep_arcmin": 1.58,
+  "median_sep_arcmin": 0.92,
+  "max_R_proj_Mpc": 0.735,
+  "p90_R_proj_Mpc": 0.43,
+  "member_max_R_proj_Mpc": 0.735
+ },
+ "counts": {
+  "n_rows": 225,
+  "n_total_redshifts": 202,
+  "n_members_published_definition": 202,
+  "n_within_3000kms_indicative": 181,
+  "quality_flag_column": "r_zsp",
+  "quality_flag_counts": {
+   "": 26,
+   "a": 159,
+   "b": 32,
+   "c": 5,
+   "d": 2,
+   "e": 1
+  },
+  "member_flag_column": "Type",
+  "member_flag_counts": {
+   "p": 23,
+   "s": 202
+  }
+ },
+ "raw_response_file": "raw/A2744_Bergamini2023_AA670_A60_tableb1.raw.tsv",
+ "raw_sha256": "abe92d8702d8826fd59f2431ee9cdc5611f83841095b896b9a1912a68856b6dd",
+ "raw_bytes": 17394
+}

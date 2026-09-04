@@ -1,0 +1,39 @@
+{
+  "file": "montes_trujillo2018_icl_fractions.tsv",
+  "source_url": "https://arxiv.org/e-print/1710.03240",
+  "exact_query": "GET https://arxiv.org/e-print/1710.03240 -> tar.gz -> ff_mnras.tex -> table* env with \\label{table:table2}",
+  "retrieved_utc": "2026-09-04T04:22:14Z",
+  "sha256": "225ee772401134f771853a4c4c18e1e73420cdbaa1154670480b04eafb5655a4",
+  "bytes": 539,
+  "row_count": 6,
+  "column_count": 6,
+  "columns": [
+    {
+      "name": "Cluster",
+      "unit": ""
+    },
+    {
+      "name": "fICL_26_lt_muV_lt_27_pct",
+      "unit": "percent"
+    },
+    {
+      "name": "fICL_muV_gt_26_pct",
+      "unit": "percent"
+    },
+    {
+      "name": "fICL_50kpc_lt_R_lt_Rlimit_pct",
+      "unit": "percent"
+    },
+    {
+      "name": "fICL_R_lt_Rlimit_pct",
+      "unit": "percent"
+    },
+    {
+      "name": "fICL_R_lt_R500_pct",
+      "unit": "percent"
+    }
+  ],
+  "extraction": "arXiv source tarball; LaTeX table* environment parsed by \\label. Row count asserted ==6 against paper text.",
+  "note": "*** PRODUCT 3 (ICL fraction) for all six HFF clusters: A2744, MACSJ0416.1-2403, MACSJ0717.5+3745, MACSJ1149.5+2223, Abell S1063, Abell 370. *** BAND: rest-frame V (synthesised from the 7 HST ACS+WFC3 bands listed in montes_trujillo2018_hff_centres_sblimits.tsv). SB LIMIT: 30.2-31.9 mag/arcsec2 depending on band (see the companion centres/SB-limits file); the ICL analysis itself is cut at mu_V = 26 mag/arcsec2. ICL/BCG SEPARATION METHOD -- TWO DIFFERENT ONES ARE TABULATED AND THEY MUST NOT BE MIXED: (i) columns 'fICL_26_lt_muV_lt_27_pct' and 'fICL_muV_gt_26_pct' use a pure SURFACE-BRIGHTNESS CUT in V (a SB slice 26<mu_V<27, and everything fainter than mu_V=26 respectively); (ii) columns 'fICL_50kpc_lt_R_lt_Rlimit_pct', 'fICL_R_lt_Rlimit_pct' and 'fICL_R_lt_R500_pct' instead assume the ICL follows a LINEAR (log-space) profile fitted to the V-band SB profile at R>50 kpc and extrapolate that fit inward under the BCG, i.e. a FIXED 50 kpc RADIUS CUT plus an extrapolation. RADIAL RANGE: the ICL is measured out to R_limit ~ 120 kpc (the paper's outermost reliable bin). MASS-MODEL DEPENDENCE FLAG: the final column (R<R500) requires R500, which is a mass-model/X-ray derived radius -- that column is NOT purely photometric. The other four columns are photometric only. Cluster members are removed by masking before the ICL is measured.",
+  "raw_response_file": "icl/raw/montes_trujillo2018_arXiv1710.03240_ff_mnras.tex"
+}

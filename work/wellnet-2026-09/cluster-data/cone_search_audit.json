@@ -1,0 +1,88 @@
+{
+  "audit": "VizieR cone-search truncation check",
+  "why": "A coordinator warning reported that VizieR -c/-c.rs cone searches can return zero rows with no error, invalidating nulls derived from them. This lane contains exactly ONE cone-derived product and it is a POSITIVE result (2853 rows), not a null, so the reported failure mode does not apply to it directly. It is checked here anyway for silent radial truncation.",
+  "file": "members/A2029field_Simard2011_ApJS196_11_table3_pureSersic_cone110arcmin.raw.tsv",
+  "cone_centre_deg": [
+    227.7337,
+    5.7444
+  ],
+  "cone_radius_arcmin": 110.0,
+  "n_rows": 2853,
+  "radius_source": "VizieR _r column (arcmin from cone centre)",
+  "radial_extent_arcmin": [
+    0.41,
+    110.0
+  ],
+  "equal_area_annuli": [
+    {
+      "r_in_arcmin": 0.0,
+      "r_out_arcmin": 33.2,
+      "n": 507,
+      "density_per_arcmin2": 0.14671
+    },
+    {
+      "r_in_arcmin": 33.2,
+      "r_out_arcmin": 46.9,
+      "n": 281,
+      "density_per_arcmin2": 0.08131
+    },
+    {
+      "r_in_arcmin": 46.9,
+      "r_out_arcmin": 57.4,
+      "n": 214,
+      "density_per_arcmin2": 0.06193
+    },
+    {
+      "r_in_arcmin": 57.4,
+      "r_out_arcmin": 66.3,
+      "n": 210,
+      "density_per_arcmin2": 0.06077
+    },
+    {
+      "r_in_arcmin": 66.3,
+      "r_out_arcmin": 74.2,
+      "n": 195,
+      "density_per_arcmin2": 0.05643
+    },
+    {
+      "r_in_arcmin": 74.2,
+      "r_out_arcmin": 81.2,
+      "n": 239,
+      "density_per_arcmin2": 0.06916
+    },
+    {
+      "r_in_arcmin": 81.2,
+      "r_out_arcmin": 87.7,
+      "n": 226,
+      "density_per_arcmin2": 0.0654
+    },
+    {
+      "r_in_arcmin": 87.7,
+      "r_out_arcmin": 93.8,
+      "n": 230,
+      "density_per_arcmin2": 0.06656
+    },
+    {
+      "r_in_arcmin": 93.8,
+      "r_out_arcmin": 99.5,
+      "n": 220,
+      "density_per_arcmin2": 0.06366
+    },
+    {
+      "r_in_arcmin": 99.5,
+      "r_out_arcmin": 104.9,
+      "n": 272,
+      "density_per_arcmin2": 0.07871
+    },
+    {
+      "r_in_arcmin": 104.9,
+      "r_out_arcmin": 110.0,
+      "n": 259,
+      "density_per_arcmin2": 0.07495
+    }
+  ],
+  "outermost_over_median_density": 1.136,
+  "verdict": "NOT truncated: the outermost equal-area annulus holds 1.14 times the median annular surface density, and rows reach 110.0 of the 110 arcmin requested radius. The cone returned the full requested area.",
+  "other_cone_searches_in_lane": "none - every other VizieR query used -source= only",
+  "nulls_derived_from_cone_searches_in_this_lane": "none. The weak-lensing availability audit, the strong-lensing negative results and the member-catalogue NOT_FOUND probes were all established from directory listings, -source= probes that return an explicit '#INFO Error=Table or Catalog not found', arXiv source-tarball table enumeration, or GitHub tree listings. No null in this lane rests on a cone search."
+}

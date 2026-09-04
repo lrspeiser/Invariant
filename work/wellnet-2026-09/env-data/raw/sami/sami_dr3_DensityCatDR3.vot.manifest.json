@@ -1,0 +1,104 @@
+{
+ "file": "sami_dr3_DensityCatDR3.vot",
+ "cleaned_file": "sami_dr3_DensityCatDR3.tsv",
+ "source_url": "https://datacentral.org.au/vo/tap/sync",
+ "service": "Data Central (AAO/Macquarie) IVOA TAP v1.0, anonymous access",
+ "access_credentials": "none - public anonymous POST, no login, no API key, no terms accepted",
+ "query": "SELECT * FROM sami_dr3.DensityCatDR3",
+ "query_parameters": {
+  "REQUEST": "doQuery",
+  "LANG": "ADQL",
+  "FORMAT": "votable",
+  "MAXREC": "1000000"
+ },
+ "count_check_query": "SELECT COUNT(*) AS n FROM sami_dr3.DensityCatDR3",
+ "count_check_value": 6969,
+ "retrieved_utc": "2026-09-04T04:28:28Z",
+ "sha256": "bafedc720b850c8cc2812f5ebab96484888dee625ce3349ece69bddb9275084c",
+ "bytes": 1529540,
+ "cleaned_sha256": "dd9f797ad5f03d4795f594ac26a17bcf15d8cc3094457216f3c2191982d1e91f",
+ "cleaned_bytes": 433219,
+ "row_count": 6969,
+ "column_count": 11,
+ "columns": [
+  {
+   "name": "CATID",
+   "unit": null,
+   "datatype": "char",
+   "ucd": "meta.id",
+   "description": "SAMI Galaxy ID"
+  },
+  {
+   "name": "SurfaceDensity",
+   "unit": "Mpc^-2",
+   "datatype": "float",
+   "ucd": "src.density",
+   "description": "5th nearest neighbour surface density estimate"
+  },
+  {
+   "name": "SurfaceDensity_err",
+   "unit": "Mpc^-2",
+   "datatype": "float",
+   "ucd": "stat.error;src.density",
+   "description": "Surface density uncertainty"
+  },
+  {
+   "name": "CompletenessCorrection",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "arith.factor",
+   "description": "Multiplicative factor correcting SurfaceDensity for spectroscopic completenes"
+  },
+  {
+   "name": "AreaCorrection",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "arith.factor",
+   "description": "Multiplicative factor correcting SurfaceDensity for smaller area due to edge effects"
+  },
+  {
+   "name": "SurfaceDensityFlag",
+   "unit": null,
+   "datatype": "int",
+   "ucd": "meta.code.error;src.densityl",
+   "description": "Flag indicating problems with surface density measurement"
+  },
+  {
+   "name": "SurfaceDensity_m19",
+   "unit": "Mpc^-2",
+   "datatype": "float",
+   "ucd": "src.density",
+   "description": "Same as SurfaceDensity, but for Mr < -19."
+  },
+  {
+   "name": "SurfaceDensity_err_m19",
+   "unit": "Mpc^-2",
+   "datatype": "float",
+   "ucd": "stat.error;src.density",
+   "description": "Same as SurfaceDensity_err, but for Mr < -19."
+  },
+  {
+   "name": "CompletenessCorrection_m19",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "arith.factor",
+   "description": "Same as CompletenessCorrection, but for Mr < -19."
+  },
+  {
+   "name": "AreaCorrection_m19",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "arith.factor",
+   "description": "Same as AreaCorrection, but for Mr < -19."
+  },
+  {
+   "name": "SurfaceDensityFlag_m19",
+   "unit": null,
+   "datatype": "int",
+   "ucd": "meta.code.error;src.densityl",
+   "description": "Same as SurfaceDensityFlag, but for Mr < -19."
+  }
+ ],
+ "reference": "Croom et al. 2021, MNRAS 505, 991 - the SAMI Galaxy Survey Data Release 3",
+ "extraction": "SELECT * over the TAP table, VOTable saved byte-for-byte; TSV is a direct astropy Table -> pandas dump with no unit conversion, no cut, no join."
+}

@@ -1,0 +1,52 @@
+{
+ "record_type": "NOT_FOUND and negative results for Product 6 (strong lensing raw observables)",
+ "retrieved_utc": "2026-09-04T04:34:29Z",
+ "vizier_generic_page_trap": {
+  "description": "VizieR viz-bin/asu-tsv?-source=X returns HTTP 200 with a GENERIC page when catalogue X does not exist: it silently performs an all-sky cross-match instead and returns an unrelated catalogue. The tell-tales are an '#INFO CatalogsExamined=NNNNN' line and a '#Name:' that does not match the requested identifier. Every fetch in this product was checked for both. The three identifiers below were requested in the task brief, returned HTTP 200, and are NOT REAL VizieR catalogues. NO substitute was silently used.",
+  "not_found": [
+   {
+    "requested": "J/A+A/587/A80",
+    "intended": "Caminha et al. 2016, A&A 587, A80 (Abell S1063 / RXC J2248.7-4431)",
+    "vizier_returned": "I/16 (unrelated) with CatalogsExamined=10213",
+    "status": "NOT IN VIZIER",
+    "resolution": "Recovered from the arXiv e-print source 1512.04555 -> AS1063_multiple_images_Caminha2016.tsv"
+   },
+   {
+    "requested": "J/A+A/588/A99",
+    "intended": "Limousin et al. 2016, A&A 588, A99 (MACS J0717.5+3745)",
+    "vizier_returned": "I/16 (unrelated) with CatalogsExamined=10213",
+    "status": "NOT IN VIZIER",
+    "resolution": "Recovered from the arXiv e-print source 1510.08077 -> MACSJ0717_multiple_images_Limousin2016.tsv"
+   },
+   {
+    "requested": "J/A+A/645/A140",
+    "intended": "Bergamini et al. 2021, A&A 645, A140",
+    "vizier_returned": "I/16 (unrelated) with CatalogsExamined=10213",
+    "status": "NOT IN VIZIER",
+    "resolution": "Not needed as a separate product: MACS J0416 multiple images are covered at higher quality by Bergamini et al. 2023 (J/A+A/674/A79, 237 spectroscopic images) and Caminha et al. 2017 (J/A+A/600/A90). Bergamini 2021 is primarily a cluster-member kinematics paper."
+   }
+  ]
+ },
+ "abell_2029": {
+  "question": "Does Abell 2029 have a strong-lensing multiple-image list?",
+  "answer": "NO - CONFIRMED ABSENT",
+  "evidence": [
+   "VizieR METAcat title search '*2029*' returns only redshift/member/star-formation catalogues: J/ApJ/871/129 (Sohn+2019 redshift catalog), J/ApJS/229/20 (Sohn+2017 MMT/Hectospec survey), J/ApJ/773/86 (Tyler+2013 star-forming galaxies), J/ApJ/872/192 (Sohn+2019 spectroscopic census). None contains multiple images, arcs or lensing constraints.",
+   "arXiv API searches for 'Abell 2029' AND ('strong lensing' | 'multiple images') and 'A2029' AND 'giant arc' returned ZERO results.",
+   "Abell 2029 is a low-redshift (z=0.0773) relaxed cool-core cluster; it is a standard X-ray/dynamical mass target, not a strong-lensing cluster, and has no published multiple-image system catalogue."
+  ],
+  "conclusion": "No strong-lensing image list exists for Abell 2029. Nothing was substituted."
+ },
+ "arc_orientations_position_angles": {
+  "answer": "NOT PUBLISHED for any of the six target clusters",
+  "detail": "No arc orientation / position-angle measurements were found in any acquired catalogue. The only column that superficially looks like one is 'theta' in the MAST CATS Lenstool-format *_arcs.txt files, but those files state in their own header 'Only the parameters id, RA, Dec, and z were used in the modeling / The other columns give placeholder values', and theta was verified to be a constant placeholder (0.0 or 50.0) within each file. None of the published VizieR catalogues (Mahler 2018, Bergamini 2023, Caminha 2016/2017, Lagattuta 2017/2019, Chan 2020, Strait 2018, Richard 2014, Treu 2016) carries a position-angle or ellipticity-orientation column for the multiple images."
+ },
+ "time_delays": {
+  "answer": "EXIST FOR MACS J1149.5+2223 ONLY (SN Refsdal)",
+  "detail": "Measured time delays acquired: Kelly et al. 2023 (ApJ 948, 93) for S2/S3/S4/SX relative to S1, including the SX-S1 delay of 376.02 d (16-84 percentile 370.50-381.65), and Rodney et al. 2016 (ApJ 820, 50) for S2/S3/S4 relative to S1. No measured time delays exist for Abell 2744, MACS J0416, MACS J0717, Abell S1063 or Abell 370 - none of them hosts a resolved multiply-imaged variable source with a published delay."
+ },
+ "lens_model_teams_without_image_lists": {
+  "detail": "Of the MAST HFF lens-model teams, only CATS (all 6 clusters) and Zitrin (Abell 2744 and MACS J0416 only) ship an input multiple-image list (*_arcs.txt). Sharon/Johnson, GLAFIC, Keeton, Williams/GRALE, Diego and Bradac ship only a readme plus FITS maps (kappa/gamma/psi/deflect/magnif). The zitrin-nfw and zitrin-ltm-gauss arcs files are byte-identical (same sha256) for both clusters.",
+  "policy_note": "NO convergence, mass, magnification, shear, potential or deflection maps were downloaded - they are lens-model outputs, not observations. No file in this directory is a mass map, so no debug_only labelling was required."
+ }
+}

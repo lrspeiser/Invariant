@@ -1,0 +1,57 @@
+{
+  "file": "ned_objdir_polar_ring_systems.csv",
+  "source_url": "https://ned.ipac.caltech.edu/tap/sync",
+  "retrieved_utc": "2026-09-04T04:56:23Z",
+  "sha256": "dbb2e30176110a7ac1e40ad6e7e6fbef8d784fb87bcba3de0949ec46e372ff1c",
+  "bytes": 46,
+  "row_count": 0,
+  "column_count": 7,
+  "columns": [
+    {
+      "name": "prefname",
+      "unit": "NED preferred object name"
+    },
+    {
+      "name": "ra",
+      "unit": "deg (J2000)"
+    },
+    {
+      "name": "dec",
+      "unit": "deg (J2000)"
+    },
+    {
+      "name": "z",
+      "unit": "dimensionless"
+    },
+    {
+      "name": "zunc",
+      "unit": "dimensionless"
+    },
+    {
+      "name": "prefphytype",
+      "unit": "NED preferred object type"
+    },
+    {
+      "name": "z_bibcode",
+      "unit": "bibcode of the adopted redshift"
+    }
+  ],
+  "query": "One ADQL query per object to NED TAP (sync): SELECT prefname, ra, dec, z, zunc, prefphytype, z_bibcode FROM NEDTAP.objdir WHERE prefname = '<name>'",
+  "extraction": "Concatenated raw NED TAP CSV rows, values unmodified.",
+  "unresolved_names": [
+    "NGC 4632 [timeout]",
+    "NGC 6156 [timeout]",
+    "NGC 4111 [timeout]",
+    "NGC 3718 [timeout]",
+    "NGC 4650A [timeout]",
+    "NGC 2685 [timeout]",
+    "NGC 660",
+    "NGC 4262 [timeout]",
+    "UGC 7576",
+    "UGC 9796",
+    "IC 1689",
+    "MCG-05-07-001",
+    "NGC 7625 [timeout]"
+  ],
+  "note": "SUPPLEMENTARY ONLY. Positions and redshifts for the 40 kinematically confirmed PRGs are already carried by yu2026_table1_confirmed_PRGs.tsv, which took them from NED. NED prefname matching is exact and the TAP service was intermittently slow/queued during acquisition, so an unresolved name here means either a name-spelling mismatch or a service timeout, NOT that the object is unknown to NED."
+}

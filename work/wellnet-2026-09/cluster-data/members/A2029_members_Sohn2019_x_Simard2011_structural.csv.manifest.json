@@ -1,0 +1,133 @@
+{
+  "file": "A2029_members_Sohn2019_x_Simard2011_structural.csv",
+  "source_url": "DERIVED: positional join of two retrieved files (no new network fetch)",
+  "exact_query": "Left join, keeping every row of A2029_Sohn2019_ApJ871_129_table1_redshift_catalog.raw.tsv, onto A2029field_Simard2011_ApJS196_11_table3_pureSersic_cone110arcmin.raw.tsv by nearest neighbour on (RAJ2000, DEJ2000) vs (_RA, _DE) with a 1.5 arcsec maximum separation.",
+  "retrieved_utc": "2026-09-04T04:39:25Z",
+  "sha256": "295c0e6c5f7286a32590f17b4c4bc3d3199eb15535787b12915be26cc076f757",
+  "bytes": 424767,
+  "row_count": 4376,
+  "column_count": 25,
+  "columns": [
+    {
+      "name": "sohn_objID",
+      "unit": ""
+    },
+    {
+      "name": "RAJ2000",
+      "unit": ""
+    },
+    {
+      "name": "DEJ2000",
+      "unit": ""
+    },
+    {
+      "name": "z",
+      "unit": ""
+    },
+    {
+      "name": "rmag",
+      "unit": ""
+    },
+    {
+      "name": "member_Mm",
+      "unit": ""
+    },
+    {
+      "name": "simard_matched",
+      "unit": ""
+    },
+    {
+      "name": "match_sep_arcsec",
+      "unit": ""
+    },
+    {
+      "name": "objID_agrees",
+      "unit": ""
+    },
+    {
+      "name": "simard_objID",
+      "unit": ""
+    },
+    {
+      "name": "simard_z",
+      "unit": ""
+    },
+    {
+      "name": "simard_Sp",
+      "unit": ""
+    },
+    {
+      "name": "simard_Scale",
+      "unit": ""
+    },
+    {
+      "name": "simard_gg2d",
+      "unit": ""
+    },
+    {
+      "name": "simard_rg2d",
+      "unit": ""
+    },
+    {
+      "name": "simard_Rhlr",
+      "unit": ""
+    },
+    {
+      "name": "simard_Rchl_r",
+      "unit": ""
+    },
+    {
+      "name": "simard_Rhlg",
+      "unit": ""
+    },
+    {
+      "name": "simard_Rchl_g",
+      "unit": ""
+    },
+    {
+      "name": "simard_e",
+      "unit": ""
+    },
+    {
+      "name": "simard_e_e",
+      "unit": ""
+    },
+    {
+      "name": "simard_phi",
+      "unit": ""
+    },
+    {
+      "name": "simard_e_phi",
+      "unit": ""
+    },
+    {
+      "name": "simard_ng",
+      "unit": ""
+    },
+    {
+      "name": "simard_e_ng",
+      "unit": ""
+    }
+  ],
+  "extraction": "Nearest-neighbour positional cross-match, flat-sky separation with a cos(Dec) factor on the RA difference, match radius 1.5 arcsec. EVERY Sohn row is retained: simard_matched=0 rows carry blank structural columns rather than being dropped. Statistics at build time: 1054 members (Mm=Y) of which 388 matched (36.8 per cent), 3322 non-members (Mm=N) of which 239 matched; median match separation 0.026 arcsec, maximum 0.307 arcsec. objID_agrees compares the SDSS objID of the two catalogues and is 0 for essentially all rows because Simard+2011 carries SDSS DR7 objIDs while Sohn+2019 carries later-release objIDs -- the POSITIONAL match, not the objID, is the join key.",
+  "note": "ABELL 2029 member galaxies with STRUCTURAL PARAMETERS attached. Left table: Sohn et al. 2019 ApJ 871, 129 Table 1 (RA/Dec, redshift, SDSS r magnitude, and the caustic MEMBERSHIP FLAG Mm = Y/N). Right table: Simard et al. 2011 ApJS 196, 11 Table 3, the PURE SERSIC GIM2D decompositions of SDSS DR7, cone-searched within 110 arcmin of the cluster centre. MEASURED (Sohn): RA, Dec, spectroscopic redshift, r magnitude, membership flag. MEASURED (Simard, from 2D GIM2D surface-brightness fits to SDSS g and r images): simard_ng = Sersic index n with error; simard_e = ellipticity (axis ratio q = 1 - e) with error; simard_phi = position angle (deg) with error; simard_gg2d / simard_rg2d = pure-Sersic model g and r magnitudes (-> g-r colour). SEMI-MODEL-DERIVED: simard_Rhlr / simard_Rhlg (semi-major-axis half-light radius) and simard_Rchl_r / simard_Rchl_g (CIRCULARISED half-light radius) are quoted in kpc -- the fitted angular size is measured but the conversion to kpc uses the redshift and an assumed cosmology (simard_Scale is the kpc/arcsec factor). CAVEAT: Simard+2011 fits are ground-based SDSS imaging at roughly 1.4 arcsec seeing, so at z=0.078 the structural parameters are far coarser than the HST-based Granata+2026 fits used for the HFF clusters; the two are NOT on the same measurement footing and should not be pooled without care.",
+  "raw_response_file": "A2029field_Simard2011_ApJS196_11_table3_pureSersic_cone110arcmin.raw.tsv",
+  "inputs": [
+    "A2029_Sohn2019_ApJ871_129_table1_redshift_catalog.raw.tsv",
+    "A2029field_Simard2011_ApJS196_11_table3_pureSersic_cone110arcmin.raw.tsv"
+  ],
+  "completeness_diagnostic": {
+    "members_total": 1054,
+    "members_matched": 388,
+    "members_unmatched": 666,
+    "match_rate_overall": 0.368,
+    "match_rate_r_lt_17.00": 0.984,
+    "match_rate_r_lt_17.77": 0.983,
+    "match_rate_r_lt_18.50": 0.711,
+    "matched_rmag_median": 17.02,
+    "matched_rmag_max": 17.95,
+    "unmatched_rmag_median": 19.16,
+    "unmatched_rmag_max": 21.29,
+    "interpretation": "The 63 per cent of members without structural parameters is NOT a cross-match failure: it is a selection effect. Simard et al. 2011 fit only galaxies in the SDSS DR7 SPECTROSCOPIC main sample, which is limited to r < 17.77. Within that limit the match rate is 98.3 per cent with a median separation of 0.026 arcsec; beyond it only 35 of 695 members match. The Sohn+2019 member list reaches r = 21.3 because it uses MMT/Hectospec spectroscopy, which goes far fainter than SDSS fibre spectroscopy. Consequence: Abell 2029 structural parameters are available for the BRIGHT half of the membership only, and any analysis using them inherits an r < 17.77 magnitude cut. Meert, Vikram and Bernardi 2015 (VizieR J/MNRAS/446/3943) was NOT pursued because it is built on the same SDSS DR7 spectroscopic parent sample and would inherit the identical magnitude limit."
+  }
+}

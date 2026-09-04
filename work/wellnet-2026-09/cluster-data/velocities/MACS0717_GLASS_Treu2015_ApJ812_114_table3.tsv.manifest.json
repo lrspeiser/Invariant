@@ -1,0 +1,136 @@
+{
+ "file": "MACS0717_GLASS_Treu2015_ApJ812_114_table3.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJ/812/114/table3&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/ApJ/812/114/table3",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/ApJ/812/114/ReadMe -> 247 records",
+ "retrieved_utc": "2026-09-04T04:30:02Z",
+ "sha256": "ba17a558790e166f083c177874b13f5c24875ea665fe001c1658c34b3727a6da",
+ "bytes": 13188,
+ "row_count": 247,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "ID",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "q_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "f_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Note",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "SimbadName",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "MACS J0717.5+3745 (z=0.5458). Treu, Schmidt, Brammer et al. 2015, ApJ 812, 114 ('Grism Lens-Amplified Survey from Space, GLASS I'), table 3 'Redshift catalog for MACS J0717.5+3745'. 247 rows, 189 with a redshift. Quality: column q_z (0-4); f_z flags multiple redshift solutions. Instrument: HST/WFC3 G102+G141 SLITLESS GRISM spectroscopy - NOT a ground-based multi-object spectrograph. CRITICAL WARNING - THIS CATALOGUE IS NOT USABLE FOR VELOCITY DISPERSION. Grism resolution is R~130-210, giving redshift uncertainties of order sigma_z ~ 0.003-0.01. At z=0.5458 a 1000 km/s cluster velocity dispersion corresponds to only dz ~ 0.005, i.e. the measurement error is comparable to or larger than the entire kinematic signal. Any sigma(R) derived from these redshifts would be measuring the grism error budget, not cluster dynamics. It is also spatially tiny (to ~2.9 arcmin, ~0.74 Mpc projected) and only ~17 objects fall within |dv|<3000 km/s. Retained ONLY to document that this is the sole MACS J0717 redshift table available through VizieR/CDS. See the product-level NOT-FOUND record for the ground-based MACS J0717 spectroscopy that does not exist in any queryable archive.",
+ "coverage": {
+  "cluster": "MACS J0717.5+3745",
+  "centre_ra_deg": 109.38167,
+  "centre_dec_deg": 37.75556,
+  "z_cluster": 0.5458,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 383.23,
+  "max_sep_arcmin": 1.92,
+  "p90_sep_arcmin": 1.65,
+  "median_sep_arcmin": 1.12,
+  "max_R_proj_Mpc": 0.736,
+  "p90_R_proj_Mpc": 0.633,
+  "member_max_R_proj_Mpc": 0.683
+ },
+ "counts": {
+  "n_rows": 247,
+  "n_total_redshifts": 189,
+  "n_members_published_definition": null,
+  "n_within_3000kms_indicative": 17,
+  "quality_flag_column": "q_z",
+  "quality_flag_counts": {
+   "0.0": 58,
+   "1.0": 14,
+   "1.5": 6,
+   "2.0": 50,
+   "2.5": 10,
+   "3.0": 32,
+   "3.5": 12,
+   "4.0": 65
+  },
+  "member_flag_column": null,
+  "member_flag_counts": null
+ },
+ "raw_response_file": "raw/MACS0717_GLASS_Treu2015_ApJ812_114_table3.raw.tsv",
+ "raw_sha256": "15dc161f95b843199f73ff8b6e0a106a7097300358472b61ec7be1718ca68a72",
+ "raw_bytes": 25184
+}

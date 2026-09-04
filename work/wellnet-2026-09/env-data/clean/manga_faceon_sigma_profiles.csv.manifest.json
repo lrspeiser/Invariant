@@ -1,0 +1,100 @@
+{
+  "file": "manga_faceon_sigma_profiles.csv",
+  "produced_by": "env-data/code/extract_sigma_profiles.py",
+  "produced_utc": "2026-09-04T04:59:10Z",
+  "sha256": "7bfa8eb7bed85d8b95bb6ff2fc57760aea5b2848903c15208c16bc6e98a74c02",
+  "bytes": 704554,
+  "row_count": 1671,
+  "column_count": 32,
+  "n_galaxies": 240,
+  "columns": [
+    {
+      "name": "plateifu",
+      "unit": "MaNGA plate-IFU identifier"
+    },
+    {
+      "name": "r_lo_Re",
+      "unit": "R/R_eff, bin lower edge"
+    },
+    {
+      "name": "r_hi_Re",
+      "unit": "R/R_eff, bin upper edge"
+    },
+    {
+      "name": "r_med_Re",
+      "unit": "R/R_eff, median of the bin"
+    },
+    {
+      "name": "r_med_arcsec",
+      "unit": "arcsec, elliptical radius"
+    },
+    {
+      "name": "r_med_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "sigma_los_kms",
+      "unit": "km/s, instrument-corrected line-of-sight stellar dispersion"
+    },
+    {
+      "name": "e_sigma_los_kms",
+      "unit": "km/s, formal inverse-variance error"
+    },
+    {
+      "name": "sigma_scatter_kms",
+      "unit": "km/s, bin-to-bin scatter within the radial bin"
+    },
+    {
+      "name": "n_bins",
+      "unit": "independent Voronoi bins in the radial bin"
+    },
+    {
+      "name": "n_bins_reliable",
+      "unit": "of those, with STELLAR_SIGMA > 1.2 * STELLAR_SIGMACORR"
+    },
+    {
+      "name": "frac_reliable",
+      "unit": "n_bins_reliable / n_bins"
+    },
+    {
+      "name": "median_sigmacorr_kms",
+      "unit": "km/s, DAP template-resolution correction (NOT the full instrumental sigma)"
+    },
+    {
+      "name": "above_50kms",
+      "unit": "bool, sigma_los > 50 km/s"
+    },
+    {
+      "name": "above_70kms",
+      "unit": "bool, sigma_los > 70 km/s, i.e. above MaNGA's instrumental sigma"
+    },
+    {
+      "name": "Reff_arcsec",
+      "unit": "arcsec, DAP REFF header keyword"
+    },
+    {
+      "name": "incl_deg",
+      "unit": "deg, from the PyMorph axis ratio with q0=0.20"
+    },
+    {
+      "name": "Rd_kpc",
+      "unit": "kpc, exponential disk scale length"
+    },
+    {
+      "name": "logMstar_nsa",
+      "unit": "log10 Msun, NSA elpetro, Chabrier IMF"
+    },
+    {
+      "name": "Sigma_b_Msun_pc2",
+      "unit": "Msun/pc^2, M_b/(2 pi R_d^2)"
+    }
+  ],
+  "source": "SDSS DR17 MaNGA DAP MAPS, DAPTYPE HYB10-MILESHC-MASTARSSP, DRP v3_1_1, DAP 3.1.0",
+  "selection": "near-face-on (inclination < 30 deg from the PyMorph r-band axis ratio with q0=0.20), deep-learning late type (T-Type>0, P_LTG>0.5), DAPQUAL clean, PyMorph FLAG_FIT != 3, STELLAR_SIGMA_1RE > 50 km/s, median r-band S/N > 5.",
+  "method": "One entry per independent Voronoi bin (deduplicated on BINID channel 1, the stellar-continuum binning) so radial bins are not inflated by spaxel repetition. Astrophysical dispersion is sqrt(STELLAR_SIGMA^2 - STELLAR_SIGMACORR^2); errors propagated from STELLAR_SIGMA_IVAR. Spaxels with STELLAR_SIGMA_MASK != 0 are dropped. Radii are the DAP elliptical polar radius (SPX_ELLCOO).",
+  "caveats": [
+    "sigma_los is the MEASURED line-of-sight dispersion, not sigma_z. At inclination i the in-plane components leak in at order sin^2 i (< 0.25 here). Converting to sigma_z needs an assumed sigma_R/sigma_z, which is a model.",
+    "STELLAR_SIGMACORR is the difference in spectral resolution between the MILES-HC templates and the MaNGA data, NOT the full instrumental sigma; its median here is 24 km/s. frac_reliable is therefore a WEAK test and should not be read as 'resolved'. The stronger, absolute test is above_50kms / above_70kms: MaNGA's stellar instrumental resolution corresponds to sigma_inst of roughly 70 km/s, and the DAP is documented as increasingly systematics-limited below about 50 km/s. Of 1671 radial points, 92 per cent exceed 50 km/s and 46 per cent exceed 70 km/s; 171 of the 240 galaxies have EVERY radial point above 50 km/s and 45 have every point above 70 km/s.",
+    "No scale height is measured. This gives sigma_LOS(R), not h_z(R) and not Sigma_dyn(R)."
+  ]
+}

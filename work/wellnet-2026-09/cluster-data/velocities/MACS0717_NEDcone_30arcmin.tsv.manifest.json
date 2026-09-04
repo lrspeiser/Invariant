@@ -1,0 +1,154 @@
+{
+ "file": "MACS0717_NEDcone_30arcmin.tsv",
+ "source_url": "https://ned.ipac.caltech.edu/tap/sync",
+ "exact_query": "SELECT prefname, prefphytype, ra, dec, z, zunc, zflag, z_bibcode, n_zdf FROM NEDTAP.objdir WHERE CONTAINS(POINT('ICRS',ra,dec),CIRCLE('ICRS',109.38167,37.75556,0.5))=1 AND z IS NOT NULL AND zflag LIKE 'S%'",
+ "async_job_url": null,
+ "retrieved_utc": "2026-09-04T04:47:13Z",
+ "sha256": "721019ad70476f32b6b04d533a25a7854dcdf411659973b17b55c06d6f0ea1e8",
+ "bytes": 151787,
+ "row_count": 1478,
+ "column_count": 11,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  },
+  {
+   "name": "obj_type",
+   "unit": null
+  },
+  {
+   "name": "z_bibcode",
+   "unit": null
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "prefname",
+   "unit": null,
+   "description": "NED preferred object name"
+  },
+  {
+   "name": "prefphytype",
+   "unit": null,
+   "description": "NED preferred object type"
+  },
+  {
+   "name": "ra",
+   "unit": "deg",
+   "description": "RA J2000"
+  },
+  {
+   "name": "dec",
+   "unit": "deg",
+   "description": "Dec J2000"
+  },
+  {
+   "name": "z",
+   "unit": null,
+   "description": "Redshift"
+  },
+  {
+   "name": "zunc",
+   "unit": null,
+   "description": "Redshift uncertainty"
+  },
+  {
+   "name": "zflag",
+   "unit": null,
+   "description": "NED redshift flag; leading S = spectroscopic"
+  },
+  {
+   "name": "z_bibcode",
+   "unit": null,
+   "description": "Reference code for the redshift"
+  },
+  {
+   "name": "n_zdf",
+   "unit": null,
+   "description": "Number of redshift data frames in NED"
+  }
+ ],
+ "extraction": "NED TAP ADQL cone search, TSV output. Cleaned file maps NED columns to the standard schema and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). obj_type and z_bibcode retained so each redshift stays traceable to its originating publication. No rows dropped, no values altered. Raw response kept verbatim in raw/ with the exact query and job URL in its header.",
+ "note": "MACS J0717.5+3745 (z=0.5458). 1478 spectroscopic redshifts within 30 arcmin - by far the best MACS J0717 kinematic data obtainable, and much better than the only VizieR option (GLASS grism, which is unusable for kinematics). The dominant redshift source in this compilation is z_bibcode 2014ApJS..211...21E = Ebeling, Ma & Barrett 2014, ApJS 211, 21, the Keck/DEIMOS wide-field spectroscopic survey of MACS J0717 and its large-scale filament; that catalogue is NOT separately available through VizieR under J/ApJ/781/L40 or J/ApJ/693/L56 (both return 'Table or Catalog not found'), so ingesting it via NED is the only practical route. The literature reports ~1103-1752 spectra with ~537-563 cluster members for this field, consistent with what is recovered here. Because one programme dominates, this compilation is closer to homogeneous than the Abell S1063 one, but it is still a union of several references and must be treated as a compilation. *** HETEROGENEOUS LITERATURE COMPILATION - NOT A HOMOGENEOUS SURVEY. *** Source: NASA/IPAC Extragalactic Database (NED) Table Access Protocol service, table NEDTAP.objdir, cone search of radius 30 arcmin, restricted to objects with a non-null redshift whose NED redshift flag (zflag) begins with 'S', i.e. SPECTROSCOPIC determinations only (photometric 'P*', model 'M*' and unknown 'U*' redshifts were excluded by the query). Each row carries z_bibcode, the literature reference NED took that redshift from, so the provenance is traceable per galaxy - but the sample is the union of many different programmes with different instruments, magnitude limits, colour preselections and sky footprints. There is therefore NO single well-defined selection function, and the radial completeness is unknown and certainly non-uniform. NED's zflag is retained verbatim in q_flag. There is no membership flag; membership must be derived downstream. This product is used only because no homogeneous machine-readable survey catalogue for this cluster is obtainable from VizieR/CDS (see the product-level NOT_FOUND record).",
+ "coverage": {
+  "cluster": "MACS J0717.5+3745",
+  "centre_ra_deg": 109.38167,
+  "centre_dec_deg": 37.75556,
+  "z_cluster": 0.5458,
+  "search_radius_arcmin": 30.0,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 383.23,
+  "max_sep_arcmin": 29.91,
+  "p90_sep_arcmin": 13.04,
+  "median_sep_arcmin": 6.82,
+  "max_R_proj_Mpc": 11.461,
+  "p90_R_proj_Mpc": 4.999,
+  "member_max_R_proj_Mpc": 6.097
+ },
+ "counts": {
+  "n_rows": 1478,
+  "n_total_redshifts": 1478,
+  "n_members_published_definition": null,
+  "n_within_3000kms_indicative": 574,
+  "quality_flag_column": "zflag",
+  "quality_flag_counts": {
+   "S1L": 43,
+   "SLS": 1325,
+   "SST": 1,
+   "SUN": 79,
+   "SUN?": 30
+  },
+  "member_flag_column": null,
+  "member_flag_counts": null,
+  "top_redshift_references": {
+   "2014ApJS..211...21E": 1248,
+   "2015ApJ...812..114T": 89,
+   "2016SDSSD.C...0000:": 48,
+   "2023ApJ...951..140C": 22,
+   "2017ApJ...848...37C": 18,
+   "2015ApJ...814..161V": 18,
+   "2023ApJ...958...62S": 8,
+   "2016MNRAS.459.1626R": 7,
+   "2023ApJ...948..108G": 5,
+   "2024A&A...683A.238J": 4,
+   "2012ApJS..199...26H": 2,
+   "2024ApJS..272....7B": 1
+  }
+ },
+ "raw_response_file": "raw/MACS0717_NEDcone_30arcmin.raw.tsv",
+ "raw_sha256": "73a6961615cfd052b6f9f5bd4b1a0477d42edcf2f20239c159ceb4db03eae7bb",
+ "raw_bytes": 151492
+}

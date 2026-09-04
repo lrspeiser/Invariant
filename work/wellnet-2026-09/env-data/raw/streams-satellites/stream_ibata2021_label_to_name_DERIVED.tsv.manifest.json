@@ -1,0 +1,56 @@
+{
+  "file": "stream_ibata2021_label_to_name_DERIVED.tsv",
+  "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJ/914/123&-out.all&-out.max=unlimited",
+  "source_file_within_archive": "derived from stream_ibata2021_streamfinder_members.vizier.tsv + galstreams v1.2.1 ibata2021 tracks",
+  "retrieved_utc": "2026-09-04T04:32:13Z",
+  "sha256": "d0bf2043611cbe28239b5b01e376549fd747a265242dff20277ba81f370d92d8",
+  "bytes": 1790,
+  "row_count": 32,
+  "column_count": 10,
+  "columns": [
+    {
+      "name": "Stream_label",
+      "unit": "integer 1-32 as published in J/ApJ/914/123 column Stream"
+    },
+    {
+      "name": "n_stars",
+      "unit": "count of member stars carrying this label"
+    },
+    {
+      "name": "n_HRV",
+      "unit": "count with a non-null heliocentric radial velocity"
+    },
+    {
+      "name": "n_HRV_credible",
+      "unit": "count with |HRV| < 600 km/s"
+    },
+    {
+      "name": "probable_name",
+      "unit": "DERIVED nearest galstreams ibata2021 track name"
+    },
+    {
+      "name": "median_sep_deg",
+      "unit": "deg; median angular separation of members from that track"
+    },
+    {
+      "name": "next_best_sep_deg",
+      "unit": "deg; same for the runner-up track"
+    },
+    {
+      "name": "ratio",
+      "unit": "next_best_sep_deg / median_sep_deg; large = unambiguous"
+    },
+    {
+      "name": "ra_med",
+      "unit": "deg"
+    },
+    {
+      "name": "de_med",
+      "unit": "deg"
+    }
+  ],
+  "query": "derive_ibata2021_stream_names.py -- nearest-track assignment by median angular separation",
+  "extraction": "DERIVED, not measured. For each of the 32 published stream labels, every member star was matched to the closest point of each of the 45 galstreams v1.2.1 ibata2021 celestial tracks; the track with the smallest MEDIAN separation wins.",
+  "measurement_or_model": "DERIVED NAMING AID -- NOT A MEASUREMENT AND NOT A PHYSICAL MODEL. It adds no physical information; it only attaches a probable literature name to each published integer label. Use the published integer label as the authoritative key.",
+  "note": "WHY THIS EXISTS: Ibata et al. 2021 (ApJ 914, 123) publish a per-star stream label 1-32 but NO label-to-name mapping. The paper states the label is decoded only by \"the different colors of the streams in the bottom panel of Figure 4\"; the VizieR ReadMe likewise gives only \"[1/32] A unique stream identification label; used in Figures 1-3\". VALIDATION: two per-stream counts quoted in the paper text reproduce EXACTLY -- the paper says \"A total of 276 stars are identified as candidate members\" of the NGC 6397 stream (derived label 26 has n_stars=276) and \"A total of 388 stars\" for the NGC 3201 stream (derived label 9 has n_stars=388). 29 of 32 labels are assigned with median separation < 1 deg. WEAKEST assignments: label 16 (Fimbulthul, median_sep 1.045 deg, ratio only 1.2 -- AMBIGUOUS), label 28 (Gunnthra, 1.160 deg), label 11 (Slidr, 1.151 deg). Treat those three as uncertain. Totals: 5960 stars, 685 with a non-null HRV, of which 683 are credible (two published HRVs are unphysical: -3837.77 and +16856.83 km/s)."
+}

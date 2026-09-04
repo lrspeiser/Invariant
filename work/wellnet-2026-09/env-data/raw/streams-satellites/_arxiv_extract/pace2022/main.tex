@@ -1,0 +1,976 @@
+
+\documentclass[twocolumn]{aastex63}
+
+\usepackage{aas_macros}
+\usepackage{natbib}
+\usepackage{hyperref}
+\citestyle{apj}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{xifthen}
+% \usepackage{deluxetable}
+\usepackage{longtable}
+% \usepackage{lineno}
+% \linenumbers
+\maxdeadcycles=1000
+
+\newcommand{\vdag}{(v)^\dagger}
+\newcommand{\aastex}{AAS\TeX}
+\newcommand{\latex}{La\TeX}
+
+\input{commands.tex}
+
+\newcommand{\COMMENT}[3]{{}}
+\newcommand{\ABP}[1]{\COMMENT{blue}{ABP}{#1}}
+\newcommand{\FIXME}[1]{{\bf \textcolor{red}{#1}}}
+\newcommand{\degree}{\ensuremath{{}^{\circ}}\xspace}
+
+\newcommand{\NEW}[1]{\textcolor{blue}{#1}}
+
+%% Reintroduced the \received and \accepted commands from AASTeX v5.2
+\received{\today}
+\revised{\today}
+\accepted{\today}
+%% Command to document which AAS Journal the manuscript was submitted to.
+%% Adds "Submitted to " the argument.
+\submitjournal{ApJ}
+
+\shorttitle{Proper Motions and Orbits of  MW dSphs}
+\shortauthors{Pace, Erkal, \& Li}
+
+\graphicspath{{./}{figures/}}
+
+
+\begin{document}
+
+\title{Proper Motions, Orbits, and Tidal Influences of Milky Way Dwarf Spheroidal Galaxies}
+
+
+\correspondingauthor{Andrew B. Pace}
+\email{apace@andrew.cmu.edu}
+
+
+\author[0000-0002-6021-8760]{Andrew B. Pace}
+\affiliation{McWilliams Center for Cosmology, Carnegie Mellon University, 5000 Forbes Ave, Pittsburgh, PA 15213, USA }
+
+\author[0000-0002-8448-5505]{Denis~Erkal}
+\affiliation{Department of Physics, University of Surrey, Guildford GU2 7XH, UK}
+
+\author[0000-0002-9110-6163]{Ting~S.~Li}
+\affiliation{Department of Astronomy and Astrophysics, University of Toronto, 50 St. George Street, Toronto ON, M5S 3H4, Canada}
+
+
+
+\begin{abstract}
+{We combine {\it Gaia} EDR3 astrometry with accurate  photometry  and utilize a probabilistic mixture model to measure the systemic proper motion of 52  dwarf spheroidal (dSph) satellite galaxies of the Milky Way (MW). }
+For the 46 dSphs  with literature line-of-sight velocities we compute orbits in both a MW and a combined MW + Large Magellanic Cloud (LMC) potential and identify {Car~II, Car~III,  Hor~I, Hyi~I, Phx~II, and Ret~II as} likely LMC satellites. 
+{40\% of our dSph sample has a $>25\%$ change in  pericenter and/or apocenter with the MW + LMC potential.}
+For these orbits, we Monte Carlo sample over the observational uncertainties for each dSph {and} the uncertainties in the MW and LMC potentials. 
+{We predict that {Ant~II,  Boo~III, Cra~II, Gru~II, and Tuc~III} should be be tidally disrupting by comparing each dSph’s average density relative to the MW density at its pericenter.}
+dSphs with large ellipticity {(CVn~I, Her, Tuc~V, UMa~I, UMa~II, UMi, Wil~1)} show a preference for their orbital direction to align with their major axis even {for dSphs with large pericenters}. 
+We compare the {dSph} radial orbital phase to subhalos in MW-like N-body simulations and infer that there is not an excess of satellites near their pericenter. 
+With {projections of} future {\it Gaia} data releases, we find {dSph} orbital precision  will be limited by uncertainties in {the} distance and/or  MW potential rather than proper motion precision. 
+Finally, we provide our membership {catalogs} to enable community follow-up.
+\end{abstract}
+
+
+
+\keywords{editorials, notices --- 
+miscellaneous --- catalogs --- surveys}
+
+
+
+\section{Introduction} \label{sec:intro}
+
+
+The Milky Way (MW) dwarf spheroidal (dSph) satellite galaxies are a diverse set of galaxies spanning a wide range of stellar masses, sizes,  dynamical masses, star formation histories, and orbital histories \citep[e.g.][]{McConnachie2012AJ....144....4M, Simon2019ARA&A..57..375S}.
+dSphs are near enough that their 6D phase space can be measured although the tangential motion is the most difficult, generally requiring space based astrometry. {For many years, this was the exclusive domain of the Hubble Space Telescope} \citep[e.g.,][]{Piatek2007AJ....133..818P, Sohn2017ApJ...849...93S}.
+
+
+The tangential and orbital motion of MW dSphs  has been revolutionized by astrometry from the {\it Gaia} mission. 
+With the release of the first proper motion {\it Gaia}  catalogs (i.e., {\it Gaia} DR2), the measurement of systemic proper motion of nearly all the MW dSphs has been possible \citep[e.g., ][]{GaiaHelmi2018A&A...616A..12G, Simon2018ApJ...863...89S, Fritz2018A&A...619A.103F, Pace2019ApJ...875...77P, McConnachie2020AJ....160..124M} and has led to the determination of their orbital motion within the MW  \citep[e.g., ][]{GaiaHelmi2018A&A...616A..12G, Simon2018ApJ...863...89S, Fritz2018A&A...619A.103F}.
+This has also led to measurements of the orbital anisotropy of the dSph system \citep{Riley2019MNRAS.486.2679R}, satellite infall times \citep{Fillingham2019arXiv190604180F}, updates on potential planes of satellites in the MW \citep[also known as, the vast polar structure, ][]{Fritz2018A&A...619A.103F}, a potential excess of dSph near their orbital pericenter \citep{Simon2018ApJ...863...89S, Fritz2018A&A...619A.103F}, and  measurements of the mass of the MW  \citep{Callingham2019MNRAS.484.5453C, Li2020ApJ...894...10L, Fritz2020MNRAS.494.5178F}
+
+The recent discovery of MW satellites in the Dark Energy Survey (DES) and other southern surveys has revealed a new population of dSphs and several are likely LMC/SMC satellites \citep[e.g.,][]{Koposov2015ApJ...805..130K, Bechtol2015ApJ...807...50B, Torrealba2018MNRAS.475.5085T}. 
+With radial velocities and {\it Gaia} proper motions a handful of satellites have been associated with the LMC \citep{Kallivayalil2018ApJ...867...19K,Erkal2020MNRAS.495.2554E, Patel2020ApJ...893..121P}.
+In addition to bringing in its own satellite population, the LMC also perturbs the orbits of dSphs in the MW \citep[e.g.][]{Gomez2015ApJ...802..128G,Erkal2020MNRAS.495.2554E, Patel2020ApJ...893..121P}. While satellites which pass close to the LMC are directly accelerated, satellites with more distant passages can be indirectly affected by the reflex motion of the MW \citep[e.g. Leo I and Antlia 2,][]{Erkal2020MNRAS.498.5574E, Ji2021ApJ...921...32J,CorreaMagnus2022MNRAS.511.2610C}. This reflex motion of $\sim40\kms$ has also been measured in the MW's stellar halo \citep[][]{Erkal2021MNRAS.506.2677E,Petersen2021NatAs...5..251P}.
+
+
+With {\it Gaia} EDR3 the 
+systemic proper motions of the dSphs have significantly improved \citep[e.g.][]{McConnachie2020RNAAS...4..229M, Li2021ApJ...916....8L, MartinezGarcia2021MNRAS.505.5884M, Vitral2021MNRAS.504.1355V, Battaglia2022A&A...657A..54B}.
+This is due to both the reduced statistic errors with an additional year of data and the reduction of the systematic errors by roughly a factor of two relative to DR2. 
+As a result, the orbital properties have improved \citep{Li2021ApJ...916....8L, Battaglia2022A&A...657A..54B} and the internal rotation has been observed in a few dSphs with {\it Gaia} EDR3 data \citep{MartinezGarcia2021MNRAS.505.5884M}. 
+
+
+
+Here we measure the systemic proper motion and identity candidate members of 52 dwarfs (46 with line-of-sight velocities),  compute the orbits both with and without the influence of the LMC, and discuss the tidal influences of the MW. 
+In Section~\ref{section:data}, we give an overview of the astrometric {\it Gaia} EDR3 data, the photometric data sets we complement the {\it Gaia} data with, and describe our initial quality selection and color-magnitude selection. 
+In Section~\ref{section:methods}, we present our methodology for measuring the systemic proper motions and for computing orbits.
+In Section~\ref{section:results}, we present the systemic proper motions and the orbital properties.  
+In Section~\ref{section:discussion}, we compare the orbital properties to indicators of tidal influences, discuss the orientation and orbital direction of the dSphs, discuss  LMC association, discuss the potential excess of satellites near pericenter, and make projections for errors of the orbital parameters of future measurements. 
+We summarize and conclude in Section~\ref{section:conclusion}.
+
+
+
+\section{Data}
+\label{section:data}
+
+
+
+We list the 54 MW dwarf galaxies and ultra-faint dwarf galaxies analyzed in this work along with  relevant properties  in Table~\ref{tab:overview}. 
+We restrict our sample to MW satellites, the most distant being Eri~II. Throughout this analysis we will refer to  the objects as dwarf spheroidal galaxies (dSphs) even though several objects do not have spectroscopic confirmation or have an ambiguous classification (e.g., Dra~II,  Sgr~II, Tuc~III). 
+We do not include the recently discovered dSphs Eridanus~IV and Pegasus~IV as similar methods were used derive the systemic proper motion and only Pegasus~IV has a line-of-sight velocity measurement \citep{Cerny2021ApJ...920L..44C, Cerny2022arXiv220311788C}.
+We will refer to the dSphs by their shorted acronyms throughout the paper which are listed  in Table~\ref{tab:overview} along with their   full  names.
+
+
+
+We group the satellites with $M_V<-7.7$ as `bright' satellites and fainter satellites as ultra-faints (UFDs) following \citet{Simon2019ARA&A..57..375S}.  This groups the more recently discovered satellites, Ant~II, Cra~II, and CVn~I with the traditionally labelled classical satellites (Cra, Dra, For, Leo~I, Leo~II, Scl, Sxt, UMi). 
+Until {the advent of large CCD photometric surveys}, the former escaped detection due to their low surface brightness \citep[e.g.,][]{Zucker2006ApJ...643L.103Z, Koposov2008ApJ...686..279K, Torrealba2016MNRAS.459.2370T}.
+
+
+
+\subsection{Astrometric Data}
+
+We use the astrometric {\it Gaia} EDR3 catalog \citep{Gaia_Brown_2021A&A...649A...1G} for our systemic proper motion measurements.  
+We consider two samples with different quality cuts which we refer to as `clean' and `complete.' The former is more restrictive and selects higher quality astrometry which we will use for our sytemic proper motion measurements whereas the latter is more inclusive and we will  to maximize the number of candidate stars.
+
+
+The  quality selection for the clean sample is as follows \citep{Gaia_Lindegren_2021A&A...649A...2L, Gaia_Riello2021A&A...649A...3R}:
+\begin{itemize}
+    \item $\texttt{astrometric\_params\_solved} >3$
+    \item $G<G_{\rm max},$
+    \item $\texttt{astrometric\_excess\_noise\_sig} <2,$
+    \item $ \texttt{ruwe} <1.3,$
+    \item $|C^*| \le 3 \sigma_{C^*}(G),$
+    \item $\texttt{ipd\_frac\_multi\_peak} <2,$
+    \item $\texttt{ipd\_gof\_harmonic\_amplitude} <0.1,$ however this cut is only applied to some of the dSphs\footnote{For two-thirds of the satellites analyzed, this cut  removes $\sim2$\% of stars within 1$^{\circ}$ of the satellite.  However, for satellites with fewer visibility periods, this cut  removes a large portion of the  stars ($\sim5-32$\% for \texttt{visibility\_periods\_used}$<15$).  In particular, this cut would remove all known spectroscopic members in Aquarius~II and removes $\sim30$\% of the stars around the Crater~II and Sextans dSphs. The following dwarfs do not have the \texttt{ipd\_gof\_harmonic\_amplitude} cut applied: Aqu~II, Cet~III, CB~I, Cra~II, Leo~I, Leo~II, Leo~IV, Leo~V, Peg~III, Psc~II, Sgr~II, Seg~1, Seg~2, Sxt, Tri~II, and Vir~I. },
+    \item $\varpi - 3 \times \sigma_\varpi < 0,$
+    \item $v_{\rm tangential} - 3 \times \sigma_{v_{\rm tangential}} < v_{\rm escape},$
+    \item $\texttt{visibility\_periods\_used}>10,$
+    \item $\texttt{duplicated\_source}=\mathrm{False}.$
+\end{itemize}
+$G_{\rm max}$ is determined based on the approximate magnitude where 90\% of stars have an astrometric solution and varies between $G_{\rm max}=20.35-20.85$ for the dSph sample. 
+{Here $|C^*|$ is  the corrected BP and RP flux excess factor \citep[see Equation 6 of][]{Gaia_Riello2021A&A...649A...3R}.}
+We compute the tangential velocity ($v_{\rm tangential}$)   of each star by converting the proper motions into Galactic coordinates in the Galactic Standard of Rest (GSR) frame after accounting for the Sun's reflex motion, assuming $({\rm U_\odot,\, V_\odot, \, W_\odot}) = (11.1, 12.24, 7.25)\kms$, a circular velocity of $220\kms$ \citep{Schonrich2010MNRAS.403.1829S}, and assume each star is at the satellite's heliocentric distance.
+$v_{\rm esc}$ is computed with the potential \texttt{MWPotential2014} (with a slightly increased halo mass, $M_{\rm vir}=1.6\times 10^{12} \Msun$) from \texttt{galpy} \citep{Bovy2015ApJS..216...29B}.
+The escape velocity is a conservative cut to remove high proper motion stars that are nearby foreground MW stars. 
+We remove AGN/QSOs galaxies from the sample with the {\it Gaia} catalog \texttt{gaiaedr3.agn\_cross\_id}.
+
+
+For the complete sample, the following cuts are modified to be less restrictive:  
+$G_{\rm max}=21$, \texttt{ruwe} $<1.4$,  $\varpi - 3.5 \times \sigma_\varpi < 0$, and $v_{\rm tangential} - 3.5 \times \sigma_{v_{\rm tangential}} < v_{\rm escape}$.
+We remove the selection cuts on \texttt{ipd\_gof\_harmonic\_amplitude},   \texttt{ipd\_frac\_multi\_peak}, and \texttt{visibility\_periods\_used}.
+
+We compute the systematic proper motion errors following \citet{Gaia_Lindegren_2021A&A...649A...2L}.
+The proper motion covariance function is:
+
+\begin{equation}
+\label{eq:systematic}
+    V_{\mu}(\theta) = 292 \exp{\left(-\theta /12\degree \right)}+258 \exp{\left(-\theta /0.25\degree \right)} \, {\rm \mu as^2 ~ yr^{-2}},
+\end{equation}
+
+\noindent where $\theta$ is the angular separation between data points. 
+We treat $\sigma_{\mu, {\rm sys}}$=$\sqrt{V_{\mu}(\theta)}$ as the systematic error for each dSph. We use the half-light radius ($r_h$) of each dSph as the characteristic angular scale. We list $\sigma_{\mu, {\rm sys}}$ values in Table~\ref{tab:results}.
+For our sample the proper motion systematic errors varied between $\sim 16-23~{\rm \mu as ~ yr^{-1}}$ and the median value is $22~{\rm \mu as ~ yr^{-1}}$. 
+An alternative form is presented in \citet{Vasiliev2021MNRAS.505.5978V} that has values of $V_{\mu}(\theta)$ that are 15\% to 40\% larger than Equation~\ref{eq:systematic}. 
+
+
+\subsection{Photometry}
+
+
+We utilize several different photometric catalogs to improve the separation between dSph member stars and MW interlopers. 
+This is primarily composed of Dark Energy Camera \citep[DECam;][]{Flaugher2015AJ....150..150F} based data  and Pan-STARRS1 DR1 (PS1) \citep{Chambers2016arXiv161205560C} in the Northern sky.
+For the `bright' dSphs  we  use {\it Gaia} EDR3  $G$, $G_{RP}$  photometry. 
+The DECam based catalogs include: the Dark Energy Survey (DES) DR2 \citep{DES2021ApJS..255...20A},  the Dark Energy Camera Legacy Survey (DECaLs) DR9 \citep{Dey2019AJ....157..168D}, Survey of the MAgellanic Stellar History DR2 \citep{Nidever2021AJ....161...74N}, DECam Local Volume Exploration Survey DR1 \citep{DrlicaWagner2021ApJS..256....2D}, and the NOIRLab Source Catalog  (NSC) DR2 \citep{Nidever2021AJ....161..192N}. 
+{At faint magnitudes ($G\gtrsim 20$), the {\it Gaia} $G-G_{RP}$ color has significant errors and utilizing accurate auxiliary photometry significantly improves the separation between MW foreground and the dSph \citep[see Figure~1 of][]{Pace2019ApJ...875...77P}.}
+
+We opt to not apply any star/galaxy separation from the photometric surveys and instead use the {\it Gaia} astrometry as our stellar selection.
+In particular, there are several bright stars in  DES DR2 that are considered galaxies (\texttt{extended\_class\_coadd}=3, e.g. the brightest member in Tuc~III, \citealt{Hansen2017ApJ...838...44H} and a bright candidate member in Cet~II) and the inclusion of these stars are key to determine the  systemic proper motion. 
+
+We apply empirical isochrone based filters in the color-magnitude diagrams to improve  dSph  member selection.  
+The isochrone filter is created based on spectroscopic members (see citations in Tables~\ref{tab:overview} \&~\ref{tab:future_targets}) and starts from an old, metal-poor isochrone. 
+The  DECam based selection is similar to \citet{Pace2019ApJ...875...77P} but includes the red horizontal branch.  
+This selection is based primarily on a g-r color selection of 0.12-0.15 around a [Fe/H]=$-$2 and age = 12 Gyr Dartmouth isochrone \citep{Dotter2008ApJS..178...89D} and around the ridgeline of the M92 globular cluster for  horizontal branch stars (since Dartmouth isochrone does not contain a horizontal branch).
+For the DECam based photometry we do not increase the filter due to photometric errors as they are generally small at the limiting  {\it Gaia} magnitude.
+The PS1 isochrone filter is created in a similar manner except we use PARSEC isochrone from \citet{Bressan2012MNRAS.427..127B}.  
+In contrast to the DECam based selection, we increase the width of the filter at faint magnitudes with an additional error term  based on the median errors at a given magnitude, added in quadrature with the constant width of 0.15-0.16 in g-r color. 
+For the bright satellites, we construct a wide {\it Gaia} $G-R_{RP}$-$G$ color-magnitude box based on spectroscopic members.  The box width increases with magnitude to account for the large errors in color for fainter  {\it Gaia} stars.
+We show the spectroscopic selection in Figure~\ref{fig:cmd_selction} along with the spectroscopic members used to construct the filter. 
+
+\input{table_overview}
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{cmd_construction.pdf}
+\caption{Color-magnitude selection based on spectroscopic members (see Tables~\ref{tab:overview},\ref{tab:future_targets} for citations). 
+(Left) DECam based selection. The same filter is used for most of the DECam dSphs. (middle)  PS1 based selection. The  filter is expanded at faint magnitudes based on photometric errors. (right)  {\it Gaia} based selection for Dra. A similar selection is made based on spectroscopic members for the other bright dSphs. 
+}
+\label{fig:cmd_selction}
+\end{figure*}
+
+
+\section{Methods}
+\label{section:methods}
+
+To measure the systemic proper motions of the MW satellites we construct proper motion based mixture models that build on the methodology presented in \citet{Pace2019ApJ...875...77P} and \citet{McConnachie2020AJ....160..124M}.
+Briefly, we model the proper motions and spatial positions of stars near a satellite as a mixture of a satellite and MW foreground/background components: 
+
+\begin{equation}
+\mathcal{L} = (1 - f_{\rm MW}) \mathcal{L}_{\rm satellite} + f_{\rm MW} \mathcal{L}_{\rm MW} \, , \\ 
+\end{equation}
+
+\noindent where each individual component is decomposed into spatial and proper motion (PM) terms:
+
+\begin{equation}
+\mathcal{L}_{\rm satellite/MW} = \mathcal{L}_{\rm spatial} \mathcal{L}_{\rm PM} \, . \\ 
+\end{equation}
+
+For the satellite spatial term, we assume a projected Plummer stellar distribution \citep[][]{Plummer1911MNRAS..71..460P}:
+
+\begin{equation}
+\Sigma (R_e) = \frac{1}{\pi r_p^2 (1-\epsilon)}(1 + R_e^2/r_p^2)^{-2} \,, 
+\end{equation}
+
+\noindent where $r_p$,  $\epsilon$, and $R_e$ are the Plummer half-light radius, the ellipticity, and the elliptical radius, respectively.
+In contrast to \citet{Pace2019ApJ...875...77P}, we vary the spatial parameters,  $r_p$, $\epsilon$, and $\theta$.
+We assume Gaussian priors on these parameters based on literature measurements (listed in Table~\ref{tab:overview}).
+For the MW spatial component we assume that the MW component is spatially constant in the small regions around the satellite.
+
+For satellite proper motion component we model the proper motions as a multivariate distribution \citep[e.g.,][]{Pace2019ApJ...875...77P}.  We include the covariance in the proper motion errors (the cross term in the proper motion error) and instrinsic proper motion dispersion terms. 
+While the proper motion errors have improved in EDR3, they are not precise enough to measure internal dispersions and we fix intrinsic dispersion terms for the satellite component as they are smaller than the proper motion uncertainties.
+For most bright satellites we fix  $\sigma_\mu=10 \kms$ and for all UFDs (including Ant~II and Cra~II) we fix $\sigma_\mu=5 \kms$.
+
+
+
+
+
+  
+
+For the MW proper motion distribution, we utilize two models.
+The first `fixed' background model, is created from the proper motion distribution of stars  at radii much larger than the target \citep{McConnachie2020AJ....160..124M}.
+At a large distance from the target dSph, this sample will  only include MW stars.
+Especially, we select stars between $R_{\rm max, sat} < R < R_{\rm max, BG}$ and set $R_{\rm max, sat}$ based on $r_h$.  For the smaller UFDs,  the maximum radius varies between $25\arcmin <R_{\rm max, sat}<60\arcmin$ and for the bright satellites it varies between $60\arcmin <R_{\rm max, sat}<210\arcmin$.
+We set the  limiting radius of the background model to  $R_{\rm max, BG}=2.5^\circ$ for the UFDs and for the bright satellites (including Boo~III) we use $R_{\rm max, BG}=R_{\rm max,~sat}+1^\circ$.
+We apply the same color-magnitude selection and astrometric filtering to the distant MW sample to mimic  the selection for candidate satellite stars.  
+We note for several satellites we removed other known stellar systems, e.g., Boo~II from the Boo~I background (and vice versa), Palomar~3 and Sextans~A from the Sxt background. 
+The second `Gaussian' background model, uses a multi-variate Gaussian distribution with free proper motion dispersion terms \citep[e.g.,][]{Pace2019ApJ...875...77P}. 
+Other models have been explored in the literature including multiple Gaussian distributions \citep[e.g.,][]{Pace2019ApJ...875...77P, Vasiliev2021MNRAS.505.5978V}
+or a Pearson VII distribution \citep{Vitral2021MNRAS.504.1355V}.
+
+To determine the membership of stars we compute the relative likelihood between the satellite and total likelihood: $p = (1- f_{\rm MW})\mathcal{L}_{\rm satellite}/[(1- f_{\rm MW}) \mathcal{L}_{\rm satellite} + f_{\rm MW}\mathcal{L}_{\rm MW}]$ \citep[e.g.,][]{Martinez2011ApJ...738...55M}.  We take the median value to be the star's membership probability (which we refer to as $p_i$, for the $i$-th star) and compute the membership error (based on 16\% and 84\% confidence intervals) which we use to assess the confidence of the population  assignment for individual stars and any potential signal from  dSphs with few candidate members.
+
+
+\subsection{Orbit Methods} \label{sec:orbit_method}
+
+In order to simulate the orbits of these dwarfs, we account for the potential of the MW and the LMC. This is done using the technique of \cite{Erkal2020MNRAS.495.2554E} where the MW and the LMC are treated as individual particles sourcing their respective potentials. For the Milky Way potential we use the results of \cite{McMillan2017MNRAS.465...76M} where the MW consists of an NFW halo, a bulge, and four disks (thin, thick, HI, and H$_2$). In order to account for the uncertainties in the MW potential, we sample from the posterior chains in \cite{McMillan2017MNRAS.465...76M} in our fiducial setup. For the LMC, we use a Hernquist profile as in \cite{Erkal2020MNRAS.495.2554E}, with a mass of $1.38\pm0.255 \times10^{11} M_\odot$ \citep[from][]{Erkal2019MNRAS.487.2685E} and a scale radius chosen to match the enclosed mass at 8.7 kpc \citep{vanderMarel2014ApJ...781..121V}. In the fiducial setup, we also account for the observed uncertainties in the radial velocity \citep{van_der_Marel2002}, proper motion \citep{Kallivayalil2013ApJ...764..161K}, and distance to the LMC \citep{Pietrzynski2019Natur.567..200P}. Each dwarf is then rewound in the presence of the Milky Way and LMC for 10 Gyr to estimate its orbital properties. We note that these models include the Milky Way's reflex motion in response to the LMC which was initially highlighted in  \cite{Gomez2015ApJ...802..128G} and measured in \citet{Erkal2021MNRAS.506.2677E, Petersen2021NatAs...5..251P}.
+
+\section{Results}
+\label{section:results}
+\subsection{Proper Motions}
+
+\input{table_results}
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{example_results_v2.pdf}
+\caption{Results of the mixture model for 4 dSphs, from top to bottom: Boo~III, CB, Hyd~II, and UMi. 
+The four rows are the spatial distribution (tangent plane), the proper motion (vector point diagram), a DECam based color-magnitude diagram (not included for UMi), and a {\it Gaia} color-magnitude diagram. Points with membership probability $p > 0.01$ are colored according to their probability; the rest are considered  MW foreground stars and are shown as grey points. The red arrow points toward the Galactic center and the orange arrow is the direction of the reflex-corrected proper motion which is approximately equal to the orbital motion. Two ellipses are included in the spatial distribution at one and three times the half-light radius. 
+}
+\label{fig:example_diagnostic}
+\end{figure*}
+
+We are able to measure the systemic proper motion of 52 of our 54 dSph sample of which 46 have line-of-sight velocities.   
+{We have the first confident detection of the systemic proper motion of Peg~III and do not detect a signal in Cet~III or Vir~I.}
+We identify between $\sim4$ and $\sim16200$ members in the 52 dSphs.
+To demonstrate the ability of our model to identify dwarf members, we show example results for four dSphs in Figure~\ref{fig:example_diagnostic}. The identified member stars cluster spatially, cluster in proper motion space, and cluster along metal-poor isochrones in color-magnitude space. 
+In Table~\ref{tab:results}, we list our results for the systemic proper motion of the 52 dwarfs. We include our measurements and number of  members  with both the fixed and Gaussian background models  with the clean sample. 
+The systemic proper motions are in excellent agreement between the two background models, with differences $\lesssim 0.01 \masyr$. 
+
+For the majority of the UFDs there is excellent agreement in the    total membership with both background models.  Only in three UFDs, Hyi~I, Boo~III, and Tuc~III, are there differences with $\Delta N \geq 5$. 
+For the brighter dSphs, most show differences in total membership between the two background models. 
+Ant~II and Car in particular have large differences of $\sim 140$ and $\sim 110$ stars while other bright dwarfs have differences on the order $\sim 5-10$ stars. 
+The individual stars with a large difference in membership  between the two background models tend to be fainter stars with large proper motion errors.
+We note that for Car~II, Car~III, and Pic~II we do not have results from the Gaussian background model, this is discussed in more detail in  Appendix~\ref{appendix:comments}. 
+We consider the results from the fixed background model  as our default model.
+
+
+We  find that the two data samples, `clean' and `complete,' have excellent agreement between them.  
+Results with the  same background model finds similar membership for stars that overlap between the `clean' and `complete' samples. 
+We base our primary results on the `clean' sample in this analysis and provide  membership for both samples and both background models in Appendix~\ref{appendix:membership}. This will enable future spectroscopic follow-up. 
+To enable the search for distant members, we recompute our membership analysis without the spatial component and only use the  proper motion posterior \citep[e.g.,][]{Chiti2020ApJ...891....8C, Qi2022MNRAS.512.5601Q} and include these membership probabilities in Appendix~\ref{appendix:membership}.
+
+
+
+We are not able to  measure the systemic motion of Cet~III or Vir~I and are only able to measure a signal in Psc~II when spectroscopic information is included (see Appendix~\ref{appendix:comments}). Neither Cet~III nor Vir~I have any spectroscopic follow-up and there are no stars with high membership probability. 
+In order to measure the systemic proper motion with {\it Gaia} astrometry, members will need to be identified  beforehand (i.e., with spectroscopy) and these systems may be faint enough that there are no stars above the {\it Gaia} magnitude limit.
+Boo~IV, Hor~II, Peg~III, and Tuc~V have the most uncertain detections with $\sim4$ members in each.  Only Tuc~V has {\it Gaia} candidate stars that are spectroscopically confirmed. 
+
+
+
+Systematic proper motion errors computed using Equation~\ref{eq:systematic} are  presented in Table \ref{tab:results}. There are 15 dSphs where the systematic proper motion error is larger than the statistical error.
+This includes all `bright' dSphs except for Leo~II, and five UFDs,  Boo~I, Boo~III, Car~II, Hyi~I, and Sgr~II.
+Excluding Leo~II, dSphs with more than $\sim60$ members are  dominated by systematic errors whereas systems with fewer members are dominated by  statistical errors.  We note that because of Leo~II's  distance it has a larger statistical error than other systems with a similar number of stars.  
+
+
+In  Figure~\ref{fig:phase_space}, we show the phase-space diagram for the 46 MW dSphs with systemic proper motion measurements and line-of-sight velocity data. 
+For comparison we include the escape velocity of the MW.  The 5 dSphs outside of the MW escape velocity are labeled but we note that they have the largest tangential velocity errors and their total velocity may be overestimated. 
+
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{rgc_v3d_v2.pdf}
+\caption{Phase-space diagram for the MW  dSphs where the x-axis shows the distance to the Galactic center (GC) and the y-axis shows the total velocity in 3D, where positive (negative) indicates that the dSph is moving away from (towards) the GC.  The black lines represent the escape velocity of the MW.
+}
+\label{fig:phase_space}
+\end{figure}
+
+
+
+\subsection{Orbits}
+
+\begin{figure*}
+\begin{center}
+ \includegraphics[width=0.8\textwidth]{orbit_differences.pdf}
+\caption{Comparison of the orbital pericenter and apocenter of dSphs with a large relative change ($>25\%$ in either) in Milky Way potentials with  (orange points) and without (blue points) the presence of the LMC.  
+}
+\label{fig:orbit_differences}
+\end{center}
+\end{figure*}
+
+Next, we explore the orbits of these dwarfs in the Milky Way as described in Section~\ref{sec:orbit_method}. In our fiducial setup, we include the LMC and Monte Carlo over the uncertainties in the observational properties of each dwarf (i.e. proper motions, radial velocity, and distance), as well as the potential parameters of the Milky Way and the LMC (see Sec.~\ref{sec:orbit_method} for more details). This Monte Carlo process is repeated 10,000 times for each dwarf to sample the uncertainties. In addition to this fiducial run, we also have an `nL' run where the LMC's effect is not included. This allows us to see how much the orbital properties are influenced by the LMC. We note that we have also repeated the same suite several times with different assumptions about the observational, Milky Way potential, and LMC potential errors in order to explore the dominant contribution to the error. We discuss this analysis in Section~\ref{sec:future_improvements}. 
+
+\input{table_orbit}
+
+For the 46 dwarfs with line-of-sight velocities we compute their orbital properties with and without the presence of the LMC. For the 16 dwarfs whose orbits are significantly affected ($>25\%$ change in either pericenter or apocenter), we show the orbital properties with and without the LMC in Figure~\ref{fig:orbit_differences}. This shows that in order to get precise orbits, the LMC must be accounted for.
+
+
+
+In Table~\ref{tab:orbits},  we list the pericenter, apocenter, eccentricity, and probability of being an LMC satellite. We include  the ratio of pericenter and apocenter  with and without the influence of the LMC  to highlight which dwarfs are significantly affected by the inclusion of the LMC. We note that we define the pericenter and apocenter respectively as the first local minimum and maximum in the distance from the Milky Way during the backwards rewinding of each satellite. This is motivated by the results of \cite{DSouza2022MNRAS.512..739D} who showed that while the most recent pericenter and apocenter can be reliably determined during backwards integration, subsequent pericenters and apocenters are more poorly constrained. As a result, if a satellite is unbound from the Milky Way, it may not have a pericenter or an apocenter. We note that we only compute orbital uncertainties in pericenter and apocenter for the subset of realizations which respectively reach their pericenter and apocenter during the integration. We find that  $\sim$2\%, 6\%, 15\%,  34\%, 46\%, 77\%,  87\%, 88\%, 89\%, and 89\%  of the samples in Psc~II, Peg~III, Eri~II,  Col~I, Leo~V, Hyd~II,  Leo~IV, CVn~II, Phx~II, and Ret~II respectively, reach their pericenters and/or apocenters during our orbit integration and these samples might not be bound to the MW. 
+The first 5 of these dSphs have the largest proper motion errors of the sample. 
+The reminder of satellites have pericenters and apocenters for $>90\%$ of the sample. 
+
+
+
+The following dwarfs have a significant change ($>25\%$) to their orbital pericenter due to the presence of the  LMC: Ant~II, Aqu~II, Cvn~I, Car, Cra~II, Dra, Eri~II, Gru~I, Hyi~I, Ret~II, Sgr~II, Tuc~III, and UMi. These updated orbits may have a significant effect on the tidal disruption of these satellites. Indeed, for Ant~II and Cra~II, the effect of these updated orbits on the dwarf's tidal disruption has already been studied \citep[i.e.][]{Ji2021ApJ...921...32J}.
+
+Several dwarfs  have a significant change to their orbital apocenter due to the presence of the LMC: Aqu~II, Col~I, Leo~V, Ret~II, Ret~III, Scl, Sxt, and Tuc~II. While some of these are believed to be LMC satellites which would naturally affect their apocenters (i.e. Ret~II), the change in the orbits of the remaining dwarfs may significantly affect models of when they were accreted.
+Col~I and Leo~V meet this criteria, but Col~I contains a much larger pericenter and apocenter than the other dSphs and Leo~V is unbound without the presence of the LMC. 
+
+For the probability of being an LMC satellite, we use the approach of \cite{Patel2020ApJ...893..121P}: for each dwarf we determine whether it was within the escape velocity of the LMC at its most recent closest approach to the LMC. We note that we also tried the method of \cite{Erkal2020MNRAS.495.2554E} who instead evaluated whether the satellite was energetically bound to the LMC 5 Gyr ago. Since we are sampling over a wide range of Milky Way potentials and LMC masses, as opposed to \cite{Erkal2020MNRAS.495.2554E} who used a single Milky Way potential and a discrete set of LMC masses, this method does not seem to be as robust as the approach of \cite{Patel2020ApJ...893..121P}. This also agrees with the results of \cite{DSouza2022MNRAS.512..739D} who show that the accuracy of orbits decrease with increased lookback time. We discuss the LMC connection of the satellites in more detail in  Section~\ref{sec:lmc_connection}. 
+
+\section{Discussion}
+\label{section:discussion}
+
+\subsection{Tidal influence of the Milky Way}
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{pericenter_density_v5.pdf}
+\caption{Comparison of the pericenter ($r_{\rm peri}$) with and without the LMC influence (left panel and right panel, respectively) versus the average density within the half-light radius calculated from the stellar kinematics ($\rho_{1/2}$).  The black line shows  twice the enclosed MW density as a function of radius. If the satellite sits below this line, its Jacobi radius will be larger than the half-light radius and it will likely be tidal disrupting. Satellites near or below the curve are labeled.  
+Orange symbols denote dSphs which are clearly tidally disrupting: Ant II,  Sgr, and Tuc III.  Whereas green symbols denote dSphs that are potentially undergoing tidal disruption and near the MW average density: Boo I, Boo III, Cra~II, Gru~II, Seg~2, and Tuc~IV (see text for details). 
+}
+\label{fig:density_pericenter}
+\end{figure*}
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{extra_tidal_plots_v5.pdf}
+\caption{Correlation plots of dSphs in terms of their densities, ellipticies, pericenters, and half-light radii. Symbols and colors are the same as Figure~\ref{fig:density_pericenter}. \textbf{Left panel:} Ellipticity ($\epsilon$) versus the average dSph density divided by the average MW density at the dSph's pericenter ($\rho_{1/2}/\rho_{MW}(r=r_{\rm peri})$). \textbf{Center panel:} Ellipticity ($\epsilon$) versus pericenter ($r_{\rm peri}$). \textbf{Right panel:} Half-light radius ($r_{ 1/2}$) vs pericenter ($r_{\rm peri}$).  
+There is no clear trend for pericenter or the average density ratio with ellipticity (left and middle panel). The dSphs with evidence of tidal disruption and the smallest $\rho_{1/2}/\rho_{MW}(r=r_{\rm peri})$ ratios have larger half-light radii at a fixed pericenter than the general dSph population (right panel). 
+}
+\label{fig:other_tidal}
+\end{figure*}
+
+
+There has been extensive discussion on the tidal influence of the MW on its dSph population and here we compare our orbital parameters to some commonly used diagnostics. 
+To directly address whether a satellite can be tidally influenced, we compare the  average dSph density within the half-light radii to twice the average MW density at the orbital pericenter in Figure~\ref{fig:density_pericenter}. This follows from the tidal radius assuming a flat rotation curve for the Milky Way and that the dwarf is on a circular orbit \citep{King1962AJ.....67..471K}:
+\begin{equation}
+r_t = r \Big( \frac{m}{2M(<r)} \Big)^{\frac{1}{3}} \,, \end{equation}
+where $r_t$ is the tidal radius, $r$ is the distance from the Milky Way, $m$ is the mass of the dwarf, and $M(<r)$ is the enclosed Milky Way's mass within $r$. Re-arranging this and re-calling that we expect strong disruption when the half-light radius is similar to the tidal radius, the condition is:
+\begin{equation}
+\frac{m_{1/2}}{r_{1/2}^3} =  \frac{2M(<r)}{r^3} 
+\end{equation}
+which implies our condition of $\rho_{1/2} = 2 \bar{\rho}_{\rm MW}$. 
+To calculate $m_{1/2}$ for the dSphs, we use the dynamical mass estimator from \citet{Wolf2010MNRAS.406.1220W}. 
+We  additionally include the Sagittarius (Sgr) dSph \footnote{Sgr is not in our primary sample and the systemic proper motion and orbital motion was not derived in this work. For reference, we use $r_{\rm peri}\sim 16~\kpc$ \citep{Vasiliev2021MNRAS.501.2279V}, $\sigma \sim 15~\kms$ \citep{Vasiliev2020MNRAS.497.4162V}, and $r_{h}\sim 2500~\pc$ and $\epsilon \sim 0.64$ \citep{McConnachie2012AJ....144....4M}. }  in  Figure~\ref{fig:density_pericenter} and our tidal disruption analysis. Sgr is undergoing tidal disruption \citep[e.g.,][]{Vasiliev2021MNRAS.501.2279V} and    was excluded from our mixture model analysis due to its large angular size and low Galactic latitude. 
+
+
+
+In Figure~\ref{fig:density_pericenter}, there are a total of 11 dSphs with $\rho_{1/2}/\rho_{MW}(r=r_{\rm peri}) \lesssim 10$ that could have tidal influences. Two of these, Car~II and Hyi~I,  are likely LMC satellites (see Section~\ref{sec:lmc_connection})  and we exclude them from this discussion as their past dynamical evolution has primarily been influenced  by the LMC and they are on near their  first pericenter in the MW.
+Three of the dSphs below the average MW density are clearly tidally disrupting based on independent literature analysis  (Ant~II, Sgr, and Tuc~III) and we  denote them with orange symbols in  Figure~\ref{fig:density_pericenter}.
+Tuc~III has clear tidal tails extending $\sim2\degree$ from the satellite  \citep{DrlicaWagner2015ApJ...813..109D, Shipp2018ApJ...862..114S} and there is  velocity gradient along the tidal tails \citep{Li2018ApJ...866...22L}. 
+Ant~II has a velocity gradient that aligns with the orbital direction  and there is qualitative agreement between tidal stripping models and Ant~II's kinematic and spatial properties  \citep{Ji2021ApJ...921...32J, Vivas2022ApJ...926...78V}. 
+
+
+We denote the other six dSphs with $\rho_{1/2}/\rho_{MW}(r=r_{\rm peri}) \lesssim 10$ as potentially disrupting (Boo~I, Boo~III, Cra~II, Gru~II, Seg~2, and Tuc~IV) and   more observational evidence and/or detailed dynamical modeling is required to confidently assess the tidally disrupting scenario. 
+Boo~III has been argued to be tidally disrupting based on its large velocity dispersion \citep{Carlin2009ApJ...702L...9C}, its small pericenter ($r_{\rm peri} \sim 12 ~\kpc$)  and possible connection to the Styx stream \citep{Carlin2018ApJ...865....7C}.
+\citet{Simon2020ApJ...892..137S} noted that the tidal radius of Gru~II is just larger than its physical size and may be vulnerable to tidal stripping. 
+There is a tentative velocity gradient in Cra~II and  the tidal radius is less than the half-light radius but the predicted tidal features are beyond the range of current spectroscopic samples   \citep{Ji2021ApJ...921...32J}.
+For Boo~I there is a potential velocity gradient \citep{Longeard2021arXiv210710849L} and there are several blue horizontal branch star candidates at large distances, outside the King limiting radius \citep{Filion2021ApJ...923..218F} which are both  consistent with tidal stripping models \citep{Longeard2021arXiv210710849L, Filion2021ApJ...923..218F}.
+Tuc~IV  has had a recent, direct ($\Delta d \sim 4 ~\kpc$) collision with the LMC \citep{Simon2020ApJ...892..137S}. Tidal stripping has been used as an explanation for why  is offset from the stellar mass-metallicity relation  \citep{Kirby2013ApJ...770...16K}. 
+No detailed tidal stripping models have been carried out for Boo~III,  Gru~II,  Seg~2, or Tuc~IV.
+These dSphs are prime targets for searches for direct evidence of tidal disruption and/or detailed dynamical modeling.
+
+
+
+There are other satellites that have small pericenters ($r_{\rm peri} <30~\kpc$; Car~III, Dra~II, Seg~1, Tri~II, and Wil~1), but they all have larger average densities and are therefore  resilient to the tidal influence of the MW. 
+We note that if the velocity dispersion  was over-estimated these satellites could be undergoing tidal disruption by the MW  \citep[e.g., from unresolved binaries][or from small sample sizes]{Minor2019MNRAS.487.2961M}. 
+Some of the dSphs have upper limits on their velocity dispersion and if we assume a value of  $\sigma_{\rm los}\sim 1 \kms$,  we would infer   density ratios of $\rho_{1/2}/\rho_{MW}(r=r_{\rm peri})\sim2$, 8, 9 for Gru~II, Seg~2, and Tri~II, respectively and they would be considered prime candidates for tidal influence. 
+
+
+
+
+
+A large ellipticity has previously been used as evidence for tidal disruption \citep[e.g.,][]{Munoz2010AJ....140..138M, Kupper2017ApJ...834..112K}.
+In Figure~\ref{fig:other_tidal}, we  compare the ellipticity, the stellar half-light radius,  the ratio of average dSph density to MW density, and the orbital pericenters.  
+We see no clear trend with the average density ratio  or pericenter  with the ellipticity. This agrees with conclusions from $N$-body simulations that high ellipticity does not imply tidal disruption \citep{Munoz2008ApJ...679..346M}. 
+It is interesting that roughly half the dSphs with low density ratios are nearly spherical (Cra~II, Gru~II, Seg~2, Tuc~III) while the other half are  elongated (Ant~II, Boo~I, Boo~III, Sgr, Tuc~IV).
+Clearly, there is some additional dependence on orbital phase for whether a large ellipticity would be observed in a disrupting satellite.
+The right-hand panel of Figure~\ref{fig:other_tidal} compares the spherically averaged half-light radius and the pericenter.  At a fixed pericenter, dSphs that have some indications (Boo~III and Cra~II) or are  likely tidally disrupting  (Ant~II, Sgr, and Tuc~III) have larger sizes than the general dSph population.  The exceptions to this trend  (Boo~I, Gru~II, Seg~2, and Tuc~IV)  may be in an earlier stage of disruption than the other likely disrupting dwarfs. 
+We similarly  examined the mass-to-light ratio of the dSphs and did not see any trends when comparing to orbital properties and direct tidal indicators. 
+
+
+
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{angular_difference_summary_v3.pdf}
+\caption{Comparison between the orbital direction and spatial orientation of the dSphs. Symbols and colors follow Figure~\ref{fig:density_pericenter}.
+(left) Difference between the reflex-corrected proper motion (i.e. the orbital direction) and the position angle (i.e. spatial orientation) $| \theta_{\mu}-\theta_{\rm xy} |$ versus the pericenter. When $| \theta_{\mu}-\theta_{\rm xy} | \sim 0$ the orbit and major axis of the dSph are aligned. The blue error bar is from the reflex corrected proper motion and the black error bar is due to the distribution in the position angle. (center left) $| \theta_{\mu}-\theta_{\rm xy} |$ versus the ellipticity of the dSph.  
+(center right) Histogram of $| \theta_{\mu}-\theta_{\rm xy} |$ for the same sample.  To simulate errors we draw from each dSph's  $| \theta_{\mu}-\theta_{\rm xy} |$  distribution 1000 times.  The black bins are a subset of dSphs with smaller uncertainties. There is an excess of dSphs aligned with their orbital motion. 
+(right) Histogram of $| \theta_{\mu}-\theta_{\rm xy} |$ but separated by ellipticity.  The blue bins are the elongated sample  ($\epsilon >0.4$).  There is a clear preference for systems with large ellipticity to align with their orbital direction. 
+}
+\label{fig:angular_difference}
+\end{figure*}
+
+
+
+
+
+\subsection{Is Orientation a Signature of Tidal Disruption?}
+Next, we explore the relationship between the direction of the orbital motion and the orientation of each satellite.
+Specially, we compute the difference  between the position angle ($\theta_{\rm xy}$) and the direction of the reflex-corrected proper motion (i.e., the orbital direction, $\theta_{\mu}$). 
+In the left and center left panels of Figure~\ref{fig:angular_difference}, we compare $| \theta_{\mu}-\theta_{\rm xy} |$ to the pericenter and ellipticity, respectively. 
+We have excluded dSphs where the orbital direction and/or position angle  are poorly measured ($\sigma_{\theta_\mu}, \sigma_{\theta_{\rm xy}} > 25\degree$).
+
+The right-hand panels of Figure~\ref{fig:angular_difference} show the $| \theta_{\mu}-\theta_{\rm xy} |$ distribution of the dSph sample.  To construct the global satellite $| \theta_{\mu}-\theta_{\rm xy} |$, we have sampled each dSph's  $| \theta_{\mu}-\theta_{\rm xy} |$ distribution  1000 times with an error determined by adding the error from the position angle and reflex-corrected proper motion in  quadrature.
+The center right panel shows the  dSph sample  
+($\sigma_{\theta_\mu}, \sigma_{\theta_{\rm xy}} < 25\degree$) and  a subset (black bins) with more precise measurements ($\sigma_{\theta_\mu}, \sigma_{\theta_{\rm xy}} < 15\degree$).
+There is an excess of satellites whose shape is aligned with their orbital motion and this correlation becomes more significant when  poorly measured dSphs are removed.
+The right hand panel splits the same sample by ellipticity (at $\epsilon=0.4$).
+dSphs with large ellipticties  are in general aligned with their orbital motion whereas less elliptical dSphs have  uniform orientations. 
+In particular, there are six dSphs with $| \theta_{\mu}-\theta_{\rm xy} |<15\degree$ (Her, Phx~II, UMa~I, UMa~II, UMi, and Wil~1). 
+The  two dSphs with high ellipticity that are not aligned, Car~III and Ret~II, are both highly likely to be LMC satellites and the LMC association likely affects their orientation relative to the MW.
+
+
+
+Several of the disrupting dSphs are excluded from the orientation sample due to their sphericity (Cra~II, Gru~II, and Tuc~III) and most of the elliptical disrupting dSphs are aligned with the orbital motion.
+The exception in Figure~\ref{fig:angular_difference}, is Seg~2 which has a low ellipticity ($\epsilon \sim 0.2$).
+The core of Tuc~III is spherical ($\epsilon \sim 0.2$), and the Tuc~III tidal tails are aligned with the reflex-corrected proper motion \citep{Shipp2019ApJ...885....3S}.
+Ant~II, Boo~I, Boo~III, and Tuc~IV all have the orbital motion aligned with the major axis.
+Similarly, the orientation of the Sgr dSph is aligned with its orbital motion though it is not in our nominal sample \citep[e.g.,][]{delPino2021ApJ...908..244D}. 
+
+ 
+
+We have further compared the orientation of each satellite to the direction of the Galactic center and the orbital direction with the direction to the Galactic center. The only trend is an excess of satellites {with an orbital direction that is perpendicular to}   the direction to the  Galactic center. If the likely LMC satellites are removed this excess is removed. 
+
+Thus, the only alignment that we find is that satellites with large ellipticity tend to be oriented along their orbit.  While tidal disruption would be a natural explanation for this, there is no corresponding trend with small pericenters or low average density compared to the average MW density. 
+A possible explanation for this alignment is  tidal torques. 
+Based on numerical simulations, there is an expected radial alignment between satellite orientation and the Galactic center due to tidal torques \citep{Pereira2008ApJ...672..825P}. However, the orientation changes throughout orbit and we do not have a complete sample of MW satellites.
+Previous work has found that the MW dSphs share a common  orientation and that it may be related to the Vast Polar Orbital structure  \citep{Sanders2017MNRAS.472.2670S}. 
+The Vast Polar Orbital structure  and orbital poles alignment may be caused by the  LMC \citep{GaravitoCamargo2021arXiv210807321G} but  \citet{Pawlowski2021arXiv211105358P} show the magnitude of the LMC perturbation is to small to fully explain the Vast Polar Orbital structure.
+
+
+
+
+
+
+\subsection{Comparison to Previous Results and Spectroscopic Catalogs}
+
+\input{table_future_members}
+
+Overall, we find excellent agreement between our results and other {\it Gaia} EDR3 proper motion results\footnote{We have also compared our proper motion results to previous {\it Gaia} DR2 results \citep{Torrealba2019MNRAS.488.2743T, Chakrabarti2019ApJ...886...67C, McConnachie2020AJ....160..124M, Kallivayalil2018ApJ...867...19K, Fritz2018A&A...619A.103F, GaiaHelmi2018A&A...616A..12G, Simon2018ApJ...863...89S, Carlin2018ApJ...865....7C, Massari2018A&A...620A.155M, Mau2020ApJ...890..136M, Pace2019ApJ...875...77P, Fritz2019A&A...623A.129F, Fu2019ApJ...883...11F, Walker2019MNRAS.490.4121W, Longeard2018MNRAS.480.2609L, Simon2021ApJ...908...18S, Simon2020ApJ...892..137S, Gregory2020MNRAS.496.1092G, MutluPakdil2019ApJ...885...53M, Longeard2020MNRAS.491..356L, Massari2018NatAs...2..156M, Chiti2021NatAs...5..392C, Pace2020MNRAS.495.3022P} and to non-{\it Gaia} proper motion measurements \citep{Piatek2003AJ....126.2346P, Walker2008ApJ...688L..75W, Pryor2015AJ....149...42P, CasettiDinescu2016MNRAS.461..271C, Sohn2017ApJ...849...93S, Piatek2002AJ....124.3198P, Dinescu2004AJ....128..687D, Piatek2007AJ....133..818P, Mendez2011AJ....142...93M, Sohn2013ApJ...768..139S, Lepine2011ApJ...741..100L, Piatek2016AJ....152..166P, Piatek2006AJ....131.1445P, Fritz2018ApJ...860..164F, CasettiDinescu2018MNRAS.473.4064C, Piatek2005AJ....130...95P}. We include more details of this comparison in Appendix~\ref{appendix:membership}.} \citep{McConnachie2020RNAAS...4..229M, Li2021ApJ...916....8L, MartinezGarcia2021MNRAS.505.5884M, Vitral2021MNRAS.504.1355V, Battaglia2022A&A...657A..54B, Qi2022MNRAS.512.5601Q}. 
+In particular,  \citet{McConnachie2020RNAAS...4..229M, Battaglia2022A&A...657A..54B} apply similar mixture models based on spatial position and proper motion with an additional  color-magnitude component based on {\it Gaia} photometry. Similar to \citet{Pace2019ApJ...875...77P} with {\it Gaia} DR2 data, we advocate for the use of auxiliary photometry especially for faint stars to assist with the identification of dSph members but acknowledge that the addition of a color-magnitude likelihood term is valuable to identify dSph stars. The distribution of MW stars is not uniform in color-magnitude space and including that information in the mixture model is valuable. 
+\citet{McConnachie2020RNAAS...4..229M} include a prior on the systemic proper motions that requires the corresponding tangential velocity  to be bound to the MW. 
+For {\it Gaia} DR2 measurements this affected a large number of dwarfs relative to other measurements \citep{McConnachie2020AJ....160..124M}.   
+With EDR3, this prior generally only affects more distant satellites ($>100~\kpc$) with a low number of members (e.g, Boo~IV, Leo~IV, Leo~V, Psc~II, Peg~III) and  some distant dSphs have smaller proper motion errors than our results due to this prior.  
+Previous {\it Gaia} DR2 results are commonly offset from the EDR3 results due to zero-point proper motion systematics in DR2 that have roughly  decreased by a factor of two in EDR3 \citep{GaiaCollaboration_Luri2021A&A...649A...7G}. The EDR3 proper motions are more precise than previous {\it HST} measurements for Leo~I and Leo~II in contrast to the DR2 results. 
+
+
+Ultra-faint dwarfs have spectroscopic samples varying between 3 and $\sim70$ members.  
+We have compared current spectroscopic samples to our membership catalogs to assist in validating the method (i.e. to check we are correctly identifying known dSph members and MW foreground stars) and to identify the most promising targets for future followup. 
+Here we consider a candidate as any stars with $p>0.1$. 
+In Table~\ref{tab:future_targets}, we show the results of this exercise. 
+In particular we list the number of expected members ($N_{\rm expected}$) if all stars with $p>0.1$ are targeted ($N_{\rm targets}$).
+For  almost all dSphs, we find excellent agreement between known spectroscopic dSph members and a high mixture model membership probability and a  corresponding agreement between known  spectroscopic MW foreground stars and a low or  zero membership probability from our mixture model.  
+One object with disagreement is Wil~1 as several previously identified spectroscopic members are identified as MW stars based on {\it Gaia} astrometry.  This disagreement is partly due to the difficultly in identifying spectroscopic members as the Wil~1 line-of-sight velocity overlaps with the MW distribution.
+Based on the total membership, there are several dwarfs where future spectroscopic observations with {\it Gaia} selected observations can double or triple the sample sizes (e.g., Aqu~II, Boo~II, Boo~III, Dra~II, Hyi~I, Phx~II, Ret~II, Sgr~II, UMa~II).
+In addition, there are a number of bright candidates ($g<18.5$) that are excellent targets for high resolution spectroscopic follow-up for detailed chemical abundance studies.
+
+
+
+
+
+\subsection{Association with the Large Magellanic Cloud}
+\label{sec:lmc_connection}
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{lmc_relative_distance_velocity3.pdf}
+\caption{
+The distance to the LMC versus the relative velocity at each  satellite's previous closest LMC approach (left) and the current distance versus the current relative velocity (right). Red symbols denote the candidate LMC satellite population (Car~II, Car~III, Hyi~I, Hor~I, Phx~II, Ret~II). The black line is the LMC escape velocity curve with $M_{\rm LMC} = 13.8\times 10^{10}~M_{\odot}$. The satellite with the closest approach is Tuc~IV (gold circle) which is not considered an LMC satellite due to its large relative velocity. 
+Currently, Sgr~II (green symbol) is closer to the MW than the LMC and is more likely to be associated with the MW. 
+The five satellites at large distances with low relative velocities (they are Dra, Dra~II, UMi, Cra~II, Car~I) are not bound to the LMC. Most of them are closer to the MW at the time of closest approach. 
+}
+\label{fig:lmc_rad_dist}
+\end{figure*}
+
+With full phase space information, it is possible to determine which dSphs were previously associated with the LMC prior to their infall into the MW 
+\citep{Deason2015MNRAS.453.3568D, Jethwa2016MNRAS.461.2212J, Sales2017MNRAS.465.1879S, Kallivayalil2018ApJ...867...19K, Fritz2019A&A...623A.129F, Patel2020ApJ...893..121P, Battaglia2022A&A...657A..54B, Erkal2020MNRAS.495.2554E, SantosSantos2021MNRAS.504.4551S, CorreaMagnus2022MNRAS.511.2610C}. 
+To determine LMC association, we compute the fraction of orbits, $p_{\rm LMC}$, where a dSph's relative velocity ($v_{\rm LMC,~min}$) at its most recent approach to the LMC ($r_{\rm LMC,~min}$) is less than the LMC's escape velocity. 
+We include the $p_{\rm LMC}$ values for each dSph in Table~\ref{tab:orbits}. We show each dSph's  $r_{\rm LMC,~min}$ and $v_{\rm LMC,~min}$ in Figure~\ref{fig:lmc_rad_dist}, along with each dSphs current position and velocity relative to the LMC.  
+
+Based on our orbit modeling, we identify Car~II, Car~III,  Hor~I, Hyi~I, Phx~II, and Ret~II as   likely  LMC satellites ($p_{\rm LMC}>0.5$).
+While five of the six dSphs we identify as LMC satellites are currently within the LMC's escape velocity (Car~II is currently $<10~\kms$ outside of the escape velocity), we note that the LMC's Jacobi radius is likely lower today than in the past due to the proximity of the MW \citep{Battaglia2022A&A...657A..54B}.  
+The same six dSphs have been identified as likely  LMC satellites in other studies with different methodology for determining association \citep{Kallivayalil2018ApJ...867...19K,Erkal2020MNRAS.495.2554E, Patel2020ApJ...893..121P, Battaglia2022A&A...657A..54B}. 
+For example, \citet{Erkal2020MNRAS.495.2554E} determine LMC association by computing the binding energy relative to the LMC after rewinding for 5 Gyr, or when the LMC reaches apocenter if that is earlier. 
+Similarly, \citet{CorreaMagnus2022MNRAS.511.2610C} define a LMC satellite as one which was energetically bound to the LMC at some point between 1 to 3 Gyr ago. 
+\citet{Battaglia2022A&A...657A..54B} determine LMC association if the satellite was inside the LMC Jacobi radius at the time of closest approach. 
+However, we note \citet{CorreaMagnus2022MNRAS.511.2610C} only consider  five of the six to be likely associated and find  Ret~II to have a low probability of being associated. 
+The different methodology used to identify LMC satellites generally does not make a difference for these six objects (Car~II, Car~III, Hor~I, Hyi~I, Phx~II, and Ret~II) and they were likely previously associated with the LMC. 
+
+
+We find that Tuc~IV has had a close encounter ($r_{\rm LMC,~min}\sim3\kpc$) with the LMC\footnote{Tuc~IV has possibly undergone a three-body interaction with LMC and SMC \citep{Simon2020ApJ...892..137S}.} with a large relative velocity   and is currently within the LMC escape velocity. 
+Several studies have considered Tuc~IV to have a low probability of being associated with the LMC \citep{Simon2020ApJ...892..137S, Battaglia2022A&A...657A..54B}. 
+Similar to Tuc~IV, we find that Sgr~II, Tuc~III, and Tuc~V have had close encounters ($r_{\rm LMC,~min}\sim 10-20~\kpc$) but with much larger relative velocities ($v_{\rm LMC,~min}\sim 300-400~\kms$). Of these, Sgr~II is currently near the LMC's escape velocity, however it is unlikely to be associated as it is closer to the MW. 
+
+
+While Dra, Dra~II, and UMi also pass our association criteria based on their relative velocity being less than the LMC escape velocity at their closest approach, they were closer to the MW at this time and their Milky Way apocenters are less than $r_{\rm min,~LMC}$.  Thus, the low relative velocity is just fortuitous. 
+Dra~II has been noted to have a potential LMC association if the LMC was on its  second pericenter, a scenario which is increasingly unlikely \citep{Kallivayalil2018ApJ...867...19K}. 
+Similarly, in some orbits the relative velocity of Car and Cra~II are less than the LMC escape velocity at $r_{\rm LMC,~min}$ but both are more distant than $100\kpc$ from the LMC at this time and the MW has had a  larger influence on them. 
+Finally, Gru~II is the next closest satellite in phase space relative to the LMC, both at the present day and during its closest approach. It is considered a recently captured satellite by \citet{Battaglia2022A&A...657A..54B}.
+
+
+
+
+\subsection{On the Excess of Satellites near Pericenter}
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{pericenter_excess_simulation_v4.pdf}
+\caption{Pericenter fraction ($f_{\rm peri} = (r_{GC} - r_{\rm peri} )/ (r_{\rm apo} - r_{\rm peri}$)  of observed dSphs (black) and subhalos (blue) from six MW-like $N$-body cosmological simulations. 
+We exclude LMC dSphs and dSphs with large uncertainties from the observed sample (see text).
+For the observed sample, the bins are made from the Monte Carlo chains of each satellite.
+In both samples there are `excesses' of satellites near pericenter and apocenter as the radial velocity is zero there and thus satellites spend relatively more time there. 
+}
+\label{fig:pericenter_excess}
+\end{figure}
+
+Once systemic proper motions of most MW satellites were measured with {\it Gaia} DR2, subsequent orbital analysis revealed an excess of  satellites near their orbital pericenter  \citep{Simon2018ApJ...863...89S, Fritz2018A&A...619A.103F}. 
+This is unexpected as a satellite spends more time near its orbital apocenter than its pericenter.
+To assess this issue with our data set, we follow \citet{Fritz2018A&A...619A.103F} and evaluate the ratio, $f_{\rm peri}= (r_{GC} - r_{\rm peri} )/ (r_{\rm apo} - r_{\rm peri})$, which is a proxy for the orbital phase in the radial direction.
+ $f_{\rm peri}=0,1$  corresponds to the satellite being at its pericenter or apocenter, respectively. 
+With DR2 measurements, roughly half the dSph sample had $f_{\rm peri}<0.1$, however, the $f_{\rm peri}$ distribution becomes less extreme with  a heavier MW  \citep{Fritz2018A&A...619A.103F}.  
+
+
+We explore the $f_{\rm peri}$ distribution from our orbit modeling in Figure~\ref{fig:pericenter_excess}.
+We see an excess  of MW satellites with  $f_{\rm peri}\sim0$ and we see a secondary peak at $f_{\rm peri}\sim1$.
+We compute the fraction directly from the Monte Carlo samples.
+We exclude LMC satellites (Car~II, Car~III, Hor~I, Hyi~I, Phx~II, Ret~II) and dSphs with large tangential velocity errors (Col~I, Eri~II, Hyd~II, Leo~IV, Leo~V, Peg~III, Psc~II, and Ret~III) following  \citet{CorreaMagnus2022MNRAS.511.2610C}.
+We note that in a number of cases there are satellites that are either closer than their previous pericenter\footnote{The LMC satellites, Car~III, Hyi~I, Phx~II, and Ret~II suffer from this issue but are already excluded from the analysis.} (CB and UMa~II)  or more distant than their previous apocenter (Leo~II, Sgr~II, and Wil~1) and for these objects we use their current Galactocentric distance instead for the pericenter or apocenter. We note that this issue arises since we have defined the pericenter and apocenter as the local minimum and local maximum, respectively, and the dSphs have since had their orbits perturbed by the LMC.
+We note that both excluded samples (LMC satellites and large tangential errors) are preferentially near either their pericenter or apocenter.   
+
+
+To further examine this issue, we explore the $f_{\rm peri}$ distribution of subhalos in high-resolution cosmological $N$-body zoom-in simulations of MW-like halos. These simulations are described in detail in \citet{Jethwa2018MNRAS.473.2060J}.
+These simulations were run with the $N$-body part of \textsc{gadget-3} which is similar to \textsc{gadget-2} \citep{Springel2005MNRAS.364.1105S}. These simulations resolve Milky Way-like dark matter haloes with a particle mass of $2.27\times10^5 M_\odot$. From comparing with higher resolution runs, \citet{Jethwa2018MNRAS.473.2060J} found that the subhaloes in these simulations are complete down to a mass of $10^{7.5} M_\odot$, which is sufficient for comparing with the dwarfs in this work. Although these simulations are dark matter only, they include an analytical disk potential which is grown adiabatically from $z=3$ to $z=1$ (11 Gyr to 8 Gyr ago). This technique has been show to mimic the depletion of subhaloes by baryonic disks \citep[e.g.,][]{GarrisonKimmel2017MNRAS.471.1709G}.
+
+The subhaloes in this simulation are identified with \textsc{rockstar} \citep{Behroozi2013ApJ...762..109B} and the merger trees are constructed with \textsc{consistent trees} \citep{Behroozi2013ApJ...763...18B}. 
+We measure the orbit of each subhalo by taking its position and velocity relative to the Milky Way in the final snapshot and computing the angular momentum and energy of its orbit. We then compute the turning points of the effective potential, $\phi_{\rm eff}(r) = \frac{L^2}{2r^2}+\phi(r)$, where $L$ is the total angular momentum and $\phi(r)$ is the gravitational potential of the Milky Way halo in the final snapshot.
+In total, there are 1576 subhalos with $r_{\rm GC}<r_{\rm vir}$ from six MW-like simulations. 
+
+The  $f_{\rm peri}$ distribution of subhalos of MW-like dSphs is included in  Figure~\ref{fig:pericenter_excess}.
+From the simulations, we see that the subhalo distribution peaks at both $f_{\rm peri}\sim0$ and $f_{\rm peri}\sim1$ which matches the dSph population. 
+A pile-up at $f_{\rm peri}\sim 0$ is not unexpected. 
+These  peaks occurs as $\frac{d}{dt} f_{\rm peri}\propto \frac{d}{dt} r_{\rm GC} =0$ at both pericenter and apocenter  \citep{Li2022ApJ...928...30L}.
+This is not a one-to-one comparison between the simulated subhalos and the observed dSph population, as there is no selection function applied to the simulated subhalos \citep[e.g.][]{DrlicaWagner2020ApJ...893...47D},  and there are no observational errors applied to the simulations.
+Regardless, we find a general agreement between the $f_{\rm peri}$ distribution of the  dSph and subhalo population. 
+We leave a more detailed comparison between the orbital properties of the MW dSph population and simulated MW subhalo population to a future work. 
+
+
+
+The potential excess of satellites near their pericenter has been addressed by several other {\it Gaia} EDR3 based analyses.
+\citet{Li2021ApJ...916....8L} examined the ratio of  the time to reach or leave a satellite's pericenter compared to half the total orbital period. 
+Their analysis inferred an excess at lower values of this ratio while they expected a uniform distribution and they concluded that there remains a proximity-to-pericenter issue. 
+ \citet{CorreaMagnus2022MNRAS.511.2610C} examined the  radial phase angle,  the canonically conjugate variable to the radial action, and found that the dSph population is distributed uniformly in the radial phase angle.  
+\citet{CorreaMagnus2022MNRAS.511.2610C} concluded that there is no proximity-to-pericenter issue due to the  dSph population being well-mixed in radial phase angle.
+\citet{Li2022ApJ...928...30L} examined  $f_{\rm peri}$ for the dSph population in a MW only potential and found a  $f_{\rm peri}$ distribution similar to our analysis (see their Figure~5). They analyzed the globular cluster population and a dozen stellar streams and found peaks at  $f_{\rm peri}\sim0,1$,   similar to the dSph population.
+Furthermore, \citet{Li2022ApJ...928...30L} sampled  dSph-like orbits uniformly in time at eccentricities of 0.2, 0.4, and 0.6 and found the  $f_{\rm peri}$ distribution of these sampled orbits have peaks  at $f_{\rm peri}\sim0,1$.
+In summary, there is not an  excess of satellites near their  pericenter and the perceived excess was due to how the orbital phase was computed.
+
+
+\subsection{On the Anti-Correlation Between Pericenter and Density for Bright Satellites}
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{classical_peri_density_v5.pdf}
+\caption{Total density within 150 pc ($\rho_{150}$) versus the pericenter ($r_{\rm peri}$) for the classical satellites (Car, Dra, For, Leo~I, Leo~II, Scl, Sxt, and UMi.) and CVn~I. The top and bottom panels show pericenter with and without the influence of the LMC.  
+Overlaid is the correlation for a cuspy dark matter  from \citet{Kaplinghat2019MNRAS.490..231K}. 
+}
+\label{fig:density_pericenter_correlation}
+\end{figure}
+
+There is a reported anti-correlation between the average dark matter density within 150 pc ($\rho_{150}$) and the pericenter ($r_{\rm peri}$) in the classical dSphs + CVn~I\footnote{This includes Car, CVn~I, Dra, For, Leo~I, Leo~II, Scl, Sxt, and UMi.}  based on orbits computed with  {\it Gaia} DR2 data \citep{Kaplinghat2019MNRAS.490..231K}. 
+This correlation implies that only the densest dSphs can survive at small pericenters.
+In Figure~\ref{fig:density_pericenter_correlation}, we update the pericenters with our results from EDR3 proper motions and include the effect of the LMC. 
+For the dark matter distribution we use results from spherical Jeans dynamical models from \citet{Pace2019MNRAS.482.3480P}, which assume an NFW dark matter distribution \citep{Navarro1996ApJ...462..563N}. 
+Without the LMC, we find a general agreement with the previously reported correlation between $r_{\rm peri}$ and $\rho_{150}$. 
+For the models with the LMC, we find the previously reported correlation is much weaker and steeper. 
+
+
+The  dSphs, Ant~II and Cra~II, are in the same stellar mass range and should be included as they were likely initially hosted by similar mass haloes (given their similar stellar masses $>10^5~\Msun$) as the other classical dwarfs.
+They have much lower densities than the classical dwarfs  pericenter  which is likely a signature of their tidal disruption \citep[][]{Ji2021ApJ...921...32J, Vivas2022ApJ...926...78V} and their inclusion would similarly weaken the $\rho_{150}$-$r_{\rm peri}$ anti-correlation. 
+However, the question remains, where are the dSphs with high density and a large pericenter. 
+
+
+
+A similar trend is observed in $N$-body simulations between the subhalo maximum circular velocity ($V_{\rm max}$) and $r_{\rm peri}$  \citep{Robles2021MNRAS.503.5232R}.  At a fixed $V_{\rm max}$, subhalos with smaller  $r_{\rm peri}$ are more concentrated and more dense.  Less concentrated halos are less resilient to tidal disruption. 
+A similar trend has been observed when considering the distance to the host in that the closer subhalos have higher concentrations on average than more distant subhalos  \citep{Moline2021arXiv211002097M}.  
+This observed trend between pericenter and dark matter density has been used to  probe self-interacting dark matter  \citep[e.g.,][]{Jiang2021arXiv210803243J}. 
+Pericenter and orbital analysis will be useful priors for dynamical analysis \citep{Robles2021MNRAS.503.5232R} however, we caution that the LMC needs to be included for MW orbital analyses.  
+
+
+
+
+
+
+\subsection{Dominant Source of Orbital Uncertainty} \label{sec:future_improvements}
+
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width = .45\textwidth]{projections_present_peri.pdf}
+    \includegraphics[width = .45\textwidth]{projections_present_apo.pdf}
+    \caption{
+    Relative fractional  error  compared to the distance for the pericenter ($\sigma_{r_{\rm peri}}$; left panels) and apocenter ($\sigma_{r_{\rm apo}}$; right panels) due to the fixing the error to zero for  the systemic proper motion (blue points), distance (orange points), MW potential (green points), and LMC mass (red points).
+    For each galaxy there are four entries and in each entry three of the previously mentioned errors are set to the current value and one is set to zero to analyze its impact. 
+Low factions correspond to the majority of current error being due to the fixed parameter and high fractions indicate that current error in the fixed  property does not significantly affect the total error. 
+The current error in the pericenter is dominated by the distance and/or proper motion uncertainties whereas the current error in the apocenter is dominated by to  the distance and/or potential uncertainties. To aid in interpreting the sources of error, we show a histogram of the fractional uncertainties next to each panel. }
+    \label{fig:current_errors}
+\end{figure*}
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width = .45\textwidth]{projections_future_peri.pdf}
+    \includegraphics[width = .45\textwidth]{projections_future_apo.pdf}
+    \caption{Similar to Figure~\ref{fig:current_errors} except here we start with the projected future errors and go to zero error for each component. The proper motion errors are based on {\it Gaia} DR5 projections, the errors on distance are assumed to be 2\%, and the Milky Way and LMC uncertainties are left at their present-day values. The largest source of error in the future will be due to the distance and MW potential uncertainty which emphasizes the need to better measure the MW potential. Interestingly, some satellites near the LMC will be sensitive to improvements in the LMC. }
+    \label{fig:future_errors}
+\end{figure*}
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width = .45\textwidth]{projections_improved_pmerror_peri.pdf}
+    \includegraphics[width = .45\textwidth]{projections_improved_pmerror_apo.pdf}
+    \caption{Similar to Figure~\ref{fig:current_errors} except the here we compare current proper motion errors to {\it Gaia} DR5 errors and compare 5\% to 2\% errors in the distance.  For some objects  5\% error in the distance is larger than their current error.}
+    \label{fig:improved_errors}
+\end{figure*}
+
+
+
+
+
+
+
+
+
+
+
+In this work we have considered many sources of error when evaluating the dwarf orbits: uncertainties in the present-day phase space coordinates of the dwarfs (i.e. proper motions, distance, and radial velocity\footnote{The errors on the line-of-sight velocity and $\alpha$, $\delta$ are minuscule compared to the listed properties.}), in the LMC model (i.e. its present day proper motions, distance, radial velocity, and mass), and the Milky Way potential. In order to explore which of these sources dominates the orbital uncertainty (i.e. in $r_{\rm peri}$ and $r_{\rm apo}$), and thus which would be the most helpful to improve, we repeat our analysis and build three different suites with different assumptions about the uncertainties. We note that in this analysis, we use the Milky Way potential and associated uncertainties from \citet{McMillan2017MNRAS.465...76M}. In reality, there are larger uncertainties depending on what tracers and modelling techniques are used \citep[e.g.][]{Wang2020SCPMA..6309801W} and thus our Milky Way potential uncertainties should be seen as a conservative.  
+
+For the first suite, we start with the present day errors (i.e. the fiducial analysis of this work), and sequentially turn off each individual source of error, leaving the other errors at their present day values. We dub this the `present day' suite. This results in 4 simulations where we (respectively) turn off the uncertainty in proper motion, distance, LMC, and MW potential. We show the present-day distance of each satellite compared to the relative reduction in orbital uncertainty when each source of uncertainty is fixed to zero (e.g., $\sigma_{r_{\rm peri,~fixed}}/\sigma_{r_{\rm peri}}$) in Figure~\ref{fig:current_errors}. The relative reduction in error on the pericenter and apocenter shows how much of the current error is due to the fixed quantity (i.e. if $\sigma_{r_{\rm peri},~{\rm fixed\,distance}}/\sigma_{r_{\rm peri}}$ is close to 0 most of the error on the pericenter is due to the distance uncertainty and if it is close to 1 the uncertainty is due to other properties). 
+In general for our dSph sample, the error in the pericenter is dominated by either the distance or systemic proper motion uncertainty. Whereas for the apocenter, the error is dominated by the distance or potential uncertainties. We note that we choose to plot this relative reduction in error versus distance to give a sense of where in the Milky Way each uncertainty dominates.
+We include the relative reduction in error for each dwarf in Table~\ref{tab:future_error}. We note that previous works have also explored the dominant source of uncertainty, but these have examined the uncertainty in the transverse velocity \citep{Battaglia2022A&A...657A..54B} instead of the orbital uncertainty as in this work. 
+
+In the second suite, we consider a future version of the first suite where the proper motions and distances are improved to a level we expect in the next 
+5 years. For the proper motions, we assume uncertainties based on 10 years of \textit{Gaia} data (DR5). For the distances, we assume a 2\% error which is an obtainable projection given current systematics in the period-Wesenheit-metallicity relations of RR Lyrae stars \citep[e.g.,][]{Nagarajan2021arXiv211106899N, Garofalo2022arXiv220307435G}. We leave the uncertainties in the Milky Way potential and LMC potential at their present-day uncertainties to assess whether these need to be improved to make use of  upcoming data. The  results are shown in Figure~\ref{fig:future_errors}.
+Due to improvements in the systemic proper motion in future {\it Gaia} data releases, the dominant errors in the future will be due to distance and/or MW potential uncertainties. This motivates the need for more precise measurements of the Milky Way potential in order to make optimal use of {\it Gaia} DR5 data. {Measurements with stellar streams are excellent for this since they span a large range of radii and can disentangle the influence of the LMC \citep[e.g.][]{Kupper2015ApJ...803...80K,Erkal2019MNRAS.487.2685E,Vasiliev2021MNRAS.501.2279V}. Similarly, measurements based on distant tracers which include the effect of the LMC are also promising \citep[e.g.][]{Deason2021MNRAS.501.5964D,CorreaMagnus2022MNRAS.511.2610C}.} Interestingly, we also see that there are some dwarfs which have a substantial uncertainty ($\gtrsim 20\%$) in their orbital properties due to the LMC uncertainties. We note that dwarfs with a small number of members in the {\it Gaia} data will be dominated by proper motion measurements. 
+
+For the final suite, we take a slightly different approach where we start with current proper motion errors and 5\% distance errors and (one at a time) improve these to projected 10-yr {\it Gaia} errors and 2\% distance errors. 
+We only include present-day uncertainties in the Milky Way potential in this test as it is difficult to make projections for the future uncertainties.
+The results of the orbital parameters are shown in Figure~\ref{fig:improved_errors}.
+For both the pericenter and apocenter errors, the closer dwarfs are dominated by distance errors whereas the more distant dwarfs are dominated by proper motion errors. 
+We note that there are some dwarfs that currently have distance errors that are less than 5\% and this exercise is done to compare how uniform improvement in distance and proper motion will affect different dSphs.
+
+Overall, our analysis shows that while proper motions are currently one of the dominant sources of orbital uncertainty, once we have \textit{Gaia} DR5 data, the main uncertainties will come from the distance and Milky Way potential. This motivates the need of improving our measurement of the Milky Way potential so that we can make optimal use of the upcoming data sets, especially in the outskirts since it makes a significant contribution to the uncertainty in apocenters. 
+
+
+
+
+
+
+
+
+
+\section{Conclusion}
+\label{section:conclusion}
+
+
+We have presented a method to measure the systemic proper motion of MW satellites and applied it 54 MW dSphs. 
+Our methodology builds on previous work utilizing mixture models to cleanly separate the MW foreground from the dSph stars and uses  {\it Gaia} astrometry combined with either DECam, {\it Gaia}, or Pan-Starrs photometry \citep{Pace2019ApJ...875...77P, McConnachie2020AJ....160..124M}.
+Our primary results are:
+
+\begin{itemize}
+
+\item We have measured the systemic proper motion of 52 dSphs with two different background models and have identified likely members.   We publicly release  our membership catalogs to enable  spectroscopic follow-up analysis (see  Appendix~\ref{appendix:membership}).
+
+\item Our systemic proper motion measurements are in excellent agreement with other EDR3 analysis \citep[e.g., ][]{McConnachie2020RNAAS...4..229M, Li2021ApJ...916....8L, Battaglia2022A&A...657A..54B}. We have compared our candidate dSph members to spectroscopic catalogs and found that  high probable  proper motion members are confirmed with velocity measurements. In addition, future spectroscopic measurements in the following dSphs can significantly expand spectroscopic samples by factors of 2-3: Aqu~II, Boo~II, Boo~III, Car~II, Dra~II, Hyd~II, Hyi~I, Ret~II, Tuc~II, and UMa~II. Larger spectroscopic samples can improve our knowledge of the dynamical properties of the ultra-faint dwarfs (Table~\ref{tab:future_targets}).
+
+\item For the 46 dSphs with literature line-of-sight velocities, we have simulated their orbits in the Milky Way and Milky Way+LMC system. For 16 of the dSphs, we found that including the LMC changes the pericenter or apocenter by $>25\%$, showing that the LMC must be included for precise orbits (Figure~\ref{fig:orbit_differences}). 
+
+\item We have compared the orbital information here to some previously used diagnostics for searching for tidal influences on dSphs.
+Most directly we have compared the average dSph density to the average MW density at the dSph's pericenter (Figure~\ref{fig:density_pericenter}).  DSphs that are clearly undergoing tidal disruption (Ant~II,  Sgr, and Tuc~III) fall below the average MW density at their pericenter whereas other dSphs near  the average MW density (Boo~I, Boo~III, Cra~II, Gru~II, Seg~2, and Tuc~IV) are potentially tidally disrupting although future work is required to confirm this. 
+We do not observe any trends between ellipticity, pericenter, and susceptibility to tidal disruption suggesting that not all large elongation is due to tidal disruption (Figure~\ref{fig:other_tidal}). 
+At a fixed pericenter, the dSphs with the smallest values of the ratio between the average dSph density and the average MW density at the dSph's pericenter have larger half-light radii than the general dSph population.
+
+\item We have explored alignments between the spatial orientation of a dSph and its orbital direction (via it reflex corrected proper motion) and there is an excess of dSphs aligned with their orbital motion (Figure~\ref{fig:angular_difference}). 
+Moreover, the most elliptical dSphs ($\epsilon > 0.4$) are preferentially aligned with their orbital direction.  This may be evidence of large scale tidal torques on the dSph population from the MW. 
+
+
+
+\item We have identified six dSphs that were likely associated with the LMC:  Car~II, Car~III, Hor~I, Hyi~I, Phx~II, and Ret~II  (Figure~\ref{fig:lmc_rad_dist}). 
+Our association results agree with previous orbital analysis with {\it Gaia} DR2 and updated EDR3 results \citep{Kallivayalil2018ApJ...867...19K,Erkal2020MNRAS.495.2554E, Patel2020ApJ...893..121P, Battaglia2022A&A...657A..54B, CorreaMagnus2022MNRAS.511.2610C}. 
+
+
+
+\item Our analysis does not suggest there is an excess of satellites near their orbital pericenter in contrast to some previous {\it Gaia} DR2 results   (Figure~\ref{fig:pericenter_excess}).  
+We have examined the ratio $f_{\rm peri}$ and we have found  pileups  near $f_{\rm peri}\sim0, 1$ (i.e., pericenter and apocenter), similar to previous analyses.
+We have applied the same analysis to subhalos of MW-like halos in $N$-body simulations and find  that the subhalo $f_{\rm peri}$ distribution agrees with the observed dSph distribution.
+This agrees with other analyses directly examining the orbital phase \citep[e.g.,][]{CorreaMagnus2022MNRAS.511.2610C}
+
+
+
+\item We have examined how the orbital uncertainties of these dwarfs are affected by the observational uncertainties for each dwarf as well as the uncertainties in the MW and LMC potentials. This allows us to determine which of these sources currently dominates the dSph population and what the largest source of error will be at the end of the {\it Gaia} mission (Figures~\ref{fig:current_errors}-\ref{fig:improved_errors}). 
+In general, the current orbital pericenters are dominated by either distance and/or systemic proper motion errors  whereas the current orbital apocenters  are  dominated by the distance and/or potential uncertainty.  
+In the future, both the orbital pericenters and apocenters will be dominated by distance and/or potential uncertainties except for dSphs with very small {\it Gaia} sample sizes. 
+
+
+\end{itemize}
+
+The {\it Gaia} astrometric data sets (DR2, EDR3) have transformed our understanding of the orbital motion of the MW dSph population and enabled new analyses.
+The study of proper motions and internal tangential kinematics of MW dSphs and more distant dSphs is promising with the future {\it Gaia} data releases and future space based astrometry (e.g., Nancy Grace Roman Space Telescope).  
+ 
+
+
+
+\acknowledgments
+We thank Matt Walker and Sergey Kosopov for helpful  discussions.
+{We thank the referee for their constructive report. We thank Josh Simon and Dmitry Makarov for their helpful comments.}
+ABP is supported by NSF grant AST-1813881.
+TSL acknowledges financial support from Natural Sciences and Engineering Research Council
+of Canada (NSERC) through grant
+RGPIN-2022-04794.
+
+For the purpose of open access, the author has applied a Creative Commons Attribution (CC BY) licence to any Author Accepted Manuscript version arising from this submission.
+
+
+% SIMBAD
+This research has made use of the SIMBAD database, operated at CDS, Strasbourg, France \citep{Simbad2000A&AS..143....9W}.
+This research has made use of NASA’s Astrophysics Data System Bibliographic Services.
+
+% WSDB
+This paper made use of the Whole Sky Database (wsdb) created by Sergey Koposov and maintained at the Institute of Astronomy, Cambridge by Sergey Koposov, Vasily Belokurov and Wyn Evans with financial support from the Science \& Technology Facilities Council (STFC) and the European Research Council (ERC).
+
+% Gaia
+This work has made use of data from the European Space Agency (ESA) mission
+{\it Gaia} (\url{https://www.cosmos.esa.int/gaia}), processed by the {\it Gaia}
+Data Processing and Analysis Consortium (DPAC,
+\url{https://www.cosmos.esa.int/web/gaia/dpac/consortium}). Funding for the DPAC
+has been provided by national institutions, in particular the institutions
+participating in the {\it Gaia} Multilateral Agreement.
+
+%DES
+This project used public archival data from the Dark Energy Survey (DES). Funding for the DES Projects has been provided by the U.S. Department of Energy, the U.S. National Science Foundation, the Ministry of Science and Education of Spain, the Science and Technology FacilitiesCouncil of the United Kingdom, the Higher Education Funding Council for England, the National Center for Supercomputing Applications at the University of Illinois at Urbana-Champaign, the Kavli Institute of Cosmological Physics at the University of Chicago, the Center for Cosmology and Astro-Particle Physics at the Ohio State University, the Mitchell Institute for Fundamental Physics and Astronomy at Texas A\&M University, Financiadora de Estudos e Projetos, Funda{\c c}{\~a}o Carlos Chagas Filho de Amparo {\`a} Pesquisa do Estado do Rio de Janeiro, Conselho Nacional de Desenvolvimento Cient{\'i}fico e Tecnol{\'o}gico and the Minist{\'e}rio da Ci{\^e}ncia, Tecnologia e Inova{\c c}{\~a}o, the Deutsche Forschungsgemeinschaft, and the Collaborating Institutions in the Dark Energy Survey.
+The Collaborating Institutions are Argonne National Laboratory, the University of California at Santa Cruz, the University of Cambridge, Centro de Investigaciones Energ{\'e}ticas, Medioambientales y Tecnol{\'o}gicas-Madrid, the University of Chicago, University College London, the DES-Brazil Consortium, the University of Edinburgh, the Eidgen{\"o}ssische Technische Hochschule (ETH) Z{\"u}rich,  Fermi National Accelerator Laboratory, the University of Illinois at Urbana-Champaign, the Institut de Ci{\`e}ncies de l'Espai (IEEC/CSIC), the Institut de F{\'i}sica d'Altes Energies, Lawrence Berkeley National Laboratory, the Ludwig-Maximilians Universit{\"a}t M{\"u}nchen and the associated Excellence Cluster Universe, the University of Michigan, the National Optical Astronomy Observatory, the University of Nottingham, The Ohio State University, the OzDES Membership Consortium, the University of Pennsylvania, the University of Portsmouth, SLAC National Accelerator Laboratory, Stanford University, the University of Sussex, and Texas A\&M University.
+Based in part on observations at Cerro Tololo Inter-American Observatory, National Optical Astronomy Observatory, which is operated by the Association of Universities for Research in Astronomy (AURA) under a cooperative agreement with the National Science Foundation.
+
+%PS1
+The Pan-STARRS1 Surveys (PS1) and the PS1 public science archive have been made possible through contributions by the Institute for Astronomy, the University of Hawaii, the Pan-STARRS Project Office, the Max-Planck Society and its participating institutes, the Max Planck Institute for Astronomy, Heidelberg and the Max Planck Institute for Extraterrestrial Physics, Garching, The Johns Hopkins University, Durham University, the University of Edinburgh, the Queen's University Belfast, the Harvard-Smithsonian Center for Astrophysics, the Las Cumbres Observatory Global Telescope Network Incorporated, the National Central University of Taiwan, the Space Telescope Science Institute, the National Aeronautics and Space Administration under Grant No. NNX08AR22G issued through the Planetary Science Division of the NASA Science Mission Directorate, the National Science Foundation Grant No. AST-1238877, the University of Maryland, Eotvos Lorand University (ELTE), the Los Alamos National Laboratory, and the Gordon and Betty Moore Foundation.
+
+%%DECALS
+The Legacy Surveys consist of three individual and complementary projects: the Dark Energy Camera Legacy Survey (DECaLS; Proposal ID \#2014B-0404; PIs: David Schlegel and Arjun Dey), the Beijing-Arizona Sky Survey (BASS; NOAO Prop. ID \#2015A-0801; PIs: Zhou Xu and Xiaohui Fan), and the Mayall z-band Legacy Survey (MzLS; Prop. ID \#2016A-0453; PI: Arjun Dey). DECaLS, BASS and MzLS together include data obtained, respectively, at the Blanco telescope, Cerro Tololo Inter-American Observatory, NSF’s NOIRLab; the Bok telescope, Steward Observatory, University of Arizona; and the Mayall telescope, Kitt Peak National Observatory, NOIRLab. The Legacy Surveys project is honored to be permitted to conduct astronomical research on Iolkam Du’ag (Kitt Peak), a mountain with particular significance to the Tohono O’odham Nation.
+
+NOIRLab is operated by the Association of Universities for Research in Astronomy (AURA) under a cooperative agreement with the National Science Foundation.
+
+This project used data obtained with the Dark Energy Camera (DECam), which was constructed by the Dark Energy Survey (DES) collaboration. Funding for the DES Projects has been provided by the U.S. Department of Energy, the U.S. National Science Foundation, the Ministry of Science and Education of Spain, the Science and Technology Facilities Council of the United Kingdom, the Higher Education Funding Council for England, the National Center for Supercomputing Applications at the University of Illinois at Urbana-Champaign, the Kavli Institute of Cosmological Physics at the University of Chicago, Center for Cosmology and Astro-Particle Physics at the Ohio State University, the Mitchell Institute for Fundamental Physics and Astronomy at Texas A\&M University, Financiadora de Estudos e Projetos, Fundacao Carlos Chagas Filho de Amparo, Financiadora de Estudos e Projetos, Fundacao Carlos Chagas Filho de Amparo a Pesquisa do Estado do Rio de Janeiro, Conselho Nacional de Desenvolvimento Cientifico e Tecnologico and the Ministerio da Ciencia, Tecnologia e Inovacao, the Deutsche Forschungsgemeinschaft and the Collaborating Institutions in the Dark Energy Survey. The Collaborating Institutions are Argonne National Laboratory, the University of California at Santa Cruz, the University of Cambridge, Centro de Investigaciones Energeticas, Medioambientales y Tecnologicas-Madrid, the University of Chicago, University College London, the DES-Brazil Consortium, the University of Edinburgh, the Eidgenossische Technische Hochschule (ETH) Zurich, Fermi National Accelerator Laboratory, the University of Illinois at Urbana-Champaign, the Institut de Ciencies de l’Espai (IEEC/CSIC), the Institut de Fisica d’Altes Energies, Lawrence Berkeley National Laboratory, the Ludwig Maximilians Universitat Munchen and the associated Excellence Cluster Universe, the University of Michigan, NSF’s NOIRLab, the University of Nottingham, the Ohio State University, the University of Pennsylvania, the University of Portsmouth, SLAC National Accelerator Laboratory, Stanford University, the University of Sussex, and Texas A\&M University.
+
+The Legacy Surveys imaging of the DESI footprint is supported by the Director, Office of Science, Office of High Energy Physics of the U.S. Department of Energy under Contract No. DE-AC02-05CH1123, by the National Energy Research Scientific Computing Center, a DOE Office of Science User Facility under the same contract; and by the U.S. National Science Foundation, Division of Astronomical Sciences under Contract No. AST-0950945 to NOAO.
+
+\vspace{5mm}
+\facilities{Gaia}
+
+\input{table_future_errors}
+
+\software{ \texttt{astropy} \citep{Astropy2013A&A...558A..33A, Astropy2018AJ....156..123A},
+\texttt{matplotlib} \citep{matplotlib}, 
+\texttt{NumPy} \citep{numpy},
+\texttt{iPython} \citep{ipython},
+\texttt{SciPy} \citep{2020SciPy-NMeth}
+\texttt{corner.py} \citep{corner}, 
+\texttt{emcee} \citep{ForemanMackey2013PASP..125..306F}  ,
+\texttt{Q3C} \citep{2006ASPC..351..735K}
+          }
+
+
+
+
+
+
+
+\bibliography{main_bib_file}{}
+\bibliographystyle{aasjournal}
+
+%
+
+\appendix
+
+\section{Membership Catalogs}
+\label{appendix:membership}
+
+We provide catalogs of our membership along with select {\it Gaia} EDR3 columns {on Zenodo under a Creative Commons Attribution license: \dataset[10.5281/zenodo.6533295]{https://doi.org/10.5281/zenodo.6533295}}. We further include a diagnostic plot (similar to Figure~\ref{fig:example_diagnostic}) and a plot comparing our systemic proper motion measurement to literature values for each dSph and a machine readable compilation  of Tables~\ref{tab:overview}-\ref{tab:future_error}. 
+
+
+
+
+\section{Comments on Individual Dwarf Spheroidal Galaxies and Special Cases}
+\label{appendix:comments}
+
+
+
+\noindent{\bf Ant~II}---Due to the low surface density of Ant~II and the higher MW foreground due to the lower galactic latitude we only analyze the ``clean'' sample and use a magnitude limit, $G_{\rm max}=20$, that is much higher than suggested from the depth of astrometric solutions in the Ant~II region ($G_{\rm max}=20.85$).  Accurate photometry will assist with improving foreground separation in future measurements. 
+Regardless our EDR3 measurement is consistent with other measurements \citep{McConnachie2020RNAAS...4..229M, Battaglia2022A&A...657A..54B} and spectroscopic based measurements \citep{Ji2021ApJ...921...32J}.
+This dSph is included in our clear tidally disrupting sample based on the small pericenter and velocity gradient \citep{Torrealba2019MNRAS.488.2743T, Ji2021ApJ...921...32J}. 
+While this analysis was in preparation a new analysis measuring the distance to Ant~II with RRL stars which slightly improved and updated the distance measurement \citep{Vivas2022ApJ...926...78V}. 
+
+
+\noindent{\bf Boo~I}---This dSph is included in our potentially tidally disrupting sample due to literature analysis  \citep{Longeard2021arXiv210710849L, Filion2021ApJ...923..218F} and a low value of $\rho_{1/2}/\rho_{MW}(r=r_{\rm peri})\sim 25$.  {We exclude the region around Boo~II ($R_{\rm Boo~II}=5\times r_{h,~Boo~II}\sim 15\arcmin$) when constructing the fixed background model.}
+
+\noindent { {\bf Boo~II}---We exclude a region around  Boo~I ($R_{\rm Boo~I}=60\arcmin\sim6\times r_{h,~Boo~I}$) when constructing the fixed background model.}
+
+\noindent{\bf Boo~III}---This dSph is included in our potentially  tidally disrupting based on its small pericenter and low average density  \citep{Carlin2018ApJ...865....7C}. We do not include it in our clear tidally disrupting sample because of the lack of detailed tidal stripping models or clear observational evidence (e.g., deep photometry or kinematic evidence).
+There are a large number of candidate targets ($N_{\rm expected} \sim130$) that will significantly increase the spectroscopic sample size and can be used to further assess dynamical equilibrium. However, the large angular size and low luminosity makes follow-up difficult.  
+{We exclude the region around the globular clusters, NGC~5466 ($R_{\rm NGC~5466}=7\times r_{h,~NGC~5466}= 16.1\arcmin$) and NGC~5272 ($R_{\rm NGC~5272}=30\arcmin \sim 13 \times r_{h,~NGC~5272}$), when constructing the fixed background model.}
+
+
+\noindent{\bf Boo~IV}---A systemic proper motion measurement of this recently discovered dwarf has only been possible with EDR3. Our measurement disagrees with \citet{McConnachie2020RNAAS...4..229M} due to their choice of prior on the tangential velocity.  
+
+\noindent {\bf Car}---
+While other works have considered Car as a potential LMC satellite \citep{Pardy2020MNRAS.492.1543P}, we do not favor this scenario as it was closer to the MW at its most recent LMC pericenter.
+There is larger background contamination around Car than other bright satellites, due to its low relative Galactic latitude and the LMC foreground stars.
+
+
+\noindent{\bf Car~II and Car~III}---Because of the small angular separation between Car~II and Car~III  we model these two dwarfs simultaneously.  In particular, the angular separation, $\sim18\arcmin$, is roughly $2\times r_{h,~Car~II}$ and spatial overlap of members of the two dSphs is possible.
+There is DECam g, r coverage in the NSC catalog, however, we find there is a large color difference ($(g-r)_0\sim0.075$) between spectroscopic members \citep{Li2018ApJ...857..145L} and a old-metal-poor isochrone. In addition,  a direct comparison to the reported magnitudes in the \citet{Li2018ApJ...857..145L} catalog to the NSC catalog finds a similar offset. This suggests that there are potential calibration issues in  this region. 
+When we apply our standard g, r isochrone filter and include a color offset, we find that some  Car~II and Car~III spectroscopic members are not included.  Due to this issue, we opt to  use {\it Gaia} photometry in this region. 
+
+We include a second dSph term in the likelihood to represent the Car~III population and we modify the prior volume on $\mu_{\alpha \star}$ and $\mu_{\delta}$ due to the large MW and LMC background.
+With the addition of the Car~III component we are able to determine the systemic proper motion of both UFDs simultaneously for the fixed MW proper motion model.
+When we model the MW proper motion with a Gaussian model, the Car~III component also  models the MW foreground. In particular, the number of Car~III `members' is much larger than expected, the proper motion completely disagrees with known spectroscopic members, and the $r_h$ spatial parameter takes on the largest possible value in the prior distribution to mimic a flat spatial distribution.  This attests to the complexity of the MW and LMC background model in this region.
+Due to this issue, we only include the fixed background model results. 
+Both Car~II and Car~III are highly likely to associated with the LMC in our analysis and  agrees with previous work \citep[e.g.,][]{Erkal2020MNRAS.495.2554E, Battaglia2022A&A...657A..54B}.
+
+
+\noindent {\bf Cet~II}---There was not a signal observed in {\it Gaia} DR2 \citep{Pace2019ApJ...875...77P, McConnachie2020AJ....160..124M} but there is a clear signal observed in {\it Gaia} EDR3.  
+
+\noindent { {\bf  Cet~III}---We exclude a region around the globular cluster Whiting~1 ($R_{\rm Whi~1}=5\times r_{h,~Whi~1}=1.1 \arcmin$) when constructing the fixed background model.}
+
+\noindent {\bf Cra~II}---While there is not clear photometric (tidal tails) or kinematic evidence (e.g., gradients) \citep{Ji2021ApJ...921...32J} the small pericenter, large size, and small velocity dispersion suggests that Cra~II is undergoing tidal disruption \citep{Sanders2018MNRAS.478.3879S, Borukhovetskaya2022MNRAS.512.5247B} and we classify it as potentially tidally disrupting. 
+
+
+\noindent{\bf Dra~II}---One of the few objects in the sample that may be faint star cluster and not a dwarf galaxy. \citet{Baumgardt2022MNRAS.510.3531B} concluded that Dra~II is a star cluster  based on  evidence of mass segregation. 
+There is not a resolved velocity dispersion or metallicity dispersion that would indicate there is a dark matter halo \citep{Longeard2018MNRAS.480.2609L}. 
+There are potential of tidal features in smoothed stellar density distribution  \citep{Longeard2018MNRAS.480.2609L}. Due to the unresolved velocity dispersion and small size the density upper limit is quite large. Dra~II has a relatively small pericenter and if  the velocity dispersion was low ($\sim 1 ~\kms$) the satellite would likely be undergoing tidal disruption.   
+
+\noindent{\bf Eri~II}---The photomtric selection window was increased for Eri~II due to its larger stellar mass relative to the other UFDs. Without this increase some spectroscopic members would be  excluded.  In addition, there is one spectroscopic member that is missing DECam photometry due to a nearby bright star that is manually included in the model. 
+Only $\sim15\%$ of the orbital samples are bound which  have  $r_{\rm peri}\sim 100\kpc$ ($r_{\rm peri,~nL}\sim 200\kpc$) while the reminder of the chain is unbound. 
+
+\noindent{\bf For}---
+The proper motion is anti-parallel to the solar motion and the orbit is more sensitive to the distance uncertainty than other dwarfs \citep{Borukhovetskaya2022MNRAS.509.5330B}. 
+The orbital pole aligns with the LMC and this has been used as an argument for For to be associated with the LMC \citep{Pardy2020MNRAS.492.1543P}.  We do not find a potential association with the LMC and note that For was outside the LMC escape velocity at its most recent closest approach. 
+
+
+\noindent{\bf Gru~II}---There is a bright star ($G\sim1.7$) near Gru~II. In DES DR2, a large portion of the region around this star is masked.  We opted to instead use DES DR1 \citep{DES2018ApJS..239...18A_DR1} as the mask is smaller. It is possible that sources near the bright star have biased photometry/colors due to presence of the bright star.
+
+
+Gru~II  spatially overlaps with the Chenab/Orphan stream and it has been suggested to be connected to the stream \citep{Koposov2019MNRAS.485.4726K}.  
+Gru~II and the Chenab/Orphan stream  are found to have the same proper motion \citep{Shipp2019ApJ...885....3S} but the radial velocities of Gru~II is $\sim90 \kms$ offset from the Chenab/Orphan stream predictions \citep{Simon2020ApJ...892..137S} and Gru~II is $\sim10~\kpc$ more distant than the stream \citep{MartinezVazquez2019MNRAS.490.2183M}. 
+There will  be overlap between the two structures  in the color-magnitude diagram and both the signal and background region of Gru~II will be contaminated with the Chenab/Orphan stream members that have similar a proper motion to the  Gru~II proper motion.  Regardless we are able to successfully identify all known spectroscopic members.
+The candidate members from our mixture model likely include some Chenab/Orphan stream members and the spectroscopic success rate might be lower than expected. 
+
+This is one of the six dSphs that we have classified as likely tidally disrupted based on its low average density relative to the MW at pericenter ($\rho_{1/2}/\rho_{MW}(r=r_{\rm peri}) \lesssim 10$). This agrees with \citet{Simon2020ApJ...892..137S}, which found that the tidal radius was just larger than the Gru~II's physical size. As there is overlap in spatial and proper motion position but not radial velocity, searching for potential tidal tails and other signs of tidal disruption will be challenging. 
+
+We do not find an association with the LMC but note that it is one of the closest MW satellites in phase space.  Other studies have considered Gru~II recently captured by the LMC \citep[e.g.,][]{Battaglia2022A&A...657A..54B}. 
+We consider Gru~II as potentially tidally disrupting based on its low value of $\rho_{1/2}/\rho_{MW}(r=r_{\rm peri})$. 
+
+\noindent{\bf Her}---
+The  large elongation of Her has long been used as evidence for tidal disruption in her \citep[e.g., ][]{Martin2010ApJ...721.1333M, Kupper2017ApJ...834..112K, Fu2019ApJ...883...11F}. 
+Extra-tidal photometric overdensities have been identified \citep{Sand2009ApJ...704..898S, Roderick2015ApJ...804..134R}, however, follow-up efforts have been unsuccessful \citep{Fu2019ApJ...883...11F, MutluPakdil2020ApJ...902..106M}. 
+The large pericenter, $r_{\rm peri}\sim60~\kpc$ we find with the LMC+MW orbit modeling suggests that the tidal shocking at pericenter is small however, we note that the orbital motion (via the reflex corrected proper motion) is aligned with the Her major axis ($| \theta_{\mu}-\theta_{\rm xy} |\sim5\degree$)  
+
+\noindent{\bf Hor~I}---Likely LMC satellite.  {We exclude the region around the globular cluster NGC~1261 ($R_{\rm NGC~1261}=5\times r_{h,~NGC~1261}\sim 3.4\arcmin$) when constructing the fixed background model.}
+
+\noindent{\bf Hor~II}---Due to the low number of members and the lack of {\it Gaia} matches more observations are needed. Of the 3 spectroscopic members \citep{Fritz2019A&A...623A.129F} with astrometric solutions in DR2 only 2 have astrometric solutions in EDR3. We note that the same four member stars were identified in \citet{Pace2019ApJ...875...77P} and in EDR3 the strength of the signal has increased.
+
+\noindent{\bf Hyd~II}---The orbital pole of Hyd~II aligns with the LMC  \citep{Kallivayalil2018ApJ...867...19K} but we do not find a large probability ($p_{\rm LMC}\sim 6\%$) for them to be associated.  At the most recenter minimum LMC distance ($r_{\rm LMC,~min}\sim125~\kpc$) Hyd~II has a large relative velocity and is outside the LMC escape velocity (($v_{\rm LMC,~min}\sim250~\kms$)) and unlikely to be associated.
+
+\noindent{\bf Hyi~I}---For the photometry of Hyi~I we use the NSC catalog. Similar to Car~II and Car~III we find that there is a color offset between spectroscopic members and stellar isochrones. The offset is smaller than in Car~II, $(g-r)_0\sim0.05$, and we find that after applying this offset to the photometry our standard isochrone selection is able to select all known spectroscopic members.  Hyi~I is a likely LMC satellite.
+
+
+\noindent{\bf Leo~V}---In the clean sample, our selection remove all MW foreground members and only known Leo~V spectroscopic members are left.  This is not the case for the complete sample. This is the only dSph for which we do not find new candidate members in. 
+
+
+\noindent{\bf Peg~III}---All known spectroscopic members \citep{Kim2016ApJ...833...16K} are below the  {\it Gaia} magnitude limit. 
+While this analysis was in the later stages of preparation, there was a new analysis of the structural parameters and stellar distribution of Peg~III with with deep {\it HST} photometry  \citep{Richstein2022arXiv220401917R}. In particular, they found the center of Peg~II shifted by $\sim0.5\arcmin$ and the  half-light radius roughly doubled. With these updated structural parameters we are able to make a  detection of the systemic proper motion of Peg~III. In our previous analysis with the \citet{Kim2016ApJ...833...16K} structural parameters, there were 4 candidate members with $p>0.1$ but all had large errors such that $\sum p = 3.0_{-3.0}^{+0.9}$. With the updated parameters the same stars are identified as members with $\sum p = 3.9_{-0.4}^{+0.3}$.  The  candidate members are {located} $R\sim1-2~r_h$   whereas with {the} previous literature values they were $R\sim2-4~r_h$. There is no detection of Peg~III in \citet{Battaglia2022A&A...657A..54B} and the small errors in \citet{McConnachie2020RNAAS...4..229M} are likely due to their prior that the satellite be bound to the MW. 
+Our measurement is just past the threshold for detection based on the small number of members. 
+This highlights the next for accurate structural parameters to identify candidates dSph members without spectroscopic information. 
+
+
+
+\noindent{\bf Phx~II}---Likely LMC satellite.
+
+
+\noindent{\bf Pic~II}---Similar to the other two NSC dSphs, we find a color offset for Pic~II.  This has the largest offset of the three NSC dSphs, $(g-r)_0\sim0.1$. We have modeled this object with both {\it Gaia} and NSC photometry and found that there is little difference between them.  We opt to use the NSC photometry as we are able to exclude more background stars.  
+When the structural  parameters are varied, the half-light radius and ellipticity are found to be larger and more elongated than the literature values and the overall  signal is weak  at best.  The overall UFD membership from the our standard  analysis is $\sum p \sim 8 \pm 8$ and all identified stars contain large errors. 
+To  determine a more confident Pic~II signal, we fixed the spatial parameters to the best fit literature values.   
+When the structural parameters are fixed we find $\sum p \sim 6.1_{-1.5}^{+3.5}$ and the systemic proper motion has asymmetric error bars. 
+We suspect this issues are caused by the large LMC+MW background and the overlap between the Pic~II and LMC proper motion. Other EDR3 work have not had this issue \citep{McConnachie2020RNAAS...4..229M, Battaglia2022A&A...657A..54B} and a color-magnitude term in the likelihood may address this issue. Future spectroscopic observations and membership will  assist in measuring the systemic proper motion. 
+
+\noindent {\bf Psc~II}---Our mixture models did not return a confident signal in Psc~II, however, there are known spectroscopic members identified in the {\it Gaia} catalog \citep{Fritz2018A&A...619A.103F}. 
+Two of the known spectroscopic stars were identified as members but they were assigned enormous errors ($\sim0.99, 0.5$).
+With {\it Gaia} EDR3, there is one more spectroscopic member that has an astrometric solution compared to two in the {\it Gaia} DR2 catalog from the \citet{Kirby2015ApJ...810...56K} spectroscopic sample. 
+
+As an alternative model, we rerun the mixture model but fix the three  spectroscopic members in the dSph component.  With this change, a proper motion signal is measured but no new members are identified. 
+As the mixture model does not increase the number of members, we opt to calculate the systemic proper motion from the three known spectra members. 
+Our result disagrees with \citet{McConnachie2020RNAAS...4..229M} likely due to their prior on tangential velocity that assumes the satellite is bound. 
+
+
+\noindent {\bf Ret~II}---This is one of the only objects with a well measured proper motions where our results differ from a result in the literature \citep{MartinezGarcia2021MNRAS.505.5884M}.
+Ret~II is a likely LMC satellite. 
+
+\noindent {{\bf Sxt}---We exclude the region around the globular cluster Palomar~3 ($R_{\rm Pal~3}=5\times r_{h,~Pal~3}= 3.25\arcmin$) and the local field galaxy Sextans~A ($R_{\rm Sxt~A}=3 \times r_{h,~Sxt~A}\sim 7.4\arcmin $), when constructing the fixed background model.}
+
+\noindent {\bf Sgr}---Sgr is clearly tidally disrupting and has a prominant stellar stream \citep{Vasiliev2021MNRAS.501.2279V}.  Sgr was not included in our primary sample due to its large angular size.  We include the parameters we use for this analysis for reference: $r_{\rm peri}=16 ~\kpc$ \citep{Vasiliev2021MNRAS.501.2279V}, $r_{1/2}=2500~{\rm pc}$, $\epsilon=0.64$, and $d=26.5~\kpc$  \citep{McConnachie2012AJ....144....4M}. 
+
+\noindent {\bf Sgr~II}---The second system in our sample that is likely to be a globular cluster \citep{Longeard2021MNRAS.503.2754L, Baumgardt2022MNRAS.510.3531B}.  
+
+
+\noindent {\bf Tuc~III}---We consider this dSph to be clearly tidally disrupting based on its tidal tails \citep{DrlicaWagner2015ApJ...813..109D} and a velocity gradient \citep{Li2018ApJ...866...22L}.
+
+\noindent {\bf Tuc~IV}---Tuc~IV is above the LMC escape velocity at its closest approach to LMC and is unlikely to be LMC satellite. It is currently within the LMC escape velocity and may have been recently captured by the LMC. 
+It had a close encounter with the LMC \citep[see also ][]{Simon2020ApJ...892..137S}. 
+
+\noindent {\bf Tuc~V}---There was not a signal observed in similar {\it Gaia} DR2 \citep{Pace2019ApJ...875...77P} but  a clear signal observed in {\it Gaia}  EDR3. {We are able to identify a signal without using of spectroscopic membership as prior information but note that the systemic proper motion can be measured more precisely including this information \citep[e.g.,][]{Battaglia2022A&A...657A..54B}. }
+
+
+\noindent {\bf Wil~1}---Roughly half of the stars (9/16) identified as candidate members in Table~2 of \citet{Willman2011AJ....142..128W} with matches to the {\it Gaia} EDR3 catalog are clearly MW foreground stars based on their parallax and/or proper motions. It is clear that any future kinematic analysis should include {\it Gaia} astrometry to improve the remove of foreground contamination.
+
+
+% \clearpage
+\input{extra_figures}
+
+\end{document}

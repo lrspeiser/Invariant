@@ -1,0 +1,285 @@
+"""Build the curated two-plane polar-ring inventory TSV + manifest.
+
+Every row is assembled by hand from the primary sources acquired in this lane.
+Nothing here is derived, interpolated or unit-converted: each cell is either a
+value printed in the cited paper or an explicit blank.  The `*_ref` columns name
+the paper each kinematic entry comes from so that any cell can be traced back.
+
+Positions and redshifts for PRC/SPRC systems come from Yu et al. 2026 Table 1
+(which itself took them from NED); NGC 4632 / NGC 6156 come from Deg et al.
+2023 Table 1.
+
+TIER definitions (this lane's own classification, stated so it can be argued
+with):
+  A  = rotation measured INDEPENDENTLY in BOTH planes AND at least one of the
+       two is a resolved run of velocity with radius (a curve, not a single
+       amplitude).
+  B  = rotation DETECTED in both planes (two-plane kinematic confirmation) but
+       at least one plane is published only as a line-of-sight velocity cut or
+       a detection statement, with no usable V(r) or V_max in that plane.
+  C  = kinematically confirmed as a PRG, but only ONE plane has published
+       rotation; the other plane is imaging only.
+"""
+import csv
+import hashlib
+import json
+import os
+from datetime import datetime, timezone
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+HEADER = [
+    "name", "alt_id", "RA_deg", "DE_deg", "z", "D_Mpc",
+    "host_tracer", "host_PA_deg", "host_V_kms", "host_extent", "host_curve", "host_ref",
+    "ring_tracer", "ring_PA_deg", "ring_V_kms", "ring_extent", "ring_curve", "ring_ref",
+    "interplane_angle_deg", "angle_method",
+    "baryonic_photometry", "tier", "notes",
+]
+
+ROWS = [
+ # ---------------------------------------------------------------- TIER A ---
+ ["NGC 4650A", "PRC A-05", "191.20439", "-40.71432", "0.00961", "38 (Swaters&Rubin03); 35 (Sackett+94); 43 (Yu+26 D_L)",
+  "stars (CaII triplet / Mg absorption, long slit)", "62-63", "~91 at 17-26 arcsec; LOS approaching 100",
+  "0-25.6 arcsec (0-4.7 kpc)", "FULL CURVE, TABULATED (23 points)",
+  "Sackett+1994 ApJ 436,629 Tab.2; Whitmore+1987; Swaters&Rubin 2003; Coccato+2006 ApJ 643,200; Iodice+2015 MUSE 2D",
+  "HI (ATCA); ionized gas Halpha/[OIII]; stars", "152-160", "105-125 deprojected HI at 90 arcsec; 100-120 (MUSE gas at 75 arcsec); HI dV20 = 235",
+  "0-90 arcsec HI (~16 kpc gas, ~50 kpc HI); MUSE to 75 arcsec = 16 kpc",
+  "FULL CURVE (figures; MUSE 2D map)",
+  "Arnaboldi+1997 AJ 113,585 (ATCA HI); Nicholson 1989 (FP Halpha); Swaters&Rubin 2003 ApJ 587,L23; Iodice+2015 A&A 583,A48",
+  "93", "difference of photometric/kinematic PAs, MUSE (Iodice+2015: HG 67+/-2, polar disk 160)",
+  "YES - full 4-component baryonic decomposition (iodice2015_table1_NGC4650A_mass_model.tsv); M_Kn=-21.37, M_B=-18.67 (Iodice+2003); JHKn imaging",
+  "A", "THE reference two-plane system. Both planes have extended rotation; the host-plane curve is the only one in this lane tabulated numerically for a classical PRG."],
+
+ ["NGC 4262", "SPRC-33", "184.87741", "14.87765", "0.00453", "14.6 (Khoperskov+14); 20 (Yu+26 D_L)",
+  "stars (SCORPIO-2 long slit)", "slits at 0 and 160", "", "inner ~4.2 kpc", "CURVE (figure only)",
+  "Khoperskov+2014 MNRAS 441,2650 Fig.3; Bettoni+2010 A&A 519,A72",
+  "HI (WSRT)", "", "V85/2 = 176 (edge-on, unresolved FAST); resolved HI curve in Khoperskov+14 Fig.3", "ring to ~15 kpc",
+  "CURVE (figure only)", "Oosterloo+2010; Bettoni+2010 A&A 519,A72; Khoperskov+2014",
+  "50 +/- 6 or 88 +/- 6", "deprojection of the two photometric components (two-fold degenerate); Buson+2011 favour the polar (~90) solution",
+  "YES - khoperskov2014_table2_SPRC7_NGC4262_photometry.tsv (disc+bulge masses and scales); V_T=11.46, NUV=16.12, logM_HI=8.6, logM*=10.06 (Akhil+2025 PASA 42,e056)",
+  "A", "Only galaxy other than the Milky Way for which a RADIALLY VARYING halo axis ratio was claimed (c/a ~ 0.4 inside, 1.5-2.3 outside)."],
+
+ ["SPRC-7", "LEDA 3444084", "118.14304", "29.34713", "0.06007", "261.6 (Khoperskov+14); 278 (Yu+26 D_L)",
+  "stars (SCORPIO long slit, asymmetric-drift corrected)", "150", "circular velocity up to ~300 in the model reconstruction",
+  "inner ~3.7 kpc", "CURVE (figure only)", "Khoperskov+2014 MNRAS 441,2650; Moiseev+2014 BaltA",
+  "ionized gas Hbeta (scanning Fabry-Perot velocity field, tilted-ring)", "50", "",
+  "ring to ~23 kpc (ring diameter ~48 kpc)", "CURVE (figure only)", "Brosch+2010 MNRAS 401,2067; Khoperskov+2014",
+  "58 +/- 9 or 73 +/- 12", "kinematic + photometric deprojection (Brosch+2010; Smirnova&Moiseev 2013 give 72/60)",
+  "YES - khoperskov2014_table2 (disc+bulge masses and scales); SDSS ugriz; CO(1-0)/(2-1) upper limits M(H2)<=5.3e9 (Combes+2013)",
+  "A", "Largest kinematically confirmed PRG ring (~50 kpc diameter). Halo flattened toward the polar plane: c/a = 1.5+/-0.2 (NFW), 1.7+/-0.2 (isothermal)."],
+
+ ["SPRC-260", "CGCG 068-056", "176.37606", "9.72909", "0.02135", "96 (Yu+26 D_L)",
+  "stars (SAO 6-m long slit, asymmetric-drift corrected)", "82", "", "", "CURVE (figure only)",
+  "Moiseev+2014 BaltA/ASPC 486,71; Khoperskov+2013 MSAIS 25,51",
+  "ionized gas (scanning Fabry-Perot velocity field)", "15", "V85/2 = 246 +/- 28 at i=48 (unresolved FAST)", "",
+  "CURVE (figure only)", "Moiseev+2014; Khoperskov+2013",
+  "57 or 87", "Smirnova & Moiseev 2013 photometric deprojection (delta1/delta2)",
+  "partial - SDSS ugriz; logM_HI=10.1, logM*=10.3 (Yu+2026)",
+  "A", "Triaxial halo reported: c/b = 0.95, a/b = 1.1 (Moiseev+2014)."],
+
+ ["NGC 4632", "WALLABY J124232-000459", "190.63333", "-0.08056", "0.005735 (Vsys=1719 km/s)", "15 +/- 2",
+  "HI main body (3DBarolo tilted-ring, 2 rings/beam)", "i_g = 62.5 (fitted)", "", "resolved to ~10 beams across",
+  "CURVE (figure only; model released as figure panels)", "Deg+2023 MNRAS 525,4663",
+  "HI anomalous/polar gas (MCGSuite single polar ring, grid search in beta, v_rot, Sigma)", "", "single fitted v_rot per model",
+  "single ring", "SINGLE V_rot (figure)", "Deg+2023 MNRAS 525,4663",
+  "90 by construction; beta = 335 +/- 5", "beta = ring angle to the approaching side of the host in galaxy-plane coords; the models IMPOSE i_r,g = 90",
+  "YES - logM_HI=9.37+/-0.01 total (9.1 body / 9.0 anomalous), logM*=9.69+/-0.08 (WISE), SFR=0.73+/-0.07",
+  "A", "First PRG found FROM the HI rather than from stellar morphology. Both components resolved in the same cube; ~50% of the HI is in the anomalous component. Authors are explicit that a strong warp is not excluded, hence 'potential' PRG."],
+
+ ["NGC 6156", "WALLABY J163452-603705", "248.70833", "-60.61722", "0.010894 (Vsys=3266 km/s)", "48 +/- 3",
+  "HI main body (3DBarolo tilted-ring)", "i_g = 51 (fitted)", "", "resolved to ~6 beams across",
+  "CURVE (figure only)", "Deg+2023 MNRAS 525,4663",
+  "HI anomalous/polar gas (MCGSuite polar ring)", "", "single fitted v_rot per model", "single ring",
+  "SINGLE V_rot (figure)", "Deg+2023 MNRAS 525,4663",
+  "90 by construction; beta = 153 +/- 5", "as NGC 4632",
+  "YES - logM_HI=9.92+/-0.02 (9.5 body / 9.6 anomalous), logM*=10.75+/-0.08 (WISE), SFR=17.60+/-1.83",
+  "A", "Authors flag that the low ring velocity relative to the host's outermost rotation point questions dynamical stability, and that a warped disk may fit better; warped models did not converge."],
+
+ ["A0136-0801", "PRC A-01 / PGC 006101", "24.73014", "-7.76546", "0.01844", "83 (Yu+26 D_L)",
+  "stars (long slit)", "", "", "", "CURVE (figure only, in the cited papers)",
+  "Schweizer, Whitmore & Rubin 1983 AJ 88,909; Whitmore+1987 ApJ 314,439",
+  "ionized gas Halpha (2-D scanning Fabry-Perot velocity field, >2000 pixels)", "", "HI dV20 = 365; V85/2 = 259 +/- 38 at i=40 (unresolved FAST)",
+  "polar ring extends to >12 disk scale heights above the host plane; ring reaches ~40 arcsec in H band",
+  "2-D VELOCITY FIELD (figure only)", "Sackett & Sparke 1994 (ASP Conf. 'Astrophysical Discs'); van Gorkom+1987; Cox 1996",
+  "", "ring is 'nearly perpendicular' (PRC category A); no numeric inter-plane angle located in the acquired sources",
+  "YES - M_B=-19.23 (Iodice+2003); CASPIR H-band + 2MASS JHKs; M_HI = 1.6e9 Msun (Cox 1996); H-band 2-component 2D fit (Iodice+2002a A&A 391,103)",
+  "A", "Halo axis ratio q = c/a ~ 0.5 from fitting closed polar orbits to the 2-D Halpha field; spherical halos excluded. The full analysis (Sackett & Pogge 1995) was announced but no refereed version was located."],
+
+ ["UGC 7576", "PRC A-04", "186.92441", "28.69806", "0.02341", "106 (Yu+26 D_L)",
+  "stars (long slit, asymmetric-drift corrected)", "", "", "", "CURVE (not retrievable electronically)",
+  "Reshetnikov & Combes 1994 A&A 291,57",
+  "HI", "", "HI dV20 = 465; V85/2 = 284 +/- 34 at i=48 (unresolved FAST)", "to ~17 kpc",
+  "CURVE (not retrievable electronically)", "Reshetnikov & Combes 1994 A&A 291,57; Sparke 2002 (sgdh.conf 178)",
+  "", "PRC category A (kinematically confirmed, near-perpendicular)",
+  "partial - M_B=-19.02 (Iodice+2003); logM_HI=9.8, logM*=10.4 (Yu+2026); chemical abundances in Spavone+2011",
+  "A", "One of the two systems in which Reshetnikov & Combes 1994 measured TWO PERPENDICULAR rotation curves (host stars + ring HI) and inferred dark mass = 1.6x the luminous mass inside 17 kpc. NOT ON arXiv AND NOT IN VIZIER - see REPORT."],
+
+ ["UGC 9796", "PRC A-06 / II Zw 73", "228.98462", "43.16679", "0.01798", "81 (Yu+26 D_L)",
+  "stars (long slit, asymmetric-drift corrected)", "", "", "", "CURVE (not retrievable electronically)",
+  "Reshetnikov & Combes 1994 A&A 291,57",
+  "HI", "", "HI dV20 = 355; V85/2 = 164 +/- 16 at i=53 (unresolved FAST)", "to ~21.4 kpc",
+  "CURVE (not retrievable electronically)", "Reshetnikov & Combes 1994 A&A 291,57; Cox+2006 AJ 131,828",
+  "", "PRC category A (kinematically confirmed, near-perpendicular)",
+  "partial - M_B=-18.25 (Iodice+2003); logM_HI=10.0, logM*=10.1 (Yu+2026); chemical abundances in Spavone+2011",
+  "A", "Second Reshetnikov & Combes 1994 system: dark mass = 3x the luminous mass inside 21.4 kpc. NOT ON arXiv AND NOT IN VIZIER."],
+
+ # ---------------------------------------------------------------- TIER B ---
+ ["NGC 2685", "PRC A-03 / the Helix / Spindle", "133.89470", "58.73442", "0.00294", "15.2 +/- 3.8 (Jozsa+09); 13 (Yu+26 D_L)",
+  "stars (long slit, major + minor axis)", "38 (LEDA optical)", "", "", "CURVE (figure only)",
+  "Schechter & Gunn 1978 AJ 83,1360",
+  "HI (WSRT, 3-D TiRiFiC tilted-ring)", "245 -> 205 -> ~120 (varies with radius)",
+  "V_rot 131-184 across the fit; V_t = 147 +/- 15 at 31 kpc",
+  "0-420 arcsec = 0-31.0 kpc, 21 rings", "FULL CURVE, TABULATED (21 rings, with per-ring inclination, PA and 3-D spin normal)",
+  "Jozsa+2009 A&A 494,489 Tab.5",
+  "~70 inner, -> coplanar outer", "3-D tilted-ring fit; PA swings ~125 deg between r=0.9 and r>7 kpc",
+  "YES - josza2009_table1_NGC2685_properties.tsv: m_B=12.05, m_I=9.90, M_B=-19.1, M_I=-21.4, L_B=7.0e9, L_I=15.2e9 Lsun, M_HI=1.7e9 Msun, R25=10.8 kpc, R_HI=14.8 kpc",
+  "B", "DEMOTED FROM 'CLASSICAL PRG': Jozsa+2009 conclude NGC 2685 is NOT a classical polar ring but ONE extremely warped, kinematically coherent HI disk, inclined ~70 deg to the lenticular body inside and coplanar with it outside. For the programme it is nevertheless the single richest DIRECTION SCAN: V_rot tabulated against a continuously changing orbit-plane orientation inside one baryonic system."],
+
+ ["NGC 7625", "Arp 212 / Yu+26 kin. confirmation", "350.12535", "17.22565", "0.00543", "24 (Yu+26 D_L)",
+  "ionized gas + stars (scanning Fabry-Perot + long slit)", "", "", "", "CURVE (figure only)",
+  "Moiseev 2008 AstBu 63,201",
+  "ionized gas (warped polar ring, tilted-ring of the FP field)", "", "V85/2 = 142 +/- 25 at i=35 (unresolved FAST)", "",
+  "CURVE (figure only)", "Moiseev 2008 AstBu 63,201",
+  "", "tilted-ring decomposition of the FP velocity field",
+  "partial - logM_HI=9.4, logM*=10.1, NUV-r=3.5 (Yu+2026)",
+  "B", "Moiseev 2008 fits radial runs of circular velocity, PA and inclination to the FP field (his Fig. 'Radial variations of kinematic parameters'), i.e. a direction scan like NGC 2685 but warped rather than two clean planes."],
+
+ ["SPRC-10", "MaNGA 01-460660", "125.15907", "15.61664", "0.04244", "194 (Yu+26 D_L)",
+  "stars (SAO 6-m long slit)", "138 (host major axis)", "", "", "LOS VELOCITY CUT (figure only)",
+  "Moiseev+2011 MNRAS 418,244 Fig.9",
+  "ionized gas + ring stars (long slit)", "39 (ring major axis)", "", "", "LOS VELOCITY CUT (figure only)",
+  "Moiseev+2011 MNRAS 418,244",
+  "78 or 82", "Smirnova & Moiseev 2013 (delta1/delta2)",
+  "partial - SDSS ugriz; logM_HI<=9.0, logM*=10.3 (Yu+2026); in MaNGA",
+  "B", "Textbook two-slit confirmation: at PA=39 the gas has a strong LOS gradient while the stars are flat; at PA=138 the reverse. Stars of the ring itself detected beyond r ~ 3-4 arcsec."],
+
+ ["SPRC-14", "CGCG 121-053", "139.56654", "20.36816", "0.03188", "145 (Yu+26 D_L)",
+  "stars (SAO 6-m long slit)", "130", "", "", "LOS VELOCITY CUT (figure only)", "Moiseev+2011 MNRAS 418,244",
+  "ionized gas + ring stars", "35", "", "", "LOS VELOCITY CUT (figure only)", "Moiseev+2011; Egorov & Moiseev 2019",
+  "83 or 75", "Smirnova & Moiseev 2013",
+  "partial - SDSS ugriz; CO(1-0)+CO(2-1) DETECTED, M(H2)=8.4e9, M*=23e9 Msun (Combes+2013); logM_HI<=9.0 (Yu+2026)",
+  "B", "Ring is significantly curved: near-nuclear counter-rotation relative to the outer ring along PA=130. One of only 5 PRGs with a CO detection."],
+
+ ["SPRC-69", "II Zw 092", "312.02359", "0.06860", "0.02469", "111 (Yu+26 D_L)",
+  "stars", "130", "", "", "LOS VELOCITY CUT (figure only)", "Moiseev+2011 MNRAS 418,244",
+  "ionized gas", "34", "V85/2 = 214 +/- 13 assuming edge-on (unresolved FAST)", "",
+  "LOS VELOCITY CUT (figure only)", "Moiseev+2011",
+  "85 or 73", "Smirnova & Moiseev 2013",
+  "partial - SDSS ugriz; CO DETECTED M(H2)=4.5e9, M*=11e9 Msun (Combes+2013); logM_HI=9.8 (Yu+2026)",
+  "B", "FAST inclination is only 10 +/- 18 deg so the tabulated Yu+2026 V_rot = 1127 +/- 1871 km/s is meaningless; use V_rot,i=90 = 214 +/- 13."],
+
+ ["SPRC-178", "", "", "", "", "",
+  "stars", "114", "", "", "LOS VELOCITY CUT (figure only)", "Moiseev+2011 MNRAS 418,244",
+  "ionized gas", "12", "", "", "LOS VELOCITY CUT (figure only)", "Moiseev+2011",
+  "", "", "partial - SDSS ugriz",
+  "B", "Two-slit observation in Moiseev+2011; NOT among the 40 kinematically confirmed PRGs of Yu+2026, i.e. the polar nature was not confirmed."],
+
+ ["NGC 660", "PRC C-13", "25.76004", "13.64504", "0.00283", "13 (Yu+26 D_L)",
+  "stars / gas of the host spiral", "", "", "", "CURVE (figure only)", "van Driel+1995 AJ 109,942",
+  "ionized gas Halpha + HI ring", "", "HI dV20 = 325; V85/2 = 150 +/- 10 at i=67 (unresolved FAST)", "",
+  "CURVE (figure only)", "van Driel+1995 AJ 109,942; Combes+1992",
+  "", "the ring is HIGHLY INCLINED rather than truly polar (Whitmore+1990; Combes+1992)",
+  "partial - M_B=-18.25 (Iodice+2003); logM_HI=9.7, logM*=10.0 (Yu+2026); star-forming complexes in Smirnova+2017",
+  "B", "Late-type (SB(s)a pec) host, not an S0. Deg+2023 note explicitly that its ring is not perpendicular."],
+
+ ["AM 2020-504", "PRC B-19", "305.97878", "-50.65187", "0.01695", "69 (Yu+26 D_L, via HI)",
+  "stars / host long slit", "", "", "", "CURVE (figure only)", "Arnaboldi+1993 A&A 267,21; Whitmore+1987",
+  "ionized gas Hbeta/[OIII]/Halpha, long slit along the ring major axis", "17",
+  "N-S halves differ by ~60 km/s (within errors); HI dV20 = 182 (flagged UNCERTAIN by van Driel+2002)",
+  "", "CURVE (figure only)", "Freitas-Lemes+2012 (arXiv:1208.3421); Arnaboldi+1993",
+  "", "", "YES - M_Kn=-22.63, M_B=-19.60 (Iodice+2003); JHKn CASPIR imaging + 2D light decomposition (Iodice+2002a)",
+  "B", "Ring is warped (Arnaboldi+1993). Reshetnikov 2004 replaced the unreliable HI width with the OPTICAL ring V_max from the PRC for this object."],
+
+ ["NGC 4111", "", "181.76292", "43.06556", "0.00269", "~15",
+  "stars (SAURON IFU)", "", "", "IFU field", "2-D VELOCITY FIELD (figure only)", "Hauschild-Roier+2022 MNRAS 512,2556",
+  "ionized gas (SAURON IFU, modelled as a superposition of an equatorial and a polar disk)", "", "", "IFU field",
+  "2-D VELOCITY FIELD (figure only)", "Hauschild-Roier+2022 MNRAS 512,2556",
+  "", "two-component model of the SAURON gas velocity dispersion map",
+  "partial", "B", "IFU two-plane decomposition, but the two-component nature is inferred from the sigma map rather than from two independently resolved rotators. NOT among the 40 confirmed PRGs of Yu+2026."],
+
+ # ---------------------------------------------------------------- TIER C ---
+ ["ESO 415-G26", "PRC A-02", "37.08376", "-31.88100", "0.01536", "69 (Yu+26 D_L)",
+  "stars (long slit)", "", "", "", "CURVE (figure only)", "Whitmore+1987 ApJ 314,439",
+  "HI (global profile only)", "", "HI dV20 = 360; V85/2 = 164 +/- 9 assuming edge-on", "",
+  "GLOBAL LINEWIDTH ONLY", "van Driel+2002 A&A 386,140; Masters+2014; Yu+2026",
+  "", "PRC category A", "YES - M_Kn=-22.69, M_B=-19.24 (Iodice+2003); JHKn CASPIR + 2D bulge+disk fit (Iodice+2002a)",
+  "C", "Short-ring PRG. Host-plane stellar rotation exists (Whitmore+1987) but the polar plane has only an unresolved HI linewidth in the sources acquired here."],
+
+ ["Arp 230", "PRC B-01 / IC 51", "11.60097", "-13.44224", "0.00574", "26 (Yu+26 D_L)",
+  "stars", "", "", "", "not located in the acquired sources", "Whitmore+1990 PRC; Schiminovich+2013 AJ 145,34",
+  "HI (VLA imaging + global profile)", "", "HI dV20 = 245; V85/2 = 147 +/- 9 assuming edge-on", "",
+  "GLOBAL LINEWIDTH + HI MAP", "Schiminovich+2013 AJ 145,34; van Driel+2002",
+  "", "", "YES - M_Kn=-20.95, M_B=-18.40 (Iodice+2003); JHKn CASPIR",
+  "C", "Kinematic confirmation reference in Yu+2026 is Schiminovich+2013 (resolved HI); a two-plane decomposition was not located in the acquired sources."],
+
+ ["IC 1689", "PRC B-03", "20.94950", "33.05532", "0.01523", "68 (Yu+26 D_L)",
+  "stars / gas", "", "", "", "CURVE (figure only)", "Hagen-Thorn & Reshetnikov 1997 A&A 319,430",
+  "HI", "", "HI dV20 = 300 (van Gorkom+1987); FAST NON-DETECTION, logM_HI <= 8.4", "",
+  "GLOBAL LINEWIDTH ONLY", "van Gorkom+1987; Yu+2026 (non-detection)",
+  "", "", "partial - M_B=-20.40 (Iodice+2003); logM*=10.4, NUV-r=4.7 (Yu+2026)",
+  "C", "FAST did not detect HI (3-sigma upper limit), so the older van Gorkom+1987 dV20 = 300 km/s and the newer limit are in tension; treat the HI velocity with caution."],
+
+ ["MCG-05-07-001", "", "", "", "", "",
+  "", "", "", "", "not located in the acquired sources", "Cox+1996 ASPC 106,168",
+  "HI", "", "", "", "not located in the acquired sources", "Cox+1996 ASPC 106,168; Schiminovich+2013 AJ 145,34",
+  "", "", "not located",
+  "C", "Appears in the Khoperskov+2014 compilation of PRGs with a measured dark-halo axis ratio, but is NOT among the 40 kinematically confirmed PRGs of Yu+2026 and no position/redshift was picked up in the acquired catalogues under this spelling."],
+]
+
+
+def main():
+    for r in ROWS:
+        assert len(r) == len(HEADER), "row %r has %d cells, header has %d" % (r[0], len(r), len(HEADER))
+    path = os.path.join(HERE, "polar_rings_two_plane_inventory.tsv")
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f, delimiter="\t", lineterminator="\n", quoting=csv.QUOTE_MINIMAL)
+        w.writerow(HEADER)
+        for r in ROWS:
+            w.writerow(r)
+    blob = open(path, "rb").read()
+    tiers = {}
+    for r in ROWS:
+        tiers[r[HEADER.index("tier")]] = tiers.get(r[HEADER.index("tier")], 0) + 1
+    json.dump({
+        "file": os.path.basename(path),
+        "source_url": "assembled in this lane; per-cell provenance is in the host_ref / ring_ref / angle_method / baryonic_photometry columns",
+        "retrieved_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "sha256": hashlib.sha256(blob).hexdigest(),
+        "bytes": len(blob),
+        "row_count": len(ROWS),
+        "column_count": len(HEADER),
+        "columns": [
+            {"name": "name", "unit": "common name"},
+            {"name": "alt_id", "unit": "PRC (Whitmore+1990) / SPRC (Moiseev+2011) / survey designation"},
+            {"name": "RA_deg", "unit": "deg (J2000); from Yu+2026 Tab.1 (NED) or Deg+2023 Tab.1"},
+            {"name": "DE_deg", "unit": "deg (J2000); same sources"},
+            {"name": "z", "unit": "dimensionless"},
+            {"name": "D_Mpc", "unit": "Mpc; MULTIPLE VALUES ARE GIVEN WHERE SOURCES DISAGREE, each labelled"},
+            {"name": "host_tracer", "unit": "what is measured in the HOST-DISK plane"},
+            {"name": "host_PA_deg", "unit": "deg (slit or kinematic position angle in the host plane)"},
+            {"name": "host_V_kms", "unit": "km/s (as printed in the cited paper; NOT homogenised, NOT inclination-corrected unless stated)"},
+            {"name": "host_extent", "unit": "radial extent over which the host-plane measurement exists"},
+            {"name": "host_curve", "unit": "FULL CURVE TABULATED / CURVE (figure only) / LOS VELOCITY CUT / GLOBAL LINEWIDTH ONLY / not located"},
+            {"name": "host_ref", "unit": "primary reference(s) for the host-plane kinematics"},
+            {"name": "ring_tracer", "unit": "what is measured in the POLAR/RING plane"},
+            {"name": "ring_PA_deg", "unit": "deg"},
+            {"name": "ring_V_kms", "unit": "km/s (as printed)"},
+            {"name": "ring_extent", "unit": "radial extent of the polar-plane measurement"},
+            {"name": "ring_curve", "unit": "same vocabulary as host_curve"},
+            {"name": "ring_ref", "unit": "primary reference(s) for the polar-plane kinematics"},
+            {"name": "interplane_angle_deg", "unit": "deg between the two component planes; '/' or 'or' separates the two-fold geometric degeneracy"},
+            {"name": "angle_method", "unit": "how the angle was obtained"},
+            {"name": "baryonic_photometry", "unit": "what is available for computing g_bar"},
+            {"name": "tier", "unit": "A/B/C, defined in the module docstring of _build_inventory.py"},
+            {"name": "notes", "unit": "free text, including every caveat found in the primary source"},
+        ],
+        "query": "n/a - curated synthesis; every kinematic cell names its primary reference in the adjacent *_ref column",
+        "extraction": "Hand-assembled from the primary papers acquired in this lane. No cell is derived, interpolated or unit-converted; each is either a value printed in the cited paper or an explicit blank. Where sources disagree (e.g. the distance to NGC 4650A) ALL values are carried with their labels rather than one being chosen.",
+        "tier_counts": tiers,
+        "note": "This is the ANSWER TABLE for the lane: polar-ring galaxies with kinematics measured in both the host-disk plane and the polar plane. Tier A = independent rotation in both planes with at least one resolved curve. Tier B = two-plane kinematic confirmation but at least one plane lacks a usable V(r) or V_max. Tier C = kinematically confirmed PRG with rotation published in ONE plane only. NGC 2685 sits in tier B by a deliberate demotion: Jozsa+2009 show it is one warped coherent disk, not two orthogonal rotators. Only THREE systems in this table have a numerically TABULATED rotation curve anywhere: NGC 4650A (host plane, Sackett+1994 Tab.2, 23 points) and NGC 2685 (warped disk, Jozsa+2009 Tab.5, 21 rings). NO polar-ring galaxy in the published literature reached by this lane has a numerically tabulated rotation curve in BOTH planes.",
+    }, open(path + ".manifest.json", "w", encoding="utf-8"), indent=2)
+    print("OK  %s  rows=%d cols=%d  tiers=%r" % (os.path.basename(path), len(ROWS), len(HEADER), tiers))
+
+
+if __name__ == "__main__":
+    main()

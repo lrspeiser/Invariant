@@ -1,0 +1,100 @@
+{
+ "file": "croom2021_table3_cluster_targets.tsv",
+ "source_url": "https://arxiv.org/e-print/2101.12224",
+ "source_file_within_archive": "sami_dr3.tex",
+ "raw_archive": "croom2021_dr3_arxiv_2101.12224.tar.gz",
+ "raw_archive_sha256": "3ffde0846c52e866c2d7b2a3fea0f93d18c4d0424d5c73233d32178a5a2580b7",
+ "raw_archive_bytes": 8638553,
+ "retrieved_utc": "2026-09-04T04:43:47Z",
+ "sha256": "69ab378f8f04366cda94f02adad49b7fbca61f31ef734157db16f591a809f99d",
+ "bytes": 757,
+ "row_count": 8,
+ "column_count": 14,
+ "columns": [
+  {
+   "name": "Name",
+   "unit": "-",
+   "description": "Cluster name"
+  },
+  {
+   "name": "RAdeg",
+   "unit": "deg",
+   "description": "J2000 RA of the cluster centre [OBSERVABLE]"
+  },
+  {
+   "name": "DEdeg",
+   "unit": "deg",
+   "description": "J2000 Dec of the cluster centre [OBSERVABLE]"
+  },
+  {
+   "name": "z_clus",
+   "unit": "-",
+   "description": "Cluster redshift, biweight location of members [OBSERVABLE]"
+  },
+  {
+   "name": "sigma_200",
+   "unit": "km/s",
+   "description": "Velocity dispersion of members within R200 [OBSERVABLE]"
+  },
+  {
+   "name": "R_200",
+   "unit": "Mpc",
+   "description": "R200 = 0.17 sigma_200 / H(z) [MODEL-DERIVED, isothermal sphere]"
+  },
+  {
+   "name": "M_200_virial",
+   "unit": "1e14 Msun",
+   "description": "Virial mass [MODEL-DERIVED, assumes virial equilibrium; RANK ONLY]"
+  },
+  {
+   "name": "Primary_N_obs",
+   "unit": "-",
+   "description": "Primary targets observed by SAMI"
+  },
+  {
+   "name": "Primary_N_good",
+   "unit": "-",
+   "description": "Primary targets in the input catalogue not flagged bad"
+  },
+  {
+   "name": "Primary_N_all",
+   "unit": "-",
+   "description": "All primary targets in the input catalogue"
+  },
+  {
+   "name": "Secondary_N_obs",
+   "unit": "-",
+   "description": "Secondary targets observed"
+  },
+  {
+   "name": "Secondary_N_good",
+   "unit": "-",
+   "description": "Secondary targets not flagged bad"
+  },
+  {
+   "name": "Secondary_N_all",
+   "unit": "-",
+   "description": "All secondary targets"
+  },
+  {
+   "name": "Primary_completeness_pct",
+   "unit": "percent",
+   "description": "Primary N_obs / N_good"
+  }
+ ],
+ "query": "HTTP GET https://arxiv.org/e-print/2101.12224 ; tar -xzf ; parse the unique table* labelled table:clusters in sami_dr3.tex",
+ "extraction": "Verbatim transcription. The 'Abell 168 (N)' partial row, which carries only a second pointing centre, is recorded separately below and not as a cluster row.",
+ "abell_168_second_centre": {
+  "name": "Abell 168 (N)",
+  "RAdeg": "18.739974",
+  "DEdeg": "0.430807"
+ },
+ "assertions_passed": [
+  "exactly one table* labelled table:clusters",
+  "8 cluster rows plus 1 partial row for the Abell 168 northern centre",
+  "Primary_N_all + Secondary_N_all sums to 1433, the InputCatClustersDR3 row count",
+  "RA, Dec, z_clus, sigma_200, R_200 and virial M_200 agree exactly with the independent Owers+2017 Table 1 transcription for all 8 clusters"
+ ],
+ "reference": "Croom et al. 2021, MNRAS 505, 991, Table 3",
+ "note": "Observed-target total from this table is 888, whereas CubeObs lists 896 unique cluster-region galaxies with a best cube. The 8-galaxy surplus is cluster-region objects with cubes that are not counted as observed primary or secondary targets in Table 3."
+}

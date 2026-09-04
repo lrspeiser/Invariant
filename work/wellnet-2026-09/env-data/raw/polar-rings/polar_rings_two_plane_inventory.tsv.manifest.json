@@ -1,0 +1,111 @@
+{
+  "file": "polar_rings_two_plane_inventory.tsv",
+  "source_url": "assembled in this lane; per-cell provenance is in the host_ref / ring_ref / angle_method / baryonic_photometry columns",
+  "retrieved_utc": "2026-09-04T04:52:20Z",
+  "sha256": "7756910ae5bdb7fa6c04c827fc7592835a8ad2a98b8405acbf9e9ad2baa02557",
+  "bytes": 15248,
+  "row_count": 22,
+  "column_count": 23,
+  "columns": [
+    {
+      "name": "name",
+      "unit": "common name"
+    },
+    {
+      "name": "alt_id",
+      "unit": "PRC (Whitmore+1990) / SPRC (Moiseev+2011) / survey designation"
+    },
+    {
+      "name": "RA_deg",
+      "unit": "deg (J2000); from Yu+2026 Tab.1 (NED) or Deg+2023 Tab.1"
+    },
+    {
+      "name": "DE_deg",
+      "unit": "deg (J2000); same sources"
+    },
+    {
+      "name": "z",
+      "unit": "dimensionless"
+    },
+    {
+      "name": "D_Mpc",
+      "unit": "Mpc; MULTIPLE VALUES ARE GIVEN WHERE SOURCES DISAGREE, each labelled"
+    },
+    {
+      "name": "host_tracer",
+      "unit": "what is measured in the HOST-DISK plane"
+    },
+    {
+      "name": "host_PA_deg",
+      "unit": "deg (slit or kinematic position angle in the host plane)"
+    },
+    {
+      "name": "host_V_kms",
+      "unit": "km/s (as printed in the cited paper; NOT homogenised, NOT inclination-corrected unless stated)"
+    },
+    {
+      "name": "host_extent",
+      "unit": "radial extent over which the host-plane measurement exists"
+    },
+    {
+      "name": "host_curve",
+      "unit": "FULL CURVE TABULATED / CURVE (figure only) / LOS VELOCITY CUT / GLOBAL LINEWIDTH ONLY / not located"
+    },
+    {
+      "name": "host_ref",
+      "unit": "primary reference(s) for the host-plane kinematics"
+    },
+    {
+      "name": "ring_tracer",
+      "unit": "what is measured in the POLAR/RING plane"
+    },
+    {
+      "name": "ring_PA_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "ring_V_kms",
+      "unit": "km/s (as printed)"
+    },
+    {
+      "name": "ring_extent",
+      "unit": "radial extent of the polar-plane measurement"
+    },
+    {
+      "name": "ring_curve",
+      "unit": "same vocabulary as host_curve"
+    },
+    {
+      "name": "ring_ref",
+      "unit": "primary reference(s) for the polar-plane kinematics"
+    },
+    {
+      "name": "interplane_angle_deg",
+      "unit": "deg between the two component planes; '/' or 'or' separates the two-fold geometric degeneracy"
+    },
+    {
+      "name": "angle_method",
+      "unit": "how the angle was obtained"
+    },
+    {
+      "name": "baryonic_photometry",
+      "unit": "what is available for computing g_bar"
+    },
+    {
+      "name": "tier",
+      "unit": "A/B/C, defined in the module docstring of _build_inventory.py"
+    },
+    {
+      "name": "notes",
+      "unit": "free text, including every caveat found in the primary source"
+    }
+  ],
+  "query": "n/a - curated synthesis; every kinematic cell names its primary reference in the adjacent *_ref column",
+  "extraction": "Hand-assembled from the primary papers acquired in this lane. No cell is derived, interpolated or unit-converted; each is either a value printed in the cited paper or an explicit blank. Where sources disagree (e.g. the distance to NGC 4650A) ALL values are carried with their labels rather than one being chosen.",
+  "tier_counts": {
+    "A": 9,
+    "B": 9,
+    "C": 4
+  },
+  "note": "This is the ANSWER TABLE for the lane: polar-ring galaxies with kinematics measured in both the host-disk plane and the polar plane. Tier A = independent rotation in both planes with at least one resolved curve. Tier B = two-plane kinematic confirmation but at least one plane lacks a usable V(r) or V_max. Tier C = kinematically confirmed PRG with rotation published in ONE plane only. NGC 2685 sits in tier B by a deliberate demotion: Jozsa+2009 show it is one warped coherent disk, not two orthogonal rotators. Only THREE systems in this table have a numerically TABULATED rotation curve anywhere: NGC 4650A (host plane, Sackett+1994 Tab.2, 23 points) and NGC 2685 (warped disk, Jozsa+2009 Tab.5, 21 rings). NO polar-ring galaxy in the published literature reached by this lane has a numerically tabulated rotation curve in BOTH planes."
+}

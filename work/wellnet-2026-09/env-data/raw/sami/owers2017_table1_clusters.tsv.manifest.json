@@ -1,0 +1,120 @@
+{
+ "file": "owers2017_table1_clusters.tsv",
+ "source_url": "https://arxiv.org/e-print/1703.00997",
+ "source_file_within_archive": "clusters.tex",
+ "raw_archive": "owers2017_arxiv_1703.00997.tar.gz",
+ "raw_archive_sha256": "7a7d13e62661e1d9e8da2efe8205efc6596755581f1a39b32fdcd66bbc6b4018",
+ "raw_archive_bytes": 1861585,
+ "raw_archive_members": 60,
+ "retrieved_utc": "2026-09-04T04:34:13Z",
+ "sha256": "ca95040732d588178f67db7e8ea919b9fb86551df023152e70d912473fb656d6",
+ "bytes": 994,
+ "row_count": 8,
+ "column_count": 18,
+ "columns": [
+  {
+   "name": "Name",
+   "unit": "-",
+   "description": "Cluster name, canonicalised to the form used in the SAMI DR3 paper"
+  },
+  {
+   "name": "Name_as_printed",
+   "unit": "-",
+   "description": "Name exactly as printed in the LaTeX source"
+  },
+  {
+   "name": "RAdeg",
+   "unit": "deg",
+   "description": "J2000 right ascension of the adopted cluster centre"
+  },
+  {
+   "name": "DEdeg",
+   "unit": "deg",
+   "description": "J2000 declination of the adopted cluster centre"
+  },
+  {
+   "name": "z_clus",
+   "unit": "-",
+   "description": "Cluster redshift, biweight location of members within 2 R200 [OBSERVABLE]"
+  },
+  {
+   "name": "sigma_200",
+   "unit": "km/s",
+   "description": "Line-of-sight velocity dispersion of spectroscopic members within R200, biweight scale estimator (Beers+1990) [OBSERVABLE, up to the R200 aperture]"
+  },
+  {
+   "name": "e_sigma_200",
+   "unit": "km/s",
+   "description": "1-sigma uncertainty on sigma_200"
+  },
+  {
+   "name": "R_200",
+   "unit": "Mpc",
+   "description": "Virial radius estimate R200 = 0.17 sigma_200 / H(z) Mpc, iterated (Carlberg+1997 singular isothermal sphere) [MODEL-DERIVED: assumes an isothermal, virialised halo]"
+  },
+  {
+   "name": "M_200_caustic",
+   "unit": "1e14 Msun",
+   "description": "Caustic mass within R200 (Diaferio 1999, F_beta = 0.7 from Serra+2011) [MODEL-DERIVED: assumes spherical symmetry and a calibrated F_beta; a total dynamical mass, i.e. dark-matter-dependent]"
+  },
+  {
+   "name": "e_M_200_caustic",
+   "unit": "1e14 Msun",
+   "description": "1-sigma statistical uncertainty on the caustic mass (does not include the F_beta systematic)"
+  },
+  {
+   "name": "M_200_virial",
+   "unit": "1e14 Msun",
+   "description": "Corrected virial mass within R200 (Girardi+1998 prescription, surface-pressure term C ~ 0.19 M_vir) [MODEL-DERIVED: assumes virial equilibrium and spherical symmetry; a total dynamical mass, i.e. dark-matter-dependent]"
+  },
+  {
+   "name": "e_M_200_virial",
+   "unit": "1e14 Msun",
+   "description": "1-sigma uncertainty on the virial mass"
+  },
+  {
+   "name": "N_mem_R200",
+   "unit": "-",
+   "description": "Number of spectroscopically confirmed members within R200 [OBSERVABLE count]"
+  },
+  {
+   "name": "N_mem_2R200",
+   "unit": "-",
+   "description": "Number of spectroscopically confirmed members within 2 R200"
+  },
+  {
+   "name": "N_z_R200",
+   "unit": "-",
+   "description": "Total number of reliable redshifts within R200"
+  },
+  {
+   "name": "N_z_2R200",
+   "unit": "-",
+   "description": "Total number of reliable redshifts within 2 R200"
+  },
+  {
+   "name": "Compl_R200_pct",
+   "unit": "percent",
+   "description": "Spectroscopic completeness within R200 for r_petro < 19.4"
+  },
+  {
+   "name": "Compl_2R200_pct",
+   "unit": "percent",
+   "description": "Spectroscopic completeness within 2 R200 for r_petro < 19.4"
+  }
+ ],
+ "query": "HTTP GET https://arxiv.org/e-print/1703.00997 ; tar -xzf ; parse the unique table* environment labelled clus_table in clusters.tex",
+ "extraction": "Verbatim transcription of the published LaTeX table. No unit conversion, no derivation, no join. Commented-out superseded rows for Abell 168 and Abell 119 (LaTeX '%' lines carrying slightly different sigma_200 values) were skipped; the live rows are the published ones.",
+ "assertions_passed": [
+  "exactly one table* environment carries the label clus_table",
+  "8 data rows parsed; paper states 8 clusters",
+  "cluster names match the eight named in the abstract",
+  "sum(N_mem < R200) within 10 of the 1935 stated in Section 5.1",
+  "sum(N_mem < 2 R200) within 10 of the 2899 stated in the abstract",
+  "every row has exactly 11 ampersand-separated cells"
+ ],
+ "INTERNAL_INCONSISTENCY_IN_SOURCE": "Summing the published Table 1 gives 1941 members within R200 and 2901 within 2 R200, whereas the paper's abstract and Section 5.1 state 1935 and 2899.  The transcription here reproduces the TABLE, which is the per-cluster breakdown actually needed.  The LaTeX source carries commented-out superseded rows for Abell 168 (192/276 live vs 195/279 commented) and Abell 119 (372/578 live vs 370/576 commented), so the table appears to have been revised without the running text being re-summed.  Neither variant reproduces 1935/2899 exactly.",
+ "reference": "Owers et al. 2017, MNRAS 468, 1824, 'The SAMI Galaxy Survey: cluster observations and the effect of environment', Table 1",
+ "PROVENANCE_WARNING": "sigma_200 and z_clus are measured from member galaxy redshifts and are OBSERVABLES (sigma_200 only up to the choice of the R200 aperture, which is itself model-derived). R_200, M_200_caustic and M_200_virial are all MODEL-DERIVED total dynamical masses/radii that assume dynamical equilibrium and spherical symmetry, and are therefore dark-matter dependent. Under the well-network brief they may be used ONLY to RANK environments, never as observations. Consequently R/R200 from InputCatClustersDR3 is also model-normalised: the projected separation is observable, the R200 division is not.",
+ "cross_check": "Croom et al. 2021 (SAMI DR3) Table 3 reprints RA, Dec, z_clus, sigma_200, R_200 and the virial M_200 for the same eight clusters; every value agrees with this transcription."
+}

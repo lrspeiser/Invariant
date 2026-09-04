@@ -1,0 +1,138 @@
+{
+ "file": "MACS0416_Balestra2016_ApJS224_33_table2.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJS/224/33/table2&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/ApJS/224/33/table2",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/ApJS/224/33/ReadMe -> 4386 records",
+ "retrieved_utc": "2026-09-04T04:30:00Z",
+ "sha256": "4808c281bc81462e35356fd5e6f6827ea948df3495456f989b69bf4990e04d1d",
+ "bytes": 282576,
+ "row_count": 4386,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "ID",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "q_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "r_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Rmag",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "f_ID",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Simbad",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "MACS J0416.1-2403 (z=0.396). Balestra, Mercurio, Sartoris et al. 2016, ApJS 224, 33 ('CLASH-VLT: the Frontier Fields cluster MACS J0416.1-2403'), table 2. 4386 reliable redshifts. Quality: column q_z, 2-9 (CLASH-VLT convention as above); column r_z (1-5) is the reference code. Instrument: VLT/VIMOS (CLASH-VLT), plus MUSE and literature. Selection function: Subaru/Suprime-Cam Kron R-band photometry, R<24-ish, with colour-colour preselection (again NOT a clean magnitude-limited sample). Rmag spans 15.2-25.7. Sky coverage: to ~17.4 arcmin (~5.5 Mpc projected); 90% within ~4.3 Mpc. Largely subsumed by Caminha+2017 (4594 rows) - prefer that one, and de-duplicate if stacking.",
+ "coverage": {
+  "cluster": "MACS J0416.1-2403",
+  "centre_ra_deg": 64.03812,
+  "centre_dec_deg": -24.06754,
+  "z_cluster": 0.396,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 320.4,
+  "max_sep_arcmin": 17.13,
+  "p90_sep_arcmin": 13.31,
+  "median_sep_arcmin": 9.11,
+  "max_R_proj_Mpc": 5.49,
+  "p90_R_proj_Mpc": 4.266,
+  "member_max_R_proj_Mpc": 5.277
+ },
+ "counts": {
+  "n_rows": 4386,
+  "n_total_redshifts": 4386,
+  "n_members_published_definition": null,
+  "n_within_3000kms_indicative": 903,
+  "quality_flag_column": "q_z",
+  "quality_flag_counts": {
+   "2": 704,
+   "3": 3363,
+   "5": 5,
+   "6": 11,
+   "9": 303
+  },
+  "member_flag_column": null,
+  "member_flag_counts": null
+ },
+ "raw_response_file": "raw/MACS0416_Balestra2016_ApJS224_33_table2.raw.tsv",
+ "raw_sha256": "0aae0509050438b0d3acfb28dfc73e22641d0f47ad55b7a8b1f51305c17afb94",
+ "raw_bytes": 340368
+}

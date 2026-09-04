@@ -1,0 +1,83 @@
+{
+  "file": "crot_bb2014_califa_gas_vs_stellar_PAkin.tsv",
+  "source_url": "https://arxiv.org/e-print/1405.5222",
+  "source_file_within_archive": "tabletex_Skin_prop.txt + tabletex_Gkin_prop.txt",
+  "retrieved_utc": "2026-09-04T04:37:05Z",
+  "sha256": "d3fd1ed89ad699584a4e1838728ff2304f46ff72f6afee325c8e69e91add4350",
+  "bytes": 5742,
+  "row_count": 80,
+  "column_count": 14,
+  "columns": [
+    {
+      "name": "CALIFAid",
+      "unit": ""
+    },
+    {
+      "name": "PAkin_star_app",
+      "unit": "deg"
+    },
+    {
+      "name": "e_PAkin_star_app",
+      "unit": "deg"
+    },
+    {
+      "name": "PAkin_star_rec",
+      "unit": "deg"
+    },
+    {
+      "name": "e_PAkin_star_rec",
+      "unit": "deg"
+    },
+    {
+      "name": "PAkin_gas_app",
+      "unit": "deg"
+    },
+    {
+      "name": "e_PAkin_gas_app",
+      "unit": "deg"
+    },
+    {
+      "name": "PAkin_gas_rec",
+      "unit": "deg"
+    },
+    {
+      "name": "e_PAkin_gas_rec",
+      "unit": "deg"
+    },
+    {
+      "name": "PAmorph_star",
+      "unit": "deg"
+    },
+    {
+      "name": "Vsys_star",
+      "unit": "km/s"
+    },
+    {
+      "name": "Vsys_gas",
+      "unit": "km/s"
+    },
+    {
+      "name": "dPA_gas_star_rec",
+      "unit": "deg"
+    },
+    {
+      "name": "dPA_gas_star_rec_fold90",
+      "unit": "deg"
+    }
+  ],
+  "query": "GET https://arxiv.org/e-print/1405.5222 (Barrera-Ballesteros et al. 2014, A&A 568, A70, 'Kinematic alignment of non-interacting CALIFA galaxies'); verbatim transcription and JOIN of the two archive members tabletex_Skin_prop.txt (stellar kinematics) and tabletex_Gkin_prop.txt (ionised-gas kinematics), matched on CALIFA id",
+  "measurement_or_model": "MEASUREMENT. PAkin for stars and for ionised gas are each fitted directly to the observed CALIFA velocity fields (approaching and receding sides fitted separately, with errors). PAmorph is photometric. Vsys is measured. dPA_gas_star is derived arithmetically from two measurements. NO dark-matter halo, NO Jeans/JAM model, NO dynamical mass-to-light ratio.",
+  "note": "*** BOTH COMPONENTS KINEMATICALLY MEASURED in all 80 galaxies, but ZERO of them are misaligned. *** Measured dPA(gas-stars) spans only 0.3 to 23.1 deg (median 4.7): ALL 80 are kinematically ALIGNED, and there are NO polar and NO counter-rotating systems in this table. That is the paper's own result, not a defect - the sample is NON-INTERACTING BY SELECTION and the paper is titled 'Kinematic ALIGNMENT of non-interacting CALIFA galaxies'. USE THIS AS THE ALIGNED CONTROL POPULATION, not as a source of polar systems. Anyone looking here for CALIFA counter-rotators will find none. EXTRACTION GUARD: both tables are \\input{} from separate archive members; the main noInter_final.tex contains ZERO tabular environments, so a naive single-file parse returns nothing. Row counts asserted == 80 for both tables and the two id sets verified identical. CAUTION: dPA here is computed from the RECEDING-side PA of each component; the approaching-side columns are also provided and give an independent estimate - their difference is a useful systematic check.",
+  "arxiv": "1405.5222",
+  "bibcode": "2014A&A...568A..70B",
+  "expected_row_count": 80,
+  "row_count_check": "PASS (80 == 80)",
+  "n_both_components_measured": 80,
+  "n_aligned_le30": 80,
+  "n_polar_60_120": 0,
+  "n_polar_70_110": 0,
+  "n_polar_80_100": 0,
+  "n_counterrotating_ge150": 0,
+  "projected_not_deprojected": true,
+  "sample_selection": "non-interacting CALIFA galaxies"
+}

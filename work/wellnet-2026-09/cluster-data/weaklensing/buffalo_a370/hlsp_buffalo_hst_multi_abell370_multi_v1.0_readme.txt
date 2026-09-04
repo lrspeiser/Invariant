@@ -1,0 +1,80 @@
+Lensing-related data catalogues that were produced within the BUFFALO collaboration:
+
+ - hlsp_buffalo_hst_multi_abell370_multi_v1.0_wl.fits: weak-lensing constrain catalogue, constructed as described in Niemiec+2022. The different columns are: 
+ID : id of the source
+RA : right ascension (in degrees)
+Dec : declination (in degrees)
+e1 : ellipticity component e = sqrt(e1*e1+e2*e2)
+e2 : ellipticity component e = sqrt(e1*e1+e2*e2)
+gamma1 : shear component gamma=sqrt(gamma1*gamma1+gamma2*gamma2)
+gamma2 : shear component gamma=sqrt(gamma1*gamma1+gamma2*gamma2)
+var_e1 : error on e1
+var_e2 : error on e2
+a : semi major axis e = sqrt((a2-b2)/(a2+b2))
+b : semi minor axis e = sqrt((a2-b2)/(a2+b2))
+theta : position angle associated with the ellipses’ major axis, in degrees and measured anticlockwise from West
+MAG_AUTO_f814w : magnitude auto as from Sextrcator in the F814W band
+MAGERR_AUTO_f814w : error on magnitude auto as from Sextrcator in the F814W band
+MAG_AUTO_f606w : magnitude auto as from Sextrcator in the F606W band
+MAGERR_AUTO_f606w : error on magnitude auto as from Sextrcator in the F606W band
+MAG_AUTO_f160w : magnitude auto as from Sextrcator in the F160W band
+MAGERR_AUTO_f160w : error on magnitude auto as from Sextractor in the F160W band
+SN : signal-to-noise ratio on the shape measurment, defined as SN = sqrt((e1*e1 + e2*e2)/(e1_err*e1_err + e2_err*e2_err))
+
+ - hlsp_buffalo_hst_multi_abell370_multi_v1.0_sl-final.dat: strong-lensing constraints catalogue. The strong lensing systems are categorized as GOLD, SILVER, BRONZE (same categories as for the Hubble Frontier Fields) and PLATINUM (MUSE detection without clear HST counterpart). Additional information about the systems:
+	- System 2 (Giant arc) is now split into two systems: 202, that represents the bright core of the galaxy, and that has three clear images (202.1, 202.2, 202.3),  and two that are more putative (use 202.4 and 202.5 with caution). The second system is 102 that has 5 clear images. You can choose to use one of the two or both. The original system 2 is still included in the spreadsheet for comparison.
+	- If your modeling code allows it, some images/systems should have higher positional uncertainties: image 10.3; all the PLATINUM systems; system 40; image 42.3; image 25.3.
+	- System 37 is changed to PLATINUM as there is no optical counterpart at all
+	- The cluster galaxy surrounded by systems 39.1/39.2, 37.1/37.2 and 15.6/15.7 should be modeled carefully (for instance in Lenstool it is excluded from the potfile and modeled as an independent potential)
+	- System 58 (BRONZE) is probably not a good system to use
+	- System 49 does not have the same colors for both images
+	- System 50 (BRONZE) probably a good system
+
+ - hlsp_buffalo_hst_multi_abell370_f814w_v1.0_galcat-redseq.cat: red-sequence based cluster member catalogue. Columns are 
+ID : id of the source
+RA : right ascension (in degrees)
+Dec : declination (in degrees)
+a : semi-major axis (in arbitrary units)
+b : semi-minor axis (in arbitrary units)
+theta : position angle (-THETA_WORLD from Sextractor)
+MAG_AUTO_f814W : magnitude auto as from Sextractor in the F814W band
+z : fixed to zero for Lenstool purposes, however the redshift is assumed to be the one of the cluster
+
+-----
+
+In addition, we provide the same catalogues that were used in the models presented in Niemiec+2022, that contain additional cuts:
+
+	- hlsp_buffalo_hst_multi_abell370_multi_v1.0_sl-gold.dat : strong-lensing constraints catalogue, selecting only gold-class images. The catalogue is set-up in the LENSTOOL format. Columns are: 
+ID : id of the source
+RA : right ascension (in degrees) 
+Dec : declination (in degrees) 
+a : dummy values identical for all entries
+b : dummy values identical for all entries
+theta : dummy values identical for all entries
+z : spectroscopic redshift of the source
+mag : dummy values identical for all entries
+
+	- hlsp_buffalo_hst_multi_abell370_multi_v1.0_galcat-full.dat : cluster member galaxies used in the lens models. Contains the redsequence galaxies (see Niemiec+2022 for details) as well as 20 non red-sequences galaxies. Only galaxies with magF814W < 22.6 are kept in this catalogue. Columns are :
+ID : id of the source
+RA : right ascension (in degrees) 
+Dec : declination (in degrees) 
+a : semi-major axis (in arbitrary units)
+b : semi-minor axis (in arbitrary units)
+theta : position angle (-THETA_WORLD from Sextractor)
+MAG_AUTO_f814W : magnitude auto as from Sextractor in the F814W band
+z : fixed to zero for Lenstool purposes, however the redshift is assumed to be the one of the cluster
+
+	- hlsp_buffalo_hst-subaru_multi_abell370_multi_v1.0_lenstool.cat : weak-lensing constraints catalogue, combining the catalogue measured from the HST data in the BUFFALO field with the catalogue extracted from ground-based Subaru data (see Umetsu+2022). Details of the construction of the catalogue are presented in Niemiec+2022. Columns are: 
+ID : id of the source
+RA : right ascension (in degrees)
+Dec : declination (in degrees)
+a : semi major axis e = sqrt((a2-b2)/(a2+b2))
+b : semi minor axis e = sqrt((a2-b2)/(a2+b2))
+theta : position angle (in degrees) associated with the ellipses’ major axis and measured anticlockwise from West
+z : redshift of the source if available (an either be photometric or spectroscopic)
+MAG_AUTO_f814W : magnitude auto as from Sextractor in the F814W band
+var_e1 : error on e1 following e=sqrt(e1*e1+e2*e2)
+var_e2 : error on e2 following e=sqrt(e1*e1+e2*e2)
+
+
+

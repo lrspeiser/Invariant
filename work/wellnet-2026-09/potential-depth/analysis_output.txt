@@ -1,0 +1,343 @@
+ladder: 4150 rows, 317 systems, 6 classes
+
+==============================================================================
+0.  Sanity, and the failure modes this programme has been bitten by
+==============================================================================
+   Checked explicitly in this lane:
+   * SEALED HOLDOUTS  KiDS weak lensing and wide binaries are not in
+     the ladder; ingest.py drops them by probe name before reading any
+     value.  Row counts: source table 4093, dropped unread 66.
+   * S = |Phi|/(g_bar r) >= 1 is a theorem FOR SPHERICAL M_b(<r).
+     rows with S < 1: 316 of 4150, min S = 0.8767; by source: SPARC:316
+     These are DISK rows, where g_bar is the razor-thin-disk field,
+     not G M(<r)/r^2, and V_gas is signed (central HI holes), so
+     V_b^2 r / G is not a monotone enclosed mass.  The theorem does
+     not apply to them; no spherical row violates it.
+     S range 0.8767 - 1847.891, median 1.566; the very large values are
+     inner disk points where g_bar -> 0 while |Phi| stays finite.
+   * SHARED DENOMINATOR: g_bar and |Phi_b| are both computed from the
+     same M_b, and nu_obs = g_obs/g_bar puts M_b in the denominator of
+     the response.  Section 5 simulates the null with that covariance.
+   * MONOTONE-INVARIANCE: section 6 injects a known q and checks that
+     the estimator moves.
+
+   boost nu_obs by class (median), a physical sanity check:
+      1 field_galaxy       n= 3389  median nu_obs    2.75   median g_bar/a0   0.1541   median r      5.8 kpc
+      2 small_group        n=   40  median nu_obs   87.14   median g_bar/a0   0.0020   median r    285.0 kpc
+      3 poor_group         n=   22  median nu_obs   18.27   median g_bar/a0   0.0080   median r    353.5 kpc
+      4 rich_group         n=   53  median nu_obs   10.09   median g_bar/a0   0.0279   median r    276.0 kpc
+      5 low_mass_cluster   n=   51  median nu_obs    9.54   median g_bar/a0   0.0377   median r    617.0 kpc
+      6 massive_cluster    n=  595  median nu_obs    8.65   median g_bar/a0   0.0929   median r    471.0 kpc
+
+==============================================================================
+1.  LEVERAGE -- the spread of log|Phi_b| at fixed g_bar
+==============================================================================
+   This is the experiment's entire discriminating power.  The number
+   to beat is 0.309 dex, which is what SPARC alone offers
+   (work/wellnet-2026-09/phi_rank.json, tail='point').
+
+   FULL LADDER (all 6 rungs):
+               log g_bar bin       n  sd log|Phi|     range
+      [ -13.65, -11.40)      519        0.646      3.96
+      [ -11.40, -11.20)      519        0.885      3.61
+      [ -11.20, -11.04)      518        1.028      3.54
+      [ -11.04, -10.86)      519        1.073      3.39
+      [ -10.86, -10.60)      519        0.984      3.49
+      [ -10.60, -10.21)      518        0.495      3.19
+      [ -10.21,  -9.73)      519        0.287      1.59
+      [  -9.73,  -8.13)      519        0.216      1.20
+      median within-bin sd = 0.766 dex | max range = 3.96 dex
+   
+   SPARC only, recomputed here as a check:
+               log g_bar bin       n  sd log|Phi|     range
+      [ -12.68, -11.39)      424        0.378      2.14
+      [ -11.39, -11.18)      423        0.387      1.91
+      [ -11.18, -11.00)      424        0.368      1.95
+      [ -11.00, -10.73)      423        0.375      1.99
+      [ -10.73, -10.39)      424        0.339      2.03
+      [ -10.39, -10.05)      423        0.300      1.44
+      [ -10.05,  -9.59)      424        0.244      1.56
+      [  -9.59,  -8.13)      424        0.202      1.14
+      median within-bin sd = 0.354 dex | max range = 2.14 dex
+   
+   tier 1 only (drops the stellar-mass-only optical groups):
+               log g_bar bin       n  sd log|Phi|     range
+      [ -12.68, -11.38)      513        0.677      3.96
+      [ -11.38, -11.19)      512        0.951      3.61
+      [ -11.19, -11.03)      512        1.013      3.54
+      [ -11.03, -10.85)      512        1.071      3.39
+      [ -10.85, -10.59)      512        0.983      3.49
+      [ -10.59, -10.19)      512        0.455      3.19
+      [ -10.19,  -9.71)      512        0.283      1.59
+      [  -9.71,  -8.13)      513        0.214      1.20
+      median within-bin sd = 0.814 dex | max range = 3.96 dex
+
+   Where the rungs OVERLAP in g_bar -- this is where a matched pair
+   can exist at all.  Bins of 0.25 dex in log g_bar:
+                   bin  ncls   nsys  sd lPhi   range  classes
+      [-13.00,-12.75)     2      9    0.109    0.31  [np.int64(2), np.int64(3)]
+      [-12.75,-12.50)     3     10    0.186    0.74  [np.int64(1), np.int64(2), np.int64(3)]
+      [-12.50,-12.25)     3     14    0.427    1.49  [np.int64(1), np.int64(2), np.int64(3)]
+      [-12.25,-12.00)     3     16    0.558    1.96  [np.int64(1), np.int64(2), np.int64(3)]
+      [-12.00,-11.75)     3     23    0.531    2.42  [np.int64(1), np.int64(2), np.int64(3)]
+      [-11.75,-11.50)     4     89    0.659    2.64  [np.int64(1), np.int64(3), np.int64(4), np.int64(5)]
+      [-11.50,-11.25)     6    148    0.785    3.63  [np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6)]
+      [-11.25,-11.00)     4    151    1.036    3.56  [np.int64(1), np.int64(4), np.int64(5), np.int64(6)]
+      [-11.00,-10.75)     3    115    1.041    3.49  [np.int64(1), np.int64(5), np.int64(6)]
+      [-10.75,-10.50)     2     90    0.902    3.40  [np.int64(1), np.int64(6)]
+      [-10.50,-10.25)     2     77    0.403    2.82  [np.int64(1), np.int64(6)]
+
+   ACHIEVED DYNAMIC RANGE IN |Phi_b| AT FIXED g_bar:
+      widest single 0.25-dex g_bar bin: 3.63 dex (log g_bar -11.50..-11.25, 148 systems, classes [np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6)])
+      median within-bin sd over the whole ladder: 0.766 dex   vs SPARC alone 0.354 dex
+      => leverage gain over SPARC alone: 2.17x in sd, +0.457 dex against the 0.309 target
+
+==============================================================================
+2.  MATCHED PAIRS at fixed g_bar
+==============================================================================
+   A pair is two SYSTEMS whose log g_bar agree to within 0.1 dex and
+   whose log|Phi_b| differ.  Counted on system-level representative
+   points (one per system per 0.25-dex g_bar bin, to stop a single
+   long SPARC rotation curve manufacturing pairs with itself).
+   representative points: 1008
+
+       log g_bar  all pairs   dlogPhi>1   of those,  fraction
+       (0.5 dex)                        cross-class    >1 dex
+          -13.00         46           0           0     0.000
+          -12.50        115           9           9     0.078
+          -12.00        312          83          68     0.266
+          -11.50      12288        5644        5311     0.459
+          -11.00      15227        5468        4578     0.359
+          -10.50       6039         926         526     0.153
+          -10.00       3201          94           0     0.029
+           -9.50       1124           0           0     0.000
+           -9.00        361           0           0     0.000
+           -8.50         70           0           0     0.000
+           -8.00          2           0           0     0.000
+           TOTAL      38785       12224       10492     0.315
+
+      10492 of the 12224 wide pairs (85.8%) are CROSS-CLASS, i.e. the |Phi_b|
+      contrast comes with a change of dataset, instrument and technique.
+
+==============================================================================
+3.  COLLINEARITY -- is |Phi_b| a new direction?
+==============================================================================
+   Reported as R^2 of log|Phi_b| on a quadratic in (log g_bar, log r),
+   which is the honest measure of whether a new direction was bought.
+   full ladder                        n= 4150  R2_lin=0.8745  R2_quad=0.9147  resid sd=0.247 dex
+   tier 1 only                        n= 4098  R2_lin=0.8624  R2_quad=0.9033  resid sd=0.270 dex
+   groups+clusters only (ranks 3-6)   n=  721  R2_lin=0.8910  R2_quad=0.9188  resid sd=0.168 dex
+   X-ray hydrostatic only             n=  761  R2_lin=0.9523  R2_quad=0.9665  resid sd=0.155 dex
+
+   plain correlations:
+      corr(log g_bar, log|Phi_b|)      unweighted +0.4748   system-weighted +0.4171
+      corr(log r,     log|Phi_b|)      unweighted +0.5738   system-weighted +0.4860
+      corr(log g_bar, log r)           unweighted -0.3431   system-weighted -0.5329
+
+   NOTE the identity that makes all of this inevitable:
+      log|Phi_b| = log g_bar + log r + log S,   S >= 1
+      log S over the ladder: -0.057 ..3.267 dex, sd 0.387
+      so |Phi_b| carries NO information beyond (g_bar, r) except the
+      bounded shape factor S.  The leverage in section 1 is therefore
+      the leverage of RADIUS at fixed acceleration, wearing a new name.
+
+==============================================================================
+4.  THE CONFOUND -- is the leverage anything but the class label?
+==============================================================================
+   Six false positives in this programme were reproduced exactly by a
+   bare dataset indicator.  So: how much of log|Phi_b| at fixed g_bar
+   is explained by class dummies alone?
+      R2(log|Phi_b| ~ g_bar only (quadratic)  ) = 0.1747
+      R2(log|Phi_b| ~ g_bar + CLASS DUMMIES   ) = 0.8851
+      R2(log|Phi_b| ~ g_bar + log r           ) = 0.8758
+
+      sd of log|Phi_b| after removing g_bar          : 0.768 dex
+      sd after removing g_bar AND the class label    : 0.286 dex
+      The second number is the leverage that is NOT the label.
+
+   Within-class leverage, i.e. one measurement technique, one
+   systematic, no label to hide behind:
+      1 field_galaxy       n= 3389  median within-g_bar-bin sd = 0.367 dex   sd after removing g_bar = 0.356 dex
+      2 small_group        n=   40  median within-g_bar-bin sd = 0.144 dex   sd after removing g_bar = 0.098 dex
+      3 poor_group         n=   22  median within-g_bar-bin sd = 0.208 dex   sd after removing g_bar = 0.160 dex
+      4 rich_group         n=   53  median within-g_bar-bin sd = 0.132 dex   sd after removing g_bar = 0.169 dex
+      5 low_mass_cluster   n=   51  median within-g_bar-bin sd = 0.150 dex   sd after removing g_bar = 0.158 dex
+      6 massive_cluster    n=  595  median within-g_bar-bin sd = 0.088 dex   sd after removing g_bar = 0.114 dex
+
+      LARGEST within-class leverage in the whole ladder: 0.356 dex (field_galaxy).
+      Every group and cluster rung has LESS internal |Phi_b| variation
+      at fixed g_bar than SPARC already had.
+
+   Phi_b versus RADIUS, after removing g_bar.  If these two are the
+   same regressor, 'potential depth' is 'radius' relabelled.
+      partial corr(log|Phi_b|, log r | log g_bar) = +0.9217
+      variance inflation factor for log|Phi_b| in a joint fit = 6.6
+
+==============================================================================
+5.  THE SHARED-DENOMINATOR NULL
+==============================================================================
+   |Phi_b| and g_bar are both G-times-the-same-M_b, and nu_obs has
+   g_bar in its denominator.  A global rescale M_b -> (1+delta) M_b
+   moves log g_bar and log|Phi_b| by +delta and log nu_obs by -delta:
+   the error vector lies EXACTLY along the (g_bar, Phi_b) degeneracy,
+   so it is removed by controlling for log g_bar -- to first order.
+   It is NOT removed for radius errors, for radius-dependent mass
+   errors, or for errors in the outermost point, which move the Phi
+   tail without moving g_bar at inner radii.  So the null is simulated.
+
+   OBSERVED beta (log nu ~ quad(log g_bar) + beta log|Phi_b|):
+      no other control          beta = +0.1716   -> q = 2 beta = +0.3431
+      + class dummies           beta = +0.0914
+      + log r                   beta = +0.0935   (log r and log|Phi| are near-duplicates: expect instability)
+
+   LABEL CONTROL (the bench's mandatory `confound` test).  Replace
+   log|Phi_b| by a bare class index 1..6 and refit:
+      log|Phi_b|               R2 = 0.8748   partial corr with the g_bar-residual = +0.5270
+      bare class index 1..6    R2 = 0.8663   partial corr with the g_bar-residual = +0.4778
+      log r                    R2 = 0.8744   partial corr with the g_bar-residual = +0.5249
+      If the bare label matches log|Phi_b|, the variable under test
+      is the dataset, not the physics.
+
+   H0 truth: log10 nu = quadratic(log10 g_bar) with per-system
+   intrinsic scatter 0.250 dex drawn INDEPENDENTLY of |Phi_b|.
+   Then the observed quantities are generated with the actual error
+   covariance: a coherent per-system M_b error moves log g_bar and
+   log|Phi_b| by +delta and log nu by -delta; a distance error moves
+   log g_bar by -2eps, log|Phi_b| by -eps and log nu by 0 (both g's
+   scale as 1/r^2 for the X-ray rungs and as 1/r for the rotation
+   curves, and the ratio is what enters).
+
+   Null under H0, 2000 draws (per-system M_b 0.10-0.30 dex, per-point 0.05-0.15 dex,
+    distance 0.05 dex, g_obs as tabulated):
+      NULL EXPECTATION of beta   = -0.0078    (the naive assumption is 0)
+      null sd                    = 0.0192
+      null 2.5-97.5 pct          = [-0.0468, +0.0289]
+      OBSERVED beta = +0.1716  ->  z = +9.34 against its own null, p = 0
+      with class dummies: null -0.0387 +- 0.0470, observed +0.0914, z = +2.77
+      shared-denominator bias in beta_hat = -0.0078 dex/dex; it is negligible relative to the observed +0.1716
+
+   system-level bootstrap of the OBSERVED beta: +0.1716 [+0.1429, +0.2000]  (sd 0.0141)
+
+==============================================================================
+6.  POWER -- what size of potential-depth effect is detectable?
+==============================================================================
+   Injection-recovery: add (q/2) log|Phi_b| to log nu_obs, refit,
+   and check the estimator responds (the monotone-invariance gate).
+
+       injected q  recovered beta  recovered q  d beta/d q
+            0.000          0.1716       0.3431            
+            0.020          0.1816       0.3631      0.5000
+            0.050          0.1966       0.3931      0.5000
+            0.100          0.2216       0.4431      0.5000
+            0.200          0.2716       0.5431      0.5000
+            0.400          0.3716       0.7431      0.5000
+            0.800          0.5716       1.1431      0.5000
+      d(beta)/d(q) over the tested range = 0.5000 (exactly 0.5 if unbiased); spread of beta = 0.4000
+
+   3-sigma STATISTICAL sensitivity (random errors only):
+      sd(beta) under H0 = 0.0192; system bootstrap sd = 0.0141; using the larger, 0.0192
+      beta_3sigma = 0.0576   ->  q_3sigma = 0.1153
+      with class dummies also fitted: q_3sigma = 0.2817
+
+   The |Phi_b| contrast between the ends of the ladder, computed
+   inside matched 0.1-dex g_bar bins so the two are truly at the
+   same acceleration:
+      log g_bar [-11.40,-11.30)  galaxies n= 194 clusters n=   8   d log|Phi_b| = 2.23 dex
+      log g_bar [-11.30,-11.20)  galaxies n= 224 clusters n=  50   d log|Phi_b| = 2.13 dex
+      log g_bar [-11.20,-11.10)  galaxies n= 208 clusters n=  83   d log|Phi_b| = 2.10 dex
+      log g_bar [-11.10,-11.00)  galaxies n= 229 clusters n= 103   d log|Phi_b| = 2.15 dex
+      log g_bar [-11.00,-10.90)  galaxies n= 184 clusters n= 146   d log|Phi_b| = 2.14 dex
+      log g_bar [-10.90,-10.80)  galaxies n= 142 clusters n=  49   d log|Phi_b| = 2.06 dex
+      log g_bar [-10.80,-10.70)  galaxies n= 142 clusters n=  80   d log|Phi_b| = 1.98 dex
+      log g_bar [-10.70,-10.60)  galaxies n= 131 clusters n=  53   d log|Phi_b| = 1.91 dex
+      log g_bar [-10.60,-10.50)  galaxies n= 122 clusters n=  15   d log|Phi_b| = 1.90 dex
+      log g_bar [-10.50,-10.40)  galaxies n= 129 clusters n=   7   d log|Phi_b| = 1.88 dex
+      median matched-bin contrast (rung 1 vs rung 6) = 2.08 dex
+
+   What q would the known cluster anomaly require?  Clusters sit
+   2.43x = 0.386 dex above the galaxy relation (unified table,
+   2026-09-01).  Over this contrast that needs
+      q_required = 2 x 0.386 / 2.08 = 0.371
+      statistically detectable at 3 sigma?  q_3sigma = 0.1153 -> YES, by a factor 3
+
+   BUT the contrast is carried by the class boundary, so any
+   CLASS-LEVEL systematic in log nu forges the same signal.  Budget:
+      term                                                dex
+      hydrostatic mass bias, X-ray rungs vs galaxies    0.080   10-30% HSE bias; 0.08 dex is the middle of the published ran
+      SPARC stellar M/L (Upsilon*=0.5 vs dynamical)     0.150   this programme measured 0.4-0.55 dex disagreement in Upsilon
+      stellar mass of groups (Gonzalez extrapolation)   0.080   M*/M_gas extrapolated below the calibrated range
+      gas clumping in clusters                          0.030   measured P_X/P_SZ, median 6%
+      non-thermal pressure support                      0.060   unmeasured; raises g_obs for the X-ray rungs only
+      quadrature sum on the class contrast in log nu    0.199
+
+      spurious q from the systematic budget alone = 2 x 0.199 / 2.08 = 0.192
+      required q for the cluster excess           = 0.371
+      ratio required/systematic                   = 1.93
+
+      THIS, not the statistics, is the limit.  The measurement is
+      systematics-limited at q ~ 0.19, so it can separate the
+      potential-depth hypothesis from a class-level calibration
+      error only at the 1.9-sigma_sys level.
+
+==============================================================================
+7.  The actual measurement, by class, at matched g_bar
+==============================================================================
+   nu_obs / nu_RAR in the shared g_bar window, per rung.  If the law
+   depends only on g_bar every rung must read 1.00.
+   window: log g_bar in [-11.60,-10.41]  = g_bar/a0 0.021-0.321
+
+      rung                      n  nsys  med log|Phi|  med nu/nu_RAR     dex
+      1 field_galaxy         1948   164          9.54          0.940  -0.027
+      2 small_group             1     1         10.06          2.147  +0.332
+      3 poor_group              7     6         10.35          1.999  +0.301
+      4 rich_group             45    29         10.75          1.723  +0.236
+      5 low_mass_cluster       50    33         10.96          1.721  +0.236
+      6 massive_cluster       595    19         11.78          2.381  +0.377
+
+      slope of log(nu/nu_RAR) on median log|Phi_b| across the
+      rungs in this window: +0.1250  -> implied q = +0.2500
+
+==============================================================================
+8.  MODEL COMPARISON and a FROZEN transfer test
+==============================================================================
+   One row per SYSTEM inside the matched-acceleration window, so a
+   long rotation curve cannot outvote a cluster.  Response is
+   log10(nu_obs / nu_RAR); every model also carries a free quadratic
+   in log g_bar so the RAR itself is never the thing being tested.
+   252 systems in the window; by rung: 1:164, 2:1, 3:6, 4:29, 5:33, 6:19
+
+      model                           k     rms      R2       BIC     dBIC
+      M0  RAR only (g_bar)            3  0.2212  0.0276   -743.72
+      M1  + beta log|Phi_b|           4  0.1703  0.4237   -870.05     0.00
+      M2  + gamma log r               4  0.1735  0.4021   -860.75     9.30
+      M3  + step: is it a galaxy?     4  0.1645  0.4626   -887.63     0.00
+      M4  + full class dummies        8  0.1638  0.4670   -867.59    20.04
+
+      dBIC relative to the best model:
+         M0  RAR only (g_bar)            +143.91
+         M1  + beta log|Phi_b|            +17.58
+         M2  + gamma log r                +26.88
+         M3  + step: is it a galaxy?       +0.00
+         M4  + full class dummies         +20.04
+      A one-parameter STEP that only knows 'galaxy or not' is the
+      comparison that matters: if it ties or beats log|Phi_b|, the
+      ladder is measuring the dataset boundary.
+
+   FROZEN TRANSFER TEST.  Fit beta on the galaxy and GROUP rungs
+   only (1,2,3,4), FREEZE it, then predict the CLUSTER rungs (5,6)
+   once.  This is the programme's fit-freeze-evaluate discipline;
+   re-solving on the held-out set is a recorded failure mode.
+      train 200 systems (rungs 1-4), test 52 systems (rungs 5-6)
+      M0  RAR only (g_bar)           frozen-coefficient rms on the held-out clusters = 0.2917 dex
+      M1  + beta log|Phi_b|          frozen-coefficient rms on the held-out clusters = 0.1066 dex
+      M2  + gamma log r              frozen-coefficient rms on the held-out clusters = 0.1252 dex
+      M3  + step: is it a galaxy?    frozen-coefficient rms on the held-out clusters = 0.0954 dex
+      M4  + full class dummies       cannot transfer: the test rungs' dummies are all zero in training
+      best transfer: M3  + step: is it a galaxy? (0.0954 dex)
+
+      beta fitted on rungs 1-4 alone = +0.1719 -> q = +0.3438
+      beta fitted on everything      = +0.1687 -> q = +0.3373
+      If the group-only beta does not predict the clusters, the
+      'ladder' is two populations with a gap, not a continuum.
+
+   wrote C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\potential-depth\results.json

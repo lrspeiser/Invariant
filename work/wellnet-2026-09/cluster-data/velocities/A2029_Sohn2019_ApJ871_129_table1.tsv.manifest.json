@@ -1,0 +1,154 @@
+{
+ "file": "A2029_Sohn2019_ApJ871_129_table1.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJ/871/129/table1&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/ApJ/871/129/table1",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/ApJ/871/129/ReadMe -> 4376 records",
+ "retrieved_utc": "2026-09-04T04:29:57Z",
+ "sha256": "81b214bc193c8d3d6e10df4a6fe902d5a3d573e6acf2db3a82aa20cb7e88e696",
+ "bytes": 327392,
+ "row_count": 4376,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "objID",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "rmag",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "e_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "r_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Mm",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "T13",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Sloan",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "SimbadName",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "Abell 2029 (z=0.0773). Sohn, Geller, Walker, Dell'Antonio, Diaferio & Rines 2019, ApJ 871, 129 ('A redshift catalog of the galaxy cluster A2029'). 4376 spectroscopic redshifts in the A2029 field; 1054 flagged as cluster members (column Mm='Y') by the caustic technique, 3322 non-members. Instrument: MMT/Hectospec (300-fibre MOS, 1 deg diameter field of view) supplemented by SDSS DR12/DR7 spectroscopy and literature redshifts (column r_z gives the source). Selection function: SDSS composite-model r-band photometric targets; the survey is essentially complete for r<20.5 over the central region and becomes progressively incomplete fainter; no colour preselection is applied (the Hectospec targeting is magnitude-limited, not red-sequence selected), which is what makes this catalogue usable for an unbiased sigma(R). Column rmag spans 13.5-22.5. Sky coverage: redshifts extend to ~40 arcmin (~3.6 Mpc projected) from the BCG; 90% lie within ~3.0 Mpc. This is the single best catalogue in this product for building a resolved sigma(R) field. Note the companion star catalogue (table6, 97 rows) was deliberately NOT merged.",
+ "coverage": {
+  "cluster": "Abell 2029",
+  "centre_ra_deg": 227.73375,
+  "centre_dec_deg": 5.74472,
+  "z_cluster": 0.0773,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 87.81,
+  "max_sep_arcmin": 41.35,
+  "p90_sep_arcmin": 34.19,
+  "median_sep_arcmin": 22.61,
+  "max_R_proj_Mpc": 3.631,
+  "p90_R_proj_Mpc": 3.003,
+  "member_max_R_proj_Mpc": 3.631
+ },
+ "counts": {
+  "n_rows": 4376,
+  "n_total_redshifts": 4376,
+  "n_members_published_definition": 1054,
+  "n_within_3000kms_indicative": 1122,
+  "quality_flag_column": "r_z",
+  "quality_flag_counts": {
+   "1": 2607,
+   "1,2": 111,
+   "1,3": 1,
+   "2": 829,
+   "2,3": 297,
+   "3": 382,
+   "4": 148,
+   "5": 1
+  },
+  "member_flag_column": "Mm",
+  "member_flag_counts": {
+   "N": 3322,
+   "Y": 1054
+  }
+ },
+ "raw_response_file": "raw/A2029_Sohn2019_ApJ871_129_table1.raw.tsv",
+ "raw_sha256": "eaaa1ef6caf605701021e2f4f28e808b77834d3768a450ad25883cb494d8a3f1",
+ "raw_bytes": 510505
+}

@@ -1,0 +1,83 @@
+{
+  "file": "shipley2018_hff_BCG_brightest_per_cluster.tsv",
+  "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+  "exact_query": "-source=J/ApJS/235/14/clugal&UseKs==2&-out=**&-out.max=unlimited  [then DERIVED: brightest F160W source within 60 arcsec of the Montes & Trujillo 2018 Table 1 cluster centre that is not a spectroscopically confirmed non-member, per cluster field]",
+  "retrieved_utc": "2026-09-04T04:33:42Z",
+  "sha256": "4d9685e0c3fc303632fb4a70b3f576586198f768e745635adc165e625ac7ac8c",
+  "bytes": 1284,
+  "row_count": 6,
+  "column_count": 17,
+  "columns": [
+    {
+      "name": "Cluster",
+      "unit": ""
+    },
+    {
+      "name": "Cl_field",
+      "unit": ""
+    },
+    {
+      "name": "HFFDS_ID",
+      "unit": ""
+    },
+    {
+      "name": "RAdeg_J2000",
+      "unit": "deg"
+    },
+    {
+      "name": "DEdeg_J2000",
+      "unit": "deg"
+    },
+    {
+      "name": "zspec",
+      "unit": ""
+    },
+    {
+      "name": "z_cluster",
+      "unit": ""
+    },
+    {
+      "name": "membership_flag",
+      "unit": ""
+    },
+    {
+      "name": "sep_from_MT2018_centre_arcsec",
+      "unit": "arcsec"
+    },
+    {
+      "name": "n_bCG_candidates_within_60arcsec",
+      "unit": ""
+    },
+    {
+      "name": "n_rejected_spec_nonmembers",
+      "unit": ""
+    },
+    {
+      "name": "FF160W_fnu_ZP25",
+      "unit": "f_nu, ZP(AB)=25"
+    },
+    {
+      "name": "e_FF160W",
+      "unit": "f_nu, ZP(AB)=25"
+    },
+    {
+      "name": "mAB_F160W",
+      "unit": "AB mag"
+    },
+    {
+      "name": "FF814W_fnu_ZP25",
+      "unit": "f_nu, ZP(AB)=25"
+    },
+    {
+      "name": "e_FF814W",
+      "unit": "f_nu, ZP(AB)=25"
+    },
+    {
+      "name": "mAB_F814W",
+      "unit": "AB mag"
+    }
+  ],
+  "extraction": "*** DERIVED PRODUCT, NOT A PUBLISHED BCG LIST. *** Built from shipley2018_hff_bCG_photometry.tsv by taking, in each of the six HFF cluster fields, the UseKs==2 (bCG-flagged) source with the largest total F160W flux lying within 60 arcsec of the Montes & Trujillo 2018 Table 1 cluster centre, AFTER discarding any candidate whose catalogue zspec differs from the cluster redshift by more than 0.02 (a spectroscopically confirmed foreground/background interloper). *** THIS MEMBERSHIP CUT IS LOAD-BEARING: without it the brightest bCG-flagged source within 60 arcsec of the MACSJ0416.1-2403 centre is HFF-DeepSpace ID 20004 at zspec = 0.1137, a bright FOREGROUND galaxy, not the cluster BCG at z = 0.396. Montes & Trujillo 2018 independently flag this object, stating that for M0416, M0717 and M1149 'the presence of a bright foreground source close to the cluster made us mask a part of the image to avoid contamination of the ICL'. *** AB magnitudes computed from the catalogue fluxes as m_AB = -2.5*log10(f) + 25 per ReadMe note G1. The full selection rule is recorded here so it can be reproduced or overridden; 'n_bCG_candidates_within_60arcsec', 'n_rejected_spec_nonmembers', 'membership_flag' and 'sep_from_MT2018_centre_arcsec' are given so every choice can be audited. Rows whose membership_flag reads 'no zspec (membership unverified)' have NO spectroscopic redshift in the catalogue and were accepted on brightness and position alone.",
+  "note": "Brightest bright-cluster-galaxy per HFF cluster field. *** CAVEAT: Abell 2744, MACSJ0416, MACSJ0717 and MACSJ1149 are MULTI-BCG / merging systems -- Montes & Trujillo 2018 refer throughout to 'the BCG(s)' and DeMaio et al. 2018 exclude MACS0717 outright for having 'no clear central BCG'. For those four clusters a single brightest galaxy is NOT an adequate description of the central galaxy population; consult the full 391-row bCG file. *** BAND: HST/WFC3-IR F160W and HST/ACS F814W total fluxes, ZP(AB)=25, Galactic-extinction corrected. The same bCG+ICL subtraction caveat as the parent file applies: this catalogue removes the ICL by construction and cannot be used to measure it. No light profile, no stellar mass, no Sersic parameters.",
+  "raw_response_file": "bcg/raw/shipley2018_clugal_bCG_raw.tsv"
+}

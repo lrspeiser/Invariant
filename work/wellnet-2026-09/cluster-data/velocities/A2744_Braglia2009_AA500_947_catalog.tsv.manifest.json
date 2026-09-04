@@ -1,0 +1,172 @@
+{
+ "file": "A2744_Braglia2009_AA500_947_catalog.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J%2FA%2BA%2F500%2F947%2Fcatalog&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/A+A/500/947/catalog",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/A+A/500/947/ReadMe -> table9.dat=395 (A2744) + table10.dat=809 (A2537); VizieR merges both into 'catalog' (1204 rows) with cluster column A records",
+ "retrieved_utc": "2026-09-04T04:37:40Z",
+ "sha256": "735570b59489033e74284083cd1b07d4c25ee0f65d4b4ef07ad2e473c1c488fa",
+ "bytes": 20226,
+ "row_count": 395,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "A",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Seq",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "\"h:m:s\"",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "\"d:m:s\"",
+   "description": ""
+  },
+  {
+   "name": "z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "W0([OII])",
+   "unit": "0.1nm",
+   "description": ""
+  },
+  {
+   "name": "e_W0([OII])",
+   "unit": "0.1nm",
+   "description": ""
+  },
+  {
+   "name": "D4000",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "e_D4000",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "W0(Hdel)",
+   "unit": "0.1nm",
+   "description": ""
+  },
+  {
+   "name": "e_W0(Hdel)",
+   "unit": "0.1nm",
+   "description": ""
+  },
+  {
+   "name": "Bmag",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "e_Bmag",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "Vmag",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "e_Vmag",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "Rmag",
+   "unit": "mag",
+   "description": ""
+  },
+  {
+   "name": "e_Rmag",
+   "unit": "mag",
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/. Rows filtered to this cluster only using the upstream cluster-identifier column.",
+ "note": "Abell 2744 (z=0.308). Braglia, Pierini, Biviano & Boehringer 2009, A&A 500, 947 ('Spectroscopy and photometry in A2744 and A2537'). TRAP HANDLED: the VizieR table 'catalog' merges the paper's table 9 (A2744, 395 rows) and table 10 (A2537, 809 rows) into a single 1204-row table distinguished only by the column A (Abell number). This file has been filtered to A=2744, giving exactly 395 rows, matching the ReadMe record count for table9.dat. Taking the unfiltered table would have contaminated A2744 with a completely different cluster ~530 Mpc away on the sky. Instrument: VLT/VIMOS multi-object spectroscopy. No redshift quality flag is published in this table. Selection function: photometric preselection in B,V,R from WFI imaging; the table carries W0([OII]), D4000 and W0(Hdelta) spectral indices, indicating an emission/absorption-line study. Sky coverage for the A2744 subset is given in this manifest's coverage block.",
+ "coverage": {
+  "cluster": "Abell 2744",
+  "centre_ra_deg": 3.58625,
+  "centre_dec_deg": -30.38861,
+  "z_cluster": 0.308,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 272.15,
+  "max_sep_arcmin": 18.99,
+  "p90_sep_arcmin": 14.66,
+  "median_sep_arcmin": 7.89,
+  "max_R_proj_Mpc": 5.169,
+  "p90_R_proj_Mpc": 3.989,
+  "member_max_R_proj_Mpc": 4.813
+ },
+ "counts": {
+  "n_rows": 395,
+  "n_total_redshifts": 395,
+  "n_members_published_definition": null,
+  "n_within_3000kms_indicative": 96,
+  "quality_flag_column": null,
+  "quality_flag_counts": null,
+  "member_flag_column": null,
+  "member_flag_counts": null
+ },
+ "raw_response_file": "raw/A2744_Braglia2009_AA500_947_catalog.raw.tsv",
+ "raw_sha256": "c40050c0de7bf9e07c02c91fcbb59b1d29b471483d446dd2d7c04b8e3c45cb9d",
+ "raw_bytes": 167081
+}

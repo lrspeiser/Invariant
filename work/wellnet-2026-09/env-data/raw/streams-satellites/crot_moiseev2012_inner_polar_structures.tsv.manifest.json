@@ -1,0 +1,93 @@
+{
+  "file": "crot_moiseev2012_inner_polar_structures.tsv",
+  "source_url": "https://arxiv.org/e-print/1204.4437",
+  "source_file_within_archive": "Moiseev_arxiv.tex",
+  "retrieved_utc": "2026-09-04T04:34:20Z",
+  "sha256": "4d3a23549682b7663951859e3b35c1a37d555c99b766c3f4806e54b2eee206fe",
+  "bytes": 2967,
+  "row_count": 47,
+  "column_count": 14,
+  "columns": [
+    {
+      "name": "Name",
+      "unit": ""
+    },
+    {
+      "name": "Type",
+      "unit": ""
+    },
+    {
+      "name": "T",
+      "unit": ""
+    },
+    {
+      "name": "D",
+      "unit": "Mpc"
+    },
+    {
+      "name": "r_ang",
+      "unit": "arcsec"
+    },
+    {
+      "name": "r_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "PA0",
+      "unit": "deg"
+    },
+    {
+      "name": "i0",
+      "unit": "deg"
+    },
+    {
+      "name": "PAbar",
+      "unit": "deg"
+    },
+    {
+      "name": "PA1",
+      "unit": "deg"
+    },
+    {
+      "name": "i1",
+      "unit": "deg"
+    },
+    {
+      "name": "Delta_i",
+      "unit": "deg"
+    },
+    {
+      "name": "Comm",
+      "unit": ""
+    },
+    {
+      "name": "Ref",
+      "unit": ""
+    }
+  ],
+  "query": "GET https://arxiv.org/e-print/1204.4437 (Moiseev 2012, 'Inner Polar Rings and Disks: Observed Properties', Astrophysical Bulletin); verbatim transcription of Table 1 'List of galaxies with inner polar structures', which is SPLIT ACROSS TWO tabular environments (the second captioned '(continue)')",
+  "measurement_or_model": "MEASUREMENT. PA0/i0 describe the host stellar disc and PA1/i1 the inner polar structure; both come from observed velocity fields and/or photometry in the cited literature. Delta_i is the measured angle between the two planes (deprojected where i0 and i1 are both available; entries marked '*' are projected-geometry estimates only). NO dark-matter halo, NO Jeans/JAM model, NO dynamical mass enters this table.",
+  "note": "*** HIGH VALUE FOR THIS PROGRAMME. *** These are galaxies where an inner gas or stellar structure orbits in a plane strongly inclined (often ~90 deg) to the host stellar disc, i.e. two components with DIFFERENT angular-momentum directions in one baryonic system. Delta_i here is a DEPROJECTED angle between the two planes where both inclinations are known, which is stronger than the projected DeltaPA of the IFU misalignment catalogues. EXTRACTION GUARD: Table 1 is split across TWO tabular environments; parsing only the first would have silently returned a partial table. Both were parsed and the total asserted == 47, the paper's own stated count.",
+  "arxiv": "1204.4437",
+  "paper": "Moiseev 2012, Astrophysical Bulletin",
+  "expected_row_count": 47,
+  "row_count_check": "PASS (47 == 47)",
+  "n_tabular_blocks": 2,
+  "n_with_measured_Delta_i": 28,
+  "paper_stated_n_with_Delta_i": 27,
+  "delta_i_count_reconciliation": "We recover 28 rows with a non-empty Delta_i cell; the paper states 27. The single extra row is NGC 4233, whose Delta_i cell in the LaTeX source reads '--    80' - a malformed cell that is simultaneously a dash (no value) and the number 80. Excluding NGC 4233 gives exactly 27, matching the paper. Treat NGC 4233's Delta_i as UNRELIABLE. All Delta_i-based counts below INCLUDE NGC 4233 at 80 deg; subtract 1 from the >=80 and within-10-deg counts to exclude it.",
+  "ambiguous_row": "NGC 4233 (Delta_i cell = '--    80')",
+  "n_Delta_i_within_10deg_of_90": 18,
+  "n_Delta_i_within_15deg_of_90": 20,
+  "n_Delta_i_within_20deg_of_90": 22,
+  "n_Delta_i_ge_80": 18,
+  "n_IPS_traced_by_gas": 45,
+  "n_IPS_traced_by_stars": 10,
+  "n_with_both_PA0_and_PA1": 39,
+  "tracer_counts": {
+    "CO": 5,
+    "HII": 41,
+    "s": 10,
+    "HI": 2
+  }
+}

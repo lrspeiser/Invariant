@@ -1,0 +1,97 @@
+{
+ "file": "sami_dr3_MGEPhotomUnregDR3.vot",
+ "cleaned_file": "sami_dr3_MGEPhotomUnregDR3.tsv",
+ "source_url": "https://datacentral.org.au/vo/tap/sync",
+ "service": "Data Central (AAO/Macquarie) IVOA TAP v1.0, anonymous access",
+ "access_credentials": "none - public anonymous POST, no login, no API key, no terms accepted",
+ "query": "SELECT * FROM sami_dr3.MGEPhotomUnregDR3",
+ "query_parameters": {
+  "REQUEST": "doQuery",
+  "LANG": "ADQL",
+  "FORMAT": "votable",
+  "MAXREC": "1000000"
+ },
+ "count_check_query": "SELECT COUNT(*) AS n FROM sami_dr3.MGEPhotomUnregDR3",
+ "count_check_value": 3150,
+ "retrieved_utc": "2026-09-04T04:28:47Z",
+ "sha256": "f508e4ba9f27782cdaae03d761b00c9a0d498295cd7b730a10d49793344ccbe9",
+ "bytes": 738572,
+ "cleaned_sha256": "cf3eea89bb33774d9778a4f1b416caf526a3ce3b8670e457db49e71039d9b7d0",
+ "cleaned_bytes": 282991,
+ "row_count": 3150,
+ "column_count": 10,
+ "columns": [
+  {
+   "name": "CATID",
+   "unit": null,
+   "datatype": "char",
+   "ucd": "meta.id",
+   "description": "SAMI Galaxy ID. Galaxies with two entries have both VST and SDSS photometry."
+  },
+  {
+   "name": "photometry",
+   "unit": null,
+   "datatype": "char",
+   "ucd": "meta.ref",
+   "description": "Denotes which images were used."
+  },
+  {
+   "name": "ReMGE",
+   "unit": "arcsec",
+   "datatype": "float",
+   "ucd": "phys.angSize",
+   "description": "Circularised effective radius from MGE fit."
+  },
+  {
+   "name": "mMGE",
+   "unit": "mag",
+   "datatype": "float",
+   "ucd": "phot.mag",
+   "description": "Total AB magnitude from the MGE fit. No corrections applied."
+  },
+  {
+   "name": "rExtinction",
+   "unit": "mag",
+   "datatype": "float",
+   "ucd": "phys.absorption",
+   "description": "Extinction from Schlafly+2011."
+  },
+  {
+   "name": "PAMGE",
+   "unit": "deg",
+   "datatype": "float",
+   "ucd": "pos.posAng",
+   "description": "Position Angle of the MGE model, from N to E is positive."
+  },
+  {
+   "name": "epsMGE_Re",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "src.ellipticity",
+   "description": "Model isophotal ellipticity at  one Re."
+  },
+  {
+   "name": "epsMGE_LW",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "src.ellipticity",
+   "description": "Light-weighted ellipticity of the model."
+  },
+  {
+   "name": "dist2NNeigh",
+   "unit": "arcsec",
+   "datatype": "float",
+   "ucd": "pos.angDistance",
+   "description": "Distance to nearest neighbour from SExtractor source extraction."
+  },
+  {
+   "name": "Chi2",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "stat.fit.chi2",
+   "description": "Chi^2 from MGE fit."
+  }
+ ],
+ "reference": "Croom et al. 2021, MNRAS 505, 991 - the SAMI Galaxy Survey Data Release 3",
+ "extraction": "SELECT * over the TAP table, VOTable saved byte-for-byte; TSV is a direct astropy Table -> pandas dump with no unit conversion, no cut, no join."
+}

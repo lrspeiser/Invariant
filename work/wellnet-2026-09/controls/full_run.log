@@ -1,0 +1,421 @@
+==============================================================================
+CONTROL HARNESS VALIDATION -- work/wellnet-2026-09/controls
+==============================================================================
+
+==============================================================================
+CONTROL 1 -- residual nulls (point source and field)
+==============================================================================
+   blocks: {'n_blocks': 600, 'min': 5, 'median': 5.0, 'max': 5, 'n_singleton': 0}
+      invariant block_mean_residual          residual 4.163e-17
+      invariant sigma_map                    residual 0.000e+00
+      invariant model                        residual 0.000e+00
+      invariant coordinates                  residual 0.000e+00
+      invariant n_points                     residual 0.000e+00
+      destroyed resid_rms                    0.13230113695797663 -> 0.13392007333330422
+      destroyed within_block_corr_resid_radius np.float64(4.427545696867592e-18) -> np.float64(-9.220834834777654e-18)
+      destroyed within_block_corr_resid_coord0 np.float64(4.427545696867592e-18) -> np.float64(-9.220834834777654e-18)
+      destroyed within_block_corr_resid_coord1 np.float64(0.3780468398246427) -> np.float64(0.0037913066913121806)
+      real         blind scalar 0.13180 -> scalar+tensor 0.12382   (+6.06%)
+      perm_g twin  blind scalar 0.13275 -> scalar+tensor 0.13293   (-0.14%)
+
+==============================================================================
+CONTROL 1 -- residual null on a resolved 3-D field
+==============================================================================
+      invariant block_mean_residual                residual 3.192e-16
+      invariant sigma_map                          residual 0.000e+00
+      invariant rho_map                            residual 0.000e+00
+      invariant mask_voxels                        residual 0.000e+00
+      angular structure of the residual: 0.06796 -> 0.00914 (86.6% removed)
+
+==============================================================================
+CONTROLS 2, 3, 4 -- position scramble, mass scramble, smoothed source
+==============================================================================
+   mock cluster: 200 members, W = 5.2575e+26 Msun^2/Mpc
+   position_scramble
+      invariant member_radii                   residual 4.441e-16
+      invariant member_radii_relative          residual 3.331e-16
+      invariant member_masses                  residual 0.000e+00
+      invariant radial_mass_profile            residual 0.000e+00
+      invariant cluster_membership             residual 0.000e+00
+      destroyed network_energy                 5.257544447338593e+26 -> 4.784652548729412e+26
+      destroyed mean_pair_separation           1.0043141849947095 -> 1.0164234158004093
+   mass_scramble
+      invariant positions                      residual 0.000e+00
+      invariant member_radii                   residual 0.000e+00
+      invariant mass_multiset_per_cluster_relative residual 0.000e+00
+      invariant total_mass_per_cluster_relative residual 1.360e-16
+      destroyed network_energy                 5.257544447338593e+26 -> 2.3249380872055756e+26
+      destroyed mass_radius_corr               -0.4091490640567613 -> -0.12387549061356111
+      destroyed radial_mass_profile_l1         0.0 -> 9769022570778.643
+   smoothed_source
+      invariant total_mass                     residual 1.360e-16
+      invariant M_enclosed_at_shell_edges      residual 4.081e-16
+      invariant M_enclosed_monotone            residual 0.000e+00
+      destroyed network_energy                 5.257544447338593e+26 -> 4.774541732152228e+26
+      destroyed angular_information            member directions -> none (spherical)
+
+   300 position scrambles: mean W 4.7629e+26 +- 1.41e+25
+      closed-form mean field  4.7745e+26   relative difference 2.43e-03
+      observed W sits +3.5 sigma above the scrambled ensemble
+      => controls 2 and 4 are the same null: the smoothed source IS the ensemble mean of the position scramble
+      p(W >= observed | geometry destroyed, radial profile fixed) = 0.0133
+      radial mass profile L1 change under control 2: 0.000e+00 Msun (must be exactly 0)
+
+==============================================================================
+CONTROL 4 -- smoothed source on a resolved field
+==============================================================================
+      invariant total_mass                       residual 2.670e-16
+      invariant M_enclosed_at_shell_edges        residual 6.309e-13
+      invariant M_enclosed_monotone              residual 0.000e+00
+      invariant monopole                         residual 0.000e+00
+      shell anisotropy (lattice-free)  0.17586 -> 4.871e-14
+      quadrupole   l=2                 0.07399 -> 0.000e+00
+      hexadecapole l=4                 0.09728 -> 0.08872
+      l=4 does NOT go to zero: a CUBIC grid has an l=4 anisotropy of its own.
+      the smoothed field is purely radial by construction, so its l=4 = 0.08872 IS the lattice floor.
+      the source's l=4 excess over the floor is +0.00856; l=2 has no cubic term and vanishes exactly.
+
+==============================================================================
+CONTROL 6 -- parameter sensitivity, reproducing the monotone trap
+==============================================================================
+   the model quantity is Y_pred = kappa t f_gas (the deep-MOND
+   limit of the amplified-pressure law). kappa multiplies it, so
+   every RANK statistic of Y_pred is exactly invariant in kappa.
+   responsiveness: spearman(Y_pred, kT)
+      theta = 1000          S = np.float64(0.9938086303939965)
+      theta = 3162.28       S = np.float64(0.9938086303939965)
+      theta = 10000         S = np.float64(0.9938086303939965)
+      theta = 31622.8       S = np.float64(0.9938086303939965)
+      theta = 100000        S = np.float64(0.9938086303939965)
+      theta = 316228        S = np.float64(0.9938086303939965)
+      theta = 1e+06         S = np.float64(0.9938086303939965)
+      distinct 1/7   spread 0   relative 0.000e+00   FAIL
+   responsiveness: partial_spearman(Y_pred, kT | M_WL)
+      theta = 1000          S = np.float64(0.9913051121106352)
+      theta = 3162.28       S = np.float64(0.9913051121106352)
+      theta = 10000         S = np.float64(0.9913051121106352)
+      theta = 31622.8       S = np.float64(0.9913051121106352)
+      theta = 100000        S = np.float64(0.9913051121106352)
+      theta = 316228        S = np.float64(0.9913051121106352)
+      theta = 1e+06         S = np.float64(0.9913051121106352)
+      distinct 1/7   spread 0   relative 0.000e+00   FAIL
+   responsiveness: median Y_pred
+      theta = 1000          S = np.float64(0.03454662585428714)
+      theta = 3162.28       S = np.float64(0.10924602317320757)
+      theta = 10000         S = np.float64(0.3454662585428714)
+      theta = 31622.8       S = np.float64(1.0924602317320757)
+      theta = 100000        S = np.float64(3.454662585428714)
+      theta = 316228        S = np.float64(10.924602317320756)
+      theta = 1e+06         S = np.float64(34.54662585428714)
+      distinct 7/7   spread 34.5121   relative 2.945e+00   PASS
+   responsiveness: mean ln(E_obs/E_pred)
+      theta = 1000          S = np.float64(0.4802144646058455)
+      theta = 3162.28       S = np.float64(0.43890889943397937)
+      theta = 10000         S = np.float64(0.3251261448256936)
+      theta = 31622.8       S = np.float64(0.06431130823320519)
+      theta = 100000        S = np.float64(-0.39727736610915976)
+      theta = 316228        S = np.float64(-1.0495299955668074)
+      theta = 1e+06         S = np.float64(-1.8663328620727602)
+      distinct 7/7   spread 2.34655   relative 2.863e+00   PASS
+   responsiveness: chi2-like mean sq ln residual
+      theta = 1000          S = np.float64(0.25599733133755753)
+      theta = 3162.28       S = np.float64(0.21779626588819853)
+      theta = 10000         S = np.float64(0.13151158563937412)
+      theta = 31622.8       S = np.float64(0.03540384139694072)
+      theta = 100000        S = np.float64(0.2027822602649795)
+      theta = 316228        S = np.float64(1.1669265480064097)
+      theta = 1e+06         S = np.float64(3.576337396327426)
+      distinct 7/7   spread 3.54093   relative 2.983e+00   PASS
+
+   2 of 5 statistics are BLIND to kappa over three decades: ['spearman(Y_pred, kT)', 'partial_spearman(Y_pred, kT | M_WL)']
+   responsiveness_suite raised, as it must: 2 of 5 headline statistics are blind to their own parameter: ['spearman(Y_pred, kT)', 'par
+
+==============================================================================
+CONTROL 7 -- exchangeability of the true and control arms
+==============================================================================
+   (a) both arms through identical code
+   exchangeability [identical-treatment]: 10 traced ops on the true arm, 10 on the control arm
+      op classes: {'note': 1, 'mask': 5, 'sample': 2, 'smooth': 1, 'interp': 1}
+      0 error(s), 1 warning(s)  PASS
+      warn  at op 8  [arg0]  numpy.convolve: small array of shape (8,) differs in VALUE (50ced03da4c5 vs 557b6e57d71e) -- a kernel, bin edge set or aperture that is not the same in both arms is an exchangeability failure; a small data profile is not
+
+   (b) the TRUE arm gets a second smoothing pass
+   exchangeability [extra-smoothing-pass]: 11 traced ops on the true arm, 10 on the control arm
+      op classes: {'note': 1, 'mask': 5, 'sample': 2, 'smooth': 2, 'interp': 1}
+      2 error(s), 1 warning(s)  FAIL
+      ERROR at op 9  [op-sequence]  numpy.convolve vs numpy.interp
+      ERROR at op 10  [op-count]  true arm made 11 traced calls, control arm made 10
+      warn  at op 8  [arg0]  numpy.convolve: small array of shape (8,) differs in VALUE (50ced03da4c5 vs 557b6e57d71e) -- a kernel, bin edge set or aperture that is not the same in both arms is an exchangeability failure; a small data profile is not
+      raised, as it must: pipeline 'extra-smoothing-pass' treats the two arms differently: [op-sequence] numpy.convolve vs numpy.interp;
+
+   (c) same op count, but the CONTROL arm uses a different kernel
+   exchangeability [different-kernel]: 10 traced ops on the true arm, 10 on the control arm
+      op classes: {'note': 1, 'mask': 5, 'sample': 2, 'smooth': 1, 'interp': 1}
+      0 error(s), 5 warning(s)  PASS
+      warn  at op 8  [arg0]  numpy.convolve: small array of shape (8,) differs in VALUE (50ced03da4c5 vs 557b6e57d71e) -- a kernel, bin edge set or aperture that is not the same in both arms is an exchangeability failure; a small data profile is not
+      warn  at op 8  [arg1]  numpy.convolve: small array of shape (3,) differs in VALUE (ba0c29f3d865 vs 142b5e9ca893) -- a kernel, bin edge set or aperture that is not the same in both arms is an exchangeability failure; a small data profile is not
+      warn  at op 8  [output]  numpy.convolve: small array of shape (8,) differs in VALUE (848b27602f90 vs bfa06a01b1f4) -- a kernel, bin edge set or aperture that is not the same in both arms is an exchangeability failure; a small data profile is not
+      warn  at op 9  [arg2]  numpy.interp: small array of shape (8,) differs in VALUE (848b27602f90 vs bfa06a01b1f4) -- a kernel, bin edge set or aperture that is not the same in both arms is an exchangeability failure; a small data profile is not
+      value-level warnings on the convolution kernel: 1
+      strict=True raises: pipeline 'different-kernel-strict' treats the two arms differently: [arg0] numpy.convolve: small array of shap
+
+   (d) randomness inside the pipeline
+      refused: pipeline 'random-pipeline' treats the two arms differently: [randomness] the pipeline itself draws r
+
+==============================================================================
+CONTROL 8 -- shared-denominator detector on the real LoCuSS sample
+==============================================================================
+   ingested 40 clusters (41 in the tables, Abell2697 dropped for a missing L_K)
+   E_obs median 1.617  range 1.22-2.34   (record: median 1.62, range 1.22-2.34)
+   naive partial Spearman rho_p(E, kT | M_WL) = -0.3042   (the RETRACTED value: -0.304)
+   shared-denominator report (40 objects)
+      lnE            built from ['L_K', 'M_WL', 'M_gas', 'z']
+      lnM            built from ['M_WL']
+      lnT            built from ['kT']
+      SHARED INPUT on lnE|lnM: ['M_WL']
+      induced error correlation lnE|lnM: mean +0.957  range [+0.917, +0.973]
+      induced error correlation lnE|lnT: mean +0.004  range [-0.044, +0.063]
+      induced error correlation lnM|lnT: mean +0.003  range [-0.050, +0.063]
+      observed statistic -0.3042
+      null (permute kT): mean -0.0009  sd 0.1594  95% [-0.3091, +0.3188]
+      p(observed vs ITS OWN null) = 0.053
+      null (decorrelated latents): mean +0.0028   p = 0.051
+      null (STRUCTURAL, beta[lnT] = 0, all other structure kept):
+          mean -0.2165  sd 0.1561  95% [-0.4948, +0.1089]
+          p(observed vs THIS null) = 0.615
+      EIV slope dlnE/dlnT = -0.1579   naive OLS -0.1550
+      => NAIVE NULL IS NOT ZERO (E = -0.217) -- compare the observed value to this null, not to zero  (primary null: structural)
+
+   the SAME detector on the naive OLS partial slope, which is the estimator
+   the record's -0.12 null expectation belongs to:
+   shared-denominator report (40 objects)
+      lnE            built from ['L_K', 'M_WL', 'M_gas', 'z']
+      lnM            built from ['M_WL']
+      lnT            built from ['kT']
+      SHARED INPUT on lnE|lnM: ['M_WL']
+      induced error correlation lnE|lnM: mean +0.956  range [+0.919, +0.971]
+      induced error correlation lnE|lnT: mean +0.002  range [-0.044, +0.074]
+      induced error correlation lnM|lnT: mean +0.002  range [-0.036, +0.069]
+      observed statistic -0.1550
+      null (permute kT): mean -0.0038  sd 0.0660  95% [-0.1316, +0.1275]
+      p(observed vs ITS OWN null) = 0.023
+      null (decorrelated latents): mean +0.0019   p = 0.034
+      null (STRUCTURAL, beta[lnT] = 0, all other structure kept):
+          mean -0.1132  sd 0.0683  95% [-0.2523, +0.0202]
+          p(observed vs THIS null) = 0.525
+      EIV slope dlnE/dlnT = -0.1634   naive OLS -0.1550   95% [-0.351, 0.11]
+      => NAIVE NULL IS NOT ZERO (E = -0.113) -- compare the observed value to this null, not to zero  (primary null: structural)
+
+   against the record of Run K:
+      error correlation ln E_obs vs ln M_WL   +0.957      record +0.96
+      naive partial Spearman                 -0.3042    record -0.304
+      naive OLS partial slope                -0.1550    record -0.155
+      its null expectation                   -0.1132    record -0.12
+      p of the observed against its own null  0.525     record 0.563
+      EIV slope d lnE/d lnT                  -0.1634    record -0.166
+      EIV mass-slope attenuation             0.687     record 0.66
+
+==============================================================================
+CONTROL 8 -- is the errors-in-variables estimator unbiased?
+==============================================================================
+   EIV validation: n=40, error correlation +0.96, 300 sims per point
+      beta_true    naive mean (bias)      EIV mean (bias)     MCSE
+        -0.600    -0.2828 (+0.3172)    -0.6104 (-0.0104)   0.0089
+        -0.300    -0.0452 (+0.2548)    -0.3041 (-0.0041)   0.0076
+        +0.000    +0.1919 (+0.1919)    -0.0208 (-0.0208)   0.0064
+        +0.300    +0.4345 (+0.1345)    +0.2904 (-0.0096)   0.0059
+        +0.600    +0.6732 (+0.0732)    +0.5907 (-0.0093)   0.0045
+      worst |EIV bias| 0.0208 (3.2 MC standard errors)   UNBIASED to < 0.05
+      worst |naive bias| 0.3172  (this is the attenuation the naive estimator carries)
+      the EIV estimator removes a factor 15 of the bias; a residual finite-sample bias of 0.021 remains at n = 40
+
+==============================================================================
+CONTROL 9 -- frozen-coefficient enforcement (the Run J bug)
+==============================================================================
+   512 train / 256 blind points, bank of 17 atoms
+   searched subsets on train; best k=6 law uses ['sqrtr10', 'q_nl(20kpc)', 'invsqrtx', 'log10r', 'log10Mb', 'log10x']
+   baseline (RAR + a global offset)  train 0.12155   blind 0.11981 dex
+   candidate, coefficients FROZEN     train 0.12070 (+0.70%)   blind 0.12069 (-0.73%)
+   candidate, coefficients RE-SOLVED ON BLIND        blind 0.11493 (+4.07%)
+   the bug is worth +4.80 percentage points; it turns a REFUTATION into a DISCOVERY
+   (Run J: +2.17% re-solved vs -3.73% frozen, a 5.90 pp swing)
+      attribute .blind                     -> SealedHoldoutError
+      attribute .y                         -> SealedHoldoutError
+      second touch of blind                -> SealedHoldoutError
+      evaluate raw arrays                  -> SealedHoldoutError
+      evaluate a model fitted elsewhere    -> SealedHoldoutError
+      max_touches>1 with no reason         -> ValueError
+      mutate frozen coefficients           -> read-only array
+      forge coefficients past __setattr__  -> FrozenSealError (HMAC seal)
+
+==============================================================================
+CONTROL 5 -- five known-law universes through the full pipeline
+==============================================================================
+
+   --- injected law: newton
+   mock[newton] 60 systems x 10 radii x 5 angles = 3000 points   signal 0.0000 dex   angular part 0.0000 dex
+      family recovery: injected newton, argmin nonlocal, parsimonious newton (OK)
+        *nonlocal  blind 0.12145 dex  train 0.12699  amp -0.009  n_free=2
+        *mond      blind 0.12152 dex  train 0.12699  amp -0.007  n_free=1
+        *tensor    blind 0.12154 dex  train 0.12698  amp -0.007  n_free=2
+        *newton    blind 0.12180 dex  train 0.12706  amp +0.000  n_free=0
+        *gr_dm     blind 0.12225 dex  train 0.12610  amp -0.005  n_free=2
+         one-SE band 0.00272 dex; * = statistically tied with the best
+      tensor   gain  -0.10%  null mean  -0.09%  q95  +0.08%   p=0.625  -
+      nonlocal gain  +0.03%  null mean  -0.33%  q95  +0.59%   p=0.290  -
+
+   --- injected law: mond
+   mock[mond] 60 systems x 10 radii x 5 angles = 3000 points   signal 0.8714 dex   angular part 0.0000 dex
+      family recovery: injected mond, argmin mond, parsimonious mond (OK)
+        *mond      blind 0.12825 dex  train 0.13060  amp +0.992  n_free=1
+        *nonlocal  blind 0.12825 dex  train 0.13060  amp +0.992  n_free=2
+        *tensor    blind 0.12831 dex  train 0.13059  amp +0.992  n_free=2
+         gr_dm     blind 0.13949 dex  train 0.14199  amp +0.465  n_free=2
+         newton    blind 0.46861 dex  train 0.51085  amp +0.000  n_free=0
+         one-SE band 0.00287 dex; * = statistically tied with the best
+      tensor   gain  -0.02%  null mean  -0.08%  q95  +0.09%   p=0.335  -
+      nonlocal gain  +0.00%  null mean  -0.32%  q95  +0.39%   p=0.310  -
+
+   --- injected law: gr_dm
+   mock[gr_dm] 60 systems x 10 radii x 5 angles = 3000 points   signal 0.9116 dex   angular part 0.0000 dex
+      family recovery: injected gr_dm, argmin gr_dm, parsimonious gr_dm (OK)
+        *gr_dm     blind 0.12665 dex  train 0.12993  amp +0.826  n_free=2
+         tensor    blind 0.13582 dex  train 0.14401  amp +0.885  n_free=2
+         nonlocal  blind 0.13586 dex  train 0.14396  amp +0.884  n_free=2
+         mond      blind 0.13587 dex  train 0.14403  amp +0.885  n_free=1
+         newton    blind 0.45837 dex  train 0.47791  amp +0.000  n_free=0
+         one-SE band 0.00283 dex; * = statistically tied with the best
+      tensor   gain  +0.05%  null mean  -0.07%  q95  +0.08%   p=0.070  -
+      nonlocal gain  +0.16%  null mean  -0.10%  q95  +0.96%   p=0.370  -
+
+   --- injected law: tensor
+   mock[tensor] 60 systems x 10 radii x 5 angles = 3000 points   signal 0.9144 dex   angular part 0.0417 dex
+      family recovery: injected tensor, argmin tensor, parsimonious tensor (OK)
+        *tensor    blind 0.12265 dex  train 0.11906  amp +1.011  n_free=2
+         mond      blind 0.12794 dex  train 0.12381  amp +1.011  n_free=1
+         nonlocal  blind 0.12796 dex  train 0.12380  amp +1.010  n_free=2
+         gr_dm     blind 0.14063 dex  train 0.13226  amp +0.453  n_free=2
+         newton    blind 0.51283 dex  train 0.45605  amp +0.000  n_free=0
+         one-SE band 0.00274 dex; * = statistically tied with the best
+      tensor   gain  +3.76%  null mean  -0.08%  q95  +0.12%   p=0.005  DETECTED
+      nonlocal gain  -0.15%  null mean  -0.16%  q95  +1.05%   p=0.580  -
+
+   --- injected law: nonlocal
+   mock[nonlocal] 60 systems x 10 radii x 5 angles = 3000 points   signal 0.9154 dex   angular part 0.0000 dex
+      family recovery: injected nonlocal, argmin nonlocal, parsimonious nonlocal (OK)
+        *nonlocal  blind 0.11986 dex  train 0.12152  amp +1.012  n_free=2
+         tensor    blind 0.15131 dex  train 0.15639  amp +1.086  n_free=2
+         mond      blind 0.15133 dex  train 0.15639  amp +1.086  n_free=1
+         gr_dm     blind 0.17131 dex  train 0.18677  amp +1.328  n_free=2
+         newton    blind 0.39932 dex  train 0.41926  amp +0.000  n_free=0
+         one-SE band 0.00268 dex; * = statistically tied with the best
+      tensor   gain  -0.13%  null mean  -0.07%  q95  +0.08%   p=0.750  -
+      nonlocal gain  +1.23%  null mean  -0.26%  q95  +0.37%   p=0.010  DETECTED
+
+   summary
+      injected    recovered   tensor?  p_T     nonlocal?  p_N
+      newton      newton       no      0.625    no       0.290
+      mond        mond         no      0.335    no       0.310
+      gr_dm       gr_dm        no      0.070    no       0.370
+      tensor      tensor      YES      0.005    no       0.580
+      nonlocal    nonlocal     no      0.750   YES       0.010
+      recovery_all_correct         PASS
+      no_tensor_in_scalar          PASS
+      no_nonlocal_in_scalar        PASS
+      tensor_found_in_tensor       PASS
+      nonlocal_found_in_nonlocal   PASS
+
+==============================================================================
+CONTROL 5 -- false-positive rate for 'tensor effect in scalar data'
+==============================================================================
+      newton   10/200 universes
+      newton   20/200 universes
+      newton   30/200 universes
+      newton   40/200 universes
+      newton   50/200 universes
+      newton   60/200 universes
+      newton   70/200 universes
+      newton   80/200 universes
+      newton   90/200 universes
+      newton   100/200 universes
+      newton   110/200 universes
+      newton   120/200 universes
+      newton   130/200 universes
+      newton   140/200 universes
+      newton   150/200 universes
+      newton   160/200 universes
+      newton   170/200 universes
+      newton   180/200 universes
+      newton   190/200 universes
+      newton   200/200 universes
+      mond     10/200 universes
+      mond     20/200 universes
+      mond     30/200 universes
+      mond     40/200 universes
+      mond     50/200 universes
+      mond     60/200 universes
+      mond     70/200 universes
+      mond     80/200 universes
+      mond     90/200 universes
+      mond     100/200 universes
+      mond     110/200 universes
+      mond     120/200 universes
+      mond     130/200 universes
+      mond     140/200 universes
+      mond     150/200 universes
+      mond     160/200 universes
+      mond     170/200 universes
+      mond     180/200 universes
+      mond     190/200 universes
+      mond     200/200 universes
+      gr_dm    10/200 universes
+      gr_dm    20/200 universes
+      gr_dm    30/200 universes
+      gr_dm    40/200 universes
+      gr_dm    50/200 universes
+      gr_dm    60/200 universes
+      gr_dm    70/200 universes
+      gr_dm    80/200 universes
+      gr_dm    90/200 universes
+      gr_dm    100/200 universes
+      gr_dm    110/200 universes
+      gr_dm    120/200 universes
+      gr_dm    130/200 universes
+      gr_dm    140/200 universes
+      gr_dm    150/200 universes
+      gr_dm    160/200 universes
+      gr_dm    170/200 universes
+      gr_dm    180/200 universes
+      gr_dm    190/200 universes
+      gr_dm    200/200 universes
+
+   TENSOR false-positive rate over 600 SCALAR universes (newton, mond, gr_dm):
+      naive     (any blind improvement)        28.7%
+      threshold (> 1% blind improvement)        0.0%
+      CALIBRATED (p <= 0.05 vs matched null)    5.2% +- 0.9%
+      median tensor 'gain' on scalar data -0.06%   95th pct +0.08%
+      KS uniformity of the calibrated p-values: D=0.043, p=0.205
+   NONLOCAL false-positive rate over 120 scalar universes: naive 45.0%   calibrated 11.7%
+
+   per generating law:
+      newton   n=200  naive  27.0%  >1%   0.0%  calibrated   6.0%  median gain -0.07%
+      mond     n=200  naive  30.0%  >1%   0.0%  calibrated   5.0%  median gain -0.05%
+      gr_dm    n=200  naive  29.0%  >1%   0.0%  calibrated   4.5%  median gain -0.04%
+
+==============================================================================
+SUMMARY
+==============================================================================
+   PASS  test_residual_null                    0.08s
+   PASS  test_residual_null_field              0.02s
+   PASS  test_cluster_controls                 1.20s
+   PASS  test_smoothed_field                   0.05s
+   PASS  test_parameter_responsiveness         0.00s
+   PASS  test_exchangeability                  0.02s
+   PASS  test_shared_denominator              13.51s
+   PASS  test_eiv_unbiased                     9.14s
+   PASS  test_frozen_coefficients              0.65s
+   PASS  test_known_laws                      13.01s
+   PASS  test_tensor_fpr                     250.20s
+
+   11/11 passed in 287.9s
+   written: C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\controls\controls_validation.json

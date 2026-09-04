@@ -1,0 +1,175 @@
+{
+ "file": "sami_dr3_InputCatGAMADR3.vot",
+ "cleaned_file": "sami_dr3_InputCatGAMADR3.tsv",
+ "source_url": "https://datacentral.org.au/vo/tap/sync",
+ "service": "Data Central (AAO/Macquarie) IVOA TAP v1.0, anonymous access",
+ "access_credentials": "none - public anonymous POST, no login, no API key, no terms accepted",
+ "query": "SELECT * FROM sami_dr3.InputCatGAMADR3",
+ "query_parameters": {
+  "REQUEST": "doQuery",
+  "LANG": "ADQL",
+  "FORMAT": "votable",
+  "MAXREC": "1000000"
+ },
+ "count_check_query": "SELECT COUNT(*) AS n FROM sami_dr3.InputCatGAMADR3",
+ "count_check_value": 5536,
+ "retrieved_utc": "2026-09-04T04:28:45Z",
+ "sha256": "0edc4b023438460776f50b4b403424dd37b99d90a717dfb97cd2110bf050e12c",
+ "bytes": 2422760,
+ "cleaned_sha256": "bd057df4a25af3e0aa1d4c263a5b6251a43cf3fac227f9d96b4bc68e77e9d16b",
+ "cleaned_bytes": 830618,
+ "row_count": 5536,
+ "column_count": 21,
+ "columns": [
+  {
+   "name": "CATID",
+   "unit": null,
+   "datatype": "char",
+   "ucd": "meta.id",
+   "description": "SAMI Galaxy ID"
+  },
+  {
+   "name": "RA_OBJ",
+   "unit": "deg",
+   "datatype": "char",
+   "ucd": "pos.eq.ra",
+   "description": "J2000 Right Ascension of object"
+  },
+  {
+   "name": "DEC_OBJ",
+   "unit": "deg",
+   "datatype": "char",
+   "ucd": "pos.eq.dec",
+   "description": "J2000 Declination of object"
+  },
+  {
+   "name": "RA_IFU",
+   "unit": "deg",
+   "datatype": "char",
+   "ucd": "pos.eq.ra",
+   "description": "J2000 Right Ascension of nominal IFU centre"
+  },
+  {
+   "name": "DEC_IFU",
+   "unit": "deg",
+   "datatype": "char",
+   "ucd": "pos.eq.dec",
+   "description": "J2000 Declination of nominal IFU centre"
+  },
+  {
+   "name": "r_petro",
+   "unit": "mag",
+   "datatype": "float",
+   "ucd": "phot.mag",
+   "description": "Extinction-corrected SDSS DR7 r-band Petrosian mag"
+  },
+  {
+   "name": "r_auto",
+   "unit": "mag",
+   "datatype": "float",
+   "ucd": "phot.mag",
+   "description": "r-band SExtractor auto magnitude"
+  },
+  {
+   "name": "z_tonry",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "src.redshift",
+   "description": "Flow-corrected redshift"
+  },
+  {
+   "name": "z_spec",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "src.redshift",
+   "description": "Spectroscopic redshift"
+  },
+  {
+   "name": "M_r",
+   "unit": "mag",
+   "datatype": "float",
+   "ucd": "phot.magAbs;em.opt.R",
+   "description": "Absolute r-band magnitude"
+  },
+  {
+   "name": "r_e",
+   "unit": "arcsec",
+   "datatype": "float",
+   "ucd": "phys.angSize",
+   "description": "r-band major axis effective radius"
+  },
+  {
+   "name": "mu_within_1re",
+   "unit": "mag/arcsec^2",
+   "datatype": "float",
+   "ucd": "phot.mag.sb",
+   "description": "Mean r-band surface brightness within 1 effective radius"
+  },
+  {
+   "name": "mu_1re",
+   "unit": "mag/arcsec^2",
+   "datatype": "float",
+   "ucd": "phot.mag.sb",
+   "description": "r-band surface brightness at 1 effective radius"
+  },
+  {
+   "name": "mu_2re",
+   "unit": "mag/arcsec^2",
+   "datatype": "float",
+   "ucd": "phot.mag.sb",
+   "description": "r-band surface brightness at 2 effective radii"
+  },
+  {
+   "name": "ellip",
+   "unit": null,
+   "datatype": "float",
+   "ucd": "src.ellipticity",
+   "description": "r-band ellipticity"
+  },
+  {
+   "name": "PA",
+   "unit": "deg",
+   "datatype": "float",
+   "ucd": "pos.posAng",
+   "description": "r-band position angle"
+  },
+  {
+   "name": "Mstar",
+   "unit": "dex solar masses",
+   "datatype": "float",
+   "ucd": "phys.mass",
+   "description": "Logarithm of stellar mass"
+  },
+  {
+   "name": "g_i",
+   "unit": "mag",
+   "datatype": "float",
+   "ucd": "phot.color",
+   "description": "(g-i) colour"
+  },
+  {
+   "name": "A_g",
+   "unit": "mag",
+   "datatype": "float",
+   "ucd": "phys.absorption",
+   "description": "g-band extinction"
+  },
+  {
+   "name": "SURV_SAMI",
+   "unit": null,
+   "datatype": "int",
+   "ucd": "meta.code.class",
+   "description": "Priority class for targets"
+  },
+  {
+   "name": "BAD_CLASS",
+   "unit": null,
+   "datatype": "int",
+   "ucd": "meta.code.qual",
+   "description": "Flag for bad or problem objects"
+  }
+ ],
+ "reference": "Croom et al. 2021, MNRAS 505, 991 - the SAMI Galaxy Survey Data Release 3",
+ "extraction": "SELECT * over the TAP table, VOTable saved byte-for-byte; TSV is a direct astropy Table -> pandas dump with no unit conversion, no cut, no join.",
+ "note": "SAMI GAMA-region (field/group) input catalogue, Bryant et al. 2015, MNRAS 447, 2857.  Photometry from SDSS DR7; Re from GAMA single-Sersic fits."
+}

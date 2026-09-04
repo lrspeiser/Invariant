@@ -1,0 +1,99 @@
+{
+  "file": "ABELL_2744.tgz",
+  "source_url": "https://irsa.ipac.caltech.edu/data/Planck/release_2/ancillary-data/bolocam/ABELL_2744.tgz",
+  "exact_query": "https://irsa.ipac.caltech.edu/data/Planck/release_2/ancillary-data/bolocam/ABELL_2744.tgz",
+  "retrieved_utc": "2026-09-04T04:34:56Z",
+  "sha256": "46faf357763fba9a1d5297eac192c39eb5e1288b9516dff1c383fa4d77035317",
+  "bytes": 21940408,
+  "row_count": null,
+  "column_count": null,
+  "columns": null,
+  "extraction": "Verbatim upstream gzipped tarball, byte-for-byte unmodified. Not unpacked in place.",
+  "note": "Abell 2744. Bolocam 140 GHz (2.1 mm) Sunyaev-Zel'dovich observation from the BOXSZ sample (Sayers et al. 2013, ApJ 768, 177; IRSA DOI 10.26131/IRSA562). Archive position 00:14:15.96 -30:23:31.13. The UNFILTERED and FILTERED SZ decrement images are RAW OBSERVABLES: the SZ decrement is proportional to the Compton-y parameter, i.e. the line-of-sight integral of the ELECTRON PRESSURE n_e * kT_e. This is an independent thermal measurement of the intracluster gas that does not require a deprojection or a hydrostatic assumption to interpret. The tarball ALSO contains a gnfw_fit_map, which is a generalised-NFW PARAMETRIC FIT and is a MODEL, not an observation; it must not be used as data. Also included: noise realisations, the pipeline signal transfer function (needed to interpret the filtered map correctly), and bootstrap Monte Carlo output from the gNFW fit. CAVEAT: Bolocam's PSF is 58 arcsec FWHM, so this constrains the gas on scales of roughly 0.1-3.5 R500 and carries no core information. CAVEAT: a filtered map has had large-scale modes removed by the reduction pipeline; use the transfer function, do not treat the filtered map as sky truth.",
+  "cluster": "Abell 2744",
+  "product": "sz_pressure_observable",
+  "instrument": "Bolocam at the Caltech Submillimeter Observatory, 140 GHz",
+  "psf_fwhm_arcsec": 58,
+  "is_raw_observable": true,
+  "presupposes_dark_matter": false,
+  "derived_assumes_newtonian_hse": false,
+  "deprojected": false,
+  "core_excised": false,
+  "archive_position_ra_hms": "00:14:15.96",
+  "archive_position_dec_dms": "-30:23:31.13",
+  "tar_members": [
+    {
+      "name": "ABELL_2744/filtered_image.fits",
+      "bytes": 20160
+    },
+    {
+      "name": "ABELL_2744/gnfw_fit_mcmc.fits",
+      "bytes": 57600
+    },
+    {
+      "name": "ABELL_2744/filtered_image_rms.fits",
+      "bytes": 20160
+    },
+    {
+      "name": "ABELL_2744/unfiltered_image.fits",
+      "bytes": 14400
+    },
+    {
+      "name": "ABELL_2744/filtered_image_noise_realizations.fits",
+      "bytes": 17282880
+    },
+    {
+      "name": "ABELL_2744/gnfw_fit_map.fits",
+      "bytes": 1416960
+    },
+    {
+      "name": "ABELL_2744/unfiltered_image_noise_realizations.fits",
+      "bytes": 11522880
+    },
+    {
+      "name": "ABELL_2744/filtered_image_signal_transfer_function.fits",
+      "bytes": 23040
+    }
+  ],
+  "n_tar_members": 8,
+  "contains_model_product": true,
+  "model_product_files": [
+    "ABELL_2744/gnfw_fit_mcmc.fits",
+    "ABELL_2744/gnfw_fit_map.fits"
+  ],
+  "irsa_doi": "10.26131/IRSA562",
+  "fits_header_verification": {
+    "images": {
+      "filtered_image.fits": {
+        "shape": [
+          42,
+          42
+        ],
+        "bunit": "uK_CMB",
+        "ctype1": "RA---SFL",
+        "crval1_deg": 3.56648995855,
+        "crval2_deg": -30.3919792229,
+        "min": -686.526,
+        "max": 771.483
+      },
+      "unfiltered_image.fits": {
+        "shape": [
+          30,
+          30
+        ],
+        "bunit": "uK_CMB",
+        "ctype1": "RA---SFL",
+        "crval1_deg": 3.56648995954,
+        "crval2_deg": -30.391979222,
+        "min": -521.82,
+        "max": 192.343
+      }
+    },
+    "map_centre_vs_archive_position_offset_arcmin": 0.001,
+    "position_check_passed": true,
+    "units": "uK_CMB -- CMB temperature decrement, proportional to Compton-y",
+    "sz_decrement_detected": true,
+    "caveat": "The maps are small: the unfiltered image is 30x30 pixels and the filtered image 42x42. Combined with the 58 arcsec Bolocam beam this constrains the integrated electron pressure on arcminute scales over roughly 0.1-3.5 R500. It carries NO core structure and must not be used as a resolved pressure map.",
+    "filtered_map_warning": "filtered_image.fits has had large-scale modes removed by the reduction pipeline. It must be compared to a model passed through filtered_image_signal_transfer_function.fits, never treated as sky truth."
+  }
+}

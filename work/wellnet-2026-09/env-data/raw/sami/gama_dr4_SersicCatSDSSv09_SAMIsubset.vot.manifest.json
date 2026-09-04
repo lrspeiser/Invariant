@@ -1,0 +1,130 @@
+{
+ "file": "gama_dr4_SersicCatSDSSv09_SAMIsubset.vot",
+ "cleaned_file": "gama_dr4_SersicCatSDSSv09_SAMIsubset.tsv",
+ "source_url": "https://datacentral.org.au/vo/tap/sync",
+ "service": "Data Central IVOA TAP, anonymous",
+ "access_credentials": "none",
+ "query": "SELECT s.CATAID, s.GALMAG_r, s.GALRE_r, s.GALINDEX_r, s.GALELLIP_r, s.GALPA_r, s.GALREERR_r, s.GALINDEXERR_r, s.GALELLIPERR_r, s.GALPAERR_r, s.GALMAGERR_r, s.GALMU0_r, s.GALMUE_r, s.GALMUEAVG_r, s.GALR90_r, s.GALCHI2_r, s.GALPLAN_r, s.PSFFWHM_r FROM gama_dr4.SersicCatSDSSv09 AS s JOIN sami_dr3.InputCatGAMADR3 AS i ON s.CATAID = i.CATID",
+ "count_check_value": 5536,
+ "retrieved_utc": "2026-09-04T04:41:16Z",
+ "sha256": "7b0cc81bd3d6ae2f733b39e4a5297fa02da69e1618a379e87d106b207dab1d32",
+ "bytes": 3118759,
+ "cleaned_sha256": "fd0a19631401effe26f07d11e7103f764941337733444fccb205e193c179fc75",
+ "cleaned_bytes": 1741964,
+ "row_count": 5536,
+ "column_count": 18,
+ "columns": [
+  {
+   "name": "CATAID",
+   "unit": null,
+   "datatype": "char",
+   "description": "GAMA Object ID"
+  },
+  {
+   "name": "GALMAG_r",
+   "unit": "mag",
+   "datatype": "char",
+   "description": "GALFIT magnitude of Sersic model"
+  },
+  {
+   "name": "GALRE_r",
+   "unit": "arcsec",
+   "datatype": "char",
+   "description": "GALFIT effective (half-light) radius (semi-major axis)"
+  },
+  {
+   "name": "GALINDEX_r",
+   "unit": null,
+   "datatype": "char",
+   "description": "GALFIT Sersic index"
+  },
+  {
+   "name": "GALELLIP_r",
+   "unit": null,
+   "datatype": "char",
+   "description": "GALFIT ellipticity (1-(b/a))"
+  },
+  {
+   "name": "GALPA_r",
+   "unit": "deg",
+   "datatype": "char",
+   "description": "GALFIT position angle (x+, CCW) (see notes)"
+  },
+  {
+   "name": "GALREERR_r",
+   "unit": "arcsec",
+   "datatype": "char",
+   "description": "GALFIT error on re"
+  },
+  {
+   "name": "GALINDEXERR_r",
+   "unit": null,
+   "datatype": "char",
+   "description": "GALFIT error on Sersic index"
+  },
+  {
+   "name": "GALELLIPERR_r",
+   "unit": null,
+   "datatype": "char",
+   "description": "GALFIT error on ellipticity"
+  },
+  {
+   "name": "GALPAERR_r",
+   "unit": "deg",
+   "datatype": "char",
+   "description": "GALFIT error on position angle"
+  },
+  {
+   "name": "GALMAGERR_r",
+   "unit": "mag",
+   "datatype": "char",
+   "description": "GALFIT error on magnitude"
+  },
+  {
+   "name": "GALMU0_r",
+   "unit": "mag/arcsec^2",
+   "datatype": "char",
+   "description": "GALFIT central surface brightness"
+  },
+  {
+   "name": "GALMUE_r",
+   "unit": "mag/arcsec^2",
+   "datatype": "char",
+   "description": "GALFIT effective surface brightness at re"
+  },
+  {
+   "name": "GALMUEAVG_r",
+   "unit": "mag/arcsec^2",
+   "datatype": "char",
+   "description": "GALFIT effective surface brightness within re"
+  },
+  {
+   "name": "GALR90_r",
+   "unit": "arcsec",
+   "datatype": "char",
+   "description": "GALFIT rad containing 90% of total light (semi-major axis)"
+  },
+  {
+   "name": "GALCHI2_r",
+   "unit": null,
+   "datatype": "char",
+   "description": "GALFIT reduced Chi^2 of output model (pri + sec)"
+  },
+  {
+   "name": "GALPLAN_r",
+   "unit": null,
+   "datatype": "char",
+   "description": "SIGMA chosen GALFIT modelling plan (see notes)"
+  },
+  {
+   "name": "PSFFWHM_r",
+   "unit": "arcsec",
+   "datatype": "char",
+   "description": "PSFEx PSF FWHM"
+  }
+ ],
+ "reference": "Kelvin et al. 2012, MNRAS 421, 1007 (GAMA SIGMA/GALFIT single-Sersic fits); served as gama_dr4.SersicCatSDSSv09.",
+ "extraction": "Inner join on CATAID = SAMI CATID, no cut, no unit conversion.",
+ "SCOPE_WARNING": "GAMA-region (field and group) SAMI targets ONLY. There is no public Sersic index for the 896 SAMI CLUSTER-region galaxies: their Re, ellipticity and PA come from the PROFIT fits of Owers et al. 2019 (arXiv 1901.08185), which publishes no per-galaxy structural table, and SAMI DR3 does not carry the index. Matching cluster against field on Sersic n is therefore NOT possible; use MGEPhotomUnregDR3, which covers 895/896 cluster and 2100/2100 GAMA galaxies homogeneously.",
+ "note": "GALPA_r is in GALFIT image convention (x+, CCW), NOT the North-through-East convention used by the SAMI input catalogues; Croom+2021 states the SAMI PA column was corrected to N-through-E while earlier versions took the GAMA Sersic PA directly."
+}

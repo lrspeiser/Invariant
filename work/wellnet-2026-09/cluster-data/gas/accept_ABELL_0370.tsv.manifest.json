@@ -1,0 +1,113 @@
+{
+  "file": "accept_ABELL_0370.tsv",
+  "source_url": "http://www.pa.msu.edu/astro/MC2/accept/data/all_profiles.dat (via Wayback snapshot 20141022053622)",
+  "exact_query": "rows of accept_all_profiles.dat whose column 1 (Name) == 'ABELL_0370'",
+  "retrieved_utc": "2026-09-04T04:38:35Z",
+  "sha256": "5dac2f265c599cbbbdb2a13eaeb076d613c4e30c2fc26fa969eb8fae67f5926d",
+  "bytes": 7169,
+  "row_count": 32,
+  "column_count": 20,
+  "columns": [
+    {
+      "name": "Name",
+      "unit": "ACCEPT cluster identifier"
+    },
+    {
+      "name": "Rin",
+      "unit": "Mpc"
+    },
+    {
+      "name": "Rout",
+      "unit": "Mpc"
+    },
+    {
+      "name": "nelec",
+      "unit": "cm-3, deprojected electron density"
+    },
+    {
+      "name": "neerr",
+      "unit": "cm-3"
+    },
+    {
+      "name": "Kitpl",
+      "unit": "keV cm2, entropy (interpolated T)"
+    },
+    {
+      "name": "Kflat",
+      "unit": "keV cm2, entropy (flat T)"
+    },
+    {
+      "name": "Kerr",
+      "unit": "keV cm2"
+    },
+    {
+      "name": "Pitpl",
+      "unit": "dyne cm-2"
+    },
+    {
+      "name": "Pflat",
+      "unit": "dyne cm-2"
+    },
+    {
+      "name": "Perr",
+      "unit": "dyne cm-2"
+    },
+    {
+      "name": "Mgrav",
+      "unit": "g, HYDROSTATIC mass - NOT an observation"
+    },
+    {
+      "name": "Merr",
+      "unit": "g"
+    },
+    {
+      "name": "Tx",
+      "unit": "keV, PROJECTED spectroscopic temperature interpolated onto the density bins"
+    },
+    {
+      "name": "Txerr",
+      "unit": "keV"
+    },
+    {
+      "name": "Lambda",
+      "unit": "erg cm3 s-1, cooling function"
+    },
+    {
+      "name": "tcool5/2",
+      "unit": "Gyr"
+    },
+    {
+      "name": "t52err",
+      "unit": "Gyr"
+    },
+    {
+      "name": "tcool3/2",
+      "unit": "Gyr"
+    },
+    {
+      "name": "t32err",
+      "unit": "Gyr"
+    }
+  ],
+  "extraction": "Exact subset of the raw ACCEPT all_profiles.dat: every row with Name == 'ABELL_0370'. Values copied verbatim (whitespace re-delimited to TAB, no numerical change). Header row = ACCEPT column names. Row count and column count asserted against the raw file before writing. Raw upstream file kept alongside as accept_all_profiles.dat.",
+  "note": "Abell 370. ACCEPT (Cavagnolo et al. 2009, ApJS 182, 12) Chandra ACIS deprojected profile, 32 radial bins spanning 0.0-806.2 kpc. n_e(r) [nelec] IS a deprojection of the Chandra surface brightness assuming spherical symmetry. T(r) [Tx] IS a radial profile but is the PROJECTED spectroscopic temperature interpolated onto the density bins, not a deprojected 3D temperature. NO core excision. Mgrav is hydrostatic and must not be treated as an observation. IDENTIFIER TRAP: ACCEPT zero-pads the Abell number, so this cluster is 'ABELL_0370', not 'ABELL_370'; an earlier pass searching for the unpadded name concluded Abell 370 was absent from ACCEPT and fell back on the 4-shell Umetsu+2022 deprojection. This is the same trap as ACCEPT's 'ABELL_1063S' standing for Abell S1063. This file supersedes a370_umetsu2022_chandra_deprojection.tsv as the primary Abell 370 gas profile; the Umetsu file is retained because it carries a genuinely DEPROJECTED temperature and a core-excised global kT, which ACCEPT does not.",
+  "cluster": "Abell 370",
+  "product": "gas_xray_profile",
+  "accept_name_key": "ABELL_0370",
+  "redshift": 0.375,
+  "core_excised": false,
+  "deprojected": true,
+  "derived_assumes_newtonian_hse": false,
+  "r_min_kpc": 0.0,
+  "r_max_kpc": 806.21,
+  "n_radial_bins": 32,
+  "has_ne_profile": true,
+  "has_T_profile": true,
+  "T_profile_is_projected_not_deprojected": true,
+  "contains_hse_mass_column": true,
+  "hse_mass_columns": [
+    "Mgrav",
+    "Merr"
+  ],
+  "raw_response_file": "accept_all_profiles.dat"
+}

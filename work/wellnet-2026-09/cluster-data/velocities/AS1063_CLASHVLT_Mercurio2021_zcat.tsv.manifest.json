@@ -1,0 +1,66 @@
+{
+  "file": "AS1063_CLASHVLT_Mercurio2021_zcat.tsv",
+  "source_url": "https://drive.google.com/uc?export=download&id=1b_b7mFXk26UUaOsVF0qustI5C4U68Xhz",
+  "exact_query": "HTTP GET https://drive.google.com/uc?export=download&id=1b_b7mFXk26UUaOsVF0qustI5C4U68Xhz (303 redirect to drive.usercontent.google.com, followed with curl -L; no authentication). Landing page: https://sites.google.com/site/vltclashpublic/data-release",
+  "retrieved_utc": "2026-09-04T04:56:13Z",
+  "sha256": "da0565345d5969cdf67e8d05faf7a67757b8d7c6114ad434d10093270d38ae24",
+  "bytes": 261708,
+  "row_count": 3850,
+  "column_count": 7,
+  "columns": [
+    {
+      "name": "ID",
+      "unit": "CLASH-VLT identifier"
+    },
+    {
+      "name": "RAdeg",
+      "unit": "deg (J2000)"
+    },
+    {
+      "name": "DEdeg",
+      "unit": "deg (J2000)"
+    },
+    {
+      "name": "z",
+      "unit": "spectroscopic redshift"
+    },
+    {
+      "name": "qflag",
+      "unit": "quality: 2=LIKELY ~80%, 3=SECURE 100%, 9=SINGLE-LINE >90%, 5=Gomez+2012, 6=Magellan/Kelson"
+    },
+    {
+      "name": "zref",
+      "unit": "source: 1=CLASH-VLT, 2=Gomez, 3=Magellan, 4=MUSE Karman, 5=GLASS"
+    },
+    {
+      "name": "Rmag_Kron",
+      "unit": "AB mag, WFI Kron R, extinction-corrected"
+    }
+  ],
+  "extraction": "Verbatim values from the upstream .dat, whitespace re-delimited to TAB with the single split identifier rejoined. No numerical change, no unit conversion, no cross-table join. Row count asserted against the upstream data-line count.",
+  "note": "Abell S1063 / RXC J2248.7-4431. CLASH-VLT public spectroscopic redshift catalogue, 'redshift cat v3.6, Release date November 2021', the published release of Mercurio et al. 2021 (A&A 656, A147). THIS CATALOGUE IS NOT AT CDS: VizieR J/A+A/656/A147 does not exist and returns the Cooper+2013 fallback, and cdsarc returns 404. It is distributed only from the CLASH-VLT project site. 3850 redshifts over the full VIMOS field, which replaces the 290-row 30-arcmin NED cone that was previously the only AS1063 velocity source. PARSING TRAP, REAL AND HANDLED: exactly one row carries a SPACE INSIDE ITS OBJECT ID (CLASHVLTJ2249 9.98-442802.3, which should read CLASHVLTJ224959.98-442802.3), so whitespace splitting yields 8 fields for that row and 7 for the other 3849, shifting every subsequent column. The fragments are rejoined here and a per-row field-count assertion is applied; the raw upstream file is preserved unmodified. NO MEMBERSHIP FLAG is provided -- see the membership_rederived block.",
+  "cluster": "Abell S1063 = RXC J2248.7-4431",
+  "product": "member_velocities_spectroscopic_redshifts",
+  "is_raw_observable": true,
+  "presupposes_dark_matter": false,
+  "instrument": "VLT/VIMOS (CLASH-VLT), plus MUSE, GLASS, Magellan and Gomez+2012 redshifts merged by the release",
+  "cluster_redshift": 0.348,
+  "quality_flag_counts": {
+    "2": 624,
+    "3": 3005,
+    "5": 21,
+    "6": 17,
+    "9": 183
+  },
+  "membership_flag_provided": false,
+  "membership_rederived": {
+    "criterion": "rest-frame |dv| = c*|z - z_cl|/(1+z_cl) < 3000 km/s, z_cl = 0.3480",
+    "n_members_all_quality": 1192,
+    "n_members_secure_flag3_only": 985,
+    "n_members_quality_2_3_9_5_6": 1192,
+    "published_comparison": "Mercurio et al. 2021 report 1234 members from a peak-plus-gap selection, which is a different and more restrictive procedure than a fixed velocity cut. The numbers here are therefore expected to differ and are not a reproduction of theirs.",
+    "warning": "Re-derive membership deliberately for the downstream test; do not treat these counts as the published member list."
+  },
+  "parsing_trap_handled": "one row with a space inside its ID; rejoined, asserted unique",
+  "raw_response_file": "raw/AS1063_CLASH-VLT_zcat_11_2021.dat"
+}

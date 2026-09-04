@@ -1,0 +1,159 @@
+{
+ "file": "MACS1149_Grillo2016_ApJ822_78_table1.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJ/822/78/table1&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/ApJ/822/78/table1",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/ApJ/822/78/ReadMe -> 134 records",
+ "retrieved_utc": "2026-09-04T04:30:01Z",
+ "sha256": "d4d56bfb1019de821e5eaf35d3b230f28a869f16ab4f3d3d71f2cc7b19227235",
+ "bytes": 6753,
+ "row_count": 134,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "IDsp",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "m_IDsp",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "imgS",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "\"h:m:s\"",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "\"d:m:s\"",
+   "description": ""
+  },
+  {
+   "name": "z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "QF",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "zlit",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "r_zlit",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "EL",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "f_z",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "MCat",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Simbad",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "MACS J1149.5+2223 (z=0.542). Grillo, Karman, Suyu, Rosati, Balestra, Mercurio et al. 2016, ApJ 822, 78, table 1 'MUSE spectroscopic catalog'. 134 rows, of which 129 carry a redshift. Quality: column QF (0-9); column EL flags emission-line objects; zlit gives literature comparison redshifts. Coordinates are SEXAGESIMAL upstream and were converted to decimal degrees. Instrument: VLT/MUSE, a single ~1 arcmin pointing centred on the SN Refsdal host. Selection function: everything detected in the single MUSE datacube. SEVERE LIMITATION: sky coverage reaches only ~0.7 arcmin (~0.28 Mpc projected) and only ~74 objects lie within |dv|<3000 km/s. This is far too few, over far too small a radial range, to build a sigma(R) field. Note table 6 of the same paper lists 300 candidate cluster members but is PHOTOMETRIC (no redshifts) and was therefore not acquired.",
+ "coverage": {
+  "cluster": "MACS J1149.5+2223",
+  "centre_ra_deg": 177.39875,
+  "centre_dec_deg": 22.39861,
+  "z_cluster": 0.5422,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 381.96,
+  "max_sep_arcmin": 0.73,
+  "p90_sep_arcmin": 0.57,
+  "median_sep_arcmin": 0.38,
+  "max_R_proj_Mpc": 0.279,
+  "p90_R_proj_Mpc": 0.217,
+  "member_max_R_proj_Mpc": 0.263
+ },
+ "counts": {
+  "n_rows": 134,
+  "n_total_redshifts": 129,
+  "n_members_published_definition": null,
+  "n_within_3000kms_indicative": 74,
+  "quality_flag_column": "QF",
+  "quality_flag_counts": {
+   "0": 5,
+   "1": 12,
+   "2": 11,
+   "3": 23,
+   "4": 62,
+   "9": 21
+  },
+  "member_flag_column": null,
+  "member_flag_counts": null
+ },
+ "raw_response_file": "raw/MACS1149_Grillo2016_ApJ822_78_table1.raw.tsv",
+ "raw_sha256": "1f94367ec765f080ce59a23221d4db42ffee79aab4d23934c146ba05cb016cb1",
+ "raw_bytes": 13668
+}

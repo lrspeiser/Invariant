@@ -1,0 +1,109 @@
+{
+  "file": "accept_all_profiles.dat",
+  "source_url": "http://www.pa.msu.edu/astro/MC2/accept/data/all_profiles.dat (retrieved via Internet Archive Wayback Machine snapshot 20141022053622; the live MSU host is behind an Incapsula bot-wall and unreachable)",
+  "exact_query": "curl -sL 'http://web.archive.org/web/20141022053622id_/http://www.pa.msu.edu/astro/MC2/accept/data/all_profiles.dat'",
+  "retrieved_utc": "2026-09-04T04:20:30Z",
+  "sha256": "bb762dff0bfff9bb4956cb085cbf51918b3d22040c34623bb9cb09f190f3138d",
+  "bytes": 3628934,
+  "row_count": 11164,
+  "column_count": 20,
+  "columns": [
+    {
+      "name": "Name",
+      "unit": "---"
+    },
+    {
+      "name": "Rin",
+      "unit": "Mpc"
+    },
+    {
+      "name": "Rout",
+      "unit": "Mpc"
+    },
+    {
+      "name": "nelec",
+      "unit": "cm-3"
+    },
+    {
+      "name": "neerr",
+      "unit": "cm-3"
+    },
+    {
+      "name": "Kitpl",
+      "unit": "keV cm^2"
+    },
+    {
+      "name": "Kflat",
+      "unit": "keV cm^2"
+    },
+    {
+      "name": "Kerr",
+      "unit": "keV cm^2"
+    },
+    {
+      "name": "Pitpl",
+      "unit": "dyne cm^-2"
+    },
+    {
+      "name": "Pflat",
+      "unit": "dyne cm^-2"
+    },
+    {
+      "name": "Perr",
+      "unit": "dyne cm^-2"
+    },
+    {
+      "name": "Mgrav",
+      "unit": "Msun"
+    },
+    {
+      "name": "Merr",
+      "unit": "Msun"
+    },
+    {
+      "name": "Tx",
+      "unit": "keV"
+    },
+    {
+      "name": "Txerr",
+      "unit": "keV"
+    },
+    {
+      "name": "Lambda",
+      "unit": "erg cm^3 s^-1"
+    },
+    {
+      "name": "tcool5/2",
+      "unit": "Gyr"
+    },
+    {
+      "name": "t52err",
+      "unit": "Gyr"
+    },
+    {
+      "name": "tcool3/2",
+      "unit": "Gyr"
+    },
+    {
+      "name": "t32err",
+      "unit": "Gyr"
+    }
+  ],
+  "extraction": "Raw upstream file, byte-for-byte unmodified. 2 header lines (column names, units) then whitespace-delimited rows, one per radial bin per cluster.",
+  "note": "ACCEPT (Cavagnolo et al. 2009, ApJS 182, 12). Chandra ACIS archival sample, 242 distinct cluster names / 239 clusters. Contains ALL clusters, not only the seven targets. nelec = electron density from deprojection of the Chandra X-ray surface brightness profile under an assumption of SPHERICAL SYMMETRY (Cavagnolo+2009 Sect. 3.2; for clusters flagged 'a' in table1 a best-fit beta-model was used for the surface brightness instead). Tx = PROJECTED spectroscopic temperature measured in annuli and interpolated onto the finer density bins; it is NOT deprojected. Kitpl/Kflat and Pitpl/Pflat differ only in how Tx is extrapolated into the core (linear interpolation vs flat). Profiles run to the cluster centre - NO core excision. Mgrav is a HYDROSTATIC mass and is NOT an observation - see derived_assumes_newtonian_hse.",
+  "core_excised": false,
+  "deprojected": true,
+  "derived_assumes_newtonian_hse": false,
+  "measured_quantities": [
+    "nelec (deprojected n_e)",
+    "Tx (projected spectroscopic kT)"
+  ],
+  "derived_columns_present": {
+    "Mgrav/Merr": "hydrostatic gravitating mass - assumes Newtonian hydrostatic equilibrium",
+    "Kitpl/Kflat/Kerr": "entropy K = Tx * n_e^(-2/3), algebraic from n_e and Tx",
+    "Pitpl/Pflat/Perr": "pressure P = n_e * Tx, algebraic from n_e and Tx",
+    "tcool5/2, tcool3/2": "cooling times, algebraic"
+  },
+  "warning_mgrav_is_hse": true,
+  "n_distinct_clusters_in_file": 242
+}

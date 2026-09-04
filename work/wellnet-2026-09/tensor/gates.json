@@ -1,0 +1,40 @@
+{
+  "n_pass": 1,
+  "n_total": 1,
+  "backend": "cupy",
+  "seconds": 51.445281982421875,
+  "results": [
+    {
+      "gate": "A4 sign convention fixed by measurement, not by intuition",
+      "passed": true,
+      "detail": "uniform-K anchor reproduces sqrt(k_par/k_perp) to 1.52%\nK = exp[-alpha C], alpha > 0 (the brief's sign): the response along\n  the channel relative to across it is 0.9914 < 1 -- gravity is WEAKER\n  along the line joining the wells and stronger transverse to it.\nK = exp[+alpha C]: 1.0072 > 1 -- this is the sign that makes the\n  response STRONGER ALONG THE CHANNELS.\nBoth are implemented as sign=-1 and sign=+1 and both are scanned in\nthe mechanism map.  The naive argument (a poorer conductor needs a\nlarger gradient) is wrong here because flux can be diverted; it is\nright only where no diversion is possible, i.e. for a radially aligned\nK in spherical symmetry, which is the regime the shell-averaged\nboost lives in.",
+      "data": {
+        "ratios": {
+          "K = exp[-alpha C]  (alpha>0)": {
+            "along": 1.0074932191519534,
+            "across": 1.0162200103950423,
+            "anisotropy": 0.9914124981265657
+          },
+          "K = exp[+alpha C]": {
+            "along": 0.9908669054648402,
+            "across": 0.9837929861593366,
+            "anisotropy": 1.0071904551110085
+          }
+        },
+        "uniform_anchor": [
+          [
+            0.4,
+            0.6228253773843921,
+            0.6324555320336759
+          ],
+          [
+            2.5,
+            1.5661520426404378,
+            1.5811388300841898
+          ]
+        ],
+        "anchor_err": 0.015226611455698312
+      }
+    }
+  ]
+}

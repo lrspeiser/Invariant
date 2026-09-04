@@ -1,0 +1,71 @@
+{
+  "file": "_NOT_FOUND_probes.manifest.json",
+  "purpose": "Negative results. Catalogues that were named in the acquisition brief or looked like plausible sources but that do NOT exist at the identifier probed, or exist but do not contain member-galaxy data. Recorded so that no substitute is silently passed off as the requested catalogue.",
+  "retrieved_utc": "2026-09-04T04:40:00Z",
+  "vizier_trap_check_method": "Every VizieR asu-tsv pull was verified by parsing the response body: skip '#' comment lines, then require a header line, a units line, a '---' separator line and at least one data row. The generic VizieR error page returns HTTP 200 and echoes the requested -source string back, so echoing alone is NOT a validity test; the data-row count is. A control probe of a deliberately invalid identifier is kept as TRAPTEST_nonexistent.raw.tsv.",
+  "control_probe": {
+    "file": "TRAPTEST_nonexistent.raw.tsv",
+    "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/A+A/590/A30/xxxx&-out=**&-out.max=unlimited",
+    "http_status": 200,
+    "bytes": 720,
+    "source_string_echoed_in_body": true,
+    "row_count": 0,
+    "conclusion": "HTTP 200 with the identifier echoed but zero data rows. This is the generic-page trap. Kept as evidence that the detector fires."
+  },
+  "not_found": [
+    {
+      "identifier": "J/A+A/590/A30",
+      "reference": "Castellano et al. 2016, A&A 590, A30 (ASTRODEEP photo-z and physical parameters for Abell 2744 and MACS J0416)",
+      "probed": "VizieR TAP_SCHEMA.tables LIKE '%A+A/590/A30%' and asu-tsv",
+      "result": "NOT IN VIZIER. Zero tables. The companion photometry paper Merlin et al. 2016 A&A 590, A31 IS in VizieR and was retrieved. Consequence: for A2744 and MACS J0416 the ASTRODEEP photo-z and ASTRODEEP stellar masses were NOT obtained from this source; photo-z and stellar mass for those two clusters are supplied instead by the Shipley+2018 HFF-DeepSpace .zout/.fout files retrieved from MAST, and by Molino+2017 for MACS J0416."
+    },
+    {
+      "identifier": "J/A+A/631/A130",
+      "reference": "Bergamini et al. 2019, A&A 631, A130, 'Enhanced cluster lensing models with measured galaxy kinematics'",
+      "probed": "VizieR TAP_SCHEMA.tables LIKE '%A+A/631/A130%'",
+      "result": "NOT IN VIZIER. Zero tables. Covers MACS J1206, MACS J0416 and Abell S1063. Its member stellar velocity dispersions are superseded for the present target list by Granata et al. 2026 A&A 709, A254, whose 213 sigma measurements across A2744, AS1063, M0416 and M1149 were extracted from the arXiv LaTeX source and ARE included here."
+    },
+    {
+      "identifier": "J/A+A/645/A140",
+      "reference": "Bergamini et al. 2021, A&A 645, A140 (high-precision strong lensing model of MACS J0416.1-2403)",
+      "probed": "VizieR TAP_SCHEMA.tables LIKE '%A+A/645/A140%'",
+      "result": "NOT IN VIZIER. Zero tables. Note also that the member parameters in that paper are lens-model outputs (halo truncation radii, velocity-dispersion scaling relations); they are NOT observations and would not have been usable as raw observables regardless."
+    },
+    {
+      "identifier": "J/A+A/674/A79",
+      "reference": "Bergamini et al. 2023, A&A 674, A79 (Abell 2744 lens model)",
+      "probed": "VizieR TAP_SCHEMA.tables LIKE '%A+A/674/A79%'",
+      "result": "EXISTS but contains only table 'tablea1' = 'MACS J0416.1-2403 secure multiple images'. Multiple images are LENSED BACKGROUND SOURCES, not cluster members, and their positions are strong-lensing constraints. NOT DOWNLOADED: it is not a member-galaxy catalogue and would be a lens-model-derived product, which the brief forbids presenting as observation."
+    },
+    {
+      "identifier": "J/A+A/709/A254 (velocity dispersions)",
+      "reference": "Granata et al. 2026, A&A 709, A254",
+      "probed": "VizieR TAP_SCHEMA.columns for any sigma/velocity-dispersion column in the four released tables",
+      "result": "PARTIAL. The VizieR release carries ONLY the structural parameters (4 tables, 950 rows). The velocity-dispersion catalogues exist solely in the paper appendix. They were therefore extracted from the arXiv LaTeX source (arXiv:2603.26869) with a row-count assertion against the paper's stated total of 213."
+    },
+    {
+      "identifier": "MACS J0717.5+3745 structural parameters (Sersic n, Re, q, PA)",
+      "reference": "n/a",
+      "probed": "VizieR TAP description search for 'MACS J0717'; VizieR positional metadata search at 109.3983 +37.7461 r=8 arcmin; arXiv search for MACS J0717 Sersic / structural parameters",
+      "result": "NO PUBLISHED SINGLE-SERSIC MEMBER CATALOGUE FOUND for this cluster. Granata et al. 2026 covers only A2744, AS1063, M0416 and M1149 and deliberately excludes M0717. For M0717 only non-parametric shape proxies are available: SExtractor theta / Aimg / Bimg / FRad from Shipley+2018, and theta / a / b / rf from Molino+2017. These are NOT Sersic fits and must not be labelled as such."
+    },
+    {
+      "identifier": "Abell 370 and Abell 2029 structural parameters (Sersic n, Re, q, PA)",
+      "reference": "n/a",
+      "probed": "VizieR TAP description search for 'Abell 370' and 'Abell 2029' / 'A2029'",
+      "result": "NO SERSIC MEMBER CATALOGUE FOUND for either cluster. For A370, SExtractor shape proxies are available from Shipley+2018 and from the Richard+2021 MUSE catalogue (A_WORLD, B_WORLD, THETA_J2000, FLUX_RADIUS). For A2029 no structural parameters of any kind were located in the retrieved tables; Jorgensen et al. 2018 AJ 156, 224 (J/AJ/156/224) holds spectral line indices and Fundamental-Plane parameters for a small A2029 subsample and could be pursued if Re/n are essential."
+    },
+    {
+      "identifier": "BUFFALO stellar masses / structural parameters",
+      "reference": "Pagul et al., BUFFALO HLSP v2.0",
+      "probed": "MAST readme hlsp_buffalo_hst_ir-weighted_<field>_multi_v2.0_readme.txt, and the FITS column list of every downloaded file",
+      "result": "NOT PRESENT. The BUFFALO v2.0 catalogues contain isophotal fluxes, spectroscopic redshifts and LePhare photometric redshifts only. There is no stellar mass column and no Sersic/Re/axis-ratio/position-angle column. The catalogues were still retrieved for all six HFF clusters for their wider footprint and independent spec-z compilation."
+    },
+    {
+      "identifier": "https://archive.stsci.edu/prepds/hff-deepspace/",
+      "reference": "URL given in the acquisition brief",
+      "probed": "HTTP GET",
+      "result": "HTTP 404. The live MAST location is https://archive.stsci.edu/hlsps/hff-deepspace/ (data) with the landing page at https://archive.stsci.edu/hlsp/hff-deepspace. The data directory was used."
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+ "file": "sami_cluster_env_hosts.tsv",
+ "kind": "DERIVED - a join, not a download. See the two parent files for raw provenance.",
+ "parents": [
+  {
+   "file": "sami_dr3_InputCatClustersDR3.tsv",
+   "sha256": "58e69666d783dc17d34684d8f417d8de8f4ba95e6f7345dd285bde2e28478460",
+   "source": "Data Central TAP, sami_dr3.InputCatClustersDR3"
+  },
+  {
+   "file": "owers2017_table1_clusters.tsv",
+   "sha256": "ca95040732d588178f67db7e8ea919b9fb86551df023152e70d912473fb656d6",
+   "source": "arXiv 1703.00997, clusters.tex, Table 1"
+  }
+ ],
+ "built_utc": "2026-09-04T04:36:15Z",
+ "sha256": "7144e7634f20f2f5db31be296c23ef717389dfe486ed139349f1da19ce8370d0",
+ "bytes": 344787,
+ "row_count": 1433,
+ "column_count": 35,
+ "columns": [
+  {
+   "name": "CATID",
+   "unit": "-",
+   "provenance": "OBSERVABLE",
+   "description": "SAMI galaxy ID (Owers+2017 cluster-region ID)"
+  },
+  {
+   "name": "cluster",
+   "unit": "-",
+   "provenance": "OBSERVABLE",
+   "description": "Host cluster, assigned here as the nearest of the eight Owers+2017 Table 1 centres and validated against R_on_rtwo"
+  },
+  {
+   "name": "RA_OBJ",
+   "unit": "deg",
+   "provenance": "OBSERVABLE",
+   "description": "J2000 RA of the galaxy"
+  },
+  {
+   "name": "DEC_OBJ",
+   "unit": "deg",
+   "provenance": "OBSERVABLE",
+   "description": "J2000 Dec of the galaxy"
+  },
+  {
+   "name": "z_spec",
+   "unit": "-",
+   "provenance": "OBSERVABLE",
+   "description": "Spectroscopic redshift (SAMI Cluster Redshift Survey)"
+  },
+  {
+   "name": "r_petro",
+   "unit": "mag",
+   "provenance": "OBSERVABLE",
+   "description": "Extinction-corrected r-band Petrosian magnitude"
+  },
+  {
+   "name": "M_r",
+   "unit": "mag",
+   "provenance": "OBSERVABLE",
+   "description": "Absolute r-band magnitude (distance from z_spec and the assumed cosmology)"
+  },
+  {
+   "name": "r_e",
+   "unit": "arcsec",
+   "provenance": "OBSERVABLE",
+   "description": "r-band major-axis effective radius from the Sersic fits of Owers et al. 2019 (ApJ 873, 52)"
+  },
+  {
+   "name": "ellip",
+   "unit": "-",
+   "provenance": "OBSERVABLE",
+   "description": "r-band ellipticity from the same Sersic fits"
+  },
+  {
+   "name": "PA",
+   "unit": "deg",
+   "provenance": "OBSERVABLE",
+   "description": "r-band position angle from the same Sersic fits"
+  },
+  {
+   "name": "mu_within_1re",
+   "unit": "mag/arcsec^2",
+   "provenance": "OBSERVABLE",
+   "description": "Mean r-band surface brightness within 1 Re"
+  },
+  {
+   "name": "g_i",
+   "unit": "mag",
+   "provenance": "OBSERVABLE",
+   "description": "(g-i) colour"
+  },
+  {
+   "name": "Mstar",
+   "unit": "dex(Msun)",
+   "provenance": "OBSERVABLE-DERIVED (stellar population model, no dark matter)",
+   "description": "log10 stellar mass from the (g-i)/M_i proxy of Taylor+2011 as used by Bryant+2015"
+  },
+  {
+   "name": "R_on_rtwo",
+   "unit": "-",
+   "provenance": "MODEL-DERIVED (assumes virial equilibrium / spherical symmetry -> dark-matter dependent; RANK ONLY)",
+   "description": "Published projected clustercentric radius / R200. The numerator is observable, the R200 normalisation is not"
+  },
+  {
+   "name": "V_on_sigma",
+   "unit": "-",
+   "provenance": "OBSERVABLE quantity measured inside a MODEL-DERIVED aperture",
+   "description": "Published v_pec / sigma_200"
+  },
+  {
+   "name": "is_mem",
+   "unit": "-",
+   "provenance": "OBSERVABLE",
+   "description": "1 = caustic+shifting-gapper confirmed member in Owers+2017, 0 = not"
+  },
+  {
+   "name": "SURV_SAMI",
+   "unit": "-",
+   "provenance": "-",
+   "description": "SAMI priority class (8 = primary, lower = secondary/filler)"
+  },
+  {
+   "name": "BAD_CLASS",
+   "unit": "-",
+   "provenance": "-",
+   "description": "Owers+2017 problem-object flag; 0 = clean"
+  },
+  {
+   "name": "sep_deg",
+   "unit": "deg",
+   "provenance": "OBSERVABLE",
+   "description": "Angular separation from the adopted cluster centre, computed here"
+  },
+  {
+   "name": "R_proj_Mpc_from_cat",
+   "unit": "Mpc",
+   "provenance": "OBSERVABLE",
+   "description": "R_on_rtwo x R200: the projected physical clustercentric radius, i.e. the published column with the model normalisation undone. USE THIS as the observable radius"
+  },
+  {
+   "name": "R_proj_Mpc_direct",
+   "unit": "Mpc",
+   "provenance": "OBSERVABLE",
+   "description": "Independent recomputation: sep_deg x D_A(z_clus), H0=70 Om=0.3"
+  },
+  {
+   "name": "R_on_R200_recomputed",
+   "unit": "-",
+   "provenance": "MODEL-DERIVED (assumes virial equilibrium / spherical symmetry -> dark-matter dependent; RANK ONLY)",
+   "description": "R_proj_Mpc_direct / R200; validation column only"
+  },
+  {
+   "name": "v_pec_kms",
+   "unit": "km/s",
+   "provenance": "OBSERVABLE",
+   "description": "V_on_sigma x sigma_200: line-of-sight peculiar velocity relative to the cluster"
+  },
+  {
+   "name": "host_RAdeg",
+   "unit": "deg",
+   "provenance": "OBSERVABLE",
+   "description": "Adopted cluster centre RA"
+  },
+  {
+   "name": "host_DEdeg",
+   "unit": "deg",
+   "provenance": "OBSERVABLE",
+   "description": "Adopted cluster centre Dec"
+  },
+  {
+   "name": "host_z_clus",
+   "unit": "-",
+   "provenance": "OBSERVABLE",
+   "description": "Cluster redshift, biweight location of members within 2 R200"
+  },
+  {
+   "name": "host_sigma_200",
+   "unit": "km/s",
+   "provenance": "OBSERVABLE quantity measured inside a MODEL-DERIVED aperture",
+   "description": "Cluster line-of-sight velocity dispersion from member redshifts, biweight scale (Beers+1990), measured inside R200. THE PRIMARY OBSERVABLE ENVIRONMENT VARIABLE"
+  },
+  {
+   "name": "host_e_sigma_200",
+   "unit": "km/s",
+   "provenance": "OBSERVABLE",
+   "description": "1-sigma uncertainty on sigma_200"
+  },
+  {
+   "name": "host_N_mem_R200",
+   "unit": "-",
+   "provenance": "OBSERVABLE",
+   "description": "Number of confirmed members inside R200 that sigma_200 is based on"
+  },
+  {
+   "name": "host_N_mem_2R200",
+   "unit": "-",
+   "provenance": "OBSERVABLE",
+   "description": "Number of confirmed members inside 2 R200"
+  },
+  {
+   "name": "host_R_200",
+   "unit": "Mpc",
+   "provenance": "MODEL-DERIVED (assumes virial equilibrium / spherical symmetry -> dark-matter dependent; RANK ONLY)",
+   "description": "R200 = 0.17 sigma_200 / H(z) Mpc, singular isothermal sphere (Carlberg+1997)"
+  },
+  {
+   "name": "host_M_200_caustic",
+   "unit": "1e14 Msun",
+   "provenance": "MODEL-DERIVED (assumes virial equilibrium / spherical symmetry -> dark-matter dependent; RANK ONLY)",
+   "description": "Caustic mass, Diaferio 1999 with F_beta = 0.7 (Serra+2011)"
+  },
+  {
+   "name": "host_e_M_200_caustic",
+   "unit": "1e14 Msun",
+   "provenance": "MODEL-DERIVED (assumes virial equilibrium / spherical symmetry -> dark-matter dependent; RANK ONLY)",
+   "description": "Statistical uncertainty only; the F_beta systematic is not included"
+  },
+  {
+   "name": "host_M_200_virial",
+   "unit": "1e14 Msun",
+   "provenance": "MODEL-DERIVED (assumes virial equilibrium / spherical symmetry -> dark-matter dependent; RANK ONLY)",
+   "description": "Corrected virial mass, Girardi+1998"
+  },
+  {
+   "name": "host_e_M_200_virial",
+   "unit": "1e14 Msun",
+   "provenance": "MODEL-DERIVED (assumes virial equilibrium / spherical symmetry -> dark-matter dependent; RANK ONLY)",
+   "description": "1-sigma uncertainty on the virial mass"
+  }
+ ],
+ "method": "Host cluster = nearest of the eight Owers+2017 Table 1 centres on the sky. Validated by recomputing R/R200 = sep x D_A(z_clus) / R200 (FlatLambdaCDM H0=70 Om=0.3, the cosmology stated in Owers+2017 Section 1) and comparing with the published R_on_rtwo column.",
+ "validation": {
+  "frac_within_2pct": 1.0,
+  "median_fractional_difference": 0.002023208674624096,
+  "p68_abs_fractional_difference": 0.0020236131903207995,
+  "max_abs_fractional_difference": 3.947793430482639,
+  "catid_prefix_is_a_perfect_cluster_label": true
+ },
+ "PROVENANCE_WARNING": "host_R_200, host_M_200_caustic and host_M_200_virial are dynamical estimates that assume virial equilibrium and spherical symmetry. Under the well-network brief they may be used ONLY to rank environments, never as observations. host_sigma_200 (with host_e_sigma_200 and host_N_mem_R200) is measured from member redshifts and IS an observable. R_proj_Mpc_from_cat is the observable projected radius; R_on_rtwo is not."
+}

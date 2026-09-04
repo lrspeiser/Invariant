@@ -1,0 +1,152 @@
+{
+ "file": "A2029_Sohn2017_ApJS229_20_table2.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJS/229/20/table2&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/ApJS/229/20/table2",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/ApJS/229/20/ReadMe -> 982 records",
+ "retrieved_utc": "2026-09-04T04:29:57Z",
+ "sha256": "d6709e46d12120a3c46e21b56236d1793e039dfea0985c56ee24c0cc3e4e350b",
+ "bytes": 56969,
+ "row_count": 982,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "deg",
+   "description": ""
+  },
+  {
+   "name": "cz",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "e_cz",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "r_cz",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "sigma",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "e_sigma",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "f_sigma",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "dn4000",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "T13",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "DR9",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Sloan",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "Abell 2029 (z=0.0773). Sohn, Geller, Zahid, Fabricant, Diaferio & Rines 2017, ApJS 229, 20 ('The velocity dispersion function of very massive galaxy clusters: Abell 2029 and Coma'). 982 rows, ALL of which are spectroscopically confirmed cluster MEMBERS - this table is a members-only catalogue, so N_total_z = N_members = 982 by construction. Redshift is given as cz in km/s (converted to z=cz/c in the cleaned file). Instrument: MMT/Hectospec, 3700-9150 Angstrom, 6.2 Angstrom resolution, observed 2016 April-June; supplemented by SDSS and literature (column r_cz). Selection function: magnitude-limited SDSS r-band targeting within the 1 deg Hectospec field; no colour preselection. The table additionally carries a central stellar velocity dispersion (sigma, rest-frame 3 kpc aperture) and Dn4000 per galaxy - these are INTERNAL galaxy dispersions, NOT the cluster velocity dispersion, and must not be confused with it. Sky coverage: members extend to ~65 arcmin (~5.9 Mpc projected); 90% within ~3.5 Mpc.",
+ "coverage": {
+  "cluster": "Abell 2029",
+  "centre_ra_deg": 227.73375,
+  "centre_dec_deg": 5.74472,
+  "z_cluster": 0.0773,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 87.81,
+  "max_sep_arcmin": 67.52,
+  "p90_sep_arcmin": 39.8,
+  "median_sep_arcmin": 20.8,
+  "max_R_proj_Mpc": 5.929,
+  "p90_R_proj_Mpc": 3.495,
+  "member_max_R_proj_Mpc": 5.929
+ },
+ "counts": {
+  "n_rows": 982,
+  "n_total_redshifts": 982,
+  "n_members_published_definition": 982,
+  "n_within_3000kms_indicative": 980,
+  "quality_flag_column": "r_cz",
+  "quality_flag_counts": {
+   "MMT": 289,
+   "NED": 4,
+   "SDSS": 179,
+   "T13": 510
+  },
+  "member_flag_column": null,
+  "member_flag_counts": null
+ },
+ "raw_response_file": "raw/A2029_Sohn2017_ApJS229_20_table2.raw.tsv",
+ "raw_sha256": "4a781f9f63516a7c138f874df0dda2646c870d02a4f1a33c7a884a9bd45d192d",
+ "raw_bytes": 80560
+}

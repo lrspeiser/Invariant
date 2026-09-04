@@ -1,0 +1,57 @@
+{
+  "file": "sat_elves_overview_table.tsv",
+  "source_url": "https://arxiv.org/e-print/2203.00014",
+  "source_file_within_archive": "overview_table.tex",
+  "retrieved_utc": "2026-09-04T04:24:38Z",
+  "sha256": "4e4549f69e20f55c6f4d2f63865cf824a3811042aaed02e607aa7e8f699c6254",
+  "bytes": 1000,
+  "row_count": 31,
+  "column_count": 8,
+  "columns": [
+    {
+      "name": "Name",
+      "unit": ""
+    },
+    {
+      "name": "M_K_s^group",
+      "unit": "(mag)"
+    },
+    {
+      "name": "# candidates",
+      "unit": ""
+    },
+    {
+      "name": "# SBF conf.",
+      "unit": ""
+    },
+    {
+      "name": "# other conf.",
+      "unit": ""
+    },
+    {
+      "name": "# SBF rejected",
+      "unit": ""
+    },
+    {
+      "name": "# other rejected",
+      "unit": ""
+    },
+    {
+      "name": "# unconfirmed",
+      "unit": ""
+    }
+  ],
+  "query": "GET https://arxiv.org/e-print/2203.00014 ; tar member overview_table.tex ; AASTeX deluxetable body transcribed to TSV",
+  "extraction": {
+    "method": "regex parse of \\startdata..\\enddata in a single deluxetable environment",
+    "n_table_environments_in_file": 1,
+    "n_startdata_in_file": 1,
+    "expected_row_count_from_paper": 31,
+    "observed_row_count": 31,
+    "row_count_matches_paper": true,
+    "note": "value/err columns added where cells matched 'x+/-e' or 'x_-a^+b'; original cell text retained too"
+  },
+  "measurement_or_model": "MEASUREMENT -- observed sky positions, structural parameters, distances, magnitudes, line-of-sight velocities/dispersions and Gaia proper motions. No dark-matter halo is assumed to produce these numbers.",
+  "note": "Carlsten et al. 2022 ELVES overview table (satellite counts per host); 31 rows, matching the 31-entry host list",
+  "acquisition_job": "JOB2 streams-satellites"
+}

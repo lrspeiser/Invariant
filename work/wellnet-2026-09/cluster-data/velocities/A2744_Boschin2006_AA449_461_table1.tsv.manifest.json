@@ -1,0 +1,135 @@
+{
+ "file": "A2744_Boschin2006_AA449_461_table1.tsv",
+ "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+ "exact_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J%2FA%2BA%2F449%2F461%2Ftable1&-out=**&-out.max=unlimited",
+ "vizier_table_id": "J/A+A/449/461/table1",
+ "vizier_identifier_echo_verified": true,
+ "row_count_asserted_against": "CDS ReadMe J/A+A/449/461/ReadMe -> 102 records",
+ "retrieved_utc": "2026-09-04T04:37:41Z",
+ "sha256": "de215fde181f28f2e9e345a950f9ad9857aef02ff343424eece3f3bab16da68f",
+ "bytes": 5790,
+ "row_count": 102,
+ "column_count": 9,
+ "columns": [
+  {
+   "name": "id",
+   "unit": null
+  },
+  {
+   "name": "ra_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "dec_deg",
+   "unit": "deg"
+  },
+  {
+   "name": "z",
+   "unit": null
+  },
+  {
+   "name": "z_err",
+   "unit": null
+  },
+  {
+   "name": "q_flag",
+   "unit": null
+  },
+  {
+   "name": "member_flag",
+   "unit": null
+  },
+  {
+   "name": "sep_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "R_proj_Mpc",
+   "unit": "Mpc"
+  }
+ ],
+ "source_columns": [
+  {
+   "name": "recno",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "Seq",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "n_Seq",
+   "unit": null,
+   "description": ""
+  },
+  {
+   "name": "RAJ2000",
+   "unit": "\"h:m:s\"",
+   "description": ""
+  },
+  {
+   "name": "DEJ2000",
+   "unit": "\"d:m:s\"",
+   "description": ""
+  },
+  {
+   "name": "HRVN",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "e_HRVN",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "HRV",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "e_HRV",
+   "unit": "km/s",
+   "description": ""
+  },
+  {
+   "name": "CN",
+   "unit": null,
+   "description": ""
+  }
+ ],
+ "extraction": "VizieR ASU TSV export, -out=**&-out.max=unlimited. Cleaned file maps upstream columns to a standard schema (id,ra_deg,dec_deg,z,z_err,q_flag,member_flag) and appends sep_arcmin and R_proj_Mpc computed from the cluster centre with FlatLambdaCDM(H0=70,Om0=0.3). No rows dropped. Where the upstream redshift is stored as a velocity cz in km/s it is converted to z=cz/c and its uncertainty is converted consistently to dz=e_cz/c; otherwise no values are altered. Raw upstream response kept verbatim in raw/.",
+ "note": "Abell 2744 (z=0.308). Boschin, Girardi, Spolaor & Barrena 2006, A&A 449, 461 ('Radial velocities in A2744'). 102 galaxies with heliocentric radial velocities. Redshift is stored upstream as HRV in km/s and is converted to z=HRV/c in the cleaned file. MEMBERSHIP: column n_Seq flags NON-members with '*'; a blank means member. The member_flag column in the cleaned file preserves this verbatim, and n_members_published_definition counts the blank (member) rows. Instrument: ESO NTT/EMMI plus literature (Couch & Newell cross-identifications in column CN). Selection function: small, targeted, magnitude-limited sample - too small on its own for a sigma(R) field; included because Owers+2011 incorporates it and because it provides an independent velocity zero-point check. Note coordinates are sexagesimal upstream and were converted to decimal degrees.",
+ "coverage": {
+  "cluster": "Abell 2744",
+  "centre_ra_deg": 3.58625,
+  "centre_dec_deg": -30.38861,
+  "z_cluster": 0.308,
+  "cosmology": "FlatLambdaCDM H0=70, Om0=0.3",
+  "kpc_proper_per_arcmin": 272.15,
+  "max_sep_arcmin": 4.39,
+  "p90_sep_arcmin": 3.15,
+  "median_sep_arcmin": 1.8,
+  "max_R_proj_Mpc": 1.195,
+  "p90_R_proj_Mpc": 0.859,
+  "member_max_R_proj_Mpc": 1.16
+ },
+ "counts": {
+  "n_rows": 102,
+  "n_total_redshifts": 102,
+  "n_members_published_definition": 85,
+  "n_within_3000kms_indicative": 79,
+  "quality_flag_column": null,
+  "quality_flag_counts": null,
+  "member_flag_column": "n_Seq",
+  "member_flag_counts": {
+   "": 85,
+   "*": 17
+  }
+ },
+ "raw_response_file": "raw/A2744_Boschin2006_AA449_461_table1.raw.tsv",
+ "raw_sha256": "78874c13f6c446f57ae4ac98c3468344c867ba98b0a7d4ca5cd63f3abab0f9e0",
+ "raw_bytes": 9205
+}

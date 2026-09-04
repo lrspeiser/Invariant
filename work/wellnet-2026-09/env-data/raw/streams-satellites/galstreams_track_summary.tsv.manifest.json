@@ -1,0 +1,204 @@
+{
+  "file": "galstreams_track_summary.tsv",
+  "source_url": "https://codeload.github.com/cmateu/galstreams/tar.gz/refs/tags/v1.2.1",
+  "source_file_within_archive": "galstreams-1.2.1/galstreams/tracks/*.ecsv (217 track + 217 summary files)",
+  "retrieved_utc": "2026-09-03T21:20:00Z",
+  "sha256": "0cf6f3260fe4247ad51457e4b4982ab08c0acd09d1e2d606001059b6dd4b416a",
+  "bytes": 76818,
+  "row_count": 217,
+  "column_count": 47,
+  "columns": [
+    {
+      "name": "TrackFileBase",
+      "unit": "galstreams track file stem"
+    },
+    {
+      "name": "StreamName",
+      "unit": "stream name"
+    },
+    {
+      "name": "StreamShortName",
+      "unit": "short name"
+    },
+    {
+      "name": "TrackRef",
+      "unit": "first-author+year key"
+    },
+    {
+      "name": "TrackType",
+      "unit": "ep=end points, po=pole, st=stars/knots"
+    },
+    {
+      "name": "InfoFlags",
+      "unit": "4-char galstreams flag (sky/D/PM/Vrad)"
+    },
+    {
+      "name": "has_empirical_track",
+      "unit": "1 = celestial track empirical, 0 = great circle assumed"
+    },
+    {
+      "name": "has_D",
+      "unit": "1 = distance flagged available"
+    },
+    {
+      "name": "has_pm",
+      "unit": "1 = proper motion flagged available"
+    },
+    {
+      "name": "has_vrad",
+      "unit": "1 = radial velocity flagged available"
+    },
+    {
+      "name": "D_caveat",
+      "unit": "1 = flag digit is '2' (available with caveat)"
+    },
+    {
+      "name": "pm_caveat",
+      "unit": "1 = flag digit is '2'"
+    },
+    {
+      "name": "vrad_caveat",
+      "unit": "1 = flag digit is '2'"
+    },
+    {
+      "name": "sky_status",
+      "unit": "EMPIRICAL_TRACK | GREAT_CIRCLE_ASSUMED"
+    },
+    {
+      "name": "D_status",
+      "unit": "MEASURED_TRACK | SINGLE_MEAN_VALUE | GEOMETRIC_INTERPOLATION | PLACEHOLDER_1KPC"
+    },
+    {
+      "name": "pm_status",
+      "unit": "MEASURED_TRACK | SINGLE_MEAN_VALUE | ABSENT"
+    },
+    {
+      "name": "vrad_status",
+      "unit": "MEASURED_TRACK | SINGLE_MEAN_VALUE | ABSENT"
+    },
+    {
+      "name": "usable_3d",
+      "unit": "1 = empirical sky track AND measured distance track"
+    },
+    {
+      "name": "usable_6d",
+      "unit": "1 = usable_3d AND measured PM track AND measured Vrad track"
+    },
+    {
+      "name": "data_defects",
+      "unit": ""
+    },
+    {
+      "name": "n_track_points",
+      "unit": "count"
+    },
+    {
+      "name": "track_length_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "pole_ra_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "pole_dec_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "pole_l_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "pole_b_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "orbit_inc_to_disc_deg",
+      "unit": "deg; 90-|pole_b|; 0=orbit in the disc plane, 90=polar orbit"
+    },
+    {
+      "name": "mid_l_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "mid_b_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "mid_distance_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "b_min_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "b_max_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "absb_min_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "absb_max_deg",
+      "unit": "deg"
+    },
+    {
+      "name": "dist_min_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "dist_max_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "z_min_kpc",
+      "unit": "kpc (Galactocentric)"
+    },
+    {
+      "name": "z_max_kpc",
+      "unit": "kpc (Galactocentric)"
+    },
+    {
+      "name": "absz_max_kpc",
+      "unit": "kpc (Galactocentric); blank when D_status=PLACEHOLDER_1KPC"
+    },
+    {
+      "name": "R_gc_min_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "R_gc_max_kpc",
+      "unit": "kpc"
+    },
+    {
+      "name": "width_phi2",
+      "unit": "deg"
+    },
+    {
+      "name": "width_pm_phi1_cosphi2",
+      "unit": "mas/yr"
+    },
+    {
+      "name": "width_pm_phi2",
+      "unit": "mas/yr"
+    },
+    {
+      "name": "dist_ptp_kpc",
+      "unit": "kpc (peak-to-peak along track)"
+    },
+    {
+      "name": "pmra_ptp_masyr",
+      "unit": "mas/yr (peak-to-peak)"
+    },
+    {
+      "name": "rv_ptp_kms",
+      "unit": "km/s (peak-to-peak)"
+    }
+  ],
+  "query": "build_galstreams_summary.py -- reads each track.*.summary.ecsv and its track.*.ecsv with astropy.table.QTable.read; no galstreams code executed",
+  "extraction": "One row per galstreams v1.2.1 track. Flag columns are transcribed verbatim from the ECSV summary files. Geometry columns (pole_*, orbit_inc_to_disc_deg, b_*, z_*, R_gc_*) are pure coordinate transforms of the published track using astropy's default Galactocentric frame (R0=8.122 kpc, z_sun=20.8 pc). NO gravitational potential, mass model or halo enters any column.",
+  "measurement_or_model": "PER-ROW. sky_status/D_status/pm_status/vrad_status give the label. EMPIRICAL_TRACK + MEASURED_TRACK = MEASUREMENT. GREAT_CIRCLE_ASSUMED = the celestial track is a geometric great-circle interpolation between measured end points or about a measured pole (MODEL of track shape, not of gravity). GEOMETRIC_INTERPOLATION distance = linear interpolation between two measured end-point distances (MODEL). SINGLE_MEAN_VALUE = one constant literature value, not a track. PLACEHOLDER_1KPC = the distance column is identically 1.000 kpc and is NOT DATA. IMPORTANT: galstreams excludes orbit-fit/PREDICTED PM and Vrad tracks by policy (Mateu 2023), and reports OBSERVED heliocentric values without solar-reflex correction, so no Galactic potential is presupposed anywhere in the library.",
+  "note": "217 tracks; 147 distinct StreamName; 127 distinct StreamShortName. CLASSIFICATION RULE: the library InfoFlag governs whether a quantity counts as a measured track; the data can only DOWNGRADE that claim, never promote it. Census: sky EMPIRICAL_TRACK 192 / GREAT_CIRCLE_ASSUMED 25; distance MEASURED_TRACK 69, PLACEHOLDER_1KPC 68, SINGLE_MEAN_VALUE 2, GEOMETRIC_INTERPOLATION 6, ABSENT 72; PM MEASURED_TRACK 165, SINGLE_MEAN_VALUE 6, ABSENT 46; Vrad MEASURED_TRACK 98, UNPHYSICAL 15, ABSENT 104. usable_3d=69 (60 streams), usable_6d=33 (30 streams). 26 usable_3d tracks reach |z|>=10 kpc, 11 reach |z|>=20 kpc. --- UPSTREAM DEFECTS FOUND IN galstreams v1.2.1 (102 tracks carry at least one) --- (1) 68 ibata2024 tracks have InfoFlags asserting a distance track while the distance column is identically 1.000 kpc, a placeholder (float noise at 1e-15, so an exact ==1.0 test silently finds nothing). Their z/R_gc columns are left BLANK here. (2) 15 tracks advertise InfoFlags=1111 (full 6-D) but their radial-velocity column is unphysical, exceeding 1000 km/s against a Galactic escape speed of ~550 km/s; the worst, track.st.Hydrus.ibata2024, reaches 9,561,412 km/s (32x the speed of light) and track.st.NGC1261b.ibata2024 reaches -32,929,072 km/s. The percentile pattern (sane median, divergent tails) indicates spline blow-up at the track ends. (3) 16 tracks have the Vrad flag CLEAR yet a populated, non-constant Vrad column (filler that must not be read as data). (4) track.st.Pal5.pricewhelan2019 has Vrad identically 999.0, a null sentinel. (5) 6 tracks have the PM flag set but a constant PM column. (6) 3 summary files (Jhelum-broad/-narrow/-spur, viswanathan2023) have NO corresponding track file in the v1.2.1 tarball and are excluded from this table (220 summary files, 217 tracks). CONSEQUENCE: InfoFlags must NOT be trusted on its own; every quantity was cross-checked against the data, and the per-row 'data_defects' column records each disagreement."
+}
