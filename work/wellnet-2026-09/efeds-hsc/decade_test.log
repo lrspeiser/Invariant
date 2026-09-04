@@ -1,0 +1,172 @@
+
+==============================================================================
+DECADE x eFEDS -- potential depth against RAW tangential shear
+==============================================================================
+
+   536 systems have a DECADE profile; 496 pass the declared
+   quality cuts (>= 4 bins with >= 50 background sources), 3365 points
+   redshift 0.017 - 0.855, median 0.341
+
+==============================================================================
+N.  Null tests on the measured shear, before any model is fitted
+==============================================================================
+
+   N1 inverse-variance mean over all 3365 points
+      tangential  g_t = +0.00134 +- 0.00014   (+9.6 sigma)   <- must be POSITIVE, this validates the
+                                            sign convention empirically
+      cross       g_x = -0.00004 +- 0.00014   (-0.3 sigma)   <- must be consistent with ZERO
+      -> sign convention VALIDATED; B-mode clean
+
+   N2 stacked profile by radial bin
+         R [Mpc]  n_pts        g_t        +-        g_x    S/N
+           0.336     44   +0.00468   0.00287   +0.00048   1.63
+           0.446     91   +0.00066   0.00193   -0.00151   0.34
+           0.594    164   +0.00069   0.00138   -0.00002   0.50
+           0.791    259   +0.00250   0.00100   +0.00037   2.50
+           1.053    375   +0.00329   0.00074   -0.00063   4.43
+           1.403    454   +0.00243   0.00055   +0.00022   4.39
+           1.867    496   +0.00172   0.00044   -0.00036   3.89
+           2.486    495   +0.00208   0.00036   -0.00054   5.73
+           3.312    494   +0.00088   0.00029   -0.00009   3.06
+           4.405    493   +0.00081   0.00023   +0.00028   3.60
+      total S/N of the DECADE stack 10.9 (HSC published stack: 29.0)
+
+   N3 background-source surface density versus radius (member-contamination test)
+       bin    n_src  sigma [/arcmin^2]  ratio to outer
+         0     9271              5.334           1.195
+         1    20329              5.659           1.268
+         2    40211              5.548           1.243
+         3    77622              5.431           1.217
+         4   141446              5.105           1.144
+         5   258781              5.034           1.128
+         6   407750              4.502           1.009
+         7   612463              4.462           1.000
+         8   982929              4.441           0.995
+         9  1590539              4.320           0.968
+      inner three bins / outer five = 1.236  ->  CONTAMINATION
+
+   declared split: 248 TRAIN / 248 HELD OUT, by alternating eFEDS name rank
+
+==============================================================================
+M.  Model comparison on the training half, identical pipeline
+==============================================================================
+
+   x_Phi on a quadratic in (log g_b, log r), fitted on TRAIN: R^2 = 0.9863,
+   residual 0.087 dex.  M2b uses only that residual.
+
+   248 systems, 1709 shear points
+   model                                     k      chi2       BIC     dBIC best
+   M3  + gamma log r (competitor)            2   1850.30   1865.19    +0.00 gamma=-0.600
+   M0  RAR only                              0   1870.72   1870.72    +5.54 
+   M1  + free amplitude (CLASS STEP)         1   1870.22   1877.67   +12.48 A=-0.025
+   M   + f_gas (competitor)                  2   1867.34   1882.22   +17.04 slope=-0.150
+   M   + redshift (competitor)               2   1867.42   1882.30   +17.12 slope=-0.100
+   M4  + free a0 (competitor)                2   1867.79   1882.68   +17.49 a0_scale=+0.050
+   M   + log T (competitor)                  2   1868.62   1883.50   +18.32 slope=-0.050
+   M   + log M_b (competitor)                2   1868.83   1883.72   +18.53 slope=-0.050
+   M2b + beta x_Phi PERPENDICULAR to (g_b, r)  2   1869.96   1884.85   +19.66 beta_perp=+0.800
+   M2  + beta x_Phi (HYPOTHESIS)             2   1870.22   1885.11   +19.92 beta=+0.000
+
+   beta = +0.000, 68% [+0.000, +0.100]
+   improvement over the class-step null: dchi2 = 0.00 for 1 parameter  (0.00 sigma)
+
+==============================================================================
+H.  FROZEN transfer onto the held-out half, evaluated once
+==============================================================================
+
+   Every shape parameter is frozen at its TRAIN value.  Only the
+   single amplitude is re-fitted on the held-out half, because an
+   amplitude is what the class-step null already grants every model.
+
+   248 systems, 1656 points
+   model                       chi2  chi2/dof  dchi2 vs M1
+   M1  class step           1719.23    1.0382        +0.00
+   M2  beta x_Phi           1719.23    1.0382        +0.00
+   M3  gamma log r          1719.01    1.0381        +0.22
+   M4  free a0              1714.26    1.0352        +4.97
+
+==============================================================================
+Q.  The question in its literal form: at matched g_b, does the lensing
+    residual vary with DeltaPhi_b?
+==============================================================================
+
+   3365 points.  y = g_t(observed) / g_t(RAR predicted); a value
+   above 1 means baryons plus the RAR UNDERPREDICT the shear.
+   weighted mean y = 0.929 +- 0.056
+
+              log g_b bin      n   <x_Phi>  sd(x_Phi)  slope dy/dx_Phi
+   [-15.71,-12.92]    842    -2.806      0.575     -0.284 +- 0.740
+   [-12.92,-12.38]    842    -1.905      0.239     +0.078 +- 0.673
+   [-12.38,-11.94]    842    -1.473      0.211     +0.155 +- 0.471
+   [-11.94,-11.09]    842    -0.992      0.266     -0.294 +- 0.355
+
+==============================================================================
+S.  Sensitivity: boundary rule, radial range, stellar baryons
+==============================================================================
+
+   S1 boundary rule.  Run Z: the rule DEFINES the variable.
+       fixed10Mpc   beta = +0.100  68% [+0.100, +0.100]
+       fixed5Mpc    beta = +0.100  68% [+0.100, +0.100]
+       fixed3Mpc    beta = +0.100  68% [+0.100, +0.100]
+       2xR500       beta = -0.100  68% [-0.100, -0.100]
+       10xrs        beta = -0.100  68% [-0.100, -0.100]
+
+   S2 radial range (the two-halo term this model does not carry
+      lives at large R, so a cut there is the honest check)
+       all radii      beta = +0.100   (1709 points)
+       R < 2.0 Mpc    beta = +0.100   (966 points)
+       R < 1.5 Mpc    beta = -0.100   (718 points)
+       R > 1.5 Mpc    beta = -0.100   (991 points)
+
+   S3 stellar baryons (the eFEDS tables carry no stellar mass, so the
+      primary M_b is gas only; these are uniform rescalings)
+       f_star = 0.00   beta = +0.100
+       f_star = 0.15   beta = +0.100
+       f_star = 0.30   beta = +0.100
+
+==============================================================================
+D.  Shared-quantity null, with the ACTUAL error covariance
+==============================================================================
+
+   The construction expressions share no input quantity:
+
+       x_Phi(r)   = f(n0^2, r_s, alpha, beta_V, epsilon, z)   X-ray fit only
+       g_t(theta) = [sum_s w_s e_+,s] / [R_bar sum_s w_s]     shapes only
+
+   Run Z's hydrostatic g_obs WAS the density log-slope, so its estimator was
+   guaranteed to find something.  This Monte Carlo confirms the estimator is
+   centred here: the X-ray parameters are perturbed within their published
+   errors, moving g_b and x_Phi coherently, while the shear is redrawn from
+   its own shape noise.
+   linearised estimator on the real data: beta = +0.0053
+      ... 1/60  running mean -0.1194
+      ... 16/60  running mean -0.0434
+      ... 31/60  running mean -0.0658
+      ... 46/60  running mean -0.0637
+
+   null expectation of beta-hat = -0.0666 +- 0.0101 (sd 0.0786, n = 60)
+   -6.56 sigma_MC from zero -> BIAS
+
+==============================================================================
+R.  Responsiveness: d beta-hat / d beta_injected must not be zero
+==============================================================================
+       beta_inj -0.50 -> beta_hat -0.5000 +- 0.0000
+       beta_inj -0.25 -> beta_hat -0.2440 +- 0.1061
+       beta_inj +0.00 -> beta_hat +0.0280 +- 0.1114
+       beta_inj +0.25 -> beta_hat +0.2520 +- 0.1024
+       beta_inj +0.50 -> beta_hat +0.5000 +- 0.0980
+
+   d beta-hat/d beta_inj = 0.9984, spread 1.0000  -> PASS
+   per-realisation sd 0.0836 is the achievable sigma(beta)
+
+==============================================================================
+X.  Random-point null on the measurement itself
+==============================================================================
+
+   246 random positions, 1552 points
+   tangential -0.00032 +- 0.00021  (-1.50 sigma)
+   cross      -0.00028 +- 0.00021  (-1.30 sigma)
+   cluster signal +0.00134 is 4.2x the random-point residual
+   -> PASS
+
+   wrote decade_results.json

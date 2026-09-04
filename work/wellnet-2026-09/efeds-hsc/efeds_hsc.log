@@ -1,0 +1,160 @@
+
+==============================================================================
+eFEDS x HSC -- potential depth against RAW WEAK-LENSING SHEAR
+==============================================================================
+
+   cuts, declared in the module docstring before any residual:
+      ingested                    542   (dropped 0)
+      finite_density_params       542   (dropped 0)
+      finite_z_R500               542   (dropped 0)
+      vikhlinin_beta_gt_1_3       542   (dropped 0)
+      on_sampled_HSC_coverage     328   (dropped 214)
+   GATE M_gas,500: n = 267, median mine/published = 1.0022, scatter 0.0440 dex  ->  PASS
+
+   GATE: monotone M_dyn and non-negative rho_dyn under every law
+      non-monotone M_dyn in 0 of 328 systems  ->  PASS
+
+   HSC source population, calibrated on Chiu+2022's own quoted source densities
+   HSC source n(z) ~ z^1.10 exp[-(z/0.75)^2.40], n_tot = 16.7 /arcmin^2, chi2 = 0.029
+      z_cl 0.05: Chiu  15.0  model  14.9 /arcmin^2
+      z_cl 0.25: Chiu  11.0  model  11.4 /arcmin^2
+      z_cl 0.35: Chiu   9.6  model   9.2 /arcmin^2
+      z_cl 0.50: Chiu   6.0  model   6.1 /arcmin^2
+      z_cl 0.78: Chiu   2.0  model   2.0 /arcmin^2
+      z_cl 1.10: Chiu   0.3  model   0.3 /arcmin^2
+
+==============================================================================
+A.  DESIGN -- within-class leverage and competitor collinearity
+==============================================================================
+
+   328 systems x 12 radii = 3936 points, over R = 0.3-4.5 Mpc (the shear-measured range)
+
+   A1  within-class spread of x_Phi at matched g_b (0.1 dex bins in log g_b, median over bins)
+       fixed10Mpc    0.220 dex   (x_Phi -5.12 to -0.15; 100% of points inside r_ref)
+       fixed5Mpc     0.153 dex   (x_Phi -5.28 to -0.28; 92% of points inside r_ref)
+       fixed3Mpc     0.115 dex   (x_Phi -5.09 to -0.38; 75% of points inside r_ref)
+       2xR500        0.144 dex   (x_Phi -4.77 to -0.43; 50% of points inside r_ref)
+       10xrs         0.232 dex   (x_Phi -4.50 to -0.15; 93% of points inside r_ref)
+       reference points: SPARC alone 0.309, eFEDS |Phi_b| absolute (Run Z) 0.185, full six-rung ladder 0.766 (86% class)
+
+   A2  R^2 of x_Phi (primary rule) on competitor sets.  Every one
+       of these is a COMPETITOR the standing brief names, run through
+       the identical pipeline.
+       quadratic in (log g_b, log r)    R^2 0.9661   residual 0.142 dex
+       log M_b                          R^2 0.6462   residual 0.459 dex
+       log R500                         R^2 0.2087   residual 0.687 dex
+       log T                            R^2 0.0387   residual 0.757 dex
+       f_gas                            R^2 0.2029   residual 0.689 dex
+       redshift                         R^2 0.1383   residual 0.717 dex
+       log M_b + log r                  R^2 0.8423   residual 0.307 dex
+       ALL competitors                  R^2 0.9706   residual 0.132 dex
+
+   A3  the Run Z identity, re-measured on the DIFFERENCE
+       corr(resid x_Phi, resid log S | g_b, g_b^2, r) = +1.0000   (Run Z on |Phi_b|: +1.0000)
+       corr(log S, log |dln n_e/dln r|)               = -0.9450   (Run Z: -0.8735)
+       ... and the hydrostatic observable IS that slope.  The shear observable is NOT.
+
+==============================================================================
+B.  THE TEST -- baryons + RAR forward-modelled into reduced shear
+==============================================================================
+
+   B0  noise model.  sigma_stack(R)^-2 = sum_j N_ij / sigma_e^2 must
+       reproduce the published error bars; the one free quantity is the
+       angular aperture cap, and it is fitted to the ERROR BARS ONLY.
+       theta_cap        15'  predicted/published error 1.052 +- 0.474
+       theta_cap        20'  predicted/published error 0.974 +- 0.248
+       theta_cap        25'  predicted/published error 0.930 +- 0.185
+       theta_cap        30'  predicted/published error 0.903 +- 0.162
+       theta_cap        35'  predicted/published error 0.892 +- 0.139
+       theta_cap        40'  predicted/published error 0.837 +- 0.133
+       theta_cap        50'  predicted/published error 0.798 +- 0.097
+       theta_cap        60'  predicted/published error 0.749 +- 0.088
+       theta_cap        80'  predicted/published error 0.700 +- 0.068
+       theta_cap       120'  predicted/published error 0.694 +- 0.034
+       theta_cap 1000000000'  predicted/published error 0.690 +- 0.027
+       -> adopting theta_cap = 20 arcmin (predicted/published error 0.974); C4 reports the uncapped
+          and equal-weight variants as the systematic
+       effective number of systems per bin 11 - 166; effective redshift 0.107 - 0.345
+
+   B1  predicted stacked reduced shear, no free parameters
+       Newtonian baryons                      chi2 =    543.1/7  mean g_pred/g_obs = 0.0494  (non-monotone M_dyn: 0)
+       RAR, beta = 0                          chi2 =    204.3/7  mean g_pred/g_obs = 0.6157  (non-monotone M_dyn: 0)
+       RAR, beta = +0.17188 (Run R, frozen)   chi2 =    311.7/7  mean g_pred/g_obs = 0.3612  (non-monotone M_dyn: 0)
+
+   B2  model comparison at matched parameter count.
+       Inside one class a class indicator IS a free amplitude, so M1 is
+       the primary null.  M3 and M4 are the competitors that can reshape
+       the radial profile with one parameter, exactly as beta does.
+
+       model                                   k     chi2      BIC    dBIC
+       M0  RAR only                            0   204.32   204.32 +195.96
+       M1  + free amplitude  (CLASS STEP)      1   154.56   156.50 +148.14
+       M2  + beta x_Phi      (HYPOTHESIS)      2    31.82    35.72  +27.35
+       M3  + gamma log r     (competitor)      2     4.48     8.37   +0.00
+       M4  + free a0         (competitor)      2   137.58   141.47 +133.11
+
+       best fits: amplitude +0.180 dex; beta +2.000; gamma -1.000; a0/a0_RAR 0.05
+       beta 68% [+1.950, +2.000]  (hits the grid edge)
+
+       VERDICT on the one public stacked profile: potential depth LOSES on BIC by 27.35
+
+==============================================================================
+C.  SENSITIVITY -- boundary rule, stars, truncation, weights
+==============================================================================
+
+   C1  boundary rule.  Run Z showed the rule DEFINES the variable, so
+       every defensible rule is run and the primary was declared first.
+       fixed10Mpc                 beta = +2.000   68% [+2.000, +2.000]  (edge)
+       fixed5Mpc                  beta = +2.000   68% [+2.000, +2.000]  (edge)
+       fixed3Mpc                  beta = +1.250   68% [+1.250, +1.500]
+       2xR500                     beta = +0.500   68% [+0.500, +0.750]
+       10xrs                      beta = +2.000   68% [+1.750, +2.000]  (edge)
+
+   C2  truncation radius of the dynamical density.  Under the RAR the
+       outer dynamical density falls as r^-2, so Sigma depends on r_t
+       logarithmically -- this is a real systematic, not a grid choice.
+       r_t = 10 Mpc               beta = +2.000   68% [+2.000, +2.000]  (edge)
+       r_t = 20 Mpc               beta = +2.000   68% [+2.000, +2.000]  (edge)
+       r_t = 40 Mpc               beta = +2.000   68% [+2.000, +2.000]  (edge)
+
+   C3  stellar baryons.  The eFEDS tables give no stellar mass, so M_b
+       is gas only in the primary; these are uniform rescalings of M_b.
+       f_star = 0.00            beta = +2.000   68% [+2.000, +2.000]
+       f_star = 0.15            beta = +2.000   68% [+2.000, +2.000]
+       f_star = 0.30            beta = +2.000   68% [+2.000, +2.000]
+
+   C4  stacking weights
+       inverse shape noise        beta = +2.000
+       equal weights              beta = +1.000
+       uncapped aperture          beta = +1.250
+
+   C5  radial range (the paper excludes R < 0.5 h^-1 Mpc from its own
+       fiducial fit because of miscentering)
+       R > 0.5 h^-1 Mpc (fiducial) beta = +2.000  (7 bins)
+       all ten bins               beta = +2.000  (10 bins)
+       R > 1 h^-1 Mpc             beta = +2.000  (4 bins)
+
+==============================================================================
+F.  POWER -- what the PRIVATE per-cluster profiles would deliver
+==============================================================================
+
+   The 313 per-cluster shear profiles exist; they are simply not published.
+   This is the Fisher forecast for the experiment they would allow, with the
+   noise model already validated in B0 against the published stacked errors.
+   The competitor is carried in the SAME Fisher matrix: if beta and a bare
+   radius tilt gamma are degenerate even with per-cluster data, the experiment
+   cannot decide the question no matter how much shear is available.
+
+   328 systems, 10 radial bins each, shape noise sigma_e = 0.4, aperture cap 20'
+   predicted total S/N of the per-cluster ensemble 14.6   (published stacked S/N 29.0)
+
+   sigma(beta), nothing else free                0.0269
+   sigma(beta), free amplitude (class step)     0.0749
+   sigma(beta), + free radius tilt (competitor) 0.0782
+   correlation(beta, gamma) after marginalising +0.2876
+
+   Run R fitted beta = +0.17188 with a systematic floor of beta_spurious ~ 0.096.
+   statistical detection of beta = 0.17188:    2.3 sigma with the class step free,   2.2 sigma with the competitor free
+   the experiment is SYSTEMATICS-limited: sigma_stat 0.078 vs sigma_syst 0.096
+
+   wrote efeds_hsc_results.json

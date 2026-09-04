@@ -1,0 +1,49 @@
+{
+ "file": "efeds_stacked_shear.tsv",
+ "source_url": "https://arxiv.org/e-print/2107.05652",
+ "source_file_within_eprint": "materials/g.pdf",
+ "source_sha256": "ce1127d2aec8b2ea7ff719c50529bbfed0cd7a9f140fbd49712d475581a86cca",
+ "paper": "Chiu I.-N. et al. 2022, A&A 661, A11 (2022A&A...661A..11C), Fig. 8",
+ "retrieved_utc": "2026-09-04T12:09:21Z",
+ "sha256": "2c802efe26ee7f8f9a564ae4dc4c5eddb20c8b2b5e16741d1f6d4f68be376bdc",
+ "bytes": 866,
+ "row_count": 10,
+ "column_count": 5,
+ "columns": [
+  {
+   "name": "R_hinvMpc",
+   "unit": "h^-1 Mpc",
+   "note": "clustercentric physical radius, fiducial cosmology Om=0.3 h=0.7"
+  },
+  {
+   "name": "g_plus",
+   "unit": "dimensionless",
+   "note": "stacked tangential REDUCED shear g_+ = gamma/(1-kappa), lensing-weighted over the 313 eFEDS systems with HSC S19A coverage"
+  },
+  {
+   "name": "err_lo",
+   "unit": "dimensionless"
+  },
+  {
+   "name": "err_hi",
+   "unit": "dimensionless"
+  },
+  {
+   "name": "used_fiducial",
+   "unit": "flag",
+   "note": "1 if the bin is used in the paper's fiducial lensing model (R > 0.5 h^-1 Mpc)"
+  }
+ ],
+ "extraction": "exact vector-coordinate recovery from the PDF content stream; NOT pixel digitisation.  Axis transform fitted on four labelled major ticks per axis, log-linear residual < 1e-6 dex.  Gates: error bars symmetric in linear g to <5e-3; bin spacing matches the paper's declared ten log bins over 0.2-3.5 h^-1 Mpc.",
+ "axis_calibration": {
+  "x_log10R_per_pt": 0.004615198204405925,
+  "x_intercept": -0.9232686376068051,
+  "y_log10g_per_pt": 0.0051675597833739624,
+  "y_intercept": -3.064113632062225
+ },
+ "model_curves_also_present_in_figure": [
+  "(0.216, 0.494, 0.722)",
+  "(0.894, 0.102, 0.11)"
+ ],
+ "caveat": "This is ONE stacked profile over the whole sample.  It is not per-cluster shear and carries no within-sample potential-depth leverage on its own."
+}

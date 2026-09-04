@@ -1,0 +1,494 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+
+<title>CFHTLens catalog query page</title>
+
+<script type="text/javascript">
+
+function reclick(par) {
+var onoff
+for (i=0 ; i< document.formd.colall.length ; i++) {
+  if (document.formd.colall[i].value==par) {onoff=document.formd.colall[i].checked}
+}
+for (i=0 ; i< document.formd.col.length ; i++) {
+  if (document.formd.col[i].value.substr(0,document.formd.col[i].value.length-2)==par) {document.formd.col[i].checked=onoff}
+}
+refreshquery()
+}
+
+
+function hclick(tcheck,list) {
+  var lista=list.split(",")
+
+  for (j=0; j< lista.length; j++) {
+    par=lista[j]
+    for (i=0 ; i< document.formd.col.length ; i++) {
+      if (document.formd.col[i].value==par) {document.formd.col[i].checked=tcheck}
+    }
+  }
+  refreshquery()
+}
+
+
+
+
+
+function refreshmethod() {
+
+document.formc.format.options.length=0
+if (document.formc.method.value == 'sync') {
+document.formc.format.options[0] = new Option("ASCII","ascii",false,false);
+document.formc.format.options[1] = new Option("HTML","html",false,false);
+document.formc.format.options[2] = new Option("Tab Separated Values","tsv",false,false);
+document.formc.format.options[3] = new Option("Comma Separated Values","csv",false,false);
+document.formc.format.options[4] = new Option("VOTable","votable",false,false);
+} else {
+document.formc.format.options[0] = new Option("Tab Separated Values","tsv",false,false);
+document.formc.format.options[1] = new Option("Comma Separated Values","csv",false,false);
+document.formc.format.options[2] = new Option("VOTable","votable",false,false);
+}
+refreshaction();
+}
+
+
+function refreshaction() {
+  if (document.formc.method.value == 'sync') {
+    if ( (document.formc.format.value == 'tsv') ||
+         (document.formc.format.value == 'csv') ||
+         (document.formc.format.value == 'votable') 
+        ) {
+    	  document.formc.action='https://ws-cadc.canfar.net/youcat/sync'
+        } else {
+          document.formc.action='/cadcbin/community/CFHTLens/queryt.pl'
+        }
+  } else { 
+    document.formc.action='/cadcbin/community/CFHTLens/querya.pl'
+  }
+}
+
+
+function refreshquery() {
+var cols='';
+coluse=new Array;
+var iuse=-1;
+var i;
+var selfilter;
+
+var col=document.forms["formd"].elements["col"];
+for (i=0 ; i< col.length ; i++) {
+  if (col[i].checked) {
+    iuse++;
+    coluse[iuse]=col[i].value;
+  }
+}
+cols=coluse.join(', ');
+
+var where=new Array;
+var nwhere=-1;
+var lt=document.forms["formd"].elements["lt"];
+var gt=document.forms["formd"].elements["gt"];
+for (i=0; i< col.length; i++) {
+  if (gt[i].value.length>0) { nwhere++; where[nwhere]=col[i].value+'>='+gt[i].value}
+  if (lt[i].value.length>0) { nwhere++; where[nwhere]=col[i].value+'<='+lt[i].value}
+}
+
+if (
+   (document.forms["formp"].elements["srad"].value.length>0)
+&& (document.forms["formp"].elements["sra"].value.length>0)
+&& (document.forms["formp"].elements["sdec"].value.length>0)
+){
+  nwhere++;
+  var rad=parseFloat(document.forms["formp"].elements["srad"].value);
+  if (document.forms["formp"].elements["sunits"].value == 'arcsec') {rad=rad/3600}
+  if (document.forms["formp"].elements["sunits"].value == 'arcmin') {rad=rad/60}
+  var racen =gen2dec(document.forms["formp"].elements["sra"].value ,'RA');
+  var deccen=gen2dec(document.forms["formp"].elements["sdec"].value,'Dec');
+  //var radr=rad/Math.cos(deccen/180*Math.PI);
+  rad=rad.toFixed(4)
+  //where[nwhere]="incirc("+racen+","+deccen+","+rad+")";
+  //where[nwhere]="pos @ scircle '<("+racen+"d,"+deccen+"d),"+rad+"d>'";
+  where[nwhere]="contains(pos,circle('ICRS GEOCENTER'," +racen +","+deccen+","+rad+"))=1"
+}
+
+
+
+var wheres;
+if (nwhere>=0) {
+  wheres="WHERE\n"+where.join('\nAND ')+"\n";
+} else {
+  wheres='';
+}
+
+var limit;
+if (document.formp.rows.value!=0) {
+  limit="top "+document.formp.rows.value+"\n";
+} else {
+  limit="";
+}
+
+document.formc.query.value="SELECT\n"
++limit
++cols
++"\nFROM\ncfht.clens\n"
++wheres;
+refreshaction();
+}
+
+function gen2dec(val,type) {
+  val=val.replace(/^\s*/g,'');
+  val=val.replace(/\s*$/g,'');
+
+  if (val.search(/[^\d\.\-\+]/)<0) {
+    fval= val; 
+  } else if (val.search(/([-\d]+)([hd:\s]+)(\d+)([m:\s]+)([\d\.]+)/)>=0) {
+    a=val.match(/([-\d]+)([hd:\s]+)(\d+)([m:\s]+)([\d\.]+)/)
+    s=(a[1].search(/-/)>-1) ? -1 : 1;
+    fval= 0+parseFloat(a[1]) + parseFloat(s*a[3]/60) + parseFloat(s*a[5]/3600);
+    if (type == 'RA') {fval=fval*15;}
+  } else if (val.search(/([-\d]+)([hd:\s]+)([\d\.]+)/)>=0) {
+    a=val.match(/([-\d]+)([hd:\s]+)([\d\.]+)/)
+    s=(a[1].search(/-/)>-1) ? -1 : 1;
+    fval= 0+parseFloat(a[1]) + parseFloat(s*a[3]/60);
+    if (type == 'RA') {fval=fval*15;}
+  } else {
+    fval=0;
+  }
+  return parseFloat(fval);
+}
+
+
+</script>
+
+
+</head>
+<body text="#000000" bgcolor="#ffffff" link="#0000ff" vlink="#9e0061" alink="#ff0000" onLoad="refreshquery()">
+<script type="text/javascript" src="wz_tooltip.js"></script>
+
+<img src="cfhtlens.png" alt="CFHTLens catalog query page"><BR>
+<a href="querydoc.html">Query Documentation</a><BR>
+<a href="README_catalogs_release_2018-01-31.txt">Catalog Documentation</a><BR>
+Go to the <a href="cutout.html">cutout service</a><BR>
+Go to the <a href="csky.html">graphical search tool</a><BR>
+<a href="CFHTLenS_table.txt">Table with detailed quality information on each CFHTLenS pointing</a><BR>
+
+<table><tr><td>
+<form name="formc" action="/cadcbin/community/CFHTLens/queryt.pl" method="GET">
+<input type="submit" value="Submit query"><input type="reset" value="Clear form">
+<input type="hidden" name="REQUEST" value="doQuery">
+<input type="hidden" name="LANG" value="ADQL">
+<table border bgcolor='#779bab' >
+
+
+<tr>
+<th>Submission<br>method:</th>
+<td>
+<select name="method" onChange="refreshmethod()">
+<option value="sync">Synchronous (small queries)</option> 
+<option value="async">Asynchronous (large queries)</option> 
+</select>
+</td>
+</tr>
+
+<tr>
+<th>Return format:</th>
+<td>
+<select name="format" onChange="refreshaction()"> 
+<option value="ascii">ASCII</option>
+<option value="html">HTML</option>
+<option value="tsv">Tab Separated Values</option>
+<option value="csv">Comma Separated Values</option> 
+<option value="votable">VOTable</option> 
+<!-- <option value="fits">Fits Table</option> -->
+</select>
+</td>
+</tr>
+
+<tr>
+<td align="center" width=300>
+<b>Query:</b><br>
+<div style="font-size: smaller">
+This box shows the query (in ADQL) that will be executed.
+You can use the other boxes on this page to set the query,
+or modify this box directly for greater control.
+</div>
+</td>
+<td>
+<textarea  name="query" cols="60" rows="10"  style='font-size: x-small'></textarea>
+</td>
+</tr>
+
+
+</table>
+<input type="submit" value="Submit query"><input type="reset" value="Clear form">
+</form>
+
+</td>
+
+<td>
+<form name="formp" action="">
+<table border bgcolor='#779bab' >
+
+<tr>
+<td>
+<b>Positional<BR>Constraints:</b>
+</td>
+<td onmouseover="Tip('Enter coordinates (e.g.: 53.34234 or 53:12:34)')" >
+Search within:
+<input type=text size=3 name="srad" onChange="refreshquery()">
+<select name="sunits" onChange="refreshquery()"> 
+<option value="arcsec">Arc seconds</option> 
+<option value="arcmin">Arc minutes</option> 
+<option value="degree">Degrees</option>
+</select>
+<BR>
+RA: <input type="text" size=20 name="sra" onChange="refreshquery()"><BR>
+Dec: <input type="text" size=20 name="sdec" onChange="refreshquery()">
+</td>
+</tr>
+
+
+
+
+
+<tr>
+<th>Max rows:</th>
+<td>
+<select name="rows" onChange="refreshquery()"> 
+<option value="10">10</option>
+<option value="100">100</option>
+<option value="1000">1000</option>
+<option value="10000">10000</option>
+<option value="0">no limit</option>
+</select>
+</td>
+</tr>
+
+</table>
+</form>
+</td></tr></table>
+
+<form name="formd" action="">
+
+
+<!-- table goes after here -->
+<table style='font-size: x-small'><tr><td valign='top'>
+<tr>
+<td valign='top'>
+<table border  bgcolor='#779bab' style='font-size: x-small'>
+<tr>
+<td><input type="checkbox" name="colall" value="" onClick="hclick(this.checked,'id,field,SeqNr,pos,Xpos,Ypos,ALPHA_J2000,DELTA_J2000,n_exposures_used,n_exposures_detec,BackGr,Level,MU_MAX,MU_THRESHOLD,MaxVal,FIELD_POS,Flag')">all</td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox" checked name="col" value="id" onClick="refreshquery()"> <span onmouseover="Tip('Unique object identification name.')">id</span></td><td><input type=hidden  name="gt">  <input type=hidden  name="lt"></td>
+</tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="field" onClick="refreshquery()"> <span onmouseover="Tip('Name of the MegaCAM pointing.')">field</span></td><td><input type=hidden  name="gt">  <input type=hidden  name="lt"></td>
+</tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="SeqNr" onClick="refreshquery()"> <span onmouseover="Tip('Running number on the MegaCAM pointing (non-unique).')">SeqNr</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="pos" onClick="refreshquery()"> <span onmouseover="Tip('???')">pos</span></td><td><input type=hidden  name="gt">  <input type=hidden  name="lt"></td>
+</tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="Xpos" onClick="refreshquery()"> <span onmouseover="Tip('Centroid pixel position in the x-coordinate on the MegaCAM pointing (non-unique). [pixels]')">Xpos</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="Ypos" onClick="refreshquery()"> <span onmouseover="Tip('Centroid pixel position in the y-coordinate on the MegaCAM pointing (non-unique). [pixels]')">Ypos</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="ALPHA_J2000" onClick="refreshquery()"> <span onmouseover="Tip('Centroid sky position R.A. [degrees]')">ALPHA_J2000</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="DELTA_J2000" onClick="refreshquery()"> <span onmouseover="Tip('Centroid sky position Dec. [degrees]')">DELTA_J2000</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="n_exposures_used" onClick="refreshquery()"> <span onmouseover="Tip('Number of exposures used in lensfit measurement')">n_exposures_used</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="n_exposures_detec" onClick="refreshquery()"> <span onmouseover="Tip('Number of individual MegaCAM exposures that went into the coaddition at the object\'s position.')">n_exposures_detec</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="BackGr" onClick="refreshquery()"> <span onmouseover="Tip('Background counts at centroid position. [counts]')">BackGr</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="Level" onClick="refreshquery()"> <span onmouseover="Tip('Detection threshold above background. [counts]')">Level</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MU_MAX" onClick="refreshquery()"> <span onmouseover="Tip('Peak surface brightness above background. [mag * arcsec**(-2)]')">MU_MAX</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MU_THRESHOLD" onClick="refreshquery()"> <span onmouseover="Tip('Detection threshold above background. [mag * arcsec**(-2)]')">MU_THRESHOLD</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MaxVal" onClick="refreshquery()"> <span onmouseover="Tip('Peak flux above background [count]')">MaxVal</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="FIELD_POS" onClick="refreshquery()"> <span onmouseover="Tip('Column needed to comply with the FITS_LDAC format.')">FIELD_POS</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="Flag" onClick="refreshquery()"> <span onmouseover="Tip('SExtractor extraction flags.')">Flag</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+</table>
+</td>
+<td valign='top'>
+<table border  bgcolor='#779bab' style='font-size: x-small'>
+<tr>
+<td><input type="checkbox" name="colall" value="" onClick="hclick(this.checked,'A_WORLD,B_WORLD,THETA_J2000,ERRA_WORLD,ERRB_WORLD,ERRTHETA_J2000,FWHM_IMAGE,FWHM_WORLD,KRON_RADIUS,FLUX_RADIUS,CLASS_STAR,PSF_e1,PSF_e2,PSF_Strehl_ratio,e1,e2,weight,fitclass,scalelength,bulge_fraction,model_flux,SNratio,MASK,PSF_e1_exp,PSF_e2_exp,ISOAREA_WORLD,NIMAFLAGS_ISO')">all</td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="A_WORLD" onClick="refreshquery()"> <span onmouseover="Tip('Profile RMS along major axis. [deg]')">A_WORLD</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="B_WORLD" onClick="refreshquery()"> <span onmouseover="Tip('Profile RMS along minor axis. [deg]')">B_WORLD</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="THETA_J2000" onClick="refreshquery()"> <span onmouseover="Tip('Position angle (east of north). [deg]')">THETA_J2000</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="ERRA_WORLD" onClick="refreshquery()"> <span onmouseover="Tip('World RMS position error along major axis. [degrees]')">ERRA_WORLD</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="ERRB_WORLD" onClick="refreshquery()"> <span onmouseover="Tip('World RMS position error along minor axis. [degrees]')">ERRB_WORLD</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="ERRTHETA_J2000" onClick="refreshquery()"> <span onmouseover="Tip('J2000 error ellipse pos. angle (east of north). [degrees]')">ERRTHETA_J2000</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="FWHM_IMAGE" onClick="refreshquery()"> <span onmouseover="Tip('FWHM assuming a gaussian core. [pixels]')">FWHM_IMAGE</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="FWHM_WORLD" onClick="refreshquery()"> <span onmouseover="Tip('FWHM assuming a gaussian core. [degrees]')">FWHM_WORLD</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="KRON_RADIUS" onClick="refreshquery()"> <span onmouseover="Tip('Scaling radius of the ellipse for magnitude measurements wrt. A_WORLD and B_WORLD')">KRON_RADIUS</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="FLUX_RADIUS" onClick="refreshquery()"> <span onmouseover="Tip('Half-light radius. [pixels]')">FLUX_RADIUS</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="CLASS_STAR" onClick="refreshquery()"> <span onmouseover="Tip('SExtractor star-galaxy classifier.')">CLASS_STAR</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="PSF_e1" onClick="refreshquery()"> <span onmouseover="Tip('lensfit PSF model mean ellipticity e1')">PSF_e1</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="PSF_e2" onClick="refreshquery()"> <span onmouseover="Tip('lensfit PSF model mean ellipticity e2')">PSF_e2</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="PSF_Strehl_ratio" onClick="refreshquery()"> <span onmouseover="Tip('lensfit PSF model mean pseudo-Strehl ratio')">PSF_Strehl_ratio</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="e1" onClick="refreshquery()"> <span onmouseover="Tip('lensfit galaxy e1 expectation value')">e1</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="e2" onClick="refreshquery()"> <span onmouseover="Tip('lensfit galaxy e2 expectation value')">e2</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="weight" onClick="refreshquery()"> <span onmouseover="Tip('lensfit inverse-variance shear weight')">weight</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="fitclass" onClick="refreshquery()"> <span onmouseover="Tip('lensfit fit class')">fitclass</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="scalelength" onClick="refreshquery()"> <span onmouseover="Tip('lensfit galaxy model scalelength [pix]')">scalelength</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="bulge_fraction" onClick="refreshquery()"> <span onmouseover="Tip('lensfit galaxy model bulge-fraction B/T')">bulge_fraction</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="model_flux" onClick="refreshquery()"> <span onmouseover="Tip('lensfit galaxy model flux')">model_flux</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="SNratio" onClick="refreshquery()"> <span onmouseover="Tip('lensfit data S/N ratio')">SNratio</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MASK" onClick="refreshquery()"> <span onmouseover="Tip('CFHTLenS mask value at the object\'s position.')">MASK</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="PSF_e1_exp" onClick="refreshquery()"> <span onmouseover="Tip('lensfit PSF e1 exposure vector')">PSF_e1_exp</span></td><td><input type=hidden  name="gt">  <input type=hidden  name="lt"></td>
+</tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="PSF_e2_exp" onClick="refreshquery()"> <span onmouseover="Tip('lensfit PSF e2 exposure vector')">PSF_e2_exp</span></td><td><input type=hidden  name="gt">  <input type=hidden  name="lt"></td>
+</tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="ISOAREA_WORLD" onClick="refreshquery()"> <span onmouseover="Tip('Isophotal area above Analysis threshold. [deg**2]')">ISOAREA_WORLD</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="NIMAFLAGS_ISO" onClick="refreshquery()"> <span onmouseover="Tip('Number of flagged pixels.')">NIMAFLAGS_ISO</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+</table>
+</td>
+<td valign='top'>
+<table border  bgcolor='#779bab' style='font-size: x-small'>
+<tr>
+<td><input type="checkbox" name="colall" value="" onClick="hclick(this.checked,'Z_B,Z_B_MIN,Z_B_MAX,T_B,ODDS,Z_ML,T_ML,CHI_SQUARED_BPZ,BPZ_FILT,NBPZ_FILT,BPZ_NONDETFILT,NBPZ_NONDETFILT,BPZ_FLAGFILT,NBPZ_FLAGFILT,m,c2,LP_Mu,LP_Mg,LP_Mr,LP_Mi,LP_Mz,star_flag,LP_log10_SM_MED,LP_log10_SM_INF,LP_log10_SM_SUP,PZ_full')">all</td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="Z_B" onClick="refreshquery()"> <span onmouseover="Tip('BPZ redshift estimate; peak of the posterior probability distribution.')">Z_B</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="Z_B_MIN" onClick="refreshquery()"> <span onmouseover="Tip('Lower bound of the 95% confidence interval of Z_B.')">Z_B_MIN</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="Z_B_MAX" onClick="refreshquery()"> <span onmouseover="Tip('Upper bound of the 95% confidence interval of Z_B.')">Z_B_MAX</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="T_B" onClick="refreshquery()"> <span onmouseover="Tip('Spectral type corresponding to Z_B.')">T_B</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="ODDS" onClick="refreshquery()"> <span onmouseover="Tip('Empirical odds of Z_B.')">ODDS</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="Z_ML" onClick="refreshquery()"> <span onmouseover="Tip('BPZ maximum likelihood redshift.')">Z_ML</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="T_ML" onClick="refreshquery()"> <span onmouseover="Tip('Spectral type corresponding to Z_ML.')">T_ML</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="CHI_SQUARED_BPZ" onClick="refreshquery()"> <span onmouseover="Tip('Chi^2 value associated with Z_B.')">CHI_SQUARED_BPZ</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="BPZ_FILT" onClick="refreshquery()"> <span onmouseover="Tip('Filters with good photometry (BPZ); bit-coded mask.')">BPZ_FILT</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="NBPZ_FILT" onClick="refreshquery()"> <span onmouseover="Tip('Number of filters with good photometry (BPZ).')">NBPZ_FILT</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="BPZ_NONDETFILT" onClick="refreshquery()"> <span onmouseover="Tip('Filters with faint photometry (not used in BPZ); bit-coded mask.')">BPZ_NONDETFILT</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="NBPZ_NONDETFILT" onClick="refreshquery()"> <span onmouseover="Tip('Number of filters with faint photometry (BPZ).')">NBPZ_NONDETFILT</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="BPZ_FLAGFILT" onClick="refreshquery()"> <span onmouseover="Tip('Filters with flagged photometry (BPZ); bit-coded mask.')">BPZ_FLAGFILT</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="NBPZ_FLAGFILT" onClick="refreshquery()"> <span onmouseover="Tip('Number of flagged filters (BPZ).')">NBPZ_FLAGFILT</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="m" onClick="refreshquery()"> <span onmouseover="Tip('multiplicative shear factor as defined in Miller et al. 2012 and Heymans et al. 2012.')">m</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="c2" onClick="refreshquery()"> <span onmouseover="Tip('constant shear bias as defined in Miller et al. 2012 and Heymans et al. 2012.')">c2</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="LP_Mu" onClick="refreshquery()"> <span onmouseover="Tip('Absolute rest-frame magnitude in the MegaCAM u-band (estimated with LePhare). [mag]')">LP_Mu</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="LP_Mg" onClick="refreshquery()"> <span onmouseover="Tip('Absolute rest-frame magnitude in the MegaCAM g-band (estimated with LePhare). [mag]')">LP_Mg</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="LP_Mr" onClick="refreshquery()"> <span onmouseover="Tip('Absolute rest-frame magnitude in the MegaCAM r-band (estimated with LePhare). [mag]')">LP_Mr</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="LP_Mi" onClick="refreshquery()"> <span onmouseover="Tip('Absolute rest-frame magnitude in the MegaCAM i-band (estimated with LePhare). [mag]')">LP_Mi</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="LP_Mz" onClick="refreshquery()"> <span onmouseover="Tip('Absolute rest-frame magnitude in the MegaCAM z-band (estimated with LePhare). [mag]')">LP_Mz</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="star_flag" onClick="refreshquery()"> <span onmouseover="Tip('Star-galaxy separator.')">star_flag</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="LP_log10_SM_MED" onClick="refreshquery()"> <span onmouseover="Tip('Logarithm of the stellar mass (estimated with LePhare). [log_10(M_sun)]')">LP_log10_SM_MED</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="LP_log10_SM_INF" onClick="refreshquery()"> <span onmouseover="Tip('Lower bound of the logarithm of the stellar mass (estimated with LePhare). [log_10(M_sun)]')">LP_log10_SM_INF</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="LP_log10_SM_SUP" onClick="refreshquery()"> <span onmouseover="Tip('Upper bound of the logarithm of the stellar mass (estimated with LePhare). [log_10(M_sun)]')">LP_log10_SM_SUP</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="PZ_full" onClick="refreshquery()"> <span onmouseover="Tip('Vector containing the posterior photo-z probability in steps of Delta_z=0.05.')">PZ_full</span></td><td><input type=hidden  name="gt">  <input type=hidden  name="lt"></td>
+</tr>
+</table>
+</td>
+<td valign='top'>
+<table border  bgcolor='#779bab' style='font-size: x-small'>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox" name="colall" value="MAG" onClick="reclick('MAG')">MAG (all)</td><td></td>
+<td style="white-space: nowrap"><input type="checkbox" name="colall" value="MAGERR" onClick="reclick('MAGERR')">MAGERR (all)</td><td></td>
+<td style="white-space: nowrap"><input type="checkbox" name="colall" value="IMAFLAGS_ISO" onClick="reclick('IMAFLAGS_ISO')">IMAFLAGS_ISO (all)</td><td></td>
+<td style="white-space: nowrap"><input type="checkbox" name="colall" value="MAG_LIM" onClick="reclick('MAG_LIM')">MAG_LIM (all)</td><td></td>
+<td style="white-space: nowrap"><input type="checkbox" name="colall" value="EXTINCTION" onClick="reclick('EXTINCTION')">EXTINCTION (all)</td><td></td>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_u" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude in the u-band. [mag]')">MAG_u</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAGERR_u" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude error in the u-band. [mag]')">MAGERR_u</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="IMAFLAGS_ISO_u" onClick="refreshquery()"> <span onmouseover="Tip('u-band FLAG-image flags OR\'ed over the iso. profile.')">IMAFLAGS_ISO_u</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_LIM_u" onClick="refreshquery()"> <span onmouseover="Tip('1-sigma limiting magnitude in the u-band. [mag]')">MAG_LIM_u</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="EXTINCTION_u" onClick="refreshquery()"> <span onmouseover="Tip('Galactic extinction in the u-band. [mag]')">EXTINCTION_u</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_g" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude in the g-band. [mag]')">MAG_g</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAGERR_g" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude error in the g-band. [mag]')">MAGERR_g</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="IMAFLAGS_ISO_g" onClick="refreshquery()"> <span onmouseover="Tip('g-band FLAG-image flags OR\'ed over the iso. profile.')">IMAFLAGS_ISO_g</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_LIM_g" onClick="refreshquery()"> <span onmouseover="Tip('1-sigma limiting magnitude in the g-band. [mag]')">MAG_LIM_g</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="EXTINCTION_g" onClick="refreshquery()"> <span onmouseover="Tip('Galactic extinction in the g-band. [mag]')">EXTINCTION_g</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_r" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude in the r-band. [mag]')">MAG_r</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAGERR_r" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude error in the r-band. [mag]')">MAGERR_r</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="IMAFLAGS_ISO_r" onClick="refreshquery()"> <span onmouseover="Tip('r-band FLAG-image flags OR\'ed over the iso. profile.')">IMAFLAGS_ISO_r</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_LIM_r" onClick="refreshquery()"> <span onmouseover="Tip('1-sigma limiting magnitude in the r-band. [mag]')">MAG_LIM_r</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="EXTINCTION_r" onClick="refreshquery()"> <span onmouseover="Tip('Galactic extinction in the r-band. [mag]')">EXTINCTION_r</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_i" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude in the i-band. [mag]')">MAG_i</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAGERR_i" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude error in the i-band. [mag]')">MAGERR_i</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="IMAFLAGS_ISO_i" onClick="refreshquery()"> <span onmouseover="Tip('i-band FLAG-image flags OR\'ed over the iso. profile.')">IMAFLAGS_ISO_i</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_LIM_i" onClick="refreshquery()"> <span onmouseover="Tip('1-sigma limiting magnitude in the i-band. [mag]')">MAG_LIM_i</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="EXTINCTION_i" onClick="refreshquery()"> <span onmouseover="Tip('Galactic extinction in the i-band. [mag]')">EXTINCTION_i</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_y" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude in the y-band. [mag]')">MAG_y</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAGERR_y" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude error in the y-band. [mag]')">MAGERR_y</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="IMAFLAGS_ISO_y" onClick="refreshquery()"> <span onmouseover="Tip('y-band FLAG-image flags OR\'ed over the iso. profile.')">IMAFLAGS_ISO_y</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_LIM_y" onClick="refreshquery()"> <span onmouseover="Tip('1-sigma limiting magnitude in the y-band. [mag]')">MAG_LIM_y</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="EXTINCTION_y" onClick="refreshquery()"> <span onmouseover="Tip('Galactic extinction in the y-band. [mag]')">EXTINCTION_y</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+<tr>
+<td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_z" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude in the z-band. [mag]')">MAG_z</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAGERR_z" onClick="refreshquery()"> <span onmouseover="Tip('Magnitude error in the z-band. [mag]')">MAGERR_z</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="IMAFLAGS_ISO_z" onClick="refreshquery()"> <span onmouseover="Tip('z-band FLAG-image flags OR\'ed over the iso. profile.')">IMAFLAGS_ISO_z</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="MAG_LIM_z" onClick="refreshquery()"> <span onmouseover="Tip('1-sigma limiting magnitude in the z-band. [mag]')">MAG_LIM_z</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td><td style="white-space: nowrap"><input type="checkbox"  name="col" value="EXTINCTION_z" onClick="refreshquery()"> <span onmouseover="Tip('Galactic extinction in the z-band. [mag]')">EXTINCTION_z</span></td><td style="white-space: nowrap">&ge;<input type=text size=2 name="gt" onChange="refreshquery()">&le;<input type=text size=2 name="lt" onChange="refreshquery()"></td></tr>
+</table>
+<td>
+</tr>
+</table>
+
+<!-- table goes beforehere -->
+
+</form>
+
+
+
+
+
+<br>
+<table width='100%'><tr><td align='CENTER' bgcolor='#4682B4'><font color='#ffffff' size='+1'>&nbsp;</font></td></tr></table>
+<br>
+
+
+<table>
+<tr><td>
+<a href="/"><img src="cadc.png" alt="CADC"></a>
+</td><td>
+Send comments/problems/suggestions concerning the query page functionality to
+<address>
+<a href="mailto:cadc@nrc.ca">cadc@nrc.ca</a>
+</address>
+Questions about the data should be addressed to the 
+<a href="http://www.cfhtlens.org">CFHTLenS team</a>.
+</td></tr></table>
+
+
+
+
+</body></html>

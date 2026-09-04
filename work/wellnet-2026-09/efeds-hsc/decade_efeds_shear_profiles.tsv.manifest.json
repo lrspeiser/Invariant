@@ -1,0 +1,81 @@
+{
+ "file": "decade_efeds_shear_profiles.tsv",
+ "source": "NOIRLab Astro Data Lab TAP, table delve_dr3.decade_shear (DECADE weak-lensing shape catalogue released in DELVE DR3).  Unauthenticated: no credentials are sent.",
+ "endpoint": "https://datalab.noirlab.edu/tap/sync",
+ "exact_query_template": "SELECT ra,dec,mcal_g_1_noshear,mcal_g_2_noshear,mcal_w_noshear,dnf_z,mcal_g_1_1p,mcal_g_1_1m,mcal_g_2_2p,mcal_g_2_2m FROM delve_dr3.decade_shear WHERE 't' = q3c_radial_query(ra, dec, <RA>, <DEC>, <radius_deg>) AND mcal_flags = 0 AND flags_foreground = 0 AND flags_footprint = 1 AND mcal_sel_noshear > 0 AND dnf_z > 0 AND dnf_z < 3",
+ "raw_response_kept": "acquire/decade_raw/ (first system queried, verbatim, with its query)",
+ "retrieved_utc": "2026-09-04T13:05:40Z",
+ "sha256": "43ac47cb12a812a845303ab3324d1e01ef197a73b6d96d0316e24b85348519b0",
+ "bytes": 538080,
+ "row_count": 5411,
+ "n_systems_requested": 542,
+ "columns": [
+  {
+   "name": "id",
+   "unit": "",
+   "note": "eFEDS name, Bahar+2022 form"
+  },
+  {
+   "name": "z",
+   "unit": "",
+   "note": "cluster redshift"
+  },
+  {
+   "name": "bin",
+   "unit": "",
+   "note": "0-9, or -1 if too few sources"
+  },
+  {
+   "name": "R_Mpc",
+   "unit": "Mpc",
+   "note": "weighted mean proper clustercentric radius"
+  },
+  {
+   "name": "theta_arcmin",
+   "unit": "arcmin"
+  },
+  {
+   "name": "n",
+   "unit": "",
+   "note": "background sources in the bin"
+  },
+  {
+   "name": "gt",
+   "unit": "",
+   "note": "tangential REDUCED shear, metacal-response corrected"
+  },
+  {
+   "name": "gx",
+   "unit": "",
+   "note": "cross component, null test"
+  },
+  {
+   "name": "err",
+   "unit": "",
+   "note": "shape-noise 1 sigma"
+  },
+  {
+   "name": "R11",
+   "unit": "",
+   "note": "metacal response, component 1"
+  },
+  {
+   "name": "R22",
+   "unit": "",
+   "note": "metacal response, component 2"
+  },
+  {
+   "name": "beta",
+   "unit": "",
+   "note": "weighted <D_ls/D_s> of the bin's background sources"
+  },
+  {
+   "name": "beta2",
+   "unit": "",
+   "note": "weighted <(D_ls/D_s)^2>"
+  }
+ ],
+ "cuts": "mcal_flags = 0 AND flags_foreground = 0 AND flags_footprint = 1 AND mcal_sel_noshear > 0 AND dnf_z > 0 AND dnf_z < 3 AND dnf_z > z_cl + 0.2",
+ "binning": "10 log bins over 0.2-3.5 h^-1 Mpc physical, h = 0.7; identical to Chiu+2022",
+ "caveat": "DECADE is DECam, not HSC.  It is shallower than the HSC S19A catalogue Chiu+2022 used, and its photo-z are DNF point estimates rather than full P(z).  It is, however, RAW per-source shear, which is what the test requires."
+}
