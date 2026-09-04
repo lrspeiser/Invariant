@@ -1,0 +1,86 @@
+{
+ "n_pass": 16,
+ "n_total": 16,
+ "tests": [
+  {
+   "test": "T1 phase recovered on an injected quadrupole",
+   "passed": true,
+   "detail": "median phase error 1.96 deg"
+  },
+  {
+   "test": "T1 amplitude recovered within 10%",
+   "passed": true,
+   "detail": "amplitude bias +0.000"
+  },
+  {
+   "test": "T2 debiased quadrupole power is null-centred",
+   "passed": true,
+   "detail": "mean/sem = +0.99 (undebiased would be +16.8)"
+  },
+  {
+   "test": "T3 covariance is calibrated (E[chi2] = 2)",
+   "passed": true,
+   "detail": "mean chi2 = 1.88"
+  },
+  {
+   "test": "T4 estimator is rotationally equivariant",
+   "passed": true,
+   "detail": "phase rotated by 66.00 deg, expected 66.00"
+  },
+  {
+   "test": "T5 analytic NFW Sigmabar matches direct integration",
+   "passed": true,
+   "detail": "max relative error 2.50e-03"
+  },
+  {
+   "test": "T5 m=2 Green's function solves its own ODE",
+   "passed": true,
+   "detail": "max relative residual 8.26e-07"
+  },
+  {
+   "test": "T6 both forward models agree in SIGN on S_bar",
+   "passed": true,
+   "detail": "BF generator +9.85, independent model +4.50"
+  },
+  {
+   "test": "T6 both forward models agree in SIGN on S_ext",
+   "passed": true,
+   "detail": "BF generator +3.72, independent model +5.66"
+  },
+  {
+   "test": "T7 galaxy m=3 phase recovered",
+   "passed": true,
+   "detail": "median |psi_hat - psi_obs| = 12.6 deg at q=0.6 (null 45; floor ~10 from the 12 deg axis error)"
+  },
+  {
+   "test": "T7 galaxy m=3 amplitude is responsive",
+   "passed": true,
+   "detail": "d(aligned projection)/d(q_amp) = 0.561, expected ~0.5"
+  },
+  {
+   "test": "T8 a SEALED path raises before it can be read",
+   "passed": true,
+   "detail": "KiDS token guarded"
+  },
+  {
+   "test": "T8 a CONFIRMATION-RESERVE path raises",
+   "passed": true,
+   "detail": "CLoGS token guarded"
+  },
+  {
+   "test": "T8 a foreign read outside the lane raises",
+   "passed": true,
+   "detail": "lane-root guard active"
+  },
+  {
+   "test": "T9 label-scrambled arm returns S_ext to the null",
+   "passed": true,
+   "detail": "real +5.49, scrambled +0.48 +- 0.22"
+  },
+  {
+   "test": "T10 a 45-degree misspecified axis does not respond",
+   "passed": true,
+   "detail": "d S_45/dA = +0.12 vs d S_ext/dA = +14.44"
+  }
+ ]
+}
