@@ -1,0 +1,120 @@
+==============================================================================
+JOINT TOURNAMENT -- four channels at once
+==============================================================================
+
+[1/5] benches
+   SPARC galaxies with curves : 175
+   dropped, no Table 1 entry  : 0
+   dropped, Qual > 2          : 12
+   dropped, i < 30 deg        : 10
+   dropped, no V_flat         : 30
+   dropped, < 5 points        : 0
+   RETAINED                   : 123
+   radial points              : 2858
+
+   strata                     : 12
+   train                      :   75  (61.0%)
+   validation                 :   24  (19.5%)
+   blind                      :   24  (19.5%)
+   DiskMass galaxies          : 28
+   observed h_sigma_LOS median: 28.65 arcsec   sd 18.09   sigma(median) 4.285
+   cluster shell cells        : [248, 704, 2864, 5696]
+   lane-12 required B(r)      : [3.862 3.331 2.401 1.758]
+
+[2/5] scoring 3123 candidates
+   250/3123  60s
+   500/3123  138s
+   750/3123  216s
+   1000/3123  314s
+   1250/3123  408s
+======================================
+JOINT TOURNAMENT -- four channels at once
+==============================================================================
+
+[1/5] benches
+   SPARC galaxies with curves : 175
+   dropped, no Table 1 entry  : 0
+   dropped, Qual > 2          : 12
+   dropped, i < 30 deg        : 10
+   dropped, no V_flat         : 30
+   dropped, < 5 points        : 0
+   RETAINED                   : 123
+   radial points              : 2858
+
+   strata                     : 12
+   train                      :   75  (61.0%)
+   validation                 :   24  (19.5%)
+   blind                      :   24  (19.5%)
+   DiskMass galaxies          : 28
+   observed h_sigma_LOS median: 28.65 arcsec   sd 18.09   sigma(median) 4.285
+   cluster shell cells        : [248, 704, 2864, 5696]
+   lane-12 required B(r)      : [3.862 3.331 2.401 1.758]
+
+[2/5] scoring 3123 candidates
+   resuming: 750 candidates already scored
+   800/3123  17s
+   900/3123  54s
+   1000/3123  92s
+   1100/3123  129s
+   1200/3123  168s
+   1300/3123  204s
+   1400/3123  238s
+   1500/3123  270s
+   1600/3123  300s
+   1700/3123  324s
+   1800/3123  349s
+   1900/3123  378s
+   2000/3123  408s
+   2100/3123  441s
+   2200/3123  477s
+   2300/3123  510s
+   2400/3123  546s
+   2500/3123  585s
+   2600/3123  628s
+   2700/3123  669s
+   2800/3123  708s
+   2900/3123  746s
+   3000/3123  781s
+   3100/3123  817s
+   done in 826s; 96814 response evaluations hit the W ceiling
+
+[3/5] funnel
+   screen               kills alone  unique kills  sequential
+   H7_asymptotic                959             1   3123 ->2164
+   H1_cluster_reach             632            12   2164 ->1639
+   H4_radial                   2728             0   1639 -> 361
+   H5_vert_amplitude           2291             0    361 -> 268
+   H6_vert_shape                900             0    268 -> 267
+   H2_field_galaxy             2850            14    267 -> 123
+   H3_member_galaxy            2852           105    123 ->  18
+   best on radial rotation          rar|iso_K|phi|sat|m4|I1e+12                  0.1639  survives=False
+   best on vertical amplitude       rar|tensor_S[expo_p1q2_L1000_x]|tidal|pow|m- 0.0101  survives=False
+   best on vertical radial shape    rar|tensor_d|gn|inv|m1|I10                   0.0113  survives=False
+   best on cluster amplitude+shape  rar|scalar_a0|qbar|pow|m2|I0.9               0.0067  survives=False
+   best on member-galaxy screen     BASE_newton                                  0.0000  survives=False
+
+[4/5] ranking and the one-standard-error parsimony rule
+   best J = 1.553 (aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12)
+   bootstrap SE(J) = 0.131 over 400 object resamples
+   within 1 SE: 3; fewest parameters there: k = 4
+   PARSIMONY PICK: aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12  J = 1.553  k = 4
+
+[5/5] full-cost screens on the shortlist
+   aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12         F_net/Fref nan
+   aqual|tensor_S[plaw_p0q1s2_L300]|phi|log|m2|I3e+12         F_net/Fref nan
+   aqual|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I3e+12         F_net/Fref nan
+   aqual|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I1e+12         F_net/Fref nan
+   aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m1|I3e+12         F_net/Fref nan
+   aqual|scalar_a0|tidal|inv|m2|I1e-33                        F_net/Fref 0.044
+   rar|scalar_a0|tidal|inv|m2|I1e-33                          F_net/Fref 0.044
+   rar|tensor_S[plaw_p0q1s2_L300]|phi|pow|m1|I3e+12           F_net/Fref nan
+   rar|tensor_d|phi|sat|m2|I1e+12                             F_net/Fref nan
+   rar|scalar_a0|phi|sat|m4|I1e+12                            F_net/Fref 0.669
+   rar|scalar_a0|qbar|pow|m2|I0.6                             F_net/Fref 0.029
+   rar|scalar_a0|qbar|pow|m2|I0.9                             F_net/Fref 0.029
+   rar|scalar_a0|qbar|sat|m4|I0.6                             F_net/Fref 0.025
+   rar|scalar_a0|phi|pow|m2|I3e+12                            F_net/Fref 2.867
+   rar|scalar_a0|phi|pow|m2|I1e+12                            F_net/Fref 2.864
+   rar|scalar_a0|qbar|pow|m2|I0.3                             F_net/Fref 0.031
+
+wrote tournament.json (3123 records) and gates.json in 845s

@@ -1,0 +1,700 @@
+{
+ "base_rows_corrected": [
+  {
+   "name": "BASE_newton",
+   "base": "newton",
+   "struct": "scalar_a0",
+   "inv": "one",
+   "form": "off",
+   "m": 1.0,
+   "I0": 1.0,
+   "n_params": 1,
+   "a0": 3e-11,
+   "A": -1000.0,
+   "gate_fires_in_galaxies": false,
+   "n_alt_iters": 1,
+   "at_amp_grid_edge": true,
+   "gate_W_max_galaxy": 0.0,
+   "radial_rms_dex": 0.521549611463356,
+   "cluster_rms_dex": 0.4533447654199137,
+   "cluster_rms_flat_dex": 0.3010299956639812,
+   "cluster_A_flat": -1000.0,
+   "cluster_rms_at_A_flat": 0.3010299956639812,
+   "cluster_B_flat": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "field_dex_flat": 0.0,
+   "member_dex_flat": 0.0,
+   "cluster_B": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "cluster_B_arith": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "cluster_B_1Mpc": 1.0,
+   "cluster_shape": 1.0,
+   "harm_vs_arith_dex": 0.0,
+   "field_dex": 0.0,
+   "member_dex": 0.0,
+   "vert_Bz": 1.0,
+   "vert_h_as": 30.79944388622391,
+   "vert_h_chi2dof": 10.48000465082103,
+   "vert_amp_chi2dof": 27.612289771775476,
+   "vert_A_dyn": 1.0,
+   "vert_BR": 1.0,
+   "asym_slope": -1.9999999999999902,
+   "asym_slope_response": 0.0,
+   "W_sup": 0.0,
+   "z_radial": 4.741360104212327,
+   "z_vert_amp": 0.7588226989527052,
+   "z_vert_shape": 0.5015764243422849,
+   "z_cluster": 4.533447654199136,
+   "J": 3.3113454240339317,
+   "J_no_amp": 3.7984304732628704,
+   "z_worst": 4.741360104212327,
+   "screens": {
+    "H1_cluster_reach": {
+     "pass": false,
+     "value": 1.0,
+     "tol": 1.5,
+     "why": "B at 1 Mpc must reach the measured cluster gap"
+    },
+    "H2_field_galaxy": {
+     "pass": true,
+     "value": 0.0,
+     "tol": 0.04,
+     "why": "isolated galaxy must stay on the RAR"
+    },
+    "H3_member_galaxy": {
+     "pass": true,
+     "value": 0.0,
+     "tol": 0.04,
+     "why": "a CLUSTER MEMBER sits deeper than the 1 Mpc shell; a depth-gated law fires hardest there"
+    },
+    "H4_radial": {
+     "pass": false,
+     "value": 0.521549611463356,
+     "tol": 0.3,
+     "why": "SPARC train RMS in dex"
+    },
+    "H5_vert_amplitude": {
+     "pass": true,
+     "value": 1.0,
+     "tol": [
+      0.301,
+      1.67
+     ],
+     "why": "inside Run L's 95% interval on B_z; a CONSTRAINT, not a discriminator"
+    },
+    "H6_vert_shape": {
+     "pass": true,
+     "value": 10.48000465082103,
+     "tol": 40.0,
+     "why": "h_sigma_LOS chi2/dof; this is the channel that rejected the isotropic tensor at 133"
+    },
+    "H7_asymptotic": {
+     "pass": false,
+     "value": -1.9999999999999902,
+     "tol": [
+      -1.25,
+      -0.75
+     ],
+     "why": "d ln g/d ln r must be -1, a flat rotation curve"
+    }
+   },
+   "failed": [
+    "H1_cluster_reach",
+    "H4_radial",
+    "H7_asymptotic"
+   ],
+   "survives": false
+  },
+  {
+   "name": "BASE_rar",
+   "base": "rar",
+   "struct": "scalar_a0",
+   "inv": "one",
+   "form": "off",
+   "m": 1.0,
+   "I0": 1.0,
+   "n_params": 1,
+   "a0": 1.0844e-10,
+   "A": -1000.0,
+   "gate_fires_in_galaxies": false,
+   "n_alt_iters": 1,
+   "at_amp_grid_edge": true,
+   "gate_W_max_galaxy": 0.0,
+   "radial_rms_dex": 0.1641372358736667,
+   "cluster_rms_dex": 0.4533447654199137,
+   "cluster_rms_flat_dex": 0.3010299956639812,
+   "cluster_A_flat": -1000.0,
+   "cluster_rms_at_A_flat": 0.3010299956639812,
+   "cluster_B_flat": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "field_dex_flat": 0.0,
+   "member_dex_flat": 0.0,
+   "cluster_B": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "cluster_B_arith": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "cluster_B_1Mpc": 1.0,
+   "cluster_shape": 1.0,
+   "harm_vs_arith_dex": 0.0,
+   "field_dex": 0.0,
+   "member_dex": 0.0,
+   "vert_Bz": 1.50445613302368,
+   "vert_h_as": 35.20546392113046,
+   "vert_h_chi2dof": 20.23266802058696,
+   "vert_amp_chi2dof": 77.63184560235804,
+   "vert_A_dyn": 1.0393604070277611,
+   "vert_BR": 1.9154308028546536,
+   "asym_slope": -1.0000835353589546,
+   "asym_slope_response": 0.0,
+   "W_sup": 0.0,
+   "z_radial": 1.4921566897606062,
+   "z_vert_amp": 1.6826744129599651,
+   "z_vert_shape": 1.529728770562075,
+   "z_cluster": 4.533447654199136,
+   "J": 2.6433947166322183,
+   "J_no_amp": 2.893599219636699,
+   "z_worst": 4.533447654199136,
+   "screens": {
+    "H1_cluster_reach": {
+     "pass": false,
+     "value": 1.0,
+     "tol": 1.5,
+     "why": "B at 1 Mpc must reach the measured cluster gap"
+    },
+    "H2_field_galaxy": {
+     "pass": true,
+     "value": 0.0,
+     "tol": 0.04,
+     "why": "isolated galaxy must stay on the RAR"
+    },
+    "H3_member_galaxy": {
+     "pass": true,
+     "value": 0.0,
+     "tol": 0.04,
+     "why": "a CLUSTER MEMBER sits deeper than the 1 Mpc shell; a depth-gated law fires hardest there"
+    },
+    "H4_radial": {
+     "pass": true,
+     "value": 0.1641372358736667,
+     "tol": 0.3,
+     "why": "SPARC train RMS in dex"
+    },
+    "H5_vert_amplitude": {
+     "pass": true,
+     "value": 1.50445613302368,
+     "tol": [
+      0.301,
+      1.67
+     ],
+     "why": "inside Run L's 95% interval on B_z; a CONSTRAINT, not a discriminator"
+    },
+    "H6_vert_shape": {
+     "pass": true,
+     "value": 20.23266802058696,
+     "tol": 40.0,
+     "why": "h_sigma_LOS chi2/dof; this is the channel that rejected the isotropic tensor at 133"
+    },
+    "H7_asymptotic": {
+     "pass": true,
+     "value": -1.0000835353589546,
+     "tol": [
+      -1.25,
+      -0.75
+     ],
+     "why": "d ln g/d ln r must be -1, a flat rotation curve"
+    }
+   },
+   "failed": [
+    "H1_cluster_reach"
+   ],
+   "survives": false
+  },
+  {
+   "name": "BASE_aqual",
+   "base": "aqual",
+   "struct": "scalar_a0",
+   "inv": "one",
+   "form": "off",
+   "m": 1.0,
+   "I0": 1.0,
+   "n_params": 1,
+   "a0": 1.0580375e-10,
+   "A": -1000.0,
+   "gate_fires_in_galaxies": false,
+   "n_alt_iters": 1,
+   "at_amp_grid_edge": true,
+   "gate_W_max_galaxy": 0.0,
+   "radial_rms_dex": 0.16467384540276797,
+   "cluster_rms_dex": 0.4533447654199137,
+   "cluster_rms_flat_dex": 0.3010299956639812,
+   "cluster_A_flat": -1000.0,
+   "cluster_rms_at_A_flat": 0.3010299956639812,
+   "cluster_B_flat": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "field_dex_flat": 0.0,
+   "member_dex_flat": 0.0,
+   "cluster_B": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "cluster_B_arith": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "cluster_B_1Mpc": 1.0,
+   "cluster_shape": 1.0,
+   "harm_vs_arith_dex": 0.0,
+   "field_dex": 0.0,
+   "member_dex": 0.0,
+   "vert_Bz": 1.535781788492509,
+   "vert_h_as": 34.90882976256516,
+   "vert_h_chi2dof": 19.609366963054413,
+   "vert_amp_chi2dof": 83.00263929982877,
+   "vert_A_dyn": 1.0377454631089977,
+   "vert_BR": 1.9282700966727346,
+   "asym_slope": -1.0000845721149907,
+   "asym_slope_response": 0.0,
+   "W_sup": 0.0,
+   "z_radial": 1.4970349582069815,
+   "z_vert_amp": 1.7292889143744148,
+   "z_vert_shape": 1.460508679940242,
+   "z_cluster": 4.533447654199136,
+   "J": 2.6418169435549688,
+   "J_no_amp": 2.8824958458274903,
+   "z_worst": 4.533447654199136,
+   "screens": {
+    "H1_cluster_reach": {
+     "pass": false,
+     "value": 1.0,
+     "tol": 1.5,
+     "why": "B at 1 Mpc must reach the measured cluster gap"
+    },
+    "H2_field_galaxy": {
+     "pass": true,
+     "value": 0.0,
+     "tol": 0.04,
+     "why": "isolated galaxy must stay on the RAR"
+    },
+    "H3_member_galaxy": {
+     "pass": true,
+     "value": 0.0,
+     "tol": 0.04,
+     "why": "a CLUSTER MEMBER sits deeper than the 1 Mpc shell; a depth-gated law fires hardest there"
+    },
+    "H4_radial": {
+     "pass": true,
+     "value": 0.16467384540276797,
+     "tol": 0.3,
+     "why": "SPARC train RMS in dex"
+    },
+    "H5_vert_amplitude": {
+     "pass": true,
+     "value": 1.535781788492509,
+     "tol": [
+      0.301,
+      1.67
+     ],
+     "why": "inside Run L's 95% interval on B_z; a CONSTRAINT, not a discriminator"
+    },
+    "H6_vert_shape": {
+     "pass": true,
+     "value": 19.609366963054413,
+     "tol": 40.0,
+     "why": "h_sigma_LOS chi2/dof; this is the channel that rejected the isotropic tensor at 133"
+    },
+    "H7_asymptotic": {
+     "pass": true,
+     "value": -1.0000845721149907,
+     "tol": [
+      -1.25,
+      -0.75
+     ],
+     "why": "d ln g/d ln r must be -1, a flat rotation curve"
+    }
+   },
+   "failed": [
+    "H1_cluster_reach"
+   ],
+   "survives": false
+  }
+ ],
+ "survivor_hygiene": [
+  {
+   "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12",
+   "a0": 1.04115625e-10,
+   "A": -94.65724194487994,
+   "W_max_galaxy": 0.010012692989586392,
+   "W_max_cluster": 0.1394663095412929,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.021668238805302276,
+   "cluster_rms_flat_dex": 0.11402324407066343,
+   "A_flat": -66.22556025444165,
+   "rms_at_A_flat": 0.021273171369723547,
+   "member_dex_flat": 0.035643878788402326
+  },
+  {
+   "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|log|m2|I3e+12",
+   "a0": 1.04e-10,
+   "A": -101.66687795092078,
+   "W_max_galaxy": 0.009962898090622193,
+   "W_max_cluster": 0.13056000326502096,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.022504646411600104,
+   "cluster_rms_flat_dex": 0.12779584343220649,
+   "A_flat": -71.12974996187133,
+   "rms_at_A_flat": 0.021531385256012812,
+   "member_dex_flat": 0.03570414605024928
+  },
+  {
+   "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I3e+12",
+   "a0": 1.04e-10,
+   "A": -101.66687795092078,
+   "W_max_galaxy": 0.009913432830184865,
+   "W_max_cluster": 0.1223961677264832,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.01969568610575756,
+   "cluster_rms_flat_dex": 0.11499085446880804,
+   "A_flat": -71.12974996187133,
+   "rms_at_A_flat": 0.022756343278246244,
+   "member_dex_flat": 0.038214877403791384
+  },
+  {
+   "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I1e+12",
+   "a0": 1.0203437500000001e-10,
+   "A": -25.0,
+   "W_max_galaxy": 0.08266494818196299,
+   "W_max_cluster": 0.5565797156750121,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.011645963763448619,
+   "cluster_rms_flat_dex": 0.11312436581310392,
+   "A_flat": -18.5,
+   "rms_at_A_flat": 0.04961753149183342,
+   "member_dex_flat": 0.0333250286450235
+  },
+  {
+   "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m1|I3e+12",
+   "a0": 8.582375e-11,
+   "A": -25.5,
+   "W_max_galaxy": 0.10006344482170496,
+   "W_max_cluster": 0.3734518838368511,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.00937862119576438,
+   "cluster_rms_flat_dex": 0.11133051508676227,
+   "A_flat": -19.5,
+   "rms_at_A_flat": 0.061593076416224045,
+   "member_dex_flat": 0.04154605993917313
+  },
+  {
+   "name": "aqual|scalar_a0|tidal|inv|m2|I1e-33",
+   "a0": 1.00230625e-10,
+   "A": 16.0,
+   "W_max_galaxy": 0.8033247312360119,
+   "W_max_cluster": 0.9827227439860676,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.003977932735013789,
+   "cluster_rms_flat_dex": 0.1638992845888905,
+   "A_flat": 7.5,
+   "rms_at_A_flat": 0.11767505069266439,
+   "member_dex_flat": 3.812104001138568e-05
+  },
+  {
+   "name": "rar|scalar_a0|tidal|inv|m2|I1e-33",
+   "a0": 1.02866875e-10,
+   "A": 16.0,
+   "W_max_galaxy": 0.8033247312360119,
+   "W_max_cluster": 0.9827227439860676,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.00399233583370906,
+   "cluster_rms_flat_dex": 0.16496025806733325,
+   "A_flat": 7.5,
+   "rms_at_A_flat": 0.11722413871917192,
+   "member_dex_flat": 3.9762844606701855e-05
+  },
+  {
+   "name": "rar|tensor_S[plaw_p0q1s2_L300]|phi|pow|m1|I3e+12",
+   "a0": 9.179e-11,
+   "A": -40.0,
+   "W_max_galaxy": 0.10006344482170496,
+   "W_max_cluster": 0.3734518838368511,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.018021857635242305,
+   "cluster_rms_flat_dex": 0.10049938196044313,
+   "A_flat": -33.0,
+   "rms_at_A_flat": 0.06538539110691813,
+   "member_dex_flat": 0.015490213170435698
+  },
+  {
+   "name": "rar|tensor_S[plaw_p0q1s2_L300]|phi|log|m1|I3e+12",
+   "a0": 9.16975e-11,
+   "A": -40.5,
+   "W_max_galaxy": 0.09536785525170514,
+   "W_max_cluster": 0.317327194149867,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.01592271468676351,
+   "cluster_rms_flat_dex": 0.1036090031520205,
+   "A_flat": -33.5,
+   "rms_at_A_flat": 0.07166265346939399,
+   "member_dex_flat": 0.026085380950526715
+  },
+  {
+   "name": "aqual|scalar_a0|tidal|inv|m4|I1e-33",
+   "a0": 1.0487875e-10,
+   "A": 11.0,
+   "W_max_galaxy": 0.9434495688778127,
+   "W_max_cluster": 0.9996910036806061,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.006891926871616494,
+   "cluster_rms_flat_dex": 0.18334548748227175,
+   "A_flat": 6.0,
+   "rms_at_A_flat": 0.16732175298604154,
+   "member_dex_flat": 1.1359846008390867e-09
+  },
+  {
+   "name": "rar|scalar_a0|tidal|inv|m4|I1e-33",
+   "a0": 1.07515e-10,
+   "A": 11.0,
+   "W_max_galaxy": 0.9434495688778127,
+   "W_max_cluster": 0.9996910036806061,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.0069324520070793705,
+   "cluster_rms_flat_dex": 0.18370060818904815,
+   "A_flat": 6.0,
+   "rms_at_A_flat": 0.16707901689438887,
+   "member_dex_flat": 1.1829929610238958e-09
+  },
+  {
+   "name": "aqual|tensor_d|tidal|inv|m2|I1e-33",
+   "a0": 9.3709375e-11,
+   "A": -23.0,
+   "W_max_galaxy": 0.8033247312360119,
+   "W_max_cluster": 0.9827227439860676,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.019546113480472138,
+   "cluster_rms_flat_dex": 0.16064115312472466,
+   "A_flat": -19.5,
+   "rms_at_A_flat": 0.1538269954571649,
+   "member_dex_flat": 0.0001587942829672132
+  },
+  {
+   "name": "aqual|tensor_T|tidal|inv|m2|I1e-33",
+   "a0": 1.2328625000000001e-10,
+   "A": 25.0,
+   "W_max_galaxy": 0.8033247312360119,
+   "W_max_cluster": 0.9827227439860676,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.03914609128934882,
+   "cluster_rms_flat_dex": 0.16137141082551532,
+   "A_flat": 21.0,
+   "rms_at_A_flat": 0.15440998021469057,
+   "member_dex_flat": 0.000279828306968297
+  },
+  {
+   "name": "aqual|scalar_a0|tidal|pow|m-2|I1e-33",
+   "a0": 1.04809375e-10,
+   "A": 1.5,
+   "W_max_galaxy": 4.084523368314337,
+   "W_max_cluster": 56.87956138368265,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.004644897203348375,
+   "cluster_rms_flat_dex": 0.20984062524916028,
+   "A_flat": 1.0,
+   "rms_at_A_flat": 0.20049101423593402,
+   "member_dex_flat": 5.1395045507807995e-06
+  },
+  {
+   "name": "rar|scalar_a0|tidal|pow|m-2|I1e-33",
+   "a0": 1.07445625e-10,
+   "A": 1.5,
+   "W_max_galaxy": 4.084523368314337,
+   "W_max_cluster": 56.87956138368265,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.004649092401638688,
+   "cluster_rms_flat_dex": 0.20997985878238962,
+   "A_flat": 1.0,
+   "rms_at_A_flat": 0.2003978805679985,
+   "member_dex_flat": 5.3523046801639945e-06
+  },
+  {
+   "name": "aqual|tensor_d|tidal|inv|m4|I1e-33",
+   "a0": 1.03283125e-10,
+   "A": -19.5,
+   "W_max_galaxy": 0.9434495688778127,
+   "W_max_cluster": 0.9996910036806061,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.022467633823735067,
+   "cluster_rms_flat_dex": 0.1889769775833093,
+   "A_flat": -17.5,
+   "rms_at_A_flat": 0.18659948559646547,
+   "member_dex_flat": 5.223117009133916e-09
+  },
+  {
+   "name": "aqual|iso_K|tidal|inv|m2|I1e-33",
+   "a0": 8.915375e-11,
+   "A": 24.0,
+   "W_max_galaxy": 0.8033247312360119,
+   "W_max_cluster": 0.9827227439860676,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.01890300331658651,
+   "cluster_rms_flat_dex": 0.160646583738707,
+   "A_flat": 20.5,
+   "rms_at_A_flat": 0.15365212435477024,
+   "member_dex_flat": 0.0002773120187111934
+  },
+  {
+   "name": "aqual|iso_K|tidal|inv|m4|I1e-33",
+   "a0": 1.03051875e-10,
+   "A": 19.5,
+   "W_max_galaxy": 0.9434495688778127,
+   "W_max_cluster": 0.9996910036806061,
+   "clipped": false,
+   "a0_at_grid_edge": false,
+   "amp_at_grid_edge": false,
+   "gate_fires_in_galaxies": true,
+   "harm_vs_arith_dex": 0.021954038994669134,
+   "cluster_rms_flat_dex": 0.18871869078485112,
+   "A_flat": 17.5,
+   "rms_at_A_flat": 0.1865177394504795,
+   "member_dex_flat": 8.659678981967654e-09
+  }
+ ],
+ "survivor_harm_vs_arith": {
+  "median": 0.01697228616100291,
+  "max": 0.03914609128934882
+ },
+ "momentum_tensor_S": [
+  {
+   "A": -95.0,
+   "excess": NaN,
+   "base_null": 0.00300868618651299,
+   "K_min_eig": -4.037917733512586e-08,
+   "K_cond": Infinity,
+   "gradK": null,
+   "surface": null,
+   "note": "K's condition number exceeds 1e8 on this configuration, so there is no bounded solution to compare forces with.  That is a statement about how extreme the fitted amplitude is, not a solver complaint -- the screen lane records the same outcome for one pair-channel row."
+  },
+  {
+   "A": -40.0,
+   "excess": NaN,
+   "base_null": 0.00300868618651299,
+   "K_min_eig": -8.87666828930378e-09,
+   "K_cond": Infinity,
+   "gradK": null,
+   "surface": null,
+   "note": "K's condition number exceeds 1e8 on this configuration, so there is no bounded solution to compare forces with.  That is a statement about how extreme the fitted amplitude is, not a solver complaint -- the screen lane records the same outcome for one pair-channel row."
+  },
+  {
+   "A": -20.0,
+   "excess": NaN,
+   "base_null": 0.00300868618651299,
+   "K_min_eig": -2.9740476747974753e-10,
+   "K_cond": 2.2927835988459288e+306,
+   "gradK": null,
+   "surface": null,
+   "note": "K's condition number exceeds 1e8 on this configuration, so there is no bounded solution to compare forces with.  That is a statement about how extreme the fitted amplitude is, not a solver complaint -- the screen lane records the same outcome for one pair-channel row."
+  },
+  {
+   "A": -10.0,
+   "excess": NaN,
+   "base_null": 0.00300868618651299,
+   "K_min_eig": 9.137690696547907e-06,
+   "K_cond": 165708612.0499002,
+   "gradK": null,
+   "surface": null,
+   "note": "K's condition number exceeds 1e8 on this configuration, so there is no bounded solution to compare forces with.  That is a statement about how extreme the fitted amplitude is, not a solver complaint -- the screen lane records the same outcome for one pair-channel row."
+  },
+  {
+   "A": -5.0,
+   "excess": 0.24497831771387293,
+   "base_null": 0.00300868618651299,
+   "K_min_eig": 0.0030228613270164573,
+   "K_cond": 12872.785780776072,
+   "gradK": 1.8393691486728805,
+   "surface": 0.03617088947572392,
+   "note": null
+  }
+ ]
+}
