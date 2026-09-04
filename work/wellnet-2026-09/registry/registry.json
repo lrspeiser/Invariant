@@ -141,6 +141,66 @@
    "status": "VALID",
    "note": "synthetic; unaffected",
    "invalidated_by": null
+  },
+  {
+   "run_id": "BF-universes",
+   "lane": "universes",
+   "commit": "948b9598",
+   "registered_utc": "2026-09-04T20:59:43Z",
+   "depends_on": {
+    "identifiability_gate": 1
+   },
+   "outputs": [
+    "universes_results.json",
+    "REPORT.md"
+   ],
+   "status": "VALID",
+   "note": "synthetic; 0 foreign reads asserted",
+   "invalidated_by": null,
+   "output_state": "SCIENTIFICALLY_ADMISSIBLE"
+  },
+  {
+   "run_id": "BH-cdm-separation",
+   "lane": "cdm-separation",
+   "commit": "4745c9b8",
+   "registered_utc": "2026-09-04T21:11:26Z",
+   "depends_on": {
+    "identifiability_gate": 1,
+    "holdout_seal": 2
+   },
+   "outputs": [
+    "cdm-separation/results/*.json",
+    "cdm-separation/REPORT.md"
+   ],
+   "status": "VALID",
+   "note": "synthetic only; asks whether any statistic separates a tensor/void or reciprocal path law from a CDM null; must not reuse BF detectors; KiDS+wide binaries sealed, confirmation reserve untouched",
+   "invalidated_by": null,
+   "output_state": "SCIENTIFICALLY_ADMISSIBLE"
+  },
+  {
+   "run_id": "BI-voidcmb",
+   "lane": "voidcmb",
+   "commit": "4745c9b8",
+   "registered_utc": "2026-09-04T21:39:30Z",
+   "depends_on": {
+    "catalogue_validation": 3,
+    "holdout_seal": 2,
+    "identifiability_gate": 1,
+    "confirmation_status": 2
+   },
+   "outputs": [
+    "certificate_voidcmb.json",
+    "voidcmb_results.json",
+    "isw_separation.json",
+    "systematics.json",
+    "acquisition.json",
+    "pathmap_ns64_er5.npz",
+    "REPORT.md"
+   ],
+   "status": "VALID",
+   "note": "COMPLETE. Stage 4 certificate ISSUED (all 7). c2/c1 = -0.0266% +- 0.0206%, -1.28 sigma null-calibrated; |c2/c1| < 0.0678% at 95%, 4.1-6.5x tighter than Run AK 0.28-0.44%. Blind guard armed through certification (0 refusals, 0 identity reads). Read Planck PR3/PR2 + SDSS VAST VoidFinder only; KiDS and wide binaries sealed, confirmation reserve untouched.",
+   "invalidated_by": null,
+   "output_state": "SCIENTIFICALLY_ADMISSIBLE"
   }
  ],
  "rules": {

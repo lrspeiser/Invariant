@@ -1,0 +1,168 @@
+{
+ "generated_utc": "2026-09-04T21:30:18Z",
+ "run_id": "BI-voidcmb",
+ "lane": "work/wellnet-2026-09/voidcmb",
+ "stage": "4 (identifiability)",
+ "statistic": "beta = dT/d(dI_q)",
+ "headline_model": "M2_isw_marginalised",
+ "models": {
+  "M1_no_isw": [
+   "dI_q"
+  ],
+  "M2_isw_marginalised": [
+   "dI_q",
+   "I_phi_in"
+  ],
+  "M3_hardened": [
+   "dI_q",
+   "I_phi_in",
+   "edge_deg",
+   "csc_b",
+   "dust",
+   "sync"
+  ]
+ },
+ "pathmap": "pathmap_ns64_er5.npz",
+ "map_key": "smica_nosz_pr3",
+ "n_analysis_pixels": 6753,
+ "n_rotations": 2000,
+ "blind_guard": {
+  "armed": true,
+  "checks": 7085,
+  "refusals": 0,
+  "max_overlap": 0.05
+ },
+ "ak_bound": [
+  0.0028,
+  0.0044
+ ],
+ "null_by_model": {
+  "M1_no_isw": {
+   "mean": 2.396570429889145e-06,
+   "sd": 0.00013876480140631987
+  },
+  "M2_isw_marginalised": {
+   "mean": 3.275067155864759e-06,
+   "sd": 0.00020630780068107177
+  },
+  "M3_hardened": {
+   "mean": 2.4320327524929977e-06,
+   "sd": 0.00019444025064925563
+  }
+ },
+ "checks": {
+  "C1_responsive": {
+   "passed": true,
+   "spread": 0.012,
+   "slope": 1.0000000000000004,
+   "detail": "statistic moves 1.200e-02 over the effect range; d(estimate)/d(injected) = 1.0000 +- 0.0000 over 60 placements, x 0.9814 for pixelisation = 0.9814",
+   "responsiveness_mean": 0.9999999999999998,
+   "responsiveness_sd": 9.367180074657791e-16,
+   "responsiveness_pixelisation": 0.9813671394056971,
+   "responsiveness_total": 0.9813671394056969
+  },
+  "C2_not_a_restatement": {
+   "passed": true,
+   "target_response_at_predicted": 0.004000000000000002,
+   "monopole_lever_100uK": 1.1828491666591426e-18,
+   "gain_lever_0p1pct": 3.509594979979744e-07,
+   "ratio": 8.773987449949357e-05,
+   "detail": "a 100 uK monopole moves c2/c1 by +1.18e-18 and a 0.1% gain error by +3.51e-07; the predicted signal moves it by 4.00e-03 -- ratio 8.77e-05"
+  },
+  "C3_exchangeable": {
+   "null_sd_proper": 0.000206923917580933,
+   "null_sd_reflected": 0.00020396197897869326,
+   "null_mean_proper": -1.6085663663116276e-05,
+   "null_mean_reflected": 2.2635797974845794e-05,
+   "passed": true,
+   "realised_fpr_rotation_loo": 0.05,
+   "realised_fpr_simulation": 0.051666666666666666,
+   "null_mean": 3.275067155864759e-06,
+   "null_sd": 0.00020630780068107177,
+   "sd_simulation": 0.00020316846283224122,
+   "sd_analytic_ols": 4.5912627122947786e-05,
+   "sd_sim_over_sd_null": 0.9847832324397486,
+   "sd_ols_over_sd_null": 0.2225443098679698,
+   "n_rotations": 2000,
+   "null_mean_z": 0.7099365867131162,
+   "fwhm_eff_deg": 0.8064156721871768,
+   "detail": "rotation null +0.00000 +- 0.00021; realised FPR 0.050 (leave-one-out) and 0.052 (independent Gaussian skies) against nominal 0.05; sd(sim)/sd(null) = 0.98, sd(analytic OLS)/sd(null) = 0.22"
+  },
+  "C4_powered": {
+   "passed": true,
+   "z_at_0p28pct": 13.571954093623821,
+   "z_at_0p44pct": 21.327356432837437,
+   "responsiveness": 0.9999999999999998,
+   "sd_null": 0.00020630780068107177,
+   "min_detectable_3sigma": 0.0006189234020432154,
+   "detail": "AK's gate predicts |c2/c1| < 0.28%-0.44%; at 0.28% this pipeline gives 13.6 sigma, at 0.44% 21.3 sigma; 3-sigma floor 0.06%"
+  },
+  "C5_support": {
+   "passed": true,
+   "chi": {
+    "passed": true,
+    "fraction_outside": 0.0,
+    "read": [
+     0.0,
+     332.3856506347656
+    ],
+    "measured": [
+     0.0,
+     332.3856506347656
+    ],
+    "detail": "reads 0-332.386; measured 0-332.386; 0.0% outside support"
+   },
+   "z": {
+    "passed": true,
+    "fraction_outside": 0.0,
+    "read": [
+     0.0,
+     0.1125
+    ],
+    "measured": [
+     0.0,
+     0.1125
+    ],
+    "detail": "reads 0-0.1125; measured 0-0.1125; 0.0% outside support"
+   },
+   "sky_fraction_of_footprint_used": 0.9754441716019067,
+   "detail": "reads chi in [0, 332.4] Mpc/h and z <= 0.1125, exactly the catalogue's own limits; 97.5% of the eroded footprint survives the Planck mask"
+  },
+  "C6_out_of_grammar": {
+   "passed": true,
+   "recovery": {
+    "I_R": 0.30679236850515645,
+    "I_sat": 0.6731156603513462,
+    "N_v": 0.6358984349671826,
+    "I_phi_in": 1.1669599384102097e-16,
+    "I_q_far": 0.6803281732720261
+   },
+   "best_out_of_grammar": 0.6731156603513462,
+   "detail": "out-of-grammar injections recover I_R 0.31, I_sat 0.67, N_v 0.64, I_phi_in 0.00, I_q_far 0.68; best 0.67"
+  },
+  "C7_nuisance_distinct": {
+   "passed": true,
+   "worst_corr": 0.7633473928530329,
+   "worst_nuisance": "ISW_phi_in",
+   "detail": "closest nuisance 'ISW_phi_in' matches at |r| = 0.763",
+   "all_correlations": {
+    "csc_b": 0.031825495998772116,
+    "dust": -0.09932072333345995,
+    "sync": -0.10562975548003113,
+    "freefree": 0.012086017085259235,
+    "ame": -0.1511455245486748,
+    "co": 0.04550955882563753,
+    "edge_deg": 0.13130980950923865,
+    "ISW_phi_in": 0.7633473928530329,
+    "ISW_phi_k3": 0.41288741964058495,
+    "mask_fraction": -0.00044214390283304854,
+    "dipole_x": -0.14387058906805375,
+    "dipole_y": 0.01057078652136519,
+    "dipole_z": -0.060016949889976946
+   }
+  }
+ },
+ "issued": true,
+ "opened_true_footprint_temperature": false,
+ "seconds": 43.77842307090759
+}

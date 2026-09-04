@@ -100,6 +100,16 @@ RULED_OUT = [
                "the RAR's 0.121/0.122.",
          admissible=True),
 
+    dict(cls="geometric path-redshift mechanisms (the half SN dilation cannot reach)",
+         kind="REAL", grade="T1-T2", run="BI",
+         basis="void path length x Planck TT: c2/c1 = -0.0266% +- 0.0206%, "
+               "|c2/c1| < 0.0678% at 95%, with 13.6-21.3 sigma of power AT AK's "
+               "own 0.28-0.44% bound. Certificate issued with a blind guard; "
+               "responsiveness 0.98; 11 arms, all within -1.9..+0.03 sigma. "
+               "Excludes the class 4-6x below the amplitude AK's derivation "
+               "identified. Support: z <= 0.1125 only.",
+         admissible=True),
+
     # ------------------------------------------- REAL but INADMISSIBLE evidence
     dict(cls="[withdrawn] the cluster excess organised by r/R500",
          kind="REAL", grade="T4", run="AX/AT/AY",
@@ -169,16 +179,6 @@ REMAINING = [
              "exists for 1 of 7 targets, and that one lacks member Sersic "
              "fits. No public target has both."),
          cost="new observation, or self-fitting member light from existing imaging"),
-    dict(cls="geometric path redshift",
-         status="the energy-drain half is dead; the geometric half is invisible "
-                "to the killing test",
-         evidence="Run AK: b = 1 identically for eta = 1, so SN time dilation "
-                  "has ZERO power against it; capped at 0.28-0.44% by the CMB",
-         separating_observation=(
-             "Cross-correlate the void path-length map with Planck. It is the "
-             "only cheap probe that reaches the surviving mechanism class, and "
-             "it is 2-30x tighter than this programme's own dataset."),
-         cost="a cross-correlation; both datasets public"),
     dict(cls="memory / hysteresis gravity",
          status="never built; the axis has never been varied",
          evidence="Run AZ: propagation is one of five axes at 0% coverage; "
