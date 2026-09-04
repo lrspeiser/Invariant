@@ -1,0 +1,663 @@
+<title>Nothing at Complexity Three</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+:root{
+  --paper:#EEF2F4; --surface:#FFFFFF; --sunk:#E3E9ED;
+  --ink:#0F1720; --body:#26333F; --muted:#5D6B78; --rule:#CFD9E0;
+  --signal:#0E6E86; --signal-soft:#DBEEF3;
+  --control:#6E5F92; --control-soft:#E8E4F1;
+  --alert:#A32316; --alert-soft:#F7E2DF;
+  --good:#1F6B4A;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --col:70ch;
+  --shadow:0 1px 2px rgba(15,23,32,.06),0 8px 24px -12px rgba(15,23,32,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B1015; --surface:#131C23; --sunk:#0E161C;
+    --ink:#E7EEF3; --body:#C3D0DA; --muted:#8B9BA8; --rule:#26343E;
+    --signal:#3FA9C4; --signal-soft:#10303A;
+    --control:#A895D0; --control-soft:#241E36;
+    --alert:#E8796B; --alert-soft:#331916;
+    --good:#5FBE90;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B1015; --surface:#131C23; --sunk:#0E161C;
+  --ink:#E7EEF3; --body:#C3D0DA; --muted:#8B9BA8; --rule:#26343E;
+  --signal:#3FA9C4; --signal-soft:#10303A;
+  --control:#A895D0; --control-soft:#241E36;
+  --alert:#E8796B; --alert-soft:#331916;
+  --good:#5FBE90;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--body);
+  font-family:var(--sans); font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 96px}
+.col{max-width:var(--col)}
+
+/* ---------- masthead ---------- */
+header.mast{padding:64px 0 34px;border-bottom:1px solid var(--rule)}
+.eyebrow{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  display:flex;gap:14px;flex-wrap:wrap;align-items:center
+}
+.eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--signal)}
+h1{
+  font-family:var(--serif);font-weight:600;color:var(--ink);
+  font-size:clamp(2.3rem,5.6vw,3.7rem);line-height:1.04;
+  letter-spacing:-.022em;margin:.34em 0 .3em;text-wrap:balance;max-width:16ch
+}
+.standfirst{
+  font-family:var(--serif);font-size:clamp(1.06rem,2.1vw,1.28rem);
+  line-height:1.55;color:var(--body);max-width:60ch;margin:0
+}
+.standfirst em{color:var(--ink);font-style:italic}
+
+/* ---------- readouts ---------- */
+.readouts{
+  display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  margin:40px 0 0;border-radius:3px;overflow:hidden
+}
+.readout{background:var(--surface);padding:18px 20px 16px}
+.readout .k{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px
+}
+.readout .v{
+  font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:1.62rem;font-weight:500;color:var(--ink);line-height:1;
+  letter-spacing:-.02em
+}
+.readout .s{font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.4}
+
+/* ---------- sections ---------- */
+section{padding:56px 0 0}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.12em;
+  color:var(--signal);margin-bottom:8px
+}
+h2{
+  font-family:var(--serif);font-weight:600;color:var(--ink);
+  font-size:clamp(1.5rem,3vw,2rem);line-height:1.16;letter-spacing:-.015em;
+  margin:0 0 18px;text-wrap:balance;max-width:24ch
+}
+h3{
+  font-family:var(--sans);font-weight:600;color:var(--ink);font-size:1.02rem;
+  letter-spacing:-.005em;margin:32px 0 10px
+}
+p{margin:0 0 16px}
+strong{color:var(--ink);font-weight:600}
+code{
+  font-family:var(--mono);font-size:.88em;background:var(--sunk);
+  padding:.12em .38em;border-radius:3px;color:var(--ink)
+}
+a{color:var(--signal)}
+
+/* ---------- formula block ---------- */
+.fx{
+  font-family:var(--mono);font-size:14px;line-height:1.85;color:var(--ink);
+  background:var(--surface);border:1px solid var(--rule);
+  border-left:3px solid var(--signal);
+  padding:18px 22px;margin:22px 0;border-radius:3px;overflow-x:auto;
+  white-space:pre;box-shadow:var(--shadow)
+}
+.fx .cm{color:var(--muted)}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;margin:24px 0;border:1px solid var(--rule);
+    border-radius:3px;background:var(--surface);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+caption{
+  caption-side:top;text-align:left;padding:15px 20px 0;
+  font-size:12.5px;color:var(--muted);font-family:var(--sans)
+}
+th,td{padding:10px 16px;text-align:right;border-bottom:1px solid var(--rule)}
+th:first-child,td:first-child{text-align:left}
+thead th{
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap
+}
+tbody td{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+tbody td:first-child{font-family:var(--sans);color:var(--body)}
+tbody tr:last-child td{border-bottom:none}
+.neg{color:var(--alert)}
+.pos{color:var(--good)}
+.sig{color:var(--signal)}
+.ctl{color:var(--control)}
+
+/* ---------- comparison bars: real vs physics-free twin ---------- */
+.cmp{
+  display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  margin:26px 0;border-radius:3px;overflow:hidden;box-shadow:var(--shadow)
+}
+.cmp-row{background:var(--surface);padding:15px 20px;
+  display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:center}
+.cmp-row .lbl{font-family:var(--mono);font-size:12.5px;color:var(--muted);
+  font-variant-numeric:tabular-nums}
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar{display:grid;grid-template-columns:78px 1fr 72px;gap:12px;align-items:center}
+.bar .who{font-family:var(--mono);font-size:11px;letter-spacing:.05em;
+  text-transform:uppercase}
+.bar .track{height:11px;background:var(--sunk);border-radius:2px;overflow:hidden}
+.bar .fill{height:100%;border-radius:2px}
+.bar .num{font-family:var(--mono);font-size:12.5px;text-align:right;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.f-sig{background:var(--signal)}
+.f-ctl{background:var(--control)}
+.w-sig{color:var(--signal)}
+.w-ctl{color:var(--control)}
+
+/* ---------- callouts ---------- */
+.note{
+  border:1px solid var(--rule);border-left:3px solid var(--alert);
+  background:var(--alert-soft);padding:18px 22px;margin:26px 0;
+  border-radius:3px
+}
+.note .h{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--alert);margin-bottom:9px;font-weight:600
+}
+.note p:last-child{margin-bottom:0}
+.note p{font-size:14.5px}
+
+.keep{
+  border:1px solid var(--rule);border-left:3px solid var(--signal);
+  background:var(--signal-soft);padding:18px 22px;margin:26px 0;border-radius:3px
+}
+.keep .h{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--signal);margin-bottom:9px;font-weight:600
+}
+.keep p{font-size:14.5px}
+.keep p:last-child{margin-bottom:0}
+
+/* ---------- findings list ---------- */
+ol.find{counter-reset:f;list-style:none;padding:0;margin:24px 0 0}
+ol.find li{
+  counter-increment:f;position:relative;padding:0 0 20px 46px;
+  border-bottom:1px solid var(--rule);margin-bottom:20px
+}
+ol.find li:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+ol.find li::before{
+  content:counter(f,decimal-leading-zero);position:absolute;left:0;top:1px;
+  font-family:var(--mono);font-size:12px;font-weight:600;color:var(--signal);
+  letter-spacing:.04em
+}
+ol.find .t{display:block;color:var(--ink);font-weight:600;margin-bottom:5px}
+
+/* ---------- footer ---------- */
+footer{
+  margin-top:64px;padding-top:26px;border-top:1px solid var(--rule);
+  font-size:13px;color:var(--muted)
+}
+footer .files{font-family:var(--mono);font-size:12px;line-height:1.95;
+  margin-top:12px;color:var(--muted)}
+footer .files b{color:var(--body);font-weight:500}
+@media (max-width:640px){
+  .cmp-row{grid-template-columns:1fr;gap:10px}
+  .bar{grid-template-columns:66px 1fr 62px;gap:9px}
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyebrow">
+    <span>Invariant &#183; Run J</span><span class="dot"></span>
+    <span>SPARC &#183; 123 galaxies &#183; frozen split e5f74522</span><span class="dot"></span>
+    <span>3 September 2026</span>
+  </div>
+  <h1>Nothing at Complexity&nbsp;Three</h1>
+  <p class="standfirst">
+    A GPU search that scores 77 million candidate gravity laws per second against
+    real rotation curves, each one with its <em>optimal</em> coefficients. It
+    enumerated every three-term law that the grammar can express &#8212; all 1.14
+    billion of them &#8212; and none of them beats the radial acceleration relation
+    out of sample. The interesting part is not that they failed. It is that a
+    twin dataset with the physics deliberately removed failed by almost exactly
+    as much.
+  </p>
+
+  <div class="readouts">
+    <div class="readout">
+      <div class="k">Throughput</div>
+      <div class="v">77 M/s</div>
+      <div class="s">candidate laws per second, optimally fitted, against real data</div>
+    </div>
+    <div class="readout">
+      <div class="k">Exhaustive pass</div>
+      <div class="v">4.55 e9</div>
+      <div class="s">evaluations in 59 s &#8212; every law of complexity &#8804; 3, &#215; 4 targets</div>
+    </div>
+    <div class="readout">
+      <div class="k">Best blind result</div>
+      <div class="v neg">&#8722;3.7 %</div>
+      <div class="s">the winning law is <em>worse</em> than the RAR on held-out galaxies</div>
+    </div>
+    <div class="readout">
+      <div class="k">Manufactured gain</div>
+      <div class="v ctl">+3.2 %</div>
+      <div class="s">what the same search extracts from data containing no physics</div>
+    </div>
+  </div>
+</header>
+
+<section class="col">
+  <div class="snum">J.1 &#8212; The premise</div>
+  <h2>A billion candidates that never met an observation</h2>
+  <p>
+    The repository already contained a billion-candidate screen. Its own manifest
+    records <code>observational_data_opened = False</code> and
+    <code>synthetic_analytic_controls_only = True</code>: a billion laws were
+    screened for flatness, BTFR slope and Newtonian limits on idealised analytic
+    curves, and not one was ever scored against a measurement. The number was
+    real. The contact with data was not.
+  </p>
+  <p>
+    This run closes that gap, and does so at a scale where the honest question
+    stops being &#8220;can we find something that fits?&#8221; and becomes &#8220;how much fit
+    does a search of this size produce <em>from nothing</em>?&#8221;
+  </p>
+</section>
+
+<section class="col">
+  <div class="snum">J.2 &#8212; Architecture</div>
+  <h2>Why billions are meaningful here</h2>
+  <p>
+    A candidate law is a functional <strong>form</strong>, not a coefficient
+    vector. For any fixed set of basis functions the optimal coefficients solve
+    a linear system, so sampling coefficients at random is a slow, bad way to
+    rediscover what linear algebra gives exactly. The expensive axis is
+    <em>which basis functions appear</em>.
+  </p>
+  <p>So the search is an atom bank plus subset selection:</p>
+  <div class="fx"><span class="cm">1.</span> An atom is one parameterised basis function &#8212; e.g. 1/(1 + x/s) at one
+   particular s &#8212; evaluated on every point-draw of the bench.
+   Ten families &#215; eight variables &#215; a 25-point log scale grid = <b>1,898 atoms</b>.
+
+<span class="cm">2.</span> The atom Gram  G = A A&#7488;  and the projections  v = A y  are computed
+   ONCE, on the training points only, in float64.
+
+<span class="cm">3.</span> A candidate law is a SUBSET of K atoms. Its optimal coefficients and
+   its exact training RMS come from a K&#215;K sub-matrix GATHERED out of G.
+   The data is never touched again.</div>
+  <p>
+    Scoring one candidate <em>with its optimal coefficients</em> therefore costs
+    a K&#215;K Cholesky and O(K&#178;) of memory traffic &#8212; about 10&#178; flops instead of
+    about 10&#8309;. That is the whole trick, and it is what makes the throughput real
+    rather than rhetorical.
+  </p>
+
+  <div class="note">
+    <div class="h">Encoding bug that looked like a solver bug</div>
+    <p>
+      Atoms are standardised to zero mean, so a genome that happened to contain
+      no intercept could not reach the data&#8217;s mean at all. Those rows scored
+      &#8776;0.47 dex &#8212; worse than predicting nothing &#8212; which made every k = 6 result
+      look catastrophic. The intercept is now carried in every model and is not
+      counted toward K.
+    </p>
+  </div>
+</section>
+
+<section class="col">
+  <div class="snum">J.3 &#8212; What the rank-2 theorem licenses</div>
+  <h2>Two directions, not one</h2>
+  <p>
+    The theorem established earlier on this bench is that the eight-variable set
+    (a<sub>N</sub>, &#931;<sub>b</sub>, &#961;<sub>b</sub>, r, M<sub>b</sub>, &#952;,
+    &#934;<sub>b</sub>, environment) has numerical rank 2. It does <strong>not</strong>
+    say that only functions of a<sub>N</sub> are available. It says there are
+    exactly two independent directions, and that a<sub>N</sub> and r span them.
+  </p>
+  <p>Every atom is therefore tagged by which direction it uses, so the report
+     can state what a winning law needed instead of asserting it:</p>
+  <div class="fx"><b>[g]</b>    the RAR's own direction &#8212; can only re-fit the interpolating function
+<b>[r]</b>    the second independent direction &#8212; the only new point-local information
+<b>[gal]</b>  galaxy-level constants, fixed along a rotation curve
+<b>[nl]</b>   nonlocal functionals of the source, not a point function of either</div>
+  <p>
+    An earlier draft of this module tagged <code>r</code> as &#8220;escaping the rank-2
+    span&#8221;, which was wrong &#8212; <code>r</code> is <em>in</em> the variable set the
+    theorem covers. The theorem constrains dimension, not which of the two
+    dimensions you are allowed to use.
+  </p>
+</section>
+
+<section class="col">
+  <div class="snum">J.4 &#8212; The controls</div>
+  <h2>Three twins with the physics removed</h2>
+  <p>
+    Every candidate is scored against four targets that differ only in
+    <code>v</code> and <code>y&#183;y</code>, so all four cost the same gather:
+  </p>
+  <div class="fx"><b>real</b>     measured log&#8321;&#8320;(g_obs / g_bar)
+<b>null</b>     RAR + Gaussian noise matched to the real residual scatter
+<b>perm</b>     RAR + the real residuals permuted across ALL points
+<b>perm_g</b>   RAR + the real residuals permuted WITHIN each galaxy</div>
+  <p>
+    <span class="ctl"><strong>perm_g</strong></span> is the sharp one. It keeps
+    every galaxy&#8217;s mean offset &#8212; distance, inclination and mass-to-light errors
+    are real, and are not new physics &#8212; and destroys only the radial dependence.
+    Anything the search extracts from it is search capacity, not gravity.
+  </p>
+  <p>
+    Each target is scored against <em>its own</em> baseline. Comparing a control
+    to the real target&#8217;s baseline is a baseline mismatch, not a control.
+  </p>
+</section>
+
+<section>
+  <div class="col">
+    <div class="snum">J.5 &#8212; Result 1</div>
+    <h2>The evolutionary run</h2>
+    <p>
+      4,000,000 population &#215; 300 generations &#215; 4 targets = <strong>4.8 billion
+      evaluations per seed</strong>, K = 8, roughly four minutes of wall clock
+      each. Propose, score with exact coefficients, penalise complexity, prune
+      by truncation, breed by uniform crossover, mutate by global jumps, local
+      walks along the parameter grid, and collapses. Run at three independent
+      seeds &#8212; <strong>14.4 billion evaluations</strong> in total.
+    </p>
+  </div>
+
+  <div class="tw">
+    <caption>Three seeds, identical settings. Gains against each target&#8217;s own
+      RAR baseline; blind uses coefficients frozen on train.</caption>
+    <table>
+      <thead><tr><th>Seed</th><th>Real (train)</th><th>perm_g (train)</th>
+        <th>Real (blind)</th><th>Margin vs control</th>
+        <th>Shortlist beating RAR</th></tr></thead>
+      <tbody>
+        <tr><td>seed 0</td><td class="sig">+5.15 %</td><td class="ctl">+3.20 %</td>
+          <td class="neg">&#8722;4.07 %</td><td class="neg">&#8722;5.38 pp</td><td>0 / 20</td></tr>
+        <tr><td>seed 1</td><td class="sig">+5.20 %</td><td class="ctl">+3.20 %</td>
+          <td class="neg">&#8722;3.92 %</td><td class="neg">&#8722;4.02 pp</td><td>0 / 20</td></tr>
+        <tr><td>seed 2</td><td class="sig">+4.93 %</td><td class="ctl">+3.07 %</td>
+          <td class="neg">&#8722;4.22 %</td><td class="neg">&#8722;5.63 pp</td><td>0 / 20</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cmp">
+    <div class="cmp-row">
+      <div class="lbl">TRAIN</div>
+      <div class="bars">
+        <div class="bar"><span class="who w-sig">real</span>
+          <span class="track"><span class="fill f-sig" style="width:100%"></span></span>
+          <span class="num sig">+5.15 %</span></div>
+        <div class="bar"><span class="who w-ctl">perm_g</span>
+          <span class="track"><span class="fill f-ctl" style="width:62.1%"></span></span>
+          <span class="num ctl">+3.20 %</span></div>
+      </div>
+    </div>
+    <div class="cmp-row">
+      <div class="lbl">BLIND</div>
+      <div class="bars">
+        <div class="bar"><span class="who w-sig">real</span>
+          <span class="track"><span class="fill" style="width:100%;background:var(--alert)"></span></span>
+          <span class="num neg">&#8722;4.07 %</span></div>
+        <div class="bar"><span class="who w-ctl">perm_g</span>
+          <span class="track"><span class="fill f-ctl" style="width:32.2%"></span></span>
+          <span class="num ctl">+1.31 %</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <p>
+      Read the control column first. A target with the radial physics
+      <em>deliberately destroyed</em> recovers +3.1 of the +5.1 points the real
+      data gives. Roughly five eighths of the apparent training gain is
+      manufactured by the search itself.
+    </p>
+    <p>
+      And the remainder does not survive. On held-out galaxies, with coefficients
+      frozen at their trained values, the best laws are 4 % <em>worse</em> than
+      the RAR &#8212; while the physics-free controls, put through the identical
+      shortlist-then-blind procedure, come out slightly ahead. The three seeds
+      span 0.27 points on train and 0.30 on blind, and not one of the sixty
+      shortlisted laws beat the RAR out of sample.
+    </p>
+
+    <div class="note">
+      <div class="h">A bug that produced a false positive</div>
+      <p>
+        The first blind evaluation called the scorer with the <em>blind</em>
+        Gram &#8212; which refits the coefficients on the blind set. It reported
+        <strong>+2.17 %</strong>. The correct procedure &#8212; fit on train, freeze,
+        evaluate &#8212; reports <strong>&#8722;3.73 %</strong> for the same law. A held-out
+        set that the fit is allowed to touch is not held out.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <div class="snum">J.6 &#8212; Result 2</div>
+    <h2>The exhaustive pass, which is a proof</h2>
+    <p>
+      At low complexity the space is small enough to enumerate completely, and
+      then the answer stops being &#8220;the best we found&#8221; and becomes
+      <strong>the best that exists</strong>.
+    </p>
+  </div>
+
+  <div class="tw">
+    <caption>Every law of complexity 1, 2 and 3 over the 1,898-atom bank &#8212;
+      1,137,761,793 laws &#215; 4 targets = 4.55 billion exact optimally-fitted
+      evaluations in 59 s. Gains are against each target&#8217;s own RAR baseline.</caption>
+    <table>
+      <thead>
+        <tr><th>Complexity</th><th>Laws enumerated</th><th>Real (train)</th>
+            <th>Best control</th><th>Margin</th><th>Real (blind)</th><th>Margin</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>k = 1</td><td>1,897</td><td class="sig">+0.23 %</td>
+            <td class="ctl">+0.42 %</td><td class="neg">&#8722;0.19 pp</td>
+            <td class="neg">&#8722;0.07 %</td><td class="neg">&#8722;0.78 pp</td></tr>
+        <tr><td>k = 2</td><td>1,798,356</td><td class="sig">+2.29 %</td>
+            <td class="ctl">+1.28 %</td><td class="pos">+1.01 pp</td>
+            <td class="neg">&#8722;2.14 %</td><td class="neg">&#8722;2.23 pp</td></tr>
+        <tr><td>k = 3</td><td>1,135,961,540</td><td class="sig">+3.61 %</td>
+            <td class="ctl">+2.13 %</td><td class="pos">+1.47 pp</td>
+            <td class="neg">&#8722;3.66 %</td><td class="neg">&#8722;3.70 pp</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col">
+    <p>
+      <strong>The monotonic pattern is the finding.</strong> The more complexity
+      the search is allowed, the better it fits the training set and the worse it
+      does out of sample. This is now demonstrated by enumeration over every
+      possibility, not inferred from a search that might simply have looked in
+      the wrong place.
+    </p>
+    <p>
+      At k = 1 the real data gains <em>less</em> than the physics-free control
+      does. The RAR&#8217;s own interpolating function, with a&#8320; refitted, is already
+      essentially optimal in its own direction. There is nothing left to win
+      there.
+    </p>
+
+    <h3>Two things fall out of the enumeration</h3>
+    <div class="keep">
+      <div class="h">The evolutionary loop is validated as an instrument</div>
+      <p>
+        The exhaustive k = 3 winner is <em>exactly</em> the law the evolutionary
+        search found at k = 3 &#8212;
+        <code>nu_std(gbar/2.15) + nu_simp(r/0.841) + expneg(r/1.36)</code>,
+        0.18792 dex. The loop located the true global optimum, so its results at
+        K = 8, where enumeration is impossible, can be trusted as searches rather
+        than accidents.
+      </p>
+    </div>
+    <div class="keep">
+      <div class="h">The control behaves exactly as designed</div>
+      <p>
+        The <span class="ctl">perm_g</span> winner at k = 3 is built from two
+        galaxy-level M<sub>b</sub> atoms &#8212; it is exploiting precisely the
+        per-galaxy offsets the control was constructed to preserve. That is the
+        behaviour it exists to expose.
+      </p>
+    </div>
+    <p>
+      Every reported RMS is verified against a direct recomputation from the raw
+      data, bypassing the Gram algebra entirely: maximum absolute difference
+      <strong>4.5 &#215; 10&#8315;&#8312; dex</strong>.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <div class="snum">J.7 &#8212; Result 3</div>
+    <h2>Option 1 of the well&#8211;mirror model</h2>
+    <p>
+      Option 1 &#8212; a perpendicular push projected onto a curved well &#8212; was omitted
+      from the earlier mirror sweep. It is the formulation that actually answers
+      the push-versus-pull question, so it is worth doing properly.
+    </p>
+    <div class="fx">g_mirror(r) = A_u(r) &#183; h&#8242;(r) / (1 + h&#8242;(r)&#178;)
+g(r)        = (1 &#8722; &#951;) g_N(r) + &#951; &#183; g_mirror(r)</div>
+
+    <h3>Option 1a &#8212; the ansatz as written</h3>
+    <p>
+      The proposal closes the system by <em>defining</em>
+      <code>g_mirror = g_N + V_W&#178;/(r + r_t)</code>, so the mirror restores the
+      &#951; g<sub>N</sub> removed from the direct well and adds an edge term.
+      Substituting collapses it:
+    </p>
+    <div class="fx">g(r) = (1&#8722;&#951;) g_N + &#951; g_N + &#951; V_W&#178;/(r+r_t)  =  g_N(r) + <b>&#951; V_W&#178;</b>/(r + r_t)</div>
+    <p>
+      &#951; now appears only in the product &#951; V<sub>W</sub>&#178;. Refitting at fixed
+      &#951; = 0.10, 0.25, 0.50, 0.75, 0.90 with everything else free gives train RMS
+      <code>0.224752</code> at <em>every</em> value &#8212; spread
+      <strong>0.00 &#215; 10&#8304; dex</strong>, bit-identical. &#951; is not a measurable
+      push/pull ratio here; it is a relabelling of the edge-term amplitude, the
+      same degeneracy already found in Options 2 and 3.
+    </p>
+    <p>
+      The form also fits worse than the RAR, and the structural reason is legible
+      in the formula: as r &#8594; 0 the edge term tends to
+      V<sub>W</sub>&#178;/(&#955; r<sub>M</sub>), a <em>constant</em> rather than zero, so
+      the model never reduces to Newton in the inner region.
+    </p>
+
+    <h3>Option 1b &#8212; the literal point mirror, where &#951; is real</h3>
+    <p>
+      An attractive source at u = &#8722;d with an equal repulsive image at u = +d
+      gives, on the middle surface,
+      <code>A_u(r) = 2GM_b d/(r&#178;+d&#178;)^{3/2}</code>. Without inserting
+      g<sub>N</sub> into the mirror by hand, &#951; sets the coefficient of the direct
+      Newtonian term independently of the mirror amplitude &#8212; and at small r the
+      data pin it. So this version can be asked the question and made to answer.
+    </p>
+  </div>
+
+  <div class="tw">
+    <caption>Profile over &#951;, all other globals (&#955;, &#967;, &#948;, a&#8320;) refitted at each
+      step. Fitted on train, 123 galaxies, frozen split.</caption>
+    <table>
+      <thead><tr><th>&#951; (push fraction)</th><th>0.00</th><th>0.05</th><th>0.25</th>
+        <th>0.50</th><th>0.75</th><th>0.95</th></tr></thead>
+      <tbody>
+        <tr><td>Train RMS (dex)</td><td>0.5345</td><td class="pos">0.5327</td>
+          <td>0.5572</td><td class="neg">0.6555</td><td class="neg">0.7195</td>
+          <td class="neg">0.9894</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col">
+    <p>
+      The push fraction is driven to essentially <strong>zero</strong>, and
+      &#951; = &#189; &#8212; the &#8220;half pull, half push&#8221; concept &#8212; is excluded by 0.12 dex of
+      RMS. At its best &#951; the model sits at 0.5327 train / 0.5427 blind against
+      the RAR&#8217;s 0.1970 / 0.1768: as &#951; &#8594; 0 it degenerates to pure Newtonian
+      gravity, which is what 0.53 dex <em>is</em>.
+    </p>
+    <p>
+      This is the outcome the proposal&#8217;s own text anticipated &#8212; a point-like
+      mirror gives A<sub>u</sub> &#8764; 1/r&#179; at large r and cannot sustain the 1/r
+      field a flat rotation curve needs. The data agree quantitatively, in the
+      one formulation where the push/pull ratio is a measurable quantity rather
+      than a reparameterisation.
+    </p>
+  </div>
+</section>
+
+<section class="col">
+  <div class="snum">J.8 &#8212; Register</div>
+  <h2>What was established</h2>
+  <p>
+    Nothing was discovered. What was established is stronger than another
+    falsification of one formula.
+  </p>
+  <ol class="find">
+    <li><span class="t">A proof at low complexity</span>
+      Over this atom bank, <em>no</em> law of complexity &#8804; 3 beats the RAR out of
+      sample, and none beats the physics-free controls by more than the controls
+      beat themselves. This is enumeration, not sampling.</li>
+    <li><span class="t">A calibrated overfitting scale for this bench</span>
+      A physics-free twin with only per-galaxy offsets preserved yields +3.2 %
+      of training gain at K = 8 and +2.1 % at k = 3. Any future claim on SPARC of
+      a few per cent improvement over the RAR now has a number to clear.</li>
+    <li><span class="t">A validated instrument</span>
+      The evolutionary loop recovered the exhaustive global optimum at k = 3, so
+      its K = 8 results &#8212; where enumeration is impossible &#8212; can be trusted.</li>
+    <li><span class="t">The push/pull ratio is settled</span>
+      Unidentifiable in Options 1a, 2 and 3 by construction; in Option 1b, where
+      it <em>is</em> identifiable, the data set it to &#8776; 0.05 and exclude 0.5.</li>
+  </ol>
+
+  <h3>The honest reading</h3>
+  <p>
+    This bench is exhausted for point-local laws. There are two independent
+    directions; one is already used optimally by the RAR, and the second buys
+    training fit that does not generalise. Progress requires a probe that
+    <em>adds</em> a direction &#8212; the vertical / anisotropy channel, or cluster
+    scales where the RAR is known to fail &#8212; not more search in this space. The
+    search machinery is now fast enough that the binding constraint is
+    unambiguously the data, not the compute.
+  </p>
+  <div class="keep">
+    <div class="h">Holdouts</div>
+    <p>
+      KiDS and wide binaries remain sealed and are not present in any module
+      described here. The blind split was touched exactly once per run, by the
+      final shortlist, with coefficients frozen on train.
+    </p>
+  </div>
+</section>
+
+<footer class="col">
+  <div>Invariant gravity programme &#183; Run J &#183; reproducibility artifacts</div>
+  <div class="files">
+    <b>work/gravitylab/hypersearch.py</b> &#8212; atom bank, Gram, batched Cholesky<br>
+    <b>work/gravitylab/evolve.py</b> &#8212; evolutionary loop, hall of fame, controls<br>
+    <b>work/gravitylab/exhaustive.py</b> &#8212; complete enumeration at k &#8804; 3<br>
+    <b>work/gravity-cluster-audit-2026-09/mirror/mirror_option1.py</b> &#8212; Options 1a / 1b<br>
+    <b>runs/evolve-sparc/</b> &#8212; evolve-seed{0,1,2}.json, exhaustive-k3.json<br>
+    <b>gravity-discovery-program.md</b> &#167; Run J &#8212; full write-up
+  </div>
+</footer>
+
+</div>
