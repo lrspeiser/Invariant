@@ -1,0 +1,69 @@
+
+==============================================================================
+STAGE 1  Spherical semi-analytic screen of K = exp[f_nl(qbar) I + f_T(qbar) That]
+==============================================================================
+In spherical symmetry the field equation integrates exactly, so the
+screen is closed-form: g(r) = G M(<r) / (k_r(r) r^2) with
+k_r = exp(f_nl - 2 f_T/sqrt6).  No solver is needed until Stage 2.
+settings screened: 15360
+evaluated: 9600
+
+   metric                                    passing / total
+   M1_flat                                     272 / 9600
+   M2_asymptotic                              2285 / 9600
+   M3_btfr                                       0 / 9600
+   M4_oort                                    1132 / 9600
+   M5_solar                                   5280 / 9600
+
+   cumulative M1..M1                              272 / 9600
+   cumulative M1..M2                                9 / 9600
+   cumulative M1..M3                                0 / 9600
+   cumulative M1..M4                                0 / 9600
+   cumulative M1..M5                                0 / 9600
+
+   f_nl UNBOUNDED  : asymptotic dln g/dln r  best +13.7268  median -2.0000   (Kepler -2, flat -1);  best outer rms slope 0.0218
+   f_nl bounded    : asymptotic dln g/dln r  best +1.5950  median -2.0000   (Kepler -2, flat -1);  best outer rms slope 0.0036
+
+   NONLOCAL qbar (path average)  : best asymptotic dln g/dln r +13.7268, best outer rms slope 0.0036
+   LOCAL q (control)             : best asymptotic dln g/dln r -2.0000, best outer rms slope 0.0121
+   Newtonian control: outer rms slope 0.190, asymptotic dln g/dln r = -2.
+
+   DOES THE ANISOTROPY DO INDEPENDENT WORK?  Compare the best achievable
+   flatness at fixed Oort compliance, with f_T on and off.
+   f_T = 0 (isotropic)     :   138 settings inside the Oort window; best outer rms slope among them 0.0656
+   f_T != 0 (directional)  :   994 settings inside the Oort window; best outer rms slope among them 0.0410
+
+   NO setting passes all five.  Where they die:
+      the first empty cumulative cut is M1..M3 (M3_btfr)
+
+   151 settings are flat AND solar-safe; the six with the best BTFR go to Stage 2.
+      f_nl=poly   f_T=poly  a=2    p=2    c=0.3  m=2    rho_ref=1e+06   q=delta   nl=1  slope 0.0468  BTFR 2.92  F_loc 1.000  aniso 0.0e+00
+      f_nl=expo   f_T=poly  a=0.3  p=2    c=0.3  m=2    rho_ref=1e+06   q=delta   nl=1  slope 0.0271  BTFR 2.91  F_loc 1.000  aniso 0.0e+00
+      f_nl=expo   f_T=poly  a=0.3  p=2    c=0.3  m=1    rho_ref=1e+06   q=delta   nl=1  slope 0.0298  BTFR 2.90  F_loc 1.000  aniso 0.0e+00
+      f_nl=poly   f_T=zero  a=2    p=2    c=0    m=1    rho_ref=1e+06   q=delta   nl=1  slope 0.0199  BTFR 2.89  F_loc 1.000  aniso 0.0e+00
+      f_nl=poly   f_T=zero  a=2    p=2    c=0    m=2    rho_ref=1e+06   q=delta   nl=1  slope 0.0199  BTFR 2.89  F_loc 1.000  aniso 0.0e+00
+      f_nl=poly   f_T=peak  a=2    p=2    c=0.3  m=2    rho_ref=1e+06   q=delta   nl=1  slope 0.0206  BTFR 2.89  F_loc 1.000  aniso 0.0e+00
+
+==============================================================================
+STAGE 3  The candidates on SPARC, in acceleration space, against the RAR
+==============================================================================
+Same galaxies, same points, same nuisances and the same frozen split as
+the honest comparison.  The kernel atom is applied through the spherical
+field equation g = G M(<r) / (k_r r^2), which is EXACT for the equivalent
+spherical baryon model.
+   f_nl=poly   f_T=poly  a=2    p=2    c=0.3  rho_ref=1e+06   q=delta   nl=1 : train 0.469 dex, blind 0.465 dex, repulsive points 0
+   f_nl=expo   f_T=poly  a=0.3  p=2    c=0.3  rho_ref=1e+06   q=delta   nl=1 : train 0.460 dex, blind 0.455 dex, repulsive points 0
+   f_nl=expo   f_T=poly  a=0.3  p=2    c=0.3  rho_ref=1e+06   q=delta   nl=1 : train 0.448 dex, blind 0.443 dex, repulsive points 0
+   f_nl=poly   f_T=zero  a=2    p=2    c=0    rho_ref=1e+06   q=delta   nl=1 : train 0.479 dex, blind 0.475 dex, repulsive points 0
+   f_nl=poly   f_T=zero  a=2    p=2    c=0    rho_ref=1e+06   q=delta   nl=1 : train 0.479 dex, blind 0.475 dex, repulsive points 0
+   f_nl=poly   f_T=peak  a=2    p=2    c=0.3  rho_ref=1e+06   q=delta   nl=1 : train 0.474 dex, blind 0.470 dex, repulsive points 0
+
+   For reference, from model_comparison.json on the SAME points:
+      RAR            train 0.121  blind 0.122 dex
+      AQUAL simple   train 0.121  blind 0.121 dex
+      scalar kernel  train 0.256  blind 0.209 dex
+      Newton         train 0.597  blind 0.588 dex
+
+Stage 2 (full 3-D solves) runs separately: job3_stage2.py
+
+wrote tensor_atom_screen.json  (5.8 s)

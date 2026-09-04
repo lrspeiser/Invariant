@@ -1,0 +1,160 @@
+
+==============================================================================
+HONEST COMPARISON: kernel vs RAR vs AQUAL, same points, same nuisances, same split
+==============================================================================
+Nuisance treatment held fixed for EVERY model: Upsilon*_disk = 0.5, Upsilon*_bulge = 0.7,
+catalogue distances and inclinations, no per-galaxy freedom anywhere.
+Frozen kernel sets, selected on TRAIN by the previous lane:
+   best-overall         F3_pade alpha=10.0 beta=1.0 p=1.0, screen rho_ref=1e6 L_q=2 kpc
+   best-passing-local   F1_poly alpha=10.0 beta=0.0 p=2.0, screen rho_ref=1e6 L_q=2 kpc
+
+usable galaxies  train 71   validation 23   blind 23
+
+==============================================================================
+The one global constant of the point-local competitors
+==============================================================================
+literature a0 = 1.2e-10 m/s^2 = 3702.8131 (km/s)^2/kpc
+   RAR              a0 fitted on TRAIN = 1.202e-10 m/s^2   (x1.002 of literature), train rms 0.1213 dex
+   AQUAL_simple     a0 fitted on TRAIN = 1.185e-10 m/s^2   (x0.988 of literature), train rms 0.1211 dex
+   AQUAL_standard   a0 fitted on TRAIN = 1.608e-10 m/s^2   (x1.340 of literature), train rms 0.1257 dex
+   Both are reported.  The literature value is the honest zero-parameter case;
+   the fitted value is the like-for-like case, because the kernel was allowed
+   396 settings on TRAIN.
+
+==============================================================================
+TRAIN  (a0 = literature)
+==============================================================================
+
+   ACCELERATION SPACE, train split, 71 galaxies, 1028 points (R >= 2 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.121  +0.002      0.121       0.123   1028
+      RAR                    0.121  -0.001      0.121       0.123   1028
+      AQUAL_standard         0.138  -0.061      0.124       0.125   1028
+      best-overall           0.256  -0.161      0.199       0.170   1028
+      newton                 0.597  -0.546      0.241       0.214   1028
+      best-passing-local     0.734  -0.584      0.444       0.374    768   [260 points DROPPED: g <= 0]
+
+   POTENTIAL SPACE, train split, 71 galaxies, 1028 points (R >= 2 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.113  +0.005      0.113       0.125   1028
+      RAR                    0.113  +0.003      0.113       0.125   1028
+      AQUAL_standard         0.125  -0.045      0.116       0.127   1028
+      best-overall           0.156  -0.039      0.151       0.160   1028
+      best-passing-local     0.201  -0.100      0.174       0.160    768   [260 points DROPPED: g <= 0]
+      newton                 0.690  -0.659      0.203       0.210   1028
+
+==============================================================================
+TRAIN  (a0 = fitted on TRAIN, then frozen)
+==============================================================================
+
+   ACCELERATION SPACE, train split, 71 galaxies, 1028 points (R >= 2 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.121  -0.000      0.121       0.123   1028
+      RAR                    0.121  -0.001      0.121       0.123   1028
+      AQUAL_standard         0.126  -0.004      0.126       0.126   1028
+      best-overall           0.256  -0.161      0.199       0.170   1028
+      newton                 0.597  -0.546      0.241       0.214   1028
+      best-passing-local     0.734  -0.584      0.444       0.374    768   [260 points DROPPED: g <= 0]
+
+   POTENTIAL SPACE, train split, 71 galaxies, 1028 points (R >= 2 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.113  +0.002      0.113       0.125   1028
+      RAR                    0.113  +0.003      0.113       0.125   1028
+      AQUAL_standard         0.119  +0.016      0.118       0.128   1028
+      best-overall           0.156  -0.039      0.151       0.160   1028
+      best-passing-local     0.201  -0.100      0.174       0.160    768   [260 points DROPPED: g <= 0]
+      newton                 0.690  -0.659      0.203       0.210   1028
+
+==============================================================================
+VALIDATION  (a0 frozen from TRAIN; kernel frozen)
+==============================================================================
+
+   ACCELERATION SPACE, validation split, 23 galaxies, 296 points (R >= 2 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.098  +0.022      0.095       0.103    296
+      RAR                    0.098  +0.021      0.096       0.103    296
+      AQUAL_standard         0.104  +0.013      0.104       0.106    296
+      best-overall           0.218  -0.129      0.176       0.118    294   [2 points DROPPED: g <= 0]
+      newton                 0.517  -0.478      0.198       0.169    296
+      best-passing-local     0.780  -0.627      0.465       0.350    210   [86 points DROPPED: g <= 0]
+
+   POTENTIAL SPACE, validation split, 23 galaxies, 296 points (R >= 2 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.112  +0.031      0.107       0.116    296
+      RAR                    0.112  +0.032      0.107       0.116    296
+      AQUAL_standard         0.116  +0.040      0.109       0.118    296
+      best-overall           0.139  +0.030      0.136       0.128    294   [2 points DROPPED: g <= 0]
+      best-passing-local     0.187  -0.057      0.178       0.131    210   [86 points DROPPED: g <= 0]
+      newton                 0.607  -0.582      0.172       0.165    296
+
+==============================================================================
+BLIND  --  touched ONCE, everything frozen
+==============================================================================
+Nothing in this lane or the previous one was fitted, selected or tuned on
+this split.  The kernel parameters come from the previous lane's TRAIN screen;
+a0 comes from the TRAIN fit above.  This is the single evaluation.
+
+   ACCELERATION SPACE, blind split, 23 galaxies, 309 points (R >= 2 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.121  +0.002      0.121       0.096    309
+      RAR                    0.122  +0.001      0.122       0.097    309
+      AQUAL_standard         0.133  -0.001      0.133       0.105    309
+      best-overall           0.209  -0.129      0.164       0.111    308   [1 points DROPPED: g <= 0]
+      newton                 0.588  -0.551      0.205       0.171    309
+      best-passing-local     0.666  -0.505      0.434       0.449    237   [72 points DROPPED: g <= 0]
+
+   POTENTIAL SPACE, blind split, 23 galaxies, 309 points (R >= 2 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.119  +0.022      0.117       0.101    309
+      RAR                    0.120  +0.023      0.118       0.102    309
+      AQUAL_standard         0.129  +0.037      0.124       0.108    309
+      best-overall           0.135  -0.015      0.134       0.120    308   [1 points DROPPED: g <= 0]
+      best-passing-local     0.196  -0.061      0.186       0.160    237   [72 points DROPPED: g <= 0]
+      newton                 0.661  -0.640      0.164       0.151    309
+
+   ACCELERATION SPACE, blind split, 23 galaxies, 309 points (R >= 2 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.121  +0.004      0.121       0.096    309
+      RAR                    0.122  +0.001      0.122       0.097    309
+      AQUAL_standard         0.142  -0.058      0.130       0.102    309
+      best-overall           0.209  -0.129      0.164       0.111    308   [1 points DROPPED: g <= 0]
+      newton                 0.588  -0.551      0.205       0.171    309
+      best-passing-local     0.666  -0.505      0.434       0.449    237   [72 points DROPPED: g <= 0]
+
+==============================================================================
+ALL RADIAL POINTS (rcut = 0), the currency the RAR is normally quoted in
+==============================================================================
+
+   ACCELERATION SPACE, train split, 71 galaxies, 1773 points (R >= 0 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      RAR                    0.162  +0.014      0.162       0.125   1773
+      AQUAL_simple           0.163  +0.017      0.162       0.125   1773
+      AQUAL_standard         0.165  +0.001      0.165       0.128   1773
+      best-overall           0.288  -0.106      0.268       0.186   1773
+      newton                 0.527  -0.424      0.313       0.239   1773
+      best-passing-local     0.635  -0.428      0.469       0.309   1488   [285 points DROPPED: g <= 0]
+
+   ACCELERATION SPACE, blind split, 23 galaxies, 494 points (R >= 0 R_disk)
+      model                rms dex   bias    pt-scatter  gal-scatter   n
+      AQUAL_simple           0.144  +0.005      0.144       0.100    494
+      RAR                    0.145  +0.002      0.145       0.100    494
+      AQUAL_standard         0.158  -0.008      0.157       0.110    494
+      best-overall           0.225  -0.109      0.197       0.122    493   [1 points DROPPED: g <= 0]
+      newton                 0.539  -0.468      0.266       0.206    494
+      best-passing-local     0.615  -0.438      0.431       0.352    414   [80 points DROPPED: g <= 0]
+
+==============================================================================
+Monotone-invariance check on the headline statistic
+==============================================================================
+dS/dtheta must be non-zero over the tested range.  S = acceleration-space rms;
+theta = a0 for the RAR, alpha for the kernel.
+   a0 x0.20  -> RAR train rms 0.2861 dex
+   a0 x0.40  -> RAR train rms 0.1965 dex
+   a0 x0.70  -> RAR train rms 0.1363 dex
+   a0 x1.00  -> RAR train rms 0.1213 dex
+   a0 x1.50  -> RAR train rms 0.1417 dex
+   a0 x2.50  -> RAR train rms 0.2079 dex
+   a0 x5.00  -> RAR train rms 0.3269 dex
+   spread over a factor 25 in a0 : 0.2057 dex  -- non-degenerate
+
+wrote model_comparison.json  (25.5 s)

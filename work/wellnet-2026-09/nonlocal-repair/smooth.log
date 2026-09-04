@@ -1,0 +1,292 @@
+
+==============================================================================
+S1  Smoothness class of each clip variant, and the size of the kink
+==============================================================================
+Measured as EXACT one-sided limits of q' and q'' at the corner, not by
+fitting across it.  Test map u(x) = 1 - x, so du/dx = -1 and a jump in
+dq/dx IS the jump in dq/du.  The hard clip's corner sits at u = 0; a
+rounded corner of width w occupies u in [-w, +w] with outer corners at
+u = -w and u = +w, and BOTH are checked.
+   hard      w=0.00   claimed C^0    max |[dq/du]| = 1.000e+00   max |[d2q/du2]| = 0.000e+00   sup|d2q/du2| = 0.000e+00
+   quad      w=0.02   claimed C^1    max |[dq/du]| = 2.500e-08   max |[d2q/du2]| = 2.500e+01   sup|d2q/du2| = 2.500e+01
+   quad      w=0.05   claimed C^1    max |[dq/du]| = 1.000e-08   max |[d2q/du2]| = 1.000e+01   sup|d2q/du2| = 1.000e+01
+   quad      w=0.10   claimed C^1    max |[dq/du]| = 5.000e-09   max |[d2q/du2]| = 5.000e+00   sup|d2q/du2| = 5.000e+00
+   quad      w=0.20   claimed C^1    max |[dq/du]| = 2.500e-09   max |[d2q/du2]| = 2.500e+00   sup|d2q/du2| = 2.500e+00
+   quintic   w=0.02   claimed C^2    max |[dq/du]| = 1.875e-15   max |[d2q/du2]| = 3.750e-06   sup|d2q/du2| = 3.750e+01
+   quintic   w=0.05   claimed C^2    max |[dq/du]| = 3.000e-16   max |[d2q/du2]| = 6.000e-07   sup|d2q/du2| = 1.500e+01
+   quintic   w=0.10   claimed C^2    max |[dq/du]| = 2.220e-16   max |[d2q/du2]| = 1.500e-07   sup|d2q/du2| = 7.500e+00
+   quintic   w=0.20   claimed C^2    max |[dq/du]| = 2.220e-16   max |[d2q/du2]| = 3.750e-08   sup|d2q/du2| = 3.750e+00
+   softplus  w=0.02   claimed C^99   max |[dq/du]| = 1.768e-08   max |[d2q/du2]| = 1.326e-06   sup|d2q/du2| = 2.500e+01
+   softplus  w=0.05   claimed C^99   max |[dq/du]| = 7.069e-09   max |[d2q/du2]| = 2.121e-07   sup|d2q/du2| = 9.999e+00
+   softplus  w=0.10   claimed C^99   max |[dq/du]| = 3.528e-09   max |[d2q/du2]| = 5.308e-08   sup|d2q/du2| = 4.995e+00
+   softplus  w=0.20   claimed C^99   max |[dq/du]| = 1.746e-09   max |[d2q/du2]| = 1.351e-08   sup|d2q/du2| = 2.481e+00
+
+   hard    : [dq/du] = 1 exactly -- a genuine gradient discontinuity.
+   quad    : [dq/du] = 0, [d2q/du2] = 1/(2w) -- C^1 only.
+   quintic : both jumps 0 -- C^2, at the price of sup|d2q/du2| = 1.5/w.
+   softplus: all jumps 0, sup|d2q/du2| = 1/(2w), but q is never exactly 0.
+   THE TRADE NO SMOOTHING REMOVES: the delta state runs from q = 0 to q = 1
+   over u in [0,1], i.e. over a FACTOR 2 in density.  Rounding its corners
+   over w <= 0.2 leaves a near-step, and w >= 0.5 destroys the exact zero.
+   NGC2403, rho_ref=10000: q_leaves_0 at r=21.076 kpc, [dq/dr] = 17.4437 /kpc  q_reaches_1 at r=21.337 kpc, [dq/dr] = 14.0026 /kpc
+   NGC2403, rho_ref=100000: q_leaves_0 at r=14.750 kpc, [dq/dr] = 0.7663 /kpc  q_reaches_1 at r=21.076 kpc, [dq/dr] = 17.4437 /kpc
+   NGC2403, rho_ref=1e+06: q_leaves_0 at r=7.136 kpc, [dq/dr] = 0.3052 /kpc  q_reaches_1 at r=11.114 kpc, [dq/dr] = 0.4606 /kpc
+
+==============================================================================
+S2  What the clip surface does in the KERNEL formulation: force, flux, energy
+==============================================================================
+Two separate things have to be told apart here, and the first version of
+this test conflated them.
+
+(a) A QUADRATURE pathology.  D contains dqbar/dr = Int q'(r_s) r(1-s)/r_s ds
+    and a hard clip makes q' DISCONTINUOUS in s.  Gauss-Legendre on a
+    discontinuous integrand converges like 1/n_s, not spectrally, so D
+    near the clip radius carries an O(1/n_s) error that mimics a jump.
+(b) The PHYSICAL question: with the quadrature converged, is there a jump
+    in Phi or in g across the surface?
+
+(a) convergence of D at radii straddling the clip surface, as n_s grows.
+    Reported as max |D(n_s)/D(1024) - 1| over 6 radii within 2% of r_clip.
+   rho_ref=100000 hard     w=0.00  : n_s=8:2.39e-01  n_s=16:1.51e-01  n_s=32:2.43e-02  n_s=64:2.84e-03  n_s=128:1.88e-04  n_s=256:1.73e-04  n_s=512:3.78e-05
+   rho_ref=100000 quintic  w=0.05  : n_s=8:1.79e-01  n_s=16:9.22e-02  n_s=32:1.14e-03  n_s=64:9.72e-05  n_s=128:6.23e-05  n_s=256:2.76e-05  n_s=512:1.74e-05
+   rho_ref=100000 quintic  w=0.20  : n_s=8:9.60e-02  n_s=16:2.37e-03  n_s=32:1.47e-04  n_s=64:1.85e-05  n_s=128:3.37e-05  n_s=256:4.67e-06  n_s=512:6.82e-06
+   rho_ref=1e+06  hard     w=0.00  : n_s=8:5.59e-01  n_s=16:3.25e-01  n_s=32:3.10e-02  n_s=64:1.84e-03  n_s=128:1.51e-03  n_s=256:3.75e-04  n_s=512:5.67e-04
+   rho_ref=1e+06  quintic  w=0.05  : n_s=8:4.47e-01  n_s=16:1.56e-01  n_s=32:3.96e-04  n_s=64:5.92e-04  n_s=128:3.00e-04  n_s=256:6.69e-05  n_s=512:2.52e-04
+   rho_ref=1e+06  quintic  w=0.20  : n_s=8:2.04e-01  n_s=16:2.17e-03  n_s=32:5.28e-05  n_s=64:1.66e-04  n_s=128:1.85e-04  n_s=256:4.41e-05  n_s=512:8.46e-05
+
+   The hard clip loses roughly one factor of 2 in error per doubling of
+   n_s -- first-order, the signature of a discontinuous integrand. The C^2
+   clip converges far faster.  n_s = 12, the production value, is therefore
+   the WRONG quadrature for a clipped q, and that is a defect of the clip,
+   not of the solver.
+
+(b) one-sided limits at n_s = 512, window shrunk until the extrapolation
+    settles.  [g] != 0 would be a shell of surface density [g]/(4 pi G).
+   rho_ref=100000|hard|w=0.0|a=3.0|p=1.0  r_clip = 21.795 kpc
+      [Phi]/|Phi| 8.49e-05   [g]/|g| 1.04e-02  -> shell mass/M_tot 6.99e-03
+      [dg/dlnr]/|g| 2.55e+01  -> effective-density step 7.94e+01 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->5.2e-02  1e-02->2.3e-02  5e-03->1.0e-02
+   rho_ref=100000|hard|w=0.0|a=10.0|p=1.0  r_clip = 21.795 kpc
+      [Phi]/|Phi| 2.41e-04   [g]/|g| 1.16e-01  -> shell mass/M_tot 2.33e-02
+      [dg/dlnr]/|g| 2.86e+02  -> effective-density step 2.65e+02 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->2.0e-01  1e-02->1.7e-01  5e-03->1.2e-01
+   rho_ref=100000|hard|w=0.0|a=3.0|p=2.0  r_clip = 21.795 kpc
+      [Phi]/|Phi| 2.64e-06   [g]/|g| 4.77e-03  -> shell mass/M_tot 3.33e-03
+      [dg/dlnr]/|g| 6.07e-01  -> effective-density step 1.95e+00 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->1.8e-02  1e-02->9.5e-03  5e-03->4.8e-03
+   rho_ref=100000|quintic|w=0.05|a=3.0|p=1.0  r_clip = 21.795 kpc
+      [Phi]/|Phi| 2.79e-05   [g]/|g| 9.87e-04  -> shell mass/M_tot 6.55e-04
+      [dg/dlnr]/|g| 1.21e+01  -> effective-density step 3.70e+01 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->4.3e-02  1e-02->8.3e-03  5e-03->9.9e-04
+   rho_ref=100000|quintic|w=0.05|a=10.0|p=1.0  r_clip = 21.795 kpc
+      [Phi]/|Phi| 7.93e-05   [g]/|g| 1.31e-02  -> shell mass/M_tot 2.19e-03
+      [dg/dlnr]/|g| 1.61e+02  -> effective-density step 1.24e+02 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->1.6e-01  1e-02->6.6e-02  5e-03->1.3e-02
+   rho_ref=100000|quintic|w=0.05|a=3.0|p=2.0  r_clip = 21.795 kpc
+      [Phi]/|Phi| 1.66e-07   [g]/|g| 5.27e-04  -> shell mass/M_tot 3.68e-04
+      [dg/dlnr]/|g| 6.42e-02  -> effective-density step 2.07e-01 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->1.5e-02  1e-02->3.7e-03  5e-03->5.3e-04
+   rho_ref=1e+06|hard|w=0.0|a=3.0|p=1.0  r_clip = 13.298 kpc
+      [Phi]/|Phi| 6.90e-05   [g]/|g| 4.28e-02  -> shell mass/M_tot 1.31e-02
+      [dg/dlnr]/|g| 4.75e+01  -> effective-density step 2.96e+01 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->2.2e-01  1e-02->9.6e-02  5e-03->4.3e-02
+   rho_ref=1e+06|hard|w=0.0|a=10.0|p=1.0  r_clip = 13.298 kpc
+      [Phi]/|Phi| 1.65e-04   [g]/|g| 6.82e-02  -> shell mass/M_tot 4.38e-02
+      [dg/dlnr]/|g| 7.56e+01  -> effective-density step 9.85e+01 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->2.1e-01  1e-02->1.3e-01  5e-03->6.8e-02
+   rho_ref=1e+06|hard|w=0.0|a=3.0|p=2.0  r_clip = 13.298 kpc
+      [Phi]/|Phi| 4.53e-06   [g]/|g| 1.79e-02  -> shell mass/M_tot 5.92e-03
+      [dg/dlnr]/|g| 2.11e+00  -> effective-density step 1.42e+00 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->7.0e-02  1e-02->3.6e-02  5e-03->1.8e-02
+   rho_ref=1e+06|quintic|w=0.05|a=3.0|p=1.0  r_clip = 13.298 kpc
+      [Phi]/|Phi| 1.86e-05   [g]/|g| 3.08e-03  -> shell mass/M_tot 9.02e-04
+      [dg/dlnr]/|g| 1.92e+01  -> effective-density step 1.14e+01 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->1.6e-01  1e-02->2.6e-02  5e-03->3.1e-03
+   rho_ref=1e+06|quintic|w=0.05|a=10.0|p=1.0  r_clip = 13.298 kpc
+      [Phi]/|Phi| 4.45e-05   [g]/|g| 4.36e-03  -> shell mass/M_tot 3.01e-03
+      [dg/dlnr]/|g| 2.72e+01  -> effective-density step 3.80e+01 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->1.5e-01  1e-02->3.2e-02  5e-03->4.4e-03
+   rho_ref=1e+06|quintic|w=0.05|a=3.0|p=2.0  r_clip = 13.298 kpc
+      [Phi]/|Phi| 1.24e-07   [g]/|g| 1.35e-03  -> shell mass/M_tot 4.49e-04
+      [dg/dlnr]/|g| 1.10e-01  -> effective-density step 7.44e-02 x the local baryon density
+      shrinking window, [g]/|g| : 2e-02->5.0e-02  1e-02->1.0e-02  5e-03->1.3e-03
+
+==============================================================================
+S3  What the clip surface does in a FIELD formulation div[K(q) grad Psi] = 4 pi G rho
+==============================================================================
+In spherical symmetry the field equation integrates exactly:
+   K Psi' r^2 = G M(<r)   =>   Psi' = G M /(K r^2)
+so the density a Newtonian observer would infer is
+   rho_eff = rho/K - M K'/(4 pi r^2 K^2),   K' = alpha p q^(p-1) q'.
+q' jumps across the clip surface, so rho_eff jumps.  There is NO delta
+function: the force and the flux are continuous, the inferred DENSITY is not.
+   rho_ref=100000 alpha=1.0   p=0.5   [rho_eff] =         inf Msun/kpc^3 =       inf x the local baryon density   (DIVERGENT: q^(p-1) -> inf at q = 0, so rho_eff has an integrable but unbounded spike)
+   rho_ref=100000 alpha=1.0   p=1.0   [rho_eff] =   3.487e+06 Msun/kpc^3 =      37.7 x the local baryon density   (finite jump)
+   rho_ref=100000 alpha=1.0   p=2.0   [rho_eff] =           0 Msun/kpc^3 =         0 x the local baryon density   (no jump: q^(p-1) vanishes at the surface)
+   rho_ref=100000 alpha=3.0   p=0.5   [rho_eff] =         inf Msun/kpc^3 =       inf x the local baryon density   (DIVERGENT: q^(p-1) -> inf at q = 0, so rho_eff has an integrable but unbounded spike)
+   rho_ref=100000 alpha=3.0   p=1.0   [rho_eff] =   1.046e+07 Msun/kpc^3 =       113 x the local baryon density   (finite jump)
+   rho_ref=100000 alpha=3.0   p=2.0   [rho_eff] =           0 Msun/kpc^3 =         0 x the local baryon density   (no jump: q^(p-1) vanishes at the surface)
+   rho_ref=100000 alpha=10.0  p=0.5   [rho_eff] =         inf Msun/kpc^3 =       inf x the local baryon density   (DIVERGENT: q^(p-1) -> inf at q = 0, so rho_eff has an integrable but unbounded spike)
+   rho_ref=100000 alpha=10.0  p=1.0   [rho_eff] =   3.487e+07 Msun/kpc^3 =       377 x the local baryon density   (finite jump)
+   rho_ref=100000 alpha=10.0  p=2.0   [rho_eff] =           0 Msun/kpc^3 =         0 x the local baryon density   (no jump: q^(p-1) vanishes at the surface)
+   rho_ref=1e+06  alpha=1.0   p=0.5   [rho_eff] =         inf Msun/kpc^3 =       inf x the local baryon density   (DIVERGENT: q^(p-1) -> inf at q = 0, so rho_eff has an integrable but unbounded spike)
+   rho_ref=1e+06  alpha=1.0   p=1.0   [rho_eff] =   3.693e+06 Msun/kpc^3 =      3.75 x the local baryon density   (finite jump)
+   rho_ref=1e+06  alpha=1.0   p=2.0   [rho_eff] =           0 Msun/kpc^3 =         0 x the local baryon density   (no jump: q^(p-1) vanishes at the surface)
+   rho_ref=1e+06  alpha=3.0   p=0.5   [rho_eff] =         inf Msun/kpc^3 =       inf x the local baryon density   (DIVERGENT: q^(p-1) -> inf at q = 0, so rho_eff has an integrable but unbounded spike)
+   rho_ref=1e+06  alpha=3.0   p=1.0   [rho_eff] =   1.108e+07 Msun/kpc^3 =      11.2 x the local baryon density   (finite jump)
+   rho_ref=1e+06  alpha=3.0   p=2.0   [rho_eff] =           0 Msun/kpc^3 =         0 x the local baryon density   (no jump: q^(p-1) vanishes at the surface)
+   rho_ref=1e+06  alpha=10.0  p=0.5   [rho_eff] =         inf Msun/kpc^3 =       inf x the local baryon density   (DIVERGENT: q^(p-1) -> inf at q = 0, so rho_eff has an integrable but unbounded spike)
+   rho_ref=1e+06  alpha=10.0  p=1.0   [rho_eff] =   3.693e+07 Msun/kpc^3 =      37.5 x the local baryon density   (finite jump)
+   rho_ref=1e+06  alpha=10.0  p=2.0   [rho_eff] =           0 Msun/kpc^3 =         0 x the local baryon density   (no jump: q^(p-1) vanishes at the surface)
+
+READ THIS OFF: at p = 1 the clip puts a step in the INFERRED dark
+density of order alpha |dln rho/dln r| M/(4 pi r^3) -- comparable to
+the baryon density itself.  At p > 1 the step is exactly zero; at
+p < 1 it diverges.  So p >= 1 is not a preference, it is a requirement,
+and p = 1 still needs the clip rounded.
+
+==============================================================================
+S5  Does solar-system safety survive the C^2 replacement?
+==============================================================================
+Channel: violation of the inverse-square law, eps(1 AU) = |F'| |grad q| D /(2F),
+bound 1e-11.  Oort window: F_local in [1.10, 1.70].
+   kind      w     rho_ref   q(Sun)      eps(1 AU)    verdict  (alpha=3, p=1)
+   hard      0.00  1e+04      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.05  1e+04      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.10  1e+04      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.20  1e+04      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.02  1e+04      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.05  1e+04      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.10  1e+04      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.20  1e+04      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.50  1e+04      0.0000e+00  0.0000e+00   EXACT ZERO
+   softplus  0.02  1e+04      5.0002e-05  2.5565e-16   ok
+   softplus  0.05  1e+04      3.1222e-04  1.5935e-15   ok
+   softplus  0.10  1e+04      1.2448e-03  6.3118e-15   ok
+   softplus  0.20  1e+04      4.9154e-03  2.4294e-14   ok
+   hard      0.00  1e+05      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.05  1e+05      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.10  1e+05      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.20  1e+05      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.02  1e+05      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.05  1e+05      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.10  1e+05      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.20  1e+05      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.50  1e+05      0.0000e+00  0.0000e+00   EXACT ZERO
+   softplus  0.02  1e+05      5.0097e-05  2.5642e-15   ok
+   softplus  0.05  1e+05      3.1282e-04  1.5982e-14   ok
+   softplus  0.10  1e+05      1.2472e-03  6.3303e-14   ok
+   softplus  0.20  1e+05      4.9246e-03  2.4363e-13   ok
+   hard      0.00  1e+06      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.05  1e+06      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.10  1e+06      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.20  1e+06      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.02  1e+06      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.05  1e+06      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.10  1e+06      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.20  1e+06      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.50  1e+06      0.0000e+00  0.0000e+00   EXACT ZERO
+   softplus  0.02  1e+06      5.1063e-05  2.6415e-14   ok
+   softplus  0.05  1e+06      3.1885e-04  1.6463e-13   ok
+   softplus  0.10  1e+06      1.2711e-03  6.5195e-13   ok
+   softplus  0.20  1e+06      5.0177e-03  2.5071e-12   ok
+   hard      0.00  1e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.05  1e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.10  1e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.20  1e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.02  1e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.05  1e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.10  1e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.20  1e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.50  1e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   softplus  0.02  1e+07      6.2571e-05  3.6282e-13   ok
+   softplus  0.05  1e+07      3.9060e-04  2.2595e-12   ok
+   softplus  0.10  1e+07      1.5558e-03  8.9244e-12   ok
+   softplus  0.20  1e+07      6.1205e-03  3.3973e-11   FAILS
+   hard      0.00  4e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.05  4e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.10  4e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quad      0.20  4e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.02  4e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.05  4e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.10  4e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.20  4e+07      0.0000e+00  0.0000e+00   EXACT ZERO
+   quintic   0.50  4e+07      2.3763e-04  1.5353e-10   FAILS
+   softplus  0.02  4e+07      1.5894e-04  6.4541e-12   ok
+   softplus  0.05  4e+07      9.8958e-04  3.9880e-11   FAILS
+   softplus  0.10  4e+07      3.9056e-03  1.5327e-10   FAILS
+   softplus  0.20  4e+07      1.4854e-02  5.2890e-10   FAILS
+
+   variant             largest rho_ref passing the ISL bound   exactly q=0 up to
+   hard|w=0.0                40000000.0                4e+07
+   quad|w=0.05               40000000.0                4e+07
+   quad|w=0.1                40000000.0                4e+07
+   quad|w=0.2                40000000.0                4e+07
+   quintic|w=0.02            40000000.0                4e+07
+   quintic|w=0.05            40000000.0                4e+07
+   quintic|w=0.1             40000000.0                4e+07
+   quintic|w=0.2             40000000.0                4e+07
+   quintic|w=0.5             10000000.0                1e+07
+   softplus|w=0.02           40000000.0                    0
+   softplus|w=0.05           10000000.0                    0
+   softplus|w=0.1            10000000.0                    0
+   softplus|w=0.2             1000000.0                    0
+
+==============================================================================
+S4  Does the rotation-curve behaviour survive the C^2 replacement?
+==============================================================================
+Forward test on the SPARC TRAIN split, delta-type q, no per-galaxy freedom.
+Reported in ACCELERATION space (the honest currency) with the fraction of
+points at which the model predicts g <= 0 -- the repulsive shells.
+   rho_ref=100000 hard      w=0.00  a=3.0   p=1.0   rms 0.637 dex   repulsive points  23.1%   galaxies 59/71
+   rho_ref=100000 hard      w=0.00  a=3.0   p=2.0   rms 0.792 dex   repulsive points  14.1%   galaxies 46/71
+   rho_ref=100000 hard      w=0.00  a=10.0  p=1.0   rms 0.573 dex   repulsive points  30.9%   galaxies 61/71
+   rho_ref=100000 hard      w=0.00  a=10.0  p=2.0   rms 0.611 dex   repulsive points  30.7%   galaxies 56/71
+   rho_ref=100000 quad      w=0.10  a=3.0   p=1.0   rms 0.626 dex   repulsive points  23.2%   galaxies 59/71
+   rho_ref=100000 quad      w=0.10  a=3.0   p=2.0   rms 0.789 dex   repulsive points  14.1%   galaxies 46/71
+   rho_ref=100000 quad      w=0.10  a=10.0  p=1.0   rms 0.578 dex   repulsive points  30.9%   galaxies 61/71
+   rho_ref=100000 quad      w=0.10  a=10.0  p=2.0   rms 0.616 dex   repulsive points  30.6%   galaxies 56/71
+   rho_ref=100000 quintic   w=0.05  a=3.0   p=1.0   rms 0.635 dex   repulsive points  23.1%   galaxies 59/71
+   rho_ref=100000 quintic   w=0.05  a=3.0   p=2.0   rms 0.791 dex   repulsive points  14.1%   galaxies 46/71
+   rho_ref=100000 quintic   w=0.05  a=10.0  p=1.0   rms 0.575 dex   repulsive points  30.9%   galaxies 61/71
+   rho_ref=100000 quintic   w=0.05  a=10.0  p=2.0   rms 0.610 dex   repulsive points  30.7%   galaxies 56/71
+   rho_ref=100000 quintic   w=0.10  a=3.0   p=1.0   rms 0.638 dex   repulsive points  23.1%   galaxies 59/71
+   rho_ref=100000 quintic   w=0.10  a=3.0   p=2.0   rms 0.790 dex   repulsive points  14.1%   galaxies 46/71
+   rho_ref=100000 quintic   w=0.10  a=10.0  p=1.0   rms 0.577 dex   repulsive points  30.9%   galaxies 61/71
+   rho_ref=100000 quintic   w=0.10  a=10.0  p=2.0   rms 0.610 dex   repulsive points  30.7%   galaxies 56/71
+   rho_ref=100000 quintic   w=0.20  a=3.0   p=1.0   rms 0.623 dex   repulsive points  23.2%   galaxies 59/71
+   rho_ref=100000 quintic   w=0.20  a=3.0   p=2.0   rms 0.792 dex   repulsive points  14.1%   galaxies 46/71
+   rho_ref=100000 quintic   w=0.20  a=10.0  p=1.0   rms 0.582 dex   repulsive points  30.8%   galaxies 61/71
+   rho_ref=100000 quintic   w=0.20  a=10.0  p=2.0   rms 0.616 dex   repulsive points  30.6%   galaxies 56/71
+   rho_ref=100000 softplus  w=0.10  a=3.0   p=1.0   rms 0.618 dex   repulsive points  23.2%   galaxies 59/71
+   rho_ref=100000 softplus  w=0.10  a=3.0   p=2.0   rms 0.790 dex   repulsive points  14.4%   galaxies 46/71
+   rho_ref=100000 softplus  w=0.10  a=10.0  p=1.0   rms 0.590 dex   repulsive points  30.7%   galaxies 61/71
+   rho_ref=100000 softplus  w=0.10  a=10.0  p=2.0   rms 0.618 dex   repulsive points  30.7%   galaxies 57/71
+   rho_ref=1e+06  hard      w=0.00  a=3.0   p=1.0   rms 0.618 dex   repulsive points  27.8%   galaxies 69/71
+   rho_ref=1e+06  hard      w=0.00  a=3.0   p=2.0   rms 0.771 dex   repulsive points  25.8%   galaxies 63/71
+   rho_ref=1e+06  hard      w=0.00  a=10.0  p=1.0   rms 0.516 dex   repulsive points  39.9%   galaxies 70/71
+   rho_ref=1e+06  hard      w=0.00  a=10.0  p=2.0   rms 0.582 dex   repulsive points  48.1%   galaxies 69/71
+   rho_ref=1e+06  quad      w=0.10  a=3.0   p=1.0   rms 0.639 dex   repulsive points  27.5%   galaxies 69/71
+   rho_ref=1e+06  quad      w=0.10  a=3.0   p=2.0   rms 0.791 dex   repulsive points  25.6%   galaxies 63/71
+   rho_ref=1e+06  quad      w=0.10  a=10.0  p=1.0   rms 0.508 dex   repulsive points  40.2%   galaxies 70/71
+   rho_ref=1e+06  quad      w=0.10  a=10.0  p=2.0   rms 0.560 dex   repulsive points  48.2%   galaxies 69/71
+   rho_ref=1e+06  quintic   w=0.05  a=3.0   p=1.0   rms 0.618 dex   repulsive points  27.8%   galaxies 69/71
+   rho_ref=1e+06  quintic   w=0.05  a=3.0   p=2.0   rms 0.772 dex   repulsive points  25.8%   galaxies 63/71
+   rho_ref=1e+06  quintic   w=0.05  a=10.0  p=1.0   rms 0.522 dex   repulsive points  39.9%   galaxies 70/71
+   rho_ref=1e+06  quintic   w=0.05  a=10.0  p=2.0   rms 0.576 dex   repulsive points  48.2%   galaxies 69/71
+   rho_ref=1e+06  quintic   w=0.10  a=3.0   p=1.0   rms 0.617 dex   repulsive points  27.8%   galaxies 69/71
+   rho_ref=1e+06  quintic   w=0.10  a=3.0   p=2.0   rms 0.792 dex   repulsive points  25.6%   galaxies 63/71
+   rho_ref=1e+06  quintic   w=0.10  a=10.0  p=1.0   rms 0.545 dex   repulsive points  40.0%   galaxies 70/71
+   rho_ref=1e+06  quintic   w=0.10  a=10.0  p=2.0   rms 0.560 dex   repulsive points  48.2%   galaxies 69/71
+   rho_ref=1e+06  quintic   w=0.20  a=3.0   p=1.0   rms 0.640 dex   repulsive points  27.3%   galaxies 69/71
+   rho_ref=1e+06  quintic   w=0.20  a=3.0   p=2.0   rms 0.794 dex   repulsive points  25.6%   galaxies 63/71
+   rho_ref=1e+06  quintic   w=0.20  a=10.0  p=1.0   rms 0.496 dex   repulsive points  40.4%   galaxies 70/71
+   rho_ref=1e+06  quintic   w=0.20  a=10.0  p=2.0   rms 0.553 dex   repulsive points  48.3%   galaxies 69/71
+   rho_ref=1e+06  softplus  w=0.10  a=3.0   p=1.0   rms 0.666 dex   repulsive points  26.9%   galaxies 69/71
+   rho_ref=1e+06  softplus  w=0.10  a=3.0   p=2.0   rms 0.800 dex   repulsive points  25.4%   galaxies 63/71
+   rho_ref=1e+06  softplus  w=0.10  a=10.0  p=1.0   rms 0.499 dex   repulsive points  40.4%   galaxies 70/71
+   rho_ref=1e+06  softplus  w=0.10  a=10.0  p=2.0   rms 0.613 dex   repulsive points  48.2%   galaxies 69/71
+
+   NO delta-type variant is free of repulsive points anywhere in the grid.
+
+wrote smoothness_audit.json  (30.0 s)

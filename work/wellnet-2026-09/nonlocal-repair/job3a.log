@@ -1,0 +1,114 @@
+
+==============================================================================
+T1  The correct condition is F/r unbounded, not F unbounded
+==============================================================================
+D = F - r F' = -r^2 (F/r)', so F/r = Int_r^inf D/r'^2 dr'.
+Flat means D = (v_f^2/GM) r, and Int^inf dr/r diverges: |F|/r -> inf.
+   F = 1 + 3 r^0.5            min D        +2.5   dlnD/dlnr +0.4967   dlnv/dlnr -0.2517   F/r    0.0301   (unbounded, F/r -> 0)
+   F = 1 + 3 r^0.9            min D        +1.3   dlnD/dlnr +0.8992   dlnv/dlnr -0.0504   F/r      1.19   (unbounded, F/r -> 0)
+   F = 1 + 3 r                min D          +1   dlnD/dlnr -0.0000   dlnv/dlnr -0.5000   F/r         3   (F/r -> const: PURE GAUGE, D = 1 exactly)
+   F = 1 + 3 r^1.1            min D       -7535   dlnD/dlnr +1.1001   dlnv/dlnr +0.0501   F/r      7.54   (F/r -> inf but D < 0: gravity REVERSES)
+   F = 1 + 3 r ln(1e4/r)      min D          +4   dlnD/dlnr +1.0000   dlnv/dlnr -0.0000   F/r    0.0001   (the unique exactly-flat form)
+   F = 4.0 (bounded)          min D          +4   dlnD/dlnr +0.0000   dlnv/dlnr -0.5000   F/r    0.0004   (bounded: exactly Keplerian)
+
+   Read the F = 1 + 3 r^0.9 row: F IS unbounded and the curve is still
+   declining (dlnv/dlnr = -0.05, not 0).  Read the F = 1 + 3 r row: D = 1
+   exactly, a pure gauge shift of Phi.  Only the r ln r form is flat.
+   T2 gauge check: adding c r to F changes D by at most 3.01e-07 over the whole range.
+
+==============================================================================
+T3  The second, independent no-go: linearity fixes the BTFR slope at 2
+==============================================================================
+If F does not depend on rho, Phi[rho] is a LINEAR functional of rho, so
+doubling the mass doubles the potential and v_f^2 scales as M.  M = v_f^2 x
+const is BTFR slope 2.  The observed slope is 3.85 +/- 0.09.  MOND gets 4
+only because g = sqrt(G M a0)/r has the coefficient scaling as M^(1/2),
+which no linear kernel can produce.
+   c independent of M (any linear kernel)   BTFR slope 2.000  (expected 2.0)
+   c proportional to M^-1/2 (MOND)          BTFR slope 4.000  (expected 4.0)
+
+   The q field is the only nonlinearity available, and q in [0,1) SATURATES
+   in the outskirts -- exactly where the flat part lives -- so the kernel
+   becomes linear again there.  The previous lane measured slope 2.88 with
+   the modification on and 2.07 with it off; 2 and 4 bracket that, and the
+   2.88 is the transition region, not a solution.
+
+==============================================================================
+Why R1 (D > 0) and R2 (D proportional to r) exclude each other
+==============================================================================
+For F = 1 + a G(qbar(r)) H(r),
+   D = 1 + a G (H - r H')  -  a r G'(qbar) qbar'(r) H
+The last term is strictly NEGATIVE when the modification grows in voids
+(G' > 0) and paths get more void-like outwards (qbar' > 0).  Raising a to
+lengthen the flat part raises the negative term by the same factor.
+   a=0.3   p=0    (UNGATED)  min D over 1-300 kpc      +1.027   mean dlnD/dlnr over 2-20 R_d +0.053
+   a=0.3   p=1    (gated  )  min D over 1-300 kpc     +0.8177   mean dlnD/dlnr over 2-20 R_d +0.052
+   a=0.3   p=2    (gated  )  min D over 1-300 kpc     +0.9133   mean dlnD/dlnr over 2-20 R_d +0.020
+   a=1     p=0    (UNGATED)  min D over 1-300 kpc      +1.091   mean dlnD/dlnr over 2-20 R_d +0.130
+   a=1     p=1    (gated  )  min D over 1-300 kpc     +0.3925   mean dlnD/dlnr over 2-20 R_d +0.154
+   a=1     p=2    (gated  )  min D over 1-300 kpc      +0.711   mean dlnD/dlnr over 2-20 R_d +0.063
+   a=3     p=0    (UNGATED)  min D over 1-300 kpc      +1.273   mean dlnD/dlnr over 2-20 R_d +0.225
+   a=3     p=1    (gated  )  min D over 1-300 kpc     -0.8226   mean dlnD/dlnr over 2-20 R_d +0.357
+   a=3     p=2    (gated  )  min D over 1-300 kpc      +0.133   mean dlnD/dlnr over 2-20 R_d +0.167
+   a=10    p=0    (UNGATED)  min D over 1-300 kpc      +1.909   mean dlnD/dlnr over 2-20 R_d +0.303
+   a=10    p=1    (gated  )  min D over 1-300 kpc      -5.075   mean dlnD/dlnr over 2-20 R_d +0.718
+   a=10    p=2    (gated  )  min D over 1-300 kpc       -1.89   mean dlnD/dlnr over 2-20 R_d +0.406
+
+   The p = 0 rows are the SAME H(r) with the gate removed: D stays
+   positive and the slope still reaches 1.  Turning the gate on at the
+   same a drives min D negative.  An ungated form is not a candidate,
+   because without a gate the modification is present in the solar
+   system too -- which is what R3 tests.
+
+==============================================================================
+T4  Why a gate is mandatory, and therefore why R1 fails
+==============================================================================
+The unique exactly-flat form is F = 1 + c r ln(r_*/r), whose
+D = 1 + c r is POSITIVE everywhere and has dlnD/dlnr -> 1.  So an
+UNGATED unbounded F does satisfy R1 and R2.  It dies on R3 instead,
+and the arithmetic is one line: c is a universal constant, so the
+fractional departure from Newton is c r at EVERY radius.
+   ISL bound 1e-11 at 1 AU  =>  c <= 2.063e-03 /kpc  =>  D - 1 <= 2.063e-02 at 10 kpc, 6.188e-02 at 30 kpc
+   ISL bound 1e-08 at 1 AU  =>  c <= 2.063e+00 /kpc  =>  D - 1 <= 2.063e+01 at 10 kpc, 6.188e+01 at 30 kpc
+   SPARC TRAIN demands D at the last measured point: 5/50/95 pct = 1.90 / 4.64 / 9.55
+   The ungated form is short by a factor 225 at 10 kpc. Hence a gate,
+   hence a rising qbar, hence the strictly negative gate term in D, hence R1.
+   For comparison: MOND evades this with an ACCELERATION gate whose
+   solar-system suppression is 1/x for the simple mu (2e-8 at 1 AU) and
+   1/(2x^2) for the standard mu (2e-16).  A DENSITY gate cannot do that
+   job here, because the density gate must also switch on across the
+   rotation curve and it is the switching that subtracts from D.
+
+==============================================================================
+The search: unbounded F that ALSO keeps D > 0 and D proportional to r
+==============================================================================
+Seven atoms x global (a, p, n, L, rho_ref), evaluated on the six-galaxy
+ladder with the path-averaged qbar.  Requirements R1-R5 as in the header.
+settings screened: 6720
+
+   requirement                              passing / total
+   R1_positive                                2139 / 6720
+   R2_flat                                     102 / 6720
+   R3_solar                                   4570 / 6720
+   R4_oort                                     325 / 6720
+   R5_btfr                                      71 / 6720
+
+   cumulative R1..R1                             2139 / 6720
+   cumulative R1..R2                                0 / 6720
+   cumulative R1..R3                                0 / 6720
+   cumulative R1..R4                                0 / 6720
+   cumulative R1..R5                                0 / 6720
+   R1 and R2 together, gated (p > 0)   :     0 / 5040
+   R1 and R2 together, ungated (p = 0) :     0 / 1680
+
+   PARETO.  Best flatness reachable with D > 0 everywhere: dlnD/dlnr = 0.915
+      (log, a=30, p=0, n=0.3, L=10, rho_ref=100000, q=delta), flat needs 1.000
+   Best min D reachable among the flat settings: -0.9729   (xlogx, a=3, p=1, n=1, L=10, q=delta)
+   The two frontiers do not meet: every setting flat enough to matter has
+   a repulsive shell, and every setting free of repulsion is too shallow.
+
+   NO setting satisfies all five.
+
+   BOUNDED control atom (1 + a q^p): 12 of 960 pass R2 -- the boundedness theorem, re-measured.
+
+wrote unbounded_search.json  (6.1 s)

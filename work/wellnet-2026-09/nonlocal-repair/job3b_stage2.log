@@ -1,0 +1,51 @@
+==============================================================================
+STAGE 2  Full 3-D anisotropic solves, eps_T screened
+==============================================================================
+grid 64^3, box 160.0 kpc, h = 2.50 kpc; exponential disk M = 6e+10 Msun, R_d = 3.0 kpc, h_z = 1.0 kpc
+h = 2.50 kpc does NOT resolve the |z| = 1.1 kpc Oort column, so the
+vertical force is quoted at z = 3 and 6 kpc and the Oort number stays with
+the Stage-1 slab proxy.
+Newtonian reference: 182 iters, resid 9.31e-11
+
+Orientation of That in the outskirts, per eps_T.  The exterior monopole
+value that Stage 1 assumes is n.That.n = -2/sqrt6 = -0.8165.
+   eps_T = 3.89e-31 (lane default a0/10kpc ) : 10-20 kpc -0.2974   20-40 kpc -0.0507   40-70 kpc -0.0084
+   eps_T = 1.00e-33 (intermediate 1e-33    ) : 10-20 kpc -0.7938   20-40 kpc -0.8124   40-70 kpc -0.7764
+   eps_T = 1.00e-37 (unregularised 1e-37   ) : 10-20 kpc -0.7938   20-40 kpc -0.8139   40-70 kpc -0.8163
+   The lane's own default switches the anisotropy OFF in galaxy outskirts:
+   |T0| = 5.3e-33 s^-2 at 50 kpc for a 6e10 Msun galaxy, 74 times smaller
+   than a0/(10 kpc).  Any conclusion about 'the anisotropy does no work'
+   drawn at that eps_T is a statement about the regulariser.
+
+CANDIDATE f_nl=poly a=2 p=2 f_T=poly c=0.3 m=2 rho_ref=1e+06 q=delta nonlocal=1
+   eps_T 3.9e-31 | f_T on (c=0.3)     radial boost  1.21  1.61  2.19  2.93  4.41   vertical 0.970 (z=3) 1.192 (z=6)   dlnv/dlnr -0.068
+   eps_T 3.9e-31 | f_T = 0 CONTROL    radial boost  1.20  1.58  2.16  2.90  4.39   vertical 0.961 (z=3) 1.160 (z=6)   dlnv/dlnr -0.064
+   eps_T 1.0e-33 | f_T on (c=0.3)     radial boost  1.22  1.66  2.36  3.26  5.07   vertical 0.959 (z=3) 1.184 (z=6)   dlnv/dlnr -0.027
+   eps_T 1.0e-33 | f_T = 0 CONTROL    radial boost  1.20  1.58  2.16  2.90  4.39   vertical 0.961 (z=3) 1.160 (z=6)   dlnv/dlnr -0.064
+   eps_T 1.0e-37 | f_T on (c=0.3)     radial boost  1.22  1.66  2.36  3.27  5.14   vertical 0.958 (z=3) 1.184 (z=6)   dlnv/dlnr -0.022
+   eps_T 1.0e-37 | f_T = 0 CONTROL    radial boost  1.20  1.58  2.16  2.90  4.39   vertical 0.961 (z=3) 1.160 (z=6)   dlnv/dlnr -0.064
+
+CANDIDATE f_nl=expo a=0.3 p=2 f_T=poly c=0.3 m=2 rho_ref=1e+06 q=delta nonlocal=1
+   eps_T 3.9e-31 | f_T on (c=0.3)     radial boost  1.23  1.60  2.20  2.81  4.03   vertical 1.022 (z=3) 1.258 (z=6)   dlnv/dlnr -0.104
+   eps_T 3.9e-31 | f_T = 0 CONTROL    radial boost  1.21  1.57  2.16  2.79  4.01   vertical 1.013 (z=3) 1.225 (z=6)   dlnv/dlnr -0.101
+   eps_T 1.0e-33 | f_T on (c=0.3)     radial boost  1.24  1.65  2.36  3.14  4.64   vertical 1.010 (z=3) 1.251 (z=6)   dlnv/dlnr -0.062
+   eps_T 1.0e-33 | f_T = 0 CONTROL    radial boost  1.21  1.57  2.16  2.79  4.01   vertical 1.013 (z=3) 1.225 (z=6)   dlnv/dlnr -0.101
+   eps_T 1.0e-37 | f_T on (c=0.3)     radial boost  1.24  1.65  2.36  3.14  4.71   vertical 1.010 (z=3) 1.250 (z=6)   dlnv/dlnr -0.057
+   eps_T 1.0e-37 | f_T = 0 CONTROL    radial boost  1.21  1.57  2.16  2.79  4.01   vertical 1.013 (z=3) 1.225 (z=6)   dlnv/dlnr -0.101
+
+SUMMARY: vertical-to-radial response ratio, f_T on versus off.
+   eps_T        variant             radial   vert(z3)  ratio
+   3.9e-31  f_T on (c=0.3)       2.471    0.970   0.393
+   3.9e-31  f_T = 0 CONTROL      2.447    0.961   0.393
+   1.0e-33  f_T on (c=0.3)       2.714    0.959   0.353
+   1.0e-33  f_T = 0 CONTROL      2.447    0.961   0.393
+   1.0e-37  f_T on (c=0.3)       2.731    0.958   0.351
+   1.0e-37  f_T = 0 CONTROL      2.447    0.961   0.393
+   3.9e-31  f_T on (c=0.3)       2.373    1.022   0.431
+   3.9e-31  f_T = 0 CONTROL      2.350    1.013   0.431
+   1.0e-33  f_T on (c=0.3)       2.606    1.010   0.388
+   1.0e-33  f_T = 0 CONTROL      2.350    1.013   0.431
+   1.0e-37  f_T on (c=0.3)       2.621    1.010   0.385
+   1.0e-37  f_T = 0 CONTROL      2.350    1.013   0.431
+
+updated tensor_atom_screen.json  (334.9 s)
