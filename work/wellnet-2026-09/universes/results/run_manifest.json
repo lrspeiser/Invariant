@@ -1,0 +1,123 @@
+{
+ "utc": "2026-09-04T20:11:13Z",
+ "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+ "numpy": "2.2.6",
+ "platform": "Windows-11-10.0.26200-SP0",
+ "declared_noise": {
+  "wl_shape_noise_per_component": 0.26,
+  "wl_source_density_arcmin2": 20.0,
+  "wl_multiplicative_bias_sigma": 0.02,
+  "wl_additive_bias_sigma": 0.0005,
+  "wl_photoz_mean_bias_sigma": 0.02,
+  "wl_photoz_outlier_fraction": 0.05,
+  "ifu_velocity_error_kms_at_1Re": 8.0,
+  "ifu_psf_fwhm_arcsec": 1.5,
+  "xray_counts_per_annulus_ref": 3000.0,
+  "xray_kT_frac_error": 0.06,
+  "sz_y_frac_error": 0.1,
+  "sl_image_position_error_arcsec": 0.2,
+  "sl_time_delay_frac_error": 0.03,
+  "sn_peak_mag_scatter": 0.12,
+  "sn_duration_frac_error": 0.04,
+  "member_velocity_error_kms": 30.0,
+  "distance_frac_error": 0.1,
+  "inclination_error_deg": 3.0,
+  "ml_dex_scatter": 0.11,
+  "_provenance": "declared synthetic values; representative of current wide-field, X-ray and IFU practice; no survey file opened; KiDS deliberately excluded as a sealed holdout"
+ },
+ "lane": "work/wellnet-2026-09/universes",
+ "n_pool_per_arm": 480,
+ "n_per_amplitude": 480,
+ "n_perm": 3000,
+ "corpus": {
+  "n_gal": 30,
+  "n_clu": 12,
+  "n_sn": 200,
+  "lib_gal": 45,
+  "lib_clu": 18,
+  "lib_seed": 20260904
+ },
+ "universes": {
+  "U01_baryons_newton": "standard gravity, baryons only",
+  "U02_cdm": "standard gravity with collisionless dark matter",
+  "U03_mond_scalar": "MOND/AQUAL-like scalar universe",
+  "U04_env_scalar": "scalar environment-dependent universe",
+  "U05_tensor_axis": "tensor, direction-dependent vacuum universe",
+  "U06_wellnet": "reciprocal nonlocal well-network universe",
+  "U07_memory": "universe with gravitational memory",
+  "U08_ep_slip": "photons and matter couple differently",
+  "U09_path_redshift": "geometric path-redshift universe",
+  "U10_systematics": "realistic astrophysical and observational systematics only"
+ },
+ "fiducial_knobs": {
+  "U04_env_scalar": {
+   "kappa": 0.6,
+   "s": 0.5
+  },
+  "U05_tensor_axis": {
+   "A": 0.5
+  },
+  "U06_wellnet": {
+   "B": 0.06,
+   "q": 0.5,
+   "lam": 150.0
+  },
+  "U07_memory": {
+   "Mamp": 0.2,
+   "tau": 3.0
+  },
+  "U08_ep_slip": {
+   "zeta": 0.1
+  },
+  "U09_path_redshift": {
+   "eps": 0.03
+  }
+ },
+ "statistic": "max over {whole-corpus shrinkage-LDA discriminant, each single channel}; the look-elsewhere cost of the max is inside the critical value",
+ "elapsed_s": 849.5096657276154,
+ "file_access": {
+  "lane_root": "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09",
+  "n_read_paths_total": 0,
+  "n_read_paths_library": 0,
+  "n_read_paths_non_library": 0,
+  "non_library_reads": [],
+  "foreign_reads": [],
+  "sealed_tokens_guarded": [
+   "kids",
+   "kids-1000",
+   "kids1000",
+   "kv450",
+   "kids_dr4",
+   "kids_dr5",
+   "wide_binar",
+   "wide-binar",
+   "widebinar",
+   "gaia_wb",
+   "wb_catalog",
+   "hernandez_wb",
+   "banik_wb",
+   "chae_wb"
+  ],
+  "real_data_tokens_guarded": [
+   "sparc",
+   "xcop",
+   "x-cop",
+   "efeds",
+   "locuss",
+   "clash",
+   "frontier",
+   "pantheon",
+   "desi",
+   "des_y",
+   "act_dr",
+   "planck",
+   "sami",
+   "diskmass",
+   "herbonnet",
+   "mulroy",
+   "xxl"
+  ],
+  "any_real_observational_file_opened": false,
+  "assertion": "No path outside the lane root was read; no sealed token matched; no real-observation token matched."
+ }
+}

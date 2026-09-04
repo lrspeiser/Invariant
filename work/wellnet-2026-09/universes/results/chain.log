@@ -1,0 +1,233 @@
+[pools] 12 arms x 480 draws
+  U01_baryons_newton: 480 draws (19s)
+  U02_cdm: 480 draws (38s)
+  U03_mond_scalar: 480 draws (54s)
+  U04_env_scalar: 480 draws (71s)
+  U05_tensor_axis: 480 draws (89s)
+  U06_wellnet: 480 draws (106s)
+  U07_memory: 480 draws (122s)
+  U08_ep_slip: 480 draws (139s)
+  U09_path_redshift: 480 draws (155s)
+  U10_systematics: 480 draws (173s)
+  H0_scalar_null: 480 draws (190s)
+  U02_cdm_hard: 480 draws (208s)
+  wrote channel_map.json
+[E0] sizing on A-vs-A nulls
+  wrote E0_sizing.json
+  z_crit single 2.77  family 3.57  null median 1.96
+[E1] pairwise equivalence map
+  U01_baryons_newton (249s)
+  U02_cdm (250s)
+  U03_mond_scalar (251s)
+  U04_env_scalar (252s)
+  U05_tensor_axis (253s)
+  U06_wellnet (253s)
+  U07_memory (254s)
+  U08_ep_slip (254s)
+  U09_path_redshift (255s)
+  U10_systematics (255s)
+  wrote E1_equivalence_map.json
+  wrote E2_channel_separation.json
+[E3] amplitude scans
+  U04_env_scalar: 0:2.2, 0.15:6.4, 0.3:8.5, 0.6:8.5, 1.2:8.5, 2.4:8.5
+  U05_tensor_axis: 0:1.3, 0.1:8.5, 0.25:8.5, 0.5:8.5, 1:8.5, 2:8.5
+  U06_wellnet: 0:2.5, 0.015:8.0, 0.03:8.5, 0.06:8.5, 0.12:8.5, 0.24:8.5
+  U07_memory: 0:2.5, 0.05:5.9, 0.1:7.7, 0.2:8.5, 0.4:8.5, 0.8:8.5
+  U08_ep_slip: 0:3.0, 0.025:2.2, 0.05:3.8, 0.1:8.4, 0.2:8.5, 0.4:8.5
+  U09_path_redshift: 0:1.8, 0.0075:3.3, 0.015:6.7, 0.03:8.5, 0.06:8.5, 0.12:8.5
+  wrote E3_amplitude_scans.json
+[E4] identifiability questions
+  wrote E4_questions.json
+[E5] admissibility gates
+  wrote E5_gates.json
+[E6] missing-observation oracle
+  wrote E6_missing_observations.json
+[E7] knob -> observable amplitude
+  wrote E7_observable_amplitudes.json
+  wrote run_manifest.json
+[done] 850s
+  U04_env_scalar amp=0.0375 -> z=2.46 (clu_xray)
+  U04_env_scalar: threshold 0.06886408280726945
+  U05_tensor_axis amp=0.025 -> z=4.05 (gal_aniso)
+  U05_tensor_axis amp=0.00625 -> z=2.23 (gal_vert)
+  U05_tensor_axis: threshold 0.020029341444779317
+  U06_wellnet amp=0.00375 -> z=1.62 (gal_env)
+  U06_wellnet: threshold 0.0071827895109405175
+  U07_memory amp=0.0125 -> z=1.83 (clu_quad)
+  U07_memory: threshold 0.028542911080967678
+  U08_ep_slip: threshold 0.046655247729387325
+  U09_path_redshift: threshold 0.00813802581593732
+rewrote E3_amplitude_scans.json
+[THRESHOLD] 9 arms
+  U03_mond_scalar amp=None
+  U02_cdm amp=None
+  U10_systematics amp=None
+  U04_env_scalar amp=0.06886408280726945
+  U05_tensor_axis amp=0.020029341444779317
+  U06_wellnet amp=0.0071827895109405175
+  U07_memory amp=0.028542911080967678
+  U08_ep_slip amp=0.046655247729387325
+  U09_path_redshift amp=0.00813802581593732
+  sizing: null median 1.89  single 2.71  family(36 pairs) 3.55
+    SAME CLASS: U03_mond_scalar ~ U04_env_scalar  z=2.30 auc=0.537 best clu_xray
+       noise x0.25: 16x the effecti: z=1.45 (clu_net)
+       systematics x0.25: shear cal: z=2.36 (clu_quad)
+       survey x1.5: 45 galaxies and: z=2.67 (clu_ep)
+    SAME CLASS: U03_mond_scalar ~ U05_tensor_axis  z=3.38 auc=0.559 best gal_aniso
+       noise x0.25: 16x the effecti: z=4.52 (gal_aniso)
+       systematics x0.25: shear cal: z=8.01 (gal_aniso)
+       survey x1.5: 45 galaxies and: z=2.87 (gal_aniso)
+    SAME CLASS: U03_mond_scalar ~ U07_memory  z=3.31 auc=0.549 best clu_xray
+       noise x0.25: 16x the effecti: z=2.64 (full)
+       systematics x0.25: shear cal: z=4.65 (gal_env)
+       survey x1.5: 45 galaxies and: z=2.62 (full)
+    SAME CLASS: U03_mond_scalar ~ U09_path_redshift  z=3.18 auc=0.575 best sn
+       noise x0.25: 16x the effecti: z=8.50 (full)
+       systematics x0.25: shear cal: z=8.50 (full)
+       survey x1.5: 45 galaxies and: z=4.42 (sn)
+    SAME CLASS: U04_env_scalar ~ U05_tensor_axis  z=3.11 auc=0.616 best full
+       noise x0.25: 16x the effecti: z=3.33 (gal_aniso)
+       systematics x0.25: shear cal: z=7.69 (gal_aniso)
+       survey x1.5: 45 galaxies and: z=2.97 (clu_mem)
+    SAME CLASS: U04_env_scalar ~ U06_wellnet  z=1.85 auc=0.519 best clu_quad
+       noise x0.25: 16x the effecti: z=8.50 (full)
+       systematics x0.25: shear cal: z=3.63 (clu_wl)
+       survey x1.5: 45 galaxies and: z=2.33 (clu_ep)
+    SAME CLASS: U04_env_scalar ~ U07_memory  z=1.58 auc=0.560 best full
+       noise x0.25: 16x the effecti: z=2.87 (gal_rc)
+       systematics x0.25: shear cal: z=3.75 (gal_env)
+       survey x1.5: 45 galaxies and: z=2.59 (gal_rc)
+    SAME CLASS: U04_env_scalar ~ U08_ep_slip  z=2.27 auc=0.584 best full
+       noise x0.25: 16x the effecti: z=8.50 (full)
+       systematics x0.25: shear cal: z=3.10 (clu_net)
+       survey x1.5: 45 galaxies and: z=2.62 (full)
+    SAME CLASS: U05_tensor_axis ~ U06_wellnet  z=3.25 auc=0.622 best gal_aniso
+       noise x0.25: 16x the effecti: z=8.50 (full)
+       systematics x0.25: shear cal: z=7.71 (gal_aniso)
+       survey x1.5: 45 galaxies and: z=3.74 (clu_wl)
+    SAME CLASS: U05_tensor_axis ~ U08_ep_slip  z=3.46 auc=0.594 best clu_wl
+       noise x0.25: 16x the effecti: z=8.50 (full)
+       systematics x0.25: shear cal: z=7.47 (gal_aniso)
+       survey x1.5: 45 galaxies and: z=3.31 (clu_wl)
+    SAME CLASS: U06_wellnet ~ U07_memory  z=2.19 auc=0.548 best clu_wl
+       noise x0.25: 16x the effecti: z=8.50 (full)
+       systematics x0.25: shear cal: z=5.82 (full)
+       survey x1.5: 45 galaxies and: z=4.02 (full)
+    SAME CLASS: U06_wellnet ~ U08_ep_slip  z=1.60 auc=0.506 best clu_net
+       noise x0.25: 16x the effecti: z=8.10 (clu_wl)
+       systematics x0.25: shear cal: z=2.74 (clu_wl)
+       survey x1.5: 45 galaxies and: z=2.10 (clu_quad)
+    SAME CLASS: U07_memory ~ U08_ep_slip  z=3.27 auc=0.624 best full
+       noise x0.25: 16x the effecti: z=8.50 (full)
+       systematics x0.25: shear cal: z=5.00 (full)
+       survey x1.5: 45 galaxies and: z=4.37 (clu_xray)
+[HALF] 9 arms
+  U03_mond_scalar amp=None
+  U02_cdm amp=None
+  U10_systematics amp=None
+  U04_env_scalar amp=0.034432041403634726
+  U05_tensor_axis amp=0.010014670722389658
+  U06_wellnet amp=0.0035913947554702588
+  U07_memory amp=0.014271455540483839
+  U08_ep_slip amp=0.023327623864693663
+  U09_path_redshift amp=0.00406901290796866
+  sizing: null median 1.92  single 2.87  family(36 pairs) 4.13
+    SAME CLASS: U03_mond_scalar ~ U04_env_scalar  z=2.71 auc=0.539 best clu_net
+       noise x0.25: 16x the effecti: z=1.33 (clu_ep)
+       systematics x0.25: shear cal: z=2.19 (clu_quad)
+       survey x1.5: 45 galaxies and: z=2.31 (clu_ep)
+    SAME CLASS: U03_mond_scalar ~ U05_tensor_axis  z=2.38 auc=0.510 best clu_wl
+       noise x0.25: 16x the effecti: z=2.72 (gal_aniso)
+       systematics x0.25: shear cal: z=4.20 (gal_aniso)
+       survey x1.5: 45 galaxies and: z=1.96 (clu_quad)
+    SAME CLASS: U03_mond_scalar ~ U06_wellnet  z=1.51 auc=0.482 best clu_ep
+       noise x0.25: 16x the effecti: z=4.62 (clu_wl)
+       systematics x0.25: shear cal: z=2.30 (clu_dyn)
+       survey x1.5: 45 galaxies and: z=2.39 (gal_rc)
+    SAME CLASS: U03_mond_scalar ~ U07_memory  z=3.00 auc=0.517 best clu_net
+       noise x0.25: 16x the effecti: z=1.47 (sn)
+       systematics x0.25: shear cal: z=2.36 (gal_env)
+       survey x1.5: 45 galaxies and: z=2.18 (sn)
+    SAME CLASS: U03_mond_scalar ~ U08_ep_slip  z=3.04 auc=0.548 best clu_wl
+       noise x0.25: 16x the effecti: z=3.02 (clu_ep)
+       systematics x0.25: shear cal: z=2.63 (sn)
+       survey x1.5: 45 galaxies and: z=2.24 (gal_rc)
+    SAME CLASS: U03_mond_scalar ~ U09_path_redshift  z=2.87 auc=0.518 best clu_net
+       noise x0.25: 16x the effecti: z=8.18 (sn)
+       systematics x0.25: shear cal: z=8.14 (sn)
+       survey x1.5: 45 galaxies and: z=2.04 (clu_wl)
+    SAME CLASS: U04_env_scalar ~ U05_tensor_axis  z=1.67 auc=0.562 best full
+       noise x0.25: 16x the effecti: z=2.37 (clu_net)
+       systematics x0.25: shear cal: z=3.81 (gal_aniso)
+       survey x1.5: 45 galaxies and: z=2.03 (clu_mem)
+    SAME CLASS: U04_env_scalar ~ U06_wellnet  z=2.04 auc=0.512 best clu_dyn
+       noise x0.25: 16x the effecti: z=5.08 (clu_ep)
+       systematics x0.25: shear cal: z=1.82 (clu_ep)
+       survey x1.5: 45 galaxies and: z=1.89 (clu_xray)
+    SAME CLASS: U04_env_scalar ~ U07_memory  z=1.59 auc=0.540 best clu_wl
+       noise x0.25: 16x the effecti: z=2.09 (clu_mem)
+       systematics x0.25: shear cal: z=2.25 (gal_env)
+       survey x1.5: 45 galaxies and: z=2.20 (clu_wl)
+    SAME CLASS: U04_env_scalar ~ U08_ep_slip  z=1.01 auc=0.537 best full
+       noise x0.25: 16x the effecti: z=4.29 (clu_ep)
+       systematics x0.25: shear cal: z=2.97 (clu_net)
+       survey x1.5: 45 galaxies and: z=2.00 (clu_dyn)
+    SAME CLASS: U04_env_scalar ~ U09_path_redshift  z=2.44 auc=0.562 best sn
+       noise x0.25: 16x the effecti: z=8.50 (sn)
+       systematics x0.25: shear cal: z=8.50 (sn)
+       survey x1.5: 45 galaxies and: z=1.56 (sn)
+    SAME CLASS: U05_tensor_axis ~ U06_wellnet  z=1.62 auc=0.561 best full
+       noise x0.25: 16x the effecti: z=5.39 (clu_ep)
+       systematics x0.25: shear cal: z=3.75 (gal_aniso)
+       survey x1.5: 45 galaxies and: z=1.94 (sn)
+    SAME CLASS: U05_tensor_axis ~ U07_memory  z=2.30 auc=0.569 best clu_xray
+       noise x0.25: 16x the effecti: z=2.53 (clu_xray)
+       systematics x0.25: shear cal: z=3.43 (gal_aniso)
+       survey x1.5: 45 galaxies and: z=2.23 (clu_xray)
+    SAME CLASS: U05_tensor_axis ~ U08_ep_slip  z=2.63 auc=0.530 best clu_dyn
+       noise x0.25: 16x the effecti: z=4.84 (clu_ep)
+       systematics x0.25: shear cal: z=3.67 (gal_aniso)
+       survey x1.5: 45 galaxies and: z=1.87 (clu_quad)
+    SAME CLASS: U05_tensor_axis ~ U09_path_redshift  z=1.86 auc=0.531 best sn
+       noise x0.25: 16x the effecti: z=7.50 (sn)
+       systematics x0.25: shear cal: z=8.50 (full)
+       survey x1.5: 45 galaxies and: z=1.87 (full)
+    SAME CLASS: U06_wellnet ~ U07_memory  z=1.05 auc=0.495 best clu_mem
+       noise x0.25: 16x the effecti: z=4.91 (full)
+       systematics x0.25: shear cal: z=2.31 (full)
+       survey x1.5: 45 galaxies and: z=1.48 (clu_ep)
+    SAME CLASS: U06_wellnet ~ U08_ep_slip  z=1.29 auc=0.490 best clu_dyn
+       noise x0.25: 16x the effecti: z=3.45 (clu_wl)
+       systematics x0.25: shear cal: z=2.18 (sn)
+       survey x1.5: 45 galaxies and: z=2.54 (clu_quad)
+    SAME CLASS: U06_wellnet ~ U09_path_redshift  z=3.10 auc=0.557 best sn
+       noise x0.25: 16x the effecti: z=6.50 (sn)
+       systematics x0.25: shear cal: z=8.50 (sn)
+       survey x1.5: 45 galaxies and: z=1.65 (gal_rc)
+    SAME CLASS: U07_memory ~ U08_ep_slip  z=1.63 auc=0.557 best clu_wl
+       noise x0.25: 16x the effecti: z=3.26 (full)
+       systematics x0.25: shear cal: z=2.85 (clu_net)
+       survey x1.5: 45 galaxies and: z=2.77 (clu_xray)
+    SAME CLASS: U07_memory ~ U09_path_redshift  z=1.52 auc=0.530 best clu_xray
+       noise x0.25: 16x the effecti: z=7.62 (sn)
+       systematics x0.25: shear cal: z=8.50 (sn)
+       survey x1.5: 45 galaxies and: z=2.23 (full)
+    SAME CLASS: U08_ep_slip ~ U09_path_redshift  z=2.62 auc=0.598 best full
+       noise x0.25: 16x the effecti: z=7.36 (sn)
+       systematics x0.25: shear cal: z=8.50 (sn)
+       survey x1.5: 45 galaxies and: z=1.52 (sn)
+wrote E9_equivalence_at_threshold.json
+arms: H0_scalar_null, U01_baryons_newton, U02_cdm, U02_cdm_hard, U03_mond_scalar, U04_env_scalar, U05_tensor_axis, U06_wellnet, U07_memory, U08_ep_slip, U09_path_redshift, U10_systematics, eqHALF_U02_cdm, eqHALF_U03_mond_scalar, eqHALF_U04_env_scalar, eqHALF_U05_tensor_axis, eqHALF_U06_wellnet, eqHALF_U07_memory, eqHALF_U08_ep_slip, eqHALF_U09_path_redshift, eqHALF_U10_systematics, eqTHRESHOLD_U02_cdm, eqTHRESHOLD_U03_mond_scalar, eqTHRESHOLD_U04_env_scalar, eqTHRESHOLD_U05_tensor_axis, eqTHRESHOLD_U06_wellnet, eqTHRESHOLD_U07_memory, eqTHRESHOLD_U08_ep_slip, eqTHRESHOLD_U09_path_redshift, eqTHRESHOLD_U10_systematics, eqorcHALF_U03_mond_scalar_0.25_1.0_30_12, eqorcHALF_U03_mond_scalar_1.0_0.25_30_12, eqorcHALF_U03_mond_scalar_1.0_1.0_45_18, eqorcHALF_U04_env_scalar_0.25_1.0_30_12, eqorcHALF_U04_env_scalar_1.0_0.25_30_12, eqorcHALF_U04_env_scalar_1.0_1.0_45_18, eqorcHALF_U05_tensor_axis_0.25_1.0_30_12, eqorcHALF_U05_tensor_axis_1.0_0.25_30_12, eqorcHALF_U05_tensor_axis_1.0_1.0_45_18, eqorcHALF_U06_wellnet_0.25_1.0_30_12, eqorcHALF_U06_wellnet_1.0_0.25_30_12, eqorcHALF_U06_wellnet_1.0_1.0_45_18, eqorcHALF_U07_memory_0.25_1.0_30_12, eqorcHALF_U07_memory_1.0_0.25_30_12, eqorcHALF_U07_memory_1.0_1.0_45_18, eqorcHALF_U08_ep_slip_0.25_1.0_30_12, eqorcHALF_U08_ep_slip_1.0_0.25_30_12, eqorcHALF_U08_ep_slip_1.0_1.0_45_18, eqorcHALF_U09_path_redshift_0.25_1.0_30_12, eqorcHALF_U09_path_redshift_1.0_0.25_30_12, eqorcHALF_U09_path_redshift_1.0_1.0_45_18, eqorcTHRESHOLD_U03_mond_scalar_0.25_1.0_30_12, eqorcTHRESHOLD_U03_mond_scalar_1.0_0.25_30_12, eqorcTHRESHOLD_U03_mond_scalar_1.0_1.0_45_18, eqorcTHRESHOLD_U04_env_scalar_0.25_1.0_30_12, eqorcTHRESHOLD_U04_env_scalar_1.0_0.25_30_12, eqorcTHRESHOLD_U04_env_scalar_1.0_1.0_45_18, eqorcTHRESHOLD_U05_tensor_axis_0.25_1.0_30_12, eqorcTHRESHOLD_U05_tensor_axis_1.0_0.25_30_12, eqorcTHRESHOLD_U05_tensor_axis_1.0_1.0_45_18, eqorcTHRESHOLD_U06_wellnet_0.25_1.0_30_12, eqorcTHRESHOLD_U06_wellnet_1.0_0.25_30_12, eqorcTHRESHOLD_U06_wellnet_1.0_1.0_45_18, eqorcTHRESHOLD_U07_memory_0.25_1.0_30_12, eqorcTHRESHOLD_U07_memory_1.0_0.25_30_12, eqorcTHRESHOLD_U07_memory_1.0_1.0_45_18, eqorcTHRESHOLD_U08_ep_slip_0.25_1.0_30_12, eqorcTHRESHOLD_U08_ep_slip_1.0_0.25_30_12, eqorcTHRESHOLD_U08_ep_slip_1.0_1.0_45_18, eqorcTHRESHOLD_U09_path_redshift_0.25_1.0_30_12, eqorcTHRESHOLD_U09_path_redshift_1.0_0.25_30_12, eqorcTHRESHOLD_U09_path_redshift_1.0_1.0_45_18, fine_U04_env_scalar_0.0375, fine_U05_tensor_axis_0.00625, fine_U05_tensor_axis_0.025, fine_U06_wellnet_0.00375, fine_U07_memory_0.0125
+rar_b1                0.578    0.028    0.615    0.749    0.614    0.622    0.607    0.619    0.645    0.615    0.610    0.190    0.620    0.616    0.615    0.611    0.614    0.614    0.613    0.617    0.184    0.620    0.616    0.615    0.612    0.613    0.617    0.613    0.618    0.185    0.592    0.615    0.611    0.593    0.616    0.613    0.592    0.616    0.614    0.591    0.617    0.612    0.596    0.624    0.619    0.594    0.620    0.619    0.592    0.620    0.615    0.592    0.615    0.611    0.592    0.616    0.613    0.592    0.617    0.614    0.591    0.616    0.612    0.598    0.626    0.622    0.594    0.620    0.618    0.593    0.620    0.615    0.619    0.618    0.614    0.617    0.616
+rar_b3                0.159   -0.034    0.256    0.125    0.190    0.199    0.181    0.187    0.216    0.188    0.186   -0.215    0.257    0.189    0.189    0.188    0.186    0.189    0.186    0.193   -0.220    0.257    0.188    0.190    0.188    0.186    0.191    0.187    0.194   -0.220    0.207    0.189    0.189    0.210    0.191    0.191    0.206    0.191    0.189    0.209    0.194    0.192    0.209    0.191    0.191    0.208    0.189    0.186    0.208    0.192    0.190    0.207    0.189    0.189    0.210    0.192    0.192    0.206    0.190    0.189    0.209    0.194    0.193    0.211    0.194    0.192    0.208    0.188    0.186    0.208    0.191    0.189    0.187    0.188    0.185    0.192    0.187
+outer_slope           0.079   -0.204    0.081    0.113    0.073    0.071    0.043    0.069    0.071    0.071    0.070   -0.163    0.079    0.070    0.071    0.072    0.067    0.068    0.070    0.073   -0.156    0.079    0.070    0.071    0.073    0.067    0.068    0.070    0.074   -0.155    0.070    0.083    0.067    0.071    0.084    0.065    0.072    0.084    0.072    0.070    0.085    0.074    0.071    0.088    0.076    0.070    0.085    0.073    0.073    0.086    0.074    0.070    0.083    0.066    0.071    0.084    0.065    0.071    0.084    0.071    0.070    0.085    0.074    0.071    0.088    0.076    0.070    0.085    0.073    0.073    0.086    0.074    0.069    0.069    0.069    0.069    0.070
+btfr_slope            0.268    0.336    0.332    0.269    0.272    0.274    0.259    0.271    0.273    0.272    0.273    0.270    0.330    0.272    0.271    0.271    0.272    0.272    0.271    0.272    0.271    0.330    0.272    0.272    0.271    0.272    0.272    0.271    0.272    0.271    0.277    0.270    0.272    0.278    0.271    0.272    0.277    0.271    0.271    0.278    0.272    0.272    0.278    0.272    0.272    0.277    0.271    0.271    0.278    0.272    0.272    0.277    0.270    0.272    0.278    0.272    0.272    0.277    0.270    0.271    0.278    0.272    0.272    0.278    0.272    0.272    0.277    0.271    0.271    0.278    0.272    0.272    0.271    0.272    0.270    0.271    0.273
+vert_minus_rad        0.002    0.005   -0.292   -0.282    0.001    0.001    0.007    0.004    0.002    0.003    0.002    0.022   -0.294    0.004    0.000    0.002    0.002    0.002    0.004    0.000    0.021   -0.294    0.003   -0.000    0.002    0.001    0.002    0.004    0.000    0.023   -0.001   -0.001   -0.001   -0.001   -0.003   -0.001    0.001    0.001    0.001   -0.000   -0.001    0.003   -0.000   -0.002    0.004   -0.000    0.000   -0.001    0.000   -0.000    0.002   -0.001   -0.001   -0.001   -0.001   -0.003   -0.000    0.001    0.001    0.000    0.001   -0.001    0.003   -0.000   -0.002    0.003   -0.000    0.001   -0.000    0.000    0.000    0.002    0.002    0.005    0.003    0.003    0.002
+wl_b1                 0.397   -0.005    0.860    0.827    0.480    0.553    0.447    0.683    0.531    0.528    0.482    0.063    0.861    0.474    0.487    0.484    0.494    0.487    0.491    0.486    0.060    0.862    0.473    0.493    0.482    0.507    0.490    0.502    0.486    0.059    0.487    0.496    0.485    0.491    0.497    0.488    0.492    0.492    0.486    0.512    0.505    0.498    0.498    0.498    0.487    0.497    0.505    0.496    0.486    0.494    0.491    0.488    0.496    0.485    0.493    0.501    0.492    0.491    0.491    0.485    0.524    0.518    0.513    0.500    0.502    0.489    0.508    0.516    0.505    0.487    0.494    0.491    0.492    0.488    0.480    0.497    0.478
+he_b1                 0.580   -0.008    0.740    0.689    0.594    0.646    0.597    0.625    0.635    0.596    0.594   -0.061    0.744    0.594    0.597    0.591    0.599    0.597    0.594    0.593   -0.060    0.744    0.594    0.601    0.591    0.599    0.601    0.593    0.593   -0.060    0.608    0.597    0.595    0.608    0.600    0.597    0.605    0.595    0.593    0.605    0.596    0.596    0.608    0.600    0.598    0.607    0.598    0.596    0.606    0.597    0.594    0.607    0.598    0.595    0.612    0.602    0.600    0.605    0.595    0.593    0.607    0.597    0.597    0.612    0.604    0.601    0.607    0.598    0.596    0.606    0.597    0.593    0.597    0.597    0.592    0.594    0.595
+dyn_b1                0.497   -0.172    0.556    0.538    0.511    0.551    0.509    0.532    0.550    0.507    0.506   -0.187    0.551    0.506    0.509    0.508    0.513    0.513    0.509    0.504   -0.186    0.551    0.506    0.513    0.508    0.513    0.516    0.509    0.504   -0.185    0.513    0.506    0.513    0.515    0.509    0.513    0.511    0.503    0.505    0.509    0.508    0.510    0.516    0.509    0.510    0.512    0.508    0.510    0.507    0.505    0.508    0.513    0.506    0.513    0.519    0.512    0.515    0.510    0.503    0.505    0.512    0.509    0.510    0.520    0.511    0.513    0.513    0.507    0.510    0.507    0.506    0.509    0.511    0.508    0.511    0.509    0.507
+q_amp                 0.010    0.010    0.025    0.025    0.009    0.010    0.012    0.010    0.010    0.010    0.010    0.015    0.025    0.010    0.010    0.010    0.010    0.010    0.010    0.010    0.015    0.025    0.010    0.010    0.010    0.010    0.010    0.010    0.010    0.015    0.010    0.003    0.010    0.009    0.003    0.010    0.010    0.003    0.010    0.010    0.003    0.010    0.010    0.003    0.010    0.010    0.003    0.010    0.010    0.003    0.010    0.010    0.003    0.010    0.009    0.003    0.010    0.010    0.003    0.010    0.010    0.002    0.010    0.010    0.002    0.010    0.010    0.003    0.010    0.010    0.003    0.010    0.010    0.010    0.010    0.010    0.010
+sl_frac               0.000    0.000    0.083    0.083    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.083    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.083    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000
+sn_dur                1.000    1.000    1.001    1.000    0.998    0.999    1.001    1.000    1.000    0.999    1.000    1.001    1.000    0.998    0.999    1.001    1.001    1.001    1.000    0.999    0.998    1.000    0.999    0.999    1.000    1.001    1.001    1.001    0.999    0.998    0.999    1.000    1.000    1.000    1.000    1.001    1.001    1.000    0.999    1.001    1.000    0.999    1.001    1.000    0.998    1.000    1.000    1.000    1.000    1.000    1.001    0.999    1.000    1.000    1.001    1.000    1.000    1.001    1.000    0.999    1.000    1.000    0.999    1.001    1.000    0.998    1.001    1.000    1.000    1.000    1.000    1.001    1.001    1.000    1.001    0.999    1.000
+ep_ld                 0.000    0.183    0.377    0.368    0.023    0.040   -0.012    0.183    0.027    0.075    0.025    0.389    0.376    0.024    0.029    0.021    0.030    0.028    0.040    0.027    0.383    0.376    0.026    0.028    0.021    0.045    0.028    0.051    0.027    0.383    0.020    0.049    0.026    0.026    0.048    0.022    0.024    0.048    0.033    0.038    0.059    0.027    0.024    0.047    0.027    0.035    0.064    0.035    0.027    0.049    0.025    0.020    0.049    0.026    0.031    0.051    0.023    0.024    0.047    0.031    0.050    0.070    0.044    0.024    0.047    0.027    0.047    0.075    0.050    0.027    0.049    0.025    0.023    0.018    0.015    0.032    0.022
+wrote C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\universes\REPORT.md (97076 chars)
