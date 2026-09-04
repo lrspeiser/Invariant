@@ -1,0 +1,453 @@
+
+==============================================================================
+G1  Newtonian limit: alpha -> 0 must reproduce Newton exactly
+==============================================================================
+   analytic potential, all four families : max rel err 1.605e-06
+      F1_poly    1.228e-13
+      F2_exp     1.228e-13
+      F3_pade    1.228e-13
+      F4_tidal   1.228e-13
+   circular speed from spline gradient   : 1.605e-06
+   fractional deviation vs alpha (q = 1/2 everywhere, F1):
+      alpha = 0.1      max|dPhi/Phi| = 5.000000e-02
+      alpha = 0.01     max|dPhi/Phi| = 5.000000e-03
+      alpha = 0.001    max|dPhi/Phi| = 5.000000e-04
+      alpha = 0.0001   max|dPhi/Phi| = 5.000000e-05
+      alpha = 1e-06    max|dPhi/Phi| = 5.000000e-07
+      alpha = 0        max|dPhi/Phi| = 0.000000e+00
+   [PASS] alpha = 0 reproduces Newton to 0.0e+00 (round-off)
+
+==============================================================================
+G2  Reciprocity, and the momentum residual it does NOT buy
+==============================================================================
+   qbar(x,x') vs qbar(x',x), 300 random asymmetric pairs : 4.141e-16
+   isolated pair, q sourced by the pair itself, alpha = 1, p = 1:
+      m2/m1     qbar      q2-q1      |f1+f2|/f_N   F'(qbar)*(q2-q1)
+      1         0.00471  +0.000e+00  0.000000e+00   0.000000e+00
+      0.3       0.00886  +2.924e-03  2.923798e-03   2.923798e-03
+      0.1       0.01667  +1.118e-02  1.118312e-02   1.118312e-02
+      0.01      0.06689  +1.105e-01  1.105250e-01   1.105250e-01
+      identity |f1+f2| = G m1 m2 F'(qbar) [q2-q1] / D^2 holds to 4.86e-12
+   equal-mass pair (reflection-symmetric q)  : leak/f_N = 0.00e+00
+   isolated 3-body, w(s) = 1 + gamma (s - 1/2)  (gamma = 0 reciprocal):
+      gamma   |sum f|/f_N   gradient   asymmetry   split resid
+      0.0     0.01482      0.01482    0.00000     5.7e-15
+      0.5     0.01795      0.01583    0.00215     3.1e-15
+      1.0     0.02121      0.01693    0.00430     7.4e-15
+      2.0     0.02791      0.01931    0.00860     3.4e-15
+   leak scales linearly in alpha and vanishes at alpha = 0: 1:1.482e-02, 0.1:1.482e-03, 0.01:1.482e-04, 0.001:1.482e-05, 0:7.983e-17
+
+==============================================================================
+G3  Solar-system safety, and what it costs the galaxy application
+==============================================================================
+   L_s = 0.00  kpc : rho(Sun) = 7.607e+07, |dln rho| = 3.333/kpc, rho(25 kpc) = 1.145e+05, contrast = 664.4
+   L_s = 0.05  kpc : rho(Sun) = 8.448e+07, |dln rho| = 2.901/kpc, rho(25 kpc) = 1.272e+05, contrast = 664.4
+   L_s = 0.30  kpc : rho(Sun) = 4.049e+07, |dln rho| = 0.556/kpc, rho(25 kpc) = 6.104e+04, contrast = 663.4
+   L_s = 1.00  kpc : rho(Sun) = 1.791e+07, |dln rho| = 0.382/kpc, rho(25 kpc) = 2.741e+04, contrast = 653.4
+   
+   clipped delta form, q = rho_ref/rho_s - 1 clipped to [0,1):
+      q(Sun) = 0.0 exactly for every rho_ref < rho_s(Sun) = 4.05e+07;  F = 1 identically, eps = 0 exactly.
+   
+   smooth form q = 1/(1 + rho_s/rho_ref)  (programme Q1, m = 1):
+      rho_ref     alpha  p    q(Sun)     q(25kpc)   eps(1AU)    a_anom(1AU) m/s^2
+      6.22       1.0   1.0  1.535e-07  1.018e-04  2.068e-16  1.227e-18  ok
+      6.22       3.0   1.0  1.535e-07  1.018e-04  6.205e-16  3.680e-18  ok
+      6.22       1.0   2.0  1.535e-07  1.018e-04  6.350e-23  3.766e-25  ok
+      6.22       10.0  1.0  1.535e-07  1.018e-04  2.068e-15  1.227e-17  ok
+      1e+03      1.0   1.0  2.470e-05  1.612e-02  3.328e-14  1.973e-16  ok
+      1e+03      3.0   1.0  2.470e-05  1.612e-02  9.983e-14  5.920e-16  ok
+      1e+03      1.0   2.0  2.470e-05  1.612e-02  1.644e-18  9.746e-21  ok
+      1e+03      10.0  1.0  2.470e-05  1.612e-02  3.328e-13  1.973e-15  ok
+      1e+04      1.0   1.0  2.469e-04  1.408e-01  3.326e-13  1.972e-15  ok
+      1e+04      3.0   1.0  2.469e-04  1.408e-01  9.978e-13  5.917e-15  ok
+      1e+04      1.0   2.0  2.469e-04  1.408e-01  1.642e-16  9.740e-19  ok
+      1e+04      10.0  1.0  2.469e-04  1.408e-01  3.326e-12  1.972e-14  ok
+      1e+05      1.0   1.0  2.464e-03  6.210e-01  3.311e-12  1.964e-14  ok
+      1e+05      3.0   1.0  2.464e-03  6.210e-01  9.934e-12  5.891e-14  ok
+      1e+05      1.0   2.0  2.464e-03  6.210e-01  1.632e-14  9.675e-17  ok
+      1e+05      10.0  1.0  2.464e-03  6.210e-01  3.311e-11  1.964e-13  FAILS 1e-11
+      1e+06      1.0   1.0  2.410e-02  9.425e-01  3.169e-11  1.879e-13  FAILS 1e-11
+      1e+06      3.0   1.0  2.410e-02  9.425e-01  9.508e-11  5.638e-13  FAILS 1e-11
+      1e+06      1.0   2.0  2.410e-02  9.425e-01  1.528e-12  9.059e-15  ok
+      1e+06      10.0  1.0  2.410e-02  9.425e-01  3.169e-10  1.879e-12  FAILS 1e-11
+      1e+07      1.0   1.0  1.981e-01  9.939e-01  2.140e-10  1.269e-12  FAILS 1e-11
+      1e+07      3.0   1.0  1.981e-01  9.939e-01  6.420e-10  3.807e-12  FAILS 1e-11
+      1e+07      1.0   2.0  1.981e-01  9.939e-01  8.477e-11  5.027e-13  FAILS 1e-11
+      1e+07      10.0  1.0  1.981e-01  9.939e-01  2.140e-09  1.269e-11  FAILS 1e-11
+   
+   bound eps(1 AU) < 1e-11, alpha = p = 1 : q(Sun) < 7.421e-03, i.e. rho_ref < 3.005e+05 Msun/kpc^3
+      midplane contrast rho(8.2)/rho(25) = 663.4 then gives q(25 kpc) = 1.000
+      the solar-system bound and a galaxy-scale q of order unity are compatible for the smooth form,
+      with about one order of magnitude of headroom; the clipped delta form has unlimited headroom.
+   
+   exact path average vs the linearisation (smooth form, rho_ref = 1e5, alpha = p = 1,
+   unsmoothed h_z = 0.30 kpc, i.e. the worst-case gradient rather than the L_s = 0.3 kpc fiducial):
+      D =    1 AU : qbar = 2.46358383e-03, eps_exact = 1.9808e-11, eps_lin = 1.9857e-11, ratio = 0.9975
+      D =   10 AU : qbar = 2.46358400e-03, eps_exact = 1.9808e-10, eps_lin = 1.9857e-10, ratio = 0.9975
+      D =   30 AU : qbar = 2.46358440e-03, eps_exact = 5.9425e-10, eps_lin = 5.9572e-10, ratio = 0.9975
+
+==============================================================================
+G4  Flat rotation curves: theory first, then numbers
+==============================================================================
+   THEOREM 1.  For a point source Phi = -G M F(r)/r exactly, so
+      v_c^2 = G M (F/r - F') = (G M F / r) (1 - dlnF/dlnr).
+      Every family here has qbar in [0,1) and Tbar finite, so F is
+      bounded: sup F = 1+alpha (F1), e^alpha (F2), 1+alpha/(1+beta) (F3).
+      Hence r v_c^2 -> G M F_inf: the curve is exactly Keplerian at
+      large r, with G renormalised by F_inf.  Asymptotically flat is
+      impossible for the whole family.  Numerically:
+      F1_poly   alpha=3.0  sup F= 4.000   r v^2/GM at 30 Mpc = 3.9998 (1.0000 of sup),  dlnv/dlnr = -0.5000  (Kepler = -0.5)
+      F2_exp    alpha=1.0  sup F= 2.718   r v^2/GM at 30 Mpc = 2.7181 (0.9999 of sup),  dlnv/dlnr = -0.5000  (Kepler = -0.5)
+      F3_pade   alpha=5.0  sup F= 3.500   r v^2/GM at 30 Mpc = 3.4999 (1.0000 of sup),  dlnv/dlnr = -0.5000  (Kepler = -0.5)
+   
+   THE NAIVE ARGUMENT IS WRONG.  'q is roughly constant on galaxy
+      scales, so F is roughly constant, so Phi is a rescaled Newtonian
+      potential and v^2 ~ 1/r' drops the -G M F' term.  That term is
+      not small: v^2 = (G M F/r)(1 - dlnF/dlnr), so an F rising with
+      logarithmic slope approaching 1 flattens the curve completely.
+      Size of the dropped term, MW-like model, smooth q, alpha = 3:
+      r/kpc       3.0    5.5    9.9   18.1   33.0   60.0
+      F_eff     0.421  0.664  0.927  1.281  2.172  2.988
+      dlnF/dlnr 0.819  0.662  0.478  0.752  0.760  0.398
+      max dlnF/dlnr = 0.899; the naive argument assumes 0.
+   
+   THEOREM 2.  v_c^2 < 0 whenever dlnF/dlnr > 1.  Flat rotation sits on
+      the boundary of a REPULSIVE regime: to flatten a curve F must
+      rise with logarithmic slope tending to 1, and any overshoot
+      removes circular orbits entirely.  A q that switches sharply --
+      which the clipped delta form does by construction, since
+      q = rho_ref/rho_s - 1 is a near-step function of density -- always
+      overshoots.
+   
+   THEOREM 3.  The only F making v_c exactly flat is F = C r ln(r_*/r),
+      C = v_f^2/(G M).  Two bounds on the radial stretch it can cover:
+      (a) unconstrained, apex of F on the ceiling  : r2/r1 from the two
+          roots of C r ln(r_*/r) = 1;
+      (b) with F(r1) = 1 and F'(r1) = 0, which is what an inner
+          rotation curve fitted by baryons alone demands, then
+          v_f^2 = G M F(r1)/r1 <= G M F(r2)/r2 gives r2/r1 <= sup F.
+      alpha = 0.3   sup F = 1.30   r2/r1 (unconstrained) =     4.35   r2/r1 (F'(r1)=0) <=   1.30   |v^2 - const| = 8.9e-16
+      alpha = 1.0   sup F = 2.00   r2/r1 (unconstrained) =    11.55   r2/r1 (F'(r1)=0) <=   2.00   |v^2 - const| = 8.9e-16
+      alpha = 3.0   sup F = 4.00   r2/r1 (unconstrained) =    36.26   r2/r1 (F'(r1)=0) <=   4.00   |v^2 - const| = 8.9e-16
+      alpha = 10.0  sup F = 11.00  r2/r1 (unconstrained) =   144.68   r2/r1 (F'(r1)=0) <=  11.00   |v^2 - const| = 8.9e-16
+      alpha = 30.0  sup F = 31.00  r2/r1 (unconstrained) =   522.02   r2/r1 (F'(r1)=0) <=  31.00   |v^2 - const| = 8.9e-16
+      A decade of exactly flat curve therefore needs alpha >= 9 under
+      the physical constraint, or alpha ~ 1 without it.
+
+==============================================================================
+G4b  Can ONE global parameter set flatten the whole ladder?
+==============================================================================
+   built 300 q fields
+   1772 solar-system-allowed configurations screened in 287.3 s (162 ms each)
+   configurations with a REPULSIVE shell (v_c^2 < 0 somewhere): 748 of 1772  (42.2%)
+      delta  :  503 / 720  repulsive (70%)
+      smooth :  142 / 344  repulsive (41%)
+      screen :  103 / 708  repulsive (15%)
+      the clipped delta form switches almost like a step, so it drives
+      dlnF/dlnr past 1 and manufactures repulsive shells; the smooth and
+      screened forms avoid that but reacquire a solar-system constraint.
+   
+   best 10 by RMS outer log-slope of v_c across the six-galaxy ladder
+   (0 = flat, -0.5 = Keplerian; the Newtonian control is the last row):
+      rms   qdef    rho_ref  extra          family    alpha p    slopes
+      0.056 screen  3e+05    {'L_q': 2.0}   F1_poly   3.0   0.5 +0.08 -0.09 -0.03 -0.03 -0.02 -0.02
+      0.056 screen  3e+05    {'L_q': 2.0}   F4_tidal  3.0   0.5 +0.08 -0.10 -0.03 -0.03 -0.03 -0.02
+      0.057 screen  1e+05    {'L_q': 2.0}   F3_pade   10.0  0.5 +0.08 -0.10 -0.01 +0.00 +0.03 +0.05
+      0.058 screen  1e+06    {'L_q': 2.0}   F1_poly   3.0   1.0 +0.11 -0.05 -0.05 +0.04 +0.02 +0.01
+      0.058 screen  1e+05    {'L_q': 2.0}   F1_poly   3.0   0.5 +0.09 -0.08 +0.05 -0.02 -0.03 -0.03
+      0.058 screen  1e+06    {'L_q': 2.0}   F4_tidal  3.0   1.0 +0.11 -0.05 -0.05 +0.04 +0.02 +0.01
+      0.059 screen  1e+05    {'L_q': 2.0}   F4_tidal  3.0   0.5 +0.09 -0.09 +0.05 -0.02 -0.03 -0.03
+      0.063 screen  3e+05    {'L_q': 2.0}   F3_pade   10.0  0.5 +0.06 -0.12 -0.07 -0.04 -0.01 +0.02
+      0.071 screen  3e+05    {'L_q': 2.0}   F1_poly   3.0   1.0 +0.15 -0.04 +0.08 +0.03 -0.02 -0.04
+      0.072 screen  3e+05    {'L_q': 2.0}   F4_tidal  3.0   1.0 +0.15 -0.04 +0.08 +0.03 -0.02 -0.04
+      0.190 NEWTON  (alpha = 0)                                          +0.00 -0.19 -0.12 -0.21 -0.23 -0.26
+      ladder order: dwarf_LSB dwarf_HSB LSB_large spiral_mid MW_like massive
+   
+   MONOTONE-INVARIANT-STATISTIC CHECK.  dS/dalpha must not be zero.
+      alpha :    0.10    0.30    1.00    3.00   10.00   30.00
+      S     :   0.179   0.160   0.113   0.056   0.098   0.172
+      spread of S over three decades of alpha = 0.123 -- the statistic is not degenerate.
+
+==============================================================================
+G4c  The baryonic Tully-Fisher relation the family predicts
+==============================================================================
+   SHARED-DENOMINATOR CHECK.  The BTFR residual is regressed against
+      log r_d, NOT against the central surface density Sigma_0 =
+      M/(2 pi r_d^2), because Sigma_0 carries the same M that sits on
+      the abscissa and would manufacture a correlation from nothing.
+      r_d is an independent input.
+      newton (alpha = 0)                       slope =  2.07  scatter = 0.311 dex  d(resid)/dlog r_d = +0.74
+      screen|F1_poly|a=3.0|p=0.5               slope =  2.88  scatter = 0.229 dex  d(resid)/dlog r_d = +0.49
+      screen|F4_tidal|a=3.0|p=0.5              slope =  2.88  scatter = 0.230 dex  d(resid)/dlog r_d = +0.49
+      screen|F3_pade|a=10.0|p=0.5              slope =  2.83  scatter = 0.241 dex  d(resid)/dlog r_d = +0.51
+   
+      observed SPARC BTFR: slope 3.85 +/- 0.09, scatter 0.10 dex, and no
+      residual dependence on galaxy size or surface brightness.
+
+==============================================================================
+G4d  What F(r) the SPARC TRAIN rotation curves actually demand
+==============================================================================
+   SPARC galaxies after the frozen cuts : 123
+   TRAIN split used here                : 75
+   validation and blind splits are NOT loaded, NOT read and NOT used.
+   Nothing is fitted: this is a forward inversion of each curve.
+   
+   For a source seen from outside, Phi = -G M_b F(r)/r is EXACT, so
+      F(r) = -r Phi_req(r) / (G M_b),  Phi_req(r) = -Int_r^inf v_obs^2 dln r'.
+   The tail beyond the last measured point is taken Keplerian, which is
+   what this family forces anyway (Theorem 1); assuming instead that the
+   curve stays flat for another factor of two in radius raises F_req by
+   a further r ln 2 v_f^2 / (G M_b) and is reported as a sensitivity.
+   
+   galaxies inverted                    : 75
+   max F over the sample                : 17.53  => one GLOBAL alpha must be at least 16.53
+      with a flat tail for another x2   : 28.69
+   F_max percentiles  5/25/50/75/95/100  : 2.04 / 3.85 / 6.19 / 8.27 / 11.00 / 17.53
+   max dlnF/dlnr percentiles 5/50/95/100 : 0.302 / 0.554 / 0.827 / 0.939
+      (dlnF/dlnr = 1 is the repulsion threshold of Theorem 2; the data
+       sit below it by construction, but the margin is the fine-tuning)
+   fraction of galaxies needing F < 1 anywhere beyond 2 R_d : 0.0%
+      F < 1 cannot be produced by any member with alpha > 0, since
+      F = 1 + alpha qbar^p >= 1; it would require alpha < 0, which
+      makes gravity weaker in voids, the wrong sign for the rest.
+   spread of log10 F_max across the sample : 0.243 dex
+   corr(log F_max, log V_flat)             : -0.336
+
+==============================================================================
+G4e  Forward test: one global parameter set against SPARC TRAIN
+==============================================================================
+   Each TRAIN galaxy gets an EQUIVALENT SPHERICAL mass distribution
+   defined by M(<R) = R V_bar^2 / G at its own tabulated radii, with
+   V_bar^2 = |V_gas| V_gas + 0.5 V_disk^2 + 0.7 V_bul^2.  That makes the
+   model's NEWTONIAN curve identical to the tabulated one by
+   construction, so the baryon-geometry error is removed rather than
+   estimated.  An exponential-sphere model built from R_disk and total
+   masses instead -- the first version of this test -- is wrong by
+   0.32 dex rms in v_bar^2, which is twice the residual being measured,
+   and that version is not reportable.
+   The price is stated: the equivalent spherical DENSITY is not the true
+   3-D density, so the q field built from it is biased towards larger q.
+   
+   The q field is then computed with GLOBAL parameters only and the
+   kernel's F_eff(r) = -r Phi/(G M_tot) is compared with the F_req(r)
+   the observed curve demands, at the measured radii beyond 2 R_disk.
+   Statistic: rms of log10(F_eff / F_req).  No per-galaxy freedom.
+   TRAIN galaxies 75, usable with >=3 points beyond 2 R_d : 71
+   R_last / R_disk : median 6.9, 5-95 pct 3.0-16.3
+   BARYON-MODEL CONTROL: model v_bar^2 vs tabulated v_bar^2 = 0.0132 dex rms (bias +0.0042) -- exact by construction.
+   396 global parameter sets evaluated on 71 galaxies in 141.7 s
+   
+   best 15 by rms log10(F_eff / F_req).  0.00 dex would be a perfect
+   global reproduction of every SPARC train rotation curve.
+      rms   bias  gal-sc  config                     family    alpha p   F_local  ISL Oort
+      0.156 -0.039 0.160   screen rho_ref=1e6 L_q=2   F3_pade   10.0  1.0    3.052  ok  BAD
+      0.166 +0.019 0.179   screen rho_ref=1e6 L_q=10  F3_pade   10.0  2.0    2.373  ok  BAD
+      0.178 +0.048 0.183   screen rho_ref=1e6 L_q=2   F3_pade   10.0  0.5    4.369  ok  BAD
+      0.179 +0.026 0.150   screen rho_ref=1e6 L_q=2   F2_exp    3.0   1.0    2.169  ok  BAD
+      0.180 +0.104 0.147   screen rho_ref=1e6 L_q=2   F1_poly   10.0  1.0    3.581  ok  BAD
+      0.180 -0.034 0.187   screen rho_ref=1e5 L_q=2   F3_pade   10.0  0.5    4.010  ok  BAD
+      0.184 -0.040 0.185   smooth rho_ref=1e6 m=0.5   F3_pade   10.0  1.0    1.959  BAD BAD
+      0.188 +0.035 0.197   screen rho_ref=1e5 L_q=10  F3_pade   10.0  1.0    3.793  ok  BAD
+      0.194 +0.048 0.196   smooth rho_ref=1e6 m=0.5   F3_pade   10.0  0.5    3.456  BAD BAD
+      0.196 -0.065 0.201   screen rho_ref=1e5 L_q=10  F3_pade   10.0  2.0    2.305  ok  BAD
+      0.196 -0.103 0.146   screen rho_ref=1e6 L_q=2   F1_poly   10.0  2.0    1.666  ok  ok
+      0.198 +0.076 0.192   screen rho_ref=1e6 L_q=10  F3_pade   10.0  1.0    3.852  ok  BAD
+      0.208 -0.090 0.196   screen rho_ref=1e6 L_q=10  F1_poly   3.0   0.5    2.895  ok  BAD
+      0.208 +0.098 0.180   smooth rho_ref=1e6 m=0.5   F1_poly   10.0  1.0    2.060  BAD BAD
+      0.209 +0.107 0.182   screen rho_ref=1e5 L_q=2   F1_poly   10.0  0.5    5.306  ok  BAD
+      0.646 -0.614 0.197   NEWTON, F = 1 everywhere
+   
+   best global set improves on Newton by 0.491 dex in rms, leaving 0.156 dex of residual --
+   a factor 1.43 typical error in F, with 0.160 dex of galaxy-to-galaxy scatter
+   that no global parameter can absorb (the RAR sits at about 0.11 dex).
+   best set that ALSO passes the inverse-square-law bound and the
+   Oort window: screen rho_ref=1e6 L_q=2 F1_poly alpha=10.0 p=2.0, rms 0.196 dex, F_local 1.666
+
+==============================================================================
+G5  Numerical gates: resolution, domain size, label permutation
+==============================================================================
+   resolution convergence, referenced to n_D=96 n_s=48 n_gl=12 dlnr_max=0.10:
+      n_D=8   n_s=4   n_gl=4   dlnr=0.70  max rel err = 3.875e-03
+      n_D=16  n_s=8   n_gl=6   dlnr=0.50  max rel err = 1.502e-04
+      n_D=32  n_s=12  n_gl=8   dlnr=0.35  max rel err = 2.228e-06
+      n_D=48  n_s=24  n_gl=8   dlnr=0.20  max rel err = 5.697e-08
+      n_D=64  n_s=32  n_gl=10  dlnr=0.15  max rel err = 4.103e-08
+   
+   domain-size convergence (outer radius of the source integral):
+      r_hi =      300 kpc   max |dPhi/Phi| vs r_hi = 300 kpc : 0.000e+00
+      r_hi =     1000 kpc   max |dPhi/Phi| vs r_hi = 300 kpc : 5.806e-10
+      r_hi =     3000 kpc   max |dPhi/Phi| vs r_hi = 300 kpc : 4.229e-10
+      r_hi =    10000 kpc   max |dPhi/Phi| vs r_hi = 300 kpc : 5.451e-10
+      r_hi =    30000 kpc   max |dPhi/Phi| vs r_hi = 300 kpc : 3.785e-10
+   
+   SOURCE-LABEL PERMUTATION INVARIANCE (3-D direct sum).
+      permuting all 8000 source cells changes Phi by 2.220e-16
+      CPU vs GPU direct sum agree to 2.220e-16
+      3-D direct sum at alpha = 0 vs a plain Newtonian sum : 2.220e-16
+
+==============================================================================
+G6  Cost of the double integral, and the price of accelerating it
+==============================================================================
+   Cost model.  N_f field points, N_s source cells, n_s path samples:
+      direct  O(N_f N_s n_s) trilinear interpolations
+      grid of n^3 cells evaluated at every cell -> O(n^6 n_s)
+      n = 64 : 6.9e10 pair-samples;  n = 128 : 4.4e12.
+   The spherical and axisymmetric reductions used for the rotation-curve
+   work collapse this to O(N_f N_r' N_D n_s) ~ 1e7, which is why the
+   parameter screen is possible at all.  For genuinely 3-D configurations
+   two accelerations are implemented and priced below.
+      n = 10  (  1000 cells) CPU :    4.911 s  -> 3.258e+06 pair-samples/s
+      n = 10  (  1000 cells) GPU :    0.049 s  -> 3.238e+08 pair-samples/s
+      n = 12  (  1728 cells) CPU :   14.248 s  -> 3.353e+06 pair-samples/s
+      n = 12  (  1728 cells) GPU :    0.128 s  -> 3.741e+08 pair-samples/s
+      n = 16  (  4096 cells) CPU :   77.750 s  -> 3.453e+06 pair-samples/s
+      n = 16  (  4096 cells) GPU :    0.606 s  -> 4.429e+08 pair-samples/s
+      n = 20  (  8000 cells) GPU :    2.298 s  -> 4.455e+08 pair-samples/s
+      n = 24  ( 13824 cells) GPU :    6.876 s  -> 4.447e+08 pair-samples/s
+      extrapolated all-pairs cost at n = 64: 2467.8 s on the GPU
+      extrapolated all-pairs cost at n = 128: 157941.9 s on the GPU
+   
+   ACCELERATION 1: replace the path average by the separable midpoint
+      surrogate qbar ~ [q(x) + q(x')]/2, expand F(u,v) by SVD to rank R,
+      and do each rank-1 term as one FFT convolution with 1/r.
+      Cost drops from O(n^6 n_s) to O(R n^3 log n).
+      midpoint surrogate vs the exact path average : max 6.077e-01, rms 4.269e-02
+      rank 1 : SVD tail 2.03e-02, vs midpoint direct sum 1.407e-01, 0.011 s
+      rank 2 : SVD tail 1.43e-15, vs midpoint direct sum 2.657e-08, 0.014 s
+      rank 3 : SVD tail 1.34e-15, vs midpoint direct sum 2.657e-08, 0.022 s
+      rank 4 : SVD tail 1.30e-15, vs midpoint direct sum 2.657e-08, 0.025 s
+      rank 6 : SVD tail 1.24e-15, vs midpoint direct sum 2.657e-08, 0.035 s
+      rank 8 : SVD tail 1.18e-15, vs midpoint direct sum 2.657e-08, 0.038 s
+      The direct sum here uses D = max(|x-x'|, h/2), exactly the kernel
+      the FFT tabulates; with the Plummer convention instead the two
+      disagree at 1.5e-2 for a reason that has nothing to do with the
+      acceleration.  F1 with p = 1 is EXACTLY rank 2 in the midpoint
+      surrogate, since 1 + alpha (u+v)/2 separates; other members need
+      more, so the spectrum is tabulated:
+         F1_poly   p = 0.5  rank for 1e-10 = 12  singular values 1.0e+00 2.6e-02 1.7e-03 3.2e-04 8.2e-05
+         F1_poly   p = 1.0  rank for 1e-10 = 2   singular values 1.0e+00 2.0e-02 5.0e-16 3.1e-16 2.9e-16
+         F1_poly   p = 2.0  rank for 1e-10 = 3   singular values 1.0e+00 1.9e-02 1.4e-03 3.4e-16 2.9e-16
+         F2_exp    p = 0.5  rank for 1e-10 = 12  singular values 1.0e+00 3.0e-02 1.3e-03 2.2e-04 5.5e-05
+         F2_exp    p = 1.0  rank for 1e-10 = 1   singular values 1.0e+00 5.9e-16 3.7e-16 3.3e-16 2.8e-16
+         F2_exp    p = 2.0  rank for 1e-10 = 7   singular values 1.0e+00 6.9e-02 2.4e-03 5.3e-05 8.5e-07
+         F3_pade   p = 0.5  rank for 1e-10 = 12  singular values 1.0e+00 1.9e-02 1.6e-03 3.6e-04 8.8e-05
+         F3_pade   p = 1.0  rank for 1e-10 = 5   singular values 1.0e+00 2.3e-02 1.1e-04 7.1e-07 5.0e-09
+         F3_pade   p = 2.0  rank for 1e-10 = 7   singular values 1.0e+00 8.8e-03 6.0e-03 2.7e-05 1.3e-06
+   
+   ACCELERATION 2 (used for every galaxy number in this report): the
+      spherical reduction, which is EXACT -- the separation D is the
+      inner integration variable, so the 1/|x-x'| singularity is removed
+      analytically and no approximation is made at all.  Its accuracy is
+      the quadrature accuracy reported in G5, ~1e-6 at production
+      settings.
+
+==============================================================================
+G7  What only a nonlocal kernel predicts, and how big it is
+==============================================================================
+   The signature is that two sources at the SAME separation couple
+   differently when the material BETWEEN them differs.  No point-local
+   law -- MOND, the RAR, f(R), any mu(g) or mu(rho) -- can produce it,
+   because those depend only on fields evaluated at one point.
+   
+   But the signature and the galaxy application both draw on the SAME
+   single global density scale rho_ref, and they want opposite values.
+   This gate measures that tension rather than asserting it.
+   
+      best on the GALAXY criterion (largest M_dyn/M_b at 25 kpc):
+      qdef    rho_ref  extra        alpha p   ISL  Oort  F_local  Mdyn/Mb   void/fil     all4
+      screen  1e+06    {'L_q': 10.0} 10.0  2   ok   BAD      2.59      3.981      +0.0003   -
+      screen  1e+06    {'L_q': 10.0} 3.0   1   ok   BAD      2.20      2.707      +0.0001   -
+      screen  1e+05    {'L_q': 10.0} 3.0   1   ok   BAD      2.16      1.828      +0.0014   -
+      smooth  1e+06    {'m': 0.5}   3.0   1   BAD  ok       1.32      1.683      +0.0094   -
+      screen  1e+06    {'L_q': 10.0} 1.0   1   ok   ok       1.40      1.569      +0.0001   -
+      screen  1e+06    {'L_q': 2.0} 3.0   1   ok   BAD      1.77      1.431      +0.0001   -
+      smooth  1e+06    {'m': 2.0}   3.0   1   ok   BAD      1.00      1.420      +0.0000   -
+      smooth  1e+06    {'m': 1.0}   3.0   1   BAD  BAD      1.04      1.418      +0.0001   -
+      best on the NONLOCAL-SIGNATURE criterion (void/filament contrast):
+      delta   6.2      {'L_s': 0.0} 10.0  2   ok   BAD      1.00      1.000     +10.0000   -
+      delta   62       {'L_s': 0.0} 10.0  2   ok   BAD      1.00      1.000     +10.0000   -
+      smooth  6.2      {'m': 2.0}   10.0  2   ok   BAD      1.00      1.000      +9.2454   -
+      smooth  62       {'m': 2.0}   10.0  2   ok   BAD      1.00      1.000      +9.0009   -
+      smooth  6.2      {'m': 1.0}   10.0  2   ok   BAD      1.00      1.000      +6.8626   -
+      screen  6.2      {'L_q': 2.0} 10.0  2   ok   BAD      1.02      1.000      +6.8626   -
+      screen  6.2      {'L_q': 10.0} 10.0  2   ok   ok       1.63      1.000      +6.8626   -
+      smooth  62       {'m': 1.0}   10.0  2   ok   BAD      1.00      1.000      +5.5392   -
+      best on the LOCAL criteria (inverse-square law and Oort):
+      screen  1e+06    {'L_q': 10.0} 1.0   1   ok   ok       1.40      1.569      +0.0001   -
+      screen  1e+05    {'L_q': 10.0} 1.0   1   ok   ok       1.39      1.276      +0.0009   -
+      screen  1e+06    {'L_q': 2.0} 1.0   1   ok   ok       1.26      1.144      +0.0001   -
+      screen  1e+04    {'L_q': 10.0} 1.0   1   ok   ok       1.38      1.084      +0.0092   -
+      screen  6.2e+02  {'L_q': 10.0} 1.0   1   ok   ok       1.37      1.015      +0.1296   -
+      screen  62       {'L_q': 10.0} 1.0   1   ok   ok       1.35      1.003      +0.5849   -
+      screen  6.2      {'L_q': 10.0} 1.0   1   ok   ok       1.25      1.000      +0.7760   -
+      screen  6.2      {'L_q': 10.0} 10.0  2   ok   ok       1.63      1.000      +6.8626   -
+   
+      0 of 108 parameter points satisfy all four at once:
+      inverse-square law at 1 AU, the Oort local-dynamics window,
+      M_dyn/M_b >= 2 at 25 kpc in a Milky-Way-like galaxy, and a
+      >= 5 per cent void-versus-filament contrast in the coupling
+      of a matched pair.
+      The obstruction is arithmetic: rho_ref must sit near the cosmic
+      mean 6.2 Msun/kpc^3 for intergalactic environments to
+      differ in q at all, but near 1e5-1e6 for q to rise across a
+      rotation curve.  One global scale cannot be in both places.
+   
+   CLUSTER-ONLY EXCESS.  qbar(r) is the path average from the centre
+   out to r, so the modification switches on where a real fraction of
+   that segment lies below rho_ref.  With ONE global rho_ref that
+   happens beyond the last measured point of a galaxy rotation curve
+   and inside the weak-lensing range of a cluster.
+      dwarf_LSB   galaxy   M_b = 1.50e+09 scale =     1.0 kpc   turn-on at      1.9 kpc =   1.95 x scale
+      dwarf_HSB   galaxy   M_b = 3.00e+09 scale =     1.2 kpc   turn-on at      5.7 kpc =   4.73 x scale
+      LSB_large   galaxy   M_b = 1.10e+10 scale =     6.0 kpc   turn-on at      0.5 kpc =   0.08 x scale
+      spiral_mid  galaxy   M_b = 2.00e+10 scale =     2.5 kpc   turn-on at     11.2 kpc =   4.49 x scale
+      MW_like     galaxy   M_b = 6.00e+10 scale =     3.0 kpc   turn-on at     17.4 kpc =   5.79 x scale
+      massive     galaxy   M_b = 2.10e+11 scale =     5.0 kpc   turn-on at     28.2 kpc =   5.65 x scale
+      cluster     cluster  M_b = 1.35e+14 scale =  1073.0 kpc   turn-on at    311.4 kpc =   0.29 x scale
+      cluster R500 from M_gas / f_gas = 1073 kpc, M500 = 3.41e+14 Msun
+      cluster M_dyn/M_baryon vs r/R500 (alpha = 1, rho_ref = 1e5):
+         r/R500 =  0.21   M_dyn/M_b =  0.945   boost over Newton =  0.945
+         r/R500 =  0.36   M_dyn/M_b =  1.249   boost over Newton =  1.249
+         r/R500 =  0.62   M_dyn/M_b =  1.559   boost over Newton =  1.559
+         r/R500 =  1.06   M_dyn/M_b =  1.780   boost over Newton =  1.780
+         r/R500 =  1.81   M_dyn/M_b =  1.902   boost over Newton =  1.902
+         r/R500 =  3.09   M_dyn/M_b =  1.959   boost over Newton =  1.959
+      Read this carefully, because it is half right.  The cluster excess
+      IS organised by r/R500 and rises monotonically through R500, which
+      is the shape the programme's own cluster audit reports.  But
+      (i) it saturates at 1 + alpha = 2 where clusters need about 6,
+      (ii) inside 0.25 R500 the -G M F' term drives M_dyn/M_b BELOW 1,
+      which is the wrong sign, and (iii) the same rho_ref switches the
+      modification on INSIDE low-surface-brightness galaxies -- the
+      turn-on radius ranges from 0.08 to 5.8 disk scale lengths across
+      the ladder above -- so an LSB gets a near-constant rescaling of G,
+      degenerate with its stellar mass-to-light ratio, while an HSB gets
+      a genuine shape change.  That is exactly backwards: LSBs are the
+      galaxies with the largest discrepancies and the most shape to
+      explain.
+   
+   OBSERVABLE CONFIGURATIONS, sized at rho_ref = rho_bar_b (the only
+   choice for which intergalactic environments differ in q at all):
+      cluster pair 10 Mpc: filament vs void    q: 0.032 -> 0.833
+         coupling changes by +23.8% / +77.6% / +219.1%  (alpha = 0.3 / 1 / 3)
+         relative velocity by +11.3% / +33.3% / +78.6%
+      galaxy pair 1 Mpc: filament vs void      q: 0.091 -> 0.833
+         coupling changes by +21.7% / +68.1% / +175.0%  (alpha = 0.3 / 1 / 3)
+         relative velocity by +10.3% / +29.6% / +65.8%
+      lensing sightline 2 Mpc: wall vs void    q: 0.167 -> 0.833
+         coupling changes by +19.0% / +57.1% / +133.3%  (alpha = 0.3 / 1 / 3)
+         relative velocity by +9.1% / +25.4% / +52.8%
+   
+      Best measurements: the mean pairwise infall velocity of cluster
+      pairs split on the density of the connecting segment; the
+      azimuthal dependence of stacked tangential shear at fixed
+      projected radius on the transverse galaxy density; and the
+      relative velocity dispersion of galaxy pairs matched in
+      separation and mass but differing in intervening density.  All
+      three need a wide survey with a void/filament catalogue.  KiDS
+      and wide binaries are sealed holdouts for this programme and are
+      excluded from this list.
+
+==============================================================================
+wrote C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\nonlocal\nonlocal_results.json  (583.7 s)
+==============================================================================

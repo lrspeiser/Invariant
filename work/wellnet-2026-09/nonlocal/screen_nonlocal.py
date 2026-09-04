@@ -77,16 +77,11 @@ NEWTON_1AU_MS2 = 5.9301e-3
 _SOLAR_CACHE: dict = {}
 
 
-def solar_check(qdef, kw, alpha, p, bound=1e-11):
+def _solar_profile(qdef, kw):
+    """q and |grad q| at the solar position, cached on (qdef, kw)."""
     key = (qdef, tuple(sorted(kw.items())))
     if key in _SOLAR_CACHE:
-        q0, dq = _SOLAR_CACHE[key]
-        F = 1.0 + alpha * q0 ** p
-        eps = (alpha * p * q0 ** max(p - 1.0, 0.0) * dq * NK.AU_KPC)             / (2.0 * F) if q0 > 0 else 0.0
-        return dict(q_sun=q0, grad_q_per_kpc=dq, eps_1AU=float(eps),
-                    a_anom_1AU_ms2=float(eps * NEWTON_1AU_MS2),
-                    F_local=float(F), passes=bool(eps < bound),
-                    passes_oort=bool(1.10 <= F <= 1.70))
+        return _SOLAR_CACHE[key]
     z = np.linspace(-6.0, 6.0, 24001)
     rho = RHO_SUN_LOCAL * np.exp(-np.abs(z) / HZ_LOCAL) + NK.RHO_BAR_B
     L_s = kw.get("L_s", 0.0)
@@ -110,18 +105,31 @@ def solar_check(qdef, kw, alpha, p, bound=1e-11):
     else:
         q = np.zeros_like(z)
     i = int(np.argmin(np.abs(z - Z_SUN)))
-    q0 = float(q[i])
-    dq = float(abs(np.gradient(q, z[1] - z[0])[i]))
-    _SOLAR_CACHE[key] = (q0, dq)
-    F = 1.0 + alpha * q0 ** p
-    eps = (alpha * p * q0 ** max(p - 1.0, 0.0) * dq * NK.AU_KPC) / (2.0 * F) \
-        if q0 > 0 else 0.0
-    # THE OORT LIMIT.  With no dark matter the local dynamical surface density
-    # must be the local baryonic one times F evaluated on the short paths that
-    # set the vertical force.  Sigma_dyn(|z| < 1.1 kpc) = 68 +/- 4 Msun/pc^2
-    # against Sigma_baryon = 47-54 (Bovy & Rix 2013; McKee, Parravano &
-    # Hollenbach 2015, quoted from the literature), so F_local must sit near
-    # 1.3 and certainly inside about [1.1, 1.7].
+    out = (float(q[i]), float(abs(np.gradient(q, z[1] - z[0])[i])))
+    _SOLAR_CACHE[key] = out
+    return out
+
+
+def solar_check(qdef, kw, alpha, p, bound=1e-11, Fname="F1_poly", beta=0.0):
+    """Inverse-square-law and Oort status of one global parameter set.
+
+    F and F' come from the ACTUAL family.  Using 1 + alpha q^p for the
+    exponential and Pade members misreports F_local by up to a factor two,
+    which is exactly the difference between passing and failing the Oort
+    window.
+
+    THE OORT LIMIT.  With no dark matter the local dynamical surface density
+    must be the local baryonic one times F evaluated on the short paths that
+    set the vertical force.  Sigma_dyn(|z| < 1.1 kpc) = 68 +/- 4 Msun/pc^2
+    against Sigma_baryon = 47-54 (Bovy & Rix 2013; McKee, Parravano &
+    Hollenbach 2015, quoted from the literature and not refitted here), so
+    F_local must sit near 1.3 and certainly inside about [1.1, 1.7].
+    """
+    q0, dq = _solar_profile(qdef, kw)
+    Ffun, dFfun, _ = NK.FAMILIES[Fname]
+    F = float(Ffun(q0, 0.0, alpha=alpha, beta=beta, p=p))
+    dF = float(dFfun(q0, 0.0, alpha=alpha, beta=beta, p=p)) if q0 > 0 else 0.0
+    eps = abs(dF) * dq * NK.AU_KPC / (2.0 * F) if q0 > 0 else 0.0
     return dict(q_sun=q0, grad_q_per_kpc=dq, eps_1AU=float(eps),
                 a_anom_1AU_ms2=float(eps * NEWTON_1AU_MS2),
                 F_local=float(F),
@@ -534,8 +542,9 @@ def g4b_global_parameter_screen():
     head("G4b  Can ONE global parameter set flatten the whole ladder?")
     out = {}
     # solar-system filter, from the shared 1-D solar-neighbourhood check
-    def ss_ok(qdef, kw, alpha, p):
-        return solar_check(qdef, kw, alpha, p)["passes"]
+    def ss_ok(qdef, kw, alpha, p, fam="F1_poly", beta=0.0):
+        return solar_check(qdef, kw, alpha, p, Fname=fam,
+                           beta=beta)["passes"]
 
     grid = []
     for qdef, extra in [("delta", [dict(L_s=0.0), dict(L_s=0.3), dict(L_s=2.0)]),
@@ -563,7 +572,7 @@ def g4b_global_parameter_screen():
         for fam, beta in fams:
             for alpha in alphas:
                 for p in ps:
-                    if not ss_ok(qdef, kw, alpha, p):
+                    if not ss_ok(qdef, kw, alpha, p, fam, beta):
                         continue
                     met = []
                     for gi, gal in enumerate(MO.GALAXY_LADDER):
@@ -826,13 +835,22 @@ def _required_F(g):
 def g4e_sparc_forward():
     head("G4e  Forward test: one global parameter set against SPARC TRAIN")
     out = {}
-    say("For each TRAIN galaxy an exponential-sphere baryon model is built")
-    say("from its own catalogue numbers -- M_* = 0.5 L[3.6], M_gas = 1.33 M_HI,")
-    say("r_d = R_disk, r_gas = 3 R_disk -- the q field is computed with GLOBAL")
-    say("parameters only, and the kernel's F_eff(r) = -r Phi/(G M_b) is")
-    say("compared with the F_req(r) the observed curve demands.  No per-galaxy")
-    say("freedom of any kind.  Statistic: rms of log10(F_eff / F_req) over the")
-    say("measured radii beyond 2 R_disk.")
+    say("Each TRAIN galaxy gets an EQUIVALENT SPHERICAL mass distribution")
+    say("defined by M(<R) = R V_bar^2 / G at its own tabulated radii, with")
+    say("V_bar^2 = |V_gas| V_gas + 0.5 V_disk^2 + 0.7 V_bul^2.  That makes the")
+    say("model's NEWTONIAN curve identical to the tabulated one by")
+    say("construction, so the baryon-geometry error is removed rather than")
+    say("estimated.  An exponential-sphere model built from R_disk and total")
+    say("masses instead -- the first version of this test -- is wrong by")
+    say("0.32 dex rms in v_bar^2, which is twice the residual being measured,")
+    say("and that version is not reportable.")
+    say("The price is stated: the equivalent spherical DENSITY is not the true")
+    say("3-D density, so the q field built from it is biased towards larger q.")
+    say("")
+    say("The q field is then computed with GLOBAL parameters only and the")
+    say("kernel's F_eff(r) = -r Phi/(G M_tot) is compared with the F_req(r)")
+    say("the observed curve demands, at the measured radii beyond 2 R_disk.")
+    say("Statistic: rms of log10(F_eff / F_req).  No per-galaxy freedom.")
     train = _sparc_train()
     usable = [g for g in train
               if g.Mb > 0 and g.Rdisk > 0 and np.sum(g.R0 >= 2 * g.Rdisk) >= 3]
@@ -842,20 +860,57 @@ def g4e_sparc_forward():
     say(f"R_last / R_disk : median {np.median(rl):.1f}, "
         f"5-95 pct {np.percentile(rl, 5):.1f}-{np.percentile(rl, 95):.1f}")
 
+    prof = {}
     req = {}
     for g in usable:
-        R, F = _required_F(g)
-        m = R >= 2 * g.Rdisk
-        req[g.name] = (R[m], F[m])
+        Vb2 = (np.abs(g.Vgas) * g.Vgas + 0.5 * g.Vdisk ** 2
+               + 0.7 * g.Vbul ** 2)
+        r, rho, Mr, rfun, Mfun, Mtot = MO.sparc_equivalent_sphere(
+            g.R0, Vb2, g.Mb, max(g.Rdisk, 0.2))
+        prof[g.name] = (r, rho, Mr, rfun, Mfun, Mtot)
+        # required F, normalised by the SAME total mass the model carries
+        v2 = g.Vobs0 ** 2
+        lnr = np.log(g.R0)
+        cum = np.concatenate([[0.0], np.cumsum(
+            0.5 * (v2[1:] + v2[:-1]) * np.diff(lnr))])
+        Phi = -((cum[-1] - cum) + v2[-1])
+        F = -g.R0 * Phi / (NK.G * Mtot)
+        m = g.R0 >= 2 * g.Rdisk
+        req[g.name] = (g.R0[m], F[m])
+
+    # control: the model's own Newtonian curve against the tabulated one
+    ctl = []
+    for g in usable:
+        r, rho, Mr, rfun, Mfun, Mtot = prof[g.name]
+        m = g.R0 >= 2 * g.Rdisk
+        Vb2 = (np.abs(g.Vgas) * g.Vgas + 0.5 * g.Vdisk ** 2
+               + 0.7 * g.Vbul ** 2)[m]
+        mod = NK.G * Mfun(g.R0[m]) / g.R0[m]
+        ok = Vb2 > 0
+        if ok.sum():
+            ctl.append(np.log10(mod[ok] / Vb2[ok]))
+    allb = np.concatenate(ctl)
+    out["baryon_model_control"] = dict(
+        rms_dex=float(np.sqrt(np.mean(allb ** 2))),
+        bias_dex=float(np.mean(allb)),
+        note="rms log10 of (model v_bar^2)/(SPARC v_bar^2) beyond 2 R_disk; "
+             "exact by construction for the equivalent spherical model")
+    say(f"BARYON-MODEL CONTROL: model v_bar^2 vs tabulated v_bar^2 = "
+        f"{out['baryon_model_control']['rms_dex']:.4f} dex rms "
+        f"(bias {out['baryon_model_control']['bias_dex']:+.4f}) -- exact by "
+        f"construction.")
 
     configs = [
+        ("delta  rho_ref=1e4 L_s=0", "delta", dict(rho_ref=1e4, L_s=0.0)),
         ("delta  rho_ref=1e5 L_s=0", "delta", dict(rho_ref=1e5, L_s=0.0)),
         ("delta  rho_ref=1e6 L_s=0", "delta", dict(rho_ref=1e6, L_s=0.0)),
         ("smooth rho_ref=1e4 m=1", "smooth", dict(rho_ref=1e4, m=1.0)),
         ("smooth rho_ref=1e5 m=1", "smooth", dict(rho_ref=1e5, m=1.0)),
         ("smooth rho_ref=1e5 m=2", "smooth", dict(rho_ref=1e5, m=2.0)),
         ("smooth rho_ref=1e6 m=0.5", "smooth", dict(rho_ref=1e6, m=0.5)),
+        ("screen rho_ref=1e5 L_q=2", "screen", dict(rho_ref=1e5, L_q=2.0)),
         ("screen rho_ref=1e5 L_q=10", "screen", dict(rho_ref=1e5, L_q=10.0)),
+        ("screen rho_ref=1e6 L_q=2", "screen", dict(rho_ref=1e6, L_q=2.0)),
         ("screen rho_ref=1e6 L_q=10", "screen", dict(rho_ref=1e6, L_q=10.0)),
     ]
     rows = []
@@ -863,20 +918,19 @@ def g4e_sparc_forward():
     for lab, qdef, kw in configs:
         fields = {}
         for g in usable:
-            gal = MO.Galaxy(g.name, Mstar=0.5 * g.L36 * 1e9, rd=g.Rdisk,
-                            Mgas=1.33 * g.MHI * 1e9, rg=3.0 * g.Rdisk)
-            fields[g.name] = (gal, MO.build_field(gal, qdef, **kw))
+            r, rho, Mr, rfun, Mfun, Mtot = prof[g.name]
+            fields[g.name] = MO.build_field_from_profile(
+                r, rho, Mr, rfun, Mfun, qdef=qdef, label=g.name, **kw)
         for fam, beta in [("F1_poly", 0.0), ("F2_exp", 0.0),
                           ("F3_pade", 1.0)]:
             for alpha in [1.0, 3.0, 10.0, 30.0]:
                 for p in [0.5, 1.0, 2.0]:
                     resid, bad = [], 0
                     for g in usable:
-                        gal, fl = fields[g.name]
                         R, Fr = req[g.name]
                         Fe = NK.spherical_F_effective(
-                            fl, R, Fname=fam, alpha=alpha, beta=beta, p=p,
-                            use_gpu=GPU)
+                            fields[g.name], R, Fname=fam, alpha=alpha,
+                            beta=beta, p=p, use_gpu=GPU)
                         if np.any(Fe <= 0):
                             bad += 1
                             continue
@@ -885,106 +939,66 @@ def g4e_sparc_forward():
                         continue
                     allr = np.concatenate(resid)
                     per = np.array([np.mean(x) for x in resid])
+                    sc = solar_check(qdef, kw, alpha, p, Fname=fam, beta=beta)
                     rows.append(dict(
                         config=lab, qdef=qdef, family=fam, alpha=alpha,
                         beta=beta, p=p, n_bad=bad,
                         rms_dex=float(np.sqrt(np.mean(allr ** 2))),
                         bias_dex=float(np.mean(allr)),
                         galaxy_scatter_dex=float(np.std(per)),
-                        n_points=int(len(allr))))
+                        n_points=int(len(allr)),
+                        q_sun=sc["q_sun"], eps_1AU=sc["eps_1AU"],
+                        F_local=sc["F_local"], isl_ok=sc["passes"],
+                        oort_ok=sc["passes_oort"]))
     say(f"{len(rows)} global parameter sets evaluated on {len(usable)} "
         f"galaxies in {time.time() - t0:.1f} s")
     rows.sort(key=lambda r_: r_["rms_dex"])
     out["all"] = rows
-    out["best_12"] = rows[:12]
+    out["best_15"] = rows[:15]
     say("")
-    say("best 12 by rms log10(F_eff / F_req).  0.00 dex would be a perfect")
+    say("best 15 by rms log10(F_eff / F_req).  0.00 dex would be a perfect")
     say("global reproduction of every SPARC train rotation curve.")
-    say("   rms   bias  gal-scatter  config                     family   "
-        "alpha  p")
-    for r_ in rows[:12]:
-        say(f"   {r_['rms_dex']:.3f} {r_['bias_dex']:+.3f}  "
-            f"{r_['galaxy_scatter_dex']:.3f}       {r_['config']:<26s} "
-            f"{r_['family']:<9s} {r_['alpha']:<6.1f} {r_['p']:.1f}")
-    # Newtonian control: F_eff == 1 everywhere
-    ctrl = []
-    for g in usable:
-        R, Fr = req[g.name]
-        ctrl.append(np.log10(1.0 / Fr))
+    say("   rms   bias  gal-sc  config                     family    alpha p "
+        "  F_local  ISL Oort")
+    for r_ in rows[:15]:
+        say(f"   {r_['rms_dex']:.3f} {r_['bias_dex']:+.3f} "
+            f"{r_['galaxy_scatter_dex']:.3f}   {r_['config']:<26s} "
+            f"{r_['family']:<9s} {r_['alpha']:<5.1f} {r_['p']:.1f} "
+            f"{r_['F_local']:8.3f}  {'ok ' if r_['isl_ok'] else 'BAD'} "
+            f"{'ok' if r_['oort_ok'] else 'BAD'}")
+    ctrl = [np.log10(1.0 / req[g.name][1]) for g in usable]
     allc = np.concatenate(ctrl)
     out["newton_control"] = dict(
         rms_dex=float(np.sqrt(np.mean(allc ** 2))),
         bias_dex=float(np.mean(allc)),
         galaxy_scatter_dex=float(np.std([np.mean(x) for x in ctrl])))
     say(f"   {out['newton_control']['rms_dex']:.3f} "
-        f"{out['newton_control']['bias_dex']:+.3f}  "
-        f"{out['newton_control']['galaxy_scatter_dex']:.3f}       "
+        f"{out['newton_control']['bias_dex']:+.3f} "
+        f"{out['newton_control']['galaxy_scatter_dex']:.3f}   "
         f"NEWTON, F = 1 everywhere")
-
-    # how much of the residual is the baryon MODEL rather than the kernel?
-    ctl = []
-    for g in usable:
-        gal = MO.Galaxy(g.name, Mstar=0.5 * g.L36 * 1e9, rd=g.Rdisk,
-                        Mgas=1.33 * g.MHI * 1e9, rg=3.0 * g.Rdisk)
-        m = g.R0 >= 2 * g.Rdisk
-        vb2_sparc = (np.abs(g.Vgas) * g.Vgas + 0.5 * g.Vdisk ** 2
-                     + 0.7 * g.Vbul ** 2)[m]
-        vb2_model = NK.G * gal.Menc(g.R0[m]) / g.R0[m]
-        ok = vb2_sparc > 0
-        if ok.sum():
-            ctl.append(np.log10(vb2_model[ok] / vb2_sparc[ok]))
-    allb = np.concatenate(ctl)
-    out["baryon_model_control"] = dict(
-        rms_dex=float(np.sqrt(np.mean(allb ** 2))),
-        bias_dex=float(np.mean(allb)),
-        note="rms log10 of (spherical model v_bar^2) / (SPARC v_bar^2) beyond "
-             "2 R_disk; an upper bound on how much of the F residual is the "
-             "baryon model rather than the kernel")
-    say("")
-    say(f"BARYON-MODEL CONTROL: the exponential-sphere model reproduces the")
-    say(f"   tabulated SPARC v_bar^2 to {out['baryon_model_control']['rms_dex']:.3f}"
-        f" dex rms (bias {out['baryon_model_control']['bias_dex']:+.3f}).")
-    say(f"   That is an upper bound on the part of the {rows[0]['rms_dex']:.3f} "
-        f"dex residual that is model error rather than kernel error.")
-
-    say("")
-    say("solar-neighbourhood status of the same best sets:")
-    say("   config                     family   alpha  p   q_sun     "
-        "eps(1AU)   F_local  ISL  Oort")
-    for r_ in rows[:12]:
-        kw = dict(rho_ref=float(re.search(r"rho_ref=([0-9.e+-]+)",
-                                          r_["config"]).group(1)))
-        mm = re.search(r"m=([0-9.]+)", r_["config"])
-        lq = re.search(r"L_q=([0-9.]+)", r_["config"])
-        ls = re.search(r"L_s=([0-9.]+)", r_["config"])
-        if mm:
-            kw["m"] = float(mm.group(1))
-        if lq:
-            kw["L_q"] = float(lq.group(1))
-        if ls:
-            kw["L_s"] = float(ls.group(1))
-        sc = solar_check(r_["qdef"], kw, r_["alpha"], r_["p"])
-        r_["solar"] = sc
-        say(f"   {r_['config']:<26s} {r_['family']:<9s} {r_['alpha']:<6.1f} "
-            f"{r_['p']:.1f} {sc['q_sun']:.3e} {sc['eps_1AU']:.3e} "
-            f"{sc['F_local']:7.3f}  {'ok ' if sc['passes'] else 'BAD'}  "
-            f"{'ok' if sc['passes_oort'] else 'BAD'}")
-    surv = [r_ for r_ in rows[:12]
-            if r_["solar"]["passes"] and r_["solar"]["passes_oort"]]
-    out["n_best12_passing_local"] = len(surv)
-    say(f"   of the 12 best global sets, {len(surv)} also satisfy BOTH the")
-    say("   inverse-square-law bound and the Oort local-dynamics window.")
     best = rows[0]
+    surv = [r_ for r_ in rows if r_["isl_ok"] and r_["oort_ok"]]
     out["improvement_dex"] = float(out["newton_control"]["rms_dex"]
                                    - best["rms_dex"])
     out["n_galaxies"] = len(usable)
+    out["n_passing_local"] = len(surv)
+    out["best_passing_local"] = surv[0] if surv else None
     say("")
     say(f"best global set improves on Newton by "
         f"{out['improvement_dex']:.3f} dex in rms, leaving "
         f"{best['rms_dex']:.3f} dex of residual --")
-    say(f"a factor {10 ** best['rms_dex']:.2f} typical error in the modification "
-        f"factor F, with {best['galaxy_scatter_dex']:.3f} dex of "
-        f"galaxy-to-galaxy scatter that no global parameter can absorb.")
+    say(f"a factor {10 ** best['rms_dex']:.2f} typical error in F, with "
+        f"{best['galaxy_scatter_dex']:.3f} dex of galaxy-to-galaxy scatter")
+    say("that no global parameter can absorb (the RAR sits at about 0.11 dex).")
+    if surv:
+        b = surv[0]
+        say(f"best set that ALSO passes the inverse-square-law bound and the")
+        say(f"Oort window: {b['config']} {b['family']} alpha={b['alpha']} "
+            f"p={b['p']}, rms {b['rms_dex']:.3f} dex, F_local "
+            f"{b['F_local']:.3f}")
+    else:
+        say("NO global set passes the inverse-square-law bound and the Oort "
+            "window simultaneously.")
     RES["G4e_sparc_forward"] = out
 
 
@@ -1361,14 +1375,19 @@ def g7_distinctive_predictions():
         say(f"      r/R500 = {pr['r_over_R500']:5.2f}   "
             f"M_dyn/M_b = {pr['Mdyn_over_Mb']:6.3f}   "
             f"boost over Newton = {pr['boost_over_newton']:6.3f}")
-    say("   Read this honestly.  With the rho_ref that a rotation curve needs")
-    say("   the cluster gas is BELOW rho_ref at every radius, so the cluster")
-    say("   is uniformly inside the modified regime and there is no turn-on")
-    say("   at R500 at all -- and where F is still rising the -G M F' term")
-    say("   SUPPRESSES the dynamical mass below the baryonic one, which is")
-    say("   the wrong sign for a cluster.  The qualitative match to a")
-    say("   cluster-only excess organised by r/R500 that the geometry")
-    say("   suggests does not survive the one global density scale.")
+    say("   Read this carefully, because it is half right.  The cluster excess")
+    say("   IS organised by r/R500 and rises monotonically through R500, which")
+    say("   is the shape the programme's own cluster audit reports.  But")
+    say("   (i) it saturates at 1 + alpha = 2 where clusters need about 6,")
+    say("   (ii) inside 0.25 R500 the -G M F' term drives M_dyn/M_b BELOW 1,")
+    say("   which is the wrong sign, and (iii) the same rho_ref switches the")
+    say("   modification on INSIDE low-surface-brightness galaxies -- the")
+    say("   turn-on radius ranges from 0.08 to 5.8 disk scale lengths across")
+    say("   the ladder above -- so an LSB gets a near-constant rescaling of G,")
+    say("   degenerate with its stellar mass-to-light ratio, while an HSB gets")
+    say("   a genuine shape change.  That is exactly backwards: LSBs are the")
+    say("   galaxies with the largest discrepancies and the most shape to")
+    say("   explain.")
 
     # ------------------------------------------------------------------
     #  observables, with sizes, at the rho_ref where the signature exists

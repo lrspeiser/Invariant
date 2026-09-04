@@ -157,3 +157,66 @@ class Cluster:
         r = np.asarray(r, float)
         mg = np.interp(r, self._rr, self._Mgas_c)
         return mg + exp_sphere_M(r, self.Mstar, self.rs_star)
+
+
+def sparc_equivalent_sphere(R, Vbar2, Mtot, r_tail, r_lo=1e-3, r_hi=3.0e4,
+                            n=1400):
+    """Spherical M(<r) that reproduces a measured baryonic curve exactly.
+
+    Setting M(<R) = R V_bar^2 / G at the tabulated radii makes the NEWTONIAN
+    circular speed of the model identical to the tabulated one by
+    construction, which removes the baryon-geometry error from a forward
+    comparison entirely.  Inside the first point the run is closed with a
+    constant-density core, outside the last point M rises to the catalogue
+    total on the scale r_tail.
+
+    The price, stated rather than hidden: the equivalent spherical DENSITY is
+    not the true three-dimensional density -- a disk's midplane density is
+    several times higher at the same radius -- so the q field built from it is
+    biased towards larger q.  It is nevertheless a far better proxy than an
+    exponential sphere, whose Newtonian curve is wrong by 0.3 dex.
+    """
+    from scipy.interpolate import PchipInterpolator
+    R = np.asarray(R, float)
+    M = np.maximum.accumulate(R * np.maximum(Vbar2, 0.0) / NK.G)
+    Mtot = max(float(Mtot), float(M[-1]))
+    r = np.geomspace(r_lo, r_hi, n)
+    knots_r = np.concatenate([[r_lo], R])
+    knots_M = np.concatenate([[0.0], M])
+    pch = PchipInterpolator(np.log(knots_r), knots_M, extrapolate=False)
+    Mr = pch(np.log(np.clip(r, r_lo, R[-1])))
+    inner = r < R[0]
+    Mr[inner] = M[0] * (r[inner] / R[0]) ** 3
+    outer = r > R[-1]
+    Mr[outer] = Mtot - (Mtot - M[-1]) * np.exp(-(r[outer] - R[-1]) / r_tail)
+    Mr = np.maximum.accumulate(np.nan_to_num(Mr))
+    rho = np.gradient(Mr, r) / (4.0 * math.pi * r ** 2)
+    rho = np.maximum(rho, 1e-30)
+    Mfun = lambda x: np.interp(np.log(np.maximum(x, r_lo)), np.log(r), Mr)
+    rfun = lambda x: np.exp(np.interp(np.log(np.maximum(x, r_lo)), np.log(r),
+                                      np.log(rho)))
+    return r, rho, Mr, rfun, Mfun, Mtot
+
+
+def build_field_from_profile(r, rho, Mr, rfun, Mfun, qdef="screen",
+                             rho_ref=NK.RHO_BAR_B, L_s=0.0, L_q=0.0, m=1.0,
+                             n=1.0, a0=NK.A0, rho_floor=NK.RHO_BAR_B,
+                             label=""):
+    """SphericalField from an explicit profile, q built from rho + floor."""
+    rho_f = rho + rho_floor
+    rho_s = NK.smooth_spherical(r, rho_f, L_s) if L_s > 0 else rho_f
+    gN = NK.G * Mr / r ** 2
+    if qdef == "zero":
+        q = np.zeros_like(r)
+    elif qdef == "delta":
+        q = NK.q_from_delta(rho_s, rho_ref)
+    elif qdef == "smooth":
+        q = NK.q_from_smooth(rho_s, rho_ref, m=m)
+    elif qdef == "screen":
+        S = NK.q_source_Q3(rho_s, gN, rho_ref, m=m, a0=a0, n=n)
+        q = np.clip(NK.screen_spherical(r, S, L_q) if L_q > 0 else S,
+                    0.0, 1.0 - 1e-12)
+    else:
+        raise KeyError(qdef)
+    return NK.SphericalField(r=r, rho=rho, q=q, Menc=Mr.copy(),
+                             rho_fun=rfun, Menc_fun=Mfun, label=label)
