@@ -202,11 +202,23 @@ def mond_invert(F, k, a0, base="aqual"):
         X = 0.5 * (beta + np.sqrt(beta * beta + 4.0 * beta))
         return a0 * X / np.sqrt(k)
     if base == "rar":
-        # deep-MOND-consistent generalisation: solve  k g nu^-1 ... use the
-        # QUMOND-style form  g = nu(F/(k^{3/2} a0)) F / k, which for k = 1 is
-        # exactly nu(g_N/a0) g_N and in deep MOND gives g ~ sqrt(F a0)/k^{3/4},
-        # matching the AQUAL k scaling.
-        return nu_rar(F / (k ** 1.5 * a0)) * F / k
+        # QUMOND-style form  g = nu(F/(k^{1/2} a0)) F / k.
+        #
+        # Within the family  nu(F/(k^p a0)) F/k  the exponent p is FIXED, not
+        # chosen: k = 1 reproduces plain RAR for every p; the Newtonian limit
+        # gives g ~ F/k for every p; but deep MOND gives
+        #     g ~ sqrt(F a0) k^{p/2 - 1}
+        # so matching the AQUAL branch's g ~ sqrt(F a0) k^{-3/4} requires
+        # p = 1/2 uniquely.
+        #
+        # BUG, Run AQ: this read k ** 1.5 (p = 3/2) from the tournament of
+        # 2026-09-04 onward, giving deep-MOND g ~ k^{-1/4} while the comment
+        # beside it claimed k^{-3/4}.  The error is EXACTLY ZERO at k = 1, so
+        # it is invisible for every scalar_a0 candidate (k_radial_pointwise
+        # returns 1) and for both Newtonian limits; it bites only the
+        # base='rar' half of the k != 1 structures, at 0.15 dex per e-fold of
+        # k.  See test_mond_invert_k_scaling below.
+        return nu_rar(F / (k ** 0.5 * a0)) * F / k
     raise ValueError(base)
 
 

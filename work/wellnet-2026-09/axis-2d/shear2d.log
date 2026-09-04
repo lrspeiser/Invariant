@@ -1,0 +1,84 @@
+==============================================================================
+SHEAR 2D -- the quadrupole's PHASE, not just its amplitude
+==============================================================================
+
+   selection.json verified, SHA-256 aafc7defdfa47105...
+   DEV 27 systems, CTRL 136 systems
+   6 radial bins over 0.286-5.000 proper Mpc
+
+   ---- DEV : 27 systems
+      1/27  083402.5+023437  2200 sources  0s
+      11/27  090328.7-013622  2406 sources  0s
+      21/27  092339.0+052654  2838 sources  0s
+      27 usable, 0s
+      GATE  stacked tangential monopole +0.00217 +- 0.00069  (+3.2 sigma)
+      NULL  stacked cross monopole      -0.00068 +- 0.00069  (-1.0 sigma)
+      PHASE-MISALIGNED, predicted monopole  (THE TEST)
+         alpha = +0.0136 +- 0.4756   (axis-randomisation sigma 0.6182, z = +0.02, p = 0.9805)
+         beta  = -0.00058 +- 0.00201   gamma = +0.00115 +- 0.00097   corr(a,b) = -0.78
+         chi2/dof = 1.15 over 146 (cluster, bin) rows
+      PHASE-MISALIGNED, measured monopole   (REGRESSION-DILUTED, see crosscheck.py)
+         alpha = -0.1794 +- 0.1303   (axis-randomisation sigma 0.1525, z = -1.15, p = 0.2410)
+         beta  = -0.00008 +- 0.00130   gamma = +0.00112 +- 0.00097   corr(a,b) = -0.25
+         chi2/dof = 1.14 over 146 (cluster, bin) rows
+      PHASE-MISALIGNED, per-cluster fixed effects
+         alpha = +0.3129 +- 0.7871   (axis-randomisation sigma 0.7608, z = +0.44, p = 0.6805)
+         chi2/dof = 0.95 over 146 (cluster, bin) rows
+      SOURCE-ALIGNED quadrupole             (positive control)
+         alpha = +0.0749 +- 0.1076   (no axis randomisation: this channel does not use sin 2Delta)
+         chi2/dof = 1.06 over 146 (cluster, bin) rows
+      CROSS component, misaligned channel   (B-mode null)
+         alpha = +0.7427 +- 0.4756   (axis-randomisation sigma 0.6827, z = +1.11, p = 0.2993)
+         beta  = -0.00152 +- 0.00201   gamma = +0.00025 +- 0.00097   corr(a,b) = -0.78
+         chi2/dof = 0.98 over 146 (cluster, bin) rows
+      noise correlation between the monopole and the sin 2phi coefficient: median -0.011 -- measured, not assumed, because the measured-monopole form puts the same sources on both axes
+      |sin 2Delta| over the sample: median 0.801
+      stacked quadrupole in the member-aligned frame, per unit PREDICTED monopole:
+         a2c/g_pred = -0.2009 +- 0.2432   (source-aligned)
+         a2s/g_pred = +0.1496 +- 0.2427   (phase-misaligned)
+         a0 /g_pred = +0.8514 +- 0.1724   (the cluster gap: baryons + RAR under-predict the shear by this factor)
+
+   ---- CTRL : 136 systems
+      1/136  083204.4+041907  8258 sources  0s
+      11/136  083858.5-015032  21521 sources  0s
+      21/136  084124.7+004636  2596 sources  0s
+      31/136  084349.1+040404  5745 sources  0s
+      41/136  085121.2+012856  4183 sources  0s
+      51/136  085517.2+013508  4082 sources  0s
+      61/136  090115.3+005040  6258 sources  1s
+      71/136  090335.0+022006  4093 sources  1s
+      81/136  090913.8-001214  5877 sources  1s
+      91/136  091417.7+031159  8199 sources  1s
+      101/136  091655.7-011158  4003 sources  1s
+      111/136  092105.0+004452  17082 sources  1s
+      121/136  092803.4+010953  1519 sources  1s
+      131/136  093403.5-001422  7028 sources  1s
+      136 usable, 1s
+      GATE  stacked tangential monopole +0.00261 +- 0.00031  (+8.4 sigma)
+      NULL  stacked cross monopole      +0.00033 +- 0.00031  (+1.1 sigma)
+      PHASE-MISALIGNED, predicted monopole  (THE TEST)
+         alpha = +0.2006 +- 0.2705   (axis-randomisation sigma 0.2582, z = +0.77, p = 0.4338)
+         beta  = +0.00009 +- 0.00107   gamma = +0.00074 +- 0.00045   corr(a,b) = -0.79
+         chi2/dof = 0.99 over 726 (cluster, bin) rows
+      PHASE-MISALIGNED, measured monopole   (REGRESSION-DILUTED, see crosscheck.py)
+         alpha = -0.0327 +- 0.0712   (axis-randomisation sigma 0.0692, z = -0.47, p = 0.6280)
+         beta  = +0.00080 +- 0.00069   gamma = +0.00071 +- 0.00045   corr(a,b) = -0.30
+         chi2/dof = 0.99 over 726 (cluster, bin) rows
+      PHASE-MISALIGNED, per-cluster fixed effects
+         alpha = +0.2797 +- 0.4876   (axis-randomisation sigma 0.4018, z = +0.68, p = 0.4818)
+         chi2/dof = 0.99 over 726 (cluster, bin) rows
+      SOURCE-ALIGNED quadrupole             (positive control)
+         alpha = -0.0650 +- 0.0484   (no axis randomisation: this channel does not use sin 2Delta)
+         chi2/dof = 1.04 over 726 (cluster, bin) rows
+      CROSS component, misaligned channel   (B-mode null)
+         alpha = -0.0522 +- 0.2705   (axis-randomisation sigma 0.2882, z = -0.19, p = 0.8542)
+         beta  = -0.00080 +- 0.00107   gamma = -0.00029 +- 0.00045   corr(a,b) = -0.79
+         chi2/dof = 1.02 over 726 (cluster, bin) rows
+      noise correlation between the monopole and the sin 2phi coefficient: median +0.003 -- measured, not assumed, because the measured-monopole form puts the same sources on both axes
+      |sin 2Delta| over the sample: median 0.739
+      stacked quadrupole in the member-aligned frame, per unit PREDICTED monopole:
+         a2c/g_pred = -0.1474 +- 0.1168   (source-aligned)
+         a2s/g_pred = +0.1411 +- 0.1171   (phase-misaligned)
+         a0 /g_pred = +0.9305 +- 0.0830   (the cluster gap: baryons + RAR under-predict the shear by this factor)
+
+   written: shear2d.json

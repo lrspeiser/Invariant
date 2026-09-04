@@ -1,0 +1,50 @@
+galaxy cloud: 32768 rows, M = 5.000e+10 Msun
+
+|T0| against radius on the screen's own galaxy
+  r (kpc)   |T0| (s^-2)   |T0|/eps_T frozen  |That| frozen
+      0.5    3.3432e-29             85.9665         0.9999
+      1.0    3.8296e-29             98.4746         0.9999
+      2.0    1.6356e-29             42.0585         0.9997
+      5.0    2.3831e-30              6.1278         0.9869
+     10.0    4.5349e-31              1.1661         0.7591
+     20.0    6.6671e-32              0.1714         0.1690
+     40.0    8.6462e-33              0.0222         0.0222
+     80.0    1.0809e-33              0.0028         0.0028
+
+median |T0| over 2-40 kpc (the probe range) = 4.5349e-31 s^-2
+frozen eps_T                                = 3.8889e-31 s^-2
+frozen eps_T is 0.9x the typical |T0| it normalises
+
+==============================================================================
+Stage-1 screen, family E, eps_T swept
+==============================================================================
+E1_epsT_frozen           FAIL   S6=  0.4406 gain=1.0793   S10=  0.1966 (27s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E1_epsT_x1e-1            FAIL   S6=  0.4531 gain=1.4354   S10=  0.2871 (28s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E1_epsT_matched          FAIL   S6=  0.4363 gain=1.068    S10=  0.1887 (25s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E1_epsT_x1e-2            FAIL   S6=  0.4533 gain=1.5033   S10=  0.2967 (31s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E1_epsT_x1e-3            FAIL   S6=  0.4533 gain=1.5042   S10=  0.3001 (29s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E1_epsT_x1e-4            FAIL   S6=  0.4533 gain=1.5042   S10=  0.3002 (29s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E1_epsT_zero             FAIL   S6=  0.4533 gain=1.5042   S10=  0.3002 (27s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E2_epsT_frozen           FAIL   S6=  2.0812 gain=1.2574   S10=  0.3994 (35s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S12_coarse_selective', 'S13_coherence']
+E2_epsT_x1e-1            FAIL   S6=  2.1654 gain=2.9572   S10=  0.5870 (135s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E2_epsT_matched          FAIL   S6=  2.0525 gain=1.2181   S10=  0.3893 (33s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S12_coarse_selective', 'S13_coherence']
+E2_epsT_x1e-2            FAIL   S6=  2.1663 gain=3.3975   S10=  0.6275 (291s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E2_epsT_x1e-3            FAIL   S6=  2.1663 gain=3.4032   S10=  0.6309 (285s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E2_epsT_x1e-4            FAIL   S6=  2.1663 gain=3.4033   S10=  0.6310 (268s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+E2_epsT_zero             FAIL   S6=  2.1663 gain=3.4033   S10=  0.6310 (286s)  failed=['S6_newtonian_limit', 'S10_reciprocity', 'S11_coarse_uniform', 'S11b_coarse_potential', 'S13_coherence']
+
+==============================================================================
+the analytic gain ceiling, which is INDEPENDENT of eps_T
+==============================================================================
+|That|_F <= 1 by construction, so the largest eigenvalue of That is <= 1
+and K = exp(fT That) has max eigenvalue <= exp(fT):
+
+   fT =  0.5   max gain g/g_N <= exp(fT) =     1.649
+   fT =  1.5   max gain g/g_N <= exp(fT) =     4.482
+   fT =  3.0   max gain g/g_N <= exp(fT) =    20.086
+   fT =  5.0   max gain g/g_N <= exp(fT) =   148.413
+
+The kinematic requirement for a flat curve at 40 kpc is a gain that
+GROWS without bound outward.  No eps_T changes that ceiling.
+
+wrote eps_T_sweep.json

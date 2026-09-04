@@ -1,0 +1,152 @@
+
+==============================================================================
+0.  DATA, VARIABLES AND THE DECLARED SPLIT
+==============================================================================
+   ingest table1: 542 rows x 19 cols   table2: 542 rows x 40 cols   identifier J/A+A/661/A7 echoed
+   ingest DECADE profiles: 5411 rows x 13 cols on disk -> 536 systems, 4228 rows with finite g_t
+   matched: 496 systems, 3365 (system, bin) shear points
+   GATE M_gas,500: n = 414, median mine/published = 0.9994, scatter 0.0469 dex  ->  PASS
+   built 496 systems x 420 radii
+   x1   standardised: mean   -1.4742, sd  0.8074   (residualised sd  0.2447)   clipped raw 0, perp 149, of 208320
+   x2   standardised: mean   -4.1276, sd  0.5998   (residualised sd  0.5829)   clipped raw 14, perp 15, of 208320
+   x3   standardised: mean   -1.8214, sd  0.9371   (residualised sd  0.1861)   clipped raw 0, perp 38, of 208320
+   x4a  standardised: mean   -1.2808, sd  1.1228   (residualised sd  0.1739)   clipped raw 0, perp 889, of 208320
+   x4b  standardised: mean   +0.3786, sd  0.3123   (residualised sd  0.1263)   clipped raw 0, perp 0, of 208320
+   x4d  standardised: mean   -4.7571, sd  1.0982   (residualised sd  1.0795)   clipped raw 0, perp 0, of 208320
+   xr   standardised: mean   -0.2001, sd  0.6377   (residualised sd  0.6377)   clipped raw 0, perp 0, of 208320
+   xgb  standardised: mean   -2.1985, sd  0.8208   (residualised sd  0.8208)   clipped raw 0, perp 0, of 208320
+   declared split: 248 train systems (1709 points), 248 held out (1656 points)
+
+==============================================================================
+1.  LINEARISATION AND AMPLITUDE-PROFILE CHECKS
+==============================================================================
+   global amplitude (within-class)  10^A = 0.9294  -> A = -0.0318 dex
+   per-system amplitudes: median 0.909, 30.4% negative (expected: the per-object S/N is far below 1)
+   chi2  B0 (per-system amp) 3060.65 on 3365 points, C0 (global amp) 3589.34
+   exact nonlinear global amplitude 10^A = 0.8660 (linear closed form 0.9294); kappa << 1 so the two agree
+   max convergence kappa anywhere in the sample: 0.0396
+
+==============================================================================
+2.  THE FOUR VARIABLES, WITHIN-OBJECT AND WITHIN-CLASS, on TRAIN
+==============================================================================
+   beta is in dex of log g per ONE STANDARD DEVIATION of the variable.
+   'lev' is the fraction of the variable's Fisher information that survives
+   the amplitude projection: 0 means beta is not identified at all.
+
+   x1   raw   WO beta +0.2540 +- 0.1219 lev 1.49e-01 dchi2   2.92  |  WC beta +0.0316 +- 0.0552 lev 7.29e-01 dchi2   0.26   [2s]
+   x1   perp  WO beta -0.3210 +- 0.1033 lev 2.41e-01 dchi2   5.78  |  WC beta -0.0141 +- 0.0589 lev 7.39e-01 dchi2   0.00   [2s]
+   x2   raw   WO beta -0.1730 +- 0.0330 lev 1.78e-01 dchi2  12.11  |  WC beta +0.0368 +- 0.0146 lev 9.13e-01 dchi2   5.67   [2s]
+   x2   perp  WO beta -2.0000 +- 0.0340 lev 1.83e-01 dchi2  13.39  |  WC beta +0.0401 +- 0.0150 lev 9.38e-01 dchi2   6.71   [2s]
+   x3   raw   WO beta +0.1290 +- 0.0757 lev 5.29e-01 dchi2   4.06  |  WC beta +0.1485 +- 0.0551 lev 1.00e+00 dchi2   5.34   [2s]
+   x3   perp  WO beta -0.4388 +- 0.0701 lev 2.76e-01 dchi2   5.61  |  WC beta +0.0915 +- 0.0386 lev 9.13e-01 dchi2   5.83   [2s]
+   x4a  raw   WO beta +0.1750 +- 0.0723 lev 7.50e-01 dchi2   5.22  |  WC beta +0.2405 +- 0.0629 lev 9.90e-01 dchi2  11.84   [2s]
+   x4a  perp  WO beta +0.0478 +- 0.0003 lev 8.69e-01 dchi2   4.77  |  WC beta +0.0001 +- 0.0003 lev 9.99e-01 dchi2   0.00   [2s]
+   x4b  raw   WO beta +0.0794 +- 0.0651 lev 4.13e-01 dchi2   1.55  |  WC beta +0.1453 +- 0.0529 lev 6.25e-01 dchi2   8.00   [2s]
+   x4b  perp  WO beta -0.0779 +- 0.0486 lev 4.15e-01 dchi2   1.56  |  WC beta +0.0262 +- 0.0313 lev 1.00e+00 dchi2   0.54   [2s]
+   x4d  raw   WO beta -2.0000 +- 0.0365 lev 1.69e-01 dchi2  10.54  |  WC beta +0.0379 +- 0.0158 lev 9.00e-01 dchi2   5.27   [2s]
+   x4d  perp  WO beta -1.8178 +- 0.0390 lev 1.70e-01 dchi2  11.03  |  WC beta +0.0430 +- 0.0167 lev 9.26e-01 dchi2   6.42   [2s]
+   xr   raw   WO beta -0.1563 +- 0.0826 lev 2.85e-01 dchi2   4.09  |  WC beta -0.3283 +- 0.0800 lev 3.04e-01 dchi2  19.22   [2s]
+   xr   perp  WO beta -0.1563 +- 0.0826 lev 2.85e-01 dchi2   4.09  |  WC beta -0.3283 +- 0.0800 lev 3.04e-01 dchi2  19.22   [2s]
+   xgb  raw   WO beta +0.0876 +- 0.0804 lev 4.74e-01 dchi2   1.94  |  WC beta +0.1166 +- 0.0589 lev 8.83e-01 dchi2   2.87   [2s]
+   xgb  perp  WO beta +0.0876 +- 0.0804 lev 4.74e-01 dchi2   1.94  |  WC beta +0.1166 +- 0.0589 lev 8.83e-01 dchi2   2.87   [2s]
+
+==============================================================================
+3.  EXACT vs LINEARISED, on the primary variables
+==============================================================================
+   x1   within_object   exact beta +0.1962 vs linearised +0.2540
+   x1   within_class    exact beta +0.0402 vs linearised +0.0316
+   x3   within_object   exact beta +0.1587 vs linearised +0.1290
+   x3   within_class    exact beta +0.1642 vs linearised +0.1485
+   x4a  within_object   exact beta +0.1777 vs linearised +0.1750
+   x4a  within_class    exact beta +0.2254 vs linearised +0.2405
+
+==============================================================================
+4.  THE SHARED-QUANTITY NULL, one per variable and per estimator
+==============================================================================
+   Redraw of every published density parameter (n0^2, rs, epsilon,
+   beta, alpha) plus an assumed sigma_z = 0.005(1+z); the SAME
+   redraw builds the baseline model and the variable, the shear is
+   regenerated independently.  Run AI measured -0.0666 +- 0.0101
+   for potential depth on this sample: -6.6 sigma of pure fit noise.
+   merging 8 precomputed null slices
+   x1_perp   within_object   E[beta|H0] = +0.1890 +- 0.0579  (sd 0.3662, n 40, edge 0.00)
+   x1_perp   within_class    E[beta|H0] = -0.1262 +- 0.0202  (sd 0.1279, n 40, edge 0.00)
+   x1_raw    within_object   E[beta|H0] = -0.0708 +- 0.1639  (sd 1.0365, n 40, edge 0.10)
+   x1_raw    within_class    E[beta|H0] = -0.3057 +- 0.0108  (sd 0.0684, n 40, edge 0.00)
+   x2_perp   within_object   E[beta|H0] = +0.0250 +- 0.1736  (sd 1.0981, n 40, edge 0.23)
+   x2_perp   within_class    E[beta|H0] = +0.0037 +- 0.0167  (sd 0.1058, n 40, edge 0.00)
+   x2_raw    within_object   E[beta|H0] = -0.0217 +- 0.1582  (sd 1.0003, n 40, edge 0.15)
+   x2_raw    within_class    E[beta|H0] = +0.0001 +- 0.0165  (sd 0.1041, n 40, edge 0.00)
+   x3_perp   within_object   E[beta|H0] = -0.0490 +- 0.0898  (sd 0.5678, n 40, edge 0.03)
+   x3_perp   within_class    E[beta|H0] = -0.2608 +- 0.0207  (sd 0.1309, n 40, edge 0.00)
+   x3_raw    within_object   E[beta|H0] = -0.0339 +- 0.0846  (sd 0.5348, n 40, edge 0.03)
+   x3_raw    within_class    E[beta|H0] = -0.2545 +- 0.0142  (sd 0.0897, n 40, edge 0.00)
+   x4a_perp  within_object   E[beta|H0] = -0.0425 +- 0.0880  (sd 0.5565, n 40, edge 0.00)
+   x4a_perp  within_class    E[beta|H0] = +0.2298 +- 0.0323  (sd 0.2041, n 40, edge 0.00)
+   x4a_raw   within_object   E[beta|H0] = -0.1282 +- 0.0865  (sd 0.5473, n 40, edge 0.00)
+   x4a_raw   within_class    E[beta|H0] = -0.3549 +- 0.0255  (sd 0.1610, n 40, edge 0.00)
+   x4b_perp  within_object   E[beta|H0] = +0.0155 +- 0.0603  (sd 0.3815, n 40, edge 0.03)
+   x4b_perp  within_class    E[beta|H0] = -0.0625 +- 0.0132  (sd 0.0832, n 40, edge 0.00)
+   x4b_raw   within_object   E[beta|H0] = -0.0007 +- 0.0521  (sd 0.3292, n 40, edge 0.00)
+   x4b_raw   within_class    E[beta|H0] = -0.1253 +- 0.0197  (sd 0.1245, n 40, edge 0.00)
+   x4d_perp  within_object   E[beta|H0] = -0.0046 +- 0.1460  (sd 0.9233, n 40, edge 0.15)
+   x4d_perp  within_class    E[beta|H0] = +0.0017 +- 0.0168  (sd 0.1064, n 40, edge 0.00)
+   x4d_raw   within_object   E[beta|H0] = -0.1943 +- 0.1168  (sd 0.7388, n 40, edge 0.10)
+   x4d_raw   within_class    E[beta|H0] = -0.0019 +- 0.0165  (sd 0.1044, n 40, edge 0.00)
+   xgb_perp  within_object   E[beta|H0] = -0.8045 +- 0.2213  (sd 1.3998, n 40, edge 0.47)
+   xgb_perp  within_class    E[beta|H0] = -0.3380 +- 0.2563  (sd 1.6212, n 40, edge 0.40)
+   xgb_raw   within_object   E[beta|H0] = -0.2272 +- 0.1177  (sd 0.7446, n 40, edge 0.03)
+   xgb_raw   within_class    E[beta|H0] = -0.3350 +- 0.0120  (sd 0.0756, n 40, edge 0.00)
+   xr_perp   within_object   E[beta|H0] = -0.7480 +- 0.2170  (sd 1.3727, n 40, edge 0.42)
+   xr_perp   within_class    E[beta|H0] = -1.1500 +- 0.1710  (sd 1.0813, n 40, edge 0.42)
+   xr_raw    within_object   E[beta|H0] = +0.0135 +- 0.0235  (sd 0.1486, n 40, edge 0.00)
+   xr_raw    within_class    E[beta|H0] = -0.1249 +- 0.0223  (sd 0.1411, n 40, edge 0.00)
+
+==============================================================================
+5.  RESPONSIVENESS GATE  d(beta-hat)/d(beta_injected), with the spread
+==============================================================================
+   x1   within_object   d(beta-hat)/d(beta_inj) = -0.3691 +- 1.8004   (beta-hat +0.0338 -> -0.0769 for injected 0 -> 0.3)
+   x1   within_class    d(beta-hat)/d(beta_inj) = +0.1673 +- 0.0609   (beta-hat -0.3262 -> -0.2760 for injected 0 -> 0.3)
+   x2   within_object   d(beta-hat)/d(beta_inj) = -0.6847 +- 2.0386   (beta-hat +0.1833 -> -0.0221 for injected 0 -> 0.3)
+   x2   within_class    d(beta-hat)/d(beta_inj) = +0.4177 +- 0.0995   (beta-hat +0.0266 -> +0.1519 for injected 0 -> 0.3)
+   x3   within_object   d(beta-hat)/d(beta_inj) = +1.6741 +- 1.1909   (beta-hat -0.2305 -> +0.2717 for injected 0 -> 0.3)
+   x3   within_class    d(beta-hat)/d(beta_inj) = +0.1529 +- 0.2065   (beta-hat -0.3291 -> -0.2832 for injected 0 -> 0.3)
+   x4a  within_object   d(beta-hat)/d(beta_inj) = +1.8756 +- 0.8668   (beta-hat -0.3010 -> +0.2617 for injected 0 -> 0.3)
+   x4a  within_class    d(beta-hat)/d(beta_inj) = +0.1504 +- 0.5042   (beta-hat -0.4348 -> -0.3897 for injected 0 -> 0.3)
+   x4b  within_object   d(beta-hat)/d(beta_inj) = +0.1009 +- 1.2359   (beta-hat +0.2714 -> +0.3017 for injected 0 -> 0.3)
+   x4b  within_class    d(beta-hat)/d(beta_inj) = +0.6323 +- 0.2796   (beta-hat -0.1964 -> -0.0068 for injected 0 -> 0.3)
+
+==============================================================================
+6.  FROZEN TRANSFER to the held-out half, touched once
+==============================================================================
+   x1   raw   held-out dchi2  within-object   +1.494  (dBIC   +5.92)   within-class   +1.870  (dBIC   +5.54)
+   x1   perp  held-out dchi2  within-object   +4.149  (dBIC   +3.26)   within-class   +0.233  (dBIC   +7.18)
+   x2   raw   held-out dchi2  within-object   +2.502  (dBIC   +4.91)   within-class   -0.581  (dBIC   +7.99)
+   x2   perp  held-out dchi2  within-object  -27.581  (dBIC  +34.99)   within-class   -1.035  (dBIC   +8.45)
+   x3   raw   held-out dchi2  within-object   +2.776  (dBIC   +4.64)   within-class   +8.283  (dBIC   -0.87)
+   x3   perp  held-out dchi2  within-object  -13.835  (dBIC  +21.25)   within-class   -1.689  (dBIC   +9.10)
+   x4a  raw   held-out dchi2  within-object   -2.079  (dBIC   +9.49)   within-class   +6.555  (dBIC   +0.86)
+   x4a  perp  held-out dchi2  within-object   -5.769  (dBIC  +13.18)   within-class   -0.006  (dBIC   +7.42)
+   x4b  raw   held-out dchi2  within-object   +6.012  (dBIC   +1.40)   within-class   +4.613  (dBIC   +2.80)
+   x4b  perp  held-out dchi2  within-object   -9.567  (dBIC  +16.98)   within-class   -0.424  (dBIC   +7.84)
+   x4d  raw   held-out dchi2  within-object  -16.019  (dBIC  +23.43)   within-class   -0.640  (dBIC   +8.05)
+   x4d  perp  held-out dchi2  within-object  -12.926  (dBIC  +20.34)   within-class   -1.128  (dBIC   +8.54)
+   xr   raw   held-out dchi2  within-object   +2.093  (dBIC   +5.32)   within-class   +3.369  (dBIC   +4.04)
+   xr   perp  held-out dchi2  within-object   +2.093  (dBIC   +5.32)   within-class   +3.369  (dBIC   +4.04)
+   xgb  raw   held-out dchi2  within-object   +0.729  (dBIC   +6.68)   within-class   +6.966  (dBIC   +0.45)
+   xgb  perp  held-out dchi2  within-object   +0.729  (dBIC   +6.68)   within-class   +6.966  (dBIC   +0.45)
+
+==============================================================================
+7.  SENSITIVITY: the five boundary rules and three smoothing scales
+==============================================================================
+   V1 rule fixed10Mpc  r_ref 10.00 Mpc, cut 8.00  WO +0.2540   WC +0.0316
+   V1 rule fixed5Mpc   r_ref  5.00 Mpc, cut 4.00  WO +0.3644   WC +0.1133
+   V1 rule fixed3Mpc   r_ref  3.00 Mpc, cut 2.40  WO +0.0484   WC +0.0560
+   V1 rule 2xR500      r_ref  1.33 Mpc, cut 1.07  WO -0.0327   WC +0.0073
+   V1 rule 10xrs       r_ref  6.39 Mpc, cut 5.11  WO +0.2306   WC +0.2323
+   V3 eps 20kpc                           WO +0.1324   WC +0.1530
+   V3 eps 50kpc                           WO +0.1290   WC +0.1485
+   V3 eps 200kpc                          WO +0.1169   WC +0.1297
+
+   wrote envvars_results.json
+EXIT 0

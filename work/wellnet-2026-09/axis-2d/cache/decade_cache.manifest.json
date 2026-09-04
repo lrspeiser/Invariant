@@ -1,0 +1,51 @@
+{
+ "source": "NOIRLab Astro Data Lab TAP, table delve_dr3.decade_shear (DECADE metacalibration shape catalogue, DELVE DR3). Unauthenticated; no credentials are sent.",
+ "endpoint": "https://datalab.noirlab.edu/tap/sync",
+ "retrieved_utc": "2026-09-04T14:59:35Z",
+ "x_ray_catalogue": "Bahar+2022, VizieR J/A+A/661/A7 tables 1 and 2, 542 eFEDS systems, already on disk in ../lead01/ with its own manifests",
+ "selection_pass": {
+  "file": "cache/selection_positions.json",
+  "note": "POSITIONS AND REDSHIFTS ONLY -- this pass never requests a shape column, so the sample cannot have been selected on the quantity that is scored",
+  "n_systems": 542,
+  "sha256": "dccde9987c9829078a6c8a7fe8eeda7d25fa615c60823c32320067a31ed296c0",
+  "bytes": 216660
+ },
+ "shear_pass": {
+  "files": "cache/shear_<id>.npz (163 systems)",
+  "n_background_sources": 1081692,
+  "columns": [
+   "ra",
+   "dec",
+   "mcal_g_1_noshear",
+   "mcal_g_2_noshear",
+   "mcal_w_noshear",
+   "dnf_z",
+   "mcal_g_1_1p",
+   "mcal_g_1_1m",
+   "mcal_g_2_2p",
+   "mcal_g_2_2m"
+  ],
+  "note": "metacalibration response recovered per radial bin from the 1p/1m/2p/2m sheared copies; the SELECTION response is not applied, which biases the shear AMPLITUDE by a few per cent but cancels in every ratio reported here"
+ },
+ "raw_examples_kept": {
+  "selection": {
+   "query": "SELECT ra,dec,dnf_z,mcal_w_noshear FROM delve_dr3.decade_shear WHERE 't' = q3c_radial_query(ra, dec, 129.532100, 0.417100, 0.919851) AND mcal_flags = 0 AND flags_foreground = 0 AND flags_footprint = 1 AND mcal_sel_noshear > 0 AND dnf_z > 0 AND dnf_z < 3",
+   "raw_bytes": 2088167,
+   "raw_sha256": "cc5f1a1900f0caf0732696548cf0b067bceca807438093bc20107876f6eaf76e"
+  },
+  "shear": {
+   "query": "SELECT ra,dec,mcal_g_1_noshear,mcal_g_2_noshear,mcal_w_noshear,dnf_z,mcal_g_1_1p,mcal_g_1_1m,mcal_g_2_2p,mcal_g_2_2m FROM delve_dr3.decade_shear WHERE 't' = q3c_radial_query(ra, dec, 128.510500, 2.577200, 0.275121) AND mcal_flags = 0 AND flags_foreground = 0 AND flags_footprint = 1 AND mcal_sel_noshear > 0 AND dnf_z > 0 AND dnf_z < 3",
+   "raw_bytes": 571246,
+   "raw_sha256": "4651dcf93f38a40661bb4eef40b89e529d332b0b295ff1c9d2622c8222ff2b6a"
+  }
+ },
+ "NOT_USED": {
+  "zenodo_hsc_y3_gama09h": [
+   "10.5281/zenodo.15482851 and its two siblings, titled 'HSC Y3 Shape Catalog -- GAMA09H Full Field'.  These describe exactly this field with e1/e2/RA/Dec and are SYNTHETIC: the creator list includes an LLM simulation assistant and the correction notice calls one of them 'an algorithmically scaled or pipeline-derived artifact'.  Not downloaded, not used, not consulted."
+  ],
+  "sealed_holdouts": [
+   "KiDS",
+   "wide binaries -- never loaded"
+  ]
+ }
+}

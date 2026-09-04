@@ -1,0 +1,183 @@
+
+==============================================================================
+A.  INGEST, with row and column counts asserted
+==============================================================================
+   ingest table1: 542 rows x 19 cols   table2: 542 rows x 40 cols   identifier J/A+A/661/A7 echoed
+   ingest DECADE profiles: 5411 rows x 13 cols on disk -> 536 systems, 4228 rows with finite g_t
+   matched: 496 systems, 3365 (system, bin) shear points
+   GATE M_gas,500: n = 414, median mine/published = 0.9994, scatter 0.0469 dex  ->  PASS
+   well network: 542 catalogued concentrations, M_b(<R500) median 6.875e+12 Msun
+   nearest-neighbour comoving separation: median 32.74 Mpc, 10th pct 9.39, min 0.663
+
+==============================================================================
+B.  THE FOUR VARIABLES on every system's radial grid
+==============================================================================
+   built 496 systems x 420 radii
+   76880 (system, radius) points in 0.2-5.0 Mpc
+   V1 log10 DeltaPhi/Phi0           median   -1.3701   spread(10-90)  1.8273
+   V2 log10 |g_ext|/a0              median   -4.2570   spread(10-90)  1.1657
+   V3 log10 W/a0                    median   -1.8272   spread(10-90)  2.1699
+   V4a log10 |T~|/T0                median   -1.1747   spread(10-90)  2.2763
+   V4b rho/<rho> (tidal shape)      median   +0.2046   spread(10-90)  0.6698
+   V4d log10 |T~_ext|/T0            median   -5.0038   spread(10-90)  2.4212
+
+==============================================================================
+C.  THE TWO STRUCTURAL FACTS, MEASURED
+==============================================================================
+   |g_ext| / a0                      median 5.533e-05
+   |g_ext| / g_bar                   median 8.517e-03
+   W_self / a0                       median 1.436e-02
+   W_ext  / W_self                   median 1.315e-02
+   |T~_ext| / |T~_self|              median 2.853e-04
+   W_self / g_bar  (no shell theorem) median 1.420
+
+   THE COST OF DIRECTIONAL CANCELLATION: 2.41 dex between the directionless sum and the vector sum on the same catalogue.
+
+==============================================================================
+D.  WITHIN-OBJECT RADIAL LEVERAGE (the design's whole basis)
+==============================================================================
+   x1    median within-object range over 0.2-5 Mpc:   1.24180   p90   1.54359
+   x2    median within-object range over 0.2-5 Mpc:   0.00326   p90   0.09954
+   x3    median within-object range over 0.2-5 Mpc:   1.97002   p90   2.23097
+   x4a   median within-object range over 0.2-5 Mpc:   2.42684   p90   3.38280
+   x4b   median within-object range over 0.2-5 Mpc:   0.67547   p90   0.79007
+   x4d   median within-object range over 0.2-5 Mpc:   0.02120   p90   0.23559
+   x1    between-object sd at 1 Mpc:   0.67681
+   x2    between-object sd at 1 Mpc:   0.60898
+   x3    between-object sd at 1 Mpc:   0.65778
+   x4a   between-object sd at 1 Mpc:   0.54187
+   x4b   between-object sd at 1 Mpc:   0.16654
+   x4d   between-object sd at 1 Mpc:   1.11262
+
+==============================================================================
+E.  COLLINEARITY with a quadratic in (log g_bar, log r)
+==============================================================================
+   x1    R^2 = 0.9536   residual 0.1624  of total 0.7542
+   x2    R^2 = 0.0726   residual 0.5795  of total 0.6017
+   x3    R^2 = 0.9711   residual 0.1440  of total 0.8467
+   x4a   R^2 = 0.9734   residual 0.1509  of total 0.9242
+   x4b   R^2 = 0.8085   residual 0.1141  of total 0.2608
+   x4d   R^2 = 0.0446   residual 1.0789  of total 1.1038
+   -- at the shear-measured radii only --
+   x1    R^2 = 0.9845   residual 0.0943  of total 0.7562
+   x2    R^2 = 0.1193   residual 0.5726  of total 0.6102
+   x3    R^2 = 0.9678   residual 0.1347  of total 0.7510
+   x4a   R^2 = 0.9719   residual 0.1416  of total 0.8441
+   x4b   R^2 = 0.7091   residual 0.0888  of total 0.1647
+   x4d   R^2 = 0.0843   residual 1.0606  of total 1.1084
+
+==============================================================================
+F.  RESPONSIVENESS of each construction, dS/dtheta with the spread
+==============================================================================
+{
+  "V1_vs_boundary_rule": {
+    "rules": [
+      "fixed10Mpc",
+      "fixed5Mpc",
+      "fixed3Mpc",
+      "2xR500",
+      "10xrs"
+    ],
+    "mean_value": [
+      -1.5098576487452866,
+      -1.5266628816044343,
+      -1.50251622588808,
+      -1.5632120243799226,
+      -1.4968478064700907
+    ],
+    "spread_dex": 0.06636421790983182,
+    "per_system_spread_sd": 0.1835863992811047,
+    "note": "each rule is evaluated only inside 0.8 r_ref, since DeltaPhi -> 0 at r_ref by construction"
+  },
+  "V3_vs_smoothing_eps": {
+    "eps_kpc": [
+      19.999999999999996,
+      50.0,
+      200.0
+    ],
+    "mean_value": [
+      -1.9812751959595016,
+      -1.9891557842781118,
+      -2.0356735689922685
+    ],
+    "spread_dex": 0.054398373032766845,
+    "per_system_spread_sd": 0.019650933732082092
+  },
+  "V2_vs_well_mass_scale": {
+    "factors": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "mean_value": [
+      -4.6809580132998,
+      -4.379928017635818,
+      -4.0788980219718365
+    ],
+    "d_per_dex": 1.0000000000000009,
+    "spread": 1.8268145520643857e-15
+  },
+  "V4a_vs_density_alpha": {
+    "d_per_unit_alpha": 0.197998153932598,
+    "spread": 0.14993805248284942
+  },
+  "V4b_shape_vs_density_beta": {
+    "d_per_unit_beta": -0.1812625972963035,
+    "spread": 0.12658365412152578
+  }
+}
+
+==============================================================================
+G.  COARSE-GRAINING GATE on V2 and V3
+==============================================================================
+
+   system 084129.0+002645
+        N rows   drift W (dex)   drift |g| (dex)     W sel     g sel
+             1        1.058772          1.694215    0.1346    0.3447
+            10        0.431556          0.687816    0.2288    0.3307
+            64        0.193086          0.395241    0.0445    0.0410
+           512        0.070496          0.182059    0.0123    0.0295
+          4096        0.030047          0.080765    0.0067    0.0092
+         32768        0.007989          0.031792    0.0017    0.0014
+      beta_N (= -dln drift/dln N):  W 0.4636, g 0.3757; selective  W 0.4670, g 0.5309
+      EXTERNAL wells refined into K pieces of 1.5 Mpc extent:
+        K=   1  drift W_ext 0.000000 dex   drift |g_ext| 0.000000 dex
+        K=   8  drift W_ext 0.005746 dex   drift |g_ext| 0.013219 dex
+        K=  64  drift W_ext 0.001933 dex   drift |g_ext| 0.004369 dex
+        K= 512  drift W_ext 0.000210 dex   drift |g_ext| 0.001338 dex
+      uniform x4 split, scatter by mass exponent p: {'0.5': 6.154398609093795e-17, '1.0': 5.172971236634239e-17, '2.0': 1.1666149724882014e-16}
+
+   system 090129.1-013853
+        N rows   drift W (dex)   drift |g| (dex)     W sel     g sel
+             1        0.798815          1.273242    0.1350    0.4200
+            10        0.583261          0.852843    0.2711    0.4142
+            64        0.180751          0.361282    0.0580    0.1141
+           512        0.064879          0.162388    0.0145    0.0602
+          4096        0.033960          0.058924    0.0077    0.0162
+         32768        0.007559          0.025553    0.0019    0.0024
+      beta_N (= -dln drift/dln N):  W 0.4545, g 0.3926; selective  W 0.4585, g 0.5018
+      EXTERNAL wells refined into K pieces of 1.5 Mpc extent:
+        K=   1  drift W_ext 0.000000 dex   drift |g_ext| 0.000000 dex
+        K=   8  drift W_ext 0.001262 dex   drift |g_ext| 0.004437 dex
+        K=  64  drift W_ext 0.000503 dex   drift |g_ext| 0.000250 dex
+        K= 512  drift W_ext 0.000333 dex   drift |g_ext| 0.000248 dex
+      uniform x4 split, scatter by mass exponent p: {'0.5': 6.459758674160368e-17, '1.0': 4.715840401598452e-17, '2.0': 5.777783805466598e-17}
+
+   system 092031.8+040621
+        N rows   drift W (dex)   drift |g| (dex)     W sel     g sel
+             1        0.090810          0.256933    0.0699    0.2347
+            10        0.275107          0.339595    0.2536    0.3162
+            64        0.072906          0.172695    0.0471    0.0802
+           512        0.014689          0.087168    0.0123    0.0392
+          4096        0.010903          0.016985    0.0054    0.0088
+         32768        0.001991          0.016899    0.0009    0.0010
+      beta_N (= -dln drift/dln N):  W 0.4183, g 0.3215; selective  W 0.4750, g 0.5349
+      EXTERNAL wells refined into K pieces of 1.5 Mpc extent:
+        K=   1  drift W_ext 0.000000 dex   drift |g_ext| 0.000000 dex
+        K=   8  drift W_ext 0.016857 dex   drift |g_ext| 0.033839 dex
+        K=  64  drift W_ext 0.002548 dex   drift |g_ext| 0.003286 dex
+        K= 512  drift W_ext 0.000902 dex   drift |g_ext| 0.003436 dex
+      uniform x4 split, scatter by mass exponent p: {'0.5': 6.102019796058232e-17, '1.0': 5.621654882404585e-17, '2.0': 6.798699777552591e-17}
+
+   wrote envvars_table.npz and envvars_build.json
+EXIT 0

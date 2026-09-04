@@ -1,0 +1,109 @@
+==============================================================================
+JOINT TOURNAMENT -- four channels at once
+==============================================================================
+
+[1/5] benches
+   SPARC galaxies with curves : 175
+   dropped, no Table 1 entry  : 0
+   dropped, Qual > 2          : 12
+   dropped, i < 30 deg        : 10
+   dropped, no V_flat         : 30
+   dropped, < 5 points        : 0
+   RETAINED                   : 123
+   radial points              : 2858
+
+   strata                     : 12
+   train                      :   75  (61.0%)
+   validation                 :   24  (19.5%)
+   blind                      :   24  (19.5%)
+   DiskMass galaxies          : 28
+   observed h_sigma_LOS median: 28.65 arcsec   sd 18.09   sigma(median) 4.285
+   cluster shell cells        : [248, 704, 2864, 5696]
+   lane-12 required B(r)      : [3.862 3.331 2.401 1.758]
+
+[2/5] scoring 3123 candidates
+   100/3123  21s
+   200/3123  43s
+   300/3123  71s
+   400/3123  99s
+   500/3123  131s
+C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tournament\tw_core.py:241: RuntimeWarning: overflow encountered in exp
+  return np.exp(cand.A * W * lam)
+C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tournament\tw_core.py:156: RuntimeWarning: divide by zero encountered in divide
+  return 1.0 / (1.0 - np.exp(-np.sqrt(x)))
+C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tournament\tw_core.py:221: RuntimeWarning: invalid value encountered in divide
+  return nu_rar(F / (k ** 0.5 * a0)) * F / k
+C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tournament\screens.py:74: RuntimeWarning: invalid value encountered in scalar subtract
+  sl = float((lg[-1] - lg[-5]) / (lr[-1] - lr[-5]))
+C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tournament\screens.py:76: RuntimeWarning: invalid value encountered in scalar subtract
+  slb = float((lb[-1] - lb[-5]) / (lr[-1] - lr[-5]))
+   600/3123  164s
+   700/3123  190s
+   800/3123  219s
+   900/3123  257s
+   1000/3123  292s
+   1100/3123  328s
+   1200/3123  363s
+   1300/3123  395s
+   1400/3123  427s
+   1500/3123  462s
+   1600/3123  493s
+   1700/3123  515s
+   1800/3123  540s
+   1900/3123  569s
+   2000/3123  598s
+   2100/3123  630s
+   2200/3123  663s
+   2300/3123  692s
+   2400/3123  722s
+   2500/3123  754s
+   2600/3123  793s
+   2700/3123  828s
+   2800/3123  863s
+   2900/3123  902s
+   3000/3123  937s
+   3100/3123  973s
+C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\tournament\screens.py:214: RuntimeWarning: overflow encountered in divide
+  cond = float((ev[:, 2] / np.maximum(ev[:, 0], 1e-300)).max())
+   done in 981s; 125818 response evaluations hit the W ceiling
+
+[3/5] funnel
+   screen               kills alone  unique kills  sequential
+   H7_asymptotic                846             0   3123 ->2277
+   H1_cluster_reach             627            14   2277 ->1769
+   H4_radial                   2721             0   1769 -> 374
+   H5_vert_amplitude           2299             0    374 -> 286
+   H6_vert_shape                972             0    286 -> 285
+   H2_field_galaxy             2852            14    285 -> 134
+   H3_member_galaxy            2843           108    134 ->  26
+   best on radial rotation          rar|scalar_a0|qbar|sat|m4|I0.6               0.1639  survives=False
+   best on vertical amplitude       aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m1| 0.0135  survives=False
+   best on vertical radial shape    aqual|tensor_d|tidal|pow|m-1|I1e-32          0.0181  survives=False
+   best on cluster amplitude+shape  rar|scalar_a0|qbar|pow|m2|I0.9               0.0067  survives=False
+   best on member-galaxy screen     BASE_rar                                     0.0000  survives=False
+
+[4/5] ranking and the one-standard-error parsimony rule
+   best J = 1.553 (aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12)
+   bootstrap SE(J) = 0.131 over 400 object resamples
+   within 1 SE: 6; fewest parameters there: k = 4
+   PARSIMONY PICK: aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12  J = 1.553  k = 4
+
+[5/5] full-cost screens on the shortlist
+   aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12         F_net/Fref nan
+   rar|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12           F_net/Fref nan
+   aqual|tensor_S[plaw_p0q1s2_L300]|phi|log|m2|I3e+12         F_net/Fref nan
+   rar|tensor_S[plaw_p0q1s2_L300]|phi|log|m2|I3e+12           F_net/Fref nan
+   aqual|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I3e+12         F_net/Fref nan
+   rar|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I3e+12           F_net/Fref nan
+   aqual|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I1e+12         F_net/Fref nan
+   rar|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I1e+12           F_net/Fref nan
+   rar|tensor_d|phi|sat|m2|I1e+12                             F_net/Fref nan
+   rar|tensor_d|phi|log|m2|I1e+12                             F_net/Fref nan
+   rar|tensor_d|phi|pow|m2|I1e+12                             F_net/Fref nan
+   rar|tensor_d|qbar|sat|m2|I0.9                              F_net/Fref 6.181
+   rar|tensor_d|phi|sat|m2|I3e+12                             F_net/Fref nan
+   rar|tensor_d|phi|log|m2|I3e+12                             F_net/Fref nan
+   rar|tensor_d|phi|pow|m2|I3e+12                             F_net/Fref nan
+   rar|iso_K|phi|sat|m2|I3e+12                                F_net/Fref 84125901.769
+
+wrote tournament.json (3123 records) and gates.json in 1009s

@@ -1,0 +1,64 @@
+==============================================================================
+SHEAR 2D -- the quadrupole's PHASE, not just its amplitude
+==============================================================================
+
+   selection.json verified, SHA-256 aafc7defdfa47105...
+   DEV 27 systems, CTRL 136 systems
+   6 radial bins over 0.286-5.000 proper Mpc
+
+   ---- DEV : 27 systems
+      1/27  083402.5+023437  2200 sources  2s
+      11/27  090328.7-013622  2406 sources  17s
+      21/27  092339.0+052654  2838 sources  32s
+      27 usable, 41s
+      GATE  stacked tangential monopole +0.00217 +- 0.00069  (+3.2 sigma)
+      NULL  stacked cross monopole      -0.00068 +- 0.00069  (-1.0 sigma)
+      PHASE-MISALIGNED (the test)
+         alpha = +0.0136 +- 0.4756   (axis-randomisation sigma 0.6182, z = +0.02, p = 0.9805)
+         beta  = -0.00058 +- 0.00201   gamma = +0.00115 +- 0.00097   corr(a,b) = -0.78
+      source-aligned (positive control)
+         alpha = -0.7252 +- 0.4778   (axis-randomisation sigma 0.3918, z = -1.85, p = 0.0648)
+         beta  = +0.00239 +- 0.00201   gamma = -0.00044 +- 0.00097   corr(a,b) = -0.78
+      cross / B-mode (must be null)
+         alpha = +0.7427 +- 0.4756   (axis-randomisation sigma 0.6737, z = +1.10, p = 0.2890)
+         beta  = -0.00152 +- 0.00201   gamma = +0.00025 +- 0.00097   corr(a,b) = -0.78
+      same fit against the MEASURED monopole instead of the predicted one: alpha = -0.1794 +- 0.1303
+      noise correlation between the monopole and the sin 2phi coefficient: median -0.011 (this is why the design column is PREDICTED, not measured)
+      quadrupole in the member-aligned frame: a2c/a0 = -0.2009 +- 0.2432, a2s/a0 = +0.1496 +- 0.2427
+
+   ---- CTRL : 136 systems
+      1/136  083204.4+041907  8258 sources  2s
+      11/136  083858.5-015032  21521 sources  16s
+      21/136  084124.7+004636  2596 sources  32s
+      31/136  084349.1+040404  5745 sources  46s
+      41/136  085121.2+012856  4183 sources  60s
+      51/136  085517.2+013508  4082 sources  76s
+      61/136  090115.3+005040  6258 sources  91s
+      71/136  090335.0+022006  4093 sources  107s
+      81/136  090913.8-001214  5877 sources  122s
+      91/136  091417.7+031159  8199 sources  138s
+      101/136  091655.7-011158  4003 sources  152s
+      111/136  092105.0+004452  17082 sources  166s
+      121/136  092803.4+010953  1519 sources  182s
+      131/136  093403.5-001422  7028 sources  198s
+      136 usable, 205s
+      GATE  stacked tangential monopole +0.00261 +- 0.00031  (+8.4 sigma)
+      NULL  stacked cross monopole      +0.00033 +- 0.00031  (+1.1 sigma)
+      PHASE-MISALIGNED (the test)
+         alpha = +0.2006 +- 0.2705   (axis-randomisation sigma 0.2582, z = +0.77, p = 0.4338)
+         beta  = +0.00009 +- 0.00107   gamma = +0.00074 +- 0.00045   corr(a,b) = -0.79
+      source-aligned (positive control)
+         alpha = +0.0262 +- 0.2713   (axis-randomisation sigma 0.2669, z = +0.10, p = 0.9125)
+         beta  = +0.00002 +- 0.00107   gamma = -0.00095 +- 0.00045   corr(a,b) = -0.79
+      cross / B-mode (must be null)
+         alpha = -0.0522 +- 0.2705   (axis-randomisation sigma 0.2883, z = -0.22, p = 0.8688)
+         beta  = -0.00080 +- 0.00107   gamma = -0.00029 +- 0.00045   corr(a,b) = -0.79
+      same fit against the MEASURED monopole instead of the predicted one: alpha = -0.0327 +- 0.0712
+      noise correlation between the monopole and the sin 2phi coefficient: median +0.003 (this is why the design column is PREDICTED, not measured)
+      quadrupole in the member-aligned frame: a2c/a0 = -0.1474 +- 0.1168, a2s/a0 = +0.1411 +- 0.1171
+
+   45-DEGREE CONTROL: rotating every reference axis by 45 deg
+   maps sin 2Delta -> -sin 2Delta and must flip alpha's sign
+   while leaving |alpha| unchanged if the signal is real.
+
+   written: shear2d.json

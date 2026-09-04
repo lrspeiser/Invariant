@@ -1,0 +1,59 @@
+==============================================================================
+SELECTION -- development and near-round control samples, chosen by
+             INDEPENDENT geometry and frozen before any scoring
+==============================================================================
+
+   parent catalogue: 542 eFEDS systems with a Bahar+2022 density fit
+   ingest cuts: {'ingested': 542, 'finite_density_params': 542, 'finite_z_R500': 542, 'vikhlinin_beta_gt_1_3': 542}
+
+   1. external tidal axis from the catalogued X-ray systems
+      396/542 systems have >= 2 catalogued neighbours within 30 Mpc and |dz| < 0.02(1+z)
+      predicted neighbour uniform shear: median 3.14e-04, 90th pct 2.15e-03, max 5.07e-02
+
+   2. member-light ellipticity from DECADE galaxy POSITIONS
+      (no shape, no ellipticity, no shear is read in this pass)
+      resuming from cache: 51 systems
+      76/542  083936.0+011445  36s
+      101/542  084124.1-023350  96s
+      126/542  084324.2-001438  130s
+      151/542  084640.3-010423  188s
+      176/542  085056.4+005607  249s
+      201/542  085438.5+001211  287s
+      226/542  085801.1-004103  323s
+      251/542  090105.2-012525  358s
+      276/542  090333.8+043950  393s
+      301/542  090718.6+035258  427s
+      326/542  090932.5-005020  489s
+      351/542  091336.6+031723  527s
+      376/542  091555.6-013248  561s
+      401/542  091957.7+035012  596s
+      426/542  092235.8-002443  715s
+      451/542  092553.3+015519  750s
+      476/542  092821.1+041941  786s
+      501/542  093049.2-003714  820s
+      526/542  093522.2+032329  858s
+      491 systems queried, 905s
+
+   522 systems have both a member measurement and an environment axis
+
+   SELECTION FUNCTION, declared and now frozen:
+      common:  0.1 <= z <= 0.6, n_mem >= 25, n_bg >= 500,
+               aperture >= 0.35 deg inside the eFEDS box, external axis defined
+      DEV:     e_mem(debiased) >= 0.15, SNR >= 2.5, |sin 2 Delta| >= 0.5
+      CTRL:    e_mem <= 0.08 and SNR <= 1.5 (near-round negative control)
+
+      DEV  : 27 systems
+      CTRL : 7 systems
+      DEV misalignment |Delta|: median 47.7 deg, range 15.1-71.6 deg
+      DEV member ellipticity: median 0.536, range 0.388-0.952
+      DEV background sources: median 5620, total 181949
+
+   SYSTEMATIC CHECK.  If the survey MASK were aligned with the
+   external axis, an error in pa_mem would correlate with sin 2 Delta
+   and could fake the phase statistic.  corr(sin2(pa_ext-pa_mask), sin2 Delta) = -0.176
+   over 386 systems.  |rho| below ~0.2 means the mask cannot drive the result.
+
+   written: selection.json
+   SHA-256: 58892e607b9e73934814552d809dce07d4405a008e8ea89a3a3f71d3a0b314bb
+   shear2d.py verifies this hash and refuses to run if the sample
+   was edited after a residual was seen.

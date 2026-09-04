@@ -1,0 +1,2560 @@
+{
+ "lane": "work/wellnet-2026-09/compiler",
+ "generated_utc": "2026-09-04T14:55:54Z",
+ "data_statement": "No observational data of any kind is opened by this module. Every number is produced from closed-form synthetic geometries defined in this file. KiDS and the wide binaries are never loaded, listed or referenced, and neither is SPARC nor any cluster catalogue. Nothing here touches observational data, so there is no blind-protection issue in this lane.",
+ "thresholds": {
+  "TOL_DEX": 0.04,
+  "TOL_MISALIGN_DEG": 10.0,
+  "TOL_COARSE": 0.001,
+  "TOL_WEIGHT_SLOPE": 0.01,
+  "TOL_ASYM": 1e-09
+ },
+ "n_tests": 35,
+ "n_passed": 35,
+ "n_failed": 0,
+ "failures": [],
+ "wall_seconds": 68.34337890008464,
+ "validation": {
+  "gate1_isotropic_K_is_a_G_rescale": {
+   "det_K": 2.197,
+   "ML_offset_dex": 0.17091502846025516,
+   "axis_ratio": 1.0
+  },
+  "gate1_stretch_demo": {
+   "K_eigenvalues": [
+    0.55,
+    0.9,
+    1.7000000000000008
+   ],
+   "det_K": 0.8415000000000007,
+   "residual_rel": 4.83616351697209e-16,
+   "n_source": 400,
+   "n_field": 300,
+   "equivalent_source_axis_ratio": 0.568796458994521,
+   "equivalent_log10_ML_offset_dex": -0.0374729398440785,
+   "Upsilon_star_uncertainty_dex": 0.06
+  },
+  "family_validation_table": {
+   "A1_aqual": {
+    "verdict": "ADMIT",
+    "failed": [],
+    "flags": [],
+    "expected": "ADMIT",
+    "expected_gates": [],
+    "source": "screen/REPORT.md: family A passes all fifteen Stage-1 screens and all seven Stage-2 geometries",
+    "gate1": "base law: K = I identically, so there is no tensor to be degenerate with a coordinate stretch",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "base law: the response is identically zero, so no row list can enter it",
+    "gate4": "the response reads only 'none' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists."
+   },
+   "A2_qumond": {
+    "verdict": "ADMIT",
+    "failed": [],
+    "flags": [],
+    "expected": "ADMIT",
+    "expected_gates": [],
+    "source": "same",
+    "gate1": "base law: K = I identically, so there is no tensor to be degenerate with a coordinate stretch",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "base law: the response is identically zero, so no row list can enter it",
+    "gate4": "the response reads only 'none' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists."
+   },
+   "A3_qumond_rar": {
+    "verdict": "ADMIT",
+    "failed": [],
+    "flags": [],
+    "expected": "ADMIT",
+    "expected_gates": [],
+    "source": "same",
+    "gate1": "base law: K = I identically, so there is no tensor to be degenerate with a coordinate stretch",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "base law: the response is identically zero, so no row list can enter it",
+    "gate4": "the response reads only 'none' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists."
+   },
+   "X0_newton": {
+    "verdict": "ADMIT",
+    "failed": [],
+    "flags": [],
+    "expected": "ADMIT",
+    "expected_gates": [],
+    "source": "the Newtonian negative control passes everything",
+    "gate1": "base law: K = I identically, so there is no tensor to be degenerate with a coordinate stretch",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "base law: the response is identically zero, so no row list can enter it",
+    "gate4": "the response reads only 'none' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists."
+   },
+   "B1_depth_mond": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [
+     "CONVENTION-DEPENDENT (potential gauge)"
+    ],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate4_reciprocity_action"
+    ],
+    "source": "screen/REPORT.md: family B fails gauge invariance and reciprocity; third-law violation 0.688",
+    "gate1": "escapes c_probe_disagreement; max single-probe stretch residual 0.0233 dex, joint (one global stretch, per-object mass) 0.0418 dex, axis provenance 'none' misaligned by up to 0.0 deg",
+    "gate2": "CONVENTION-DEPENDENT. |Phi_N| is defined only up to a constant. Across 6 defensible operational rules the median galaxy depth spans 1.03 dex (Run AH measured 0.87 dex between its two global rules, against an off/on margin of 0.90 dex), and this candidate's own response spans 1.03 dex. The on/off verdict is stable across the rules tested, but the response amplitude is not, so every headline number must be quoted with the rule attached.",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'phi' = smooth-nonlocal, structure 'depth'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'none' (tensor source) and 'Phi_N (nonlocal, gauge-dependent)' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 6.474e-02 (worst pair 1.910e-02), confirming it."
+   },
+   "C1_wells_pow_p1": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate1_constant_K",
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "source": "screen/REPORT.md: M_dyn moves 14% between 1 row and 10^4; third-law violation 0.564",
+    "gate1": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 2.86e-02 dex (single probe) and 1.91e-02 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'catalogue' (family C: the alignment tensor of a row list), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection.",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 1: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope -0.0004 against the predicted 0.0000; p = 1 is the one admissible exponent and this candidate has it. Worst catalogue perturbation 9.268e-02 (detect_threshold_discard) against tolerance 0.001. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 10000 mass cells moves the response by 1.0019 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 1.06e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)"
+   },
+   "C2_wells_pow_p05": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate1_constant_K",
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "source": "p = 0.5 fails selective refinement at slope 0.50",
+    "gate1": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 3.52e-02 dex (single probe) and 2.17e-02 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'catalogue' (family C: the alignment tensor of a row list), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection.",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 0.5: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope 0.4996 against the predicted 0.5000. Only p = 1 is admissible; p = 0.5 makes the field near an UNTOUCHED object depend on how finely a DIFFERENT object happens to be tabulated, with no limit. Worst catalogue perturbation 9.871e-02 (detect_threshold_discard) against tolerance 0.001. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 10000 mass cells moves the response by 1.0019 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 1.88e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)"
+   },
+   "C3_wells_exp_p1": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "source": "same as C1",
+    "gate1": "escapes a_spatial_variation; max single-probe stretch residual 0.0496 dex, joint (one global stretch, per-object mass) 0.0286 dex, axis provenance 'catalogue' misaligned by up to 0.0 deg",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 1: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope -0.0011 against the predicted 0.0000; p = 1 is the one admissible exponent and this candidate has it. Worst catalogue perturbation 9.561e-02 (detect_threshold_discard) against tolerance 0.001. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 10000 mass cells moves the response by 1.0049 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 1.28e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)"
+   },
+   "C5_wells_pow_p2": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate1_constant_K",
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "source": "p = 2 fails selective refinement at slope -1.00",
+    "gate1": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 3.94e-02 dex (single probe) and 2.40e-02 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'catalogue' (family C: the alignment tensor of a row list), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection.",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 2: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope -1.0004 against the predicted -1.0000. Only p = 1 is admissible; p = 2 makes the field near an UNTOUCHED object depend on how finely a DIFFERENT object happens to be tabulated, with no limit. Worst catalogue perturbation 8.301e-02 (detect_threshold_discard) against tolerance 0.001. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 10000 mass cells moves the response by 1.0019 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 2.56e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)"
+   },
+   "D1_pairs_p1_q1": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate1_constant_K",
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate1_constant_K",
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "source": "zero effect on an isolated object; no pairs in one catalogue row",
+    "gate1": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 0.00e+00 dex (single probe) and 0.00e+00 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'catalogue' (family D: the pair tensor of a row list), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection.",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "family-D pair tensor: ||C|| ~ N^(2-2p) with p = 1, measured local log slope 0.0395 against the predicted 0.0000; lambda_min(K) runs 5.88e-01 -> 3.12e-01 over N = 10 -> 800, 0.3 decades. Representation drift 1.000 at 1 row and 0.545 at 10 rows against a tolerance of 0.001: a single catalogue row has NO PAIRS, so the law has exactly zero effect on an unsubdivided object. A continuum limit exists.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)"
+   },
+   "D2_pairs_p05_q1": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate1_constant_K",
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate1_constant_K",
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "source": "||C|| ~ N^1; lambda_min(K) 3.4e-1 -> 8.3e-80",
+    "gate1": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 0.00e+00 dex (single probe) and 0.00e+00 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'catalogue' (family D: the pair tensor of a row list), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection.",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "family-D pair tensor: ||C|| ~ N^(2-2p) with p = 0.5, measured local log slope 1.0391 against the predicted 1.0000; lambda_min(K) runs 3.40e-01 -> 8.30e-80 over N = 10 -> 800, 78.6 decades. Representation drift 1.000 at 1 row and 0.994 at 10 rows against a tolerance of 0.001: a single catalogue row has NO PAIRS, so the law has exactly zero effect on an unsubdivided object. There is NO continuum limit: the response tensor collapses exponentially as the catalogue is refined.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)"
+   },
+   "D3_pairs_p1_q3": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate1_constant_K",
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate1_constant_K",
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "source": "q = 3 is the log-divergent marginal case",
+    "gate1": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 0.00e+00 dex (single probe) and 0.00e+00 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'catalogue' (family D: the pair tensor of a row list), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection.",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "family-D pair tensor: ||C|| ~ N^(2-2p) with p = 1, measured local log slope 0.2141 against the predicted 0.0000; lambda_min(K) runs 1.06e-01 -> 1.64e-14 over N = 10 -> 800, 12.8 decades. Representation drift 1.000 at 1 row and 0.929 at 10 rows against a tolerance of 0.001: a single catalogue row has NO PAIRS, so the law has exactly zero effect on an unsubdivided object. There is NO continuum limit: the response tensor collapses exponentially as the catalogue is refined.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)"
+   },
+   "E1_tidal": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "source": "classified CATALOGUE-ARTEFACTUAL; third-law violation 0.197",
+    "gate1": "escapes a_spatial_variation, b_independent_axis; max single-probe stretch residual 0.0458 dex, joint (one global stretch, per-object mass) 0.0374 dex, axis provenance 'external' misaligned by up to 90.0 deg",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 10000 mass cells moves the response by 1.6640 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 1.30e+00 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response reads 'catalogue row list' (tensor source) and 'none' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 3.606e-01 (worst pair 4.309e-01), confirming it."
+   },
+   "E2_tidal_strong": {
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "expected": "REJECT",
+    "expected_gates": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "source": "same as E1",
+    "gate1": "escapes a_spatial_variation, b_independent_axis, c_probe_disagreement; max single-probe stretch residual 0.1374 dex, joint (one global stretch, per-object mass) 0.1122 dex, axis provenance 'external' misaligned by up to 90.0 deg",
+    "gate2": "invariant 'one' carries no undetermined additive constant: no invariant",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 10000 mass cells moves the response by 1.6640 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 1.30e+00 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response reads 'catalogue row list' (tensor source) and 'none' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 7.963e-01 (worst pair 6.674e-01), confirming it."
+   }
+  },
+  "responsiveness": {
+   "gate1_joint_resid_vs_A": {
+    "theta": [
+     0.0,
+     1.0,
+     4.0,
+     16.0,
+     64.0
+    ],
+    "S": [
+     0.0,
+     0.01700508431292313,
+     0.03690307000275948,
+     0.05515070217853136,
+     0.06486856270881433
+    ],
+    "spread": 0.06486856270881433
+   },
+   "gate2_W_spread_vs_I0": {
+    "theta": [
+     10000000000.0,
+     100000000000.0,
+     1000000000000.0,
+     10000000000000.0
+    ],
+    "S": [
+     0.7990164815466272,
+     1.9875949799375634,
+     2.0686083610222266,
+     2.0695014913100462
+    ],
+    "spread": 1.270485009763419
+   },
+   "gate3_slope_vs_p": {
+    "theta": [
+     0.25,
+     0.5,
+     1.0,
+     2.0
+    ],
+    "S": [
+     0.7495517330327718,
+     0.4995517330327718,
+     -0.000448266967228007,
+     -1.0004482669672277
+    ],
+    "spread": 1.7499999999999996
+   },
+   "gate4_asymmetry_vs_A": {
+    "theta": [
+     0.0,
+     1.0,
+     4.0,
+     16.0,
+     64.0
+    ],
+    "S": [
+     0.0,
+     0.00160134791241643,
+     0.006844667367968785,
+     0.039244632822329914,
+     0.05037315400628753
+    ],
+    "spread": 0.05037315400628753
+   }
+  },
+  "exponential_grammar_sign_theorem": {
+   "n": 200000,
+   "min_k_r": 9.85967654375977e-305,
+   "min_g": 3.4279049407157677e-240,
+   "any_repulsive": false
+  },
+  "gate1_tidal_scalar": {
+   "passed": true,
+   "escapes": [
+    "a_spatial_variation",
+    "c_probe_disagreement"
+   ],
+   "joint_resid_dex": 0.05506712637018748,
+   "max_single_probe_resid_dex": 0.08900889299439656
+  },
+  "gate1_family_D_isolated_lambda": {
+   "max_abs_lambda": 0.0
+  },
+  "gate1_qbar_iso_K": {
+   "passed": false,
+   "escapes": [],
+   "joint_resid_dex": 0.02947184906034262,
+   "per_probe": {
+    "galaxy_field": 4.586533637279208e-16,
+    "cluster_shell": 0.025983139482715568,
+    "galaxy_member": 0.0008629787248983565
+   }
+  },
+  "gate1_saturated_qbar_iso_K": {
+   "passed": false,
+   "escapes": [],
+   "joint_resid_dex": 2.6442080113165474e-12,
+   "per_probe": {
+    "galaxy_field": 3.9720546451956367e-16,
+    "cluster_shell": 5.289063834892486e-13,
+    "galaxy_member": 7.109127137782774e-15
+   }
+  },
+  "gate2_rule_spread": {
+   "median_absPhi_by_rule": {
+    "saddle": 8091337240.855133,
+    "overdensity": 5085318736.574363,
+    "scale_radius": 4227488022.189429,
+    "env_volume": 9080685231.34478,
+    "inf": 9310270164.72122,
+    "flat_1Mpc": 45797065076.86489
+   },
+   "spread_dex": 1.034755261183088,
+   "spread_dex_brief_four": 0.3320362359770344,
+   "spread_dex_run_AH_pair": 0.6918753634721017,
+   "rules": [
+    "saddle",
+    "overdensity",
+    "scale_radius",
+    "env_volume",
+    "inf",
+    "flat_1Mpc"
+   ],
+   "n_rules": 6,
+   "run_AH_recorded_spread_dex": 0.87,
+   "gate_margin_dex": 0.9
+  },
+  "gate2_phi_gated": {
+   "passed": true,
+   "flags": [
+    "CONVENTION-DEPENDENT (potential gauge) -- VERDICT CHANGES ACROSS RULES"
+   ],
+   "verdict_changes": true,
+   "phi_spread_dex": 1.034755261183088,
+   "W_spread_dex": 2.0686083610222266,
+   "gate_fires_by_rule": {
+    "saddle": true,
+    "overdensity": false,
+    "scale_radius": false,
+    "env_volume": true,
+    "inf": true,
+    "flat_1Mpc": true
+   }
+  },
+  "gate3_catalogue_perturbations": {
+   "perturbations": {
+    "merge_neighbours": 0.0025215566581556297,
+    "detect_threshold_discard": 0.09267959568803823,
+    "detect_threshold_redistribute": 0.09267959568777731,
+    "deblend_split": 0.001336344638397218,
+    "ICL_reassign_20pc": 8.441512861836951e-13,
+    "mesh_resolution_4x": 0.013282274996340333
+   },
+   "worst": 0.09267959568803823,
+   "tol": 0.001,
+   "passes": false,
+   "N": 1000,
+   "worst_name": "detect_threshold_discard"
+  },
+  "gate3_coherence_slopes": {
+   "measured": {
+    "X4_smooth_density": {
+     "mean_slope": -3.112670388253769,
+     "slope_by_N": {
+      "100": -3.36890393619247,
+      "1000": -2.8564368403150686
+     },
+     "drift_N100": [
+      0.5167245331802474,
+      0.06591839893197204,
+      0.006853148529024514,
+      0.0008538395628913338,
+      3.858056497817898e-05
+     ],
+     "reference": -3.11
+    },
+    "C1_wells_pow_p1": {
+     "mean_slope": -0.5489129504849012,
+     "slope_by_N": {
+      "100": -0.3629135411238758,
+      "1000": -0.7349123598459266
+     },
+     "drift_N100": [
+      0.03886076483019284,
+      0.02448848026842947,
+      0.017201769449675962,
+      0.015436856543014866,
+      0.013914689452010394
+     ],
+     "reference": -0.55
+    },
+    "X2_count_wells": {
+     "mean_slope": 0.12406775418471239,
+     "slope_by_N": {
+      "100": 0.11916344715324032,
+      "1000": 0.12897206121618446
+     },
+     "drift_N100": [
+      0.6714939420567633,
+      0.9663182792580466,
+      0.995729395958343,
+      0.9981855991936244,
+      0.9985168691701589
+     ],
+     "reference": 0.12
+    }
+   },
+   "convention": "d ln(drift)/d ln L at FIXED N, L the LAW's own length; negative = a physical scale, near zero/positive = row counting"
+  },
+  "gate3_cluster_M_dyn": {
+   "M_dyn_over_M_newt_by_N": {
+    "1": 0.7165325428319982,
+    "10000": 0.827749518040259
+   },
+   "M_newt_enclosed_Msun": 80041094041832.7,
+   "M_dyn_by_N_Msun": {
+    "1": 57352048644849.49,
+    "10000": 66253977016542.07
+   },
+   "fractional_change": 0.15521552554848483,
+   "recorded_fractional_change": 0.142
+  },
+  "gate3_family_D_collapse": {
+   "measured": {
+    "D1_pairs_p1_q1": {
+     "slope": 0.039485262802123666,
+     "predicted": 0.0,
+     "lambda_min_first": 0.5883275978219489,
+     "lambda_min_last": 0.31178055168817725,
+     "has_continuum_limit": true,
+     "drift_1_row": 1.0
+    },
+    "D2_pairs_p05_q1": {
+     "slope": 1.0390896174340896,
+     "predicted": 1.0,
+     "lambda_min_first": 0.3396614919244497,
+     "lambda_min_last": 8.301099763643901e-80,
+     "has_continuum_limit": false,
+     "drift_1_row": 1.0
+    },
+    "D3_pairs_p1_q3": {
+     "slope": 0.21413932073489778,
+     "predicted": 0.0,
+     "lambda_min_first": 0.10615847892027833,
+     "lambda_min_last": 1.641645306054678e-14,
+     "has_continuum_limit": false,
+     "drift_1_row": 1.0
+    }
+   },
+   "recorded_slopes": {
+    "D1_pairs_p1_q1": 0.0102,
+    "D2_pairs_p05_q1": 1.0101,
+    "D3_pairs_p1_q3": 0.1667
+   },
+   "recorded_lambda_min_p05": [
+    0.34,
+    8.3e-80
+   ]
+  },
+  "gate3_family_E_repair": {
+   "rows_pass": false,
+   "smooth_pass": true,
+   "rows_drift": {
+    "1": 1.525621743428521,
+    "10": 1.62992561356594,
+    "100": 1.7866334350241153,
+    "1000": 1.4220522892658174
+   }
+  },
+  "gate3_uniform_refinement": {
+   "drift_K_at_N1_by_p": [
+    0.2784123268692895,
+    0.2784123268696716,
+    0.27841232786767145
+   ],
+   "relative_spread_K": 3.585983216744764e-09,
+   "recorded": 0.28013,
+   "cancels": true
+  },
+  "gate3_representation": {
+   "N": [
+    1,
+    10,
+    100,
+    1000,
+    10000
+   ],
+   "drift": {
+    "1": 1.0019116906217778,
+    "10": 0.2984036853237882,
+    "100": 0.06538528079611598,
+    "1000": 0.011544217824841711,
+    "10000": 0.001057510773374236
+   },
+   "tol": 0.001,
+   "N_safe": null,
+   "has_continuum_limit": false,
+   "drift_at_catalogue_resolution": 1.0019116906217778,
+   "converged": false,
+   "drift_1_row": 1.0019116906217778,
+   "drift_10_rows": 0.2984036853237882
+  },
+  "gate3_selective_refinement": {
+   "measured": {
+    "0.25": 0.7495517330327718,
+    "0.5": 0.4995517330327718,
+    "0.75": 0.24955173303277184,
+    "1.0": -0.000448266967228007,
+    "1.5": -0.5004482669672279,
+    "2.0": -1.0004482669672277
+   },
+   "recorded": {
+    "0.25": 0.7507,
+    "0.5": 0.5007,
+    "0.75": 0.2507,
+    "1.0": 0.00067,
+    "1.5": -0.4993,
+    "2.0": -0.9994
+   },
+   "admissible_p": [
+    1.0
+   ]
+  },
+  "gate3_convention_comparison": {
+   "screen_lane_convention": {
+    "X4_smooth_density": -3.112670388253769,
+    "C1_wells_pow_p1": -0.5489129504849012,
+    "X2_count_wells": 0.12406775418471239
+   },
+   "tournament_successive_step_convention": {
+    "X4_smooth_density": 2.3874026675028026,
+    "C1_wells_pow_p1": 2.1397112109390135,
+    "X2_count_wells": -4.068991321632372
+   },
+   "tournament_recorded_range": [
+    1.0,
+    1.5
+   ]
+  },
+  "gate4_base_laws": {
+   "_fd_floor": 0.0021001324331998907,
+   "A1_aqual": {
+    "semi_analytic": 0.0,
+    "finite_difference": 0.0015437696071487603,
+    "fd_over_floor": 0.7350820275636514,
+    "passed": true
+   },
+   "A2_qumond": {
+    "semi_analytic": 0.0,
+    "finite_difference": 0.0015437696071487603,
+    "fd_over_floor": 0.7350820275636514,
+    "passed": true
+   },
+   "A3_qumond_rar": {
+    "semi_analytic": 0.0,
+    "finite_difference": 0.001520482458533477,
+    "fd_over_floor": 0.7239936084491474,
+    "passed": true
+   },
+   "X0_newton": {
+    "semi_analytic": 0.0,
+    "finite_difference": 0.0021001324331998907,
+    "fd_over_floor": 1.0,
+    "passed": true
+   }
+  },
+  "gate4_declared_carrier": {
+   "passed": true,
+   "flags": [
+    "CONVENTION-DEPENDENT (potential gauge) -- VERDICT CHANGES ACROSS RULES",
+    "momentum carrier declared but not verified"
+   ]
+  },
+  "gate4_gn_gated": {
+   "passed": true,
+   "semi_analytic": 0.0,
+   "finite_difference": 0.0018285666679894333,
+   "response_field": {
+    "tensor": "none",
+    "invariant": "|grad Phi_N|",
+    "admissible": true
+   }
+  },
+  "gate4_recorded_violators": {
+   "family_C1": {
+    "passed": false,
+    "asymmetry": 0.0,
+    "rowlist": true,
+    "response_field": {
+     "tensor": "catalogue row list",
+     "invariant": "none",
+     "admissible": false
+    },
+    "recorded_F_net_over_GM1M2_d2": 0.564
+   },
+   "family_E1": {
+    "passed": false,
+    "asymmetry": 0.3606279858362099,
+    "rowlist": false,
+    "response_field": {
+     "tensor": "catalogue row list",
+     "invariant": "none",
+     "admissible": false
+    },
+    "recorded_F_net_over_GM1M2_d2": 0.197
+   },
+   "family_B1": {
+    "passed": false,
+    "asymmetry": 0.06473695963592269,
+    "rowlist": false,
+    "response_field": {
+     "tensor": "none",
+     "invariant": "Phi_N (nonlocal, gauge-dependent)",
+     "admissible": false
+    },
+    "recorded_F_net_over_GM1M2_d2": 0.688
+   },
+   "scalar_a0_depth": {
+    "passed": false,
+    "asymmetry": 0.06443266126593902,
+    "rowlist": false,
+    "response_field": {
+     "tensor": "none",
+     "invariant": "Phi_N (nonlocal, gauge-dependent)",
+     "admissible": false
+    },
+    "recorded_F_net_over_GM1M2_d2": 0.801
+   },
+   "scalar_a0_tidal": {
+    "passed": false,
+    "asymmetry": 0.013165197135979205,
+    "rowlist": false,
+    "response_field": {
+     "tensor": "none",
+     "invariant": "Hessian of Phi_N",
+     "admissible": false
+    },
+    "recorded_F_net_over_GM1M2_d2": 0.823
+   },
+   "tensor_T": {
+    "passed": false,
+    "asymmetry": 0.0096304568789386,
+    "rowlist": false,
+    "response_field": {
+     "tensor": "Hessian of Phi_N",
+     "invariant": "Hessian of Phi_N",
+     "admissible": false
+    },
+    "recorded_F_net_over_GM1M2_d2": 0.872
+   },
+   "tensor_d": {
+    "passed": false,
+    "asymmetry": 0.1537122456762292,
+    "rowlist": false,
+    "response_field": {
+     "tensor": "grad Phi_N direction",
+     "invariant": "Hessian of Phi_N",
+     "admissible": false
+    },
+    "recorded_F_net_over_GM1M2_d2": 1.699
+   },
+   "iso_K": {
+    "passed": false,
+    "asymmetry": 2.874731235571041e-06,
+    "rowlist": false,
+    "response_field": {
+     "tensor": "none",
+     "invariant": "Hessian of Phi_N",
+     "admissible": false
+    },
+    "recorded_F_net_over_GM1M2_d2": 16.53
+   }
+  },
+  "gate4_reciprocity_vs_action": {
+   "kernel_reciprocal": true,
+   "kernel_asymmetry": 0.0,
+   "gate_passed": false
+  },
+  "gate4_two_routes": {
+   "pairs": [
+    [
+     "base",
+     0.0,
+     0.0015437696071393156,
+     0.7350820275591542
+    ],
+    [
+     "gn",
+     0.0,
+     0.0018285666679894333,
+     0.8706911236084844
+    ],
+    [
+     "phi",
+     0.06443266126593902,
+     0.07653107862169545,
+     36.441072673254226
+    ],
+    [
+     "tidal",
+     0.013165197135979205,
+     0.017016186720303743,
+     8.102435089951369
+    ]
+   ],
+   "fd_floor": 0.0021001324331998907,
+   "fd_threshold": "4 x the measured floor"
+  },
+  "data_access_audit": {
+   "n_opened": 0,
+   "outside_lane": [],
+   "statement": "No observational data of any kind is opened by this module. Every number is produced from closed-form synthetic geometries defined in this file. KiDS and the wide binaries are never loaded, listed or referenced, and neither is SPARC nor any cluster catalogue. Nothing here touches observational data, so there is no blind-protection issue in this lane."
+  },
+  "probe_table": {
+   "measured": {
+    "galaxy_field": {
+     "median_tidal": 9.890599440385874e-32,
+     "median_absPhi": 12450864473.583706,
+     "median_gn_over_a0": 0.18523705818670833,
+     "median_qbar": 0.04764232020381299,
+     "n_points": 60,
+     "r_kpc": [
+      10.0,
+      13.161,
+      17.321,
+      22.795,
+      30.0
+     ]
+    },
+    "cluster_shell": {
+     "median_tidal": 8.006549063025579e-34,
+     "median_absPhi": 903792718526.6484,
+     "median_gn_over_a0": 0.12560126599894073,
+     "median_qbar": 0.7330259264847079,
+     "n_points": 60,
+     "r_kpc": [
+      300.0,
+      442.032,
+      651.306,
+      959.66,
+      1414.0
+     ]
+    },
+    "galaxy_member": {
+     "median_tidal": 9.880259182031858e-32,
+     "median_absPhi": 889027856647.7964,
+     "median_gn_over_a0": 0.2278382923886373,
+     "median_qbar": 0.723458025475282,
+     "n_points": 60,
+     "r_kpc": [
+      10.0,
+      13.161,
+      17.321,
+      22.795,
+      30.0
+     ]
+    },
+    "solar": {
+     "median_tidal": 9.711871025357048e-14,
+     "median_absPhi": 887315575.9428866,
+     "median_gn_over_a0": 49427818.93613358,
+     "median_qbar": 1.0005131730330812e-12,
+     "n_points": 6,
+     "r_kpc": [
+      0.0
+     ]
+    }
+   },
+   "recorded": {
+    "cluster_shell": {
+     "tidal": 3.66e-34,
+     "absPhi": [
+      590000000000.0,
+      1060000000000.0
+     ]
+    },
+    "galaxy_field": {
+     "tidal": 6.87e-32,
+     "absPhi": 11300000000.0
+    },
+    "galaxy_member": {
+     "tidal": 5.54e-31,
+     "absPhi": 1090000000000.0
+    }
+   },
+   "member_over_shell_tidal": 123.40221866195904,
+   "member_over_shell_absPhi": 0.9836634423179227,
+   "recorded_member_over_shell_tidal": 151.0
+  },
+  "shared_denominator_guard": {
+   "note": "the GATE 1 null residual is zero to round-off on every probe, so the statistic has no shared-denominator floor"
+  },
+  "throughput_structural_first": {
+   "n_settings": 3123,
+   "n_gate3_families": 8,
+   "n_gate4_structural_families": 253,
+   "structural_pass_seconds": 3.1764883000869304,
+   "structural_pass_per_s": 983.1611846058219,
+   "family_verdict_lookup_per_s": 849160544.4485137,
+   "family_verdict_lookup_tuple_key_per_s": 6815763.772378845,
+   "settings_surviving_structural_gates": 139,
+   "gate1_per_s": 74.33822255798765,
+   "gate1_seconds_on_the_residue": 1.8698321700061207,
+   "stage1_screen_per_s": 2050000.0
+  },
+  "throughput": {
+   "family_classify_per_s": 39439058.32714067,
+   "full_per_s": 98.44367925456024,
+   "per_family_s": 0.07769539998844266,
+   "cache_hits": 0,
+   "n_distinct_families": 4,
+   "n_settings": 160,
+   "stage1_screen_per_s": 2050000.0
+  }
+ },
+ "retrospective": {
+  "source": "C:\\Users\\henry\\Documents\\Codex\\2026-08-21\\Invariant-main-integration\\work\\wellnet-2026-09\\tournament\\tournament.json",
+  "source_generated_utc": "2026-09-04T13:07:34Z",
+  "n_candidates": 3123,
+  "wall_seconds_cold": 46.67411379981786,
+  "throughput": {
+   "family_classify_per_s": 15743041.344021384,
+   "full_per_s": 72.02095060633796,
+   "per_family_s": 0.10398660018108785,
+   "cache_hits": 1996800,
+   "n_distinct_families": 8,
+   "n_settings": 3123,
+   "stage1_screen_per_s": 2050000.0
+  },
+  "per_gate_failures": {
+   "gate1_constant_K": 149,
+   "gate2_potential_gauge": 0,
+   "gate3_coarse_graining": 1560,
+   "gate4_reciprocity_action": 2984
+  },
+  "unique_kills": {
+   "gate1_constant_K": 52,
+   "gate2_potential_gauge": 0,
+   "gate3_coarse_graining": 0,
+   "gate4_reciprocity_action": 1335
+  },
+  "rejected_total": 3036,
+  "rejected_without_gate4": 1701,
+  "flagged_convention_dependent": 624,
+  "admitted_total": 87,
+  "admitted_names": [
+   "BASE_aqual",
+   "BASE_rar",
+   "aqual|scalar_a0|gn|pow|m-1|I0.1",
+   "aqual|scalar_a0|gn|sat|m2|I0.1",
+   "aqual|scalar_a0|gn|sat|m4|I0.1",
+   "aqual|scalar_a0|gn|pow|m-2|I0.1",
+   "aqual|scalar_a0|gn|pow|m2|I0.1",
+   "rar|tensor_d|gn|pow|m0.5|I10",
+   "rar|tensor_d|gn|sat|m1|I10",
+   "rar|tensor_d|gn|log|m1|I10",
+   "rar|tensor_d|gn|pow|m1|I10",
+   "rar|tensor_d|gn|sat|m2|I10",
+   "rar|tensor_d|gn|sat|m4|I10",
+   "rar|tensor_d|gn|log|m2|I10",
+   "rar|tensor_d|gn|pow|m2|I10",
+   "rar|scalar_a0|gn|inv|m2|I0.1",
+   "rar|scalar_a0|gn|inv|m1|I0.1",
+   "rar|scalar_a0|gn|pow|m-1|I1",
+   "rar|scalar_a0|gn|pow|m-1|I0.1",
+   "rar|scalar_a0|gn|inv|m4|I0.1",
+   "rar|scalar_a0|gn|sat|m2|I0.1",
+   "rar|scalar_a0|gn|sat|m4|I0.1",
+   "rar|scalar_a0|gn|pow|m-2|I0.1",
+   "rar|scalar_a0|gn|pow|m-2|I10",
+   "rar|scalar_a0|rhobar|pow|m2|I1e-25",
+   "rar|scalar_a0|rhobar|pow|m-2|I1e-23",
+   "rar|scalar_a0|tidal|pow|m-2|I1e-32",
+   "rar|scalar_a0|tidal|pow|m-1|I1e-31",
+   "rar|scalar_a0|tidal|pow|m-2|I1e-31",
+   "BASE_newton",
+   "rar|scalar_a0|gn|pow|m-1|I10",
+   "rar|scalar_a0|gn|pow|m-2|I1",
+   "rar|scalar_a0|gn|sat|m2|I1",
+   "rar|scalar_a0|gn|log|m2|I1",
+   "rar|scalar_a0|gn|sat|m4|I1",
+   "rar|scalar_a0|gn|pow|m2|I0.1",
+   "rar|scalar_a0|gn|pow|m2|I1",
+   "rar|iso_K|gn|inv|m2|I1",
+   "rar|iso_K|gn|inv|m1|I1",
+   "rar|iso_K|gn|inv|m4|I1",
+   "rar|iso_K|gn|inv|m1|I10",
+   "rar|iso_K|gn|sat|m1|I10",
+   "rar|iso_K|gn|log|m1|I10",
+   "rar|iso_K|gn|sat|m2|I10",
+   "rar|iso_K|gn|pow|m1|I10",
+   "rar|iso_K|gn|log|m2|I10",
+   "rar|iso_K|gn|pow|m2|I10",
+   "rar|iso_K|gn|pow|m-2|I10",
+   "aqual|scalar_a0|gn|inv|m2|I0.1",
+   "aqual|scalar_a0|gn|inv|m1|I0.1",
+   "aqual|scalar_a0|gn|pow|m-1|I1",
+   "aqual|scalar_a0|gn|inv|m4|I0.1",
+   "aqual|scalar_a0|gn|pow|m-2|I10",
+   "aqual|scalar_a0|rhobar|pow|m2|I1e-25",
+   "aqual|scalar_a0|rhobar|pow|m-2|I1e-23",
+   "aqual|scalar_a0|tidal|pow|m-2|I1e-32",
+   "aqual|scalar_a0|tidal|pow|m-1|I1e-31",
+   "aqual|scalar_a0|tidal|pow|m-2|I1e-31",
+   "aqual|scalar_a0|gn|pow|m-1|I10",
+   "aqual|scalar_a0|gn|pow|m-2|I1",
+   "aqual|scalar_a0|gn|sat|m2|I1",
+   "aqual|scalar_a0|gn|log|m2|I1",
+   "aqual|scalar_a0|gn|sat|m4|I1",
+   "aqual|scalar_a0|gn|pow|m2|I1",
+   "aqual|tensor_d|gn|inv|m4|I0.1",
+   "aqual|tensor_d|gn|inv|m2|I0.1",
+   "aqual|tensor_d|gn|inv|m1|I1",
+   "aqual|tensor_d|gn|pow|m0.5|I10",
+   "aqual|iso_K|gn|inv|m2|I1",
+   "aqual|iso_K|gn|inv|m1|I1",
+   "aqual|iso_K|gn|inv|m4|I1",
+   "aqual|tensor_d|gn|sat|m1|I10",
+   "aqual|iso_K|gn|inv|m1|I10",
+   "aqual|iso_K|gn|sat|m1|I10",
+   "aqual|tensor_d|gn|log|m1|I10",
+   "aqual|iso_K|gn|pow|m0.5|I10",
+   "aqual|iso_K|gn|log|m1|I10",
+   "aqual|tensor_d|gn|pow|m1|I10",
+   "aqual|iso_K|gn|sat|m2|I10",
+   "aqual|iso_K|gn|pow|m1|I10",
+   "aqual|iso_K|gn|log|m2|I10",
+   "aqual|tensor_d|gn|sat|m2|I10",
+   "aqual|tensor_d|gn|sat|m4|I10",
+   "aqual|iso_K|gn|pow|m2|I10",
+   "aqual|tensor_d|gn|log|m2|I10",
+   "aqual|tensor_d|gn|pow|m2|I10",
+   "aqual|iso_K|gn|pow|m-2|I10"
+  ],
+  "admitted_base_laws": [
+   "BASE_aqual",
+   "BASE_rar",
+   "BASE_newton"
+  ],
+  "admitted_amplitude_fitted_to_zero": [
+   "rar|scalar_a0|gn|pow|m-2|I10",
+   "rar|scalar_a0|rhobar|pow|m2|I1e-25",
+   "rar|scalar_a0|rhobar|pow|m-2|I1e-23",
+   "rar|scalar_a0|tidal|pow|m-2|I1e-32",
+   "rar|scalar_a0|tidal|pow|m-1|I1e-31",
+   "rar|scalar_a0|tidal|pow|m-2|I1e-31",
+   "aqual|scalar_a0|gn|pow|m-2|I10",
+   "aqual|scalar_a0|rhobar|pow|m2|I1e-25",
+   "aqual|scalar_a0|rhobar|pow|m-2|I1e-23",
+   "aqual|scalar_a0|tidal|pow|m-2|I1e-32",
+   "aqual|scalar_a0|tidal|pow|m-1|I1e-31",
+   "aqual|scalar_a0|tidal|pow|m-2|I1e-31"
+  ],
+  "admitted_with_a_live_response": [
+   {
+    "name": "aqual|scalar_a0|gn|pow|m-1|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -1.0,
+    "A": 11.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|sat|m2|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "sat",
+    "m": 2.0,
+    "A": 20.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|sat|m4|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "sat",
+    "m": 4.0,
+    "A": 20.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|pow|m-2|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -2.0,
+    "A": 11.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H4_radial"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|pow|m2|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": 2.0,
+    "A": 7.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "rar|tensor_d|gn|pow|m0.5|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "pow",
+    "m": 0.5,
+    "A": -71.12974996187133,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|tensor_d|gn|sat|m1|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "sat",
+    "m": 1.0,
+    "A": -207.6997134828475,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|tensor_d|gn|log|m1|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "log",
+    "m": 1.0,
+    "A": -223.08046365219533,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|tensor_d|gn|pow|m1|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "pow",
+    "m": 1.0,
+    "A": -239.6002017951182,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|tensor_d|gn|sat|m2|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "sat",
+    "m": 2.0,
+    "A": -1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|tensor_d|gn|sat|m4|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "sat",
+    "m": 4.0,
+    "A": -1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|tensor_d|gn|log|m2|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "log",
+    "m": 2.0,
+    "A": -1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|tensor_d|gn|pow|m2|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "pow",
+    "m": 2.0,
+    "A": -1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|inv|m2|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "inv",
+    "m": 2.0,
+    "A": 24.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|inv|m1|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "inv",
+    "m": 1.0,
+    "A": 22.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|pow|m-1|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -1.0,
+    "A": 1.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|pow|m-1|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -1.0,
+    "A": 11.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|inv|m4|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "inv",
+    "m": 4.0,
+    "A": 25.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H4_radial",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|sat|m2|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "sat",
+    "m": 2.0,
+    "A": 19.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|sat|m4|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "sat",
+    "m": 4.0,
+    "A": 20.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|pow|m-2|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -2.0,
+    "A": 11.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H4_radial"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|pow|m-1|I10",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -1.0,
+    "A": 0.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|pow|m-2|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -2.0,
+    "A": 0.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|sat|m2|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "sat",
+    "m": 2.0,
+    "A": 751.4454097795387,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|log|m2|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "log",
+    "m": 2.0,
+    "A": 751.4454097795387,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|sat|m4|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "sat",
+    "m": 4.0,
+    "A": 1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|pow|m2|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": 2.0,
+    "A": 7.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "rar|scalar_a0|gn|pow|m2|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": 2.0,
+    "A": 751.4454097795387,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|inv|m2|I1",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "inv",
+    "m": 2.0,
+    "A": 27.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape",
+     "H7_asymptotic"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|inv|m1|I1",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "inv",
+    "m": 1.0,
+    "A": 29.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape",
+     "H7_asymptotic"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|inv|m4|I1",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "inv",
+    "m": 4.0,
+    "A": 26.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape",
+     "H7_asymptotic"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|inv|m1|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "inv",
+    "m": 1.0,
+    "A": 27.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape",
+     "H7_asymptotic"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|sat|m1|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "sat",
+    "m": 1.0,
+    "A": 156.07499630921114,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|log|m1|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "log",
+    "m": 1.0,
+    "A": 156.07499630921114,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|sat|m2|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "sat",
+    "m": 2.0,
+    "A": 395.06328139832374,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|pow|m1|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "pow",
+    "m": 1.0,
+    "A": 156.07499630921114,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|log|m2|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "log",
+    "m": 2.0,
+    "A": 395.06328139832374,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|pow|m2|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "pow",
+    "m": 2.0,
+    "A": 395.06328139832374,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "rar|iso_K|gn|pow|m-2|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "pow",
+    "m": -2.0,
+    "A": 135.29509479703654,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H7_asymptotic"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|inv|m2|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "inv",
+    "m": 2.0,
+    "A": 24.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|inv|m1|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "inv",
+    "m": 1.0,
+    "A": 23.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|pow|m-1|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -1.0,
+    "A": 1.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|inv|m4|I0.1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "inv",
+    "m": 4.0,
+    "A": 26.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H4_radial",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|pow|m-1|I10",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -1.0,
+    "A": 0.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|pow|m-2|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": -2.0,
+    "A": 0.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|sat|m2|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "sat",
+    "m": 2.0,
+    "A": 807.0920638837437,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|log|m2|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "log",
+    "m": 2.0,
+    "A": 751.4454097795387,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|sat|m4|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "sat",
+    "m": 4.0,
+    "A": 1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "aqual|scalar_a0|gn|pow|m2|I1",
+    "struct": "scalar_a0",
+    "inv": "gn",
+    "form": "pow",
+    "m": 2.0,
+    "A": 751.4454097795387,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|inv|m4|I0.1",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "inv",
+    "m": 4.0,
+    "A": -25.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H4_radial"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|inv|m2|I0.1",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "inv",
+    "m": 2.0,
+    "A": -28.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|inv|m1|I1",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "inv",
+    "m": 1.0,
+    "A": -21.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|pow|m0.5|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "pow",
+    "m": 0.5,
+    "A": -53.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|inv|m2|I1",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "inv",
+    "m": 2.0,
+    "A": 20.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|inv|m1|I1",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "inv",
+    "m": 1.0,
+    "A": 21.5,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|inv|m4|I1",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "inv",
+    "m": 4.0,
+    "A": 20.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|sat|m1|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "sat",
+    "m": 1.0,
+    "A": -156.07499630921114,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|inv|m1|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "inv",
+    "m": 1.0,
+    "A": 20.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|sat|m1|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "sat",
+    "m": 1.0,
+    "A": 145.31407853715294,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|log|m1|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "log",
+    "m": 1.0,
+    "A": -167.6327904229336,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|pow|m0.5|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "pow",
+    "m": 0.5,
+    "A": 71.1297499618713,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|log|m1|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "log",
+    "m": 1.0,
+    "A": 145.31407853715294,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|pow|m1|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "pow",
+    "m": 1.0,
+    "A": -180.04647182119297,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|sat|m2|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "sat",
+    "m": 2.0,
+    "A": 367.8248153632875,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|pow|m1|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "pow",
+    "m": 1.0,
+    "A": 145.31407853715294,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|log|m2|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "log",
+    "m": 2.0,
+    "A": 367.8248153632875,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|sat|m2|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "sat",
+    "m": 2.0,
+    "A": -1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|sat|m4|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "sat",
+    "m": 4.0,
+    "A": -1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|pow|m2|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "pow",
+    "m": 2.0,
+    "A": 342.4643624640602,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|log|m2|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "log",
+    "m": 2.0,
+    "A": -1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|tensor_d|gn|pow|m2|I10",
+    "struct": "tensor_d",
+    "inv": "gn",
+    "form": "pow",
+    "m": 2.0,
+    "A": -1000.0,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H1_cluster_reach",
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H6_vert_shape"
+    ]
+   },
+   {
+    "name": "aqual|iso_K|gn|pow|m-2|I10",
+    "struct": "iso_K",
+    "inv": "gn",
+    "form": "pow",
+    "m": -2.0,
+    "A": 101.66687795092078,
+    "tournament_survives": false,
+    "tournament_failed": [
+     "H2_field_galaxy",
+     "H3_member_galaxy",
+     "H4_radial",
+     "H5_vert_amplitude",
+     "H7_asymptotic"
+    ]
+   }
+  ],
+  "n_admitted_with_a_live_response": 72,
+  "crosstab_compiler_vs_tournament": {
+   "REJECT|tournament_survivor=False": 3018,
+   "ADMIT|tournament_survivor=False": 87,
+   "REJECT|tournament_survivor=True": 18
+  },
+  "by_structure": {
+   "tensor_d": {
+    "gate4_reciprocity_action": 371,
+    "n": 390
+   },
+   "scalar_a0": {
+    "gate4_reciprocity_action": 302,
+    "n": 393,
+    "gate1_constant_K": 132
+   },
+   "tensor_S": {
+    "gate3_coarse_graining": 1560,
+    "gate4_reciprocity_action": 1560,
+    "n": 1560,
+    "gate1_constant_K": 8
+   },
+   "iso_K": {
+    "gate4_reciprocity_action": 361,
+    "n": 390,
+    "gate1_constant_K": 9
+   },
+   "tensor_T": {
+    "gate4_reciprocity_action": 390,
+    "n": 390
+   }
+  },
+  "by_invariant": {
+   "phi": {
+    "gate4_reciprocity_action": 624,
+    "n": 624,
+    "gate1_constant_K": 51,
+    "gate3_coarse_graining": 312
+   },
+   "qbar": {
+    "gate4_reciprocity_action": 624,
+    "n": 624,
+    "gate3_coarse_graining": 312,
+    "gate1_constant_K": 28
+   },
+   "tidal": {
+    "gate4_reciprocity_action": 618,
+    "n": 624,
+    "gate1_constant_K": 4,
+    "gate3_coarse_graining": 312
+   },
+   "rhobar": {
+    "gate4_reciprocity_action": 620,
+    "n": 624,
+    "gate3_coarse_graining": 312,
+    "gate1_constant_K": 6
+   },
+   "one": {
+    "n": 3
+   },
+   "gn": {
+    "n": 624,
+    "gate1_constant_K": 60,
+    "gate4_reciprocity_action": 498,
+    "gate3_coarse_graining": 312
+   }
+  },
+  "tournament_survivors": [
+   {
+    "name": "rar|tensor_S[plaw_p0q1s2_L300]|phi|pow|m1|I3e+12",
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [
+     "CONVENTION-DEPENDENT (potential gauge)"
+    ],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.3508 dex, joint (one global stretch, per-object mass) 0.2100 dex, axis provenance 'catalogue' misaligned by up to 0.0 deg",
+    "gate2": "CONVENTION-DEPENDENT. |Phi_N| is defined only up to a constant. Across 6 defensible operational rules the median galaxy depth spans 1.03 dex (Run AH measured 0.87 dex between its two global rules, against an off/on margin of 0.90 dex), and this candidate's own response spans 1.03 dex. The on/off verdict is stable across the rules tested, but the response amplitude is not, so every headline number must be quoted with the rule attached.",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 0: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope 0.9999 against the predicted 1.0000. Only p = 1 is admissible; p = 0 makes the field near an UNTOUCHED object depend on how finely a DIFFERENT object happens to be tabulated, with no limit. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 1000 mass cells moves the response by 0.9801 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 6.74e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.20995370997922513,
+    "gate4_asymmetry": 0.09229615397605871
+   },
+   {
+    "name": "rar|tensor_S[plaw_p0q1s2_L300]|phi|log|m1|I3e+12",
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [
+     "CONVENTION-DEPENDENT (potential gauge)"
+    ],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.3113 dex, joint (one global stretch, per-object mass) 0.1869 dex, axis provenance 'catalogue' misaligned by up to 0.0 deg",
+    "gate2": "CONVENTION-DEPENDENT. |Phi_N| is defined only up to a constant. Across 6 defensible operational rules the median galaxy depth spans 1.03 dex (Run AH measured 0.87 dex between its two global rules, against an off/on margin of 0.90 dex), and this candidate's own response spans 1.03 dex. The on/off verdict is stable across the rules tested, but the response amplitude is not, so every headline number must be quoted with the rule attached.",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 0: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope 0.9999 against the predicted 1.0000. Only p = 1 is admissible; p = 0 makes the field near an UNTOUCHED object depend on how finely a DIFFERENT object happens to be tabulated, with no limit. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 1000 mass cells moves the response by 0.9801 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 6.74e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.1869093073866402,
+    "gate4_asymmetry": 0.08926585804773096
+   },
+   {
+    "name": "rar|scalar_a0|tidal|inv|m2|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.0893 dex, joint (one global stretch, per-object mass) 0.0549 dex, axis provenance 'none' misaligned by up to 0.0 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'scalar_a0'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'none' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 1.309e-02 (worst pair 4.680e-03), confirming it.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.05491887940269768,
+    "gate4_asymmetry": 0.01309169665498291
+   },
+   {
+    "name": "rar|scalar_a0|tidal|inv|m4|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.1360 dex, joint (one global stretch, per-object mass) 0.0811 dex, axis provenance 'none' misaligned by up to 0.0 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'scalar_a0'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'none' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 1.009e-02 (worst pair 5.658e-03), confirming it.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.08111562410139614,
+    "gate4_asymmetry": 0.010087695687950662
+   },
+   {
+    "name": "rar|scalar_a0|tidal|pow|m-2|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.1297 dex, joint (one global stretch, per-object mass) 0.0781 dex, axis provenance 'none' misaligned by up to 0.0 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'scalar_a0'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'none' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 6.496e-02 (worst pair 1.333e-01), confirming it.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.07814425753228034,
+    "gate4_asymmetry": 0.06496481698668939
+   },
+   {
+    "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12",
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [
+     "CONVENTION-DEPENDENT (potential gauge)"
+    ],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.1893 dex, joint (one global stretch, per-object mass) 0.1229 dex, axis provenance 'catalogue' misaligned by up to 0.0 deg",
+    "gate2": "CONVENTION-DEPENDENT. |Phi_N| is defined only up to a constant. Across 6 defensible operational rules the median galaxy depth spans 1.03 dex (Run AH measured 0.87 dex between its two global rules, against an off/on margin of 0.90 dex), and this candidate's own response spans 2.07 dex. THE ON/OFF VERDICT ITSELF CHANGES across defensible rules: this candidate's galaxy screens are decided by the boundary convention, not by the law.",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 0: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope 0.9999 against the predicted 1.0000. Only p = 1 is admissible; p = 0 makes the field near an UNTOUCHED object depend on how finely a DIFFERENT object happens to be tabulated, with no limit. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 1000 mass cells moves the response by 0.9801 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 6.74e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.12286647952313545,
+    "gate4_asymmetry": 0.03246122440887833
+   },
+   {
+    "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|log|m2|I3e+12",
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [
+     "CONVENTION-DEPENDENT (potential gauge)"
+    ],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.2002 dex, joint (one global stretch, per-object mass) 0.1292 dex, axis provenance 'catalogue' misaligned by up to 0.0 deg",
+    "gate2": "CONVENTION-DEPENDENT. |Phi_N| is defined only up to a constant. Across 6 defensible operational rules the median galaxy depth spans 1.03 dex (Run AH measured 0.87 dex between its two global rules, against an off/on margin of 0.90 dex), and this candidate's own response spans 2.07 dex. THE ON/OFF VERDICT ITSELF CHANGES across defensible rules: this candidate's galaxy screens are decided by the boundary convention, not by the law.",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 0: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope 0.9999 against the predicted 1.0000. Only p = 1 is admissible; p = 0 makes the field near an UNTOUCHED object depend on how finely a DIFFERENT object happens to be tabulated, with no limit. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 1000 mass cells moves the response by 0.9801 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 6.74e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.12920017094655112,
+    "gate4_asymmetry": 0.034607375465568774
+   },
+   {
+    "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I3e+12",
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [
+     "CONVENTION-DEPENDENT (potential gauge)"
+    ],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.1966 dex, joint (one global stretch, per-object mass) 0.1265 dex, axis provenance 'catalogue' misaligned by up to 0.0 deg",
+    "gate2": "CONVENTION-DEPENDENT. |Phi_N| is defined only up to a constant. Across 6 defensible operational rules the median galaxy depth spans 1.03 dex (Run AH measured 0.87 dex between its two global rules, against an off/on margin of 0.90 dex), and this candidate's own response spans 2.07 dex. THE ON/OFF VERDICT ITSELF CHANGES across defensible rules: this candidate's galaxy screens are decided by the boundary convention, not by the law.",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 0: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope 0.9999 against the predicted 1.0000. Only p = 1 is admissible; p = 0 makes the field near an UNTOUCHED object depend on how finely a DIFFERENT object happens to be tabulated, with no limit. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 1000 mass cells moves the response by 0.9801 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 6.74e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.12649796855957124,
+    "gate4_asymmetry": 0.03449401946897963
+   },
+   {
+    "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|sat|m2|I1e+12",
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [
+     "CONVENTION-DEPENDENT (potential gauge)"
+    ],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.3490 dex, joint (one global stretch, per-object mass) 0.2138 dex, axis provenance 'catalogue' misaligned by up to 0.0 deg",
+    "gate2": "CONVENTION-DEPENDENT. |Phi_N| is defined only up to a constant. Across 6 defensible operational rules the median galaxy depth spans 1.03 dex (Run AH measured 0.87 dex between its two global rules, against an off/on margin of 0.90 dex), and this candidate's own response spans 2.07 dex. THE ON/OFF VERDICT ITSELF CHANGES across defensible rules: this candidate's galaxy screens are decided by the boundary convention, not by the law.",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 0: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope 0.9999 against the predicted 1.0000. Only p = 1 is admissible; p = 0 makes the field near an UNTOUCHED object depend on how finely a DIFFERENT object happens to be tabulated, with no limit. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 1000 mass cells moves the response by 0.9801 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 6.74e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.21384737668648102,
+    "gate4_asymmetry": 0.0673924281048818
+   },
+   {
+    "name": "aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m1|I3e+12",
+    "verdict": "REJECT",
+    "failed": [
+     "gate3_coarse_graining",
+     "gate4_reciprocity_action"
+    ],
+    "flags": [
+     "CONVENTION-DEPENDENT (potential gauge)"
+    ],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.2701 dex, joint (one global stretch, per-object mass) 0.1662 dex, axis provenance 'catalogue' misaligned by up to 0.0 deg",
+    "gate2": "CONVENTION-DEPENDENT. |Phi_N| is defined only up to a constant. Across 6 defensible operational rules the median galaxy depth spans 1.03 dex (Run AH measured 0.87 dex between its two global rules, against an off/on margin of 0.90 dex), and this candidate's own response spans 1.03 dex. The on/off verdict is stable across the rules tested, but the response amplitude is not, so every headline number must be quoted with the rule attached.",
+    "gate3": "the response is built from a ROW LIST, so a cataloguer's choices enter the field equation. Mass exponent p = 0: under SELECTIVE refinement the weight of a refined object against an untouched one moves as N^(1-p), measured slope 0.9999 against the predicted 1.0000. Only p = 1 is admissible; p = 0 makes the field near an UNTOUCHED object depend on how finely a DIFFERENT object happens to be tabulated, with no limit. Re-tabulating ONE fixed continuous galaxy as 1 row, 10 subcomponents and up to 1000 mass cells moves the response by 0.9801 at catalogue resolution (1-10 rows) against a tolerance of 0.001 and 6.74e-03 at the finest partition. A real coherence scale must be universal and appear in the field equation; it cannot be set by the cataloguer.",
+    "gate4": "the response is a functional of a CATALOGUE ROW LIST, not of rho, so delta g(x)/delta rho(y) is not even defined without the cataloguer's partition: no action over rho can produce this law. No momentum carrier is declared. (The pair kernel itself is reciprocal where one exists -- reciprocity is not the third law.)",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.16616962078582725,
+    "gate4_asymmetry": 0.07308561845280279
+   },
+   {
+    "name": "aqual|scalar_a0|tidal|inv|m2|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.0890 dex, joint (one global stretch, per-object mass) 0.0551 dex, axis provenance 'none' misaligned by up to 0.0 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'scalar_a0'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'none' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 1.298e-02 (worst pair 4.653e-03), confirming it.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.055067289282847744,
+    "gate4_asymmetry": 0.012982787280928262
+   },
+   {
+    "name": "aqual|scalar_a0|tidal|inv|m4|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.1354 dex, joint (one global stretch, per-object mass) 0.0810 dex, axis provenance 'none' misaligned by up to 0.0 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'scalar_a0'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'none' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 9.866e-03 (worst pair 5.465e-03), confirming it.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.08100142501278111,
+    "gate4_asymmetry": 0.009865642760416371
+   },
+   {
+    "name": "aqual|tensor_d|tidal|inv|m2|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, b_independent_axis, c_probe_disagreement; max single-probe stretch residual 1.4128 dex, joint (one global stretch, per-object mass) 0.8162 dex, axis provenance 'source' misaligned by up to 24.2 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'tensor_d'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'grad Phi_N direction' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 1.553e-01 (worst pair 2.312e-01), confirming it.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "b_independent_axis",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.816199096527384,
+    "gate4_asymmetry": 0.1552856528857281
+   },
+   {
+    "name": "aqual|tensor_T|tidal|inv|m2|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, b_independent_axis, c_probe_disagreement; max single-probe stretch residual 2.2075 dex, joint (one global stretch, per-object mass) 1.2747 dex, axis provenance 'external' misaligned by up to 90.0 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'tensor_T'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'Hessian of Phi_N' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 9.635e-03 (worst pair 4.220e-03), confirming it.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "b_independent_axis",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 1.2747131269752041,
+    "gate4_asymmetry": 0.00963470503644313
+   },
+   {
+    "name": "aqual|scalar_a0|tidal|pow|m-2|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.1290 dex, joint (one global stretch, per-object mass) 0.0780 dex, axis provenance 'none' misaligned by up to 0.0 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'scalar_a0'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'none' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 6.498e-02 (worst pair 1.333e-01), confirming it.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.07804210155710313,
+    "gate4_asymmetry": 0.06498147201052733
+   },
+   {
+    "name": "aqual|tensor_d|tidal|inv|m4|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, b_independent_axis, c_probe_disagreement; max single-probe stretch residual 1.7272 dex, joint (one global stretch, per-object mass) 0.9976 dex, axis provenance 'source' misaligned by up to 24.2 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'tensor_d'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the response reads 'grad Phi_N direction' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so no action produces this law as written and momentum is not conserved. No momentum carrier is declared. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 1.433e-02 (worst pair 2.645e-02), confirming it.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "b_independent_axis",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 0.9975889756496699,
+    "gate4_asymmetry": 0.014333264487031294
+   },
+   {
+    "name": "aqual|iso_K|tidal|inv|m2|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 2.2876 dex, joint (one global stretch, per-object mass) 1.3351 dex, axis provenance 'none' misaligned by up to 0.0 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'iso_K'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the field equation has NO BOUNDED SOLUTION at this setting: the response drives the condition number of K to 1.825e+08 against a ceiling of 1e+08. An action cannot be tested for a law with no solution, and a Jacobian that comes out symmetric here would be a numerical underflow, not a symmetry. The tournament records the same outcome for its own extreme amplitudes.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 1.335093894431229,
+    "gate4_asymmetry": 2.6001468586469293e-06
+   },
+   {
+    "name": "aqual|iso_K|tidal|inv|m4|I1e-33",
+    "verdict": "REJECT",
+    "failed": [
+     "gate4_reciprocity_action"
+    ],
+    "flags": [],
+    "gate1": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 2.6933 dex, joint (one global stretch, per-object mass) 1.5552 dex, axis provenance 'none' misaligned by up to 0.0 deg",
+    "gate2": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant",
+    "gate3": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'iso_K'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small",
+    "gate4": "the field equation has NO BOUNDED SOLUTION at this setting: the response drives the condition number of K to 1.635e+08 against a ceiling of 1e+08. An action cannot be tested for a law with no solution, and a Jacobian that comes out symmetric here would be a numerical underflow, not a symmetry. The tournament records the same outcome for its own extreme amplitudes.",
+    "gate1_escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "gate1_joint_resid_dex": 1.555240209690404,
+    "gate4_asymmetry": 1.0725516181927237e-07
+   }
+  ],
+  "n_tournament_survivors": 18,
+  "n_survivors_rejected": 18,
+  "n_survivors_flagged": 7,
+  "data_statement": "No observational data of any kind is opened by this module. Every number is produced from closed-form synthetic geometries defined in this file. KiDS and the wide binaries are never loaded, listed or referenced, and neither is SPARC nor any cluster catalogue. Nothing here touches observational data, so there is no blind-protection issue in this lane."
+ }
+}

@@ -1,0 +1,58 @@
+
+==============================================================================
+0.  DATA, VARIABLES AND THE DECLARED SPLIT
+==============================================================================
+   ingest table1: 542 rows x 19 cols   table2: 542 rows x 40 cols   identifier J/A+A/661/A7 echoed
+   ingest DECADE profiles: 5411 rows x 13 cols on disk -> 536 systems, 4228 rows with finite g_t
+   matched: 496 systems, 3365 (system, bin) shear points
+   GATE M_gas,500: n = 414, median mine/published = 0.9994, scatter 0.0469 dex  ->  PASS
+   built 496 systems x 420 radii
+   x1   standardised: mean   -1.5112, sd  0.7542   (residualised sd  0.1624)   clipped 26356/208320 (0 inside the fit range)
+   x2   standardised: mean   -4.1268, sd  0.6017   (residualised sd  0.5795)   clipped 13/208320 (13 inside the fit range)
+   x3   standardised: mean   -1.9580, sd  0.8467   (residualised sd  0.1440)   clipped 0/208320 (0 inside the fit range)
+   x4a  standardised: mean   -1.4096, sd  0.9242   (residualised sd  0.1509)   clipped 135/208320 (0 inside the fit range)
+   x4b  standardised: mean   +0.2813, sd  0.2608   (residualised sd  0.1141)   clipped 0/208320 (0 inside the fit range)
+   x4d  standardised: mean   -4.7567, sd  1.1038   (residualised sd  1.0789)   clipped 0/208320 (0 inside the fit range)
+   xr   standardised: mean   -0.0017, sd  0.4035   (residualised sd  0.4035)   clipped 0/208320 (0 inside the fit range)
+   xgb  standardised: mean   -2.2228, sd  0.7677   (residualised sd  0.7677)   clipped 714/208320 (0 inside the fit range)
+   declared split: 248 train systems (1709 points), 248 held out (1656 points)
+
+==============================================================================
+1.  LINEARISATION AND AMPLITUDE-PROFILE CHECKS
+==============================================================================
+   global amplitude (within-class)  10^A = 0.9294  -> A = -0.0318 dex
+   per-system amplitudes: median 0.909, 30.4% negative (expected: the per-object S/N is far below 1)
+   chi2  B0 (per-system amp) 3060.65 on 3365 points, C0 (global amp) 3589.34
+   exact nonlinear global amplitude 10^A = 0.9441 (linear closed form 0.9294); kappa << 1 so the two agree
+   max convergence kappa anywhere in the sample: 0.0396
+
+==============================================================================
+2.  THE FOUR VARIABLES, WITHIN-OBJECT AND WITHIN-CLASS, on TRAIN
+==============================================================================
+   beta is in dex of log g per ONE STANDARD DEVIATION of the variable.
+   'lev' is the fraction of the variable's Fisher information that survives
+   the amplitude projection: 0 means beta is not identified at all.
+
+   x1   raw   WO beta +0.2541 +- 0.1127 lev 1.38e-01 dchi2   2.94  |  WC beta +0.0296 +- 0.0508 lev 6.80e-01 dchi2   0.25   [3s]
+   x1   perp  WO beta +0.0233 +- 0.0669 lev 2.33e-01 dchi2   0.07  |  WC beta +0.0424 +- 0.0365 lev 7.81e-01 dchi2   0.66   [3s]
+   x2   raw   WO beta -0.1730 +- 0.0334 lev 1.77e-01 dchi2  11.72  |  WC beta +0.0371 +- 0.0147 lev 9.13e-01 dchi2   5.68   [3s]
+   x2   perp  WO beta -2.0000 +- 0.0333 lev 1.86e-01 dchi2  16.45  |  WC beta +0.0392 +- 0.0148 lev 9.41e-01 dchi2   6.54   [2s]
+   x3   raw   WO beta +0.1066 +- 0.0679 lev 4.95e-01 dchi2   3.81  |  WC beta +0.1326 +- 0.0493 lev 9.37e-01 dchi2   5.36   [3s]
+   x3   perp  WO beta -0.3686 +- 0.0415 lev 3.11e-01 dchi2   8.26  |  WC beta +0.0562 +- 0.0244 lev 8.99e-01 dchi2   4.83   [3s]
+   x4a  raw   WO beta +0.1228 +- 0.0589 lev 7.37e-01 dchi2   4.54  |  WC beta +0.1926 +- 0.0510 lev 9.85e-01 dchi2  11.86   [2s]
+   x4a  perp  WO beta +0.0502 +- 0.0000 lev 8.57e-01 dchi2   7.04  |  WC beta +0.0000 +- 0.0000 lev 9.98e-01 dchi2   0.00   [3s]
+   x4b  raw   WO beta +0.0664 +- 0.0538 lev 6.26e-01 dchi2   1.48  |  WC beta +0.1201 +- 0.0440 lev 9.37e-01 dchi2   7.95   [2s]
+   x4b  perp  WO beta -0.0947 +- 0.0425 lev 3.57e-01 dchi2   3.62  |  WC beta +0.0150 +- 0.0264 lev 9.24e-01 dchi2   0.00   [3s]
+   x4d  raw   WO beta -2.0000 +- 0.0371 lev 1.68e-01 dchi2  10.53  |  WC beta +0.0383 +- 0.0160 lev 9.00e-01 dchi2   5.28   [3s]
+   x4d  perp  WO beta -1.9121 +- 0.0389 lev 1.70e-01 dchi2  13.27  |  WC beta +0.0425 +- 0.0167 lev 9.27e-01 dchi2   6.29   [3s]
+   xr   raw   WO beta -0.0994 +- 0.0527 lev 5.98e-01 dchi2   3.98  |  WC beta -0.2164 +- 0.0511 lev 6.37e-01 dchi2  20.13   [2s]
+   xr   perp  WO beta -0.0994 +- 0.0527 lev 5.98e-01 dchi2   3.98  |  WC beta -0.2164 +- 0.0511 lev 6.37e-01 dchi2  20.13   [2s]
+   xgb  raw   WO beta +0.0737 +- 0.0748 lev 4.57e-01 dchi2   1.77  |  WC beta +0.1085 +- 0.0548 lev 8.52e-01 dchi2   2.86   [2s]
+   xgb  perp  WO beta +0.0737 +- 0.0748 lev 4.57e-01 dchi2   1.77  |  WC beta +0.1085 +- 0.0548 lev 8.52e-01 dchi2   2.86   [2s]
+
+==============================================================================
+3.  EXACT vs LINEARISED, on the primary variables
+==============================================================================
+   x1   within_object   exact beta +0.1817 vs linearised +0.2541
+   x1   within_class    exact beta +0.0300 vs linearised +0.0296
+   x3   within_object   exact beta +0.1365 vs linearised +0.1066
