@@ -1,0 +1,225 @@
+grid 64^3, 300 members, 44850 pairs, shell cells [248, 704, 2864, 5696]
+|Phi_N|: field galaxy 20 kpc 1.134e+10   cluster 1 Mpc 7.219e+11   member galaxy 20 kpc 1.094e+12
+target B = 2.0 at 1 Mpc, band [1.6, 2.5], galaxy tolerance 0.04 dex
+
+WELL-NETWORK: reach and feasibility by gate
+--------------------------------------------------------------------------------------------
+gate            rows  reach B=2  field ok  +member ok  best field dex  best member dex
+gn_m1            240        196         1           1           0.004            0.001
+gn_m2            240        196         1           1           0.004            0.001
+none             240        196         2           1           0.004            0.002
+phi_1e11_m1      240        196        29           1           0.000            0.002
+phi_1e12_m1      240        196       166         156           0.000            0.000
+phi_1e12_m2      240        196       196         160           0.000            0.001
+phi_1e12_m4      240        196       196         112           0.000            0.005
+phi_3e12_m2      240        169       169         131           0.000            0.003
+
+WELL-NETWORK: reach and feasibility by weight family / self-exclusion
+--------------------------------------------------------------------------------------------
+family      excl  rows  reach  field ok  best field dex     max B
+expo           0   192    109        47           0.000     38.24
+expo           1   192    110        60           0.000     37.92
+gscreen        0   384    330       151           0.000     37.81
+gscreen        1   384    331       176           0.000     37.78
+plaw           0   384    330       150           0.000     37.79
+plaw           1   384    331       176           0.000     37.77
+
+WELL-NETWORK: the ten rows with the smallest field-galaxy violation
+--------------------------------------------------------------------------------------------
+fam        p   q    s     L ex gate             A_T   B(300,500,1000,1414)          fld dex mem dex  shape
+expo       0   1  0.5  3000  1 phi_1e12_m4   -14.94    1.623  1.992  2.000  1.647      0.000   0.025   1.02
+plaw       0   2  0.5   100  1 phi_1e12_m4   -16.23    1.884  2.210  2.000  1.658      0.000   0.046   0.88
+gscreen    0   2  0.5   100  1 phi_1e12_m4   -16.23    1.883  2.210  2.000  1.658      0.000   0.046   0.88
+plaw       0   2  0.5   300  1 phi_1e12_m4   -15.94    1.817  2.173  2.000  1.653      0.000   0.040   0.91
+gscreen    0   2  0.5   300  1 phi_1e12_m4   -15.94    1.817  2.173  2.000  1.653      0.000   0.040   0.91
+plaw       0   4  2.0  3000  1 phi_1e12_m4   -14.88    1.577  1.948  2.000  1.643      0.000   0.022   1.04
+gscreen    0   4  2.0  3000  1 phi_1e12_m4   -14.87    1.577  1.948  2.000  1.643      0.000   0.022   1.04
+gscreen    0   1  2.0  3000  1 phi_1e12_m4   -15.18    1.664  2.033  2.000  1.648      0.000   0.028   0.99
+plaw       0   1  2.0  3000  1 phi_1e12_m4   -15.18    1.665  2.033  2.000  1.648      0.000   0.028   0.99
+gscreen    0   4  0.5  3000  1 phi_1e12_m4   -14.52    1.563  1.932  2.000  1.645      0.000   0.021   1.05
+
+WELL-NETWORK: how much of the boost survives if the lumpiness is averaged away
+--------------------------------------------------------------------------------------------
+   B_cl is <exp(A_T g S_rr)> over the shell; B_smooth is exp(A_T g <S_rr>).
+fam      ex gate             A_T    B(1000) full  B(1000) smooth   ratio
+expo      1 phi_1e12_m4   -14.94           2.000           2.003   0.998
+plaw      1 phi_1e12_m4   -16.23           2.000           2.006   0.997
+gscreen   1 phi_1e12_m4   -16.23           2.000           2.006   0.997
+plaw      1 phi_1e12_m4   -15.94           2.000           2.006   0.997
+gscreen   1 phi_1e12_m4   -15.94           2.000           2.006   0.997
+plaw      1 phi_1e12_m4   -14.88           2.000           2.003   0.998
+gscreen   1 phi_1e12_m4   -14.87           2.000           2.003   0.998
+gscreen   1 phi_1e12_m4   -15.18           2.000           2.003   0.998
+
+PAIR CHANNELS: reach and feasibility by sign and d_par mode
+--------------------------------------------------------------------------------------------
+mode     sign  rows  reach  field ok  +member ok  best field dex  best member dex       max B
+clip       -1    72     72        72           0          0.0000            0.687   1000000.0
+clip        1    72      0         0           0             nan              nan         1.0
+mid        -1    72     68        68           0          0.0000            0.932   1000000.0
+mid         1    72      0         0           0             nan              nan         1.0
+
+PAIR CHANNELS: the ten rows with the flattest cluster boost profile
+--------------------------------------------------------------------------------------------
+mode     sp    sl  q  p     L sgn     alpha   B(300,500,1000,1414)            shape  fld dex  mem dex aniso/iso
+clip     50   150  0  1  3000  -1  1.23e-02     3.400   2.124   2.000   1.092     0.321   0.0008    1.582     0.839
+clip    400   600  0  1  3000  -1  5.54e-04     4.661   3.740   2.000   1.392     0.299   0.0000    0.688     0.442
+clip    400   600  0  0  3000  -1  3.24e-04     4.793   3.806   2.000   1.394     0.291   0.0002    0.687     0.449
+clip     50   600  0  1  3000  -1  1.17e-02     4.148   2.514   2.000   1.173     0.283   0.0007    1.553     0.865
+clip    400   600  1  1  3000  -1  1.88e-04     5.671   4.287   2.000   1.346     0.237   0.0000    0.777     0.435
+clip    400   600  1  0  3000  -1  1.08e-04     5.955   4.424   2.000   1.345     0.226   0.0001    0.767     0.440
+clip    400   600  0  1  1000  -1  1.78e-03     5.909   4.419   2.000   1.328     0.225   0.0000    0.798     0.429
+clip    400   600  0  0  1000  -1  1.04e-03     6.163   4.538   2.000   1.328     0.216   0.0000    0.781     0.436
+clip    400   600  1  1  1000  -1  1.23e-03     7.257   5.091   2.000   1.291     0.178   0.0000    0.887     0.416
+clip    400   600  1  0  1000  -1  6.89e-04     7.830   5.348   2.000   1.287     0.164   0.0000    0.868     0.424
+
+PAIR CHANNELS: is the boost the trace of C or its anisotropy?
+--------------------------------------------------------------------------------------------
+mode     sp    sl sgn     alpha  B(1000) full  B(1000) trace only   ratio  aniso/iso
+clip     50   150  -1  1.23e-02         2.000               1.100   1.818      0.839
+clip    400   600  -1  5.54e-04         2.000               1.631   1.227      0.442
+clip    400   600  -1  3.24e-04         2.000               1.633   1.225      0.449
+clip     50   600  -1  1.17e-02         2.000               1.153   1.735      0.865
+clip    400   600  -1  1.88e-04         2.000               1.633   1.225      0.435
+clip    400   600  -1  1.08e-04         2.000               1.631   1.226      0.440
+clip    400   600  -1  1.78e-03         2.000               1.632   1.225      0.429
+clip    400   600  -1  1.04e-03         2.000               1.630   1.227      0.436
+
+SENSITIVITY: dB over the scanned amplitude range (monotone-invariance check)
+--------------------------------------------------------------------------------------------
+   well-network  median 11.407  min 0.010  max 38.238   rows with zero spread: 0
+   pair channels median 1.000  min 0.144  max 999999.000   rows with zero spread: 0
+
+RESOLUTION SENSITIVITY of the well-network boost at the amplitudes used
+--------------------------------------------------------------------------------------------
+   plaw p=1.0 q=2.0 s=1.5 L=300 kpc excl=0  gate=none A_T=-4.7
+      n=  32  k = 0.5665 0.5271 0.4595 0.3188   B = 1.588 1.670 1.853 2.464
+      n=  48  k = 0.5843 0.5242 0.4581 0.3289   B = 1.540 1.678 1.857 2.404
+      n=  64  k = 0.5797 0.5216 0.4617 0.3325   B = 1.552 1.685 1.845 2.383
+      n=  96  k = 0.5868 0.5191 0.4630 0.3337   B = 1.537 1.691 1.841 2.377
+      n= 128  k = 0.5868 0.5176 0.4642 0.3343   B = 1.537 1.695 1.837 2.373
+      last refinement changes B by 0.24%
+   plaw p=1.0 q=2.0 s=1.5 L=300 kpc excl=1  gate=none A_T=-4.7
+      n=  32  k = 0.5569 0.5126 0.4352 0.2883   B = 1.611 1.708 1.934 2.670
+      n=  48  k = 0.5735 0.5134 0.4352 0.2984   B = 1.563 1.706 1.934 2.597
+      n=  64  k = 0.5699 0.5132 0.4390 0.3027   B = 1.573 1.707 1.921 2.568
+      n=  96  k = 0.5792 0.5106 0.4415 0.3046   B = 1.553 1.714 1.912 2.555
+      n= 128  k = 0.5777 0.5108 0.4425 0.3054   B = 1.557 1.714 1.909 2.550
+      last refinement changes B by 0.25%
+   expo p=1.0 q=2.0 s=0.5 L=1000 kpc excl=0  gate=none A_T=-4.7
+      n=  32  k = 0.6106 0.5059 0.3488 0.2553   B = 1.494 1.727 2.309 2.941
+      n=  48  k = 0.6613 0.5180 0.3510 0.2595   B = 1.394 1.694 2.296 2.903
+      n=  64  k = 0.6649 0.5281 0.3534 0.2611   B = 1.389 1.668 2.284 2.888
+      n=  96  k = 0.6773 0.5302 0.3544 0.2615   B = 1.369 1.663 2.278 2.885
+      n= 128  k = 0.6783 0.5318 0.3553 0.2618   B = 1.367 1.659 2.274 2.882
+      last refinement changes B by 0.23%
+
+FULL 3-D VERIFICATION of the selected points
+--------------------------------------------------------------------------------------------
+   {'tensor': 'wellnet', 'family': 'expo', 'p': 0.0, 'q': 1.0, 's': 0.5, 'L_kpc': 3000.0, 'exclude_nearest': True, 'gate': 'phi_1e12_m4', 'amp_for_target': -14.936386977820412}
+      3-D  B = 1.623 1.973 1.990 1.645
+      map  B = 1.623 1.992 2.000 1.647
+      3D/map = 1.000 0.990 0.995 0.999
+      projected deflection ratio at 150 300 500 800 1100 1400 kpc: 1.609 1.776 1.915 1.854 1.663 1.466
+   {'tensor': 'wellnet', 'family': 'plaw', 'p': 0.0, 'q': 2.0, 's': 0.5, 'L_kpc': 100.0, 'exclude_nearest': True, 'gate': 'phi_1e12_m4', 'amp_for_target': -16.22849852238222}
+      3-D  B = 1.930 2.208 1.995 1.657
+      map  B = 1.884 2.210 2.000 1.658
+      3D/map = 1.024 0.999 0.998 0.999
+      projected deflection ratio at 150 300 500 800 1100 1400 kpc: 1.787 1.963 2.044 1.876 1.669 1.485
+   {'tensor': 'wellnet', 'family': 'expo', 'p': 1.0, 'q': 1.0, 's': 0.5, 'L_kpc': 300.0, 'exclude_nearest': True, 'gate': 'phi_1e12_m4', 'amp_for_target': -30.56055897934011}
+      3-D  B = 3.465 3.980 2.645 1.896
+      map  B = 3.705 3.825 2.357 1.831
+      3D/map = 0.935 1.041 1.123 1.036
+      projected deflection ratio at 150 300 500 800 1100 1400 kpc: 2.695 3.058 3.258 2.615 1.959 1.686
+   {'tensor': 'wellnet', 'family': 'expo', 'p': 1.0, 'q': 1.0, 's': 0.5, 'L_kpc': 300.0, 'exclude_nearest': False, 'gate': 'phi_1e12_m4', 'amp_for_target': -30.56055897934011}
+      3-D  B = 3.386 3.885 2.582 1.844
+      map  B = 3.565 3.730 2.261 1.763
+      3D/map = 0.950 1.042 1.142 1.046
+      projected deflection ratio at 150 300 500 800 1100 1400 kpc: 2.648 2.977 3.175 2.556 1.895 1.654
+   {'tensor': 'channels', 'mode': 'mid', 'sigma_perp_kpc': 400.0, 'sigma_par_kpc': 150.0, 'q': 2.0, 'p': 1.0, 's': 2.0, 'L_kpc': 1000.0, 'sign': -1, 'amp_for_target': 0.007697536900566943}
+      3-D  B = 208963627341117224264507184574343752104492411050585804062309646582861031997572504304484352.000 12134298178298963083567532638172590794240559674551450454393181708704650702473010650021888.000 2102120982111664050136723629488763968187671487224574962358994703951526831231600689152.000 2949591506614410665522207507069069346609567322756673546175738586522314223835414528.000
+      map  B = 960384.618 1424.305 2.000 1.102
+      3D/map = 217583271658273268495638936344099754600744758653639187771707745468407184511979225088.000 8519451460300788208141458142147778418338226444346270096687239528503659321696783958016.000 1051060491055832025068361814744381984093835743612287481179497351975763415615800344576.000 2676601138242602871101712703240186189067794763150905987209715737480585172970635264.000
+      projected deflection ratio at 150 300 500 800 1100 1400 kpc: 77875821377822920166100737056778602144001675786596578638738243764155151582804819591561216.000 15280873387240463446161374828171550973772806801973808896087004967290172125781908923613184.000 373974726182039947145913106860509153339173186743172001943273449346522581238505076162560.000 982068618234044346542966543913121840690396135714096911036890467259140092197133615104.000 9145465326439642698785378708184940548218435087350647021204032316191256209973575680.000 63235217392733867650248923863551026769896546578342965390688865517219004781953024.000
+   {'tensor': 'channels', 'mode': 'mid', 'sigma_perp_kpc': 400.0, 'sigma_par_kpc': 150.0, 'q': 1.0, 'p': 1.0, 's': 2.0, 'L_kpc': 1000.0, 'sign': -1, 'amp_for_target': 0.013652500927868187}
+      3-D  B = 25538797389049935953920.000 5070289843275593416704.000 81699023005671292928.000 66929606462431895552.000
+      map  B = 5394.337 182.673 2.000 1.090
+      3D/map = 4734372015104573440.000 27756074625432363008.000 40849511502835646464.000 61429576399713198080.000
+      projected deflection ratio at 150 300 500 800 1100 1400 kpc: 1075807034147551838208.000 485445431714497560576.000 96743738776896487424.000 69417204394763665408.000 60519558420270194688.000 50741350096990273536.000
+   {'tensor': 'channels', 'mode': 'clip', 'sigma_perp_kpc': 400.0, 'sigma_par_kpc': 600.0, 'q': 0.0, 'p': 1.0, 's': 2.0, 'L_kpc': 3000.0, 'sign': -1, 'amp_for_target': 0.0005410327397657099}
+      3-D  B = 4.390 3.553 1.943 1.373
+      map  B = 4.472 3.612 1.965 1.381
+      3D/map = 0.982 0.984 0.989 0.994
+      projected deflection ratio at 150 300 500 800 1100 1400 kpc: 3.509 3.131 2.523 1.822 1.433 1.221
+   {'tensor': 'channels', 'mode': 'clip', 'sigma_perp_kpc': 400.0, 'sigma_par_kpc': 600.0, 'q': 0.0, 'p': 0.0, 's': 2.0, 'L_kpc': 3000.0, 'sign': -1, 'amp_for_target': 0.0002876297314233621}
+      3-D  B = 3.957 3.239 1.842 1.341
+      map  B = 3.989 3.257 1.847 1.343
+      3D/map = 0.992 0.994 0.997 0.999
+      projected deflection ratio at 150 300 500 800 1100 1400 kpc: 3.228 2.893 2.360 1.746 1.401 1.205
+
+THE THREE REQUIREMENTS APPLIED IN SEQUENCE
+--------------------------------------------------------------------------------------------
+   shape = B(1414)/B(300); the measured X-COP excess is flat to ~20%,
+   so 0.7 < shape < 1.4 is the loosest defensible profile cut.
+   well-network   scanned  1920 -> reach B=2  1541 -> field ok   760 -> member ok   563 -> flat profile   291 -> whole B profile in band   127
+        {'family': 'expo', 'p': 0.0, 'q': 1.0, 's': 0.5, 'L_kpc': 3000.0, 'exclude_nearest': True, 'gate': 'phi_1e12_m4'}  amp=-14.9  B=1.623 1.992 2.000 1.647  fld 0.000  mem 0.025
+        {'family': 'plaw', 'p': 0.0, 'q': 2.0, 's': 0.5, 'L_kpc': 300.0, 'exclude_nearest': True, 'gate': 'phi_1e12_m4'}  amp=-15.9  B=1.817 2.173 2.000 1.653  fld 0.000  mem 0.040
+        {'family': 'gscreen', 'p': 0.0, 'q': 2.0, 's': 0.5, 'L_kpc': 300.0, 'exclude_nearest': True, 'gate': 'phi_1e12_m4'}  amp=-15.9  B=1.817 2.173 2.000 1.653  fld 0.000  mem 0.040
+        {'family': 'gscreen', 'p': 0.0, 'q': 1.0, 's': 2.0, 'L_kpc': 3000.0, 'exclude_nearest': True, 'gate': 'phi_1e12_m4'}  amp=-15.2  B=1.664 2.033 2.000 1.648  fld 0.000  mem 0.028
+        {'family': 'plaw', 'p': 0.0, 'q': 1.0, 's': 2.0, 'L_kpc': 3000.0, 'exclude_nearest': True, 'gate': 'phi_1e12_m4'}  amp=-15.2  B=1.665 2.033 2.000 1.648  fld 0.000  mem 0.028
+   pair channels  scanned   288 -> reach B=2   140 -> field ok   140 -> member ok     0 -> flat profile     0 -> whole B profile in band     0
+
+AGAINST THE PROGRAMME'S OWN MEASURED RADIAL REQUIREMENT (lane 12)
+--------------------------------------------------------------------------------------------
+   a0 enhancement from lensing alone, three independent samples;
+   deep-MOND g = sqrt(g_N a0) so the required field boost is
+   B = sqrt(a0 enhancement).  Required B at 300 500 1000 1414 kpc: 3.862 3.331 2.401 1.758
+   published lensing mass profiles; comparison target only, nothing is fitted to them
+
+tensor          best rms(dex)  rows < 0.10 dex  ... and both galaxies ok
+well-network           0.0328              117                         1
+pair channels          0.0772                3                         0
+
+   best five shape matches, well-network:
+      rms 0.0328 dex  amp=-30.56  B=3.705 3.825 2.357 1.831  fld 0.000  mem 0.157
+         {'family': 'expo', 'p': 1.0, 'q': 1.0, 's': 0.5, 'L_kpc': 300.0, 'exclude_nearest': True, 'gate': 'phi_1e12_m4'}
+      rms 0.0328 dex  amp=-30.56  B=3.565 3.730 2.261 1.763  fld 0.000  mem 0.365
+         {'family': 'expo', 'p': 1.0, 'q': 1.0, 's': 0.5, 'L_kpc': 300.0, 'exclude_nearest': False, 'gate': 'phi_1e12_m4'}
+      rms 0.0363 dex  amp=-42.12  B=4.066 3.538 2.107 1.642  fld 1.954  mem 0.134
+         {'family': 'expo', 'p': 1.0, 'q': 1.0, 's': 0.5, 'L_kpc': 300.0, 'exclude_nearest': False, 'gate': 'phi_1e11_m1'}
+      rms 0.0505 dex  amp=-46.87  B=4.385 3.387 2.874 1.634  fld 0.822  mem 0.174
+         {'family': 'plaw', 'p': 1.0, 'q': 4.0, 's': 0.5, 'L_kpc': 300.0, 'exclude_nearest': False, 'gate': 'gn_m1'}
+      rms 0.0509 dex  amp=-46.87  B=4.422 3.403 2.879 1.661  fld 0.771  mem 0.037
+         {'family': 'gscreen', 'p': 1.0, 'q': 4.0, 's': 0.5, 'L_kpc': 300.0, 'exclude_nearest': False, 'gate': 'gn_m1'}
+   best five shape matches, pair channels:
+      rms 0.0772 dex  amp=0.000541  B=4.472 3.612 1.965 1.381  fld 0.000  mem 0.670
+         {'mode': 'clip', 'sigma_perp_kpc': 400.0, 'sigma_par_kpc': 600.0, 'q': 0.0, 'p': 1.0, 's': 2.0, 'L_kpc': 3000.0, 'sign': -1}
+      rms 0.0821 dex  amp=0.0002876  B=3.989 3.257 1.847 1.343  fld 0.000  mem 0.606
+         {'mode': 'clip', 'sigma_perp_kpc': 400.0, 'sigma_par_kpc': 600.0, 'q': 0.0, 'p': 0.0, 's': 2.0, 'L_kpc': 3000.0, 'sign': -1}
+      rms 0.0986 dex  amp=0.0001529  B=4.052 3.238 1.753 1.273  fld 0.000  mem 0.626
+         {'mode': 'clip', 'sigma_perp_kpc': 400.0, 'sigma_par_kpc': 600.0, 'q': 1.0, 'p': 1.0, 's': 2.0, 'L_kpc': 3000.0, 'sign': -1}
+      rms 0.1013 dex  amp=9.52e-05  B=4.765 3.678 1.838 1.298  fld 0.000  mem 0.672
+         {'mode': 'clip', 'sigma_perp_kpc': 400.0, 'sigma_par_kpc': 600.0, 'q': 1.0, 'p': 0.0, 's': 2.0, 'L_kpc': 3000.0, 'sign': -1}
+      rms 0.1028 dex  amp=0.01274  B=4.758 2.773 2.389 1.198  fld 0.001  mem 1.680
+         {'mode': 'clip', 'sigma_perp_kpc': 50.0, 'sigma_par_kpc': 600.0, 'q': 0.0, 'p': 1.0, 's': 2.0, 'L_kpc': 3000.0, 'sign': -1}
+
+SUMMARY
+--------------------------------------------------------------------------------------------
+   wellnet_rows                       1920
+   channel_rows                       288
+   wellnet_reach_target               1541
+   channel_reach_target               140
+   wellnet_feasible                   760
+   channel_feasible                   140
+   wellnet_feasible_incl_members      563
+   channel_feasible_incl_members      0
+   wellnet_B_max                      38.24066040343358
+   channel_B_max                      1000000.0
+   best_wellnet_field_dex             1.714574235531406e-13
+   best_channel_field_dex             1.3171710290555265e-10
+   best_wellnet_member_dex            0.0004204962390344183
+   best_channel_member_dex            0.6865175635730892
+   best_wellnet_rms_dex               0.03279007133451942
+   best_channel_rms_dex               0.07716678916979783
+   wellnet_shape_ok                   1
+   channel_shape_ok                   0

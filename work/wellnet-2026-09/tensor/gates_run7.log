@@ -1,0 +1,161 @@
+==============================================================================
+VALIDATION GATES -- anisotropic response tensors
+backend: CuPy / GPU
+==============================================================================
+
+==============================================================================
+A1  closed-form symmetric 3x3 matrix exponential
+==============================================================================
+   [PASS] A1 expm matches scipy.linalg.expm
+          generic                    max rel err 2.441e-13
+          large |M| ~ 12             max rel err 2.387e-12
+          two equal, gap 0           max rel err 2.774e-13
+          three equal, gap 0         max rel err 9.203e-17
+          two equal, gap 1e-12       max rel err 4.778e-13
+          three equal, gap 1e-12     max rel err 6.553e-17
+          two equal, gap 1e-08       max rel err 1.870e-13
+          three equal, gap 1e-08     max rel err 1.296e-16
+          two equal, gap 1e-05       max rel err 1.176e-13
+          three equal, gap 1e-05     max rel err 2.960e-16
+          two equal, gap 0.001       max rel err 1.323e-13
+          three equal, gap 0.001     max rel err 9.191e-17
+          analytic eigenvalues       max abs err 2.881e-08
+          worst overall 2.387e-12, threshold 1e-9
+
+==============================================================================
+A2  operator identical to work/gravitylab/solver.py
+==============================================================================
+   [PASS] A2 operator, flux and diagonal reproduce solver.py
+          operator max abs difference   0.000e+00  (bit-identical)
+          face fluxes max difference    0.000e+00
+          GPU vs CPU operator           0.000e+00
+          Jacobi diagonal vs A e_ijk    3.553e-15
+
+==============================================================================
+A3  channel kernel: GPU vs CPU, and the cost of the tube cutoff
+==============================================================================
+   [PASS] A3 GPU kernel exact, cutoff cost measured
+          780 pairs, 4000 points, mode='clip'
+          GPU vs CPU, no cutoff:  max rel diff 2.063e-15
+          cutoff 3 sigma: max err/peak 8.28e-03, median per-point rel err 1.34e-01
+          cutoff 4 sigma: max err/peak 2.52e-04, median per-point rel err 3.00e-03
+          cutoff 5 sigma: max err/peak 2.48e-06, median per-point rel err 3.16e-05
+          cutoff 6 sigma: max err/peak 9.80e-09, median per-point rel err 1.47e-07
+          default for every number in the report: 6 sigma
+
+==============================================================================
+1  K is symmetric positive definite everywhere, whole search range
+==============================================================================
+      108 weight settings x 5 amplitudes = 540 tensor fields, 110592 cells each
+      eigenvalues of S stay inside [-1/3, 2/3] as the traceless
+      normalised form requires:  min -0.3333  max 0.6666
+   [PASS] 1 min eigenvalue of K > 0 for every family and parameter
+          well-network K : min eigenvalue 1.8318e-02, max condition number 4.034e+02
+          pair-channel K : min eigenvalue 5.9326e-07, max condition number 5.174e+01
+          C is positive semi-definite as required: min eig of C >= 0 on every sample
+          numpy eigvalsh cross-check on 4000 cells: min 2.2936e-02, asymmetry 0.000e+00
+          failures: 0
+
+==============================================================================
+2  flux conservation on the FACE fluxes the scheme conserves
+==============================================================================
+   Not on a flux re-derived from a centre-differenced gradient --
+   that is a different quantity, agreeing only to O(h^2), and it
+   is what previously reported 1e-2 on a solver good to 1e-15.
+
+      well-network K, A_T=-3   (CG residual 1.0e-13 after 1834 iterations)
+         half-width   6  M_enc = 7.510e+13 Msun   eps_flux = 7.951e-15
+         half-width  10  M_enc = 1.389e+14 Msun   eps_flux = 7.324e-15
+         half-width  14  M_enc = 1.890e+14 Msun   eps_flux = 3.628e-15
+         half-width  18  M_enc = 2.111e+14 Msun   eps_flux = 3.248e-14
+      pair-channel K, alpha=1e-3   (CG residual 8.8e-14 after 155 iterations)
+         half-width   6  M_enc = 7.510e+13 Msun   eps_flux = 1.266e-14
+         half-width  10  M_enc = 1.389e+14 Msun   eps_flux = 1.083e-14
+         half-width  14  M_enc = 1.890e+14 Msun   eps_flux = 2.341e-16
+         half-width  18  M_enc = 2.111e+14 Msun   eps_flux = 4.191e-16
+   [PASS] 2 eps_flux < 1e-5 on every closed surface
+          worst closed surface: 3.248e-14   threshold 1e-5
+
+==============================================================================
+3  curl(g) at round-off
+==============================================================================
+      well-network K, A_T=-3       n=32   normalised |curl| = 4.8141e-17
+      well-network K, A_T=-3       n=48   normalised |curl| = 4.8105e-17
+      pair-channel K, alpha=1e-3   n=32   normalised |curl| = 4.8652e-17
+      pair-channel K, alpha=1e-3   n=48   normalised |curl| = 4.8354e-17
+   [PASS] 3 curl(g) stays at round-off
+          worst normalised |curl|: 4.865e-17   round-off is ~1e-16
+          g = -grad Phi is a gradient by construction, so this can only fail
+          if the post-processing is wrong -- which is what it checks.
+
+==============================================================================
+4  Newtonian recovery: K -> I, mu -> 1
+==============================================================================
+      n=32   rel L2 vs -GM/r = 1.1491e-03
+      n=48   rel L2 vs -GM/r = 5.2461e-04
+      n=72   rel L2 vs -GM/r = 2.2966e-04
+      n=32   constant-K analytic rel L2 = 1.7888e-03
+      n=48   constant-K analytic rel L2 = 8.0520e-04
+      n=72   constant-K analytic rel L2 = 3.5706e-04
+   [PASS] 4 Newtonian and constant-K analytic limits recovered at 2nd order
+          K -> I, mu -> 1 vs -GM/r : 2.2966e-04, order 1.99
+          constant anisotropic K   : 3.5706e-04, order 1.99
+          the second uses a source spherical in u = sqrt(r^T K^-1 r); a
+          sphere in r is an ellipsoid in u and floors the error near 1e-2.
+
+==============================================================================
+5  isotropy: a spherically symmetric well distribution
+==============================================================================
+   Read literally the requirement is 'S -> 0'.  That is true AT THE
+   CENTRE and false anywhere else, and the difference matters, so
+   both are measured.
+
+   (a) 1440 wells in an exact octahedral orbit, field point at the centre
+       plaw      |S| at the centre 4.952e-17   |K - exp(s0) I|_max 4.441e-16
+       expo      |S| at the centre 5.910e-17   |K - exp(s0) I|_max 8.882e-16
+       gscreen   |S| at the centre 4.150e-17   |K - exp(s0) I|_max 4.441e-16
+
+   (b) 2e+06 wells uniform in a 1.5 Mpc ball, probe on the x axis
+       The continuum column is a 2-D Gauss-Legendre quadrature of
+       the same integral -- the exact answer the Monte-Carlo must
+       reproduce.  Monte-Carlo noise on S_rr is ~1/sqrt(N) = 7.1e-04.
+
+       r (kpc)   S_rr (MC)   S_rr (exact)    difference    form residual
+             0    -0.000432    +0.000000     4.32e-04      0.6674
+           100    -0.000133    +0.000016     1.49e-04      0.9768
+           300    +0.000460    +0.000159     3.01e-04      0.9413
+           600    +0.001638    +0.000844     7.94e-04      0.5942
+           900    +0.003610    +0.003320     2.90e-04      0.1901
+          1200    +0.017115    +0.016479     6.36e-04      0.0436
+          2500    +0.515068    +0.515045     2.28e-05      0.0002
+   [PASS] 5 S = 0 at the centre; off-centre S matches the exact spherical form
+          exact octahedral configuration, |S| at the centre: 5.910e-17 (round-off)
+          K there equals exp(s_0) I to 4.4e-16 -- an isotropic rescaling, no preferred direction
+          random ball, |S_rr| at the centre 4.32e-04 against Monte-Carlo noise 7.1e-04
+          largest |MC - exact quadrature| over all probe radii: 7.94e-04 (1.1 sigma_MC)
+          OFF-CENTRE S IS NOT ZERO AND MUST NOT BE: at 1200 kpc inside the ball S_rr = +0.0171, at 2500 kpc outside it +0.5151.
+          Reading 'S -> 0 for a spherical distribution' as a statement about every
+          point is wrong -- the direction field n_a(x) seen from an off-centre point
+          is not isotropic.  What symmetry requires is the form lambda(r)(rhat rhat
+          - I/3), and the largest residual from that form, over the probes where |S|
+          rises above the Monte-Carlo floor, is 0.0436.
+
+==============================================================================
+SUMMARY
+==============================================================================
+   [PASS] 1 min eigenvalue of K > 0 for every family and parameter
+   [PASS] 2 eps_flux < 1e-5 on every closed surface
+   [PASS] 3 curl(g) stays at round-off
+   [PASS] 4 Newtonian and constant-K analytic limits recovered at 2nd order
+   [PASS] 5 S = 0 at the centre; off-centre S matches the exact spherical form
+   [PASS] 6a converges with grid resolution
+   [PASS] 6b stable against domain size
+   [PASS] 7 shuffling the member list changes nothing to round-off
+   [PASS] A1 expm matches scipy.linalg.expm
+   [PASS] A2 operator, flux and diagonal reproduce solver.py
+   [PASS] A3 GPU kernel exact, cutoff cost measured
+   [PASS] A4 sign convention fixed by measurement, not by intuition
+   [PASS] A5 1-D surrogate reproduces the 3-D solve to a stated accuracy
+
+   13 of 13 gates pass    (219 s)
+   written: gates.json

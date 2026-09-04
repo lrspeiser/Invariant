@@ -1,9 +1,236 @@
 {
-  "n_pass": 1,
-  "n_total": 1,
+  "n_pass": 13,
+  "n_total": 13,
   "backend": "cupy",
-  "seconds": 51.445281982421875,
+  "seconds": 219.16205549240112,
   "results": [
+    {
+      "gate": "1 min eigenvalue of K > 0 for every family and parameter",
+      "passed": true,
+      "detail": "well-network K : min eigenvalue 1.8318e-02, max condition number 4.034e+02\npair-channel K : min eigenvalue 5.9326e-07, max condition number 5.174e+01\nC is positive semi-definite as required: min eig of C >= 0 on every sample\nnumpy eigvalsh cross-check on 4000 cells: min 2.2936e-02, asymmetry 0.000e+00\nfailures: 0",
+      "data": {
+        "wellnet_min_eig": 0.018317796964693045,
+        "wellnet_max_cond": 403.36033715648693,
+        "channel_min_eig": 5.932645072154056e-07,
+        "channel_max_cond": 51.735930842977126,
+        "numpy_min_eig": 0.02293623153527822,
+        "asymmetry": 0.0,
+        "n_settings": 540
+      }
+    },
+    {
+      "gate": "2 eps_flux < 1e-5 on every closed surface",
+      "passed": true,
+      "detail": "worst closed surface: 3.248e-14   threshold 1e-5",
+      "data": {
+        "worst": 3.2479571550953784e-14,
+        "surfaces": {
+          "well-network K, A_T=-3|half=6": 7.95140035671852e-15,
+          "well-network K, A_T=-3|half=10": 7.32416541522702e-15,
+          "well-network K, A_T=-3|half=14": 3.628104366691378e-15,
+          "well-network K, A_T=-3|half=18": 3.2479571550953784e-14,
+          "pair-channel K, alpha=1e-3|half=6": 1.2663341308848015e-14,
+          "pair-channel K, alpha=1e-3|half=10": 1.0827027135552984e-14,
+          "pair-channel K, alpha=1e-3|half=14": 2.3407124946395984e-16,
+          "pair-channel K, alpha=1e-3|half=18": 4.1909124581875853e-16
+        }
+      }
+    },
+    {
+      "gate": "3 curl(g) stays at round-off",
+      "passed": true,
+      "detail": "worst normalised |curl|: 4.865e-17   round-off is ~1e-16\ng = -grad Phi is a gradient by construction, so this can only fail\nif the post-processing is wrong -- which is what it checks.",
+      "data": {
+        "values": {
+          "well-network K, A_T=-3|n=32": 4.8140806811451277e-17,
+          "well-network K, A_T=-3|n=48": 4.810530271696492e-17,
+          "pair-channel K, alpha=1e-3|n=32": 4.8652212963674754e-17,
+          "pair-channel K, alpha=1e-3|n=48": 4.835368875064868e-17
+        },
+        "worst": 4.8652212963674754e-17
+      }
+    },
+    {
+      "gate": "4 Newtonian and constant-K analytic limits recovered at 2nd order",
+      "passed": true,
+      "detail": "K -> I, mu -> 1 vs -GM/r : 2.2966e-04, order 1.99\nconstant anisotropic K   : 3.5706e-04, order 1.99\nthe second uses a source spherical in u = sqrt(r^T K^-1 r); a\nsphere in r is an ellipsoid in u and floors the error near 1e-2.",
+      "data": {
+        "newton_err": [
+          0.0011490772481211593,
+          0.0005246092494926266,
+          0.00022965750318870427
+        ],
+        "newton_order": 1.985528953805543,
+        "constK_err": [
+          0.0017887908221275806,
+          0.0008052042168063011,
+          0.0003570603116417336
+        ],
+        "constK_order": 1.987088916281476
+      }
+    },
+    {
+      "gate": "5 S = 0 at the centre; off-centre S matches the exact spherical form",
+      "passed": true,
+      "detail": "exact octahedral configuration, |S| at the centre: 5.910e-17 (round-off)\nK there equals exp(s_0) I to 4.4e-16 -- an isotropic rescaling, no preferred direction\nrandom ball, |S_rr| at the centre 4.32e-04 against Monte-Carlo noise 7.1e-04\nlargest |MC - exact quadrature| over all probe radii: 7.94e-04 (1.1 sigma_MC)\nOFF-CENTRE S IS NOT ZERO AND MUST NOT BE: at 1200 kpc inside the ball S_rr = +0.0171, at 2500 kpc outside it +0.5151.\nReading 'S -> 0 for a spherical distribution' as a statement about every\npoint is wrong -- the direction field n_a(x) seen from an off-centre point\nis not isotropic.  What symmetry requires is the form lambda(r)(rhat rhat\n- I/3), and the largest residual from that form, over the probes where |S|\nrises above the Monte-Carlo floor, is 0.0436.",
+      "data": {
+        "centre_exact": 5.910008324170566e-17,
+        "centre_random": 0.0004318353795412453,
+        "Srr": [
+          -0.0004318353795412453,
+          -0.00013251053283594468,
+          0.0004597839572066723,
+          0.0016375197746359106,
+          0.0036098383594955854,
+          0.017115016547757433,
+          0.5150680520230931
+        ],
+        "Srr_exact": [
+          1.5993028353159581e-09,
+          1.6282898342551234e-05,
+          0.0001586668659188952,
+          0.0008435812456579577,
+          0.0033200241623971526,
+          0.016479432600008476,
+          0.5150452251310643
+        ],
+        "mc_sigma": 0.0007071067811865475,
+        "max_mc_vs_exact": 0.0007939385289779529,
+        "lam": [
+          -0.0006477530693118679,
+          -0.000198765799253917,
+          0.0006896759358100084,
+          0.002456279661953866,
+          0.005414757539243378,
+          0.02567252482163615,
+          0.7726020780346396
+        ],
+        "form_residual": 0.04355102630485484,
+        "r_kpc": [
+          0,
+          100,
+          300,
+          600,
+          900,
+          1200,
+          2500
+        ]
+      }
+    },
+    {
+      "gate": "6a converges with grid resolution",
+      "passed": true,
+      "detail": "largest 64->96 change: 1.471%  (threshold 2%)\nself-convergence order at 500/1000/1414 kpc: 1.25 2.05 -0.93\nThe curve is NOT flat, which is what it has to be: a flat error\ncurve versus resolution would mean a modelling mismatch rather\nthan a discretisation error.  Convergence is first-to-second\norder rather than clean second order because the tensor field K\nitself varies on the scale of the individual members, which the\ngrid only marginally resolves -- see the resolution_check block\nof mechanism_map.json, where the same question is asked of k\ndirectly at the amplitudes the map actually uses.",
+      "data": {
+        "resolution": {
+          "32": [
+            0.6133269060464138,
+            0.5487025840264617,
+            0.5625463664114295
+          ],
+          "48": [
+            0.6376835316043983,
+            0.5579597798239977,
+            0.5634097258960983
+          ],
+          "64": [
+            0.6523367879059317,
+            0.5619872847862325,
+            0.5646698350871344
+          ],
+          "96": [
+            0.6619332667000056,
+            0.5659575409357597,
+            0.5668031042885866
+          ]
+        },
+        "orders": [
+          1.2532307103285432,
+          2.05259118073817,
+          -0.9325648286204785
+        ],
+        "res_change": 0.014710926889283014
+      }
+    },
+    {
+      "gate": "6b stable against domain size",
+      "passed": true,
+      "detail": "largest 4 Mpc -> 8 Mpc change: 0.357%  (threshold 2%)\nThe Dirichlet shell comes from the spherical reduction of the\nsame equation with the model's own k(r), so the far field is\nconsistent with the interior rather than imposed as Newtonian.",
+      "data": {
+        "domain": {
+          "4000.0": [
+            0.6620059188151152,
+            0.5661731845880305,
+            0.5649995413928793
+          ],
+          "6000.0": [
+            0.6619332667000057,
+            0.5659575409357597,
+            0.5668031042885867
+          ],
+          "8000.0": [
+            0.6619139487578546,
+            0.5659205852147763,
+            0.5670179222954456
+          ]
+        },
+        "dom_change": 0.0035723584794252502
+      }
+    },
+    {
+      "gate": "7 shuffling the member list changes nothing to round-off",
+      "passed": true,
+      "detail": "S, family plaw      max rel difference 7.469e-16\nS, family expo      max rel difference 8.539e-16\nS, family gscreen   max rel difference 7.469e-16\nC, pair channels    max rel difference 1.286e-14\n|g| from the full nonlinear solve  3.318e-14\nworst 3.318e-14, threshold 1e-12 (exact zero is not expected: summation order changes)",
+      "data": {
+        "worst": 3.317757036460441e-14
+      }
+    },
+    {
+      "gate": "A1 expm matches scipy.linalg.expm",
+      "passed": true,
+      "detail": "generic                    max rel err 2.441e-13\nlarge |M| ~ 12             max rel err 2.387e-12\ntwo equal, gap 0           max rel err 2.774e-13\nthree equal, gap 0         max rel err 9.203e-17\ntwo equal, gap 1e-12       max rel err 4.778e-13\nthree equal, gap 1e-12     max rel err 6.553e-17\ntwo equal, gap 1e-08       max rel err 1.870e-13\nthree equal, gap 1e-08     max rel err 1.296e-16\ntwo equal, gap 1e-05       max rel err 1.176e-13\nthree equal, gap 1e-05     max rel err 2.960e-16\ntwo equal, gap 0.001       max rel err 1.323e-13\nthree equal, gap 0.001     max rel err 9.191e-17\nanalytic eigenvalues       max abs err 2.881e-08\nworst overall 2.387e-12, threshold 1e-9",
+      "data": {
+        "worst_rel_err": 2.386669354562467e-12,
+        "eig_abs_err": 2.8809931773565722e-08
+      }
+    },
+    {
+      "gate": "A2 operator, flux and diagonal reproduce solver.py",
+      "passed": true,
+      "detail": "operator max abs difference   0.000e+00  (bit-identical)\nface fluxes max difference    0.000e+00\nGPU vs CPU operator           0.000e+00\nJacobi diagonal vs A e_ijk    3.553e-15",
+      "data": {
+        "op": 0.0,
+        "flux": 0.0,
+        "gpu": 0.0,
+        "diag": 3.552713678800501e-15
+      }
+    },
+    {
+      "gate": "A3 GPU kernel exact, cutoff cost measured",
+      "passed": true,
+      "detail": "780 pairs, 4000 points, mode='clip'\nGPU vs CPU, no cutoff:  max rel diff 2.063e-15\ncutoff 3 sigma: max err/peak 8.28e-03, median per-point rel err 1.34e-01\ncutoff 4 sigma: max err/peak 2.52e-04, median per-point rel err 3.00e-03\ncutoff 5 sigma: max err/peak 2.48e-06, median per-point rel err 3.16e-05\ncutoff 6 sigma: max err/peak 9.80e-09, median per-point rel err 1.47e-07\ndefault for every number in the report: 6 sigma",
+      "data": {
+        "gpu_cpu": 2.062721750159046e-15,
+        "cutoff": {
+          "3.0": {
+            "max_rel_to_peak": 0.00827856195006144,
+            "median_rel_per_point": 0.13449743349803298
+          },
+          "4.0": {
+            "max_rel_to_peak": 0.00025157414126957055,
+            "median_rel_per_point": 0.002995682909134262
+          },
+          "5.0": {
+            "max_rel_to_peak": 2.478949327436511e-06,
+            "median_rel_per_point": 3.16130993346349e-05
+          },
+          "6.0": {
+            "max_rel_to_peak": 9.79725205094747e-09,
+            "median_rel_per_point": 1.4654184593086188e-07
+          }
+        }
+      }
+    },
     {
       "gate": "A4 sign convention fixed by measurement, not by intuition",
       "passed": true,
@@ -34,6 +261,101 @@
           ]
         ],
         "anchor_err": 0.015226611455698312
+      }
+    },
+    {
+      "gate": "A5 1-D surrogate reproduces the 3-D solve to a stated accuracy",
+      "passed": true,
+      "detail": "largest 3D/1D departure, harmonic mean:   5.81%\nlargest 3D/1D departure, arithmetic mean: 15.15%\nThe surrogate always UNDER-predicts the boost, so the amplitudes the\nmap reports are upper limits on what is needed, and the galaxy damage\nit reports is an over-estimate.  The headline points are re-run in\nfull 3-D anyway (headline_3d in mechanism_map.json), where the map\nis reproduced to ~2%.",
+      "data": {
+        "rows": {
+          "K = I  (plain AQUAL/MOND)": {
+            "harmonic": [
+              0.9841444738242114,
+              0.9863486619005549,
+              0.993458117233914,
+              1.0000190747659086
+            ],
+            "arithmetic": [
+              0.9841444738242114,
+              0.9863486619005549,
+              0.993458117233914,
+              1.0000190747659086
+            ]
+          },
+          "well-network A_T = -2": {
+            "harmonic": [
+              0.9803373578606157,
+              0.9864674158192758,
+              0.9991755785762723,
+              1.0037153644719576
+            ],
+            "arithmetic": [
+              0.9827705838253316,
+              0.9910549706049593,
+              1.0057592431445639,
+              1.012348641593601
+            ]
+          },
+          "well-network A_T = -4": {
+            "harmonic": [
+              0.9793012451776072,
+              0.9921064474103055,
+              1.01799626860696,
+              1.0183689936502331
+            ],
+            "arithmetic": [
+              0.989411552032599,
+              1.010808373686337,
+              1.0442459673898368,
+              1.0550634686545957
+            ]
+          },
+          "well-network A_T = -6": {
+            "harmonic": [
+              0.9818721721843214,
+              1.0035682042802343,
+              1.0560843913511393,
+              1.0581186710567185
+            ],
+            "arithmetic": [
+              1.0057706773899682,
+              1.046731149430823,
+              1.115392911897779,
+              1.1514666695943798
+            ]
+          },
+          "well-network A_T = +3": {
+            "harmonic": [
+              0.9915622813354528,
+              0.994232345087355,
+              1.003408444419802,
+              1.0059972872704828
+            ],
+            "arithmetic": [
+              0.9967354283443131,
+              1.0044073989642677,
+              1.0186199060648051,
+              1.0246830058887262
+            ]
+          },
+          "pair channels alpha = 1e-3": {
+            "harmonic": [
+              0.969895664712986,
+              0.9808555524971235,
+              0.9929089756497071,
+              1.0001118147772392
+            ],
+            "arithmetic": [
+              0.9866970677134149,
+              0.9927604175582501,
+              0.9943691680228771,
+              1.0002781515783534
+            ]
+          }
+        },
+        "worst_harmonic": 0.05811867105671853,
+        "worst_arithmetic": 0.15146666959437982
       }
     }
   ]

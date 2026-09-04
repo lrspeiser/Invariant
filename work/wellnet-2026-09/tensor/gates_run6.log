@@ -1,0 +1,31 @@
+==============================================================================
+VALIDATION GATES -- anisotropic response tensors
+backend: CuPy / GPU
+==============================================================================
+
+==============================================================================
+6b  stability against domain size
+==============================================================================
+   same physical source, progressively larger boxes, h ~ 62 kpc
+
+      L=   4 Mpc n=64   h= 62.5 kpc  0.66201 0.56617 0.56500
+      L=   6 Mpc n=96   h= 62.5 kpc  0.66193 0.56596 0.56680   change -0.01% -0.04% +0.32%
+      L=   8 Mpc n=128  h= 62.5 kpc  0.66191 0.56592 0.56702   change -0.00% -0.01% +0.04%
+   [PASS] 6b stable against domain size
+          largest 4 Mpc -> 8 Mpc change: 0.357%  (threshold 2%)
+          The Dirichlet shell comes from the spherical reduction of the
+          same equation with the model's own k(r), so the far field is
+          consistent with the interior rather than imposed as Newtonian.
+
+==============================================================================
+SUMMARY
+==============================================================================
+   [PASS] 6a converges with grid resolution
+   [PASS] 6b stable against domain size
+   [PASS] 7 shuffling the member list changes nothing to round-off
+   [PASS] A4 sign convention fixed by measurement, not by intuition
+   [PASS] A5 1-D surrogate reproduces the 3-D solve to a stated accuracy
+
+   5 of 5 gates pass    (268 s)
+   written: gates.json
+EXIT6b=0

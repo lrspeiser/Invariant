@@ -242,6 +242,8 @@ def solve_field(rho, Kf, h, Psi_bc, mu, xp=np, x0=None, outer=40, omega=0.75,
     mask[1:-1, 1:-1, 1:-1] = True
     Psi = xp.where(mask, Psi, Psi_bc)
     hist = []
+    rel = float("nan")
+    it = 0
     for k in range(outer):
         gx = _centred(Psi, 0, h, xp)
         gy = _centred(Psi, 1, h, xp)
@@ -269,7 +271,8 @@ def solve_field(rho, Kf, h, Psi_bc, mu, xp=np, x0=None, outer=40, omega=0.75,
     Km = xp.moveaxis(Kf, 0, -1)
     X = xp.sqrt(xp.maximum(sym3_quad(Km, gvec, xp), 0.0)) / mu.a0
     A = tuple(mu(X, xp) * Kf[i] for i in range(6))
-    return Psi, dict(outer=k + 1, hist=hist, A=A, mu=mu(X, xp))
+    return Psi, dict(outer=k + 1, hist=hist, A=A, mu=mu(X, xp),
+                     cg_iters=it, cg_rel=rel, dPhi=hist[-1] if hist else None)
 
 
 # ------------------------------------------------------------ observables
