@@ -31,69 +31,80 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RULED_OUT = [
     # ---------------------------------------------------------------- MATH
     dict(cls="well-network laws with no continuum limit",
-         kind="MATH", grade=None, run="AM/AU",
+         kind="MATH",
+         category="IMPLEMENTATION", grade=None, run="AM/AU",
          basis="390 of 3,123 settings have NO continuum limit at all: the "
                "response depends on how a cataloguer deblended the image. "
                "Gate 3, decidable before any data.",
          admissible=True),
     dict(cls="bounded-response laws as an explanation of flat curves",
-         kind="MATH", grade=None, run="AB/screen",
+         kind="MATH",
+         category="FAMILY (within the stated functional class)", grade=None, run="AB/screen",
          basis="a bounded K can only renormalise G; the sharpened form is that "
                "EVERY available invariant decays outward, so no member of the "
                "family produces a flat curve at any amplitude.",
          admissible=True),
     dict(cls="pair/graph laws with p = 0 mass weighting",
-         kind="MATH", grade=None, run="AM",
+         kind="MATH",
+         category="IMPLEMENTATION", grade=None, run="AM",
          basis="selective refinement measures d ln(W1/W2)/d ln N = +1.000 "
                "against an admissible 0 -- how finely a DIFFERENT object is "
                "tabulated sets the field near an untouched one.",
          admissible=True),
     dict(cls="tensor laws whose only signature is the transverse eigenvalue",
-         kind="MATH", grade=None, run="M (spherical blindness)",
+         kind="MATH",
+         category="NON-IDENTIFYING (an experimental limitation, not a falsification)", grade=None, run="M (spherical blindness)",
          basis="for spherical rho, Phi depends on k_r alone. The transverse "
                "eigenvalue is unobservable, so such a law is untestable in "
                "principle on a spherical source, not merely unmeasured.",
          admissible=True),
     dict(cls="the field-direction projector as a tensor mechanism",
-         kind="MATH", grade=None, run="AA",
+         kind="MATH",
+         category="FAMILY (the mechanism is the identity)", grade=None, run="AA",
          basis="(g^ g^T) grad Phi_N = grad Phi_N exactly -- the projector IS "
                "the identity, so the mechanism is empty.",
          admissible=True),
 
     # ---------------------------------------------------------------- REAL
     dict(cls="energy-drain / tired-light redshift mechanisms",
-         kind="REAL", grade="T0", run="AK",
+         kind="REAL",
+         category="FAMILY", grade="T0", run="AK",
          basis="1,504 DES supernovae give b = 1.003 +- 0.011 in "
                "dt_obs = dt_em (1+z)^b. An eta = 0 mechanism carrying all of z "
                "predicts b = 0: excluded at 90 SIGMA. Survives only at "
                "f < 1.9%.",
          admissible=True),
     dict(cls="Newtonian gravity on baryons alone as a structure-formation law",
-         kind="REAL", grade="T0", run="AP",
+         kind="REAL",
+         category="FAMILY", grade="T0", run="AP",
          basis="linear growth amplification 11.8 against the ~1e5 required -- "
                "short by 3-4 orders at every scale tested.",
          admissible=True),
     dict(cls="the tidal-gated scalar as an EXTERNAL/environmental law",
-         kind="REAL", grade="T0", run="AN",
+         kind="REAL",
+         category="IMPLEMENTATION (the reduction is about that gate)", grade="T0", run="AN",
          basis="on a spherical source |T~| = sqrt(6)(g/r)|1 - rho/<rho>| "
                "identically, so the gate reads g/r, a LOCAL kinematic ratio. "
                "The 151x member-vs-shell ordering is g/r at two radii.",
          admissible=True),
     dict(cls="the tidal gate as an improvement to cluster lensing",
-         kind="REAL", grade="T0", run="AL",
+         kind="REAL",
+         category="IMPLEMENTATION (the tested A values)", grade="T0", run="AL",
          basis="on 3,365 raw eFEDS/DECADE shear points both tidal variants fit "
                "WORSE than predicting no lensing signal at all (chi2 4472.9 and "
                "5998.2 against 3865.0), and both require eta < 0 -- light "
                "bending the wrong way relative to matter.",
          admissible=True),
     dict(cls="pressure / amplified-stress as the cluster source term",
-         kind="REAL", grade="T0", run="K",
+         kind="REAL",
+         category="IMPLEMENTATION (the tested coupling)", grade="T0", run="K",
          basis="the exact forward chain over-predicts at -13.0 sigma with all "
                "40 LoCuSS clusters over-predicted, and the amplitude and "
                "temperature-shape channels demand mutually exclusive couplings.",
          admissible=True),
     dict(cls="the nonlocal path kernel as a rotation-curve law",
-         kind="REAL", grade="T0", run="AG",
+         kind="REAL",
+         category="IMPLEMENTATION (the qbar-bounded family)", grade="T0", run="AG",
          basis="Phi = -GMF/r is exact outside a source and qbar in [0,1) "
                "bounds F, so asymptotically flat curves are impossible for the "
                "family; on the same footing it scores 0.256/0.209 dex against "
@@ -101,7 +112,8 @@ RULED_OUT = [
          admissible=True),
 
     dict(cls="geometric path-redshift mechanisms (the half SN dilation cannot reach)",
-         kind="REAL", grade="T1-T2", run="BI",
+         kind="REAL",
+         category="IMPLEMENTATION (at AK's amplitude, z <= 0.1125, within the conventional distance frame)", grade="T1-T2", run="BI",
          basis="void path length x Planck TT: c2/c1 = -0.0266% +- 0.0206%, "
                "|c2/c1| < 0.0678% at 95%, with 13.6-21.3 sigma of power AT AK's "
                "own 0.28-0.44% bound. Certificate issued with a blind guard; "
@@ -112,7 +124,8 @@ RULED_OUT = [
 
     # ------------------------------------------- REAL but INADMISSIBLE evidence
     dict(cls="[withdrawn] the cluster excess organised by r/R500",
-         kind="REAL", grade="T4", run="AX/AT/AY",
+         kind="REAL",
+         category="STATISTIC (withdrawn)", grade="T4", run="AX/AT/AY",
          basis="CLASH's numerator and x-axis are two functionals of ONE "
                "two-parameter NFW fit; 83-85% of the slope is template with no "
                "noise at all. r/R500 and r are the same regressor given "
@@ -122,14 +135,16 @@ RULED_OUT = [
     # ---------------------------------------------------------------- SYNTH
     dict(cls="[detector statement] tensor and network detectors as evidence "
              "for directional gravity",
-         kind="SYNTH", grade=None, run="BF",
+         kind="SYNTH",
+         category="STATISTIC (construct-validity failure: anisotropy is not evidence for anisotropic gravity)", grade=None, run="BF",
          basis="family-wise false-positive rate on a DARK MATTER universe is "
                "0.648 [0.604, 0.689]. A triaxial collisionless halo misaligned "
                "from the baryons IS the tensor signature. This rules out the "
                "DETECTORS, not the physics.",
          admissible=True),
     dict(cls="[detector statement] the well-network azimuthal signature",
-         kind="SYNTH", grade=None, run="BF",
+         kind="SYNTH",
+         category="STATISTIC (a blind detector, not a ruled-out theory)", grade=None, run="BF",
          basis="the network detector moves 0.0003 across the whole amplitude "
                "range -- 2.3% of its own critical value, power 0.000. U6 is "
                "found only through its monopole. The premise is undetectable "
@@ -213,6 +228,18 @@ def main():
 
     adm = [r for r in RULED_OUT if r["admissible"]]
     print("=" * 78)
+    print("THE SAME LIST, SPLIT INTO THE FOUR CATEGORIES THAT MATTER")
+    print("=" * 78)
+    for key, title in (("FAMILY", "THEORY FAMILY ruled out -- every admissible implementation under stated assumptions fails"),
+                       ("IMPLEMENTATION", "SPECIFIC IMPLEMENTATION ruled out -- related theories remain possible"),
+                       ("STATISTIC", "STATISTIC ruled out -- the test cannot measure its claimed target"),
+                       ("NON-IDENTIFYING", "CURRENT DATA NON-IDENTIFYING -- the theory may be viable")):
+        rows=[r for r in RULED_OUT if r["category"].startswith(key)]
+        print(f"  {title}   ({len(rows)})")
+        for r in rows:
+            print(f"     - {r['cls']}")
+        print()
+    print("=" * 78)
     print(f"THE REMAINING EQUIVALENCE CLASSES ({len(REMAINING)}), AND WHAT "
           f"WOULD SEPARATE EACH")
     print("=" * 78)
@@ -227,7 +254,10 @@ def main():
     print("=" * 78)
     print("SUMMARY")
     print("=" * 78)
-    print(f"  classes ruled out, admissibly : {len(adm)}"
+    for key,lab in (("FAMILY","THEORY FAMILIES ruled out"),("IMPLEMENTATION","specific implementations"),("STATISTIC","statistics ruled out"),("NON-IDENT","data non-identifying")):
+        print(f"  {lab:<31}: {sum(1 for r in RULED_OUT if r['category'].startswith(key))}")
+    print(f"  (previously one undifferentiated count of {len(adm)})")
+    print(f"  entries, all categories        : {len(adm)}"
           f"  ({sum(1 for r in adm if r['kind']=='MATH')} on mathematics alone,"
           f" {sum(1 for r in adm if r['kind']=='REAL')} on real observations,"
           f" {sum(1 for r in adm if r['kind']=='SYNTH')} detector statements)")
