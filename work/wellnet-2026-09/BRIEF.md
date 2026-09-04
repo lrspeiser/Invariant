@@ -184,3 +184,163 @@ a0 -> a0 f(|Phi_N|/Phi_0) reproduces the whole tensor map.
     figures). Only selective refinement has teeth, and there only p = 1 is
     admissible. The physical-scale vs catalogue-row discriminator is
     dln(drift)/dln L: -3.11 genuine kernel, -0.55 family C, +0.12 row-counting.
+
+---
+
+# ADDENDUM 2, 2026-09-04 — STAGE 0, and what the first six lanes settled
+
+## STAGE 0: nothing is interpreted until the search itself is calibrated
+
+**The scalar null is any sufficiently smooth scalar response, NOT an off-grid
+member of the existing atom bank.** Run AC repaired a degenerate null (truth
+exactly in the basis, giving power 1.00 by construction) by injecting between the
+bank's grid points. That is still a friendly null: it asks only whether the
+tensor family can beat a slightly misspecified member of the SAME grammar.
+
+    H0 : g = F_scalar(invariants) grad Phi_N,  F any smooth scalar response
+    H1 : genuinely directional tensor terms
+
+Null simulations must include at least five QUALITATIVELY different scalar
+families, plus realistic false-anisotropy generators: baryonic ellipticity and
+line-of-sight deprojection error, radial mass-to-light gradients, miscentering,
+unresolved member galaxies, line-of-sight structure, PSF and shear-calibration
+error, source-redshift error, wrong external-field strength, and triaxial mass
+projected at varying orientations. A flexible tensor model can absorb any of
+these and call it anisotropy.
+
+**Calibrate the ENTIRE SEARCH, not a selected statistic.** The test statistic is
+the improvement of the best tensor law found ANYWHERE in the full search, and
+every null realisation must pass through atom generation, coefficient fitting,
+hyperparameter and scale selection, pruning, winner selection, choice of axis and
+choice of reported statistic. Otherwise the look-elsewhere effect of the search
+is missing from the calibration.
+
+Use THREE disjoint simulation sets: calibration simulations to set the critical
+value, UNTOUCHED audit simulations to verify the false-positive rate, and
+injection simulations to measure power. "5% by construction" is not enough when
+the 95th percentile was set on the same simulations.
+
+**Cross-fit the scalar nuisance.** Fit a highly flexible scalar model on one
+fold, predict a different fold, and ask whether the residual has directional
+structure. That makes it much harder for a tensor atom to win merely because the
+scalar interpolating function was imperfect.
+
+**Programme-level multiplicity.** Six adaptive lanes are six chances to find
+something. A 3-sigma result in one lane is not a programme-level 3-sigma result.
+Either calibrate under full null reruns or hold one untouched confirmation sample
+per lead. **The SPARC blind split has now been viewed by many runs and should be
+treated as a validation set**, even though each individual run touched it once.
+KiDS and wide binaries remain sealed but do not provide an untouched confirmation
+set for cluster tensor effects.
+
+## INVARIANCE AND IDENTIFIABILITY GATES — run before any fitting
+
+**Constant-K degeneracy.** For constant symmetric positive-definite K, the
+substitution x' = K^(-1/2) x turns div[K grad Phi] into a plain Laplacian.
+**A constant tensor is a coordinate stretch plus a transformed source**,
+degenerate with source ellipticity, inclination, line-of-sight depth, distance
+and baryonic deprojection. Detectable physics must come from SPATIAL VARIATION of
+K, an INDEPENDENTLY KNOWN axis, or DISAGREEMENT AMONG PROBES — never from fitting
+a constant ellipsoid.
+
+**Potential-gauge invariance.** Absolute Newtonian potential is undefined until a
+boundary convention is fixed, and Run AH measured the two admissible global rules
+differing by 0.87 dex against an off/on margin of 0.9 dex. Every potential law
+must use an operational DIFFERENCE with a prespecified reference — the nearest
+gravitational saddle, a fixed overdensity boundary, a fixed multiple of a
+baryonic scale radius, or the edge of a reconstructed environmental volume — and
+must survive several defensible definitions with one declared primary.
+
+**Coarse-graining invariance.** Mandatory for well-network tensors. Represent the
+identical continuous galaxy as one catalogue object, ten subcomponents, and N
+stellar-mass cells, and require convergence below a stated threshold. Also test
+merging neighbouring entries, changing the detection threshold, varying
+deblending, moving mass between intracluster light and members, and changing mesh
+resolution. **A real coherence scale must be universal and appear in the field
+equation; it cannot be set by the cataloguer.**
+
+**Reciprocity and action.** Require F(x,x') = F(x',x) unless a separate field
+explicitly carries the missing momentum, and test whether a candidate could arise
+from an action by checking symmetry of its functional Jacobian. This will not
+prove a relativistic completion exists, but it rejects nonconservative candidates
+immediately. Runs AB and AH measured every family violating the third law at
+0.2-16.5 of GM1M2/d^2 with no carrier declared.
+
+## SPLIT THE TENSOR HYPOTHESES BY AXIS PROVENANCE
+
+Do not search for "some tensor atom". Three physically distinct hypotheses with
+DIFFERENT SPHERICAL LIMITS:
+
+    source axis          anisotropy vanishes as the source becomes spherical
+    external tidal axis  a spherical source still has an anisotropic field
+    member-well network  set by the catalogue's well distribution
+
+Run AC's near-spherical control conflated these — an injected dhat dhat^T imposes
+an external axis, so K is not spherically symmetric and the blindness theorem
+does not cover it. **Source-axis and external-axis calibrations must be
+separate.**
+
+Select development clusters by INDEPENDENT geometry — large projected
+ellipticity, a well-measured member or X-ray axis, at least a stated misalignment
+between candidate axes, adequate background density — using baryonic, X-ray and
+environment maps, **never the lensing residual that will be scored**. Include a
+near-round negative control. Then predict TWO-DIMENSIONAL shear: the PHASE of the
+quadrupole matters as much as its amplitude, and a tensor aligned with the
+external tidal axis but misaligned with the visible cluster predicts a rotated
+quadrupole that source ellipticity cannot easily imitate. Azimuthally averaging
+discards most of the directional information.
+
+**Translate amplitude into observables.** Every candidate amplitude must be
+quoted as a maximum predicted fractional acceleration or shear quadrupole, and
+placed on the power surface. A null from a detector with zero power below the
+predicted amplitude says nothing.
+
+## FOUR ENVIRONMENTAL VARIABLES, NOT ONE
+
+Potential depth is only one interpretation of the cross-class result. Test on the
+same systems and the same folds:
+
+    1  potential depth, as an operational difference
+    2  VECTOR external acceleration g_ext   — permits directional cancellation
+    3  DIRECTIONLESS inverse-square well strength sum_a G M_a / d_a^2, which does
+       NOT cancel opposing wells and is much closer to "many surrounding
+       concentrations collectively change the local state"; needs a smoothing
+       scale and must pass coarse-graining
+    4  tidal magnitude and shape, with eigenvectors kept separately
+
+Run AH found 13 of 18 survivors gated on the tidal invariant, and that a cluster
+member galaxy exceeds a cluster shell by 151x in |T| while being the DEEPEST
+potential — so 1 and 4 order the key probe oppositely.
+
+**Use system fixed effects where possible**: ask whether radial variation WITHIN
+one object follows the proposed second variable, which avoids the class-label
+problem entirely.
+
+## LENSING CLOSURE IS NOT OPTIONAL
+
+A modified Poisson equation determines the potential for slow matter; it does not
+tell photons what to do. Fit dynamics FIRST, freeze, then predict raw shear under
+NO SLIP. Only if there is structured failure, permit ONE universal slip
+parameter, and test it on a new sample. **Never fit the gravity law and an
+unrestricted lensing closure simultaneously** — that makes almost any dynamics law
+fit shear. Strong-lensing time delays come later: image positions constrain
+derivatives of the lens potential, while time delays carry Fermat-potential depth
+and can separate otherwise degenerate closures.
+
+## TWO BRANCHES THAT MUST NOT BORROW CREDIT
+
+**Void-path redshift** is a separate hypothesis. Success in galaxy or cluster
+gravity is not evidence for it. Its null must include reconstructed peculiar
+velocities, lensing magnification, host-galaxy effects, calibration drift, survey
+selection, and the covariance introduced by using redshift to build the void
+catalogue. And any surviving law must stretch TIME as well as frequency — DES
+supernovae measure time dilation consistent with (1+z), so a mechanism that only
+drains photon energy while leaving event durations unchanged is excluded.
+
+**Formation and stability.** A static equation fitting present-day rotation
+curves does not show the law helped matter organise. Perturb a homogeneous
+baryonic background, extract the linear response, and test stability, unbounded
+modes, emergence of a preferred cosmic axis, growth rate without cold dark
+matter, filament/pancake overproduction, finiteness at both wavelength limits,
+and whether the response becomes statistically isotropic. A cheap linear gate
+before any expensive simulation.
