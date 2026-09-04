@@ -1,0 +1,20 @@
+==============================================================================
+ARM B STABILITY -- can 36 groups really beat the published models?
+==============================================================================
+   training groups span log g_bar [-11.591, -11.122] = 0.470 dex
+   held-out clusters span        [-11.538, -10.663] and reach +0.459 dex beyond the training range
+
+   model                        point        train-resampled 95%   median
+   groups / M0 quadratic       0.0871   [0.0823, 0.9488]   0.1751
+   groups / M0 linear          0.0869   [0.0851, 0.1769]   0.0982
+   groups / constant offset    0.1033   [0.0993, 0.1200]   0.1033
+   galaxies+groups / M1        0.1066   [0.1045, 0.1391]   0.1108
+   galaxies+groups / M3        0.0954   [0.0872, 0.1387]   0.0973
+   galaxies+groups / M0        0.2917   [0.2645, 0.3227]   0.2922
+
+   paired object bootstrap, frozen coefficients, same 52 clusters:
+      constant group offset (+0.2344 dex) vs published M1: dRMS -0.0033 [-0.0208, +0.0140]  P(constant better) = 0.659  closer on 33/52
+      constant group offset (+0.2344 dex) vs published M3: dRMS +0.0079 [-0.0124, +0.0282]  P(constant better) = 0.225  closer on 27/52
+      constant group offset (+0.2344 dex) vs published M0: dRMS -0.1884 [-0.2082, -0.1673]  P(constant better) = 1.000  closer on 50/52
+
+merged into C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\lead01-ablation\ablation.json

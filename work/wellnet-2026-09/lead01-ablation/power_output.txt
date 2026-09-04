@@ -1,0 +1,24 @@
+==============================================================================
+ITEM 2 addendum -- can more clusters ever settle M1 vs M3?
+==============================================================================
+   observed dRMS = RMS(M1) - RMS(M3) = +0.01128 dex
+   uncertainty from resampling the 52 held-out clusters : 0.00575 dex   (shrinks as 1/sqrt(n_test))
+   uncertainty from the 200-system TRAINING set             : 0.01217 dex   (does NOT shrink with n_test)
+   total                                                    : 0.01347 dex
+
+   ceiling on the separation with an INFINITE held-out cluster sample:
+      z_max = 0.93 sigma
+      held-out clusters needed for 2 sigma: unreachable
+      held-out clusters needed for 3 sigma: unreachable
+
+   the training contribution scales as 1/sqrt(n_train); the training
+   set would have to grow by the following factor for a 3 sigma verdict
+   with an infinite validation sample:
+      x10.5  ->  2097 training systems (currently 200)
+
+   empirical check of the 1/sqrt(n_test) scaling (RANDOM subsets, 12 repeats each, coefficients frozen):
+      n_test =  13: mean bootstrap sd 0.01059 dex   -> sd x sqrt(n/52) = 0.00529 (constant if the scaling holds)
+      n_test =  26: mean bootstrap sd 0.00837 dex   -> sd x sqrt(n/52) = 0.00592 (constant if the scaling holds)
+      n_test =  52: mean bootstrap sd 0.00581 dex   -> sd x sqrt(n/52) = 0.00581 (constant if the scaling holds)
+
+merged into C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\lead01-ablation\ablation.json

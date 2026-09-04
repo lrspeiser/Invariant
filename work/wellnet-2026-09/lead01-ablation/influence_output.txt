@@ -1,0 +1,34 @@
+==============================================================================
+(a) LEAVE-ONE-RUNG-OUT of the published training set
+==============================================================================
+    full training set (rungs 1-4, 200 systems): M0 0.2917, M1 0.1066, M3 0.0954
+
+    dropped from training         n       M0       M1       M3      beta     step
+    rung 1 (164 systems)           36   0.0871   0.3331   0.0871   -0.3189      n/a
+    rung 2 (  1 systems)          199   0.2937   0.1063   0.0947   +0.1701  +0.3738
+    rung 3 (  6 systems)          194   0.2954   0.1071   0.0936   +0.1698  +0.3684
+    rung 4 ( 29 systems)          171   0.3281   0.1089   0.1384   +0.1569  +0.4505
+
+    beta across the leave-one-rung-out refits: -0.3189 ... +0.1701  (full set +0.1719)
+
+==============================================================================
+(b) NON-MONOTONE BARYONIC MASS PROFILES
+==============================================================================
+    74 of 187 resolved systems have a non-monotone M_eff(<r) = g_bar r^2/G
+    worst local decrease: 15.7% of the running value
+    Cause (already identified in Run R): these are SPARC DISK rows,
+    where g_bar is the razor-thin-disk field rather than GM(<r)/r^2
+    and the signed V_gas from central HI holes makes V_b^2 r/G fall.
+    Consequence here: the baryonic half-mass radius used by the
+    PRIMARY boundary rule is defined as the FIRST crossing of half
+    the outermost value, which is well defined regardless.
+    systems where a last-crossing definition would differ: 0; median |dlog r_half| = 0.0000 dex
+
+==============================================================================
+(c) SEALED-HOLDOUT AUDIT
+==============================================================================
+    scanned every distinct value of system / class / source / probe in the ladder: 0 sealed-holdout matches
+    probes present: ['hydrostatic', 'rotation_curve', 'velocity_dispersion']
+    sources present: ['Gonzalez+2013', 'J/A+A/690/A52 groups', 'Lovisari+2015', 'SPARC', 'Sun+2009', 'X-COP']
+
+merged into C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\lead01-ablation\ablation.json

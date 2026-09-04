@@ -1,0 +1,170 @@
+==============================================================================
+lead01-ablation  --  items 1 and 2
+==============================================================================
+
+ladder sha256 0aa416205a6e9392317d72e1b6e8e33f50d2985863d808459e11f7dadbd8d3f8
+window log g_bar = [-11.6000, -10.4148]
+252 systems; by rung: 1:164, 2:1, 3:6, 4:29, 5:33, 6:19
+
+reproduction gate against the published Run R numbers:
+   GATE n_systems_window         published                    252  reproduced                    252   OK
+   GATE transfer_M1              published    0.10663923247024337  reproduced    0.10663923247024337   OK
+   GATE transfer_M3              published    0.09536049731045002  reproduced    0.09536049731045002   OK
+   GATE transfer_M0              published     0.2917146880783851  reproduced     0.2917146880783851   OK
+   GATE transfer_M2              published    0.12520136775322022  reproduced    0.12520136775322022   OK
+   GATE beta_train_rungs1to4     published    0.17188370232387992  reproduced    0.17188370232387992   OK
+   GATE beta_all                 published     0.1686638467066086  reproduced     0.1686638467066086   OK
+
+==============================================================================
+ITEM 1  THE ABLATION
+==============================================================================
+
+A_gal_to_grp: fit galaxies ONLY -> predict GROUPS
+   train 164 systems rungs [1], test 36 systems rungs [2, 3, 4]
+   train log|Phi_b| range 8.31...10.50   test 10.06...10.97
+   held-out deviations: mean +0.2344 dex, sd 0.1199 dex
+      model         rms      bias   scatter    skill  extra coefficient
+      Mconst     0.3161   +0.2925    0.1199        -  
+      M0         0.4018   +0.3834    0.1202        -  
+      M1         0.2694   +0.2354    0.1311   +0.329  beta = +0.0900  -> q = +0.1800
+      M2         0.2999   +0.2732    0.1237   +0.254  gamma = +0.0577
+      M3         0.4018   +0.3834    0.1202   -0.000  step = +0.0000 dex   *** NOT ESTIMABLE: the step is constant on the training set ***
+
+A_gal_to_clu: fit galaxies ONLY -> predict CLUSTERS
+   train 164 systems rungs [1], test 52 systems rungs [5, 6]
+   train log|Phi_b| range 8.31...10.50   test 10.50...11.98
+   held-out deviations: mean +0.2628 dex, sd 0.0993 dex
+      model         rms      bias   scatter    skill  extra coefficient
+      Mconst     0.3359   +0.3209    0.0993        -  
+      M0         0.3579   +0.3462    0.0908        -  
+      M1         0.2007   +0.1748    0.0986   +0.439  beta = +0.0900  -> q = +0.1800
+      M2         0.2515   +0.2307    0.1001   +0.297  gamma = +0.0577
+      M3         0.3579   +0.3462    0.0908   -0.000  step = +0.0000 dex   *** NOT ESTIMABLE: the step is constant on the training set ***
+
+A_gal_to_grpclu: fit galaxies ONLY -> predict groups AND clusters
+   train 164 systems rungs [1], test 88 systems rungs [2, 3, 4, 5, 6]
+   train log|Phi_b| range 8.31...10.50   test 10.06...11.98
+   held-out deviations: mean +0.2512 dex, sd 0.1091 dex
+      model         rms      bias   scatter    skill  extra coefficient
+      Mconst     0.3280   +0.3093    0.1091        -  
+      M0         0.3765   +0.3614    0.1055        -  
+      M1         0.2313   +0.1996    0.1169   +0.386  beta = +0.0900  -> q = +0.1800
+      M2         0.2723   +0.2481    0.1124   +0.277  gamma = +0.0577
+      M3         0.3765   +0.3614    0.1055   -0.000  step = +0.0000 dex   *** NOT ESTIMABLE: the step is constant on the training set ***
+
+B_grp_to_clu: fit groups ONLY -> predict CLUSTERS
+   train 36 systems rungs [2, 3, 4], test 52 systems rungs [5, 6]
+   train log|Phi_b| range 10.06...10.97   test 10.50...11.98
+   held-out deviations: mean +0.2628 dex, sd 0.0993 dex
+      model         rms      bias   scatter    skill  extra coefficient
+      Mconst     0.1033   +0.0284    0.0993        -  
+      M0         0.0871   -0.0299    0.0818        -  
+      M1         0.3331   +0.2027    0.2644   -2.823  beta = -0.3189  -> q = -0.6378
+      M2         0.1661   +0.1374    0.0934   -0.906  gamma = -0.4025
+      M3         0.0871   -0.0299    0.0818   -0.000  step = +17.0930 dex   *** NOT ESTIMABLE: the step is constant on the training set ***
+
+C_galgrp_to_clu: fit galaxies + groups -> predict CLUSTERS  [the published result]
+   train 200 systems rungs [1, 2, 3, 4], test 52 systems rungs [5, 6]
+   train log|Phi_b| range 8.31...10.97   test 10.50...11.98
+   held-out deviations: mean +0.2628 dex, sd 0.0993 dex
+      model         rms      bias   scatter    skill  extra coefficient
+      Mconst     0.2861   +0.2683    0.0993        -  
+      M0         0.2917   +0.2674    0.1167        -  
+      M1         0.1066   -0.0016    0.1066   +0.634  beta = +0.1719  -> q = +0.3438
+      M2         0.1252   +0.0337    0.1206   +0.571  gamma = +0.1453
+      M3         0.0954   -0.0308    0.0902   +0.673  step = +0.3760 dex
+
+   paired bootstrap of M1 against M0 (RAR alone), per arm:
+      A_gal_to_grp       dRMS = -0.1324 [-0.1398, -0.1255]  P(M1 better) = 1.0000  objects M1 better 36/36
+      A_gal_to_clu       dRMS = -0.1572 [-0.1651, -0.1497]  P(M1 better) = 1.0000  objects M1 better 52/52
+      A_gal_to_grpclu    dRMS = -0.1452 [-0.1515, -0.1394]  P(M1 better) = 1.0000  objects M1 better 88/88
+      B_grp_to_clu       dRMS = +0.2460 [+0.1417, +0.3397]  P(M1 better) = 0.0000  objects M1 better 13/52
+      C_galgrp_to_clu    dRMS = -0.1851 [-0.2178, -0.1527]  P(M1 better) = 1.0000  objects M1 better 50/52
+
+   Do galaxies+groups predict anything groups alone did not?
+      beta: galaxies-only +0.0900, groups-only -0.3189, galaxies+groups +0.1719
+      rms |pred_B - pred_C| on the held-out clusters = 0.3192 dex
+      rms |pred_A - pred_C| on the held-out clusters = 0.1780 dex
+
+   leverage in log|Phi_b| available to each training set:
+      galaxies           n= 164  sd 0.517  range 2.196 dex   mean deviation -0.0581 +- 0.1938
+      groups             n=  36  sd 0.231  range 0.907 dex   mean deviation +0.2344 +- 0.1199
+      galaxies+groups    n= 200  sd 0.636  range 2.660 dex   mean deviation -0.0055 +- 0.2145
+      clusters           n=  52  sd 0.404  range 1.484 dex   mean deviation +0.2628 +- 0.0993
+      clusters sit +1.531 dex from the median of A_gal  = 2.96 training sd
+      clusters sit +0.353 dex from the median of B_grp  = 1.53 training sd
+      clusters sit +1.396 dex from the median of C_galgrp  = 2.19 training sd
+
+==============================================================================
+ITEM 2  THE PAIRED OBJECT BOOTSTRAP  --  M1 (potential) vs M3 (step)
+==============================================================================
+
+   coefficients frozen, 20000 draws, 52 held-out clusters
+      RMS  M1 = 0.1066 dex,  M3 = 0.0954 dex
+      paired dRMS = RMS(M1) - RMS(M3) = +0.01128 dex
+      bootstrap    +0.01115 +- 0.00575   95% [-0.00007, +0.02246]
+      P(M1 better than M3) = 0.0258
+      percentiles 1/5/25/50/75/95/99: -0.0020 +0.0016 +0.0073 +0.0111 +0.0150 +0.0207 +0.0245
+      per-object: M1 closer on 24 of 52 clusters, sign-test p = 0.6778
+      paired t on squared error = +1.811
+
+   nested (training resampled too), 20000 draws, 52 held-out clusters
+      RMS  M1 = 0.1066 dex,  M3 = 0.0954 dex
+      paired dRMS = RMS(M1) - RMS(M3) = +0.01128 dex
+      bootstrap    +0.01241 +- 0.01347   95% [-0.01883, +0.03709]
+      P(M1 better than M3) = 0.1454
+      percentiles 1/5/25/50/75/95/99: -0.0289 -0.0115 +0.0059 +0.0138 +0.0201 +0.0317 +0.0442
+      per-object: M1 closer on 24 of 52 clusters, sign-test p = 0.6778
+      paired t on squared error = +1.811
+
+   all pairwise paired comparisons on the same held-out clusters:
+      M0 vs M1: dRMS +0.1851 [+0.1527, +0.2186]  P(M0 better) = 0.000
+      M0 vs M2: dRMS +0.1665 [+0.1446, +0.1862]  P(M0 better) = 0.000
+      M0 vs M3: dRMS +0.1964 [+0.1590, +0.2341]  P(M0 better) = 0.000
+      M1 vs M2: dRMS -0.0186 [-0.0355, -0.0024]  P(M1 better) = 0.989
+      M1 vs M3: dRMS +0.0113 [-0.0003, +0.0226]  P(M1 better) = 0.028
+      M2 vs M3: dRMS +0.0298 [+0.0088, +0.0504]  P(M2 better) = 0.003
+
+   CAN THE TWO BE DISTINGUISHED AT ALL, BY CONSTRUCTION?
+      correlation of the two frozen predictions over all 252 systems: +0.922718
+      rms |pred_M1 - pred_M3| over all systems  = 0.0626 dex
+      rms |pred_M1 - pred_M3| on the held-out clusters = 0.0461 dex
+      max |pred_M1 - pred_M3| on the held-out clusters = 0.1224 dex
+      median measurement error on the held-out deviations = 0.0500 dex
+      clusters where the two predictions differ by more than that object's own error: 20 of 52
+      inside the held-out clusters log|Phi_b| spans 1.484 dex (sd 0.404), so M1 swings 0.2551 dex across them while M3 is flat by construction
+      most discrepant object: {"name": "SDSSgrp_8379", "rank": 2, "lp": 10.057840319708491, "lg": -11.273641705016518, "pred_M1": 0.07925088891334653, "pred_M3": 0.28549678642966114, "diff": -0.2062458975163146, "observed": 0.33177087242182257, "measurement_error": 0.19422239675774464}
+      per rung, mean |pred_M1 - pred_M3|:
+         rung 1: n= 164  0.0548 dex   (M1 -0.0483, M3 -0.0581, observed -0.0581)
+         rung 2: n=   1  0.2062 dex   (M1 +0.0793, M3 +0.2855, observed +0.3318)
+         rung 3: n=   6  0.0545 dex   (M1 +0.1511, M3 +0.2056, observed +0.2793)
+         rung 4: n=  29  0.0387 dex   (M1 +0.2013, M3 +0.2386, observed +0.2217)
+         rung 5: n=  33  0.0405 dex   (M1 +0.2328, M3 +0.2704, observed +0.2432)
+         rung 6: n=  19  0.0236 dex   (M1 +0.3194, M3 +0.3341, observed +0.2969)
+
+==============================================================================
+DISCIPLINE GATES
+==============================================================================
+   monotone-invariance / responsiveness gate, d(beta)/d(q):
+      injected q = 0.00  ->  recovered beta = +0.17188, transfer rms = 0.1066
+      injected q = 0.05  ->  recovered beta = +0.19688, transfer rms = 0.1066
+      injected q = 0.10  ->  recovered beta = +0.22188, transfer rms = 0.1066
+      injected q = 0.20  ->  recovered beta = +0.27188, transfer rms = 0.1066
+      injected q = 0.40  ->  recovered beta = +0.37188, transfer rms = 0.1066
+      injected q = 0.80  ->  recovered beta = +0.57188, transfer rms = 0.1066
+      d(beta)/d(q) over the range: 0.5000 ... 0.5000   (must not be zero)
+      beta spread 0.4000, transfer-rms spread 0.0000
+
+   shared-denominator null for the TRANSFER statistic, simulated
+   with the actual error covariance (coherent M_b moves log g_bar
+   and log|Phi_b| by +delta and log nu by -delta; distance moves
+   log g_bar by -2eps and log|Phi_b| by -eps):
+      beta under H0 = -0.0174 +- 0.0283  (the naive assumption is 0)
+      transfer rms under H0, M0: 0.2455 +- 0.0245
+      transfer rms under H0, M1: 0.2500 +- 0.0260
+      transfer rms under H0, M2: 0.2486 +- 0.0253
+      transfer rms under H0, M3: 0.2505 +- 0.0262
+      NULL EXPECTATION of dRMS(M1-M3) = -0.00049 +- 0.00667   95% [-0.01544, +0.01335]
+      observed dRMS +0.01128  ->  z = +1.76 against its own null
+
+wrote C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\lead01-ablation\ablation.json

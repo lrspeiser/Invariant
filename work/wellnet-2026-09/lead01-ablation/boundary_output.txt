@@ -1,0 +1,52 @@
+==============================================================================
+ITEM 3   AN OPERATIONAL DEFINITION OF POTENTIAL DEPTH
+==============================================================================
+
+reconstructed 317 system profiles: 187 resolved, 43 two-radius, 87 single-radius
+single-radius systems use the median two-radius power-law index k = 1.3067 (a DECLARED assumption; those rows are lower bounds either way)
+max radius anywhere in the ladder: 1644.4 kpc (the fixed-physical rule uses 2000 kpc, so it is outside every row)
+
+GATE  TAIL rule vs the published log|Phi_b| column: max |diff| = 3.553e-15 dex over 4150 rows
+      -> the reconstruction is the ladder's own convention, exactly.
+
+rule    n rows  inside  drop  nsys      beta        q  transfer M1  transfer M3      dRMS
+BARY      4141      26     9   252   +0.1731  +0.3463       0.1057       0.0953  +0.01034
+PHYS      4150       0     0   252   +0.1779  +0.3559       0.0990       0.0954  +0.00359
+OVER      4133     362    17   248   +0.1408  +0.2815       0.1614       0.0918  +0.06960
+TAIL      4150       0     0   252   +0.1719  +0.3438       0.1066       0.0954  +0.01128
+
+SPREAD ACROSS THE FOUR RULES
+   beta         +0.1408 ... +0.1779   range 0.0372 = 22.4% of the mean
+   implied q    +0.2815 ... +0.3559
+   transfer M1  0.0990 ... 0.1614   range 0.0624 dex
+   dRMS(M1-M3)  +0.00359 ... +0.06960
+   for scale, the published train/all refit moved beta by 1.87% (0.00322)
+
+   Run Z identity check -- corr(residual log|DeltaPhi|, residual log S) after controlling log g_bar, its square and log r:
+      BARY   +1.000000    partial corr(lp, lr | lg) = +0.9494
+      PHYS   +1.000000    partial corr(lp, lr | lg) = +0.9720
+      OVER   +1.000000    partial corr(lp, lr | lg) = +0.9050
+      TAIL   +1.000000    partial corr(lp, lr | lg) = +0.9740
+
+   median r_ref by rung (kpc):
+      rung          BARY        PHYS        OVER        TAIL
+      1             52.0      2000.0        54.1         inf
+      2           1676.6      2000.0        50.7         inf
+      3           2448.3      2000.0       103.2         inf
+      4           3147.6      2000.0       240.8         inf
+      5           3843.3      2000.0       356.9         inf
+      6           9009.2      2000.0       679.5         inf
+
+   THE ABLATION REPEATED UNDER THE PRIMARY RULE (BARY):
+      arm                model      rms      beta
+      galaxies only      M0     0.3580         -
+      galaxies only      M1     0.2165   +0.0791
+      galaxies only      M3     0.3580   +0.0000
+      groups only        M0     0.0871         -
+      groups only        M1     0.3376   -0.3065
+      groups only        M3     0.0871  +17.0930
+      galaxies+groups    M0     0.2916         -
+      galaxies+groups    M1     0.1057   +0.1731
+      galaxies+groups    M3     0.0953   +0.3761
+
+wrote C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\lead01-ablation\boundary_sensitivity.json

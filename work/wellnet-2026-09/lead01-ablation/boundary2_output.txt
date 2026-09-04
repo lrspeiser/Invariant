@@ -1,0 +1,24 @@
+==============================================================================
+ITEM 3 addendum -- what the boundary rule actually changes
+==============================================================================
+
+rule    sd log S  log S min  log S max  leverage  R2 quad  resid sd  err reduction vs RAR
+BARY      0.4612    -1.6618     3.2275    0.7796   0.8745    0.3366                63.8%
+PHYS      0.3959    -0.7501     3.2663    0.6916   0.8870    0.2898                66.1%
+OVER      0.4564    -1.6620     2.5438    0.6788   0.8729    0.2954                44.5%
+TAIL      0.3867    -0.0571     3.2667    0.7656   0.9068    0.2816                63.4%
+
+rule    q implied  q/q_required  M1 reduction  M3 reduction
+BARY      +0.3463          0.93        63.8%        67.3%
+PHYS      +0.3559          0.96        66.1%        67.3%
+OVER      +0.2815          0.76        44.5%        68.5%
+TAIL      +0.3438          0.93        63.4%        67.3%
+
+The identity is definitional.  log|DeltaPhi_b| = log g_bar + log r
++ log S holds for EVERY rule because S is defined as that ratio, so
+corr = +1.0000 under all four is a tautology and not evidence about
+any of them.  The rule-dependent quantity is sd(log S), which is the
+entire information content of the variable beyond (g_bar, r):
+   BARY 0.4612, PHYS 0.3959, OVER 0.4564, TAIL 0.3867
+
+merged into C:\Users\henry\Documents\Codex\2026-08-21\Invariant-main-integration\work\wellnet-2026-09\lead01-ablation\boundary_sensitivity.json

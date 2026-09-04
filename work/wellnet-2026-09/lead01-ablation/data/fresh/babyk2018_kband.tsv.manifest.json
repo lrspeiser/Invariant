@@ -1,0 +1,93 @@
+{
+  "file": "babyk2018_kband.tsv",
+  "retrieved_utc": "2026-09-04T12:31:33Z",
+  "sha256": "ed61af6f9ff48f4c4e40b8861603cebff0a333d2de7332564fd998e49b8c32c7",
+  "bytes": 16620,
+  "row_count": 94,
+  "columns_with_units": [
+    "Name [-]",
+    "RA_resolved [deg, J2000]",
+    "DE_resolved [deg, J2000]",
+    "name_resolver [-]",
+    "match_sep [arcsec]",
+    "Ks_total [mag]",
+    "e_Ks_total [mag]",
+    "Ks_catalogue [-]",
+    "Ks_column [-]",
+    "Ks_extinction_corrected [yes/no]",
+    "xsc_2MASX_id [-]",
+    "xsc_K.ext [mag]",
+    "xsc_e_K.ext [mag]",
+    "xsc_r.ext [arcsec]",
+    "mrs_Ktmag [mag]",
+    "mrs_sep [arcsec]",
+    "mrs_CAT_id [-]",
+    "leda_kt [mag]",
+    "leda_e_kt [mag]",
+    "atlas3d_KMAG_abs [mag]",
+    "atlas3d_Dist [Mpc]",
+    "atlas3d_mK_apparent [mag] (RECONSTRUCTED = KMAG + 5log10(Dist*1e5))",
+    "atlas3d_minus_ours [mag]",
+    "flags [-]"
+  ],
+  "sources": {
+    "name_resolution": {
+      "service": "CDS Sesame (SIMBAD)",
+      "url_pattern": "https://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oI?<name>",
+      "fallback": "https://vizier.cfa.harvard.edu/viz-bin/nph-sesame/-oI?<name>"
+    },
+    "primary_photometry": {
+      "catalogue": "VII/233/xsc (2MASS All-Sky Extended Source Catalog)",
+      "column": "K.ext",
+      "column_native": "k_m_ext",
+      "meaning": "total extrapolated Ks magnitude, from the fit to the radial profile out to r.ext",
+      "extinction_corrected": false,
+      "query_pattern": "https://vizier.cfa.harvard.edu/viz-bin/asu-tsv?-source=VII/233/xsc&-c=<ra><dec>&-c.rs=60&-out.max=50&-out.all&-sort=_r"
+    },
+    "secondary": {
+      "catalogue": "J/ApJS/199/26/table3 (2MASS Redshift Survey, Huchra+ 2012)",
+      "column": "Ktmag",
+      "meaning": "extinction-corrected total extrapolated Ks magnitude",
+      "extinction_corrected": true
+    },
+    "tertiary": {
+      "catalogue": "HyperLeda",
+      "column": "kt",
+      "meaning": "homogenised total K magnitude",
+      "url_pattern": "http://atlas.obs-hp.fr/hyperleda/ledacat.cgi?o=<name>",
+      "extinction_corrected": false
+    },
+    "cross_check_only": {
+      "catalogue": "J/MNRAS/413/813/atlas3d (ATLAS-3D, Cappellari+ 2011)",
+      "columns_used": [
+        "KMAG (total ABSOLUTE K magnitude)",
+        "Dist (Mpc)"
+      ],
+      "note": "PHOTOMETRY ONLY. No dynamical mass-to-light ratio or any other dynamical quantity was read from this catalogue."
+    }
+  },
+  "counts": {
+    "total": 94,
+    "from_2MASS_XSC_K.ext": 92,
+    "from_2MRS_Ktmag": 1,
+    "from_HyperLeda_kt": 1,
+    "with_no_magnitude": 0
+  },
+  "match_separation_arcsec": {
+    "n": 93,
+    "median": 0.301,
+    "max": 43.537,
+    "n_over_5arcsec": 3
+  },
+  "atlas3d_cross_check": {
+    "n_overlap": 35,
+    "median_offset_mag": -0.011,
+    "mean_offset_mag": -0.013,
+    "rms_mag": 0.008,
+    "mad_mag": 0.005,
+    "min_mag": -0.031,
+    "max_mag": -0.0
+  },
+  "adjudication_rule": "The 2MASS XSC cone match is accepted only when its K.ext agrees to within 0.5 mag with at least one independent NAME-based lookup (HyperLeda by name, or a 2MRS entry). This is what certifies the cross-identification; positional proximity alone does not. Where the XSC match is contradicted or absent, the fallback actually used is recorded per object in the flags column.",
+  "notes": "ACQUISITION ONLY: no mass-to-light ratio was applied and no stellar mass was computed. Magnitudes are apparent Ks in the 2MASS system unless the extinction-corrected column says otherwise - note that the 2MRS Ktmag values ARE extinction corrected while the XSC K.ext and HyperLeda kt values are NOT, so the three are not interchangeable at the 0.01-0.1 mag level. The atlas3d_mK_apparent column is RECONSTRUCTED here from the ATLAS-3D absolute magnitude and its adopted distance; it is a cross-check column, not an acquired measurement. VizieR TRAP: the ASU error marker is '#INFO' followed by a TAB then 'Error='; testing for the string '#INFO Error=' with a space silently never matches and turns a missing catalogue into an apparent success."
+}

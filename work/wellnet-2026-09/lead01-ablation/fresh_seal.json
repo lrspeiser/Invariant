@@ -1,0 +1,107 @@
+{
+  "sealed_utc": "2026-09-04T12:18:16.745809Z",
+  "prereg_sha256": "40a22ae2f8f38eca63c1d145e887f7f18ede68428dad7a0f0871e16e6e35414d",
+  "ladder_sha256": "0aa416205a6e9392317d72e1b6e8e33f50d2985863d808459e11f7dadbd8d3f8",
+  "training_set": "ALL 252 ladder systems inside the matched-acceleration window, rungs 1-6.  The 52 clusters are included because four models have already been ranked on them, so they no longer function as a holdout.",
+  "response": "log10( nu_obs / nu_RAR ),  nu_RAR = 1/(1-exp(-sqrt(g_bar/a0))), a0 = 1.2e-10 m/s^2",
+  "design": "every model carries a free quadratic in log10 g_bar",
+  "window_log_gbar": [
+    -11.6,
+    -10.414753492828611
+  ],
+  "frozen_models": {
+    "M1_BARY": {
+      "terms": [
+        "1",
+        "log10 g_bar",
+        "(log10 g_bar)^2",
+        "log10 |DeltaPhi_b| under rule BARY"
+      ],
+      "coef": [
+        -7.33681481534168,
+        -0.9419371182386783,
+        -0.03828218850558007,
+        0.16622369349897947
+      ],
+      "n_train": 252,
+      "train_rms": 0.171350804601954
+    },
+    "M1_TAIL": {
+      "terms": [
+        "1",
+        "log10 g_bar",
+        "(log10 g_bar)^2",
+        "log10 |DeltaPhi_b| under rule TAIL"
+      ],
+      "coef": [
+        -8.916061552765887,
+        -1.1913538680087865,
+        -0.04827603471914621,
+        0.1686638467066091
+      ],
+      "n_train": 252,
+      "train_rms": 0.1703043407794232
+    },
+    "M0": {
+      "terms": [
+        "1",
+        "log10 g_bar",
+        "(log10 g_bar)^2"
+      ],
+      "coef": [
+        17.998893441279332,
+        3.3718391529502605,
+        0.1579700271433353
+      ],
+      "n_train": 252,
+      "train_rms": 0.22123063796729886
+    },
+    "M3": {
+      "terms": [
+        "1",
+        "log10 g_bar",
+        "(log10 g_bar)^2",
+        "step: 1 if the object is NOT a galaxy, else 0"
+      ],
+      "coef": [
+        -15.755991385447238,
+        -2.990810962518299,
+        -0.14205139205998218,
+        0.35491820940099267
+      ],
+      "n_train": 252,
+      "train_rms": 0.16446504964452266
+    }
+  },
+  "primary_model": "M1_BARY",
+  "primary_null": "M3",
+  "fresh_sample": {
+    "identity": "Babyk, McNamara, Nulsen, Hogan, Vantyghem, Russell, Pulido, Edge 2018, ApJ 857, 32 (2018ApJ...857...32B, arXiv:1803.00020) -- 94 early-type galaxies with Chandra hydrostatic masses at 5 r_e; K-band photometry from 2MASS for the stellar mass.",
+    "why_fresh": "No lane of this programme has used Babyk+2018.  It has never appeared in the record (Runs A-AB) and is not in the cluster-audit acquisition set.  It was acquired by a process that computed no residual, no boost and no acceleration ratio.",
+    "why_decisive": "These objects ARE galaxies, so the class-step null predicts NO offset for them, while the potential-depth model predicts an offset set by their potential depth, which sits between spirals and groups.  That is the one configuration where the two models disagree.",
+    "cuts_declared_in_advance": [
+      "finite r_5re, kT, M_gas(<5re), M_tot,hydro(<5re) and a matched 2MASS K_s total magnitude",
+      "M_tot_err_stat / M_tot <= 0.5",
+      "PRIMARY subset: BCG_flag and cD_flag both blank -- these are unambiguously individual galaxies.  BCG/cD objects sit at the centre of a group or cluster halo, so their class and their hydrostatic mass are both contaminated; they are reported SEPARATELY as a secondary, never pooled with the primary.",
+      "PRIMARY subset additionally restricted to objects whose log10 g_bar falls inside the fitted window; objects outside it are reported separately as an acknowledged extrapolation."
+    ],
+    "baryon_model": {
+      "gas": "Babyk's own isothermal beta-model, M_gas(<r) from rho(r) = rho_0 [1+(r/r_c)^2]^(-3 beta/2), integrated.  GATE: must reproduce the tabulated M_gas(<5 r_e).",
+      "stars": "Hernquist profile with scale a = r_e / 1.8153 and total M_* = Upsilon_K L_K, Upsilon_K = 0.75 Msun/Lsun_K DECLARED IN ADVANCE, M_K,sun = 3.27 (Willmer 2018).  Upsilon_K in [0.6, 1.0] is carried as a systematic.",
+      "note": "No dark matter enters either component.  The total mass is Babyk's hydrostatic mass, not an NFW fit."
+    },
+    "class_assignment": "galaxy (step = 0) under the class-step null, because they are individual galaxies.  The alternative reading -- 'is it an X-ray hot-gas system' (step = 1) -- is reported alongside, because that ambiguity is exactly the weakness of a model whose only variable is a label.",
+    "evaluation": "ONE pass.  Frozen coefficients, no refitting of any kind."
+  },
+  "self_sha256": "ee2fa831df5f77f231bb6c5752e15b9d30e4300b5d72d6e18c2ba093c71ac394",
+  "amendments": [
+    {
+      "utc": "2026-09-04T12:27:35.725743Z",
+      "what": "gas normalisation",
+      "reason": "The ingest gate -- integrating Babyk table 3 (rho_0, r_c, beta) and comparing with the tabulated M_gas(<5 r_e) -- gives a MEDIAN ratio of 0.998, so the model and units are right, but a 0.53 dex scatter with outliers spanning 0.007 to 47.6. The failures correlate with log(r_5re/r_c) at +0.545: 24 of 94 objects have r_c tabulated as <= 0.10 kpc to two decimals, so r_c itself carries a factor-of-two rounding error and the beta-model normalisation carries up to 2 dex with it.",
+      "change": "M_gas(<r) is renormalised to Babyk's own tabulated M_gas(<5 r_e); the beta-model supplies only the SHAPE of the gas profile inside 5 r_e.  r_c is floored at 0.005 kpc, the rounding half-width, for objects printed as 0.00.",
+      "made_before_any_residual_was_computed": true,
+      "note": "No acceleration ratio, boost or residual for the fresh sample had been computed at this point."
+    }
+  ]
+}

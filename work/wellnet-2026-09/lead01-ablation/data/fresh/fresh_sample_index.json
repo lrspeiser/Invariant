@@ -1,0 +1,339 @@
+{
+  "acquisition": "sealed-holdout acquisition, lead01-ablation, wellnet-2026-09",
+  "built_utc": "2026-09-04T12:13:45Z",
+  "scope": "X-ray-bright early-type galaxies with hydrostatic X-ray mass determinations. ACQUISITION ONLY - no analysis, no residuals, no acceleration ratios, no model comparison performed.",
+  "sealed_holdouts_untouched": [
+    "KiDS",
+    "wide-binary data"
+  ],
+  "sources_acquired": [
+    {
+      "bibcode": "2018ApJ...857...32B",
+      "arxiv_id": "1803.00020",
+      "reference": "Babyk I.V., McNamara B.R., Nulsen P.E.J., Hogan M.T., Vantyghem A.N., Russell H.R., Pulido F.A., Edge A.C. 2018, ApJ 857, 32, 'X-ray Scaling Relations of Early-type Galaxies'",
+      "instrument": "Chandra ACIS (archival)",
+      "n_objects": 94,
+      "object_class": "early-type galaxies: E, S0/SA0/SAB0, plus BCGs and cD galaxies; morphological type flagged per object",
+      "radius_definition": "single radius per object: r = 5 r_e, five optical half-light radii; the value in kpc is tabulated per object as r_5re with its error",
+      "total_mass_is_hydrostatic": true,
+      "total_mass_method": "isothermal beta-model fit to the Chandra X-ray surface brightness combined with the single-temperature spectral fit, inserted into the hydrostatic-equilibrium equation. NOT an NFW fit, NOT a lensing or light-tied parametric model.",
+      "provides": [
+        "M_gas(<5re)",
+        "M_tot,hydrostatic(<5re)",
+        "kT",
+        "L_X(0.5-2 keV)",
+        "metallicity Z",
+        "sigma_c",
+        "redshift",
+        "D_A",
+        "D_L",
+        "morphological type",
+        "beta-model beta, r_c, rho_0"
+      ],
+      "does_not_provide": [
+        "stellar mass",
+        "K-band luminosity",
+        "resolved radial profiles (single radius only)"
+      ],
+      "files": {
+        "babyk2018_table1_sample.tsv": {
+          "rows": 94,
+          "columns_with_units": [
+            "Name [-]",
+            "RA_gal_l [deg]",
+            "DEC_gal_b [deg]",
+            "ObsID [-]",
+            "Exposure_before [ks]",
+            "Exposure_after [ks]",
+            "MorphType [-]",
+            "BCG_flag [Y/blank]",
+            "cD_flag [Y/blank]",
+            "z [-]",
+            "D_A [Mpc]",
+            "D_A_isVirgoAssumed [0/1]",
+            "D_L [Mpc]",
+            "D_L_isVirgoAssumed [0/1]",
+            "NH_gal [1e20 cm-2]",
+            "NH_intrinsic_or_total [1e20 cm-2]"
+          ]
+        },
+        "babyk2018_table2_spectra_5re.tsv": {
+          "rows": 94,
+          "columns_with_units": [
+            "Name [-]",
+            "r_5re [kpc]",
+            "r_5re_err [kpc]",
+            "kT [keV]",
+            "kT_err [keV]",
+            "log10_fX_0.5-2.0keV [log10(erg cm-2 s-1)]",
+            "log10_fX_err [dex]",
+            "LX_0.5-2.0keV [1e40 erg s-1]",
+            "LX_err [1e40 erg s-1]",
+            "Z [Zsun]",
+            "Z_err [Zsun]",
+            "Cstat_per_dof [-]",
+            "sigma_c [km s-1]",
+            "sigma_c_err [km s-1]"
+          ]
+        },
+        "babyk2018_table3_betamodel_masses.tsv": {
+          "rows": 94,
+          "columns_with_units": [
+            "Name [-]",
+            "beta [-]",
+            "beta_err [-]",
+            "r_c [kpc]",
+            "r_c_err [kpc]",
+            "rho_0 [1e-24 g cm-3]",
+            "rho_0_err [1e-24 g cm-3]",
+            "chi2 [-]",
+            "M_gas_lt_5re [1e11 Msun]",
+            "M_gas_err [1e11 Msun]",
+            "M_tot_hydrostatic_lt_5re [1e13 Msun]",
+            "M_tot_err_stat [1e13 Msun]",
+            "M_tot_err_sys [1e13 Msun]"
+          ]
+        },
+        "babyk2018_joined_per_object.tsv": {
+          "rows": 94,
+          "columns_with_units": [
+            "Name [-]",
+            "MorphType [-]",
+            "BCG_flag [Y/blank]",
+            "cD_flag [Y/blank]",
+            "z [-]",
+            "D_A [Mpc]",
+            "D_L [Mpc]",
+            "r_5re [kpc]",
+            "r_5re_err [kpc]",
+            "kT [keV]",
+            "kT_err [keV]",
+            "LX_0.5-2.0keV [1e40 erg s-1]",
+            "LX_err [1e40 erg s-1]",
+            "Z [Zsun]",
+            "Z_err [Zsun]",
+            "sigma_c [km s-1]",
+            "sigma_c_err [km s-1]",
+            "M_gas_lt_5re [1e11 Msun]",
+            "M_gas_err [1e11 Msun]",
+            "M_tot_hydrostatic_lt_5re [1e13 Msun]",
+            "M_tot_err_stat [1e13 Msun]",
+            "M_tot_err_sys [1e13 Msun]"
+          ]
+        }
+      },
+      "raw": "raw/arxiv_1803.00020.tar.gz",
+      "caveats": [
+        "Where the X-ray surface-brightness profile does not reach 5 r_e the authors extrapolated the mass profiles to 5 r_e using the slope of the last 20 points in log-log space.",
+        "M_tot carries two separate errors: statistical then systematic.",
+        "Metallicity entries without an error were frozen at 0.5 Zsun.",
+        "The Table 1 coordinate columns are headed '(J2000)' but the paper text states the coordinates were taken as galactic coordinates from SIMBAD; treat the RA/DEC columns as suspect and re-resolve positions from the object name if needed.",
+        "L_X is the 0.5-2.0 keV band luminosity, not bolometric."
+      ]
+    },
+    {
+      "bibcode": "2009A&A...501..157N",
+      "arxiv_id": "0903.2540",
+      "reference": "Nagino R., Matsushita K. 2009, A&A 501, 157, 'Gravitational potential and X-ray luminosities of early-type galaxies observed with XMM-Newton and Chandra'",
+      "instrument": "XMM-Newton (MOS) + Chandra (archival)",
+      "n_objects": 22,
+      "object_class": "early-type galaxies, RC3 T-type -5 (E) and -2 (S0)",
+      "radius_definition": "three radii per object: r < 0.5 r_e, r < 3 r_e, r < 6 r_e. r_e is tabulated in arcmin; the kpc equivalents are reconstructed here from the adopted distance D.",
+      "total_mass_is_hydrostatic": true,
+      "total_mass_method": "non-parametric hydrostatic: M(R) = -kT(R)R/(G mu m_p) (dln n/dln R + dln T/dln R) evaluated on the deprojected ISM temperature and density profiles. NOT an NFW fit; NFW appears in the introduction only as literature context.",
+      "provides": [
+        "M_tot/L_B at 3 radii",
+        "M_tot/L_K at 3 radii",
+        "log10 L_B",
+        "sigma",
+        "r_e",
+        "distance D",
+        "T-type",
+        "N_H",
+        "X-ray morphology class"
+      ],
+      "does_not_provide": [
+        "gas mass M_gas(<r) - NOT TABULATED ANYWHERE IN THIS PAPER",
+        "redshift (distances only)",
+        "tabulated L_K (used by the authors from 2MASS but not printed, so M/L_K cannot be inverted to a mass from this table alone)",
+        "tabulated kT per object (temperature profiles are plotted, not tabulated)"
+      ],
+      "files": {
+        "nagino2009_etg_masstolight.tsv": {
+          "rows": 22,
+          "columns_with_units": [
+            "Name [-]",
+            "T_type_RC3 [-]",
+            "D [Mpc]",
+            "r_e [arcmin]",
+            "r_e [kpc] (RECONSTRUCTED = D*1000*r_e_arcmin*pi/10800)",
+            "log10_L_B [log10(Lsun_B)]",
+            "sigma [km s-1]",
+            "NH [1e20 cm-2]",
+            "Xray_morph_class [XC=compact/XE=extended]",
+            "Environment [-]",
+            "r_0.5re [kpc] (RECONSTRUCTED)",
+            "r_3re [kpc] (RECONSTRUCTED)",
+            "r_6re [kpc] (RECONSTRUCTED)",
+            "M_over_LB_lt_0.5re [Msun/Lsun_B]",
+            "M_over_LB_lt_3re [Msun/Lsun_B]",
+            "M_over_LB_lt_6re [Msun/Lsun_B]",
+            "M_over_LK_lt_0.5re [Msun/Lsun_K]",
+            "M_over_LK_lt_3re [Msun/Lsun_K]",
+            "M_over_LK_lt_6re [Msun/Lsun_K]",
+            "M_tot_hydrostatic_lt_0.5re [Msun] (RECONSTRUCTED = M_over_LB * 10^log10_L_B)",
+            "M_tot_hydrostatic_lt_3re [Msun] (RECONSTRUCTED)",
+            "M_tot_hydrostatic_lt_6re [Msun] (RECONSTRUCTED)"
+          ]
+        }
+      },
+      "raw": "raw/arxiv_0903.2540.tar.gz",
+      "caveats": [
+        "Columns labelled RECONSTRUCTED are computed here from the tabulated columns (unit conversion and M/L x L product); they are not values printed in the paper. The raw tabulated M/L and log L_B columns are retained alongside.",
+        "6 r_e columns are empty for NGC1549, NGC4365, NGC4526 and NGC4552 (profile did not reach 6 r_e).",
+        "For NGC1549, NGC4477 and NGC5322 the mass inside 0.5 r_e rests on XMM-Newton data only."
+      ]
+    }
+  ],
+  "sources_examined_and_rejected": [
+    {
+      "bibcode": "2006ApJ...646..899H",
+      "arxiv_id": "astro-ph/0601301",
+      "reference": "Humphrey, Buote et al. 2006, ApJ 646, 899",
+      "reason_rejected": "RULE 2 VIOLATION: the only tabulated total masses are M_vir, r_vir and concentration c from a parametric 'NFW+stars' fit. The non-parametric mass profile points appear only as a figure, not as a table.",
+      "raw": "raw/arxiv_astro-ph_0601301.tar.gz"
+    },
+    {
+      "bibcode": "2018ApJ...862...39B",
+      "arxiv_id": "1802.02589",
+      "reference": "Babyk et al. 2018, ApJ 862, 39, 'A Universal Entropy Profile for the Hot Atmospheres of Galaxies and Clusters within R2500'",
+      "reason_rejected": "Contains no tabulated gas mass or total mass. Table 1 is observation metadata for 40 low-mass systems; the remaining tables are broken-power-law entropy fit coefficients. M2500 is plotted but never tabulated.",
+      "raw": "raw/arxiv_1802.02589.tar.gz"
+    },
+    {
+      "bibcode": "2019ApJ...887..149B",
+      "arxiv_id": "1810.11465",
+      "reference": "Babyk et al. 2019, ApJ 887, 149, 'Origins of Molecular Clouds in Early-type Galaxies'",
+      "reason_rejected": "The 40-galaxy temperature, density, cooling-time, gas-mass and total-mass profiles are PLOTTED only; no radial profile table exists in the LaTeX source. Tables give observation metadata, kT, molecular gas mass and 1.4 GHz flux.",
+      "raw": "raw/arxiv_1810.11465.tar.gz"
+    }
+  ],
+  "vizier_probe_results": {
+    "method": "https://vizier.cfa.harvard.edu/viz-bin/ReadMe/<ID> with curl -sL (the CfA mirror answers https with a 302 to http, so redirects MUST be followed or every probe looks like a failure)",
+    "J/ApJ/857/32": "ReadMe is not found - NO CATALOGUE",
+    "J/ApJ/862/39": "ReadMe is not found - NO CATALOGUE",
+    "J/ApJ/646/899": "ReadMe is not found - NO CATALOGUE",
+    "J/A+A/501/157": "ReadMe is not found - NO CATALOGUE",
+    "J/ApJ/669/158": "ReadMe is not found - NO CATALOGUE",
+    "J/A+A/601/A95": "PRESENT but is a DIFFERENT PAPER: Calabro+ 2017, 'Star-forming dwarfs at intermediate-z in VUDS'. It is NOT O'Sullivan CLoGS.",
+    "J/ApJS/174/117": "PRESENT: Maughan+ 2008, 115 Chandra clusters. NOT acquired - it is Priority 3, to be used only if Priorities 1 and 2 both failed, and Priority 1 succeeded.",
+    "VII/233": "PRESENT: 2MASS All-Sky Extended Source Catalog (XSC); table VII/233/xsc.",
+    "VII/240": "PRESENT but is a DIFFERENT catalogue: the Millennium Galaxy Catalogue (Liske+ 2003). It is NOT the 2MASS Large Galaxy Atlas.",
+    "J/AJ/125/525": "ABSENT - '#INFO<TAB>Error=Table or Catalog not found'. The 2MASS Large Galaxy Atlas is not available in VizieR under this identifier.",
+    "J/ApJS/199/26": "PRESENT: 2MASS Redshift Survey (Huchra+ 2012); table .../table3.",
+    "J/MNRAS/413/813": "PRESENT: ATLAS-3D (Cappellari+ 2011). The table is named 'atlas3d' (871 rows), NOT 'table3'/'table4' as the ReadMe JSON's .dat filenames suggest.",
+    "_TRAP_error_marker": "The ASU error marker is '#INFO' + TAB + 'Error='. Testing for '#INFO Error=' with a SPACE never matches and silently turns a missing catalogue into an apparent success. Test for '\tError='.",
+    "_TRAP_readme_endpoint": "The /ReadMe/<ID> JSON endpoint answers 'ReadMe is not found' for table-level IDs such as 'VII/233/xsc' that DO exist and return data via asu-tsv. It is not authoritative for existence; confirm with an asu-tsv query."
+  },
+  "ancillary_photometry": [
+    {
+      "purpose": "Near-infrared K_s TOTAL apparent magnitudes for the 94 Babyk+2018 ETGs, acquired so that a stellar mass can be formed LATER. NO mass-to-light ratio has been applied and NO stellar mass has been computed here.",
+      "file": "babyk2018_kband.tsv",
+      "n_objects": 94,
+      "n_with_magnitude": 94,
+      "rows": 94,
+      "columns_with_units": [
+        "Name [-]",
+        "RA_resolved [deg, J2000]",
+        "DE_resolved [deg, J2000]",
+        "name_resolver [-]",
+        "match_sep [arcsec]",
+        "Ks_total [mag]",
+        "e_Ks_total [mag]",
+        "Ks_catalogue [-]",
+        "Ks_column [-]",
+        "Ks_extinction_corrected [yes/no]",
+        "xsc_2MASX_id [-]",
+        "xsc_K.ext [mag]",
+        "xsc_e_K.ext [mag]",
+        "xsc_r.ext [arcsec]",
+        "mrs_Ktmag [mag]",
+        "mrs_sep [arcsec]",
+        "mrs_CAT_id [-]",
+        "leda_kt [mag]",
+        "leda_e_kt [mag]",
+        "atlas3d_KMAG_abs [mag]",
+        "atlas3d_Dist [Mpc]",
+        "atlas3d_mK_apparent [mag] (RECONSTRUCTED = KMAG + 5log10(Dist*1e5))",
+        "atlas3d_minus_ours [mag]",
+        "flags [-]"
+      ],
+      "sources": {
+        "name_resolution": {
+          "service": "CDS Sesame (SIMBAD)",
+          "url_pattern": "https://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oI?<name>",
+          "fallback": "https://vizier.cfa.harvard.edu/viz-bin/nph-sesame/-oI?<name>"
+        },
+        "primary_photometry": {
+          "catalogue": "VII/233/xsc (2MASS All-Sky Extended Source Catalog)",
+          "column": "K.ext",
+          "column_native": "k_m_ext",
+          "meaning": "total extrapolated Ks magnitude, from the fit to the radial profile out to r.ext",
+          "extinction_corrected": false,
+          "query_pattern": "https://vizier.cfa.harvard.edu/viz-bin/asu-tsv?-source=VII/233/xsc&-c=<ra><dec>&-c.rs=60&-out.max=50&-out.all&-sort=_r"
+        },
+        "secondary": {
+          "catalogue": "J/ApJS/199/26/table3 (2MASS Redshift Survey, Huchra+ 2012)",
+          "column": "Ktmag",
+          "meaning": "extinction-corrected total extrapolated Ks magnitude",
+          "extinction_corrected": true
+        },
+        "tertiary": {
+          "catalogue": "HyperLeda",
+          "column": "kt",
+          "meaning": "homogenised total K magnitude",
+          "url_pattern": "http://atlas.obs-hp.fr/hyperleda/ledacat.cgi?o=<name>",
+          "extinction_corrected": false
+        },
+        "cross_check_only": {
+          "catalogue": "J/MNRAS/413/813/atlas3d (ATLAS-3D, Cappellari+ 2011)",
+          "columns_used": [
+            "KMAG (total ABSOLUTE K magnitude)",
+            "Dist (Mpc)"
+          ],
+          "note": "PHOTOMETRY ONLY. No dynamical mass-to-light ratio or any other dynamical quantity was read from this catalogue."
+        }
+      },
+      "counts_by_source": {
+        "total": 94,
+        "from_2MASS_XSC_K.ext": 92,
+        "from_2MRS_Ktmag": 1,
+        "from_HyperLeda_kt": 1,
+        "with_no_magnitude": 0
+      },
+      "match_separation_arcsec": {
+        "n": 93,
+        "median": 0.301,
+        "max": 43.537,
+        "n_over_5arcsec": 3
+      },
+      "atlas3d_cross_check": {
+        "n_overlap": 35,
+        "median_offset_mag": -0.011,
+        "mean_offset_mag": -0.013,
+        "rms_mag": 0.008,
+        "mad_mag": 0.005,
+        "min_mag": -0.031,
+        "max_mag": -0.0
+      },
+      "adjudication_rule": "The 2MASS XSC cone match is accepted only when its K.ext agrees to within 0.5 mag with at least one independent NAME-based lookup (HyperLeda by name, or a 2MRS entry). This is what certifies the cross-identification; positional proximity alone does not. Where the XSC match is contradicted or absent, the fallback actually used is recorded per object in the flags column.",
+      "total_mass_is_hydrostatic": null,
+      "caveats": [
+        "2MASS XSC K.ext and HyperLeda kt are NOT extinction corrected; 2MRS Ktmag IS. The per-object column Ks_extinction_corrected records which applies.",
+        "The ATLAS-3D cross-check is a CONSISTENCY check, not an independent one: ATLAS-3D KMAG is itself built on 2MASS photometry, which is why the scatter is only 0.008 mag. It confirms the extraction and the cross-identification, not the underlying photometric scale.",
+        "Three objects matched at >5 arcsec (NGC741 35.0\", NGC6098 36.2\", NGC1265 43.5\") because the SIMBAD position is imprecise or the object is absent from the XSC. NGC741 and NGC6098 were corroborated by an independent name-based HyperLeda lookup and kept; NGC1265's XSC match was rejected and replaced.",
+        "ATLAS-3D photometry only was used; no dynamical mass-to-light ratio or other dynamical quantity was read from that catalogue."
+      ]
+    }
+  ]
+}
