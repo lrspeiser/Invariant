@@ -1,0 +1,47 @@
+==============================================================================
+STAGE 0 -- least-favourable scalar null, whole-search calibration
+==============================================================================
+
+   grid 40^3, noise 10%, axis grid 6
+   calibration 120 / audit 120 / injection 40, DISJOINT
+   scalar families: nu_simple, pade, spline, other_inv, gp
+   false-anisotropy generators: None, triaxial_tilt, deprojection, miscentre, ml_gradient, substructure
+
+   --- calibration set (scalar truth only) ---
+      D median 1.1847e-04,  D* (95th) 6.5261e-03
+      nu_simple  median D 8.301e-05  max 8.116e-04   n=21
+      pade       median D 1.029e-04  max 5.016e-04   n=26
+      spline     median D 2.581e-04  max 3.887e-02   n=19
+      other_inv  median D 2.658e-04  max 3.517e-03   n=24
+      gp         median D 6.382e-05  max 1.326e-02   n=30
+
+   --- AUDIT set, untouched, verifies the realised rate ---
+      realised false-positive rate at D* : 0.092 +- 0.026   (nominal 0.05)
+      by false-anisotropy generator:
+         None             0.07   n=15
+         deprojection     0.15   n=20
+         miscentre        0.05   n=20
+         ml_gradient      0.08   n=26
+         substructure     0.09   n=22
+         triaxial_tilt    0.12   n=17
+
+   --- injection set, power ---
+      amplitude 0.15   power = 0.65
+      amplitude 0.35   power = 0.82
+      amplitude 0.60   power = 0.95
+
+   elapsed 147s, 24 source banks built
+
+==============================================================================
+   HOW TO READ THIS
+   D* is set on the CALIBRATION set and verified on the UNTOUCHED
+   AUDIT set. If the audit rate is near 0.05 the detector is
+   correctly sized against arbitrary smooth scalar responses AND
+   against realistic anisotropy-mimicking defects -- which is a much
+   stronger claim than Run AC's, where the null was an off-grid
+   member of the detector's own grammar.
+   The per-generator column says WHICH defect the detector confuses
+   for anisotropy. A rate well above 0.05 in one row names a
+   systematic that must be controlled before any tensor claim.
+
+   written: stage0_null.json
