@@ -1,0 +1,194 @@
+
+==============================================================================
+JOB 1  --  every consumer of _cluster_profile
+==============================================================================
+   direct callers of _cluster_profile : 3
+      work/wellnet-2026-09/tempclamp/prove_test_fails_prepatch.py
+      work/wellnet-2026-09/tempclamp/run_audit.py
+      work/wellnet-2026-09/tempclamp/test_tempclamp.py
+
+   importers of invariant_bench.Bench : 20
+      work/gravity-cluster-audit-2026-09/c70_endogeneity.py           USES xcop
+      work/gravity-cluster-audit-2026-09/c71_amplitude.py             USES xcop
+      work/gravity-cluster-audit-2026-09/mirror/mirror_run.py         loads xcop, does not read it
+      work/gravity-cluster-audit-2026-09/power/power_analysis.py      USES xcop
+      work/gravity-wells-2026-09/m10_xcop_temperature.py              USES xcop
+      work/gravity-wells-2026-09/m11_verify_identity.py               USES xcop
+      work/gravity-wells-2026-09/m12_redo_correct.py                  USES xcop
+      work/gravity-wells-2026-09/p01_rigorous.py                      USES xcop
+      work/gravity-wells-2026-09/p03_audit_confound.py                loads xcop, does not read it
+      work/gravity-wells-2026-09/p04_reaudit.py                       loads xcop, does not read it
+      work/gravity-wells-2026-09/p05_floor.py                         loads xcop, does not read it
+      work/gravity-wells-2026-09/v01_extract.py                       USES xcop
+      work/gravity-wells-2026-09/v03_lens_and_substructure.py         USES xcop
+      work/gravity-wells-2026-09/v04_lumpiness.py                     USES xcop
+      work/gravity-wells-2026-09/v05_realizations.py                  USES xcop
+      work/wellnet-2026-09/tempclamp/run_audit.py                     USES xcop
+      work/wellnet-2026-09/tempclamp/smoke_bench.py                   USES xcop
+      work/wellnet-2026-09/tempclamp/tclamp.py                        USES xcop
+      work/wellnet-2026-09/tempclamp/test_tempclamp.py                USES xcop
+      work/wellnet-2026-09/tempclamp/verdicts.py                      USES xcop
+
+   independent re-implementations of the same interp : 18
+      src/sigma_theory_compiler/gravity_extended_source_clock_xcop_development.py
+      src/sigma_theory_compiler/gravity_item59_xcop_forward_observable_gate.py
+      src/sigma_theory_compiler/gravity_shared_target_blind_ben_development_executor_v4.py
+      work/gravity-ben-development-executor-v4-superseded-audit1/gravity_shared_target_blind_ben_development_executor_v4.py
+      work/gravity-ben-development-executor-v4-superseded-audit2/gravity_shared_target_blind_ben_development_executor_v4.py
+      work/gravity-ben-development-executor-v4-superseded-audit3/gravity_shared_target_blind_ben_development_executor_v4.py
+      work/gravity-cluster-audit-2026-09/c70_endogeneity.py  (also imports the bench)
+      work/gravity-cluster-audit-2026-09/c71_amplitude.py  (also imports the bench)
+      work/gravity-cluster-audit-2026-09/power/power_analysis.py  (also imports the bench)
+      work/gravity-wells-2026-09/m10_xcop_temperature.py  (also imports the bench)
+      work/gravity-wells-2026-09/m12_redo_correct.py  (also imports the bench)
+      work/gravity-wells-2026-09/p01_rigorous.py  (also imports the bench)
+      work/wellnet-2026-09/r500-audit/ingest.py
+      work/wellnet-2026-09/r500-audit/nullsim.py
+      work/wellnet-2026-09/r500-audit/report.py
+      work/wellnet-2026-09/tempclamp/run_audit.py  (also imports the bench)
+      work/wellnet-2026-09/tempclamp/tclamp.py  (also imports the bench)
+      work/wellnet-2026-09/tempclamp/test_tempclamp.py  (also imports the bench)
+
+   recorded JSON downstream : 12 of 12 present
+
+==============================================================================
+Loading X-COP under each extrapolation mode
+==============================================================================
+   mode=clamp      n =  588   extrapolated present =  93
+   mode=drop       n =  495   extrapolated present =   0
+   mode=loglinear  n =  588   extrapolated present =  93
+
+   93/588 = 15.82% outside the measured T range
+   last measured T: median r/R500 = 0.915, range 0.789 - 1.097
+   points reach r/R500 = 1.519
+   INNER extrapolation: 0 points (so the clamped set is the OUTERMOST points, exactly)
+
+==============================================================================
+JOB 3  --  impact of the clamp on every recorded number
+==============================================================================
+   recorded quantity                               recorded         clamp      |diff|
+   ------------------------------------------------------------------------------------
+   per-cluster excess, worst of 12                 0.000000      0.000000    0.00e+00  OK
+   rho_T  Spearman(kT, excess)                     0.615385      0.615385    0.00e+00  OK
+   p_T  permutation                                0.036975      0.037445    4.70e-04  OK
+   kappa best fit                             156314.764264 156314.764264    0.00e+00  OK
+   c70 d ln excess / d ln kT                       0.516532      0.516532    0.00e+00  OK
+   c70 slope error                                 0.205051      0.205051    0.00e+00  OK
+   c70 within-cluster rho median                   0.642557      0.642557    0.00e+00  OK
+   c70 normalisation ratio median                  1.032064      1.032064    9.64e-10  OK
+   c71 within-cluster scatter                      0.168939      0.168939    6.00e-12  OK
+   c71 median-ratio scatter                        0.068251      0.068251    1.12e-11  OK
+   power A (= c70 within rho median)               0.642557      0.642557    1.11e-16  OK
+   power B (= c71 within scatter)                  0.168939      0.168939    6.00e-12  OK
+   ------------------------------------------------------------------------------------
+   12/12 recorded quantities reproduced under mode='clamp'
+
+==============================================================================
+JOB 3b  --  placebo: is the change bigger than dropping ANY 15.8%?
+==============================================================================
+   slope, all 588 points              -0.4817
+   slope, clamped points dropped      -0.4499
+   change                             +0.0317
+   RANDOM drop of the same per-cluster counts:
+      null change  -0.0030 +- 0.0115, 95% [-0.0254, +0.0183]
+      p (|change| at least as large)  0.0050
+
+   Is 'drop the clamped points' the same set as 'drop the outermost 93 points'?  True
+   If True, the drop-vs-clamp difference CANNOT by itself attribute the
+   change to clamping rather than to radial range. That attribution is
+   what the synthetic truth in Job 4 exists to make.
+
+==============================================================================
+JOB 3c  --  false-positive rate of the p_T permutation test
+==============================================================================
+   nominal alpha 0.05, realised FPR = 0.040 +- 0.010 (400 draws)
+   -> the test is correctly sized
+   recorded p_T = 0.0370 is therefore usable at face value, but n = 12 and the memory already records it as underpowered.
+
+==============================================================================
+JOB 3d  --  how far out does X-COP actually reach?
+==============================================================================
+   clusters with MEASURED temperature out to r/R500 =
+      0.70   12 of 12
+      0.80   10 of 12
+      0.90    7 of 12
+      1.00    1 of 12
+      1.10    0 of 12
+      1.52    0 of 12
+      1.90    0 of 12
+      2.50    0 of 12
+
+   all 12 clusters measured out to      r/R500 = 0.780
+   at least half measured out to        r/R500 = 0.920
+   R200 (= 1.52 R500): 0 of 12 clusters have a measured temperature there
+   a0 crossing 1.9-2.5 R500 : 0 of 12
+   fraction of the 588 quoted points beyond measured T: 15.99%
+
+==============================================================================
+JOB 4  --  bias of clamp / drop / loglinear against a synthetic truth
+==============================================================================
+   cluster    measured dlnT/dlnr  synthetic dlnT/dlnr  kT mid synth  kT mid real
+   A1644                  -0.432               -0.949          5.19         3.20
+   RXC1825                -0.233               -0.743          5.99         4.44
+   A3158                  -0.391               -0.627          5.21         4.73
+   A1795                  -0.922               -1.016          4.87         5.22
+   A2255                  -0.446               -0.725          6.48         5.63
+   A85                    -0.341               -0.694          5.97         5.84
+   A644                   -1.310               -1.042          4.99         7.10
+   ZW1215                 -0.417               -0.363          5.39         6.16
+   A2319                  -0.041               -0.226          8.59         8.65
+   A2029                  -0.765               -1.064          6.84         7.98
+   A2142                  -0.736               -0.387          7.99         7.98
+   A3266                  -0.854               -0.849          6.85         6.36
+
+   synthetic temperature falls outward in 12/12 clusters -- the truth Job 4 was asked for
+
+   truth -0.600
+      pooled_S3  clamp=-0.5196  drop=-0.5578  loglinear=-0.4926  full_coverage=-0.5240  perfect=-0.5509
+      within     clamp=-0.5861  drop=-0.5913  loglinear=-0.5713  full_coverage=-0.5932  perfect=-0.6000
+
+   truth -0.400
+      pooled_S3  clamp=-0.3805  drop=-0.3637  loglinear=-0.3524  full_coverage=-0.3475  perfect=-0.3689
+      within     clamp=-0.4185  drop=-0.4045  loglinear=-0.4028  full_coverage=-0.3984  perfect=-0.4013
+
+   truth -0.250
+      pooled_S3  clamp=-0.2720  drop=-0.2161  loglinear=-0.2440  full_coverage=-0.2141  perfect=-0.2325
+      within     clamp=-0.2915  drop=-0.2652  loglinear=-0.2756  full_coverage=-0.2518  perfect=-0.2523
+
+   truth -0.100
+      pooled_S3  clamp=-0.1590  drop=-0.0652  loglinear=-0.1320  full_coverage=-0.0796  perfect=-0.0962
+      within     clamp=-0.1633  drop=-0.1264  loglinear=-0.1476  full_coverage=-0.1047  perfect=-0.1034
+
+   truth +0.000
+      pooled_S3  clamp=-0.0795  drop=+0.0401  loglinear=-0.0536  full_coverage=+0.0107  perfect=-0.0054
+      within     clamp=-0.0765  drop=-0.0339  loglinear=-0.0613  full_coverage=-0.0064  perfect=-0.0042
+
+   pooled_S3
+   policy            bias at flat truth   response   observed  % of observed   de-biased truth
+   -------------------------------------------------------------------------------------------
+   clamp                        -0.0795     0.7324    -0.4796          16.6%           -0.5395
+   drop                         +0.0401     0.9947    -0.4054          -9.9%           -0.4438
+   loglinear                    -0.0536     0.7307    -0.4401          12.2%           -0.5235
+   full_coverage                +0.0107     0.8911    -0.4796          -2.2%           -0.5491
+   perfect                      -0.0054     0.9091    -0.4796           1.1%           -0.5217
+   -------------------------------------------------------------------------------------------
+      flat-truth bias -0.0795 decomposes as:
+         np.gradient discretisation alone   -0.0054  (   6.8%)
+         coarse T grid, FULL coverage       +0.0161  ( -20.3%)
+         the clamp (this bug)               -0.0902  ( 113.5%)
+
+   within
+   policy            bias at flat truth   response   observed  % of observed   de-biased truth
+   -------------------------------------------------------------------------------------------
+   clamp                        -0.0765     0.8489    -0.4817          15.9%           -0.4755
+   drop                         -0.0339     0.9289    -0.4499           7.5%           -0.4484
+   loglinear                    -0.0613     0.8498    -0.4590          13.4%           -0.4669
+   full_coverage                -0.0064     0.9780    -0.4817           1.3%           -0.4855
+   perfect                      -0.0042     0.9930    -0.4817           0.9%           -0.4809
+   -------------------------------------------------------------------------------------------
+      flat-truth bias -0.0765 decomposes as:
+         np.gradient discretisation alone   -0.0042  (   5.4%)
+         coarse T grid, FULL coverage       -0.0022  (   2.9%)
+         the clamp (this bug)               -0.0702  (  91.7%)
+
+   wrote results.json  (25.7 s)

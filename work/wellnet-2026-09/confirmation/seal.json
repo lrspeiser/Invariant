@@ -1,0 +1,68 @@
+{
+ "generated_utc": "2026-09-04T19:06:12Z",
+ "lane": "work/wellnet-2026-09/confirmation",
+ "stage": "10 (untouched confirmation systems)",
+ "charter": "C:/Users/henry/dev/invariant-gravity-discovery-charter.md",
+ "rule": "Once any numerical result has been examined, that sample is no longer pristine confirmation data.",
+ "reserve": [
+  {
+   "name": "SPT clusters",
+   "tier": "A",
+   "what": "SZ-selected cluster sample",
+   "contact": "none: 0 mentions in the record, 0 references in the lane tree",
+   "verified": "clean",
+   "rx": "\bSPT\b(?!\\w)|South Pole Telescope"
+  },
+  {
+   "name": "X-GAP",
+   "tier": "A",
+   "what": "group-scale hydrostatic profiles",
+   "contact": "record L5425 proposes 'pairing it with X-GAP or CLoGS ... is the obvious next lane'. Tripwire hits are two PostScript figure files (binary noise) plus that proposal. Never opened.",
+   "verified": "clean after hand-check",
+   "rx": "X-?GAP"
+  },
+  {
+   "name": "CLoGS",
+   "tier": "A",
+   "what": "complete local-volume groups",
+   "contact": "a lane ATTEMPTED acquisition and recorded a confirmed ABSENCE: 'J/A+A/601/A95 is NOT O'Sullivan CLoGS -- it is Calabro+ 2017'. A failed acquisition examines no result, so the data remain unexamined.",
+   "verified": "clean after hand-check",
+   "rx": "\bCLoGS\b"
+  },
+  {
+   "name": "Gaia proper motions / astrometry",
+   "tier": "B-scoped",
+   "what": "Gaia kinematics as a GRAVITY dataset",
+   "contact": "Gaia appears in 178 lane files, but as an ASTROMETRIC FRAME ('RA/Dec aligned to Gaia DR2'), not as a gravity dataset. EXCLUDED from the reserve: any Gaia-derived wide-binary quantity, which is separately sealed. RESERVED: proper motions and parallaxes used dynamically.",
+   "verified": "scoped by product",
+   "rx": "\bGaia\b"
+  },
+  {
+   "name": "MUSE/Granata internal dispersions",
+   "tier": "B-scoped",
+   "what": "213 internal stellar velocity dispersions in HFF members",
+   "contact": "MUSE appears in 98 lane files, but as SPECTROSCOPIC REDSHIFTS for cluster membership -- those are spent. RESERVED: only the internal velocity DISPERSIONS (Granata 2026), which were inventoried (213 counted) but never entered a gravity statistic.",
+   "verified": "scoped by product",
+   "rx": "Granata"
+  }
+ ],
+ "scoping_rule": "Scope a confirmation reserve by DATA PRODUCT, not by survey name. A survey can be simultaneously spent and pristine: MUSE redshifts are spent for membership while MUSE internal dispersions are untouched; Gaia is spent as an astrometric frame while its dynamical products are untouched. Naming the survey would have burned the pristine half or falsely cleared the spent half.",
+ "declared_statistic": {
+  "primary": "median |log10(g_obs_pred / g_obs_meas)| over the object's measured radial range, computed on RAW observables after the candidate law and the instrument forward model are both applied",
+  "comparator": "the same quantity for the RAR with a0 frozen at its galaxy-calibrated value and no free parameter",
+  "decision": "the candidate must beat the comparator on the reserve with every parameter frozen; a tie or a loss is a null result and is reported as such",
+  "forbidden": [
+   "refitting any parameter on the reserve, global or per-object",
+   "choosing the radial range after seeing residuals",
+   "dropping objects after seeing residuals",
+   "reporting a subset without the full-sample number beside it",
+   "a second evaluation of the same reserve for the same law family"
+  ],
+  "power_precondition": "the responsiveness d(estimate)/d(injected) must be measured on synthetic data and reported BEFORE the reserve is opened; a null with unstated power is not a result"
+ },
+ "model_slot": "EMPTY BY DESIGN -- no law is promoted. The statistic above is frozen first so it cannot later be chosen to fit.",
+ "opened_observational_data": false,
+ "evaluations_used": 0,
+ "evaluations_permitted": 1,
+ "seal_sha256": "11a9f7ce0cb0d93887f0e09cc704cc303d32b7519d520b37c4632fa376615d2c"
+}

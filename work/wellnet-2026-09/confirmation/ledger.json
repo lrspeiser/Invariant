@@ -1,0 +1,655 @@
+{
+ "generated_utc": "2026-09-04T19:03:53Z",
+ "lane": "work/wellnet-2026-09/confirmation",
+ "stage": "10 (untouched confirmation systems)",
+ "record_sha256": "504b557ee546447c7edd2befaca71382d5238ab18425e5ae916e581088879ce6",
+ "record_lines": 9663,
+ "rule": "Once any numerical result has been examined, that sample is no longer pristine confirmation data.",
+ "classifier": "three channels must agree: no scoring context in the record (with aliases), no reference in the lane source tree, no manual override",
+ "opened_observational_data": false,
+ "rows": [
+  {
+   "dataset": "SPT",
+   "what": "SZ-selected clusters",
+   "mentions": 0,
+   "scoring_contexts": 0,
+   "lane_files": 0,
+   "status": "PRISTINE",
+   "status_full": "PRISTINE",
+   "reason": "never mentioned, no lane code",
+   "evidence": [],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "Gaia (non-binary)",
+   "what": "astrometry outside sealed binaries",
+   "mentions": 0,
+   "scoring_contexts": 0,
+   "lane_files": 0,
+   "status": "PRISTINE",
+   "status_full": "PRISTINE",
+   "reason": "never mentioned, no lane code",
+   "evidence": [],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "SPARC",
+   "what": "175 late-type galaxy rotation curves",
+   "mentions": 93,
+   "scoring_contexts": 49,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "49 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 679,
+     "scored_context": false,
+     "text": "| **T07** | SPARC point-by-point curves | Cannot reproduce $v(r)$ from baryon maps |"
+    },
+    {
+     "line": 680,
+     "scored_context": true,
+     "text": "| **T08** | Blind SPARC galaxies | Needs different constants for every galaxy |"
+    },
+    {
+     "line": 724,
+     "scored_context": false,
+     "text": "SPARC should probably be our **first major discovery dataset**."
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "X-COP",
+   "what": "12 clusters, thermodynamic profiles",
+   "mentions": 63,
+   "scoring_contexts": 28,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "28 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 1187,
+     "scored_context": false,
+     "text": "| xcop | 588 | matter | fit | 3.0e-2 \u2013 3.2e-1 |"
+    },
+    {
+     "line": 1218,
+     "scored_context": true,
+     "text": "| T12 cluster gas | **done** \u2014 X-COP + Wicker (120 Planck-ESZ) |"
+    },
+    {
+     "line": 1585,
+     "scored_context": false,
+     "text": "model                        sparc    xcop   clash  wicker   solar |   kids widebin  blind/base"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "KiDS",
+   "what": "galaxy-galaxy lensing, 35-2600 kpc",
+   "mentions": 52,
+   "scoring_contexts": 27,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION (scored round 1: nu/nu_RAR = 1.31; sealed since)",
+   "reason": "manual override (verified by hand)",
+   "evidence": [
+    {
+     "line": 62,
+     "scored_context": true,
+     "text": "2. **Never fit to a holdout.** KiDS weak lensing and wide binaries are permanently blind."
+    },
+    {
+     "line": 1189,
+     "scored_context": false,
+     "text": "| kids | 60 | photon | **holdout** | 6.0e-7 \u2013 1.0e-1 |"
+    },
+    {
+     "line": 1194,
+     "scored_context": true,
+     "text": "`b.score(law)` returns per-probe median |log10| error. KiDS and wide binaries have never"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "CLASH",
+   "what": "cluster lensing + supernova survey",
+   "mentions": 45,
+   "scoring_contexts": 21,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "21 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 1188,
+     "scored_context": false,
+     "text": "| clash | 84 | photon | fit | 1.1e-1 \u2013 1.8e+0 |"
+    },
+    {
+     "line": 1219,
+     "scored_context": true,
+     "text": "| T13 cluster lensing | **done** \u2014 CLASH, 20 clusters |"
+    },
+    {
+     "line": 1585,
+     "scored_context": false,
+     "text": "model                        sparc    xcop   clash  wicker   solar |   kids widebin  blind/base"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "MaNGA",
+   "what": "integral-field spectroscopy",
+   "mentions": 26,
+   "scoring_contexts": 21,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "21 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 1237,
+     "scored_context": true,
+     "text": "- **C-family (directional) has no measured support.** MaNGA: 55 galaxies, one survey, axis"
+    },
+    {
+     "line": 2870,
+     "scored_context": true,
+     "text": "A separate result from the same lane, and it cuts the other way. 5,952 MaNGA galaxies have both a"
+    },
+    {
+     "line": 2890,
+     "scored_context": true,
+     "text": "Caveat carried: this is measured on MaNGA, which is mostly early types, and transferred to the KiDS"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "eFEDS",
+   "what": "542 X-ray systems, Vikhlinin fits",
+   "mentions": 24,
+   "scoring_contexts": 12,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "12 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 5423,
+     "scored_context": true,
+     "text": "overdensity radii. Bahar+2022 eFEDS (J/A+A/661/A7) ships Vikhlinin-form n_e(r)"
+    },
+    {
+     "line": 6158,
+     "scored_context": false,
+     "text": "# Run Z \u2014 Lead 01 on eFEDS, and why the hydrostatic route is vacuous"
+    },
+    {
+     "line": 6161,
+     "scored_context": true,
+     "text": "|Phi_b| varying by >= 1 dex at fixed g_bar WITHIN one class, using Bahar+2022's"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "SAMI",
+   "what": "IFU, field + cluster galaxies",
+   "mentions": 20,
+   "scoring_contexts": 14,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "14 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 2901,
+     "scored_context": true,
+     "text": "- Krajnovi\u0107 et al. 2020 encodes \"no measurement\" as literal **0.000**; SAMI DR3 uses **\u221299** sentinels"
+    },
+    {
+     "line": 5649,
+     "scored_context": false,
+     "text": "SAMI DR3 (3,068 galaxies). Resolved DAP MAPS kinematics for all 902 galaxies"
+    },
+    {
+     "line": 5650,
+     "scored_context": false,
+     "text": "involved, 5.3 GB. Seven MaNGA tiers and two SAMI tiers, matched by optimal"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "DiskMass",
+   "what": "vertical dynamics",
+   "mentions": 17,
+   "scoring_contexts": 9,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "9 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 2858,
+     "scored_context": false,
+     "text": "2. **The dynamical value is contested.** DiskMass infers M/L from vertical dispersions and an assumed"
+    },
+    {
+     "line": 4765,
+     "scored_context": true,
+     "text": "# Run L \u2014 A_dyn from DiskMass, and a second blind statistic caught"
+    },
+    {
+     "line": 4776,
+     "scored_context": true,
+     "text": "the exponential exactly as DiskMass did:"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "galstreams",
+   "what": "stellar stream tracks",
+   "mentions": 17,
+   "scoring_contexts": 5,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION (Run AR: 68 usable-3D / 29 usable-6D, A_dyn measured)",
+   "reason": "manual override (verified by hand)",
+   "evidence": [
+    {
+     "line": 5722,
+     "scored_context": true,
+     "text": "Milky Way streams with measured 3-D tracks           60  (30 with 6-D,"
+    },
+    {
+     "line": 5874,
+     "scored_context": false,
+     "text": "# Run X \u2014 streams, satellites and counter-rotators: the Milky Way is the answer"
+    },
+    {
+     "line": 5876,
+     "scored_context": false,
+     "text": "Artifacts in `work/wellnet-2026-09/env-data/raw/streams-satellites/`. 258 files,"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "Pantheon+",
+   "what": "SN light curves",
+   "mentions": 16,
+   "scoring_contexts": 8,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "8 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 41,
+     "scored_context": false,
+     "text": "| 4 | Pantheon+ and SN time dilation | light curves, covariance, stretch-vs-z \u2014 T17, T18 |"
+    },
+    {
+     "line": 52,
+     "scored_context": true,
+     "text": "| 10 | Redshift family | E4, E5, E6 against Pantheon+, BAO and the 1+z time-dilation constraint simultaneously"
+    },
+    {
+     "line": 689,
+     "scored_context": false,
+     "text": "| **T17** | Pantheon+ SNe | Wrong luminosity-distance relation |"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "Planck",
+   "what": "CMB spectra and lensing",
+   "mentions": 14,
+   "scoring_contexts": 7,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "7 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 42,
+     "scored_context": false,
+     "text": "| 5 | CMB | ACT DR6 and Planck PLA: spectra, lensing, likelihoods \u2014 T19\u2013T21 |"
+    },
+    {
+     "line": 692,
+     "scored_context": false,
+     "text": "| **T20** | ACT/Planck acoustic peaks | Wrong early-universe geometry or growth |"
+    },
+    {
+     "line": 966,
+     "scored_context": true,
+     "text": "Planck's Legacy Archive likewise publishes the Planck mission's official products."
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "DECADE",
+   "what": "per-cluster tangential shear",
+   "mentions": 13,
+   "scoring_contexts": 8,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "8 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 1626,
+     "scored_context": true,
+     "text": "full decade of a_N \u2014 is 2.1\u03c3 of that scatter. **It is a large effect that no measured variable"
+    },
+    {
+     "line": 6085,
+     "scored_context": true,
+     "text": "leaves q = 1 at 25 kpc, so safety and efficacy coexist with about one decade of"
+    },
+    {
+     "line": 7409,
+     "scored_context": true,
+     "text": "decade.** The tidal-gated survivors have no such ambiguity \u2014 |T| is a local"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "wide binaries",
+   "what": "wide-binary accelerations",
+   "mentions": 13,
+   "scoring_contexts": 7,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION (scored round 1: nu/nu_RAR = 0.90; sealed since)",
+   "reason": "manual override (verified by hand)",
+   "evidence": [
+    {
+     "line": 62,
+     "scored_context": true,
+     "text": "2. **Never fit to a holdout.** KiDS weak lensing and wide binaries are permanently blind."
+    },
+    {
+     "line": 1194,
+     "scored_context": true,
+     "text": "`b.score(law)` returns per-probe median |log10| error. KiDS and wide binaries have never"
+    },
+    {
+     "line": 1750,
+     "scored_context": true,
+     "text": "**The fitted value.** KiDS and wide binaries never entered the fit. CLASH (20 clusters) against"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "VoidFinder",
+   "what": "SDSS void catalogue",
+   "mentions": 13,
+   "scoring_contexts": 8,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "8 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 5177,
+     "scored_context": true,
+     "text": "raw I_q, VoidFinder               1.32e-4        +38.0 sigma      0.397"
+    },
+    {
+     "line": 5179,
+     "scored_context": true,
+     "text": "transverse dI_q, VoidFinder       2.21e-6         +0.46 sigma     0.0066"
+    },
+    {
+     "line": 5186,
+     "scored_context": true,
+     "text": "the bias 60x for VoidFinder and 24x for REVOLVER, but does NOT zero it. **The"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "REVOLVER",
+   "what": "watershed void catalogue",
+   "mentions": 12,
+   "scoring_contexts": 6,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "6 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 5178,
+     "scored_context": true,
+     "text": "raw I_q, REVOLVER                 9.00e-5        +29.6 sigma      0.270"
+    },
+    {
+     "line": 5180,
+     "scored_context": true,
+     "text": "transverse dI_q, REVOLVER         1.15e-5         +2.95 sigma     0.034"
+    },
+    {
+     "line": 5186,
+     "scored_context": true,
+     "text": "the bias 60x for VoidFinder and 24x for REVOLVER, but does NOT zero it. **The"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "LoCuSS",
+   "what": "40 clusters, Subaru weak lensing",
+   "mentions": 7,
+   "scoring_contexts": 4,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "4 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 2971,
+     "scored_context": true,
+     "text": "Also recovered where it existed nowhere in tabular form: **Okabe & Smith's 50 LoCuSS concentrations**,"
+    },
+    {
+     "line": 4665,
+     "scored_context": false,
+     "text": "# Run K \u2014 LoCuSS, the exact forward chain, and one retracted result"
+    },
+    {
+     "line": 4670,
+     "scored_context": false,
+     "text": "Done, on 40 of the 41 LoCuSS clusters (Mulroy 2019), against Subaru weak-lensing"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "Frontier Fields",
+   "what": "6 deep strong-lensing clusters",
+   "mentions": 7,
+   "scoring_contexts": 2,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "2 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 43,
+     "scored_context": false,
+     "text": "| 6 | Group-scale bridge | X-ray gas masses **and** calibrated virial factors for 10\u00b9\u00b2\u201310\u00b9\u00b3 M\u2609 groups; Frontie"
+    },
+    {
+     "line": 811,
+     "scored_context": false,
+     "text": "Hubble's Frontier Fields provide six major strong-lensing clusters and publish multiple"
+    },
+    {
+     "line": 815,
+     "scored_context": false,
+     "text": "[Hubble Frontier Fields lensing data](https://stdatu.stsci.edu/prepds/frontier/lensmodels/)"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "DESIVAST",
+   "what": "DESI void catalogue",
+   "mentions": 5,
+   "scoring_contexts": 2,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "2 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 5196,
+     "scored_context": false,
+     "text": "ZOBOV in DESIVAST are three PRUNINGS OF THE SAME ZOBOV watershed zones \u2014 all"
+    },
+    {
+     "line": 5245,
+     "scored_context": true,
+     "text": "z = 0.11 and DESIVAST above it. Do not average them.**"
+    },
+    {
+     "line": 5282,
+     "scored_context": true,
+     "text": "Fiducial D_C reproduces DESIVAST's own header to 3.2e-8 Mpc/h; RA/Dec recovered"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "ACCEPT",
+   "what": "cluster entropy/density profiles",
+   "mentions": 4,
+   "scoring_contexts": 1,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "1 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 3460,
+     "scored_context": false,
+     "text": "The right question is where a law is *better than what we already accept*, and by how much."
+    },
+    {
+     "line": 5480,
+     "scored_context": false,
+     "text": "* **A370 in ACCEPT**, 32 bins to 806 kpc, found by noticing that ACCEPT"
+    },
+    {
+     "line": 5503,
+     "scored_context": true,
+     "text": "exactly one row. **ACCEPT stores radial bins in DESCENDING order in every file.**"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "SN Refsdal",
+   "what": "strong-lens time delays",
+   "mentions": 4,
+   "scoring_contexts": 1,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "1 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 5469,
+     "scored_context": false,
+     "text": "* **SN Refsdal time delays** (MACS J1149): SX-S1 = 376.02 d, 16-84th percentile"
+    },
+    {
+     "line": 7956,
+     "scored_context": false,
+     "text": "## AL.8 Refsdal, and the question it actually answers"
+    },
+    {
+     "line": 7993,
+     "scored_context": false,
+     "text": "> Refsdal's 376.02 d, so the delay is not a model-free slip measurement."
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "MUSE",
+   "what": "IFU spectroscopy in cluster cores",
+   "mentions": 1,
+   "scoring_contexts": 1,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "1 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 5474,
+     "scored_context": true,
+     "text": "MUSE/pPXF) joinable to the Sersic fits \u2014 member mass components can be"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "X-GAP",
+   "what": "group-scale hydrostatic profiles",
+   "mentions": 1,
+   "scoring_contexts": 1,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "1 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 5425,
+     "scored_context": true,
+     "text": "so it needs an independent g_obs, and pairing it with X-GAP or CLoGS hydrostatic"
+    }
+   ],
+   "lane_file_sample": []
+  },
+  {
+   "dataset": "CLoGS",
+   "what": "complete local-volume groups",
+   "mentions": 1,
+   "scoring_contexts": 1,
+   "lane_files": 0,
+   "status": "VALIDATION",
+   "status_full": "VALIDATION",
+   "reason": "1 scoring contexts in the record",
+   "evidence": [
+    {
+     "line": 5425,
+     "scored_context": true,
+     "text": "so it needs an independent g_obs, and pairing it with X-GAP or CLoGS hydrostatic"
+    }
+   ],
+   "lane_file_sample": []
+  }
+ ],
+ "counts": {
+  "pristine": 2,
+  "validation": 23,
+  "total": 25
+ }
+}

@@ -28,71 +28,9 @@ REGIME NOTES CARRIED WITH THE DATA
   Solar System rows are a BOUND (nu = 1 by construction), never a fit target.
   Wide binaries sit in the Milky Way's ~1.8 a0 external field.
 """
-import json, glob, os, math, csv, warnings
+import json, glob, os, math, csv
 import numpy as np
 from astropy.io import fits
-
-
-# ---------------------------------------------------------------------------
-#  TEMPERATURE EXTRAPOLATION -- made visible 2026-09-04 (tempclamp patch)
-#
-#  The X-COP temperature profile is tabulated on a COARSE grid that stops well
-#  inside the density grid (median last measured bin: r/R500 = 0.91, while the
-#  bench's radial cut runs out to r/R500 = 1.52).  `np.interp` with no
-#  left=/right= CLAMPS past that last bin, so the hydrostatic
-#
-#       g_obs = -(kT/(mu m_p)) * (dln n_e/dln r + dln kT/dln r) / r
-#
-#  loses its temperature-gradient term ENTIRELY there: dln kT/dln r == 0 by
-#  construction, in the outskirts, which is exactly where this programme reads
-#  its radial trend, and where the true temperature is falling.
-#
-#  The numbers below are UNCHANGED by default: mode "clamp" reproduces the old
-#  arithmetic bit-for-bit.  What changes is that the extrapolated points are
-#  now labelled, counted and reported, and a caller can ask for them to be
-#  dropped, or forbidden outright.
-# ---------------------------------------------------------------------------
-TEMP_MODES = ("clamp", "drop", "loglinear", "forbid")
-
-
-class TemperatureExtrapolationWarning(UserWarning):
-    """Raised as a warning when a cluster profile is evaluated outside the
-    measured temperature range.  Carries the extrapolated fraction."""
-
-
-class TemperatureExtrapolationError(RuntimeError):
-    """Raised when extrapolation happens and the caller did not permit it."""
-
-
-class ClusterProfile(tuple):
-    """(r, gb, go, R500) -- a plain 4-tuple, so every existing caller that does
-    `r, gb, go, R500 = self._cluster_profile(d)` keeps working unchanged --
-    carrying the extrapolation bookkeeping as attributes.
-
-    Attributes
-      extrapolated   bool[n]  point lies outside the measured temperature grid
-      stencil        bool[n]  extrapolated, OR a np.gradient neighbour of one,
-                              i.e. its dln kT/dln r is contaminated too
-      frac_extrapolated  float
-      r_tmin, r_tmax float    first/last measured temperature radius, metres
-      kT             float[n] the temperature actually used, J
-      mode           str      which extrapolation policy produced this
-    """
-    def __new__(cls, r, gb, go, R500, **kw):
-        self = super().__new__(cls, (r, gb, go, R500))
-        for k, v in kw.items():
-            setattr(self, k, v)
-        return self
-
-
-def _extrapolation_report(name, prof):
-    """One structured line per cluster.  Machine-readable on purpose."""
-    return dict(cluster=name, mode=prof.mode, n=int(len(prof[0])),
-                n_extrapolated=int(prof.extrapolated.sum()),
-                frac_extrapolated=float(prof.frac_extrapolated),
-                n_stencil=int(prof.stencil.sum()),
-                r_tmax_over_R500=float(prof.r_tmax / prof[3]),
-                r_max_over_R500=float(np.max(prof[0]) / prof[3]) if len(prof[0]) else float("nan"))
 
 ROOT = "C:/Users/henry/Documents/Codex/2026-08-21/Invariant-main-integration/"
 DD = os.path.dirname(os.path.abspath(__file__)) + "/"
@@ -148,64 +86,9 @@ class Bench:
                  "systematic at ~0.25 dex",
     }
 
-    def __init__(self, verbose=True, temp_extrapolation="clamp",
-                 warn_extrapolation=True):
-        """temp_extrapolation:
-             "clamp"     legacy behaviour, BIT-IDENTICAL to every recorded
-                         number: np.interp holds kT flat past the last
-                         measured bin, so dln kT/dln r -> 0 there.  DEFAULT,
-                         so no recorded number moves without someone choosing.
-             "drop"      keep only points inside the measured temperature grid.
-             "loglinear" continue the measured log-log temperature slope,
-                         fitted on the outer measured bins.
-             "forbid"    raise TemperatureExtrapolationError if any point falls
-                         outside the measured range.  Use this in tests.
-        """
-        if temp_extrapolation not in TEMP_MODES:
-            raise ValueError(f"temp_extrapolation must be one of {TEMP_MODES}")
-        self.temp_extrapolation = temp_extrapolation
-        self.warn_extrapolation = warn_extrapolation
-        self.extrapolation_report = []      # one dict per cluster loaded
+    def __init__(self, verbose=True):
         self.d = {}
         self._load(verbose)
-        self._announce_extrapolation(verbose)
-
-    # ------------------------------------------------- extrapolation notices
-    def _announce_extrapolation(self, verbose=True):
-        """LOUD and STRUCTURED.  A reader must be able to tell from the output
-        alone how much of a result rests on clamped temperature."""
-        rep = self.extrapolation_report
-        if not rep:
-            return
-        n = sum(q["n"] for q in rep)                    # points KEPT
-        nfull = sum(q.get("n_after_cut_full_grid", q["n"]) for q in rep)
-        ne = sum(q["n_extrapolated"] for q in rep)      # kept AND extrapolated
-        nd = sum(q.get("n_dropped", 0) for q in rep)    # removed by mode="drop"
-        naff = ne + nd
-        ns = sum(q["n_stencil"] for q in rep)
-        if naff == 0:
-            return
-        frac = naff / max(nfull, 1)
-        worst = max(rep, key=lambda q: q["frac_extrapolated"])
-        msg = (f"TEMPERATURE EXTRAPOLATION: {naff}/{nfull} points "
-               f"({100*frac:.1f}%) lie outside the measured temperature grid; "
-               f"mode={self.temp_extrapolation!r} "
-               + (f"DROPPED {nd} of them, leaving n = {n}. "
-                  if nd else f"kept all {ne} of them, n = {n}. ")
-               + f"{ns}/{n} kept points ({100*ns/max(n,1):.1f}%) have a "
-                 f"contaminated dlnT/dlnr stencil. Worst cluster "
-                 f"{worst['cluster']} at {100*worst['frac_extrapolated']:.1f}%. "
-                 f"Under mode='clamp' dlnT/dlnr is IDENTICALLY ZERO on those "
-                 f"points.")
-        self.extrapolation_summary = dict(
-            mode=self.temp_extrapolation, n_points=n, n_points_full_grid=nfull,
-            n_extrapolated=ne, n_dropped=nd, n_affected=naff,
-            frac_extrapolated=frac, n_stencil=ns,
-            frac_stencil=ns / max(n, 1), per_cluster=rep)
-        if self.warn_extrapolation:
-            warnings.warn(msg, TemperatureExtrapolationWarning, stacklevel=2)
-            if verbose:
-                print("   !! " + msg)
 
     # ---------------------------------------------------------------- loaders
     def _load(self, verbose):
@@ -218,18 +101,9 @@ class Bench:
                 v = fn()
                 if v is not None and len(v):
                     self.d[nm] = v
-            except TemperatureExtrapolationError:
-                # NEVER swallow this one. The whole point of mode="forbid" is
-                # to stop the run; the bare handler below turned it into a
-                # silently missing probe, which is the same invisibility the
-                # clamp had. Found by the tempclamp smoke test, 2026-09-04.
-                raise
             except Exception as e:
                 if verbose:
                     print(f"   [{nm}] unavailable: {type(e).__name__}")
-                # a swallowed loader failure is otherwise untraceable
-                self.load_errors = getattr(self, "load_errors", [])
-                self.load_errors.append((nm, type(e).__name__, str(e)))
 
     def _sparc(self):
         p = ROOT+"configs/sparc_rotation_curves_full_v1.json"
@@ -253,29 +127,7 @@ class Bench:
                 sph.append(cb/v2); ext.append(rmax)
         return D("sparc", r, gb, go, sphericity=sph, extent=ext)
 
-    # number of outer measured temperature bins used to set the log-log slope
-    # for mode="loglinear".  3 is the smallest number that is not a single
-    # noisy difference; sensitivity to it is reported in the tempclamp lane.
-    N_OUTER_SLOPE = 3
-
-    def _cluster_profile(self, d, temp_extrapolation=None, n_outer=None):
-        """Hydrostatic profile for one cluster directory.
-
-        Returns a ClusterProfile, which IS the old `(r, gb, go, R500)` tuple --
-        unpacking and indexing are unchanged -- carrying `.extrapolated`,
-        `.stencil`, `.frac_extrapolated`, `.r_tmin`, `.r_tmax`, `.kT`, `.mode`.
-
-        THE BUG THIS ARGUMENT EXISTS FOR: the temperature grid stops well
-        inside the density grid.  A bare np.interp clamps there, so
-        dln kT/dln r is forced to exactly 0 in the outskirts and the
-        temperature-gradient term of the hydrostatic equation is silently
-        deleted.  mode="clamp" keeps that behaviour bit-for-bit (so recorded
-        numbers do not move by accident); every other mode makes it explicit.
-        """
-        mode = temp_extrapolation or getattr(self, "temp_extrapolation", "clamp")
-        if mode not in TEMP_MODES:
-            raise ValueError(f"temp_extrapolation must be one of {TEMP_MODES}")
-        n_outer = int(n_outer or self.N_OUTER_SLOPE)
+    def _cluster_profile(self, d):
         fd = glob.glob(os.path.join(d, "*density*.fits"))
         ft = glob.glob(os.path.join(d, "*temperature*.fits"))
         if not fd or not ft:
@@ -288,52 +140,8 @@ class Bench:
         ne = da["NE"].astype(np.float64)*1e6
         assert r.dtype == np.float64, "float32 overflow guard"
         td = ht[1].data
-        # --- ROW/COLUMN COUNT ASSERTIONS ON EVERY INGEST ---------------------
-        rt = td["RW_X"].astype(np.float64)*R500
-        tt = td["T_X"].astype(np.float64)*kT500
-        assert len(rt) == len(tt) == len(td), "temperature table row-count mismatch"
-        assert len(r) == len(ne) == len(da), "density table row-count mismatch"
-        assert len(rt) >= 2, "temperature profile has fewer than 2 bins"
-        assert np.all(np.diff(rt) > 0), "temperature radii not strictly increasing"
-        assert np.all(np.isfinite(rt)) and np.all(tt > 0), "bad temperature table"
-        r_tmin, r_tmax = float(rt[0]), float(rt[-1])
-
-        # --- WHICH POINTS ARE OUTSIDE THE MEASURED TEMPERATURE RANGE ---------
-        extrap = (r < r_tmin) | (r > r_tmax)
-        # np.gradient uses a 3-point stencil in the interior, so a point
-        # NEIGHBOURING an extrapolated one has a contaminated dlnT/dlnr too.
-        sten = extrap.copy()
-        if len(extrap) > 1:
-            sten[:-1] |= extrap[1:]
-            sten[1:] |= extrap[:-1]
-        frac = float(extrap.mean()) if len(extrap) else 0.0
-
-        if mode == "forbid" and extrap.any():
-            raise TemperatureExtrapolationError(
-                f"{os.path.basename(d)}: {int(extrap.sum())}/{len(r)} "
-                f"({100*frac:.1f}%) density bins lie outside the measured "
-                f"temperature range [{r_tmin/KPC:.1f}, {r_tmax/KPC:.1f}] kpc "
-                f"(= [{r_tmin/R500:.3f}, {r_tmax/R500:.3f}] R500) while the "
-                f"density grid runs to {r.max()/KPC:.1f} kpc "
-                f"(= {r.max()/R500:.3f} R500). Pass "
-                f"temp_extrapolation='clamp' to reproduce the legacy numbers, "
-                f"or 'drop'/'loglinear' to handle it explicitly.")
-
-        # --- THE TEMPERATURE ITSELF ------------------------------------------
-        # "clamp" is np.interp's own behaviour and is reproduced EXACTLY by
-        # calling np.interp, so the default path is bit-identical to the code
-        # this patch replaces.
-        kT = np.interp(r, rt, tt)
-        s_out = s_in = float("nan")
-        if mode == "loglinear" and extrap.any():
-            k = max(2, min(n_outer, len(rt)))
-            s_out = float(np.polyfit(np.log(rt[-k:]), np.log(tt[-k:]), 1)[0])
-            s_in = float(np.polyfit(np.log(rt[:k]), np.log(tt[:k]), 1)[0])
-            hi, loo = r > r_tmax, r < r_tmin
-            kT = kT.copy()
-            kT[hi] = tt[-1]*(r[hi]/r_tmax)**s_out
-            kT[loo] = tt[0]*(r[loo]/r_tmin)**s_in
-
+        kT = np.interp(r, td["RW_X"].astype(np.float64)*R500,
+                       td["T_X"].astype(np.float64)*kT500)
         lr = np.log(r)
         go = -(kT/(MU*MP))*(np.gradient(np.log(ne), lr)+np.gradient(np.log(kT), lr))/r
         rho = MU_E*ne*MP
@@ -344,71 +152,23 @@ class Bench:
                          fits.open(fs[0])[2].data["MSTAR"].astype(np.float64)*MSUN)
                if fs else Mg*0.10)
         Mb = Mg+Mst
-        gb = G*Mb/r**2
-        keep = np.ones(len(r), bool)
-        if mode == "drop":
-            # go and Mg are built on the FULL grid first, so every retained
-            # point keeps exactly the derivative stencil it had; only then are
-            # the extrapolated points removed.
-            keep = ~extrap
-        return ClusterProfile(
-            r[keep], gb[keep], go[keep], R500,
-            extrapolated=extrap[keep], stencil=sten[keep], kT=kT[keep],
-            frac_extrapolated=frac, r_tmin=r_tmin, r_tmax=r_tmax,
-            mode=mode, n_dropped=int((~keep).sum()),
-            outer_logslope=s_out, inner_logslope=s_in,
-            n_full=int(len(r)), extrapolated_full=extrap, stencil_full=sten,
-            r_full=r, go_full=go, gb_full=gb)
+        return r, G*Mb/r**2, go, R500
 
-    def _xcop(self, temp_extrapolation=None):
+    def _xcop(self):
         XC = ROOT+"runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1-source/raw/"
-        r_, b_, o_, e_, x_, s_, n_ = [], [], [], [], [], [], []
+        r_, b_, o_, e_ = [], [], [], []
         for nm in sorted(os.listdir(XC)):
             d = os.path.join(XC, nm)
             if not os.path.isdir(d):
                 continue
-            v = self._cluster_profile(d, temp_extrapolation=temp_extrapolation)
+            v = self._cluster_profile(d)
             if v is None:
                 continue
             r, gb, go, R500 = v
             m = (r > 120*KPC) & (r < 1650*KPC) & (go > 0) & (gb > 0)
             r_ += list(r[m]); b_ += list(gb[m]); o_ += list(go[m])
             e_ += [R500]*int(m.sum())
-            x_ += list(v.extrapolated[m]); s_ += list(v.stencil[m])
-            n_ += [nm]*int(m.sum())
-            # counts are reported AFTER the bench's own radial cut, because
-            # that is what every downstream number actually rests on.
-            # n_dropped counts the points mode="drop" REMOVED that would
-            # otherwise have passed the cut -- without it, drop mode would
-            # report zero extrapolation and go exactly as silent as the bug.
-            mf = ((v.r_full > 120*KPC) & (v.r_full < 1650*KPC)
-                  & (v.go_full > 0) & (v.gb_full > 0))
-            n_ex_cut = int((v.extrapolated_full & mf).sum())
-            rep = _extrapolation_report(nm, v)
-            rep.update(n=int(m.sum()),
-                       n_extrapolated=int(v.extrapolated[m].sum()),
-                       n_dropped=n_ex_cut - int(v.extrapolated[m].sum()),
-                       n_extrapolated_or_dropped=n_ex_cut,
-                       n_stencil=int(v.stencil[m].sum()),
-                       n_before_cut=int(v.n_full),
-                       n_extrapolated_before_cut=int(v.extrapolated_full.sum()),
-                       n_after_cut_full_grid=int(mf.sum()),
-                       r_max_over_R500=(float(np.max(r[m])/R500) if m.any()
-                                        else float("nan")))
-            rep["frac_extrapolated"] = (n_ex_cut/rep["n_after_cut_full_grid"]
-                                        if rep["n_after_cut_full_grid"] else 0.0)
-            if hasattr(self, "extrapolation_report"):
-                self.extrapolation_report.append(rep)
-        assert len(r_) == len(x_) == len(s_) == len(n_), "xcop bookkeeping length mismatch"
-        out = D("xcop", r_, b_, o_, sphericity=np.ones(len(r_)), extent=e_)
-        # set after construction: D coerces every kwarg to float, which would
-        # destroy a boolean mask and cannot hold a cluster name at all.
-        out.extrapolated = np.asarray(x_, bool)
-        out.stencil = np.asarray(s_, bool)
-        out.cluster = np.asarray(n_, object)
-        out.temp_extrapolation = temp_extrapolation or getattr(
-            self, "temp_extrapolation", "clamp")
-        return out
+        return D("xcop", r_, b_, o_, sphericity=np.ones(len(r_)), extent=e_)
 
     def _clash(self):
         p = ROOT+"runs/gravity/g4/cluster-lensing-exploration-v7-source/fig2.tsv"

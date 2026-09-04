@@ -1,0 +1,42 @@
+{
+ "prepatch_sha256": "00cfbf287b4ad9798ab77ac03b93f5d2aec37dd299c9c80ba3df8cfbdaf25d44",
+ "checks": [
+  {
+   "check": "forbid raises TemperatureExtrapolationError",
+   "fails_prepatch": true,
+   "detail": "TypeError instead: Bench._cluster_profile() got an unexpected keyword argument 'temp_extrapolation'"
+  },
+  {
+   "check": "profile carries an .extrapolated mask",
+   "fails_prepatch": true,
+   "detail": "type=tuple, len=4, attrs=ABSENT -- the output cannot tell you"
+  },
+  {
+   "check": "a warning carries the extrapolated fraction",
+   "fails_prepatch": true,
+   "detail": "2 warnings emitted, 0 of them about extrapolation (['ResourceWarning', 'ResourceWarning'])"
+  },
+  {
+   "check": "module exports TemperatureExtrapolationError",
+   "fails_prepatch": true,
+   "detail": "absent"
+  },
+  {
+   "check": "module exports TemperatureExtrapolationWarning",
+   "fails_prepatch": true,
+   "detail": "absent"
+  },
+  {
+   "check": "module exports ClusterProfile",
+   "fails_prepatch": true,
+   "detail": "absent"
+  },
+  {
+   "check": "module exports TEMP_MODES",
+   "fails_prepatch": true,
+   "detail": "absent"
+  }
+ ],
+ "n_failing_checks": 7,
+ "n_checks": 7
+}
