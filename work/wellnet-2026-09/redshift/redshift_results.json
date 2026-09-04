@@ -1,0 +1,728 @@
+{
+  "generated_utc": "2026-09-04T14:17:35Z",
+  "independence_statement": "Logically independent of the galaxy and cluster gravity lanes. Nothing there is evidence for this hypothesis and nothing here bears on that work.",
+  "declared_before_residuals": {
+    "cuts": {
+      "path_covered_frac_min": 0.5,
+      "r_end_mpch_min": 100.0
+    },
+    "blind_split_seed": 20260904,
+    "regressor": "transverse residual dI_q, never raw I_q",
+    "tidal_terms_only_on": "watershed (REVOLVER) geometry",
+    "arms": [
+      "SDSS VAST z<0.11 (primary)",
+      "DESIVAST REVOLVER all z (edge-limited)",
+      "DESIVAST REVOLVER z>0.11 (footprint-safe)"
+    ],
+    "nuisance_amplitudes": {
+      "A_host_mag": 0.05,
+      "A_cal_mag": 0.03,
+      "delta_void": -0.66,
+      "sigma_v_kms": 300.0
+    }
+  },
+  "time_dilation_gate": {
+    "headline": "Every mechanism that drains photon energy without acting on the metric is excluded outright: DES-SN5YR measures b = 1.003 +/- 0.011, and such a mechanism carrying all of the redshift predicts b = 0, which is 90 sigma away. As a sub-dominant additive term it is capped at f < 1.9% of ln(1+z) (2 sigma), i.e. c2/c1 < 3.4%, comparable to the best STATISTICAL reach of the void data (2.8% at 3 sigma) and about an order of magnitude below its realistic systematic floor. The only surviving class is a genuinely geometric path stretch (eta = 1), against which the time-dilation test has zero power by construction -- and that class is separately capped near 0.3-0.4% in c2/c1 by the smoothness of the CMB across the local void structure, roughly an order of magnitude tighter than the void regression's best statistical reach. THE REDSHIFT FIT IS THEREFORE A BOUNDED FEASIBILITY STUDY, NOT A DISCOVERY TEST.",
+    "gate_failed_by": [
+      "M1_photon_energy_drain",
+      "M2_scattering",
+      "M3_chromatic_drain"
+    ],
+    "gate_passed_by": [
+      "M4_geometric_path_stretch"
+    ],
+    "status": "the fit below is a BOUNDED FEASIBILITY STUDY"
+  },
+  "nuisance_summary": {
+    "desi": {
+      "v_pec_lin_kms_sd": 257.2501092292166,
+      "v_pec_lin_kms_p5_p95": [
+        -293.04931864211073,
+        544.92506790441
+      ],
+      "kappa_los_sd": 0.00014196556923657712,
+      "kappa_los_mean": 3.182721413157935e-05,
+      "corr_kappa_with_dIq_REVOLVER": 0.3674859277154928,
+      "corr_kappa_los_with_two_phase_proxy": -0.2975180842812984,
+      "corr_vpec_with_dIq_REVOLVER": 0.16785178731867353,
+      "endpoint_in_void_fraction_VoidFinder": 0.17862838915470494,
+      "endpoint_in_void_fraction_REVOLVER": 0.49327865117338804,
+      "dlnn_dlnr_sd": 5.595109331737981
+    },
+    "sdss": {
+      "endpoint_in_void_fraction": 0.2718624368108904,
+      "kappa_2phase_sd": 7.907011319406503e-05
+    },
+    "transfer_to_sdss": {
+      "coherent_v_pec_amplitude_aligned_with_dIq_kms": 43.179890622048,
+      "dlnn_dlnr_in_void": 0.3021110684712557,
+      "dlnn_dlnr_out_of_void": 3.7052135486181497
+    }
+  },
+  "what_the_regressor_measures": {
+    "VoidFinder": {
+      "corr_dI_q_with_mean_delta_along_los": 0.0692840494913351,
+      "corr_dI_q_with_underdensity_path_integral_I_q_den": 0.13031973709974728,
+      "corr_dI_q_with_delta_at_source": 0.1797728193833718
+    },
+    "REVOLVER": {
+      "corr_dI_q_with_mean_delta_along_los": 0.3188252331764524,
+      "corr_dI_q_with_underdensity_path_integral_I_q_den": -0.19044920653562722,
+      "corr_dI_q_with_delta_at_source": 0.22127584460420827
+    },
+    "reading": "A catalogued void path length is NOT the same variable as an underdensity path length. For the sphere-based VoidFinder the two are nearly uncorrelated; for the REVOLVER watershed the transverse residual correlates POSITIVELY with the mean line-of-sight density, because the watershed tiles the whole volume into zones rather than selecting empty ones. Any c2 fitted on a catalogue I_q is a coefficient of catalogue membership, not of emptiness. The I_q_den arm below uses the reconstructed density field instead and needs no void finder at all."
+  },
+  "arm_sizes": {
+    "sdss_primary": 20683,
+    "desi_revolver_all": 4389,
+    "desi_voidfinder_all": 4389,
+    "desi_revolver_safe": 46,
+    "desi_density_field": 4389
+  },
+  "fits": {
+    "sdss_primary": {
+      "n": 20683,
+      "note": "PRIMARY. SDSS DR7 VAST VoidFinder, z < 0.11, footprint 2.13 sr. Sphere-based geometry, so no tidal terms (void-data finding 3).",
+      "coefficients": {
+        "const": 0.016566569986597234,
+        "D": 0.0002271458751955381,
+        "dI_q": -7.545216777176752e-06
+      },
+      "analytic_sigma": {
+        "const": 0.00022120928714260225,
+        "D": 1.2002079371768214e-06,
+        "dI_q": 3.1377277012549443e-06
+      },
+      "c1_fitted_per_mpch": 0.0002271458751955381,
+      "c1_fiducial_per_mpch": 0.00033356409519815205,
+      "c1_attenuation_factor": 0.680966202494316,
+      "c1_attenuation_note": "c1 < c1_fiducial because the response is a precise redshift and the regressor a noisy distance; classic errors-in-variables attenuation. It is NOT a measurement of H0.",
+      "response_factor_R": 0.9968550614311781,
+      "c2_raw_per_mpch": -7.545216777176752e-06,
+      "null_mean_c2_full": -3.651355998751071e-06,
+      "null_sd_c2_full": 6.690265798311413e-06,
+      "null_mean_c2_statistical_only": -3.589667107812087e-06,
+      "null_sd_c2_statistical_only": 4.805392507198439e-06,
+      "c2_over_c1_estimate_null_subtracted_response_corrected": -0.011710329204709774,
+      "sigma_statistical_over_c1": 0.014451653877540771,
+      "sigma_full_incl_systematics_over_c1": 0.020120189042021352,
+      "significance_vs_statistical_null_sigma": -0.8231480911162373,
+      "significance_vs_full_null_sigma": -0.5820188458593782,
+      "two_sided_95pct_interval_on_c2_over_c1": [
+        -0.05114589972707163,
+        0.027725241317652076
+      ],
+      "abs_95pct_upper_limit_on_c2_over_c1": 0.05114589972707163,
+      "min_detectable_c2_over_c1_at_3sigma_statistical": 0.04335496163262231,
+      "min_detectable_c2_over_c1_at_3sigma_with_systematics": 0.06036056712606405,
+      "critical_value_95pct_from_calibration_sims": 1.2777779651818581e-05,
+      "false_positive_rate_on_untouched_audit_sims": 0.0625,
+      "n_calibration_sims": 400,
+      "n_audit_sims": 400,
+      "per_component_null_over_c1": {
+        "N0": {
+          "null_mean_over_c1": -0.011723808151030855,
+          "null_sd_over_c1": 0.0067369058965847375
+        },
+        "N1": {
+          "null_mean_over_c1": 0.003783943235899547,
+          "null_sd_over_c1": 0.00872468966672817
+        },
+        "N2": {
+          "null_mean_over_c1": -0.011311858980280434,
+          "null_sd_over_c1": 0.00638109734238445
+        },
+        "N3": {
+          "null_mean_over_c1": -0.012880824627373371,
+          "null_sd_over_c1": 0.015223722155511
+        },
+        "N4": {
+          "null_mean_over_c1": -0.011840839673457367,
+          "null_sd_over_c1": 0.00706923391567529
+        },
+        "N5": {
+          "null_mean_over_c1": -0.028971287639826176,
+          "null_sd_over_c1": 0.012568272238431408
+        },
+        "N6a": {
+          "null_mean_over_c1": -0.008083302876716067,
+          "null_sd_over_c1": 0.007236330080298119
+        },
+        "N5raw": {
+          "null_mean_over_c1": -0.025803959000696285,
+          "null_sd_over_c1": 0.006875689022302192
+        }
+      }
+    },
+    "desi_revolver_all": {
+      "n": 4389,
+      "note": "DESIVAST REVOLVER, all z. EDGE-LIMITED below z = 0.11: the DR1 BGS footprint is 0.745 sr and a >=10 Mpc/h void cannot be inscribed at r = 125 Mpc/h without touching the edge.",
+      "coefficients": {
+        "const": 0.012265849093105567,
+        "D": 0.00025259162746968925,
+        "dI_q": 8.62884520857881e-06
+      },
+      "analytic_sigma": {
+        "const": 0.00041974550355358713,
+        "D": 2.2243114272361715e-06,
+        "dI_q": 4.875739328646938e-06
+      },
+      "c1_fitted_per_mpch": 0.00025259162746968925,
+      "c1_fiducial_per_mpch": 0.00033356409519815205,
+      "c1_attenuation_factor": 0.7572506486935846,
+      "c1_attenuation_note": "c1 < c1_fiducial because the response is a precise redshift and the regressor a noisy distance; classic errors-in-variables attenuation. It is NOT a measurement of H0.",
+      "response_factor_R": 0.99662442472083,
+      "c2_raw_per_mpch": 8.62884520857881e-06,
+      "null_mean_c2_full": 3.0250413397799933e-05,
+      "null_sd_c2_full": 1.1622002672244692e-05,
+      "null_mean_c2_statistical_only": 3.084480453746902e-05,
+      "null_sd_c2_statistical_only": 9.289585314740291e-06,
+      "c2_over_c1_estimate_null_subtracted_response_corrected": -0.06503937604255398,
+      "sigma_statistical_over_c1": 0.027943802562201935,
+      "sigma_full_incl_systematics_over_c1": 0.03495989724485009,
+      "significance_vs_statistical_null_sigma": -2.391490962856968,
+      "significance_vs_full_null_sigma": -1.860399519684941,
+      "two_sided_95pct_interval_on_c2_over_c1": [
+        -0.13356077464246016,
+        0.0034820225573521935
+      ],
+      "abs_95pct_upper_limit_on_c2_over_c1": 0.13356077464246016,
+      "min_detectable_c2_over_c1_at_3sigma_statistical": 0.0838314076866058,
+      "min_detectable_c2_over_c1_at_3sigma_with_systematics": 0.10487969173455026,
+      "critical_value_95pct_from_calibration_sims": 2.2456264196334602e-05,
+      "false_positive_rate_on_untouched_audit_sims": 0.0725,
+      "n_calibration_sims": 400,
+      "n_audit_sims": 400,
+      "per_component_null_over_c1": {
+        "N0": {
+          "null_mean_over_c1": 0.03947835000067124,
+          "null_sd_over_c1": 0.010375611987637753
+        },
+        "N1": {
+          "null_mean_over_c1": 0.04760477727816191,
+          "null_sd_over_c1": 0.012972900453364916
+        },
+        "N2": {
+          "null_mean_over_c1": 0.04156581674157639,
+          "null_sd_over_c1": 0.011731679015404964
+        },
+        "N3": {
+          "null_mean_over_c1": 0.0384835063215478,
+          "null_sd_over_c1": 0.023878024234801266
+        },
+        "N4": {
+          "null_mean_over_c1": 0.042529424617011445,
+          "null_sd_over_c1": 0.012262250362806669
+        },
+        "N5": {
+          "null_mean_over_c1": 0.08283028133133266,
+          "null_sd_over_c1": 0.026981813039199363
+        },
+        "N6a": {
+          "null_mean_over_c1": 0.044182340548237775,
+          "null_sd_over_c1": 0.01215507906312624
+        },
+        "N5raw": {
+          "null_mean_over_c1": 0.06398419756977011,
+          "null_sd_over_c1": 0.01020150849564722
+        }
+      }
+    },
+    "desi_voidfinder_all": {
+      "n": 4389,
+      "note": "DESIVAST VoidFinder, all z, edge-limited.",
+      "coefficients": {
+        "const": 0.012184780430563551,
+        "D": 0.0002529727055542954,
+        "dI_q": -7.079884185956162e-06
+      },
+      "analytic_sigma": {
+        "const": 0.0004199329063640263,
+        "D": 2.2178156387016744e-06,
+        "dI_q": 5.957394877319674e-06
+      },
+      "c1_fitted_per_mpch": 0.0002529727055542954,
+      "c1_fiducial_per_mpch": 0.00033356409519815205,
+      "c1_attenuation_factor": 0.7583930920503247,
+      "c1_attenuation_note": "c1 < c1_fiducial because the response is a precise redshift and the regressor a noisy distance; classic errors-in-variables attenuation. It is NOT a measurement of H0.",
+      "response_factor_R": 0.9986096341650456,
+      "c2_raw_per_mpch": -7.079884185956162e-06,
+      "null_mean_c2_full": 2.5315338054885494e-05,
+      "null_sd_c2_full": 1.1956841148752568e-05,
+      "null_mean_c2_statistical_only": 2.583452307526615e-05,
+      "null_sd_c2_statistical_only": 9.151085871655917e-06,
+      "c2_over_c1_estimate_null_subtracted_response_corrected": -0.09725365118431312,
+      "sigma_statistical_over_c1": 0.02747246204095182,
+      "sigma_full_incl_systematics_over_c1": 0.035895616017135624,
+      "significance_vs_statistical_null_sigma": -3.596776133766773,
+      "significance_vs_full_null_sigma": -2.709346209238665,
+      "two_sided_95pct_interval_on_c2_over_c1": [
+        -0.16760905857789893,
+        -0.02689824379072729
+      ],
+      "abs_95pct_upper_limit_on_c2_over_c1": 0.16760905857789893,
+      "min_detectable_c2_over_c1_at_3sigma_statistical": 0.08241738612285546,
+      "min_detectable_c2_over_c1_at_3sigma_with_systematics": 0.10768684805140688,
+      "critical_value_95pct_from_calibration_sims": 2.408297490999855e-05,
+      "false_positive_rate_on_untouched_audit_sims": 0.0525,
+      "n_calibration_sims": 400,
+      "n_audit_sims": 400,
+      "per_component_null_over_c1": {
+        "N0": {
+          "null_mean_over_c1": 0.007914030266397747,
+          "null_sd_over_c1": 0.013750599775550496
+        },
+        "N1": {
+          "null_mean_over_c1": 0.0251050200013128,
+          "null_sd_over_c1": 0.015618199391662658
+        },
+        "N2": {
+          "null_mean_over_c1": 0.008784109162950625,
+          "null_sd_over_c1": 0.014435600867190295
+        },
+        "N3": {
+          "null_mean_over_c1": 0.006497934170274247,
+          "null_sd_over_c1": 0.02792158418019721
+        },
+        "N4": {
+          "null_mean_over_c1": 0.009087111625245465,
+          "null_sd_over_c1": 0.016563691400656822
+        },
+        "N5": {
+          "null_mean_over_c1": 0.06018922130276687,
+          "null_sd_over_c1": 0.023920590903278107
+        },
+        "N6a": {
+          "null_mean_over_c1": 0.011034136374069815,
+          "null_sd_over_c1": 0.014065957365781648
+        },
+        "N5raw": {
+          "null_mean_over_c1": 0.08754467757892323,
+          "null_sd_over_c1": 0.012913019480591365
+        }
+      }
+    },
+    "desi_revolver_safe": {
+      "n": 46,
+      "note": "FOOTPRINT-SAFE watershed arm, z > 0.11. This is the only DESI subset finding 4 permits, and it contains n = 46 sources -- all Pantheon+ supernovae.",
+      "coefficients": {
+        "const": 0.02372754232156856,
+        "D": 0.0002698727101261319,
+        "dI_q": -4.192733656292174e-06
+      },
+      "analytic_sigma": {
+        "const": 0.006890858026065659,
+        "D": 1.5049432752982733e-05,
+        "dI_q": 9.698653957190599e-06
+      },
+      "c1_fitted_per_mpch": 0.0002698727101261319,
+      "c1_fiducial_per_mpch": 0.00033356409519815205,
+      "c1_attenuation_factor": 0.8090580311583456,
+      "c1_attenuation_note": "c1 < c1_fiducial because the response is a precise redshift and the regressor a noisy distance; classic errors-in-variables attenuation. It is NOT a measurement of H0.",
+      "response_factor_R": 0.9997667328540263,
+      "c2_raw_per_mpch": -4.192733656292174e-06,
+      "null_mean_c2_full": 2.283074260876118e-06,
+      "null_sd_c2_full": 1.0187869734361919e-05,
+      "null_mean_c2_statistical_only": 2.7158409646005386e-06,
+      "null_sd_c2_statistical_only": 8.10319754377499e-06,
+      "c2_over_c1_estimate_null_subtracted_response_corrected": -0.019418513431444632,
+      "sigma_statistical_over_c1": 0.024298443121557243,
+      "sigma_full_incl_systematics_over_c1": 0.030549591310457324,
+      "significance_vs_statistical_null_sigma": -0.8525738862432143,
+      "significance_vs_full_null_sigma": -0.6356390576261998,
+      "two_sided_95pct_interval_on_c2_over_c1": [
+        -0.07929571239994099,
+        0.04045868553705172
+      ],
+      "abs_95pct_upper_limit_on_c2_over_c1": 0.07929571239994099,
+      "min_detectable_c2_over_c1_at_3sigma_statistical": 0.07289532936467173,
+      "min_detectable_c2_over_c1_at_3sigma_with_systematics": 0.09164877393137197,
+      "critical_value_95pct_from_calibration_sims": 1.8958560939791277e-05,
+      "false_positive_rate_on_untouched_audit_sims": 0.075,
+      "n_calibration_sims": 400,
+      "n_audit_sims": 400,
+      "per_component_null_over_c1": {
+        "N0": {
+          "null_mean_over_c1": 0.008119870201511874,
+          "null_sd_over_c1": 0.027589115895385714
+        },
+        "N1": {
+          "null_mean_over_c1": 0.013518573973041561,
+          "null_sd_over_c1": 0.029111542319459168
+        },
+        "N2": {
+          "null_mean_over_c1": 0.011549232694272573,
+          "null_sd_over_c1": 0.02812926431364694
+        },
+        "N3": {
+          "null_mean_over_c1": 0.010247967588497584,
+          "null_sd_over_c1": 0.02709848684677282
+        },
+        "N4": {
+          "null_mean_over_c1": 0.010596888620043826,
+          "null_sd_over_c1": 0.029647658723916254
+        },
+        "N5": {
+          "null_mean_over_c1": -0.0033918072085435636,
+          "null_sd_over_c1": 0.025340048880878523
+        },
+        "N6a": {
+          "null_mean_over_c1": 0.009314317231145963,
+          "null_sd_over_c1": 0.025889419697352138
+        },
+        "N5raw": {
+          "null_mean_over_c1": 0.014508520139120873,
+          "null_sd_over_c1": 0.02227165648989593
+        }
+      }
+    },
+    "desi_density_field": {
+      "n": 4389,
+      "note": "VOID-FINDER-FREE arm. The regressor is the underdensity path integral of the reconstructed density field, radially detrended. It carries no void-catalogue systematic at all, but it inherits the reconstruction's mask (delta = 0 outside the survey) and its 5 Mpc/h smoothing.",
+      "coefficients": {
+        "const": 0.012208074297945204,
+        "D": 0.0002529302063065594,
+        "dI_q": -1.0062272280374574e-05
+      },
+      "analytic_sigma": {
+        "const": 0.0004191936191852033,
+        "D": 2.21734356113862e-06,
+        "dI_q": 1.3414628810680826e-05
+      },
+      "c1_fitted_per_mpch": 0.0002529302063065594,
+      "c1_fiducial_per_mpch": 0.00033356409519815205,
+      "c1_attenuation_factor": 0.7582656825109054,
+      "c1_attenuation_note": "c1 < c1_fiducial because the response is a precise redshift and the regressor a noisy distance; classic errors-in-variables attenuation. It is NOT a measurement of H0.",
+      "response_factor_R": 0.9751211061713129,
+      "c2_raw_per_mpch": -1.0062272280374574e-05,
+      "null_mean_c2_full": 4.763574456671529e-05,
+      "null_sd_c2_full": 1.9448111372318222e-05,
+      "null_mean_c2_statistical_only": 4.978000819818445e-05,
+      "null_sd_c2_statistical_only": 1.7954568746781484e-05,
+      "c2_over_c1_estimate_null_subtracted_response_corrected": -0.17738750789869173,
+      "sigma_statistical_over_c1": 0.05519975173198598,
+      "sigma_full_incl_systematics_over_c1": 0.059791517944446246,
+      "significance_vs_statistical_null_sigma": -3.3329834496462794,
+      "significance_vs_full_null_sigma": -2.9667670933443566,
+      "two_sided_95pct_interval_on_c2_over_c1": [
+        -0.2945788830698064,
+        -0.060196132727577095
+      ],
+      "abs_95pct_upper_limit_on_c2_over_c1": 0.2945788830698064,
+      "min_detectable_c2_over_c1_at_3sigma_statistical": 0.16559925519595792,
+      "min_detectable_c2_over_c1_at_3sigma_with_systematics": 0.17937455383333872,
+      "critical_value_95pct_from_calibration_sims": 3.550590636056741e-05,
+      "false_positive_rate_on_untouched_audit_sims": 0.07,
+      "n_calibration_sims": 400,
+      "n_audit_sims": 400,
+      "per_component_null_over_c1": {
+        "N0": {
+          "null_mean_over_c1": -0.0015887113511198472,
+          "null_sd_over_c1": 0.029760040804068296
+        },
+        "N1": {
+          "null_mean_over_c1": 0.034810488369168134,
+          "null_sd_over_c1": 0.034969276552340105
+        },
+        "N2": {
+          "null_mean_over_c1": -0.005160914209011399,
+          "null_sd_over_c1": 0.03305868747843937
+        },
+        "N3": {
+          "null_mean_over_c1": -0.00020842104397496728,
+          "null_sd_over_c1": 0.033422173018868837
+        },
+        "N4": {
+          "null_mean_over_c1": 0.002741221480917852,
+          "null_sd_over_c1": 0.03760958357350488
+        },
+        "N5": {
+          "null_mean_over_c1": 0.09271043743791194,
+          "null_sd_over_c1": 0.049767836519099766
+        },
+        "N6a": {
+          "null_mean_over_c1": 0.024042509696447913,
+          "null_sd_over_c1": 0.03651373804457493
+        },
+        "N5raw": {
+          "null_mean_over_c1": 0.24451713693812935,
+          "null_sd_over_c1": 0.02684873684242331
+        }
+      }
+    }
+  },
+  "arm_to_arm_dispersion": {
+    "estimates_c2_over_c1": {
+      "sdss_primary": -0.011710329204709774,
+      "desi_revolver_all": -0.06503937604255398,
+      "desi_voidfinder_all": -0.09725365118431312,
+      "desi_revolver_safe": -0.019418513431444632,
+      "desi_density_field": -0.17738750789869173
+    },
+    "raw_c2_over_c1_before_null_subtraction": {
+      "sdss_primary": -0.022619990837726568,
+      "desi_revolver_all": 0.02586862714781364,
+      "desi_voidfinder_all": -0.021224958824631268,
+      "desi_revolver_safe": -0.01256949928559158,
+      "desi_density_field": -0.030165933399987587
+    },
+    "sd_of_estimates": 0.06739623989874602,
+    "range_of_estimates": [
+      -0.17738750789869173,
+      -0.011710329204709774
+    ],
+    "sd_of_raw_values": 0.022148031173254208,
+    "range_of_raw_values": [
+      -0.030165933399987587,
+      0.02586862714781364
+    ],
+    "median_quoted_sigma": 0.03495989724485009,
+    "dispersion_over_quoted_sigma": 1.9278157320291924,
+    "reading": "Five estimators of the SAME coefficient, sharing the same sources and differing only in how the path integral is built, disagree by more than any of them quotes. The RAW coefficients before null subtraction agree far better than the null-subtracted ones, which locates the disagreement in the nuisance model rather than in the data. The dispersion, not the quoted sigma, is the honest error bar."
+  },
+  "six_term_watershed": {
+    "n": 4389,
+    "note": "Six-term law. c3 and c6 are meaningful only here: on VoidFinder spheres I_T collapses onto I_q. Edge-limited sample; the footprint-safe subset has n = 46 and cannot support six coefficients.",
+    "c1": 0.00024905550223651164,
+    "terms": {
+      "dI_q": {
+        "coefficient": 5.032073239608987e-05,
+        "analytic_sigma": 8.304363366786552e-06,
+        "coefficient_over_analytic_sigma": 6.059553294277623,
+        "vif": 3.545036919961926,
+        "null_mean": 0.00011660724776775434,
+        "null_sd": 3.7385663726681806e-05,
+        "null_subtracted": -6.628651537166447e-05,
+        "significance_sigma": -1.7730463702950496
+      },
+      "dI_T": {
+        "coefficient": 67.00245484031741,
+        "analytic_sigma": 1063.5005397745122,
+        "coefficient_over_analytic_sigma": 0.06300180614343981,
+        "vif": 4.0784750442167885,
+        "null_mean": -2033.4295545200032,
+        "null_sd": 1236.353929426097,
+        "null_subtracted": 2100.4320093603205,
+        "significance_sigma": 1.698892169441577
+      },
+      "dI_g": {
+        "coefficient": -43.76128807316004,
+        "analytic_sigma": 12.80904363857594,
+        "coefficient_over_analytic_sigma": -3.4164368010557618,
+        "vif": 1.4289231691867512,
+        "null_mean": -90.0959640520248,
+        "null_sd": 42.773554379422,
+        "null_subtracted": 46.33467597886476,
+        "significance_sigma": 1.0832552181157051
+      },
+      "dI_q^2": {
+        "coefficient": -2.0321576066239188e-07,
+        "analytic_sigma": 3.760330979617256e-08,
+        "coefficient_over_analytic_sigma": -5.404198773031307,
+        "vif": 3.2679589090351304,
+        "null_mean": -3.817219443079881e-07,
+        "null_sd": 1.1615963486091678e-07,
+        "null_subtracted": 1.785061836455962e-07,
+        "significance_sigma": 1.5367316181677895
+      },
+      "dI_q*I_T": {
+        "coefficient": 14.42993067135168,
+        "analytic_sigma": 12.797332332459002,
+        "coefficient_over_analytic_sigma": 1.1275733329790754,
+        "vif": 3.9850121520559214,
+        "null_mean": -5.268937711025778,
+        "null_sd": 22.499789374378363,
+        "null_subtracted": 19.69886838237746,
+        "significance_sigma": 0.8755134572419396
+      },
+      "_design_vif": {
+        "D": 1.0131931141143404,
+        "dI_q": 3.545036919961926,
+        "dI_T": 4.0784750442167885,
+        "dI_g": 1.4289231691867512,
+        "dI_q^2": 3.2679589090351304,
+        "dI_q*I_T": 3.9850121520559214
+      },
+      "_c4_caveat": "c4 (dI_g) is reported but must NOT be interpreted: the density field is zero outside the survey mask, so I_g is a lower bound and the least trustworthy of the integrals (void-data lane, section 3)."
+    },
+    "footprint_safe_n_for_six_terms": 46,
+    "structural_obstruction": "void-data finding 3 forces the tidal terms onto watershed geometry, which exists only in DESIVAST; void-data finding 4 forces DESIVAST above z = 0.11, where n = 46. The two findings cannot be satisfied at once with the data on disk, so c3 and c6 have no footprint-safe determination at all."
+  },
+  "matched_pairs": {
+    "estimator": "weighted slope of d ln(1+z) on d I_q over pairs matched to |dD| < 20 Mpc/h with |dI_q| > 60 Mpc/h",
+    "n_pairs": 20547,
+    "slope_per_mpch": -6.156004266224372e-06,
+    "slope_over_c1": -0.018455236504298908,
+    "null_mean": -6.3731345973146635e-06,
+    "null_sd": 3.4947119249687403e-07,
+    "null_mean_over_c1": -0.01910617686093803,
+    "null_subtracted_over_c1": 0.0006509403566391221,
+    "significance_sigma": 0.6213111001766859
+  },
+  "matched_pairs_desi": {
+    "estimator": "weighted slope of d ln(1+z) on d I_q over pairs matched to |dD| < 20 Mpc/h with |dI_q| > 60 Mpc/h",
+    "n_pairs": 4062,
+    "slope_per_mpch": 2.3174032666810953e-05,
+    "slope_over_c1": 0.0694740021495555,
+    "null_mean": 2.3998585586904833e-05,
+    "null_sd": 4.432299258147956e-07,
+    "null_mean_over_c1": 0.07194594961621573,
+    "null_subtracted_over_c1": -0.002471947466660219,
+    "significance_sigma": -1.8603277262429725
+  },
+  "blind": {
+    "seed": 20260904,
+    "n_train": 10281,
+    "n_holdout": 10402,
+    "c2_train": -3.7255471226417547e-06,
+    "c2_train_over_c1": -0.016563153682741746,
+    "c2_holdout_refit": -1.0761370705991937e-05,
+    "c2_holdout_refit_over_c1": -0.0469407405408264,
+    "chi2_holdout_with_frozen_c2": 6265.280981993294,
+    "chi2_holdout_with_c2_set_to_zero": 6268.7610985130705,
+    "delta_chi2_frozen_transfer": 3.480116519776857,
+    "reading": "positive delta_chi2 means the frozen c2 helps on the held-out half; it is reported against the null distribution, not against zero. The refit value is printed only to expose the size of the difference between the correct frozen procedure and the refit-on-holdout mistake."
+  },
+  "injection": {
+    "blocks": [
+      {
+        "null": "statistical",
+        "response_factor_R": 0.9968938551770075,
+        "null_sd_over_c1": 0.012860778285665128,
+        "rows": [
+          {
+            "injected_c2_over_c1": 0.0,
+            "recovered_c2_over_c1": 0.0,
+            "statistic_sigma": 0.0,
+            "power_at_3sigma": 0.0025
+          },
+          {
+            "injected_c2_over_c1": 0.005,
+            "recovered_c2_over_c1": 0.005,
+            "statistic_sigma": 0.387571355727423,
+            "power_at_3sigma": 0.0025
+          },
+          {
+            "injected_c2_over_c1": 0.01,
+            "recovered_c2_over_c1": 0.01,
+            "statistic_sigma": 0.775142711454846,
+            "power_at_3sigma": 0.005
+          },
+          {
+            "injected_c2_over_c1": 0.02,
+            "recovered_c2_over_c1": 0.02,
+            "statistic_sigma": 1.550285422909692,
+            "power_at_3sigma": 0.095
+          },
+          {
+            "injected_c2_over_c1": 0.05,
+            "recovered_c2_over_c1": 0.05,
+            "statistic_sigma": 3.87571355727423,
+            "power_at_3sigma": 0.7875
+          },
+          {
+            "injected_c2_over_c1": 0.1,
+            "recovered_c2_over_c1": 0.1,
+            "statistic_sigma": 7.75142711454846,
+            "power_at_3sigma": 1.0
+          }
+        ],
+        "dS_dtheta": [
+          77.5142711454846,
+          77.5142711454846,
+          77.5142711454846,
+          77.51427114548459,
+          77.5142711454846
+        ],
+        "monotone_invariance_check_passed": true,
+        "spread_of_statistic_sigma": 7.75142711454846,
+        "min_detectable_c2_over_c1_at_3sigma": 0.038702550584128886
+      },
+      {
+        "null": "full",
+        "response_factor_R": 0.9968754442624203,
+        "null_sd_over_c1": 0.019714709794869018,
+        "rows": [
+          {
+            "injected_c2_over_c1": 0.0,
+            "recovered_c2_over_c1": 0.0,
+            "statistic_sigma": 0.0,
+            "power_at_3sigma": 0.0025
+          },
+          {
+            "injected_c2_over_c1": 0.005,
+            "recovered_c2_over_c1": 0.005,
+            "statistic_sigma": 0.25282529000803977,
+            "power_at_3sigma": 0.005
+          },
+          {
+            "injected_c2_over_c1": 0.01,
+            "recovered_c2_over_c1": 0.01,
+            "statistic_sigma": 0.5056505800160795,
+            "power_at_3sigma": 0.0075
+          },
+          {
+            "injected_c2_over_c1": 0.02,
+            "recovered_c2_over_c1": 0.02,
+            "statistic_sigma": 1.011301160032159,
+            "power_at_3sigma": 0.0125
+          },
+          {
+            "injected_c2_over_c1": 0.05,
+            "recovered_c2_over_c1": 0.05,
+            "statistic_sigma": 2.5282529000803975,
+            "power_at_3sigma": 0.3425
+          },
+          {
+            "injected_c2_over_c1": 0.1,
+            "recovered_c2_over_c1": 0.1,
+            "statistic_sigma": 5.056505800160795,
+            "power_at_3sigma": 0.9825
+          }
+        ],
+        "dS_dtheta": [
+          50.56505800160795,
+          50.56505800160795,
+          50.56505800160795,
+          50.565058001607945,
+          50.565058001607945
+        ],
+        "monotone_invariance_check_passed": true,
+        "spread_of_statistic_sigma": 5.056505800160795,
+        "min_detectable_c2_over_c1_at_3sigma": 0.059329507738418906
+      }
+    ],
+    "note": "power quoted at a two-sided 3-sigma threshold calibrated on the null itself"
+  },
+  "systematic_floor": {
+    "n_common_sightlines": 2141,
+    "transverse_residual_pearson_r": 0.14930320402463382,
+    "mean_I_q_DESIVAST": 52.182876493006944,
+    "mean_I_q_SDSS": 112.13989416419689,
+    "implied_relative_systematic_on_c2": 6.622707579652104,
+    "reading": "two independently built VoidFinder catalogues on the same sight lines disagree on the transverse residual, which is the variable the decisive test uses. The implied relative systematic is the ratio of the disagreeing part to the agreeing part; it multiplies any statistical error bar on c2."
+  },
+  "circularity": {
+    "four_places": [
+      "void positions come from r = D_C(z; Omega_m = 0.315): the catalogue is a redshift-space product in Cartesian clothing",
+      "the volume-limited sample definition (MAGLIM = -20) uses a cosmology-dependent luminosity distance, so which galaxies exist depends on the law under test",
+      "voids are found in redshift space and are RSD-stretched along the line of sight, uncorrected",
+      "the source endpoints are placed by the same law"
+    ],
+    "endpoint_half_measured": {
+      "implied_h_to_match_redshift_frame": 0.7430579725381734,
+      "n": 4389,
+      "median_abs_delta_I_q_mpch": 6.203707145188275,
+      "std_delta_I_q_mpch": 24.956856202589545,
+      "median_abs_delta_over_transverse_std": 0.1769430981225442,
+      "note": "I_q recomputed with the ray truncated at the source's own independent distance (times a single global h) instead of at D_C(z_cmb). The voids themselves stay where LCDM put them, so this isolates the endpoint half of the circularity."
+    },
+    "radial_remap_size": {
+      "LCDM_Om0.315": 0.0,
+      "linear_cz_over_H0": 42.09807979353741,
+      "Milne_empty": 32.51612701511067,
+      "EdS_Om1": 65.98615585038522
+    },
+    "verdict": "Reuse costs about 18% on the leverage variable and 5-10% on the radial metric. Tolerable for a feasibility and power study, NOT for a claimed detection. A genuine no-expansion analysis would have to rerun VoidFinder and V2 under its own distance law, which also changes the sample definition."
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "generated_utc": "2026-09-04T13:59:36Z",
+  "lane": "work/wellnet-2026-09/redshift",
+  "independence_statement": "This is a logically independent hypothesis. Nothing in the galaxy or cluster gravity work is evidence for or against it, and this result does not bear on that work.",
+  "provenance": {
+    "des_time_dilation": {
+      "arxiv": "2406.05050",
+      "abstract_contains_b_value": true,
+      "abstract_contains_stat_err": true,
+      "abstract_contains_sys_err": true,
+      "abstract_contains_n_sne": true
+    }
+  },
+  "measurements": {
+    "DES_SN5YR_White2024": {
+      "reference": "White R. M. T. et al. 2024, MNRAS 533, 3365 (arXiv:2406.05050), doi:10.1093/mnras/stae2008",
+      "probe": "type Ia supernova light-curve width vs stacked template",
+      "n_objects": 1504,
+      "z_range": [
+        0.1,
+        1.2
+      ],
+      "parameterisation": "dt_obs = dt_em (1+z)^b",
+      "b": 1.003,
+      "sigma_b_stat": 0.005,
+      "sigma_b_sys": 0.01,
+      "sigma_b_total": 0.011180339887498949,
+      "note": "systematic dominates; the constraint is only as good as the DES treatment of intrinsic-width evolution and of selection on light-curve stretch"
+    },
+    "QSO_LewisBrewer2023": {
+      "reference": "Lewis G. F. & Brewer B. J. 2023, Nature Astronomy 7, 1265 (arXiv:2306.04053), doi:10.1038/s41550-023-02029-2",
+      "probe": "quasar variability as a damped random walk, SDSS + PS1",
+      "n_objects": 190,
+      "z_range": [
+        0.0,
+        4.0
+      ],
+      "parameterisation": "characteristic timescale ~ (1+z)^n",
+      "b": 1.28,
+      "sigma_b_stat": 0.29,
+      "sigma_b_sys": 0.0,
+      "sigma_b_total": 0.29,
+      "note": "independent population, entirely different systematics; weaker but immune to SN-specific selection effects"
+    }
+  },
+  "exclusion_in_f_eta": {
+    "DES_SN5YR": {
+      "b": 1.003,
+      "sigma_b_total": 0.011180339887498949,
+      "b_predicted_if_f1_eta0": 0.0,
+      "sigma_from_b_eq_0": 89.71104725729155,
+      "upper_bound_on_f_times_1_minus_eta_95pct_onesided": 0.015391659114935879,
+      "upper_bound_on_f_times_1_minus_eta_2sigma": 0.019360679774998005,
+      "upper_bound_on_f_times_1_minus_eta_3sigma": 0.030541019662496956
+    },
+    "QSO": {
+      "b": 1.28,
+      "sigma_b_total": 0.29,
+      "b_predicted_if_f1_eta0": 0.0,
+      "sigma_from_b_eq_0": 4.413793103448277,
+      "upper_bound_on_f_times_1_minus_eta_95pct_onesided": 0.19704999999999995,
+      "upper_bound_on_f_times_1_minus_eta_2sigma": 0.29999999999999993,
+      "upper_bound_on_f_times_1_minus_eta_3sigma": 0.5899999999999999
+    }
+  },
+  "void_volume_filling_fraction_used": {
+    "DESIVAST_VoidFinder": 0.4953,
+    "DESIVAST_REVOLVER": 0.5228,
+    "SDSS_VAST_VoidFinder": 0.5881
+  },
+  "c2_over_c1_upper_bound_eta0": {
+    "95pct_onesided": {
+      "DESIVAST_VoidFinder": 0.031561206578902545,
+      "DESIVAST_REVOLVER": 0.02990104364676823,
+      "SDSS_VAST_VoidFinder": 0.026580965173491636
+    },
+    "2sigma": {
+      "DESIVAST_VoidFinder": 0.03986052099833624,
+      "DESIVAST_REVOLVER": 0.037763802697926424,
+      "SDSS_VAST_VoidFinder": 0.033570678541873726
+    },
+    "3sigma": {
+      "DESIVAST_VoidFinder": 0.06360419591694773,
+      "DESIVAST_REVOLVER": 0.06025852761603713,
+      "SDSS_VAST_VoidFinder": 0.05356768957263087
+    }
+  },
+  "comparison_with_regression_reach": {
+    "SDSS_arm_statistical_3sigma_c2_over_c1": 0.028,
+    "DESI_REVOLVER_statistical_3sigma_c2_over_c1": 0.04388058717775638,
+    "DESI_VoidFinder_statistical_3sigma_c2_over_c1": 0.05356827897451995,
+    "cross_pipeline_transverse_residual_r": 0.153,
+    "note": "the statistical floors above ignore the cross-pipeline disagreement; with transverse-residual r = 0.153 between two independently built VoidFinder catalogues the realistic threshold is tens of percent, not a few percent",
+    "time_dilation_3sigma_c2_over_c1_eta0": 0.05356768957263087,
+    "time_dilation_is_tighter_than_best_statistical_floor_at_3sigma": false,
+    "like_for_like_3sigma": {
+      "time_dilation_eta0": 0.05356768957263087,
+      "best_void_regression_statistical": 0.028,
+      "ratio_td_over_regression": 1.9131317704511024,
+      "reading": "at matched 3-sigma confidence the two are within a factor of two of each other, with the void regression nominally the tighter of the two ON STATISTICS ALONE. The comparison reverses by an order of magnitude once the cross-pipeline systematic floor is included, because the time-dilation bound has no such floor."
+    }
+  },
+  "cmb_smoothness_gate": {
+    "assumptions": [
+      "the mechanism is achromatic and acts on CMB photons exactly as on supernova photons",
+      "the sky-to-sky spread of foreground void path length is at least the spread measured inside the surveyed volume (conservative: the unmapped remainder of the path adds variance)",
+      "no cancellation against another term of the law",
+      "the whole observed CMB anisotropy is attributed to the mechanism, which is generous by roughly the ratio of the primordial to the hypothesised signal"
+    ],
+    "T0_K": 2.7255,
+    "assumed_dT_rms_K": 0.00011,
+    "dT_over_T": 4.0359567051917084e-05,
+    "sd_of_transverse_void_path_length_mpch": {
+      "DESIVAST_VoidFinder": 35.064458943954186,
+      "DESIVAST_REVOLVER": 43.722806297644766,
+      "SDSS_VAST_VoidFinder": 27.23993570194306
+    },
+    "bounds": {
+      "DESIVAST_VoidFinder": {
+        "c2_max_per_mpch": 1.1510106890976534e-06,
+        "c2_over_c1_max": 0.00345064318701459
+      },
+      "DESIVAST_REVOLVER": {
+        "c2_max_per_mpch": 9.23078147755835e-07,
+        "c2_over_c1_max": 0.0027673186285809385
+      },
+      "SDSS_VAST_VoidFinder": {
+        "c2_max_per_mpch": 1.4816322436854425e-06,
+        "c2_over_c1_max": 0.0044418216579225475
+      }
+    },
+    "applies_to_eta": "all eta, including eta = 1",
+    "sharper_test_not_done_here": "cross-correlate the void path-length map with a CMB temperature map. That measurement already exists in the literature as void-ISW stacking and finds amplitudes of a few micro-kelvin, consistent with the general-relativistic integrated Sachs-Wolfe prediction; it would tighten the bound below by roughly the ratio of the total CMB rms to the stacked void signal."
+  },
+  "mechanism_verdicts": [
+    {
+      "key": "M1_photon_energy_drain",
+      "name": "Photon energy drain / tired light (drag on the photon, secular energy loss to a medium or a background field, photon decay)",
+      "eta": 0.0,
+      "why": "The mechanism removes energy from each photon independently. Two photons emitted dt apart still arrive dt apart in the observer frame; only their individual frequencies drop.",
+      "maps_to": "c2 I_q with any sign",
+      "excluded_by_time_dilation": true,
+      "significance_if_carrying_all_of_z_sigma": 89.71104725729155,
+      "max_allowed_fraction_of_ln1pz_2sigma": 0.019360679774998005,
+      "max_allowed_c2_over_c1_2sigma": 0.033570678541873726,
+      "verdict": "EXCLUDED as the origin of cosmological redshift at 90 sigma. Survives only as a sub-1.9% additive contamination of ln(1+z), which is below this dataset's realistic sensitivity."
+    },
+    {
+      "key": "M2_scattering",
+      "name": "Scattering off a medium (Compton, Raman, plasma, 'photon-photon in a void')",
+      "eta": 0.0,
+      "why": "Same duration argument as M1, and every known scattering channel also randomises direction.",
+      "maps_to": "c2 I_q, plus an unavoidable angular blur",
+      "excluded_by_time_dilation": true,
+      "significance_if_carrying_all_of_z_sigma": 89.71104725729155,
+      "max_allowed_fraction_of_ln1pz_2sigma": 0.019360679774998005,
+      "max_allowed_c2_over_c1_2sigma": 0.033570678541873726,
+      "verdict": "EXCLUDED as the origin of cosmological redshift at 90 sigma. Survives only as a sub-1.9% additive contamination of ln(1+z), which is below this dataset's realistic sensitivity."
+    },
+    {
+      "key": "M3_chromatic_drain",
+      "name": "Frequency-dependent energy loss",
+      "eta": 0.0,
+      "why": "Same as M1 for durations, and additionally predicts a wavelength-dependent redshift, i.e. distorted spectra and band-dependent light-curve widths.",
+      "maps_to": "c2(nu) I_q",
+      "excluded_by_time_dilation": true,
+      "significance_if_carrying_all_of_z_sigma": 89.71104725729155,
+      "max_allowed_fraction_of_ln1pz_2sigma": 0.019360679774998005,
+      "max_allowed_c2_over_c1_2sigma": 0.033570678541873726,
+      "verdict": "EXCLUDED as the origin of cosmological redshift at 90 sigma. Survives only as a sub-1.9% additive contamination of ln(1+z), which is below this dataset's realistic sensitivity."
+    },
+    {
+      "key": "M4_geometric_path_stretch",
+      "name": "Geometric path stretch: the void contributes to the conformal factor along the null geodesic, so the affine spacing of successive wavefronts AND of successive events both dilate",
+      "eta": 1.0,
+      "why": "Frequency and time are stretched by the same factor by construction. Time dilation has NO power against this class.",
+      "maps_to": "c2 I_q, c3 I_T, c5 I_q^2, c6 I_q I_T",
+      "excluded_by_time_dilation": false,
+      "verdict": "NOT constrained by time dilation -- b = 1 identically for any f. This is the only class the redshift regression can address. It is however constrained by the CMB smoothness gate above at the ~0.4% level in c2/c1, which is again tighter than this dataset's realistic sensitivity."
+    },
+    {
+      "key": "M5_partial_geometric",
+      "name": "Mixed / partially geometric mechanism",
+      "eta": null,
+      "why": "Any eta strictly between 0 and 1 is constrained in the combination f(1-eta) only.",
+      "maps_to": "c2 I_q with a free eta",
+      "excluded_by_time_dilation": "partially",
+      "verdict": "Constrained only in the product f(1-eta) < 0.0194 (2 sigma). A mechanism with eta -> 1 escapes entirely; one with eta -> 0 is excluded unless f is tiny."
+    }
+  ],
+  "headline": {
+    "gate_passed_by": [
+      "M4_geometric_path_stretch"
+    ],
+    "gate_failed_by": [
+      "M1_photon_energy_drain",
+      "M2_scattering",
+      "M3_chromatic_drain"
+    ],
+    "statement": "Every mechanism that drains photon energy without acting on the metric is excluded outright: DES-SN5YR measures b = 1.003 +/- 0.011, and such a mechanism carrying all of the redshift predicts b = 0, which is 90 sigma away. As a sub-dominant additive term it is capped at f < 1.9% of ln(1+z) (2 sigma), i.e. c2/c1 < 3.4%, comparable to the best STATISTICAL reach of the void data (2.8% at 3 sigma) and about an order of magnitude below its realistic systematic floor. The only surviving class is a genuinely geometric path stretch (eta = 1), against which the time-dilation test has zero power by construction -- and that class is separately capped near 0.3-0.4% in c2/c1 by the smoothness of the CMB across the local void structure, roughly an order of magnitude tighter than the void regression's best statistical reach. THE REDSHIFT FIT IS THEREFORE A BOUNDED FEASIBILITY STUDY, NOT A DISCOVERY TEST."
+  }
+}

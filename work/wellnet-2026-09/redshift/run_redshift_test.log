@@ -1,0 +1,110 @@
+========================================================================
+PATH-GEOMETRY REDSHIFT TEST
+========================================================================
+
+[1] nuisance construction
+  nuisance_desi.csv cached
+  nuisance_sdss.csv cached
+  row counts asserted: DESI 4389, SDSS 25123
+  kappa sd (DESI) = 1.42e-04, corr with dI_q = +0.367
+  v_pec sd (DESI) = 257.3 km/s, corr with dI_q = +0.168
+  d ln n / d ln r: in-void +0.30, outside +3.71
+  VoidFinder: corr(dI_q, mean delta along LOS) = +0.069, corr(dI_q, I_q_den) = +0.130
+  REVOLVER: corr(dI_q, mean delta along LOS) = +0.319, corr(dI_q, I_q_den) = -0.190
+
+[2] arms
+  sdss_primary: n = 20683
+  desi_revolver_all: n = 4389
+  desi_voidfinder_all: n = 4389
+  desi_revolver_safe: n = 46
+  desi_density_field: n = 4389
+
+[3] fits with the full null subtracted
+
+  [SDSS/VoidFinder] n = 20683
+    c1 fitted 2.2715e-04 = 0.681 x fiducial (errors-in-variables attenuation, NOT H0)
+    response factor R = 0.997
+    c2 raw            =  -2.262% of c1_fid
+    null (stat only)  =  -1.076% +/- 1.441%
+    null (full)       =  -1.095% +/- 2.006%
+    ESTIMATE c2/c1    =  -1.171% +/- 1.445% (stat) +/- 1.400% (sys)
+    significance      = -0.82 sigma (stat null), -0.58 sigma (full null)
+    |c2/c1| < 5.11% at 95%;  audit FPR = 0.062
+
+  [DESI/REVOLVER] n = 4389
+    c1 fitted 2.5259e-04 = 0.757 x fiducial (errors-in-variables attenuation, NOT H0)
+    response factor R = 0.997
+    c2 raw            =  +2.587% of c1_fid
+    null (stat only)  =  +9.247% +/- 2.785%
+    null (full)       =  +9.069% +/- 3.484%
+    ESTIMATE c2/c1    =  -6.504% +/- 2.794% (stat) +/- 2.101% (sys)
+    significance      = -2.39 sigma (stat null), -1.86 sigma (full null)
+    |c2/c1| < 13.36% at 95%;  audit FPR = 0.072
+
+  [DESI/VoidFinder] n = 4389
+    c1 fitted 2.5297e-04 = 0.758 x fiducial (errors-in-variables attenuation, NOT H0)
+    response factor R = 0.999
+    c2 raw            =  -2.122% of c1_fid
+    null (stat only)  =  +7.745% +/- 2.743%
+    null (full)       =  +7.589% +/- 3.585%
+    ESTIMATE c2/c1    =  -9.725% +/- 2.747% (stat) +/- 2.310% (sys)
+    significance      = -3.60 sigma (stat null), -2.71 sigma (full null)
+    |c2/c1| < 16.76% at 95%;  audit FPR = 0.052
+
+  [DESI/REVOLVER] n = 46
+    c1 fitted 2.6987e-04 = 0.809 x fiducial (errors-in-variables attenuation, NOT H0)
+    response factor R = 1.000
+    c2 raw            =  -1.257% of c1_fid
+    null (stat only)  =  +0.814% +/- 2.429%
+    null (full)       =  +0.684% +/- 3.054%
+    ESTIMATE c2/c1    =  -1.942% +/- 2.430% (stat) +/- 1.852% (sys)
+    significance      = -0.85 sigma (stat null), -0.64 sigma (full null)
+    |c2/c1| < 7.93% at 95%;  audit FPR = 0.075
+
+  [DESI/REVOLVER/I_q_den] n = 4389
+    c1 fitted 2.5293e-04 = 0.758 x fiducial (errors-in-variables attenuation, NOT H0)
+    response factor R = 0.975
+    c2 raw            =  -3.017% of c1_fid
+    null (stat only)  = +14.924% +/- 5.383%
+    null (full)       = +14.281% +/- 5.830%
+    ESTIMATE c2/c1    = -17.739% +/- 5.520% (stat) +/- 2.298% (sys)
+    significance      = -3.33 sigma (stat null), -2.97 sigma (full null)
+    |c2/c1| < 29.46% at 95%;  audit FPR = 0.070
+  arm-to-arm dispersion of the estimate: 6.74% of c1 across [-17.74%, -1.17%], vs a median quoted sigma of 3.50%
+  raw coefficients before null subtraction: [-3.02%, +2.59%], sd 2.21%
+
+[4] six-term law on watershed geometry
+          dI_q: +5.0321e-05 +/- 8.30e-06 (VIF  3.55)  null +1.166e-04 +/- 3.74e-05 -> -1.77 sig
+          dI_T: +6.7002e+01 +/- 1.06e+03 (VIF  4.08)  null -2.033e+03 +/- 1.24e+03 -> +1.70 sig
+          dI_g: -4.3761e+01 +/- 1.28e+01 (VIF  1.43)  null -9.010e+01 +/- 4.28e+01 -> +1.08 sig
+        dI_q^2: -2.0322e-07 +/- 3.76e-08 (VIF  3.27)  null -3.817e-07 +/- 1.16e-07 -> +1.54 sig
+      dI_q*I_T: +1.4430e+01 +/- 1.28e+01 (VIF  3.99)  null -5.269e+00 +/- 2.25e+01 -> +0.88 sig
+
+[5] matched-pair estimator (the decisive comparison, differenced)
+  [SDSS/VoidFinder] 20547 pairs: slope/c1 = -1.85%, null -1.91% -> +0.62 sigma
+  [DESI/REVOLVER] 4062 pairs: slope/c1 = +6.95%, null +7.19% -> -1.86 sigma
+
+[6] blind split: fit on train, freeze, touch the holdout once
+  train c2/c1 = -1.656%, holdout refit = -4.694%, frozen transfer dchi2 = +3.48
+
+[7] injection recovery / monotone-invariance of the statistic
+  [statistical] inject  0.00% -> recover +0.000%, S =   +0.00 sigma, power = 0.00
+  [statistical] inject  0.50% -> recover +0.500%, S =   +0.39 sigma, power = 0.00
+  [statistical] inject  1.00% -> recover +1.000%, S =   +0.78 sigma, power = 0.01
+  [statistical] inject  2.00% -> recover +2.000%, S =   +1.55 sigma, power = 0.10
+  [statistical] inject  5.00% -> recover +5.000%, S =   +3.88 sigma, power = 0.79
+  [statistical] inject 10.00% -> recover +10.000%, S =   +7.75 sigma, power = 1.00
+  [       full] inject  0.00% -> recover +0.000%, S =   +0.00 sigma, power = 0.00
+  [       full] inject  0.50% -> recover +0.500%, S =   +0.25 sigma, power = 0.01
+  [       full] inject  1.00% -> recover +1.000%, S =   +0.51 sigma, power = 0.01
+  [       full] inject  2.00% -> recover +2.000%, S =   +1.01 sigma, power = 0.01
+  [       full] inject  5.00% -> recover +5.000%, S =   +2.53 sigma, power = 0.34
+  [       full] inject 10.00% -> recover +10.000%, S =   +5.06 sigma, power = 0.98
+
+[8] cross-pipeline systematic floor
+  n = 2141, transverse r = 0.149, implied relative systematic on c2 = x6.6
+
+[9] circularity
+
+wrote redshift_results.json
+EXIT=0
