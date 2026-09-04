@@ -7,6 +7,71 @@ the momentum identity and field solvers from `../screen/`; the vertical forward
 chain from `../../gravity-cluster-audit-2026-09/adyn/`; SPARC from
 `../../gravitylab/data.py`. All imported unmodified; SHA-256 in `tournament.json`.
 
+## Correction (Run AQ): the `rar` k-scaling, and the numbers below
+
+**Everything in sections 0-8 below is from the pre-correction run.** It is
+preserved verbatim as `tournament_prefix_k15.json`; `tournament.json` and
+`gates.json` in this directory are the corrected re-run. Read the deltas here
+first.
+
+`tw_core.mond_invert`'s `rar` branch applied `nu` to `F/(k**1.5 * a0)`, i.e.
+p = 3/2 in the family `nu(F/(k^p a0)) F/k`. Within that family p is fixed, not
+free: k = 1 reproduces plain RAR for every p and the Newtonian limit gives
+g ~ F/k for every p, but deep MOND gives **g ~ sqrt(F a0) k^(p/2 - 1)**, so
+matching the AQUAL branch's k^(-3/4) requires **p = 1/2 uniquely**. At p = 3/2
+the `rar` branch ran at k^(-1/4) — a response three times weaker in the
+exponent than its AQUAL twin — while the comment beside it claimed k^(-3/4).
+
+The error is **exactly zero at k = 1**, so it never touched `scalar_a0` (where
+`k_radial_pointwise` returns 1), the Newtonian limit, or any `aqual`/`newton`
+candidate. Verified as a control: all **1758** such candidates re-scored
+bit-identically (0 moved). It bit only the **1365** `rar` candidates with
+k != 1, at 0.15 dex per e-fold of k. Fixed to p = 1/2, which preserves the
+k = 1 identity exactly. Regression test: `test_mond_invert.py`.
+
+**The amplitude absorbed it.** Because A is fitted on the cluster channel, a
+weaker response was compensated by a larger |A|, so the `rar` half of the
+tournament was fitted on a different footing from the `aqual` half:
+
+| candidate | A before | A after | aqual twin |
+|---|---|---|---|
+| `rar\|tensor_S[plaw_p0q1s2_L300]\|phi\|pow\|m1\|I3e+12` | -40.0 | **-26.0** | -25.5 |
+| `rar\|tensor_S[plaw_p0q1s2_L300]\|phi\|pow\|m2\|I3e+12` | -156.1 | **-94.66** | -94.66 |
+
+Over all 1365 exposed twin pairs the median `rar`/`aqual` fitted-A ratio moves
+from **1.331 to 1.000** — the two halves are now on a common footing, which is
+the point of the fix.
+
+**Survivors: 18 -> 26** (1 lost, 9 gained; all 10 `rar`). The list becomes
+symmetric — 13 `aqual` and 13 `rar`, each an exact twin pair — where before it
+was 13 `aqual` against 5 `rar`. The corrected funnel:
+
+| screen | kills alone | unique kills | sequential |
+|---|---|---|---|
+| H7 asymptotic slope in [-1.25, -0.75] | 846 | 0 | 3123 -> 2277 |
+| H1 cluster reach B(1 Mpc) >= 1.5 | 627 | 14 | 2277 -> 1769 |
+| H4 radial RMS <= 0.30 dex | 2721 | 0 | 1769 -> 374 |
+| H5 vertical amplitude in [0.301, 1.670] | 2299 | 0 | 374 -> 286 |
+| H6 vertical shape chi2/dof <= 40 | 972 | 0 | 286 -> 285 |
+| H2 field galaxy <= 0.040 dex | 2852 | 14 | 285 -> 134 |
+| **H3 member galaxy <= 0.040 dex** | 2843 | **108** | 134 -> **26** |
+
+**The qualitative findings survive.** H3 is still the only screen with
+substantial unique kills, and still decides the tournament. Every survivor is
+still gated on potential depth or the tidal invariant, with **no acceleration
+gate anywhere**; the tidal count goes from 13 of 18 to **16 of 26**. The
+parsimony pick is unchanged (`aqual|tensor_S[plaw_p0q1s2_L300]|phi|pow|m2|I3e+12`,
+J = 1.553, k = 4) — it is `aqual`, so the bug never touched it. Section 8's
+verdict is unchanged and if anything strengthened: the list is soft, it grew by
+44%, and nothing should be promoted.
+
+**Inherited by the axis/2-D lane.** `axis-2d/` was run before this correction
+and its `amplitudes.json` records the pre-fix 18-survivor list with the pre-fix
+amplitudes (e.g. A = -40.0 above). That lane consumes recorded amplitudes as-is
+and states the conventions it inherited; its nulls are stated against a
+predicted amplitude that is ~54% too large for the `rar` members. It has
+deliberately not been re-run here.
+
 ## 0. The short answer
 
 3,123 candidates scored simultaneously on all four channels. **18 survive all

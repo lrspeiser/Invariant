@@ -1,0 +1,627 @@
+<title>What Is Still Alive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+:root{
+  --paper:#EEF2F4; --surface:#FFFFFF; --sunk:#E3E9ED;
+  --ink:#0F1720; --body:#26333F; --muted:#5D6B78; --rule:#CFD9E0;
+  --live:#12664A; --live-soft:#DDEFE6;
+  --signal:#0E6E86; --signal-soft:#DBEEF3;
+  --control:#6E5F92;
+  --warn:#8A5A16; --warn-soft:#F6EBDA;
+  --dead:#8C4A3F; --dead-soft:#F4E4E0;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --shadow:0 1px 2px rgba(15,23,32,.06),0 8px 24px -12px rgba(15,23,32,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B1015; --surface:#131C23; --sunk:#0E161C;
+    --ink:#E7EEF3; --body:#C3D0DA; --muted:#8B9BA8; --rule:#26343E;
+    --live:#59BE95; --live-soft:#102C22;
+    --signal:#3FA9C4; --signal-soft:#10303A;
+    --control:#A895D0;
+    --warn:#D9A566; --warn-soft:#2A2114;
+    --dead:#D08A7C; --dead-soft:#2A1815;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B1015; --surface:#131C23; --sunk:#0E161C;
+  --ink:#E7EEF3; --body:#C3D0DA; --muted:#8B9BA8; --rule:#26343E;
+  --live:#59BE95; --live-soft:#102C22;
+  --signal:#3FA9C4; --signal-soft:#10303A;
+  --control:#A895D0;
+  --warn:#D9A566; --warn-soft:#2A2114;
+  --dead:#D08A7C; --dead-soft:#2A1815;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);
+  font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px 90px}
+.col{max-width:70ch}
+header.mast{padding:60px 0 30px;border-bottom:1px solid var(--rule)}
+.eyebrow{font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+.eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--live)}
+h1{font-family:var(--serif);font-weight:600;color:var(--ink);
+  font-size:clamp(2.2rem,5.4vw,3.5rem);line-height:1.05;letter-spacing:-.022em;
+  margin:.32em 0 .3em;text-wrap:balance;max-width:16ch}
+.standfirst{font-family:var(--serif);font-size:clamp(1.05rem,2vw,1.25rem);
+  line-height:1.55;max-width:62ch;margin:0}
+.standfirst em{color:var(--ink);font-style:italic}
+
+.lead{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:38px 0 0;
+  border-radius:3px;overflow:hidden}
+.lead div{background:var(--surface);padding:17px 19px 15px}
+.lead .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.lead .v{font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:1.55rem;font-weight:500;color:var(--live);line-height:1;
+  letter-spacing:-.02em}
+.lead .s{font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.4}
+
+section{padding:52px 0 0}
+.tier{font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.12em;color:var(--live);margin-bottom:8px;
+  text-transform:uppercase}
+.tier.grey{color:var(--muted)}
+.tier.red{color:var(--dead)}
+h2{font-family:var(--serif);font-weight:600;color:var(--ink);
+  font-size:clamp(1.45rem,2.9vw,1.95rem);line-height:1.16;letter-spacing:-.015em;
+  margin:0 0 16px;text-wrap:balance;max-width:28ch}
+h3{font-family:var(--sans);font-weight:600;color:var(--ink);font-size:1rem;
+  margin:30px 0 9px}
+p{margin:0 0 15px}
+strong{color:var(--ink);font-weight:600}
+code{font-family:var(--mono);font-size:.88em;background:var(--sunk);
+  padding:.12em .38em;border-radius:3px;color:var(--ink)}
+
+.card{border:1px solid var(--rule);border-left:3px solid var(--live);
+  background:var(--surface);border-radius:3px;padding:22px 24px;margin:22px 0;
+  box-shadow:var(--shadow)}
+.card.retired{border-left-color:var(--dead)}
+.card.retired .num{color:var(--dead)}
+.card .num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--live);font-weight:600;margin-bottom:10px}
+.card h4{font-family:var(--serif);font-size:1.25rem;font-weight:600;
+  color:var(--ink);margin:0 0 12px;line-height:1.25;letter-spacing:-.01em}
+.card p:last-child{margin-bottom:0}
+
+.tw{overflow-x:auto;margin:18px 0;border:1px solid var(--rule);border-radius:3px;
+  background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:14px}
+th,td{padding:9px 15px;text-align:right;border-bottom:1px solid var(--rule)}
+th:first-child,td:first-child{text-align:left}
+thead th{font-family:var(--mono);font-size:10.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  white-space:nowrap}
+tbody td{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+tbody td:first-child{font-family:var(--sans);color:var(--body)}
+tbody tr:last-child td{border-bottom:none}
+.good{color:var(--live);font-weight:600}
+.bad{color:var(--dead);font-weight:600}
+.mut{color:var(--muted)}
+
+.why{background:var(--warn-soft);border:1px solid var(--rule);
+  border-left:3px solid var(--warn);border-radius:3px;padding:15px 19px;
+  margin:16px 0 0;font-size:14.5px}
+.why .h{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--warn);font-weight:600;margin-bottom:7px}
+.why p:last-child{margin-bottom:0}
+.next{background:var(--live-soft);border:1px solid var(--rule);
+  border-left:3px solid var(--live);border-radius:3px;padding:15px 19px;
+  margin:16px 0 0;font-size:14.5px}
+.next .h{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--live);font-weight:600;margin-bottom:7px}
+.next p:last-child{margin-bottom:0}
+.obit{background:var(--dead-soft);border:1px solid var(--rule);
+  border-left:3px solid var(--dead);border-radius:3px;padding:15px 19px;
+  margin:16px 0 0;font-size:14.5px}
+.obit .h{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--dead);font-weight:600;margin-bottom:7px}
+.obit p:last-child{margin-bottom:0}
+
+ul.ready{list-style:none;padding:0;margin:20px 0 0}
+ul.ready li{border-bottom:1px solid var(--rule);padding:14px 0 14px 0;
+  display:grid;grid-template-columns:1fr auto;gap:16px;align-items:baseline}
+ul.ready li:last-child{border-bottom:none}
+ul.ready .t{color:var(--ink);font-weight:600}
+ul.ready .d{font-size:14px;color:var(--body);grid-column:1/-1;margin-top:2px}
+ul.ready .have{font-family:var(--mono);font-size:11.5px;color:var(--live);
+  white-space:nowrap;letter-spacing:.04em}
+footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--rule);
+  font-size:13.5px;color:var(--muted)}
+@media (max-width:620px){ul.ready li{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+<header class="mast">
+  <div class="eyebrow"><span>Invariant &middot; promising register</span>
+    <span class="dot"></span><span>4 September 2026</span>
+    <span class="dot"></span><span>Runs J&ndash;AS</span></div>
+  <h1>What Is Still Alive</h1>
+  <p class="standfirst">
+    The previous version of this page listed three live leads. <em>Two of them are
+    now dead and the third has changed meaning.</em> What replaced them is
+    smaller, harder, and more likely to be true: one parameter-free prediction
+    that landed, one anomaly nobody's law explains, and a machine that can throw
+    out most of a search before opening a single data file. <em>An external review
+    then corrected six claims on this page, including one provenance failure that
+    changes what the programme can call confirmed.</em>
+  </p>
+  <div class="lead">
+    <div><div class="k">RAR on raw cluster shear</div><div class="v">0.98</div>
+      <div class="s">lensing response needed, with a<sub>0</sub> frozen on galaxy
+        rotation curves and no new fitted gravity parameter. A central value 1.9%
+        from unity &mdash; <em>not</em> a 2% measurement</div></div>
+    <div><div class="k">Decidable before any data</div><div class="v">97.2%</div>
+      <div class="s">3,036 of 3,123 candidate laws rejected on invariance grounds
+        alone, in 31&ndash;47 seconds &mdash; but the figure mixes four different
+        verdicts and is being re-partitioned</div></div>
+    <div><div class="k">Vertical channel slope</div><div class="v">&minus;0.346</div>
+      <div class="s">observed; matches the RAR/AQUAL slope within 1&sigma;, and
+        their JOINT prediction fails only under a constant-&Upsilon;<sub>K</sub>
+        model. Not yet gravity</div></div>
+    <div><div class="k">Candidate families surviving</div><div class="v">0</div>
+      <div class="s">of every family the programme has constructed. What is left
+        is a method, not a law</div></div>
+  </div>
+</header>
+
+<section class="col">
+  <div class="tier">Tier 1 &middot; live</div>
+  <h2>Two results, and neither is the one I expected</h2>
+  <p>
+    The programme set out to find a new force law. It has not found one. What it
+    has found is a clean parameter-free success for a law that already existed,
+    and a well-audited anomaly that no law on the table explains &mdash; including
+    the ones this programme was promoting.
+  </p>
+</section>
+
+<section>
+<div class="card">
+  <div class="num">Live 01 &middot; Run AL</div>
+  <h4>The RAR lands on raw cluster shear with no new gravity parameter, near no slip</h4>
+  <div class="col">
+  <p>
+    496 eFEDS systems, 3,365 raw DECADE tangential-shear points, gravitational
+    slip fixed at <code>&Sigma;<sub>s</sub> = 1</code> exactly, <code>a<sub>0</sub></code>
+    frozen on SPARC galaxy rotation curves. <strong>No new gravity parameter is
+    fitted</strong> &mdash; though the pipeline still carries X-ray profile fits,
+    gas conversions, stellar masses, centring, source redshifts, shear calibration
+    and distance factors, so this is a parameter-free <em>law</em>, not a
+    parameter-free <em>measurement</em>.
+    The column on the right is the lensing response each law would need to match
+    the data &mdash; 1.00 means the photons couple exactly as general relativity
+    says they should.
+  </p>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Law</th><th>&chi;&sup2;</th>
+      <th>&Sigma;<sub>s</sub> it would need</th><th>&eta;</th></tr></thead>
+    <tbody>
+      <tr><td>Newton</td><td>3803.2</td><td>8.322</td><td>+15.64</td></tr>
+      <tr><td><strong>RAR</strong></td><td class="good">3588.4</td>
+        <td class="good">0.981</td><td>+0.96</td></tr>
+      <tr><td><strong>AQUAL</strong></td><td class="good">3588.2</td>
+        <td class="good">0.992</td><td>+0.98</td></tr>
+      <tr><td>tidal gate, A = 7.5</td><td class="bad">4472.9</td><td>0.358</td>
+        <td class="bad">&minus;0.28</td></tr>
+      <tr><td>tidal gate, A = 16</td><td class="bad">5998.2</td><td>0.253</td>
+        <td class="bad">&minus;0.49</td></tr>
+      <tr><td class="mut">predicting no lensing at all</td><td>3865.0</td>
+        <td class="mut">&mdash;</td><td class="mut">&mdash;</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+  <p>
+    <strong>The RAR and AQUAL need a lensing response of 0.98 and 0.99.</strong>
+    That is a central value 1.9% from no slip &mdash; not slip measured to 2%. The
+    uncertainty is a <em>factor of two</em>, dominated by unpublished X-ray
+    profile covariance, and the null-corrected bracket runs 1.06&ndash;2.17. It is
+    still the cleanest positive result the cluster work has produced.
+  </p>
+  <p>
+    The two rows are also <strong>one result reported twice</strong>: in spherical
+    symmetry AQUAL reduces to an algebraic &mu;-relation that approximates the RAR
+    by construction, so &chi;&sup2; = 3588.4 against 3588.2 is not two independent
+    confirmations. And the RAR does not itself specify how light propagates. The
+    honest object is <em>RAR/AQUAL-like dynamics + spherical projection + a
+    no-slip closure</em>.
+  </p>
+  <p>
+    It also kills the programme's own best candidate in passing: <em>both tidal
+    variants fit worse than predicting no lensing signal at all</em>, and both
+    require &eta; &lt; 0 &mdash; light bending the wrong way relative to matter.
+  </p>
+  <div class="why"><div class="h">Why it is not decided</div>
+    <p>Strong lensing disagrees with weak. Against SN Refsdal's 1.48% time delay,
+    <strong>Newton is the only law of the five for which a single universal slip
+    serves both regimes</strong> &mdash; its bracket contains 1. Every MOND-like law
+    needs 2 to 6 times more lensing response in the cluster core than in the group
+    outskirts. But that is an <strong>effective closure mismatch</strong>, not
+    yet evidence for regime-dependent photon coupling: it is equally consistent
+    with core-baryon modelling, line-of-sight structure, triaxial deprojection,
+    mass-sheet degeneracy, or the assumed closure. And a single time delay can
+    never test a gravity law &mdash; one closure parameter brings <em>every</em>
+    law, Newton included, onto Refsdal&rsquo;s 376.02 d.</p></div>
+  <div class="next"><div class="h">What would settle it</div>
+    <p>The dominant uncertainty is not the shear &mdash; it is that Bahar+2022
+    publishes no covariance for its X-ray density parameters, so
+    &Sigma;<sub>s</sub> carries a factor-two bracket set by a null that drags it
+    down by up to 2.2&times; at 17&sigma;. <strong>Publishing the Vikhlinin
+    covariance would take this measurement from a factor of two to about
+    10%.</strong> That is a request to an author, not a new observing
+    programme.</p></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="num">Live 02 &middot; Run AF</div>
+  <h4>Something in the vertical direction is real, and its cause is unresolved</h4>
+  <div class="col">
+  <p>
+    The between-galaxy trend in vertical support across a factor of 35 in central
+    surface density. This is the first result in the programme to survive a
+    complete shared-denominator audit &mdash; the audit that has now killed six
+    other correlations.
+  </p>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>d log B<sub>z</sub> / d log &Sigma;<sub>0</sub></th>
+      <th>value</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Observed</strong></td><td class="good">&minus;0.346</td></tr>
+      <tr><td>RAR predicts</td><td>&minus;0.291</td></tr>
+      <tr><td>AQUAL predicts</td><td>&minus;0.264</td></tr>
+      <tr><td>Tensor (anisotropic) predicts</td><td>&minus;0.020</td></tr>
+      <tr><td>Newton predicts</td><td>0.000</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+  <p>
+    Pushing the complete observational covariance through the real pipeline at a
+    true Newtonian <code>B<sub>z</sub> = 1</code>, <strong>the recovered slope never
+    reached &minus;0.346 in 2,000 trials</strong> (worst case &minus;0.325,
+    p &le; 5.0&times;10<sup>&minus;4</sup>). Producing it as an artefact needs a
+    photometric error of 0.70 mag
+    against the tabulated 0.070. The closed-form estimator, which never touches the
+    forward chain, gives an implied &minus;0.332 &mdash; <em>the signal is in the
+    raw catalogue numbers.</em>
+  </p>
+  <p>
+    <strong>The slope itself does not reject the RAR or AQUAL</strong> &mdash; at
+    0.32&ndash;0.82&sigma; and 0.47&ndash;1.22&sigma; it <em>agrees</em> with them.
+    What fails is the joint amplitude-and-shape prediction (&Delta;AIC +17.9 over
+    Newton, +8.8 over the RAR, calibrated against their own truth-nulls), driven by
+    the within-galaxy radial profile rather than the between-galaxy trend.
+  </p>
+  <div class="why"><div class="h">Why this is not evidence for a modified force law</div>
+    <p>The winning model and &ldquo;Newton with
+    <code>&Upsilon;<sub>K</sub> &prop; &Sigma;<sub>0</sub><sup>p</sup></code>&rdquo;
+    give identical amplitudes and identical scale lengths <strong>to 5&times;10<sup>&minus;15</sup>
+    dex</strong> &mdash; machine precision, because every term is exactly linear in
+    &Sigma;<sub>*0</sub>. A stellar mass-to-light ratio that varies with surface
+    density reproduces it exactly. That degeneracy can only be broken from outside
+    DiskMass.</p></div>
+  <div class="next"><div class="h">The one piece of evidence against the systematic reading</div>
+    <p>The required &Upsilon;<sub>K</sub> trend is &minus;0.395 dex/dex &mdash; and
+    it is <strong>opposite in sign to the observed B&minus;K colour trend</strong>.
+    The alternative, <code>h<sub>z</sub>/h<sub>R</sub></code> varying by a factor
+    5.2, sits against Bershady's measured 1.22.</p></div>
+  </div>
+</div>
+</section>
+
+<section class="col">
+  <div class="tier">Tier 2 &middot; capability</div>
+  <h2>Most of a search can be decided before the data is opened</h2>
+  <p>
+    This is the result the programme is most likely to be remembered for, and it
+    is a methodological one. An admissibility compiler applies five invariance
+    requirements &mdash; potential gauge, constant-tensor coordinate degeneracy,
+    mass partition and coarse-graining, reciprocity, and variational consistency
+    &mdash; to a candidate law without evaluating it against anything.
+  </p>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>candidates</th><th>share</th></tr></thead>
+    <tbody>
+      <tr><td>Entered the tournament</td><td>3,123</td><td class="mut">&mdash;</td></tr>
+      <tr><td><strong>Rejected before any data</strong></td>
+        <td class="good">3,036</td><td class="good">97.2%</td></tr>
+      <tr><td>&mdash; by coordinate degeneracy and coarse-graining alone</td>
+        <td>1,701</td><td>54.5%</td></tr>
+      <tr><td>Flagged as convention-dependent</td><td>624</td><td>20.0%</td></tr>
+      <tr><td>Admitted</td><td>87</td><td>2.8%</td></tr>
+      <tr><td>&mdash; of which carry a live response</td><td>72</td>
+        <td class="mut">all QUMOND with a redefined &nu;</td></tr>
+    </tbody>
+  </table></div>
+  <p>
+    It was validated first: <strong>35 of 35 tests pass, with no disagreement
+    against any verdict the programme had already recorded by other means</strong>,
+    reproducing them to three or more decimals. Then it was run backwards over the
+    completed tournament. <strong>All 18 survivors fail a gate.</strong> Seven
+    carry a mass exponent of exactly zero, which selective refinement forbids
+    &mdash; meaning how finely a <em>different</em> galaxy is tabulated sets the
+    field near an untouched one. That was decidable before a single member galaxy
+    was drawn.
+  </p>
+  <p>
+    Cost: <strong>31&ndash;47 seconds on one CPU core</strong> against the
+    tournament's four data channels. The family-verdict lookup runs at 4&ndash;7
+    million settings per second, two to three times the throughput of the search
+    it would front.
+  </p>
+  <p>
+    It was then confirmed from a direction that shares no code and no data with
+    it. The orthogonal-orbit lane measured the <em>curl</em> of the field each
+    surviving law actually produces &mdash; <code>3.8&times;10<sup>&minus;5</sup></code>
+    for Newton (its estimator's noise floor), 0.048 for the RAR, 0.054 for the
+    well-network tensor and <strong>1.08 for the tidal scalar</strong>. This shows
+    the algebraic prescription is not derivable from a single <em>static scalar
+    potential</em> &mdash; <strong>not</strong> that it cannot come from an action,
+    which was my error: the Lorentz force has curl and comes from an action. The
+    identity <code>&nabla;&times;g = (&nabla;&nu;)&times;g<sub>N</sub></code> makes
+    the RAR&rsquo;s 0.048 expected rather than anomalous, and AQUAL exists precisely
+    to supply the completion. What survives is the magnitude: the tidal scalar sits
+    <strong>22&times; the RAR</strong>.
+  </p>
+  <p>
+    A related pattern is now hard to ignore. This programme has proved
+    <strong>four separate blindness theorems</strong> &mdash; spherical blindness,
+    the QUMOND tensor degeneracy, boundedness, and now the fact that
+    <code>A<sub>dyn</sub> &equiv; 1</code> for <em>any</em> law of the form
+    <code>F(scalar invariants) &nabla;&Phi;<sub>N</sub></code>. Each time, an
+    observable the programme reached for turned out to be provably insensitive to
+    the structure it was reaching for, and each time that was knowable in advance.
+    The compiler exists because of this pattern, not in spite of it.
+  </p>
+  <div class="why"><div class="h">Two corrections that go with it</div>
+    <p><strong>The 97.2% mixes four verdicts that are not equivalent</strong>:
+    mathematically inconsistent (a real kill), incomplete <em>as written</em> (a
+    variational completion may exist), convention-dependent (kills the formula, not
+    every potential-dependent theory), and non-identifiable on this bench (an
+    experiment cannot see it &mdash; the theory is not thereby inconsistent). Only
+    the first is unconditional. And <strong>35/35 against this programme&rsquo;s own
+    verdicts is regression testing</strong>, which risks validating the compiler
+    against the conclusions that shaped it; external positive controls are
+    running.</p></div>
+  <div class="why"><div class="h">And the correction from last round</div>
+    <p>The previous version of this page claimed the machinery was
+    &ldquo;good enough to trust a positive.&rdquo; <strong>Withdrawn.</strong>
+    Against an arbitrary smooth scalar response &mdash; rather than an off-grid
+    member of the bank's own grammar &mdash; the tensor detector's false-positive
+    rate is <strong>0.092, not the nominal 0.05 and not the 0.042 previously
+    reported</strong>. The null is heavy-tailed: the two families genuinely outside
+    the grammar produce apparent detections 150&ndash;200&times; their own median.
+    Deprojection error alone contributes 0.15.</p></div>
+</section>
+
+<section class="col">
+  <div class="tier red">Tier 3 &middot; retired</div>
+  <h2>What died since this page last claimed it was alive</h2>
+  <p>
+    Kept rather than deleted, because a register that quietly drops its
+    predictions is not a register.
+  </p>
+</section>
+
+<section>
+<div class="card retired">
+  <div class="num">Retired &middot; was Lead 01</div>
+  <h4>Potential depth predicting the cluster amplitude</h4>
+  <div class="col">
+  <p>
+    Reported here as &ldquo;a 63% reduction in out-of-sample cluster error from
+    one parameter, fitted without ever seeing a cluster.&rdquo;
+  </p>
+  <div class="obit"><div class="h">How it failed</div>
+    <p><strong>The 63% figure was blind to its own parameter</strong> &mdash; the
+    first and largest of the corrections below. Tested properly against raw shear
+    it found nothing. Given four separate environmental variables on one sample
+    with one set of folds, <strong>the largest signal belongs to a bare
+    acceleration tilt with no environmental content at all</strong> (z = +5.97,
+    above potential depth's +4.93). And the compiler's gauge gate shows the
+    depth response spans 2.07 dex across boundary rules &mdash; <em>the on/off
+    verdict itself changes depending on where you put the zero of the
+    potential.</em></p></div>
+  </div>
+</div>
+
+<div class="card retired">
+  <div class="num">Retired &middot; was Lead 02</div>
+  <h4>The nonlocal path kernel</h4>
+  <div class="col">
+  <p>
+    Reported here at &ldquo;0.156 dex against Newton's 0.646.&rdquo;
+  </p>
+  <div class="obit"><div class="h">How it failed</div>
+    <p><strong>That comparison was apples-to-oranges</strong>; measured on the same
+    footing it is 0.256/0.209 against the RAR's 0.121/0.122. The structural
+    obstruction turned out to be sharper than the one I named: it is not that
+    <code>F</code> is bounded but that <em>every available invariant decays
+    outward</em>, so no member of the family can produce a flat curve at any
+    amplitude. Numerics sound, physics dead.</p></div>
+  </div>
+</div>
+
+<div class="card retired">
+  <div class="num">Retired &middot; the tournament's best survivor</div>
+  <h4>The scalar gated on the tidal invariant</h4>
+  <div class="col">
+  <p>
+    The one candidate that reached the end of a four-channel tournament of 3,123
+    laws, and the only structure that separates a galaxy from a cluster shell by
+    two orders of magnitude. Four independent lanes then took it apart.
+  </p>
+  <div class="obit"><div class="h">How it failed, five ways</div>
+    <p><strong>Its headline amplitude was contaminated:</strong> A = 16 was
+    selected against a requirement interpolated from published lensing masses,
+    which assume the very slip it was being scored on.
+    <strong>It is not environmental:</strong> on a spherical source the tidal
+    invariant reduces analytically to <code>&radic;6 (g/r)|1&minus;&rho;/&lang;&rho;&rang;|</code>,
+    so its advantage over potential depth is an advantage of <code>g/r</code> over
+    <code>&Phi;</code> &mdash; a local-kinematic gate wearing an environmental name.
+    <strong>Its linear cosmological response is identically zero:</strong> |T|
+    vanishes in a homogeneous background and the frozen exponent is even, so
+    (1&minus;W) &prop; &delta;&sup2; (measured slope 1.9999998) and at linear order
+    the candidate is exactly AQUAL with a<sub>0</sub> &rarr; 17 a<sub>0</sub>.
+    <strong>And it forms structure backwards:</strong> an isotropic configuration
+    has |T| = 0 and so receives the <em>full</em> boost while a pancake receives a
+    fifth of it &mdash; sphere/pancake 4.90 at z = 999, against the observed cosmic
+    web. Anti-Zel'dovich. <strong>And its field does not come from an
+    action:</strong> the measured curl of the field it actually produces is
+    <code>1.08</code> in units where Newton's numerical floor is
+    3.8&times;10<sup>&minus;5</sup> and the RAR is 0.048 &mdash; the worst in the
+    set by a factor of eight.</p></div>
+  </div>
+</div>
+</section>
+
+<section class="col">
+  <div class="tier grey">The ledger</div>
+  <h2>Corrections to my own reporting</h2>
+  <p>
+    Twelve so far, the last three found by an external reviewer rather than by me.
+    They are listed because the rate at which a programme catches itself is the
+    only available evidence about the rate at which it does not.
+  </p>
+  <div class="tw"><table>
+    <thead><tr><th>What I reported</th><th>What was true</th></tr></thead>
+    <tbody>
+      <tr><td>63% out-of-sample cluster transfer</td>
+        <td class="bad">blind to its own parameter</td></tr>
+      <tr><td>0.156 dex vs Newton's 0.646</td>
+        <td class="bad">apples-to-oranges; 0.256 vs RAR 0.121</td></tr>
+      <tr><td>Detector false-positive rate 4.2%</td>
+        <td class="bad">9.2%, and 27&ndash;77% in some regimes</td></tr>
+      <tr><td>&ldquo;Good enough to trust a positive&rdquo;</td>
+        <td class="bad">withdrawn</td></tr>
+      <tr><td>A cluster correlation at &rho;<sub>p</sub> = &minus;0.304</td>
+        <td class="bad">shared denominator on both axes</td></tr>
+      <tr><td>Tidal probe ratios 19&times; and 151&times;</td>
+        <td class="bad">a decade error; 188 and 1513 from the stated medians</td></tr>
+      <tr><td>&epsilon;<sub>T</sub> is 190&times; the actual |T|</td>
+        <td class="bad">0.9&times;; well scaled all along</td></tr>
+      <tr><td>Photo-z dilution of 0.2&ndash;0.4 dex</td>
+        <td class="bad">sample composition; mass-matched it is 0.05 dex</td></tr>
+      <tr><td>Half the tournament&rsquo;s scoreboard</td>
+        <td class="bad">a wrong exponent, invisible at k = 1</td></tr>
+      <tr><td>&ldquo;No slip, to within 2%&rdquo;</td>
+        <td class="bad">a central value 1.9% from unity; uncertainty is 2&times;</td></tr>
+      <tr><td>&ldquo;Curl means no action&rdquo;</td>
+        <td class="bad">false; it means no static scalar potential</td></tr>
+      <tr><td>&ldquo;Sealed holdouts, never loaded&rdquo;</td>
+        <td class="bad">scored in round 1; they are validation</td></tr>
+    </tbody>
+  </table></div>
+  <p>
+    The last one is worth a sentence of its own. A single character &mdash;
+    <code>k**1.5</code> where the algebra requires <code>k**0.5</code> &mdash; put
+    the QUMOND half of a 3,123-law search on a different deep-field scaling from
+    the AQUAL half. It was invisible at <code>k = 1</code> and invisible in both
+    Newtonian limits, so no gate caught it. Fixing it left the conclusion
+    untouched and restored an exact agreement between the two formulations that
+    the bug had been hiding: <strong>13 laws now survive under both bases, where
+    before 13 survived under one and only 5 under the other.</strong> The control
+    was perfect &mdash; not one of the 1,758 unexposed candidates moved by so much
+    as 10<sup>&minus;12</sup>.
+  </p>
+</section>
+
+<section class="col">
+  <div class="tier">Tier 4 &middot; what would still decide something</div>
+  <h2>Where the remaining leverage actually is</h2>
+  <ul class="ready">
+    <li><span class="t">The Vikhlinin covariance</span>
+      <span class="have">an email, not a telescope</span>
+      <span class="d">The dominant uncertainty on the only clean cluster result is
+      an unpublished parameter covariance. It is the highest return per unit
+      effort anywhere in the programme.</span></li>
+    <li><span class="t">Cluster cores, for the tidal gate</span>
+      <span class="have">needs |T| &sim; T<sub>0</sub></span>
+      <span class="d">On eFEDS the gate is <strong>saturated</strong> &mdash; median
+      W = 0.9998, only 0.45% of points below 0.90 &mdash; so it degenerates to
+      AQUAL with a rescaled a<sub>0</sub>, which a universal slip absorbs exactly.
+      Separation is 0.80&sigma;. <em>The programme's sharpest falsifiable claim is
+      not testable on weak lensing at all</em>, and more groups would not help.
+      It needs ~10<sup>14</sup> M<sub>&odot;</sub> inside a few hundred
+      kpc.</span></li>
+    <li><span class="t">An external-axis basis element</span>
+      <span class="have">costs nothing</span>
+      <span class="d">Not one of the 3,123 candidates carries an external tidal
+      axis: 1,560 network, 780 source, 783 isotropic, <strong>0 external</strong>.
+      The 2-D shear phase channel is built, calibrated and pointed at a hypothesis
+      the grammar does not contain.</span></li>
+    <li><span class="t">Deeper shear on the phase channel</span>
+      <span class="have">111&times; the source count</span>
+      <span class="d">The exclusion currently sits at an ellipticity of 2.11 &mdash;
+      <em>above the geometric maximum of 1</em>. No external-axis tensor of any
+      amplitude is excluded, so the present null means nothing. Its positive
+      control does not fire either.</span></li>
+    <li><span class="t">A published <code>v<sub>c</sub>(R)</code> covariance</span>
+      <span class="have">not more streams</span>
+      <span class="d"><strong>81% of the orthogonal-orbit null variance is the
+      shared baryon fit</strong>, and the ratio does not cancel it because the
+      response is nonlinear in |g<sub>N</sub>|. Doubling the stream sample
+      <em>raised</em> the error, 0.041 to 0.068. Together with the missing
+      Vikhlinin covariance above, the programme's error budget is now twice
+      dominated by a baryon model someone else published rather than by the
+      measurement being made.</span></li>
+    <li><span class="t">Anything outside DiskMass, vertically</span>
+      <span class="have">breaks a 5e&minus;15 degeneracy</span>
+      <span class="d">The vertical anomaly is exactly degenerate with a
+      surface-density-dependent mass-to-light ratio. One independent
+      &Upsilon;<sub>K</sub> measurement decides whether it is gravity.</span></li>
+    <li><span class="t">Void path length &times; Planck</span>
+      <span class="have">the one surviving branch</span>
+      <span class="d">Supernova time dilation kills every energy-drain redshift
+      mechanism at <strong>90&sigma;</strong>. A geometric path stretch predicts
+      b = 1 identically and is invisible to that test &mdash; but capped at
+      0.28&ndash;0.44% by the CMB, which is the only cheap probe that reaches
+      it.</span></li>
+  </ul>
+</section>
+
+<section class="col">
+  <div class="tier">The phenomenon</div>
+  <h2>The thing being chased is still there</h2>
+  <p>
+    Worth restating, because it is easy to lose in nine pages of methodology. On
+    40 LoCuSS clusters measured with <strong>Subaru weak lensing</strong> &mdash;
+    free of hydrostatic circularity &mdash; the gravity excess over
+    baryons-plus-RAR is real and large: median 1.62, ranging 1.22&ndash;2.34, a
+    near-constant multiplicative offset with <code>d ln E / d ln M = +0.31</code>
+    and no temperature dependence.
+  </p>
+  <p>
+    And the cross-probe picture is now consistent everywhere except one place. Two
+    blind holdouts land on the radial-acceleration relation. The KiDS bridge closed
+    the 100&ndash;500 kpc gap. <strong>Clusters are the lone outlier, and what
+    survives of the anomaly is a cluster-only excess organised by
+    r/R<sub>500</sub></strong> &mdash; not by mass, not by temperature, and not by
+    any environmental variable this programme has been able to construct.
+  </p>
+</section>
+
+<footer class="col">
+  Invariant gravity programme &middot; promising register, Runs J&ndash;AS &middot;
+  full record in <code>gravity-discovery-program.md</code>. Every number here is
+  from a committed run with its code and JSON in
+  <code>work/wellnet-2026-09/</code> or
+  <code>work/gravity-cluster-audit-2026-09/</code>. KiDS and the wide binaries
+  were never FITTED, but they were scored once in round 1, so they are validation
+  data and not a sealed confirmation set &mdash; the programme currently has no
+  confirmation set at all. They remain untouchable for this round. Three lanes
+  opened in response to the review were still running when this was written.
+</footer>
+</div>
