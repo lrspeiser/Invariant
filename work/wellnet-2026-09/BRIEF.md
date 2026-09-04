@@ -109,3 +109,78 @@ you had to make, what failed, and what you could NOT establish. Plus machine-
 readable results JSON and the code that produced them. Do not summarise or
 soften a negative result — a clean negative with a stated power is worth more
 than a hedged positive.
+
+---
+
+# ADDENDUM, 2026-09-04 — state after Runs J to AB
+
+Read this before designing anything. Eight lanes have reported; the full record
+is `gravity-discovery-program.md` Runs J-AB.
+
+## The two structural results that should shape every new candidate
+
+**1. THE BOUNDEDNESS THEOREM.** A response factor confined to a bounded range
+cannot change the asymptotic force law; it can only renormalise the constant in
+front of it. Found independently in two families:
+  * nonlocal kernel: Phi = -GMF/r exact outside a source, qbar in [0,1) bounds F,
+    so r v_c^2 -> GM sup F. Flat curves impossible.
+  * well-network / pair-channel tensors: |S|_2 < 2/3 identically (measured
+    0.666666666666, saturating it), so dln g/dln r = -2.0000 for every candidate
+    against -1.00001 for AQUAL/QUMOND. Of 158,406,840 settings, 450 survive and
+    ALL are the network switched off.
+The repair is the same both times: **make the response unbounded, or source it
+from something that is not a bounded ratio.** Adding r-dependence does not help.
+NOTE the necessary-but-not-sufficient point: for Phi = -(GM/r)F, the force is
+g = (GM/r^2)[F - r F'], so a flat curve needs F - rF' proportional to r AND
+requires F - rF' > 0 so gravity does not reverse. At the measured
+dlnF/dlnr = 0.899 the force is the small difference 0.101 F of two larger terms.
+
+**2. POTENTIAL DEPTH, REACHED BY THREE INDEPENDENT ROUTES.** A cluster at 1 Mpc
+and a galaxy outskirt sit at the SAME g_N/a0 — that IS the RAR — so no function
+of g_N/a0 can separate them. Tensor solves: every viable point of 1,920 uses a
+potential-depth gate, none uses an acceleration gate. The ladder: beta fitted on
+galaxies+groups (+0.17188) transfers to held-out clusters (+0.16866), cutting
+out-of-sample error 0.2917 -> 0.1066 dex. The Stage-1 screen explains why: a
+bounded anisotropy can only rescale G, so the gate IS the mechanism.
+**But the anisotropy does no independent work** — a scalar
+a0 -> a0 f(|Phi_N|/Phi_0) reproduces the whole tensor map.
+
+## Standing objections that any new work must answer
+
+  * **The galaxy/not-galaxy class step is a serious null, not a curiosity.** It
+    HAS a fitted parameter (4 vs 3) and DOES predict for a classified object. It
+    beats potential depth on BIC (dBIC 17.6) and on frozen transfer (0.0954 vs
+    0.1066 dex). Treat it as the primary null.
+  * **|Phi_b| is defined only up to a constant** and needs an operational
+    boundary rule stated in advance. Run Z showed the residual at fixed
+    (g_bar, r) is EXACTLY the shape factor S (corr = +1.0000), so the boundary
+    rule DEFINES the variable rather than conditioning it. Prefer a potential
+    DIFFERENCE with a prespecified reference rule, and repeat under several
+    defensible rules with one declared primary.
+  * **The clusters are now validation data, not a pristine holdout** — four
+    models have been ranked on them. A decisive claim needs a fresh sample.
+  * **Detector calibration is conditional, not general.** The 5.2% tensor
+    false-positive rate is correctly SIZED for the synthetic nulls tested; 2/2
+    injection recovery is not a power characterisation. Power needs 100-1000
+    injections spanning amplitude, orientation, thickness, morphology and noise.
+    The nonlocal detector's 11.7% cannot be repaired by declaring p <= 0.02 —
+    estimate the empirical critical value p* with P(p <= p* | H0) = 0.05.
+  * **Weak lensing measures reduced shear g = gamma/(1-kappa), not mass.** The
+    strongest model-independent statement available is "baryons plus the adopted
+    RAR underpredict the observed SHEAR". Score against raw shear wherever
+    possible, never against a mass catalogue derived under the standard lens
+    equation.
+  * **Streams, warps and satellites are not force samples.** They constrain an
+    orbit in a global potential and must be FORWARD-MODELLED under each law, not
+    converted into independent g_R and g_z points.
+
+## Two more failure modes now on the checklist
+
+  * **The shell average of a conductivity is physics, not bookkeeping.** The
+    arithmetic mean of k turns over, fakes a saturation and reported A_T = -12.8
+    where the harmonic mean, calibrated against full 3-D solves, gives -4.7.
+  * **Selective refinement, not uniform.** A mass exponent cancels EXACTLY under
+    uniform coarse-graining (p = 0.5, 1, 2 all give drift 0.28013 to five
+    figures). Only selective refinement has teeth, and there only p = 1 is
+    admissible. The physical-scale vs catalogue-row discriminator is
+    dln(drift)/dln L: -3.11 genuine kernel, -0.55 family C, +0.12 row-counting.
