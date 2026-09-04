@@ -1,0 +1,84 @@
+{
+ "reference_mean_logBz": -0.08973571353498985,
+ "Sigma_L0  (via mu0_K,i)": {
+  "exponent": -0.9999999999999807,
+  "galaxy_to_galaxy_sd": 8.480006478415949e-13,
+  "note": "SHARED with the x-axis of the headline fit",
+  "exponent_aperture_recomputed": -0.9943
+ },
+ "Upsilon_K": {
+  "exponent": -1.0000000000000786,
+  "galaxy_to_galaxy_sd": 8.217923222689983e-13,
+  "note": "common-mode IMF zero point"
+ },
+ "h_z  (h_R held fixed)": {
+  "exponent": -0.6666988393476992,
+  "galaxy_to_galaxy_sd": 0.04636391250698293,
+  "note": "inferred, not measured (Bershady+2010b)"
+ },
+ "k  (vertical profile)": {
+  "exponent": -0.7964564200552242,
+  "galaxy_to_galaxy_sd": 0.03998368848013877,
+  "note": "prior only; spans a factor 2 (1.0 to 2.0)"
+ },
+ "h_R  (h_z, Sigma_L0 held)": {
+  "exponent": -0.30476890620703234,
+  "galaxy_to_galaxy_sd": 0.056128098615075644,
+  "note": "thickness T, leakage and the R grid"
+ },
+ "alpha = sigma_z/sigma_R": {
+  "exponent": 0.7558590096565707,
+  "galaxy_to_galaxy_sd": 0.3600192145195776,
+  "note": "adopted, not measured"
+ },
+ "f_gas": {
+  "exponent": -0.0774163986130616,
+  "galaxy_to_galaxy_sd": 0.001918312537049224,
+  "note": "NOT tabulated -- a prior"
+ },
+ "sigma_LOS_0 (observed)": {
+  "exponent": 1.9999999999999996,
+  "galaxy_to_galaxy_sd": 6.708487929687642e-15,
+  "note": "the only measured quantity in the numerator"
+ },
+ "distance (h_z from catalogue)": {
+  "exponent": -0.3239194214775414,
+  "note": "Sigma_L0 is a surface brightness: distance-free"
+ },
+ "inclination": {
+  "exponent": -0.440209358697545,
+  "note": "projection factor only here; the mu0_K,i correction is applied upstream by DiskMass"
+ },
+ "window lo 0.3 -> 0.2": {
+  "shift_dex": 0.0069809540031150405
+ },
+ "window lo 0.3 -> 0.5": {
+  "shift_dex": -0.008955285806379568
+ },
+ "window hi 2.0 -> 1.5": {
+  "shift_dex": 0.007830291230672984
+ },
+ "window hi 2.0 -> 2.5": {
+  "shift_dex": -0.004374695665614731
+ },
+ "abscissa": {
+  "definition": "log10 Sigma_L0 = 0.4 * (M_K,sun + 21.572 - mu0_K,i), Lsun/pc^2, K band, DISK ONLY, inclination-corrected",
+  "MSUN_K": 3.28,
+  "mu0_min": 16.03,
+  "mu0_max": 19.89,
+  "range_dex": 1.5439999999999998,
+  "var_dex2": 0.11283183673469392,
+  "median_e_mu0_mag": 0.07,
+  "median_e_logSigma_dex": 0.028000000000000004
+ },
+ "s2_floor": {
+  "draws_with_any_floored_cell": 1361,
+  "of": 1600,
+  "worst_fraction": 0.018214285714285714,
+  "note": "np.maximum(..., 1e-30) in newton_chain: when the leakage term L_s h_z^2 (1/R) dVc^2/dR exceeds 2 pi G h_z Sigma, sigma_z^2 is clipped and log B_z diverges for that galaxy",
+  "draws_with_floored_cell_INSIDE_fit_window": 11,
+  "of_window": 1600,
+  "worst_in_window_fraction": 0.007,
+  "galaxies_affected_when_it_happens": 1
+ }
+}

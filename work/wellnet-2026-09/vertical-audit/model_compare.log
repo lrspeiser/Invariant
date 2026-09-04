@@ -1,0 +1,121 @@
+
+==============================================================================
+ITEM 5   law predictions pushed through the IDENTICAL pipeline
+==============================================================================
+
+    Same aperture, same PSF, same 0.3-2.0 h_R window, same exponential fit
+    operator, same inclination and ellipsoid projection as the data.  The
+    numbers below are the fitted AMPLITUDE and SCALE LENGTH of the model
+    sigma_LOS(R), not pointwise B_z at one radius.
+
+    model           amp pred  amp obs   h pred   h obs  <log Bz>   d logBz/d logSig
+    newton             59.45    51.05    30.80   28.65     0.000              0.000
+    rar                71.16    51.05    35.09   28.65     0.183             -0.288
+    aqual              71.41    51.05    34.85   28.65     0.184             -0.260
+    tensor_aniso       59.45    51.05    30.80   28.65     0.000              0.000
+    tensor_iso         58.30    51.05    51.33   28.65    -0.011             -0.048
+    OBSERVED                    51.05            28.65                       -0.346
+
+    Published (adyn REPORT.md sec.7): RAR -0.291, AQUAL -0.264,
+    aniso -0.020, iso -0.055.  Reproduced above at fiducial nuisances.
+
+    radial structure each law demands, measured the same way
+    model           h_sigma pred (")  obs 28.65   B_z(0.3hR)/B_z(2hR)
+    newton                     30.80      28.65                1.0000
+    rar                        35.09      28.65                0.8483
+    aqual                      34.85      28.65                0.8528
+    tensor_aniso               30.80      28.65                1.0000
+    tensor_iso                 51.33      28.65                0.5837
+
+    the same radial statistic as h_sigma/h_R, per galaxy (median):
+      OBSERVED (DiskMass)        2.086
+      newton                     2.499
+      rar                        2.896
+      aqual                      2.876
+      tensor_aniso               2.499
+      tensor_iso                 4.278
+
+==============================================================================
+ITEM 4   M_local vs M_global vs M_Phi vs M_tensor, same data, same chain
+==============================================================================
+
+    28 galaxies x 2 observables = 56 numbers.
+    median frac error: amplitude 0.0279 dex, scale length 0.0575 dex
+
+    model              k     -2lnL       AIC     dAIC       BIC     dBIC   s_amp     s_h     shape
+    M_Newton           3   -180.53   -174.53    17.90   -168.45    15.87   0.080   0.149        --
+    M_local_RAR        3   -189.62   -183.62     8.80   -177.55     6.78   0.053   0.184        --
+    M_local_AQUAL      3   -189.03   -183.03     9.40   -176.95     7.38   0.055   0.183        --
+    M_tensor_aniso     3   -180.53   -174.53    17.90   -168.45    15.87   0.080   0.149        --
+    M_tensor_iso       3   -139.98   -133.98    58.45   -127.90    56.42   0.074   0.369        --
+    M_local_RAR_a0     4   -189.73   -181.73    10.70   -173.63    10.70   0.055   0.180   -10.100
+    M_local_pow        4   -189.52   -181.52    10.91   -173.42    10.91   0.056   0.176    +0.250
+    M_global           4   -200.43   -192.43     0.00   -184.33     0.00   0.052   0.149    -0.350
+    M_Phi_ref4         4   -180.92   -172.92    19.51   -164.82    19.51   0.072   0.168    -0.200
+    M_Phi_ref8         4   -181.68   -173.68    18.75   -165.58    18.75   0.071   0.166    -0.200
+    M_Phi_inf          4   -183.64   -175.64    16.79   -167.54    16.79   0.071   0.160    -0.200
+
+    the two halves of the evidence, separated
+    model              chi2 amp (28)  chi2 h (28)  rms amp dex  rms h dex
+    M_Newton                   26.57        29.95       0.0834     0.1692
+    M_local_RAR                26.11        29.36       0.0594     0.1715
+    M_local_AQUAL              26.08        29.38       0.0602     0.1716
+    M_tensor_aniso             26.57        29.95       0.0834     0.1692
+    M_tensor_iso               26.40        28.43       0.0770     0.2130
+    M_local_RAR_a0             26.07        29.42       0.0602     0.1715
+    M_local_pow                26.16        29.39       0.0617     0.1700
+    M_global                   26.25        29.95       0.0584     0.1692
+    M_Phi_ref4                 26.23        29.48       0.0746     0.1713
+    M_Phi_ref8                 26.22        29.54       0.0744     0.1710
+    M_Phi_inf                  26.21        29.69       0.0738     0.1702
+
+    ranking under 20 draws of the full nuisance prior (dAIC vs the
+    best model in each draw); a ranking that survives is a result
+      draw 1/20  best = M_global
+      draw 2/20  best = M_global
+      draw 3/20  best = M_global
+      draw 4/20  best = M_global
+      draw 5/20  best = M_global
+      draw 6/20  best = M_global
+      draw 7/20  best = M_global
+      draw 8/20  best = M_global
+      draw 9/20  best = M_global
+      draw 10/20  best = M_global
+      draw 11/20  best = M_global
+      draw 12/20  best = M_global
+      draw 13/20  best = M_global
+      draw 14/20  best = M_global
+      draw 15/20  best = M_global
+      draw 16/20  best = M_global
+      draw 17/20  best = M_global
+      draw 18/20  best = M_global
+      draw 19/20  best = M_global
+      draw 20/20  best = M_global
+    model              median dAIC      p16      p84   won       shape [p16,p84]
+    M_Newton                 16.04    10.67    17.84     0                    --
+    M_local_RAR               8.19     7.05     9.66     0                    --
+    M_local_AQUAL             8.86     7.55     9.91     0                    --
+    M_tensor_aniso           16.04    10.67    17.84     0                    --
+    M_tensor_iso             56.68    47.31    63.20     0                    --
+    M_local_RAR_a0            9.84     8.80    10.80     0     [-10.396,-10.000]
+    M_local_pow              10.23     8.34    10.81     0       [+0.200,+0.250]
+    M_global                  0.00     0.00     0.00    20       [-0.350,-0.302]
+    M_Phi_ref4               18.00    12.67    19.45     0       [-0.200,+0.000]
+    M_Phi_ref8               17.58    12.66    18.84     0       [-0.200,+0.000]
+    M_Phi_inf                15.23    12.61    16.44     0       [-0.200,-0.200]
+
+    WHY the models differ: the radial dynamic range of each candidate
+    state variable over the 0.3-2.0 h_R fitting window
+      g_b(R)                     within-galaxy -0.051 dex   between-galaxy sd 0.353 dex   r(logSigma_0) +0.9907
+      Sigma_0 (constant in R)    within-galaxy +0.000 dex   between-galaxy sd 0.000 dex   r(logSigma_0) +nan
+      |dPhi_b| ref 4 h_R         within-galaxy +0.392 dex   between-galaxy sd 0.348 dex   r(logSigma_0) +0.8345
+      |dPhi_b| ref 8 h_R         within-galaxy +0.335 dex   between-galaxy sd 0.348 dex   r(logSigma_0) +0.8353
+      |Phi_b| ref infinity       within-galaxy +0.211 dex   between-galaxy sd 0.348 dex   r(logSigma_0) +0.8370
+
+      -> for an exponential disk the Freeman formula makes g_b at a
+         FIXED multiple of h_R proportional to Sigma_0 with a pure
+         constant, so 'local in g_b' and 'global in Sigma_0' are the
+         SAME between-galaxy predictor here.  Only the RADIAL shape can
+         separate them, and g_b is nearly flat across 0.3-2.0 h_R.
+
+  wrote model_compare.json

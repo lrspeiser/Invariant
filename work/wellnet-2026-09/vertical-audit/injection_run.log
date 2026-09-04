@@ -1,0 +1,24 @@
+  GATE aperture-operator reuse: max |d slope| = 4.42e-04 over 6 paired trials (PASS)
+  A_independent        null slope -0.0009 [-0.1382,+0.1516]  min -0.2060   P(<= -0.346) = 0.0000   (55s)
+  B_fixed_Ltot         null slope +0.0002 [-0.1457,+0.1447]  min -0.2140   P(<= -0.346) = 0.0000   (100s)
+  C_fixedL_incl        null slope +0.0071 [-0.1211,+0.1536]  min -0.1788   P(<= -0.346) = 0.0000   (144s)
+  D_adversarial_x3     null slope -0.0684 [-0.2277,+0.1094]  min -0.3253   P(<= -0.346) = 0.0000   (189s)
+  E_galaxy_resample    null slope +0.0002 [-0.1870,+0.2025]  min -0.3065   P(<= -0.346) = 0.0000   (232s)
+
+  inversion -- photometric-error inflation needed for the artefact
+    e_mu0_K x1   (median 0.07 mag) -> null slope -0.0149 +- 0.0676   P(<= -0.346) = 0.000
+    e_mu0_K x2   (median 0.14 mag) -> null slope -0.0182 +- 0.0818   P(<= -0.346) = 0.000
+    e_mu0_K x3   (median 0.21 mag) -> null slope -0.0741 +- 0.0840   P(<= -0.346) = 0.000
+    e_mu0_K x5   (median 0.35 mag) -> null slope -0.1722 +- 0.0750   P(<= -0.346) = 0.010
+    e_mu0_K x7   (median 0.49 mag) -> null slope -0.2663 +- 0.0678   P(<= -0.346) = 0.110
+    e_mu0_K x10  (median 0.70 mag) -> null slope -0.3773 +- 0.0688   P(<= -0.346) = 0.650
+    e_mu0_K x14  (median 0.98 mag) -> null slope -0.4236 +- 0.8766   P(<= -0.346) = 0.840
+
+  sizing: inject a TRUE slope and recover it (same machinery)
+    injected -0.600 -> recovered -0.5878 +- 0.0648   bias +0.0122
+    injected -0.346 -> recovered -0.3387 +- 0.0613   bias +0.0073
+    injected -0.150 -> recovered -0.1524 +- 0.0654   bias -0.0024
+    injected +0.000 -> recovered -0.0071 +- 0.0865   bias -0.0071
+    injected +0.300 -> recovered +0.3073 +- 0.0821   bias +0.0073
+
+  wrote injection_results.json  (362s)

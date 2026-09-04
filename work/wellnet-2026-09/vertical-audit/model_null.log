@@ -1,0 +1,26 @@
+  GATE: this script's AIC vs model_compare.json on the REAL data
+    M_Newton         -174.53   -174.53   |d| = 0.000   PASS
+    M_local_RAR      -183.62   -183.62   |d| = 0.000   PASS
+    M_global         -192.43   -192.43   |d| = 0.000   PASS
+    observed dAIC(RAR - global)    = 8.80
+    observed dAIC(Newton - global) = 17.90
+      newton trial 25/100  (35s)
+      newton trial 50/100  (71s)
+      newton trial 75/100  (106s)
+      newton trial 100/100  (142s)
+
+  NEWTON-TRUTH NULL, 100 synthetic universes, full covariance
+    dAIC(RAR - global)    median +31.21  95% [-6.80,+55.73]   P(>= 8.8 observed) = 0.8200
+    dAIC(Newton - global) median -1.42  95% [-2.00,+3.05]   P(>= 17.9 observed) = 0.0000
+      rar trial 25/100  (37s)
+      rar trial 50/100  (75s)
+      rar trial 75/100  (121s)
+      rar trial 100/100  (162s)
+
+  RAR-TRUTH NULL, 100 synthetic universes, full covariance
+    dAIC(RAR - global)    median -22.84  95% [-35.53,+1.19]   P(>= 8.8 observed) = 0.0100
+    dAIC(Newton - global) median +22.61  95% [+11.68,+36.65]   P(>= 17.9 observed) = 0.7100
+
+    (95% upper bound on a zero count with 100 trials: 0.0295)
+
+  wrote model_null.json
