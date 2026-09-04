@@ -1,0 +1,1622 @@
+{
+ "generated_utc": "2026-09-04T22:41:18Z",
+ "lane": "work/wellnet-2026-09/synthesis",
+ "run_id": "BK-synthesis",
+ "data_statement": "No observational data of any kind is opened by this lane; asserted mechanically by patching open/io.open and the numpy loaders (universes/provenance.py) with the lane directory as the only readable root. KiDS and the wide binaries are sealed by token; the confirmation reserve (SPT, X-GAP, CLoGS, Gaia dynamical products, MUSE/Granata dispersions) is guarded by token and untouched.",
+ "binding_rule": "BJ.1: anisotropy is not evidence for anisotropic gravity; a recovered a0 is not evidence for modified gravity; a MOND-like monopole is not evidence for MOND. Each card's falsifier is a SIGN, a PHASE LOCK, a SCALING or a COMPENSATION, never a magnitude.",
+ "families": {
+  "T_void_tensor": {
+   "id": "T_void_tensor",
+   "name": "action-derived void/tensor gravity",
+   "one_line": "an anisotropic kinetic metric for one scalar potential, weighted by a transition-band gate, with the axis from the environment's tidal tensor",
+   "fields": {
+    "physical_statement": {
+     "statement": "The kinetic metric of the gravitational potential is anisotropic in the transition regime |grad Phi| ~ a0, and the axis of the anisotropy is the large-scale tidal axis of the environment. Gravitational flux is redistributed toward that axis without changing the total flux (the anisotropic term is traceless) and while the field remains the gradient of ONE scalar potential. The anisotropy vanishes in deep MOND -- required by ellipticity of the operator, not chosen -- and at high acceleration, required by the Solar System. What nature does differently: the vacuum's response to a field of order a0 knows the direction in which the surrounding matter is stretching it.",
+     "evidence": {
+      "ellipticity_interval_fE": [
+       -0.9499999999999997,
+       1.8500000000000005
+      ],
+      "deep_mond_argument": {
+       "fE": 0.3,
+       "h_constant": 0.25,
+       "fraction_of_cloud_with_indefinite_operator": 0.5885,
+       "ellipticity_lost_below_x": 0.025373252466245284,
+       "statement": "a constant (non-vanishing) h in deep MOND makes the kinetic operator indefinite wherever |grad Phi|/a0 is small enough; h must vanish at least as fast as mu there. h = mu(1-mu) does."
+      },
+      "file": "tensor_results.json"
+     }
+    },
+    "source": {
+     "statement": "Rest mass rho sources Phi (the only source of the potential). The AXIS is sourced by the large-scale tidal tensor of the environment -- the traceless Hessian of the Newtonian potential smoothed on L_env, i.e. the stretching direction of the surrounding matter (filament axis), measured independently from the galaxy distribution around the object and never inferred from the residual it later explains. The STRENGTH is sourced by nothing: it is one universal constant f_E multiplying one universal gate h(|grad Phi|/a0).",
+     "evidence": {
+      "axis_provenance_in_compiler": "external (declared)",
+      "file": "compile_results.json"
+     }
+    },
+    "state": {
+     "statement": "One scalar potential Phi and one headless background field: the unit-Frobenius-norm traceless tidal tensor That_env(x) (equivalently a unit axis e, e == -e). No vector field, no second potential, no memory. The charter's 'tensor response of space' is realised as the kinetic metric of Phi, K = exp[f_E h That] to first order, entering the Lagrangian as f_E h(|u|/a0) u^T That u.",
+     "evidence": {
+      "action": {
+       "lagrangian": "L = -(1/8 pi G)[ a0^2 F(|u|^2/a0^2) + f_E h(|u|/a0) u^T That_env u ] - rho Phi,  u = grad Phi",
+       "base": "F' = mu, mu(x) = x/(1+x) (AQUAL)",
+       "weight": "h(x) = mu(1-mu) = x/(1+x)^2",
+       "axis": "That_env: unit-norm traceless tidal tensor of the environment (Hessian of Phi_N smoothed on L_env); principal-axis form sqrt(3/2)(e e^T - I/3) with sqrt(3/2) absorbed into f_E",
+       "field_equation": "div M(u) = 4 pi G rho, M = mu(x) u + (1/2) f_E [ h'(x)(u^T That u) uhat/a0 + 2 h(x) That u ]",
+       "radial_reduction": "g [ mu(x) + f_E lambda eta(x) ] = g_N, lambda = (e.rhat)^2 - 1/3, eta = h + x h'/2 = x(3+x)/(2(1+x)^3)",
+       "universal_constants": {
+        "shared_with_base": [
+         "G",
+         "a0"
+        ],
+        "new": [
+         "f_E",
+         "L_env"
+        ],
+        "n_new": 2
+       },
+       "model_class": "static_scalar_potential with a background axis field (in the compiler's Gate 4 scope); the closed version with That_env promoted to a dynamical field is 'extra_propagating_field'"
+      }
+     }
+    },
+    "propagation": {
+     "statement": "Point-local in Phi, instantaneous weak-field (static) response. The axis field is quasi-static: it changes on the environment's dynamical time, not the object's. No retardation, no path dependence, no history dependence. The tensor-wave sector is not touched by the weak-field action (see known_limits for the assumption that entails).",
+     "evidence": {
+      "propagation": "instantaneous_weak_field"
+     }
+    },
+    "matter_coupling": {
+     "statement": "Universal: a = -grad Phi for every test body, with Phi solving div M(grad Phi) = 4 pi G rho. Consequences, all first order in f_E on a spherical source in the AQUAL base: (i) an m=2 harmonic of the inward acceleration locked to the axis, with fractional amplitude A2(r) = chi'(r)/g0(r) per unit f_E; A2 is NEGATIVE at every radius from 0.1 a to 300 a of the caricature galaxy (A2 = -0.0583 f_E at r = 3 a, peak -0.161 f_E in the core), i.e. for f_E > 0 the inward pull is WEAKER along the tidal axis; it decays as -1/(3 g0/a0) at high acceleration and tends to zero from below in deep MOND; (ii) the potential is nonetheless DEEPER along the axis (chi < 0, tending to the constant -sqrt(G M a0)/3); (iii) a disk whose normal makes an angle psi with e has an azimuthally averaged RAR residual -(1/2) P2(cos psi) A2 f_E, i.e. 0.0127 f_E dex at r = 3 a, signed by the environment with no per-object freedom.",
+     "evidence": {
+      "A2_rows": [
+       {
+        "r_over_a": 0.3,
+        "r_kpc": 0.9,
+        "x0": 2.40753546952755,
+        "h": 0.20734421547750256,
+        "A2_exact_per_fE": -0.08370466274384045,
+        "A2_caricature_per_fE": -0.12001676626236353,
+        "chi_per_fE_m2s2": -615945735.0965585
+       },
+       {
+        "r_over_a": 0.5,
+        "r_kpc": 1.5,
+        "x0": 3.063526256795799,
+        "h": 0.1855305646275035,
+        "A2_exact_per_fE": -0.0597120879638088,
+        "A2_caricature_per_fE": -0.09823084300809201,
+        "chi_per_fE_m2s2": -1044884256.0665902
+       },
+       {
+        "r_over_a": 1.0,
+        "r_kpc": 3.0,
+        "x0": 3.0336977338669477,
+        "h": 0.18645138119954205,
+        "A2_exact_per_fE": -0.045766856096426015,
+        "A2_caricature_per_fE": -0.09905395274293914,
+        "chi_per_fE_m2s2": -1930803055.3604803
+       },
+       {
+        "r_over_a": 2.0,
+        "r_kpc": 6.0,
+        "x0": 1.796919083166504,
+        "h": 0.22970408395490763,
+        "A2_exact_per_fE": -0.05088463837074492,
+        "A2_caricature_per_fE": -0.15056703348548958,
+        "chi_per_fE_m2s2": -3174540690.3950696
+       },
+       {
+        "r_over_a": 3.0,
+        "r_kpc": 9.0,
+        "x0": 1.1467968867897467,
+        "h": 0.24883106116901585,
+        "A2_exact_per_fE": -0.05831950214191633,
+        "A2_caricature_per_fE": -0.20461234863939243,
+        "chi_per_fE_m2s2": -4041360412.7888236
+       },
+       {
+        "r_over_a": 5.0,
+        "r_kpc": 15.0,
+        "x0": 0.6294420080689317,
+        "h": 0.23707071346801087,
+        "A2_exact_per_fE": -0.06432016759585767,
+        "A2_caricature_per_fE": -0.28236840545756675,
+        "chi_per_fE_m2s2": -5199690407.174281
+       },
+       {
+        "r_over_a": 10.0,
+        "r_kpc": 30.0,
+        "x0": 0.2858324926493355,
+        "h": 0.17287922401886657,
+        "A2_exact_per_fE": -0.05875473149111303,
+        "A2_caricature_per_fE": -0.3726450590937353,
+        "chi_per_fE_m2s2": -6647067845.355817
+       },
+       {
+        "r_over_a": 20.0,
+        "r_kpc": 60.0,
+        "x0": 0.13505642038679508,
+        "h": 0.10482873270495492,
+        "A2_exact_per_fE": -0.04323866767153632,
+        "A2_caricature_per_fE": -0.43121841674861217,
+        "chi_per_fE_m2s2": -7744284624.248016
+       },
+       {
+        "r_over_a": 50.0,
+        "r_kpc": 150.0,
+        "x0": 0.05206501695674007,
+        "h": 0.04703930046782438,
+        "A2_exact_per_fE": -0.023397950490972666,
+        "A2_caricature_per_fE": -0.47123640026663716,
+        "chi_per_fE_m2s2": -8629823531.825977
+       },
+       {
+        "r_over_a": 100.0,
+        "r_kpc": 300.0,
+        "x0": 0.025715638585550305,
+        "h": 0.024442372552129228,
+        "A2_exact_per_fE": -0.01338736664342841,
+        "A2_caricature_per_fE": -0.4854018165679007,
+        "chi_per_fE_m2s2": -8988865000.12404
+       }
+      ],
+      "A2_all_negative": true,
+      "newtonian_side": {
+       "source": "Plummer 5e12 Msun, a = 0.3 kpc (x0 >> 1 at r ~ a)",
+       "rows": [
+        {
+         "r_over_a": 1.0,
+         "x0": 22765.634090845553,
+         "A2_per_fE": -1.4540013050790606e-05,
+         "asymptote_minus_1_over_3x": -1.4641952515057437e-05,
+         "ratio": 0.9930378503712537
+        },
+        {
+         "r_over_a": 2.0,
+         "x0": 11535.139955486351,
+         "A2_per_fE": -2.8313113480277033e-05,
+         "asymptote_minus_1_over_3x": -2.88972075431814e-05,
+         "ratio": 0.9797871797116884
+        },
+        {
+         "r_over_a": 5.0,
+         "x0": 2436.8659275831396,
+         "A2_per_fE": -0.00012990805256956624,
+         "asymptote_minus_1_over_3x": -0.00013678771965264832,
+         "ratio": 0.949705521076366
+        }
+       ],
+       "statement": "A2 -> -1/(3 x0): the force quadrupole DECAYS as 1/x at high acceleration, with the sign fixed"
+      },
+      "deep_mond": {
+       "r_over_a": 300.0,
+       "x0": 0.008505113435472639,
+       "chi_per_fE": -9257656532.107435,
+       "asymptote": -9407107979.253418,
+       "ratio": 0.984112923177284,
+       "A2_per_fE": -0.005030488841127067
+      },
+      "validation": {
+       "r_over_a": [
+        0.5,
+        1.0,
+        2.0,
+        5.0,
+        20.0,
+        100.0
+       ],
+       "chi_ode": [
+        -1875360668.5247688,
+        -4404764008.230885,
+        -5765819786.391016,
+        -3923033192.1273117,
+        -1169345589.8939946,
+        -238675878.33600375
+       ],
+       "chi_exact": [
+        -1876246977.5564008,
+        -4406406216.688515,
+        -5767241187.273098,
+        -3923756521.008181,
+        -1169541270.186439,
+        -238710016.864692
+       ],
+       "chi_point_mass_asymptote": [
+        -47798081186.5221,
+        -23899040593.26105,
+        -11949520296.630526,
+        -4779808118.652209,
+        -1194952029.6630523,
+        -238990405.9326105
+       ],
+       "max_rel_err": 0.0004723839890131435
+      },
+      "file": "tensor_results.json"
+     }
+    },
+    "photon_coupling": {
+     "statement": "Photons see the same Phi: the weak-field metric carries Phi in both the time-time and space-space parts (common matter-light geometry, Principle 4; no fitted slip). The lensing potential's quadrupole is f_E chi(r) P2 with the SAME chi as the dynamical one, so the lensing quadrupole phase equals the dynamical phase and the two amplitudes are tied with ratio 1 in the 3-D potential. Shear is the second derivative of the projected potential, and in deep MOND chi tends to a CONSTANT offset, so the outer shear quadrupole of this family vanishes while the inner (transition-band) one does not -- a radial profile, consistent in direction with Run BF.4's finding that its (differently constructed, linear-K) fixed-axis tensor put little of its l=2 into the cluster lensing potential. No frequency or polarization dependence; no time-delay anomaly beyond the potential's own quadrupole.",
+     "evidence": {
+      "chi_asymptote_deep_mond": {
+       "r_over_a": 300.0,
+       "x0": 0.008505113435472639,
+       "chi_per_fE": -9257656532.107435,
+       "asymptote": -9407107979.253418,
+       "ratio": 0.984112923177284,
+       "A2_per_fE": -0.005030488841127067
+      }
+     }
+    },
+    "known_limits": {
+     "statement": "HIGH ACCELERATION / SOLAR SYSTEM: h ~ 1/x, so the fractional quadrupole (2/3) f_E h is 1.3e-08 f_E at 1 AU and 2.0e-09 f_E at Mercury; fixed-axis anisotropies of the solar potential are bounded near 1e-9 (published PPN preferred-location and solar-J2 constraints, quoted as an order of magnitude and not evaluated here), so f_E <~ 0.3 is safe and f_E of order 1-2 is marginal; the theory's own ellipticity interval is f_E in (-0.95, 1.85). BINARY PULSARS: x >> 1, h < 1e-9. GALAXY REGULARITIES: the term is traceless, so the direction-averaged RAR is untouched at first order and its scatter gains only the environment-locked 0.0127 f_E dex term; h -> 0 in deep MOND, so flat rotation curves and the BTFR (the deep-MOND asymptote) are untouched, and the force anisotropy vanishes in the outskirts. WAVE PROPAGATION: the weak-field action says nothing about the tensor-wave sector; the GW speed equals c only if the completion places the anisotropic kinetic term in the scalar sector alone -- ASSUMED, flagged in honest_gaps.",
+     "evidence": {
+      "known_limit_rows": {
+       "Mercury_0.39AU": {
+        "g_SI": 0.039603244144889985,
+        "x": 330027034.54074985,
+        "h": 3.0300547812134348e-09,
+        "quadrupole_fE_0.3": 6.06010956242687e-10,
+        "quadrupole_fE_1.0": 2.0200365208089564e-09,
+        "quadrupole_fE_2.0": 4.040073041617913e-09
+       },
+       "Earth_1AU": {
+        "g_SI": 0.005931338272336028,
+        "x": 49427818.93613357,
+        "h": 2.0231521055563315e-08,
+        "quadrupole_fE_0.3": 4.0463042111126625e-09,
+        "quadrupole_fE_1.0": 1.3487680703708877e-08,
+        "quadrupole_fE_2.0": 2.6975361407417753e-08
+       },
+       "Neptune_30AU": {
+        "g_SI": 6.590375858151143e-06,
+        "x": 54919.79881792619,
+        "h": 1.8207706615429946e-05,
+        "quadrupole_fE_0.3": 3.641541323085989e-06,
+        "quadrupole_fE_1.0": 1.2138471076953297e-05,
+        "quadrupole_fE_2.0": 2.4276942153906594e-05
+       },
+       "Oort_10kAU": {
+        "g_SI": 5.931338272336028e-11,
+        "x": 0.4942781893613357,
+        "h": 0.2213647840905233,
+        "quadrupole_fE_0.3": 0.044272956818104656,
+        "quadrupole_fE_1.0": 0.14757652272701552,
+        "quadrupole_fE_2.0": 0.29515304545403104
+       },
+       "wide_binary_1Msun_10kAU(sealed regime)": {
+        "g_SI": 5.931338272336028e-11,
+        "x": 0.4942781893613357,
+        "h": 0.2213647840905233,
+        "quadrupole_fE_0.3": 0.044272956818104656,
+        "quadrupole_fE_1.0": 0.14757652272701552,
+        "quadrupole_fE_2.0": 0.29515304545403104
+       },
+       "transition_g=a0": {
+        "g_SI": 1.2e-10,
+        "x": 1.0,
+        "h": 0.25,
+        "quadrupole_fE_0.3": 0.049999999999999996,
+        "quadrupole_fE_1.0": 0.16666666666666666,
+        "quadrupole_fE_2.0": 0.3333333333333333
+       },
+       "galaxy_outskirts_0.1a0": {
+        "g_SI": 1.2e-11,
+        "x": 0.1,
+        "h": 0.08264462809917354,
+        "quadrupole_fE_0.3": 0.016528925619834708,
+        "quadrupole_fE_1.0": 0.05509641873278236,
+        "quadrupole_fE_2.0": 0.11019283746556471
+       },
+       "cluster_outskirts_0.07a0": {
+        "g_SI": 8.400000000000001e-12,
+        "x": 0.07,
+        "h": 0.06114071097912482,
+        "quadrupole_fE_0.3": 0.012228142195824963,
+        "quadrupole_fE_1.0": 0.04076047398608321,
+        "quadrupole_fE_2.0": 0.08152094797216641
+       },
+       "deep_MOND_0.01a0": {
+        "g_SI": 1.2e-12,
+        "x": 0.01,
+        "h": 0.009802960494069209,
+        "quadrupole_fE_0.3": 0.0019605920988138414,
+        "quadrupole_fE_1.0": 0.006535306996046139,
+        "quadrupole_fE_2.0": 0.013070613992092278
+       }
+      },
+      "peak_h": 0.25,
+      "file": "tensor_results.json"
+     }
+    },
+    "counterfactual_signature": {
+     "statement": "Rotate the external axis by dpsi holding the baryons: the m=2 phase of |g_r| AND of the lensing quadrupole rotate rigidly, d(phase)/d(psi_e) = +1, zero lag, identical at every radius. Move the baryons holding e: the amplitude is re-evaluated instantly as A2 on the new g0(r). Move a halo: nothing (there is none). Scramble members preserving radial profiles: nothing (the response is a functional of the smooth field). Change history preserving present matter: nothing (no memory). Change the photon path preserving endpoints: the photon sees the same chi P2 as the matter. Radial twist d(phase)/d ln r = 0 exactly. Tilt the disk normal: a signed RAR residual -(1/2) P2(cos psi) A2 f_E.",
+     "evidence": {
+      "table": [
+       {
+        "intervention": "rotate the external axis e by an angle dpsi, baryons fixed",
+        "observable": "phase of the m=2 harmonic of |g_r| (dynamics) and of the lensing-potential quadrupole",
+        "response": "d(phase)/d(psi_e) = +1 exactly, zero lag, at every radius; amplitude unchanged",
+        "sign": "+1 (rigid co-rotation)"
+       },
+       {
+        "intervention": "move the baryons holding e fixed",
+        "observable": "amplitude of the m=2 harmonic of |g_r|",
+        "response": "A2(r) = chi'(r)/g0(r) per unit f_E re-evaluated on the NEW baryons instantly; |A2| peaks at 0.161 f_E where g0 ~ 1.18 a0, decays as -1/(3 g0/a0) at high acceleration and -> 0 in deep MOND",
+        "sign": "- along e for f_E > 0: the inward pull is WEAKER along the tidal axis (the m=2 minimum of |g_r| sits on e); the potential is nonetheless deeper along e"
+       },
+       {
+        "intervention": "move the halo holding baryons fixed",
+        "observable": "anything",
+        "response": "0: there is no halo",
+        "sign": "0"
+       },
+       {
+        "intervention": "scramble members preserving every radial profile",
+        "observable": "m=2 amplitude and phase",
+        "response": "0: the response is a functional of the smooth field and the external axis, never of the member list",
+        "sign": "0"
+       },
+       {
+        "intervention": "change history preserving present matter and e",
+        "observable": "anything",
+        "response": "0: no memory",
+        "sign": "0"
+       },
+       {
+        "intervention": "change the photon path preserving endpoints",
+        "observable": "deflection / time delay",
+        "response": "follows the same Phi = Phi0 + f_E chi P2 the matter sees; the lensing quadrupole phase equals the dynamical one and the two amplitudes are the same chi (no slip)",
+        "sign": "fixed matter-light covariance = +1 in the potential"
+       },
+       {
+        "intervention": "radial profile of the quadrupole at fixed e",
+        "observable": "d(phase)/d ln r",
+        "response": "0 exactly (e is uniform across the object); a collisionless triaxial halo twists with radius",
+        "sign": "0 vs CDM != 0"
+       },
+       {
+        "intervention": "tilt the disk normal against e (angle psi)",
+        "observable": "azimuthally averaged rotation-curve residual (the RAR residual of one disk)",
+        "response": "the in-plane average of P2(e.rhat) is -(1/2) P2(cos psi) [<(e.rhat)^2>_plane = sin^2(psi)/2], so d ln g_c = -(1/2) P2(cos psi) A2(r) f_E with A2 < 0 for f_E > 0",
+        "sign": "+ for e along the disk normal (psi = 0), - for e in the plane (psi = 90 deg), for f_E > 0: a SIGNED, environment-locked RAR residual of 0.0127 f_E dex at r = 3 a of the caricature galaxy, with no per-object freedom"
+       }
+      ],
+      "file": "tensor_results.json"
+     }
+    },
+    "unique_falsifier": {
+     "statement": "At fixed baryons and fixed independently measured tidal axis, the population distribution of (m=2 phase minus tidal-axis phase) must be a delta function convolved with the measurement error alone, with ONE universal sign (for f_E > 0 the m=2 MINIMUM of |g_r| on the axis), zero radial twist, and an amplitude profile with the universal shape A2(g/a0): largest near the g ~ a0 crossing, decaying as 1/x at high acceleration, vanishing in deep MOND. A measured intrinsic phase dispersion exceeding the axis error after marginalising inclination, position angle, distance, M/L and the axis measurement; or mixed signs across objects; or a quadrupole amplitude that GROWS into the deep-MOND outskirts -- each kills the law, and none can be repaired by an object-specific nuisance. NOT a falsifier: anisotropy, a recovered a0, a MOND-like monopole (BJ.1).",
+     "evidence": {
+      "sign_statement": "for f_E > 0 the inward acceleration is WEAKER along the axis e (A2 - at every radius from 0.1 a to 300 a) even though the potential is DEEPER along e (chi < 0): the potential quadrupole is a nearly constant offset that is approached from above (chi ~ -a0 r/3 on the Newtonian side, chi -> -sqrt(G M a0)/3 in deep MOND), so its radial derivative is negative. A CONSTANT anisotropy of the same axis gives the opposite force sign (chi = -GM/3r rises toward zero). This is a derived, non-obvious prediction: a transition-band-gated tensor and a constant tensor of the same axis and sign have OPPOSITE force quadrupoles. The compiler's declared radial caricature has the opposite sign to the exact solution for constant K, and the same sign but a magnitude wrong by up to 40x (and no deep-MOND decay) for the gated case; gates 1 and 4 consume only |residual| and symmetry, so no verdict depends on it, but no sign may be read off that reduction."
+     }
+    },
+    "cdm_distinction": {
+     "statement": "A realistic collisionless halo is triaxial with intrinsic axis-ratio scatter, oriented by the tidal field at ASSEMBLY with tens of degrees of misalignment dispersion relative to the PRESENT tidal axis, twisting with radius, carrying stochastic m=1/m=3 power from substructure, and with an anisotropy that persists or grows in the outskirts. The tensor law's JOINT response is: (i) phase locked to the present tidal axis with zero intrinsic dispersion; (ii) zero radial twist; (iii) an amplitude that is a universal function of g/a0 alone, peaking in the transition band and VANISHING where a halo's anisotropy is largest; (iv) one universal sign; (v) identical phase and tied amplitude in lensing and dynamics with no per-object freedom; (vi) residual harmonic content in m=2 only. A CDM population can match any one of these by selection; matching all six requires its halo shape distribution collapsed to a delta function slaved to the present tidal field with an ellipticity profile keyed to the baryonic acceleration and dying in the outskirts -- the opposite of what assembly-history scatter and outer triaxiality necessarily produce. Because the family's own signature is a sign and a profile rather than a magnitude, BF's 0.648 rate of the generic anisotropy detectors on the dark-matter universe does not apply to it: the detector must test (i)-(vi) jointly, not anisotropy.",
+     "evidence": {
+      "bf_generic_detector_rate_on_cdm": 0.648,
+      "note": "Run BF.3; the joint test is specified in the counterfactual table"
+     }
+    }
+   },
+   "baryonic_closure": {
+    "predicts_baryonic_closure": true,
+    "mean": "given the complete baryonic scene AND the environment's tidal axis, gravity is fixed up to the universal constants (G, a0, f_E, L_env): P(G | B, e) has zero intrinsic width",
+    "scatter": "the law predicts the SCATTER, not only the mean: (a) with e observed, residual scatter = measurement noise only; (b) with e unobserved (local baryons only), the residual is a PURE m=2 harmonic of universal amplitude A2(g/a0) f_E and random phase, with no m=1, m=3 or m=4 power, and a RAR residual distributed as -(1/2) P2(cos psi) A2 f_E over the distribution of psi -- a scatter with a predicted shape (width 0.0127 f_E dex at r = 3 a) and harmonic content",
+    "cdm_contrast": "a halo population's P(G | B) has a width set by the halo shape/orientation distribution, all harmonics, and a radial growth of the anisotropy; its scatter is not a function of the present tidal axis alone"
+   },
+   "action": {
+    "lagrangian": "L = -(1/8 pi G)[ a0^2 F(|u|^2/a0^2) + f_E h(|u|/a0) u^T That_env u ] - rho Phi,  u = grad Phi",
+    "base": "F' = mu, mu(x) = x/(1+x) (AQUAL)",
+    "weight": "h(x) = mu(1-mu) = x/(1+x)^2",
+    "axis": "That_env: unit-norm traceless tidal tensor of the environment (Hessian of Phi_N smoothed on L_env); principal-axis form sqrt(3/2)(e e^T - I/3) with sqrt(3/2) absorbed into f_E",
+    "field_equation": "div M(u) = 4 pi G rho, M = mu(x) u + (1/2) f_E [ h'(x)(u^T That u) uhat/a0 + 2 h(x) That u ]",
+    "radial_reduction": "g [ mu(x) + f_E lambda eta(x) ] = g_N, lambda = (e.rhat)^2 - 1/3, eta = h + x h'/2 = x(3+x)/(2(1+x)^3)",
+    "universal_constants": {
+     "shared_with_base": [
+      "G",
+      "a0"
+     ],
+     "new": [
+      "f_E",
+      "L_env"
+     ],
+     "n_new": 2
+    },
+    "model_class": "static_scalar_potential with a background axis field (in the compiler's Gate 4 scope); the closed version with That_env promoted to a dynamical field is 'extra_propagating_field'"
+   },
+   "axis_values": {
+    "source": "rest_mass",
+    "field_type": "scalar (+ background symmetric_tensor)",
+    "locality": "point_local",
+    "superposition": "nonlinear",
+    "directionality": "tidal",
+    "axis_origin": "external_matter",
+    "propagation": "instantaneous_weak_field",
+    "geometry": "force_in_fixed_space (weak field)",
+    "eff_dimension": "three_d",
+    "matter_light": "universal",
+    "equivalence": "exact",
+    "conservation": "exact_reciprocal (background axis) | exchange_with_field (dynamical axis)",
+    "cosmology": "expanding_geometry (assumed standard)",
+    "vacuum": "directional",
+    "initial_conditions": "standard_primordial"
+   },
+   "derived_not_assumed": [
+    "h must vanish at least as fast as mu in deep MOND, or the kinetic operator loses ellipticity (measured: a constant h makes the operator indefinite on 59% of a low-x cloud)",
+    "h must vanish at high acceleration (Solar System); h = mu(1-mu) is the sparsest weight doing both with no new scale",
+    "the admissible f_E interval (-0.95, 1.85) from positive-definiteness of the Hessian of the Lagrangian",
+    "writing the gated anisotropy as K(u)u in QUMOND form is NOT a gradient (compiler element F2, physically_incomplete_as_written); writing it as a term of a scalar Lagrangian density is a gradient identically (u-space antisymmetry at round-off)",
+    "the force quadrupole of the gated tensor has the OPPOSITE sign to that of a constant tensor with the same axis and sign, and the potential quadrupole tends to a constant in deep MOND",
+    "the compiler's declared radial caricature (k_r on the radial flux) has the wrong sign for constant K and the wrong magnitude and asymptotics for the gated case; no gate verdict depends on it"
+   ],
+   "compiler": {
+    "T_tensor_L_fE0.1": {
+     "verdict": "ADMIT",
+     "primary_bin": "admissible",
+     "failed": [],
+     "labels": [],
+     "flags": [],
+     "gate1_escapes": [
+      "b_independent_axis"
+     ],
+     "gate1_max_resid_dex": 0.00636930862544806,
+     "u_space_antisymmetry": 1.4435923467640913e-10
+    },
+    "T_tensor_L_fE0.3": {
+     "verdict": "ADMIT",
+     "primary_bin": "admissible",
+     "failed": [],
+     "labels": [],
+     "flags": [],
+     "gate1_escapes": [
+      "b_independent_axis"
+     ],
+     "gate1_max_resid_dex": 0.018965832240141665,
+     "u_space_antisymmetry": 1.7984538111379725e-10
+    },
+    "T_tensor_L_fE1.0": {
+     "verdict": "ADMIT",
+     "primary_bin": "admissible",
+     "failed": [],
+     "labels": [],
+     "flags": [],
+     "gate1_escapes": [
+      "a_spatial_variation",
+      "b_independent_axis",
+      "c_probe_disagreement"
+     ],
+     "gate1_max_resid_dex": 0.06171037799854929,
+     "u_space_antisymmetry": 1.772499394081641e-10
+    },
+    "T_tensor_L_fE1.8": {
+     "verdict": "ADMIT",
+     "primary_bin": "admissible",
+     "failed": [],
+     "labels": [],
+     "flags": [],
+     "gate1_escapes": [
+      "a_spatial_variation",
+      "b_independent_axis",
+      "c_probe_disagreement"
+     ],
+     "gate1_max_resid_dex": 0.10848927863766579,
+     "u_space_antisymmetry": 2.162460843116988e-10
+    },
+    "T_tensor_L_fE0.3_dynamical_axis": {
+     "verdict": "OUTSIDE-CLASS",
+     "primary_bin": "outside_declared_model_class",
+     "failed": [],
+     "labels": [
+      "action-based but OUTSIDE the scalar-potential class"
+     ],
+     "flags": [
+      "momentum carrier declared but not verified"
+     ],
+     "gate1_escapes": [
+      "b_independent_axis"
+     ],
+     "gate1_max_resid_dex": 0.018965832240141665,
+     "u_space_antisymmetry": null
+    },
+    "grammar_F1_ext_axis_const": {
+     "verdict": "ADMIT",
+     "primary_bin": "admissible",
+     "failed": [],
+     "labels": [],
+     "flags": [],
+     "gate1_escapes": [
+      "a_spatial_variation",
+      "b_independent_axis",
+      "c_probe_disagreement"
+     ],
+     "gate1_max_resid_dex": 0.04118200550822264,
+     "u_space_antisymmetry": 0.0
+    },
+    "grammar_F2_ext_axis_gn_gated": {
+     "verdict": "REJECT",
+     "primary_bin": "physically_incomplete_as_written",
+     "failed": [
+      "gate4_scalar_potential_integrability"
+     ],
+     "labels": [],
+     "flags": [],
+     "gate1_escapes": [
+      "b_independent_axis"
+     ],
+     "gate1_max_resid_dex": 0.036007749081148975,
+     "u_space_antisymmetry": 0.04940213485921586
+    },
+    "grammar_F3_ext_axis_tidal_gated": {
+     "verdict": "REJECT",
+     "primary_bin": "physically_incomplete_as_written",
+     "failed": [
+      "gate4_scalar_potential_integrability"
+     ],
+     "labels": [],
+     "flags": [],
+     "gate1_escapes": [
+      "b_independent_axis"
+     ],
+     "gate1_max_resid_dex": 0.02352782785313799,
+     "u_space_antisymmetry": null
+    }
+   },
+   "honest_gaps": [
+    {
+     "field": "known_limits",
+     "assumption": "that the relativistic completion puts the anisotropic kinetic term in the scalar sector only, so tensor waves propagate at c; the static action cannot decide this"
+    },
+    {
+     "field": "source",
+     "assumption": "L_env, the scale on which 'environment' is defined, is a declared universal constant, not derived; the axis is a background field held fixed under variation, and in the closed (dynamical-axis) version the compiler can only label the theory"
+    },
+    {
+     "field": "known_limits",
+     "assumption": "the Solar-System comparison quotes published bounds as an order of magnitude; no data were opened and no bound was recomputed"
+    },
+    {
+     "field": "physical_statement",
+     "assumption": "the sign of f_E is not fixed by the theory; both signs are admissible and the falsifier is that ONE sign holds universally"
+    }
+   ]
+  },
+  "P_reciprocal_path": {
+   "id": "P_reciprocal_path",
+   "name": "reciprocal path-dependent gravity",
+   "one_line": "a reciprocal two-point kernel gated on the vacuum fraction of the connecting segment, with the matter on the segment as the declared momentum carrier",
+   "fields": {
+    "physical_statement": {
+     "statement": "The gravitational interaction between two mass elements depends on the matter/vacuum state of the straight segment joining them: the pair kernel is -(G/d)[1 + eps v], with v the fraction of the segment along which the baryonic density lies below a universal density rho_*. Gravity is transmitted differently through emptiness than through matter (eps > 0: more strongly through vacuum). Every pair relation is reciprocal by construction, and the momentum a pair does not conserve is carried by the matter on its segment, which feels the gradient of a three-body potential Phi_3 that is an explicit function of the local density and of the product of the two opposite half-columns through the point.",
+     "evidence": {
+      "kernel_reciprocity": {
+       "max_relative_asymmetry": 0.0,
+       "n": 200
+      },
+      "momentum_budget": {
+       "sum_total": 3.0110313478457372e-09,
+       "sum_two_body": 0.029585386249627043,
+       "carrier_closes": 3.0110312476214815e-09
+      },
+      "file": "path_results.json"
+     }
+    },
+    "source": {
+     "statement": "Rest mass rho, in two roles: as the endpoints of every pair (the rho(x) rho(y) weight) and as the STATE along the path (phi(rho) = 1/(1 + rho/rho_*) integrated along the segment). No other source, no preferred axis. The state is explicit, gauge-free (density, not potential), representation-independent (a continuum functional), and measurable: the baryonic column along the segment is what X-ray, HI and absorption observations return.",
+     "evidence": {
+      "column_closed_form_check": {
+       "max_rel_err": 1.9888810468054898e-05,
+       "n": 6
+      }
+     }
+    },
+    "state": {
+     "statement": "A nonlocal scalar relation W(x,y)[rho]. What a test body or photon sees is nevertheless ONE scalar potential, Phi = delta E/delta rho = Phi_dir + Phi_3, with Phi_3(z) = -(G eps/2) phi'(rho(z)) P(z) and P(z) = Int dOmega C(z,n) C(z,-n), the angular integral of the product of the two opposite half-line columns through z -- derived by collapsing the double integral over pairs whose segment passes through z. Phi_3 is non-zero only where matter lies on BOTH sides of z: inside a body, or in the bridge between two bodies. No vector field, no memory.",
+     "evidence": {
+      "action": {
+       "functional": "S_P = -(1/2) Int Int rho(x) W(x,y) rho(y),  W = -(G/|x-y|)[1 + eps v(x,y)],  v = (1/|x-y|) Int_seg phi(rho) dl,  phi(rho) = 1/(1 + rho/rho_*)",
+       "potential": "Phi = delta E/delta rho = Phi_dir + Phi_3,  Phi_3(z) = -(G eps/2) phi'(rho(z)) P(z),  P(z) = Int dOmega C(z,n) C(z,-n)",
+       "field_equation": "no local PDE: Phi is the functional derivative of a nonlocal scalar functional; test bodies and photons follow -grad Phi",
+       "carrier": "matter on the connecting segment, through -grad Phi_3 (three-body term); Sum F = 0 by translation invariance",
+       "universal_constants": {
+        "shared_with_base": [
+         "G"
+        ],
+        "new": [
+         "eps",
+         "rho_*"
+        ],
+        "n_new": 2,
+        "no_new_scale_variant": "rho_* = rho_mean"
+       },
+       "model_class": "static_scalar_potential (nonlocal in rho, local in the test body): in the compiler's Gate 4 scope, as its symmetric-nonlocal control XC5 is",
+       "fiducial": {
+        "eps": 0.3,
+        "rho_star": 1e-24,
+        "rho_mean": 2.8992599999999997e-27
+       }
+      },
+      "P_convergence": {
+       "P_by_n_dir": {
+        "2000": 1.6326790541748538e-05,
+        "5000": 1.6370290556345857e-05,
+        "10000": 1.6376586883939714e-05,
+        "20000": 1.6378164268395257e-05,
+        "40000": 1.637855882194313e-05
+       },
+       "rel_err_at_20000": 2.408963768809037e-05,
+       "rel_err_at_5000": 0.0005048225358019196
+      }
+     }
+    },
+    "propagation": {
+     "statement": "Path-dependent (the straight segment between the two points), instantaneous weak-field response: the functional is static. Not retarded, not history-dependent. Finite propagation would need a relativistic completion the static action does not supply (assumption, flagged).",
+     "evidence": {
+      "locality": "path_dependent"
+     }
+    },
+    "matter_coupling": {
+     "statement": "a = -grad Phi, universal. Measured on the compiler's own probe caricatures at the fiducial (eps = 0.3, rho_* = 1e-24): (i) ENDPOINT TERM: for eps > 0 the force is WEAKER in the shell where the vacuum fraction rises with radius (the extra binding grows outward, so the force falls) and tends to G(1+eps) beyond: isolated galaxy g/g_N = 0.859 at its minimum near 28 kpc, 0.864 at 30 kpc; cluster 0.945 at 300 kpc, 0.892 at 1 Mpc, 1.171 at 2.8 Mpc -- the WRONG sign for the cluster excess inside 1.2 Mpc for eps > 0; (ii) CARRIER TERM: any dense body embedded in a medium near rho_* sits in a Phi_3 trough. A cluster member galaxy has its internal gravity multiplied by 7.56 at 20 kpc and 2.72 at 30 kpc, and the net force turns OUTWARD beyond ~38 kpc: at this amplitude the family fails the member-galaxy regularity that the tensor lane already identified as the binding constraint on anything that switches on inside cluster galaxies (everything is linear in eps, so eps <~ 0.003 keeps this at the 2% level); (iii) MEMBER-MEMBER PAIRS: the mass-weighted vacuum fraction of member-member segments is 0.333 against 0.347 +- 0.0036 under angle scrambles at fixed radii and masses -- the member-locked response is at the 0.11% level of the pair force: connectivity lives in the GAS columns and in the bridges, not in member positions; (iv) PAIR FORCE vs an intervening filament: log-slope 0.87 in the far endpoint mass (Newtonian filament pull: -0.00) and 0.87 -> 0.08 in the filament density, saturating (Newtonian: 1.00, never saturating).",
+     "evidence": {
+      "force_factor_tables": {
+       "galaxy_field": {
+        "r_m": [
+         1.5428387907456834e+20,
+         1.71886383183863e+20,
+         1.9149718623389162e+20,
+         2.1334541838763016e+20,
+         2.3768635164905305e+20,
+         2.6480438242920753e+20,
+         2.9501635439820748e+20,
+         3.286752604469319e+20,
+         3.661743670116849e+20,
+         4.079518089499083e+20,
+         4.54495708652899e+20,
+         5.063498792066021e+20,
+         5.64120178235494e+20,
+         6.284815866670771e+20,
+         7.00186095124351e+20,
+         7.800714900899563e+20,
+         8.690711424983309e+20,
+         9.68224913124637e+20,
+         1.0786913021876243e+21,
+         1.2017609851208702e+21,
+         1.338871892662651e+21,
+         1.4916260114583236e+21,
+         1.6618081014713454e+21,
+         1.8514065488948206e+21
+        ],
+        "factor": [
+         1.0000456684509527,
+         1.0000682935704739,
+         1.0001295537016945,
+         1.0002313236558493,
+         1.0003967830718796,
+         1.0006569699250112,
+         1.001042248155533,
+         1.0015465786584963,
+         1.0020201045564268,
+         1.0019024962442287,
+         0.9996935223189508,
+         0.9922994302431624,
+         0.9752462179868853,
+         0.9456008395260264,
+         0.9074665554280876,
+         0.8738838401631033,
+         0.8591095306015044,
+         0.8681586196162309,
+         0.8959109281957608,
+         0.9270636320520607,
+         0.9561754646508714,
+         0.9916731031898293,
+         1.027299288172806,
+         1.0437520779837093
+        ],
+        "factor_direct_only": [
+         0.9995708733924455,
+         0.9994852751089922,
+         0.9992674623426613,
+         0.9989344450286868,
+         0.9984189477450747,
+         0.9976129413579276,
+         0.9963436764583412,
+         0.9943388438892609,
+         0.9911828967762787,
+         0.9862805144396894,
+         0.9788763370002624,
+         0.9682367162206935,
+         0.9541332118569563,
+         0.937619881657674,
+         0.9216196513124697,
+         0.9104274025314444,
+         0.9078889427809662,
+         0.9155303691376601,
+         0.9321899710939646,
+         0.9551341323837326,
+         0.9814378889526391,
+         1.0087790666689676,
+         1.0356180527368708,
+         1.049449140122101
+        ],
+        "factor_carrier_only": [
+         1.000474795058507,
+         1.0005830184614817,
+         1.0008620913590331,
+         1.0012968786271625,
+         1.001977835326805,
+         1.0030440285670836,
+         1.004698571697192,
+         1.0072077347692354,
+         1.0108372077801482,
+         1.015621981804539,
+         1.0208171853186883,
+         1.0240627140224687,
+         1.021113006129929,
+         1.0079809578683523,
+         0.9858469041156179,
+         0.9634564376316589,
+         0.9512205878205382,
+         0.9526282504785708,
+         0.9637209571017962,
+         0.971929499668328,
+         0.9747375756982324,
+         0.9828940365208618,
+         0.9916812354359354,
+         0.9943029378616082
+        ],
+        "gN": [
+         -1.7347936030370603e-10,
+         -1.5303502529982339e-10,
+         -1.3189371293769961e-10,
+         -1.1245803860459734e-10,
+         -9.499345316632229e-11,
+         -7.959822933336893e-11,
+         -6.624332421914734e-11,
+         -5.481223489183416e-11,
+         -4.5135702908592535e-11,
+         -3.7019028614724345e-11,
+         -3.026178303588894e-11,
+         -2.4670843024822636e-11,
+         -2.0068133375682903e-11,
+         -1.629449145204372e-11,
+         -1.3210884811790055e-11,
+         -1.0697950757862914e-11,
+         -8.654567919739711e-12,
+         -6.995950022802308e-12,
+         -5.651581283690493e-12,
+         -4.563188575781768e-12,
+         -3.682859549342124e-12,
+         -2.9713591585090954e-12,
+         -2.3966613870328905e-12,
+         -2.0362105265527656e-12
+        ],
+        "quadrature_check_max_rel_err": 0.0014310233580965153,
+        "eps": 0.3,
+        "rho_star": 1e-24
+       },
+       "cluster_shell": {
+        "r_m": [
+         4.6285163722370507e+21,
+         5.258882444146095e+21,
+         5.975099219100669e+21,
+         6.788858860657452e+21,
+         7.713445909416132e+21,
+         8.76395415174769e+21,
+         9.957533024270613e+21,
+         1.1313667576600256e+22,
+         1.285449656273591e+22,
+         1.4605173853892261e+22,
+         1.6594279072802206e+22,
+         1.8854284153054275e+22,
+         2.142208343999373e+22,
+         2.433959598703287e+22,
+         2.7654449879789813e+22,
+         3.142075975958064e+22,
+         3.570001023924826e+22,
+         4.056205963300489e+22,
+         4.608628038606702e+22,
+         5.236285482147798e+22,
+         5.949424735705369e+22,
+         6.759687722622824e+22,
+         7.68030190098046e+22,
+         8.726296200457587e+22
+        ],
+        "factor": [
+         0.8622614230127907,
+         0.8633650883845454,
+         0.8744763738148921,
+         0.8967892638615098,
+         0.9200930397824889,
+         0.939434030202928,
+         0.9527667262168809,
+         0.9599075340687729,
+         0.9615201662131937,
+         0.957825449403618,
+         0.9494170204077638,
+         0.9367323938865163,
+         0.9206112754292872,
+         0.9041821214618462,
+         0.8922762077657933,
+         0.8916202822365631,
+         0.9082085718268094,
+         0.9423956725226954,
+         0.9889972173731431,
+         1.0395759523291555,
+         1.0864513283318986,
+         1.1260850714158803,
+         1.1577815660679271,
+         1.1721823275670886
+        ],
+        "factor_direct_only": [
+         0.957584922706163,
+         0.9608111890724852,
+         0.9662762847756122,
+         0.9694347084552765,
+         0.9703266749880852,
+         0.9696149699639315,
+         0.9677722460475697,
+         0.9653812281940212,
+         0.9631191388947798,
+         0.9610993369607395,
+         0.9599594463268154,
+         0.9602336999127797,
+         0.9623915126603954,
+         0.967819994294922,
+         0.9774077515410711,
+         0.9920664601990482,
+         1.0124857926158701,
+         1.0375705743081434,
+         1.0657821721122218,
+         1.0950306925940398,
+         1.1229572781702326,
+         1.1484370418710619,
+         1.1707553733421647,
+         1.1814288504496278
+        ],
+        "factor_carrier_only": [
+         0.9046765003066277,
+         0.9025538993120602,
+         0.9082000890392798,
+         0.9273545554062333,
+         0.9497663647944037,
+         0.9698190602389967,
+         0.9849944801693111,
+         0.9945263058747517,
+         0.9984010273184138,
+         0.9967261124428787,
+         0.9894575740809484,
+         0.9764986939737367,
+         0.9582197627688919,
+         0.9363621271669242,
+         0.9148684562247222,
+         0.8995538220375149,
+         0.8957227792109392,
+         0.904825098214552,
+         0.9232150452609211,
+         0.9445452597351156,
+         0.9634940501616659,
+         0.9776480295448184,
+         0.9870261927257624,
+         0.9907534771174609
+        ],
+        "gN": [
+         -2.3283084310170948e-11,
+         -2.0379020736203494e-11,
+         -1.7985121819131307e-11,
+         -1.6332134059977258e-11,
+         -1.5263197217776562e-11,
+         -1.464449061854415e-11,
+         -1.4358148504639504e-11,
+         -1.4296418882055477e-11,
+         -1.4357705280566772e-11,
+         -1.444519795221856e-11,
+         -1.4468671221808394e-11,
+         -1.4349503292220929e-11,
+         -1.4028002807032151e-11,
+         -1.3470953712573521e-11,
+         -1.2676526950995819e-11,
+         -1.1674042292311455e-11,
+         -1.0517702082112461e-11,
+         -9.275705767093301e-12,
+         -8.017873704985063e-12,
+         -6.8051484477533785e-12,
+         -5.683150280331706e-12,
+         -4.6802004800855376e-12,
+         -3.808835127288273e-12,
+         -3.2116553691979086e-12
+        ],
+        "quadrature_check_max_rel_err": 0.0013921017386817139,
+        "eps": 0.3,
+        "rho_star": 1e-24
+       },
+       "galaxy_member": {
+        "r_m": [
+         1.5428387907456795e+20,
+         1.71886383183863e+20,
+         1.9149718623389162e+20,
+         2.1334541838763016e+20,
+         2.3768635164905305e+20,
+         2.6480438242920753e+20,
+         2.9501635439820748e+20,
+         3.286752604469319e+20,
+         3.661743670116849e+20,
+         4.079518089499083e+20,
+         4.54495708652899e+20,
+         5.063498792066021e+20,
+         5.64120178235494e+20,
+         6.284815866670771e+20,
+         7.00186095124351e+20,
+         7.800714900899563e+20,
+         8.690711424983309e+20,
+         9.68224913124637e+20,
+         1.0786913021876243e+21,
+         1.2017609851208702e+21,
+         1.338871892662651e+21,
+         1.4916260114583236e+21,
+         1.6618081014713454e+21,
+         1.8514065488948235e+21
+        ],
+        "factor": [
+         1.001162767453575,
+         1.0017791282268393,
+         1.0037730582905244,
+         1.0082541712764448,
+         1.0185464415100676,
+         1.0425181634990386,
+         1.098506640831301,
+         1.2275044176872345,
+         1.5136327150437463,
+         2.1031825563862716,
+         3.176024327793079,
+         4.785037789377614,
+         6.5813422016239285,
+         7.764368909975091,
+         7.60349359675176,
+         6.094685731452731,
+         3.9276287385858355,
+         1.867523990078368,
+         0.3214154216451208,
+         -0.6554572936234369,
+         -1.1778997790147914,
+         -1.3920145251406781,
+         -1.415371818764299,
+         -1.3886852477751517
+        ],
+        "factor_direct_only": [
+         0.9995858878685661,
+         0.9995030326110567,
+         0.999292369885203,
+         0.9989710827610481,
+         0.9984762531252843,
+         0.9977096484845481,
+         0.9965213996195776,
+         0.9946934726213059,
+         0.9919374650558779,
+         0.9879415392044243,
+         0.9825217045273675,
+         0.9759070245158565,
+         0.9690409697935326,
+         0.9635676540950074,
+         0.9612479737341351,
+         0.9631105401132234,
+         0.969034428383505,
+         0.9780334102115016,
+         0.988849125962052,
+         1.0003897223203746,
+         1.011888530490732,
+         1.022883308220589,
+         1.0331344185020992,
+         1.0383064696624376
+        ],
+        "factor_carrier_only": [
+         1.0015768795850089,
+         1.0022760956157826,
+         1.0044806884053215,
+         1.0092830885153967,
+         1.0200701883847831,
+         1.0448085150144903,
+         1.1019852412117233,
+         1.2328109450659286,
+         1.5216952499878686,
+         2.1152410171818476,
+         3.193502623265711,
+         4.809130764861758,
+         6.612301231830395,
+         7.800801255880084,
+         7.642245623017625,
+         6.1315751913395085,
+         3.9585943102023307,
+         1.8894905798668664,
+         0.33256629568306884,
+         -0.6558470159438117,
+         -1.189788309505523,
+         -1.414897833361267,
+         -1.4485062372663986,
+         -1.426991717437589
+        ],
+        "gN": [
+         -1.7347936030370877e-10,
+         -1.5303502529982233e-10,
+         -1.3189371293769594e-10,
+         -1.124580386045972e-10,
+         -9.499345316632486e-11,
+         -7.959822933336916e-11,
+         -6.624332421914672e-11,
+         -5.481223489183397e-11,
+         -4.513570290859233e-11,
+         -3.7019028614724345e-11,
+         -3.026178303588889e-11,
+         -2.4670843024822862e-11,
+         -2.006813337568289e-11,
+         -1.6294491452043685e-11,
+         -1.3210884811790098e-11,
+         -1.0697950757862855e-11,
+         -8.654567919739732e-12,
+         -6.995950022802335e-12,
+         -5.651581283690507e-12,
+         -4.5631885757817774e-12,
+         -3.682859549342124e-12,
+         -2.971359158509093e-12,
+         -2.3966613870329067e-12,
+         -2.0362105265527814e-12
+        ],
+        "quadrature_check_max_rel_err": 0.0014310233580966509,
+        "eps": 0.3,
+        "rho_star": 1e-24
+       }
+      },
+      "momentum": {
+       "n_bodies": 5,
+       "eps": 0.3,
+       "rho_star": 1e-24,
+       "sum_total_over_mean": 3.0110313478457372e-09,
+       "sum_two_body_over_mean": 0.029585386249627043,
+       "sum_carrier_over_mean": 0.029585384611686503,
+       "carrier_closes_budget": 3.0110312476214815e-09,
+       "carrier_fraction_per_body": [
+        0.002363954272943181,
+        0.24015405421067457,
+        0.006164353225216957,
+        0.014275809153299847,
+        0.11215563079680334
+       ],
+       "statement": "the total forces sum to zero (translation invariance of E); the endpoint (two-body) forces alone do not; the difference is carried by the matter on the segments through -grad Phi_3 -- the declared carrier, verified"
+      },
+      "scramble": {
+       "n_members": 120,
+       "n_scrambles": 8,
+       "eps": 0.3,
+       "rho_star": 1e-24,
+       "actual": {
+        "v_member_member": 0.33270933651897866,
+        "v_member_core": 0.2558627482381191
+       },
+       "scrambled": {
+        "v_member_member_mean": 0.347413813248284,
+        "v_member_member_sd": 0.0036132359211728774,
+        "v_member_core_mean": 0.2559288509667683,
+        "v_member_core_sd": 0.00027166490838204425
+       },
+       "pair_force_modulation_range_member_member": {
+        "min": 1.1025386431898871,
+        "max": 1.105432051330052
+       },
+       "statement": "under an angle scramble at fixed radii and masses, the member-member vacuum fraction moves while every radial profile is fixed: the pair forces respond to connectivity after radial matching. A Newtonian or CDM member force depends on the pair separation only."
+      },
+      "connectivity": {
+       "eps": 0.3,
+       "rho_star": 1e-24,
+       "M_A": 300000000000000.0,
+       "D_kpc": 4000.0,
+       "R_f_kpc": 300.0,
+       "v_axis_no_filament": 0.5430001500551103,
+       "vs_filament_density": [
+        {
+         "rho_f_over_rho_star": 0.1,
+         "v_axis": 0.5032220487104725,
+         "dF_path_over_F_N": -0.01193343040339133,
+         "F_fil_over_F_N": 0.04950087970187283
+        },
+        {
+         "rho_f_over_rho_star": 0.3,
+         "v_axis": 0.43980166378128704,
+         "dF_path_over_F_N": -0.030959545882146965,
+         "F_fil_over_F_N": 0.14850263910561848
+        },
+        {
+         "rho_f_over_rho_star": 1.0,
+         "v_axis": 0.30856877762235746,
+         "dF_path_over_F_N": -0.07032941172982583,
+         "F_fil_over_F_N": 0.4950087970187283
+        },
+        {
+         "rho_f_over_rho_star": 3.0,
+         "v_axis": 0.17170567293804337,
+         "dF_path_over_F_N": -0.11138834313512005,
+         "F_fil_over_F_N": 1.485026391056185
+        },
+        {
+         "rho_f_over_rho_star": 10.0,
+         "v_axis": 0.07194275146127918,
+         "dF_path_over_F_N": -0.14131721957814933,
+         "F_fil_over_F_N": 4.950087970187283
+        },
+        {
+         "rho_f_over_rho_star": 30.0,
+         "v_axis": 0.030518626050135007,
+         "dF_path_over_F_N": -0.15374445720149257,
+         "F_fil_over_F_N": 14.85026391056185
+        }
+       ],
+       "vs_endpoint_mass": [
+        {
+         "M_B_over_M_A": 0.25,
+         "dF_path_N": -3.1733600834123484e+31,
+         "F_fil_N": 7.720673475121982e+32
+        },
+        {
+         "M_B_over_M_A": 0.5,
+         "dF_path_N": -5.942657793867338e+31,
+         "F_fil_N": 7.720673475121982e+32
+        },
+        {
+         "M_B_over_M_A": 1.0,
+         "dF_path_N": -1.0969308564487096e+32,
+         "F_fil_N": 7.720673475121982e+32
+        },
+        {
+         "M_B_over_M_A": 2.0,
+         "dF_path_N": -1.9895184417228147e+32,
+         "F_fil_N": 7.720673475121982e+32
+        },
+        {
+         "M_B_over_M_A": 4.0,
+         "dF_path_N": -3.527264749767279e+32,
+         "F_fil_N": 7.720673475121982e+32
+        }
+       ],
+       "log_slopes": {
+        "path_vs_rho_f_low": 0.867765317655919,
+        "path_vs_rho_f_high": 0.07671924712564623,
+        "newton_vs_rho_f": 1.0,
+        "path_vs_M_B": 0.8692172513738201,
+        "newton_vs_M_B": -6.483279404163334e-15
+       },
+       "sign": "dF_path < 0 for eps > 0: a filament WEAKENS the pair force (the segment is less empty); the Newtonian pull of the same filament is attractive and independent of M_B",
+       "statement": "the path response is linear in the FAR endpoint mass and SATURATES in the filament density; the Newtonian response of the same filament is independent of the far endpoint and linear in the density with no saturation. The joint scaling (slope 1 in M_B, saturating in rho_f) is the connectivity signature; no added collisionless mass has it."
+      },
+      "file": "path_results.json"
+     }
+    },
+    "photon_coupling": {
+     "statement": "Photons see the same Phi = Phi_dir + Phi_3 (common geometry, no slip). Between two mass concentrations Phi_3 is a ridge along the segment: for eps > 0 a potential HILL of 1.21e+06 (km/s)^2 at the midpoint of two 3e+14 Msun clusters 4 Mpc apart at the fiducial (linear in eps), whose effective density is negative on the axis (-8.7e-23 kg/m^3) and positive around it; its projected effective surface density is a COMPENSATED profile, -0.49 kg/m^2 on the axis and +0.16 kg/m^2 in the wings, and its volume integral vanishes (net/|net| = 0.035 within the computed box, zero in the infinite volume by Gauss). The amplitude scales as M_A M_B (measured 2.001, 4.000 against 2, 4) and as -phi'(rho_bridge). No frequency or polarization dependence; a photon's deflection depends on its path only through where P is non-zero along it.",
+     "evidence": {
+      "bridge": {
+       "eps": 0.3,
+       "rho_star": 1e-24,
+       "M_A": 300000000000000.0,
+       "M_B": 300000000000000.0,
+       "a_kpc": 400.0,
+       "D_kpc": 4000.0,
+       "phi3_midpoint_m2s2": 1208867732306.8833,
+       "phi3_midpoint_kms2": 1208867.7323068832,
+       "rho_at_midpoint": 4.3955677306844353e-26,
+       "rho_eff_on_axis_midpoint": -8.654698832984934e-23,
+       "rho_eff_sign_on_axis": "-",
+       "net_effective_mass_over_abs": 0.03495383935870844,
+       "net_effective_mass_Msun": 12235901908096.021,
+       "abs_effective_mass_Msun": 350058881444380.0,
+       "projected_profile": {
+        "y_kpc": [
+         0.0,
+         68.75,
+         137.5,
+         206.25,
+         275.0,
+         343.75,
+         412.5,
+         481.25,
+         550.0,
+         618.75,
+         687.5,
+         756.25,
+         825.0,
+         893.75,
+         962.5,
+         1031.25
+        ],
+        "Sigma_eff_kg_m2": [
+         -0.4945287363173717,
+         -0.36022468521249384,
+         -0.19123671685460483,
+         0.014994451698113372,
+         0.130365637529643,
+         0.15963670052686935,
+         0.14233948780327826,
+         0.1108573405773939,
+         0.08100328613168167,
+         0.05758853951069859,
+         0.04064227826237698,
+         0.028789809385193727,
+         0.02059777937971019,
+         0.014928767878384005,
+         0.010974793862853749,
+         0.00818484040216
+        ],
+        "core_sign": "-",
+        "wing_sign": "+"
+       },
+       "P_midpoint_scaling": {
+        "P": {
+         "eq": 0.13160289555921026,
+         "two_one": 0.2633257231981778,
+         "two_two": 0.526411582236841
+        },
+        "ratio_two_one_over_eq": 2.0009113179405946,
+        "ratio_two_two_over_eq": 4.0,
+        "expected": [
+         2.0,
+         4.0
+        ]
+       },
+       "statement": "Phi_3 is a ridge along the segment; for eps > 0 it is a potential HILL (repulsive), its effective density is negative on the axis and positive around it, and its volume integral vanishes: a compensated bridge, scaling as M_A M_B. No rho_DM >= 0 reproduces it."
+      },
+      "file": "path_results.json"
+     }
+    },
+    "known_limits": {
+     "statement": "SOLAR SYSTEM, LABORATORY, PULSARS, WIDE BINARIES: exact Newtonian limit, not by absorbing a constant into G -- the interplanetary and interstellar media (~1e-21 to 1e-20 kg/m^3) are DENSER than rho_* for any rho_* below ~1e-22, so v = 0 on every such segment, and P at a planet is ~1e-13 kg^2/m^4, giving Phi_3 ~ 1e-8 m^2/s^2. GALAXY REGULARITIES: in-plane disk segments run through gas denser than rho_* (v ~ 0); the modification appears where the density falls below rho_* (~25 kpc for the caricature galaxy), as a 14% weakening of the force at the fiducial amplitude, then G(1+eps) beyond. The binding limit is the CLUSTER MEMBER: x7.6 at 20 kpc at eps = 0.3, which bounds eps/rho_* by member internal dynamics -- data in the confirmation reserve, not opened. WAVE PROPAGATION: the static functional says nothing about the tensor-wave sector; GW speed = c is an assumption on the completion (flagged).",
+     "evidence": {
+      "galaxy_factor_min": 0.8591095306015044,
+      "member_factor_20kpc": 7.564881622735902,
+      "rho_mean_variant_max_deviation": 0.060135732643873174,
+      "file": "path_results.json"
+     }
+    },
+    "counterfactual_signature": {
+     "statement": "Rotate an external axis: nothing (no axis). Move the baryons holding a halo: the response follows the NEW segments' columns instantly (v, P re-evaluated). Move a halo holding baryons: nothing. Scramble members preserving every radial profile: the member-member vacuum fraction moves by 0.0036 (1 sd), i.e. the pair forces by 0.11% at eps = 0.3 -- tiny, and the sign of the change is that of the change in blocked path length. Change history preserving present matter: nothing. Change the photon path preserving endpoints: a path through the bridge between two concentrations crosses a compensated feature (dO/dB: negative core convergence for eps > 0), a path of equal length avoiding it sees none. Insert a filament between two concentrations at fixed endpoints: the pair force WEAKENS for eps > 0 (dF/F = -0.070 at rho_f = rho_*), with slope ~1 in the far endpoint mass and saturating in the filament density; the same filament's own Newtonian pull is independent of the far endpoint and linear in the density. Embed a dense body in a medium near rho_*: it is confined (eps > 0) or expelled (eps < 0), with the trough depth ~ (G eps/2 rho_*) P_medium.",
+     "evidence": {
+      "connectivity_rows": [
+       {
+        "rho_f_over_rho_star": 0.1,
+        "v_axis": 0.5032220487104725,
+        "dF_path_over_F_N": -0.01193343040339133,
+        "F_fil_over_F_N": 0.04950087970187283
+       },
+       {
+        "rho_f_over_rho_star": 0.3,
+        "v_axis": 0.43980166378128704,
+        "dF_path_over_F_N": -0.030959545882146965,
+        "F_fil_over_F_N": 0.14850263910561848
+       },
+       {
+        "rho_f_over_rho_star": 1.0,
+        "v_axis": 0.30856877762235746,
+        "dF_path_over_F_N": -0.07032941172982583,
+        "F_fil_over_F_N": 0.4950087970187283
+       },
+       {
+        "rho_f_over_rho_star": 3.0,
+        "v_axis": 0.17170567293804337,
+        "dF_path_over_F_N": -0.11138834313512005,
+        "F_fil_over_F_N": 1.485026391056185
+       },
+       {
+        "rho_f_over_rho_star": 10.0,
+        "v_axis": 0.07194275146127918,
+        "dF_path_over_F_N": -0.14131721957814933,
+        "F_fil_over_F_N": 4.950087970187283
+       },
+       {
+        "rho_f_over_rho_star": 30.0,
+        "v_axis": 0.030518626050135007,
+        "dF_path_over_F_N": -0.15374445720149257,
+        "F_fil_over_F_N": 14.85026391056185
+       }
+      ],
+      "scramble": {
+       "n_members": 120,
+       "n_scrambles": 8,
+       "eps": 0.3,
+       "rho_star": 1e-24,
+       "actual": {
+        "v_member_member": 0.33270933651897866,
+        "v_member_core": 0.2558627482381191
+       },
+       "scrambled": {
+        "v_member_member_mean": 0.347413813248284,
+        "v_member_member_sd": 0.0036132359211728774,
+        "v_member_core_mean": 0.2559288509667683,
+        "v_member_core_sd": 0.00027166490838204425
+       },
+       "pair_force_modulation_range_member_member": {
+        "min": 1.1025386431898871,
+        "max": 1.105432051330052
+       },
+       "statement": "under an angle scramble at fixed radii and masses, the member-member vacuum fraction moves while every radial profile is fixed: the pair forces respond to connectivity after radial matching. A Newtonian or CDM member force depends on the pair separation only."
+      },
+      "file": "path_results.json"
+     }
+    },
+    "unique_falsifier": {
+     "statement": "The bridge between pairs of mass concentrations, after the endpoints' own profiles are subtracted, must show a COMPENSATED feature -- zero net mass, negative core for eps > 0 -- in BOTH stacked convergence and the dynamics of bodies on the segment, with amplitude scaling as M_A M_B (slope 1 in each endpoint mass at fixed separation) and depending on the bridge's own baryonic column with the universal shape -phi'. A bridge with net positive mass; or a bridge signal that scales with the filament's own mass rather than with M_A M_B; or one that survives when one endpoint mass -> 0; or a cluster member whose internal dynamics show no trough at an amplitude where the bridge does -- each kills the law. Positivity of collisionless density (rho_DM >= 0) cannot produce a compensated feature, so no halo nuisance repairs it. NOT a falsifier: a monopole change of cluster gravity, or the smooth-gas part of the response, which is radial (BJ.1).",
+     "evidence": {
+      "bridge_core_sign": "-",
+      "bridge_wing_sign": "+",
+      "net_over_abs": 0.03495383935870844
+     }
+    },
+    "cdm_distinction": {
+     "statement": "CDM's bridge is real mass: rho_DM >= 0, net positive convergence, set by the local density field and only statistically tied to the endpoints; CDM member forces depend on the pair separation and on the local dark-plus-baryonic mass, never on what lies on the segment beyond that mass's own pull. The path law's JOINT response -- (i) a compensated, zero-net-mass bridge with a sign fixed by eps; (ii) amplitude proportional to M_A M_B times -phi'(rho_bridge); (iii) pair forces that respond to an intervening filament with slope 1 in the FAR endpoint mass and saturation in the filament density; (iv) one functional tying the bridge's lensing to the acceleration of bodies on it -- cannot be reproduced by any rho_DM >= 0: (i) is a positivity obstruction, not a fine-tuning; (ii)-(iv) would require the dark matter between every pair to be arranged in proportion to the product of the endpoint masses and to saturate with the gas density. The smooth-gas (radial) part of the response and any monopole rescaling of cluster gravity carry NO distinguishing power and are excluded from the claim.",
+     "evidence": {
+      "P_scaling": {
+       "P": {
+        "eq": 0.13160289555921026,
+        "two_one": 0.2633257231981778,
+        "two_two": 0.526411582236841
+       },
+       "ratio_two_one_over_eq": 2.0009113179405946,
+       "ratio_two_two_over_eq": 4.0,
+       "expected": [
+        2.0,
+        4.0
+       ]
+      },
+      "connectivity_slopes": {
+       "path_vs_rho_f_low": 0.867765317655919,
+       "path_vs_rho_f_high": 0.07671924712564623,
+       "newton_vs_rho_f": 1.0,
+       "path_vs_M_B": 0.8692172513738201,
+       "newton_vs_M_B": -6.483279404163334e-15
+      }
+     }
+    }
+   },
+   "baryonic_closure": {
+    "predicts_baryonic_closure": true,
+    "mean": "given the complete baryonic scene INCLUDING the columns along every pair segment (they are part of B), gravity is fixed up to (G, eps, rho_*): P(G | B) has zero intrinsic width",
+    "scatter": "with only endpoint baryons known, the residual is a deterministic, monotone, saturating function of the measured intervening column with the universal shape -phi'; the predicted scatter therefore has a measurable third variable and a universal shape, and NO component that looks like a halo's shape/orientation distribution",
+    "cdm_contrast": "a halo population's residual correlates with the intervening DARK mass, which is only statistically related to the baryonic column, has no saturation, and has no compensated component"
+   },
+   "action": {
+    "functional": "S_P = -(1/2) Int Int rho(x) W(x,y) rho(y),  W = -(G/|x-y|)[1 + eps v(x,y)],  v = (1/|x-y|) Int_seg phi(rho) dl,  phi(rho) = 1/(1 + rho/rho_*)",
+    "potential": "Phi = delta E/delta rho = Phi_dir + Phi_3,  Phi_3(z) = -(G eps/2) phi'(rho(z)) P(z),  P(z) = Int dOmega C(z,n) C(z,-n)",
+    "field_equation": "no local PDE: Phi is the functional derivative of a nonlocal scalar functional; test bodies and photons follow -grad Phi",
+    "carrier": "matter on the connecting segment, through -grad Phi_3 (three-body term); Sum F = 0 by translation invariance",
+    "universal_constants": {
+     "shared_with_base": [
+      "G"
+     ],
+     "new": [
+      "eps",
+      "rho_*"
+     ],
+     "n_new": 2,
+     "no_new_scale_variant": "rho_* = rho_mean"
+    },
+    "model_class": "static_scalar_potential (nonlocal in rho, local in the test body): in the compiler's Gate 4 scope, as its symmetric-nonlocal control XC5 is",
+    "fiducial": {
+     "eps": 0.3,
+     "rho_star": 1e-24,
+     "rho_mean": 2.8992599999999997e-27
+    }
+   },
+   "axis_values": {
+    "source": "rest_mass (endpoints and path state)",
+    "field_type": "scalar (nonlocal functional)",
+    "locality": "path_dependent",
+    "superposition": "nonlinear",
+    "directionality": "isotropic",
+    "axis_origin": "none",
+    "propagation": "instantaneous_weak_field",
+    "geometry": "force_in_fixed_space (weak field)",
+    "eff_dimension": "three_d",
+    "matter_light": "universal",
+    "equivalence": "exact",
+    "conservation": "exact_reciprocal, carrier = matter on the segment (exchange_with_field in the q-carrier variant)",
+    "cosmology": "expanding_geometry (assumed standard)",
+    "vacuum": "polarizable (transmits differently from matter)",
+    "initial_conditions": "standard_primordial"
+   },
+   "derived_not_assumed": [
+    "the carrier term collapses to Phi_3 = -(G eps/2) phi'(rho) P with P = Int dOmega C(z,n) C(z,-n): the three-body potential is an algebraic function of the local density and the product of opposite half-columns",
+    "momentum: total forces sum to 3.0e-09 of the mean force, endpoint forces alone to 0.030, and the carrier closes the budget to 3.0e-09",
+    "the bridge is compensated (zero net effective mass) and scales as M_A M_B -- a positivity obstruction against any collisionless halo",
+    "the endpoint term WEAKENS the force where the vacuum fraction rises with radius even though it deepens the potential (same structure as the tensor family's 'deeper potential, weaker force')",
+    "a density-gated state is required: gating the path state on |g_N| instead gives q = 1 at every symmetric centre, a 1/r phantom cusp and a finite repulsive acceleration at the centre of every galaxy (derived analytically before the density gate was adopted)",
+    "the member-locked (angle-scramble) response is at the 0.1% level; the connectivity content is in gas columns and bridges"
+   ],
+   "compiler": {
+    "P_path_kernel_fid": {
+     "verdict": "ADMIT",
+     "primary_bin": "admissible",
+     "failed": [],
+     "labels": [],
+     "flags": [
+      "momentum carrier declared but not verified"
+     ],
+     "gate1_escapes": [
+      "a_spatial_variation",
+      "c_probe_disagreement"
+     ],
+     "gate1_max_resid_dex": 0.29541689636530183,
+     "reciprocity": 0.0,
+     "jacobian_asymmetry": 3.104709959286661e-18
+    },
+    "P_path_kernel_eps0.03": {
+     "verdict": "ADMIT",
+     "primary_bin": "admissible",
+     "failed": [],
+     "labels": [],
+     "flags": [
+      "momentum carrier declared but not verified"
+     ],
+     "gate1_escapes": [
+      "a_spatial_variation",
+      "c_probe_disagreement"
+     ],
+     "gate1_max_resid_dex": 0.07909516806621332,
+     "reciprocity": 0.0,
+     "jacobian_asymmetry": 0.0
+    },
+    "P_path_kernel_eps0.003": {
+     "verdict": "REJECT",
+     "primary_bin": "non_identifiable_on_this_bench",
+     "failed": [
+      "gate1_constant_K"
+     ],
+     "labels": [],
+     "flags": [
+      "momentum carrier declared but not verified"
+     ],
+     "gate1_escapes": [],
+     "gate1_max_resid_dex": 0.010060988087671975,
+     "reciprocity": 0.0,
+     "jacobian_asymmetry": 0.0
+    },
+    "P_path_kernel_fid_no_carrier_declared": {
+     "verdict": "ADMIT",
+     "primary_bin": "admissible",
+     "failed": [],
+     "labels": [],
+     "flags": [],
+     "gate1_escapes": [
+      "a_spatial_variation",
+      "c_probe_disagreement"
+     ],
+     "gate1_max_resid_dex": 0.29541689636530183,
+     "reciprocity": 0.0,
+     "jacobian_asymmetry": 3.104709959286661e-18
+    },
+    "P_path_kernel_rho_mean": {
+     "verdict": "REJECT",
+     "primary_bin": "non_identifiable_on_this_bench",
+     "failed": [
+      "gate1_constant_K"
+     ],
+     "labels": [],
+     "flags": [
+      "momentum carrier declared but not verified"
+     ],
+     "gate1_escapes": [],
+     "gate1_max_resid_dex": 0.009293388514702083,
+     "reciprocity": 0.0,
+     "jacobian_asymmetry": 1.4318630703134513e-18
+    },
+    "P_path_kernel_field_carrier": {
+     "verdict": "OUTSIDE-CLASS",
+     "primary_bin": "outside_declared_model_class",
+     "failed": [],
+     "labels": [
+      "action-based but OUTSIDE the scalar-potential class"
+     ],
+     "flags": [
+      "momentum carrier declared but not verified"
+     ],
+     "gate1_escapes": [
+      "a_spatial_variation",
+      "c_probe_disagreement"
+     ],
+     "gate1_max_resid_dex": 0.29541689636530183,
+     "reciprocity": null,
+     "jacobian_asymmetry": NaN
+    },
+    "grammar_XC5_symmetric_nonlocal_action": {
+     "verdict": "ADMIT",
+     "primary_bin": "admissible",
+     "failed": [],
+     "labels": [],
+     "flags": [],
+     "gate1_escapes": [
+      "a_spatial_variation",
+      "c_probe_disagreement"
+     ],
+     "gate1_max_resid_dex": 0.05180550370617944,
+     "reciprocity": 0.0,
+     "jacobian_asymmetry": 0.0
+    }
+   },
+   "honest_gaps": [
+    {
+     "field": "source",
+     "assumption": "rho_* is a universal constant whose VALUE is not derived; the fiducial 1e-24 kg/m^3 was chosen so the compiler's galaxy and cluster probes straddle it (bench identifiability), not from data; the no-new-scale variant rho_* = rho_mean is compiled beside it"
+    },
+    {
+     "field": "known_limits",
+     "assumption": "the relativistic completion leaves tensor waves at c; the static functional cannot decide this"
+    },
+    {
+     "field": "known_limits",
+     "assumption": "whether the member-galaxy confinement at the fiducial is excluded could not be checked without opening member internal dynamics (confirmation reserve); it is reported as the binding constraint, not as an exclusion"
+    },
+    {
+     "field": "physical_statement",
+     "assumption": "the sign of eps is not fixed by the theory; the falsifier is that ONE sign holds universally"
+    },
+    {
+     "field": "matter_coupling",
+     "assumption": "the compiler's probe reduction cannot express the cluster's own path-modified pull on the member (an orbital, monopole effect); the factor on the member probe is the galaxy's own modified field with the cluster entering through the segment densities only"
+    }
+   ]
+  }
+ },
+ "provenance": {
+  "lane_root": "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/synthesis",
+  "n_read_paths_total": 3,
+  "n_read_paths_library": 0,
+  "n_read_paths_non_library": 3,
+  "non_library_reads": [
+   "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/synthesis/compile_results.json",
+   "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/synthesis/path_results.json",
+   "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/synthesis/tensor_results.json"
+  ],
+  "foreign_reads": [],
+  "sealed_tokens_guarded": [
+   "kids",
+   "kids-1000",
+   "kids1000",
+   "kv450",
+   "kids_dr4",
+   "kids_dr5",
+   "wide_binar",
+   "wide-binar",
+   "widebinar",
+   "gaia_wb",
+   "wb_catalog",
+   "hernandez_wb",
+   "banik_wb",
+   "chae_wb"
+  ],
+  "real_data_tokens_guarded": [
+   "sparc",
+   "xcop",
+   "x-cop",
+   "efeds",
+   "locuss",
+   "clash",
+   "frontier",
+   "pantheon",
+   "desi",
+   "des_y",
+   "act_dr",
+   "planck",
+   "sami",
+   "diskmass",
+   "herbonnet",
+   "mulroy",
+   "xxl"
+  ],
+  "any_real_observational_file_opened": false,
+  "assertion": "No path outside the lane root was read; no sealed token matched; no real-observation token matched.",
+  "armed": true,
+  "reserve_tokens_guarded": [
+   "spt",
+   "x-gap",
+   "xgap",
+   "clogs",
+   "gaia",
+   "muse",
+   "granata"
+  ],
+  "any_reserve_token_in_reads": false
+ }
+}

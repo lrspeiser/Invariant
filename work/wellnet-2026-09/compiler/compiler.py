@@ -242,6 +242,18 @@ AXIS_PROVENANCE = {
                                    "axis"),
     "indefinite_K":   ("source",   "dhat = ghat_N, but with a coupling that "
                                    "drives an eigenvalue of K negative"),
+    # --- added by the Principle Synthesis Lane (Run BK, synthesis/): the two
+    # basis elements its actions need.  ADDITIVE: every branch below is keyed
+    # on one of these two struct names, so no existing verdict can change;
+    # synthesis/compile_families.py asserts that against a pre-patch snapshot.
+    "tensor_L":       ("external", "e_ext DECLARED from the environment; the "
+                                   "anisotropy is a term of a scalar LAGRANGIAN "
+                                   "DENSITY, f_E h(|u|/a0)[(e.u)^2 - |u|^2/3], "
+                                   "so its flux map M(u) = dL/du is a gradient "
+                                   "in u identically"),
+    "path_kernel":    ("none",     "a reciprocal two-point kernel gated on the "
+                                   "matter/vacuum state of the connecting "
+                                   "segment; no preferred axis"),
 }
 
 #: The declared external tidal axis.  ONE global direction, fixed by the
@@ -252,7 +264,7 @@ AXIS_PROVENANCE = {
 E_EXT = np.array([0.0, 0.0, 1.0])
 
 #: Structures whose preferred axis is the declared external one.
-EXTERNAL_AXIS_STRUCTS = {"tensor_E", "tensor_E_const"}
+EXTERNAL_AXIS_STRUCTS = {"tensor_E", "tensor_E_const", "tensor_L"}
 
 #: Which invariants are functionals of the Poisson-smooth fields (so a row
 #: list never enters), and which are read off a catalogue.
@@ -324,6 +336,9 @@ TENSOR_SOURCE = {
     "yukawa":         "symmetric two-point kernel",
     "nonlocal_sym":   "symmetric two-point kernel",
     "indefinite_K":   "grad Phi_N direction",
+    # Run BK synthesis elements
+    "tensor_L":       "declared external axis",
+    "path_kernel":    "symmetric two-point kernel",
 }
 INVARIANT_FUNCTIONAL = {
     "one":    "none",
@@ -396,6 +411,12 @@ class Candidate:
     #: external controls that are defined by an action rather than by this
     #: programme's grammar.  Symmetric iff the control is meant to be.
     green: Optional[Callable] = None
+    #: Run BK: g/g_N on a radial grid (metres in, dimensionless out) for a
+    #: `path_kernel` candidate, whose radial force is a numerical functional of
+    #: the probe's own density along every source-probe segment rather than
+    #: one of the two closed-form profiles in `extra_force_factor`.  Declared
+    #: by the lane that owns the kernel, exactly as `green` is.
+    force_factor: Optional[Callable] = None
     note: str = ""
 
     def signature(self) -> Tuple:
@@ -414,7 +435,7 @@ class Candidate:
                 p.get("p"), p.get("q"), p.get("s"),
                 bool(self.momentum_carrier), self.pair_kernel is not None,
                 self.model_class, e.get("f0"), e.get("f_E"),
-                self.green is not None)
+                self.green is not None, self.force_factor is not None)
 
     def responds(self) -> bool:
         """Does the candidate have a live STATIC, VELOCITY-INDEPENDENT
@@ -430,7 +451,7 @@ class Candidate:
             return False
         if self.struct in CONSTANT_COUPLING_STRUCTS:
             return self.A != 0.0
-        if self.struct in ("yukawa", "nonlocal_sym"):
+        if self.struct in ("yukawa", "nonlocal_sym", "path_kernel", "tensor_L"):
             return self.A != 0.0
         return not (self.form == "off" or self.inv == "one" or self.A == 0.0
                     or self.struct == "none")
@@ -509,6 +530,11 @@ def response_W(cand: Candidate, inv_fields: Dict[str, np.ndarray]) -> np.ndarray
     ref = np.asarray(inv_fields["gn"], float)
     if cand.struct in CONSTANT_COUPLING_STRUCTS:
         return np.ones_like(ref)                # the response IS the tensor
+    if cand.struct == "tensor_L":
+        # the radial-reduction weight eta(x)/mu(x) at x = g_N/a0, so that the
+        # bench's k_r = 1 + f_E lambda W is the effective conductivity factor
+        # of g[mu + f_E lambda eta] = g_N.  Reported, not fitted.
+        return tensor_L_eta_over_mu(ref)
     if cand.form == "off" or cand.inv == "one":
         return np.zeros_like(ref)
     return W_of(cand.form, np.asarray(inv_fields[cand.inv], float) / cand.I0,
@@ -553,6 +579,98 @@ def mond_invert(F, k, a0, base="aqual"):
     raise ValueError(base)
 
 
+# ------------- Run BK: the Lagrangian-density external-axis tensor `tensor_L`
+#
+#   L = -(1/8 pi G) [ a0^2 F(|u|^2/a0^2) + f_E h(|u|/a0) ( (e.u)^2 - |u|^2/3 ) ]
+#       - rho Phi,                       u = grad Phi,  F' = mu,  mu = x/(1+x)
+#
+# Euler-Lagrange:  div M(u) = 4 pi G rho  with  M = (1/2) dL~/du,
+#
+#   M(u) = mu(x) u + (1/2) f_E [ h'(x) Q(u) uhat / a0 + 2 h(x) ((e.u) e - u/3) ],
+#   Q(u) = (e.u)^2 - |u|^2/3,   x = |u|/a0.
+#
+# M is a gradient in u BY CONSTRUCTION (it is the derivative of a scalar), so
+# the u-space test must return round-off -- that is the point of writing the
+# anisotropy in the Lagrangian rather than as K(u)u in QUMOND form, where the
+# same gating (F2_ext_axis_gn_gated) is NOT a gradient.  h = mu(1 - mu) is the
+# sparsest weight that (i) vanishes as x in deep MOND, which ellipticity of
+# the operator REQUIRES (the anisotropic Hessian must not outrun the isotropic
+# one, which itself vanishes as x), and (ii) vanishes as 1/x in the Newtonian
+# regime, which the Solar System requires.  It introduces no new scale.
+def tensor_L_mu(x):
+    x = np.asarray(x, float)
+    return x / (1.0 + x)
+
+
+def tensor_L_h(x):
+    """h(x) = mu(1 - mu) = x/(1+x)^2: the transition-band weight."""
+    x = np.asarray(x, float)
+    return x / (1.0 + x) ** 2
+
+
+def tensor_L_hprime(x):
+    x = np.asarray(x, float)
+    return (1.0 - x) / (1.0 + x) ** 3
+
+
+def tensor_L_eta(x):
+    """eta = h + x h'/2 = x(3+x)/(2(1+x)^3): weight of the radial reduction
+    rhat.M(g rhat) = g [mu + f_E lambda eta],  lambda = (e.rhat)^2 - 1/3."""
+    x = np.asarray(x, float)
+    return x * (3.0 + x) / (2.0 * (1.0 + x) ** 3)
+
+
+def tensor_L_eta_over_mu(x):
+    x = np.maximum(np.asarray(x, float), 1e-300)
+    return (3.0 + x) / (2.0 * (1.0 + x) ** 2)
+
+
+def tensor_L_flux(u: np.ndarray, e: np.ndarray, fE: float, a0: float
+                  ) -> np.ndarray:
+    """M(u) = (1/2) dL~/du on an (N,3) cloud of u vectors."""
+    u = np.asarray(u, float)
+    e = np.asarray(e, float)
+    e = e / np.linalg.norm(e)
+    gn = np.linalg.norm(u, axis=-1)
+    x = gn / a0
+    uh = u / np.maximum(gn, 1e-300)[:, None]
+    ue = u @ e
+    Q = ue ** 2 - gn ** 2 / 3.0
+    return (tensor_L_mu(x)[:, None] * u
+            + 0.5 * fE * ((tensor_L_hprime(x) * Q / a0)[:, None] * uh
+                          + 2.0 * tensor_L_h(x)[:, None]
+                          * (ue[:, None] * e[None, :] - u / 3.0)))
+
+
+def tensor_L_radial(gN, lam, fE: float, a0: float, n_iter: int = 80
+                    ) -> np.ndarray:
+    """Solve g [mu(g/a0) + f_E lambda eta(g/a0)] = g_N by bisection in ln g.
+
+    The bench's DECLARED radial reduction of div M(grad Phi) = 4 pi G rho with
+    grad Phi = g rhat -- the same reduction it uses for every other tensor
+    structure (k_r acting on the radial flux).  Note, as the synthesis lane
+    measures explicitly, that this caricature carries the OPPOSITE sign of
+    fixed-axis modulation to the exact first-order l = 2 solution; the gates
+    that consume it (1, 4) are insensitive to that sign.
+    """
+    gN = np.asarray(gN, float)
+    lam = np.broadcast_to(np.asarray(lam, float), gN.shape)
+    lo = np.log(np.maximum(gN, 1e-300)) - 12.0
+    hi = np.log(np.maximum(gN, 1e-300)) + 12.0
+
+    def f(lng):
+        g = np.exp(lng)
+        x = g / a0
+        return g * (tensor_L_mu(x) + fE * lam * tensor_L_eta(x)) - gN
+
+    for _ in range(n_iter):
+        mid = 0.5 * (lo + hi)
+        pos = f(mid) > 0.0
+        hi = np.where(pos, mid, hi)
+        lo = np.where(pos, lo, mid)
+    return np.exp(0.5 * (lo + hi))
+
+
 def extra_force_factor(cand: "Candidate", r) -> np.ndarray:
     """g / g_N for the EXTERNAL CONTROLS defined by an extra symmetric kernel.
 
@@ -575,6 +693,10 @@ def extra_force_factor(cand: "Candidate", r) -> np.ndarray:
     declared caricature, like every other geometry on this bench.
     """
     r = np.asarray(r, float)
+    if cand.force_factor is not None:
+        # Run BK: a kernel whose radial force is declared numerically by the
+        # lane that owns it (path_kernel).
+        return np.asarray(cand.force_factor(r), float)
     e = cand.ext or {}
     lam = float(e.get("range_m", 300.0 * KPC))
     prof = e.get("profile", "yukawa")
@@ -613,9 +735,16 @@ def radial_eigen(struct: str, lam, A: float, W) -> np.ndarray:
         # probes, i.e. the quadratic form (grad Phi)^T K (grad Phi) loses
         # positive-definiteness and the PDE changes type.
         return 1.0 + A * W * lam
-    if struct in ("yukawa", "nonlocal_sym"):
+    if struct in ("yukawa", "nonlocal_sym", "path_kernel"):
         return np.ones_like(W)             # isotropic; the content is in the
                                            # two-point kernel, not in K
+    if struct == "tensor_L":
+        # the EFFECTIVE conductivity factor of the radial reduction
+        #   g [mu + f_E lambda eta] = g_N  <=>  g mu (1 + f_E lambda eta/mu) = g_N
+        # with W = eta/mu supplied by `response_W`.  Used for reporting and for
+        # the positivity proxy in `response_health`; the exact ellipticity
+        # bound is measured on the Hessian of L~ by the synthesis lane.
+        return 1.0 + A * W * lam
     raise ValueError(struct)
 
 
@@ -632,9 +761,12 @@ def predict_g(cand: Candidate, inv_fields, gN, lam) -> np.ndarray:
     if cand.struct in ("scalar_a0", "depth"):
         a_eff = np.maximum(cand.a0 * (1.0 + cand.A * W), 1e-14 * cand.a0)
         return g_of_gN(cand.base, gN, a_eff)
-    if cand.struct in ("yukawa", "nonlocal_sym") and cand.responds():
+    if cand.struct in ("yukawa", "nonlocal_sym", "path_kernel") \
+            and cand.responds():
         r = np.asarray(inv_fields.get("r_m"), float)
         return g_of_gN(cand.base, gN, cand.a0) * extra_force_factor(cand, r)
+    if cand.struct == "tensor_L":
+        return tensor_L_radial(gN, lam, cand.A, cand.a0)
     k_r = radial_eigen(cand.struct, lam, cand.A, W)
     if cand.struct == "indefinite_K":
         # A negative k_r is not a small number in an otherwise fine law: it is
@@ -2364,6 +2496,12 @@ def jacobian_asymmetry(cand: Candidate,
 
     def g_of(Fv, Iv):
         lam = lam0
+        if cand.struct == "tensor_L":
+            # the response reads F alone (the gating is |grad Phi| itself), so
+            # the I-channel is empty and the Jacobian is carried by the
+            # max(r_i, r_j) structure; the direction-sensitive test is the
+            # u-space one.
+            return tensor_L_radial(Fv, lam, A_use, cand.a0)
         if fam_E:
             # family E's response is the REGULARISED tidal direction, so it is
             # a smooth function of |T| and therefore of the second derivative
@@ -3501,6 +3639,9 @@ def _K_of_u(cand: Candidate, u: np.ndarray) -> np.ndarray:
     if st == "tensor_d":
         # K = exp[A W (uhat uhat^T - I/3)], for which K u = e^{2AW/3} u.
         return np.exp(np.clip(2.0 * A * W / 3.0, -700, 700))[:, None] * u
+    if st == "tensor_L":
+        e = np.asarray((cand.ext or {}).get("axis", E_EXT), float)
+        return tensor_L_flux(u, e, A, cand.a0)
     if st in EXTERNAL_AXIS_STRUCTS:
         e = np.asarray((cand.ext or {}).get("axis", E_EXT), float)
         e = e / np.linalg.norm(e)
@@ -3513,7 +3654,7 @@ def _K_of_u(cand: Candidate, u: np.ndarray) -> np.ndarray:
 
 
 K_IS_A_FUNCTION_OF_U = {"scalar_a0", "iso_K", "tensor_d", "none",
-                        "tensor_E", "tensor_E_const"}
+                        "tensor_E", "tensor_E_const", "tensor_L"}
 
 
 def u_space_integrability(cand: Candidate, n: int = 240,

@@ -1,0 +1,1261 @@
+{
+ "family": "T: action-derived void/tensor gravity",
+ "generated_utc": "2026-09-04T22:20:48Z",
+ "action": {
+  "lagrangian": "L = -(1/8 pi G)[ a0^2 F(|u|^2/a0^2) + f_E h(|u|/a0) u^T That_env u ] - rho Phi,  u = grad Phi",
+  "base": "F' = mu, mu(x) = x/(1+x) (AQUAL)",
+  "weight": "h(x) = mu(1-mu) = x/(1+x)^2",
+  "axis": "That_env: unit-norm traceless tidal tensor of the environment (Hessian of Phi_N smoothed on L_env); principal-axis form sqrt(3/2)(e e^T - I/3) with sqrt(3/2) absorbed into f_E",
+  "field_equation": "div M(u) = 4 pi G rho, M = mu(x) u + (1/2) f_E [ h'(x)(u^T That u) uhat/a0 + 2 h(x) That u ]",
+  "radial_reduction": "g [ mu(x) + f_E lambda eta(x) ] = g_N, lambda = (e.rhat)^2 - 1/3, eta = h + x h'/2 = x(3+x)/(2(1+x)^3)",
+  "universal_constants": {
+   "shared_with_base": [
+    "G",
+    "a0"
+   ],
+   "new": [
+    "f_E",
+    "L_env"
+   ],
+   "n_new": 2
+  },
+  "model_class": "static_scalar_potential with a background axis field (in the compiler's Gate 4 scope); the closed version with That_env promoted to a dynamical field is 'extra_propagating_field'"
+ },
+ "ellipticity": {
+  "scan": [
+   {
+    "fE": -3.0,
+    "min_ratio": -3.982294204326878,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8647101308712677e-10
+   },
+   {
+    "fE": -2.95,
+    "min_ratio": -3.8826429332094845,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8259074268700567e-10
+   },
+   {
+    "fE": -2.9,
+    "min_ratio": -3.7829919374798395,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8743143957482244e-10
+   },
+   {
+    "fE": -2.85,
+    "min_ratio": -3.683341234984878,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 2.1412254603329204e-10
+   },
+   {
+    "fE": -2.8,
+    "min_ratio": -3.583690844838982,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.884018140234659e-10
+   },
+   {
+    "fE": -2.75,
+    "min_ratio": -3.484040788118208,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.802982189562188e-10
+   },
+   {
+    "fE": -2.7,
+    "min_ratio": -3.3843910867074616,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8460767936296686e-10
+   },
+   {
+    "fE": -2.65,
+    "min_ratio": -3.284741766489981,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8801154995874962e-10
+   },
+   {
+    "fE": -2.6,
+    "min_ratio": -3.1850928538287797,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8556397284885003e-10
+   },
+   {
+    "fE": -2.55,
+    "min_ratio": -3.0854443787986368,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8639482231941892e-10
+   },
+   {
+    "fE": -2.5,
+    "min_ratio": -2.985796374196903,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8905463990579576e-10
+   },
+   {
+    "fE": -2.45,
+    "min_ratio": -2.886148876173247,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8734270787011458e-10
+   },
+   {
+    "fE": -2.4,
+    "min_ratio": -2.7865019248162035,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8355653914734207e-10
+   },
+   {
+    "fE": -2.35,
+    "min_ratio": -2.6868555642548544,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.909023685958999e-10
+   },
+   {
+    "fE": -2.3,
+    "min_ratio": -2.587209843671305,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8878275142986236e-10
+   },
+   {
+    "fE": -2.25,
+    "min_ratio": -2.4875648175835057,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 2.147618897093232e-10
+   },
+   {
+    "fE": -2.2,
+    "min_ratio": -2.3879205479707175,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 2.1188755993052853e-10
+   },
+   {
+    "fE": -2.15,
+    "min_ratio": -2.288277102660872,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.7628928411554513e-10
+   },
+   {
+    "fE": -2.1,
+    "min_ratio": -2.188634559202231,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8609741050423304e-10
+   },
+   {
+    "fE": -2.05,
+    "min_ratio": -2.0889930048855394,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.9077815356709176e-10
+   },
+   {
+    "fE": -2.0,
+    "min_ratio": -1.989352538203906,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8679844814999243e-10
+   },
+   {
+    "fE": -1.95,
+    "min_ratio": -1.8897132716497143,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8715095134202435e-10
+   },
+   {
+    "fE": -1.9,
+    "min_ratio": -1.790075333740609,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 2.2383693986502968e-10
+   },
+   {
+    "fE": -1.8499999999999999,
+    "min_ratio": -1.6904388715745713,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.669351649844363e-10
+   },
+   {
+    "fE": -1.7999999999999998,
+    "min_ratio": -1.5908040552814093,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.9083469311835077e-10
+   },
+   {
+    "fE": -1.75,
+    "min_ratio": -1.4911710822660234,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8123563849617159e-10
+   },
+   {
+    "fE": -1.7,
+    "min_ratio": -1.3915401819061108,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.9275326973925434e-10
+   },
+   {
+    "fE": -1.65,
+    "min_ratio": -1.2919116242859214,
+    "at_x": 0.0008722344997699334,
+    "at_cos_e": 0.9991869114443296,
+    "antisym": 1.8845193741306081e-10
+   },
+   {
+    "fE": -1.5999999999999999,
+    "min_ratio": -1.1929222968741369,
+    "at_x": 0.0001065961591230401,
+    "at_cos_e": 0.9856625323165248,
+    "antisym": 1.885179716025431e-10
+   },
+   {
+    "fE": -1.5499999999999998,
+    "min_ratio": -1.0949421899142897,
+    "at_x": 0.0001065961591230401,
+    "at_cos_e": 0.9856625323165248,
+    "antisym": 2.2508860261652827e-10
+   },
+   {
+    "fE": -1.5,
+    "min_ratio": -0.997014024847047,
+    "at_x": 0.0001065961591230401,
+    "at_cos_e": 0.9856625323165248,
+    "antisym": 2.2511090718453239e-10
+   },
+   {
+    "fE": -1.45,
+    "min_ratio": -0.8991455413512032,
+    "at_x": 0.0001065961591230401,
+    "at_cos_e": 0.9856625323165248,
+    "antisym": 1.9757570739768113e-10
+   },
+   {
+    "fE": -1.4,
+    "min_ratio": -0.8013460835536694,
+    "at_x": 0.0001065961591230401,
+    "at_cos_e": 0.9856625323165248,
+    "antisym": 2.1551082646602496e-10
+   },
+   {
+    "fE": -1.3499999999999999,
+    "min_ratio": -0.703879126815732,
+    "at_x": 0.00012526815912451095,
+    "at_cos_e": 0.9743636510752713,
+    "antisym": 1.9295221093174768e-10
+   },
+   {
+    "fE": -1.2999999999999998,
+    "min_ratio": -0.6079478650173565,
+    "at_x": 0.00012526815912451095,
+    "at_cos_e": 0.9743636510752713,
+    "antisym": 1.952105030702897e-10
+   },
+   {
+    "fE": -1.25,
+    "min_ratio": -0.513397966460026,
+    "at_x": 0.0001383494941870986,
+    "at_cos_e": 0.9641466899782224,
+    "antisym": 1.7501236870269802e-10
+   },
+   {
+    "fE": -1.2,
+    "min_ratio": -0.4204169460053656,
+    "at_x": 0.00012212946394087268,
+    "at_cos_e": 0.9530549737509809,
+    "antisym": 1.929522147140543e-10
+   },
+   {
+    "fE": -1.15,
+    "min_ratio": -0.3286618981142579,
+    "at_x": 0.0001496158261943005,
+    "at_cos_e": 0.9402858822169563,
+    "antisym": 1.9561858533512684e-10
+   },
+   {
+    "fE": -1.0999999999999999,
+    "min_ratio": -0.23913563360823878,
+    "at_x": 0.00010128696199260753,
+    "at_cos_e": 0.9360979895338924,
+    "antisym": 1.929522172314174e-10
+   },
+   {
+    "fE": -1.0499999999999998,
+    "min_ratio": -0.1510570550137953,
+    "at_x": 0.00012608257644156475,
+    "at_cos_e": 0.9254807488112212,
+    "antisym": 1.6987880298230746e-10
+   },
+   {
+    "fE": -1.0,
+    "min_ratio": -0.06498543185233087,
+    "at_x": 0.00010391826128163064,
+    "at_cos_e": 0.9062445793896061,
+    "antisym": 1.683000410301995e-10
+   },
+   {
+    "fE": -0.9499999999999997,
+    "min_ratio": 0.018778666858542143,
+    "at_x": 0.00011707980592756398,
+    "at_cos_e": 0.8963612177827516,
+    "antisym": 1.695577469020575e-10
+   },
+   {
+    "fE": -0.8999999999999999,
+    "min_ratio": 0.1004591106517557,
+    "at_x": 0.00019013505995852685,
+    "at_cos_e": 0.8906111024538726,
+    "antisym": 2.1551084011869846e-10
+   },
+   {
+    "fE": -0.8500000000000001,
+    "min_ratio": 0.17925868561136465,
+    "at_x": 0.0001005547426856359,
+    "at_cos_e": 0.8700061256159256,
+    "antisym": 1.9561859300427456e-10
+   },
+   {
+    "fE": -0.7999999999999998,
+    "min_ratio": 0.2558310546442893,
+    "at_x": 0.00018232978086619151,
+    "at_cos_e": 0.8548073865755625,
+    "antisym": 1.726331683288024e-10
+   },
+   {
+    "fE": -0.75,
+    "min_ratio": 0.32949107591876076,
+    "at_x": 0.00018232978086619151,
+    "at_cos_e": 0.8548073865755625,
+    "antisym": 1.9295222606097505e-10
+   },
+   {
+    "fE": -0.6999999999999997,
+    "min_ratio": 0.39957312931834155,
+    "at_x": 0.00011644932656990206,
+    "at_cos_e": 0.8222207556115367,
+    "antisym": 2.011447073963635e-10
+   },
+   {
+    "fE": -0.6499999999999999,
+    "min_ratio": 0.46676590496138487,
+    "at_x": 0.0001574986307948907,
+    "at_cos_e": 0.8137586666698906,
+    "antisym": 1.8857199050158022e-10
+   },
+   {
+    "fE": -0.5999999999999996,
+    "min_ratio": 0.5305367089075239,
+    "at_x": 0.00016488252206720534,
+    "at_cos_e": 0.7954301724884426,
+    "antisym": 1.8857199346029218e-10
+   },
+   {
+    "fE": -0.5499999999999998,
+    "min_ratio": 0.5907376555576275,
+    "at_x": 0.0002717434924691087,
+    "at_cos_e": 0.7676208073686094,
+    "antisym": 1.9561860057769993e-10
+   },
+   {
+    "fE": -0.5,
+    "min_ratio": 0.646921077976261,
+    "at_x": 0.00013581386772205454,
+    "at_cos_e": 0.7413727708396943,
+    "antisym": 2.2511093659760422e-10
+   },
+   {
+    "fE": -0.44999999999999973,
+    "min_ratio": 0.699288489746773,
+    "at_x": 0.00010114257189526978,
+    "at_cos_e": 0.7118066536102786,
+    "antisym": 1.6958724200022365e-10
+   },
+   {
+    "fE": -0.3999999999999999,
+    "min_ratio": 0.7476227405621841,
+    "at_x": 0.00013510256968894403,
+    "at_cos_e": 0.677078363305061,
+    "antisym": 1.952105260297381e-10
+   },
+   {
+    "fE": -0.34999999999999964,
+    "min_ratio": 0.7917073084498211,
+    "at_x": 0.00010657377766670959,
+    "at_cos_e": 0.6456150238362837,
+    "antisym": 1.6987881852972935e-10
+   },
+   {
+    "fE": -0.2999999999999998,
+    "min_ratio": 0.831537729446428,
+    "at_x": 0.00011905512030015661,
+    "at_cos_e": 0.5855639768060729,
+    "antisym": 1.932019487286135e-10
+   },
+   {
+    "fE": -0.25,
+    "min_ratio": 0.8670472152491012,
+    "at_x": 0.00012377466588652653,
+    "at_cos_e": 0.5263830889580867,
+    "antisym": 1.6515404267600766e-10
+   },
+   {
+    "fE": -0.19999999999999973,
+    "min_ratio": 0.8981866686238373,
+    "at_x": 0.0001995925618275827,
+    "at_cos_e": 0.38488147254002963,
+    "antisym": 1.7263318228730662e-10
+   },
+   {
+    "fE": -0.1499999999999999,
+    "min_ratio": 0.9250047142691976,
+    "at_x": 0.00011070439290496064,
+    "at_cos_e": 0.034689029395797155,
+    "antisym": 1.929522481291001e-10
+   },
+   {
+    "fE": -0.09999999999999964,
+    "min_ratio": 0.9500046437565344,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 2.2511094837452434e-10
+   },
+   {
+    "fE": -0.04999999999999982,
+    "min_ratio": 0.975003035662527,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 2.1551086493426586e-10
+   },
+   {
+    "fE": 0.0,
+    "min_ratio": 0.9999999998799908,
+    "at_x": 0.5395408851547435,
+    "at_cos_e": 0.5652474894536347,
+    "antisym": 1.6163314844878947e-10
+   },
+   {
+    "fE": 0.050000000000000266,
+    "min_ratio": 0.9750104454894868,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.9295223928603696e-10
+   },
+   {
+    "fE": 0.10000000000000009,
+    "min_ratio": 0.9500208910028111,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.6091578281989972e-10
+   },
+   {
+    "fE": 0.15000000000000036,
+    "min_ratio": 0.9250313364727082,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 2.1551086882289478e-10
+   },
+   {
+    "fE": 0.20000000000000018,
+    "min_ratio": 0.9000417819496981,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.9295224308086903e-10
+   },
+   {
+    "fE": 0.25,
+    "min_ratio": 0.87505222747973,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.929522443332889e-10
+   },
+   {
+    "fE": 0.30000000000000027,
+    "min_ratio": 0.8500626729734301,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.9295225947602436e-10
+   },
+   {
+    "fE": 0.3500000000000001,
+    "min_ratio": 0.8250731184748524,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.8303344061709176e-10
+   },
+   {
+    "fE": 0.40000000000000036,
+    "min_ratio": 0.8000835639664625,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.6896214006102212e-10
+   },
+   {
+    "fE": 0.4500000000000002,
+    "min_ratio": 0.7750940094371959,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 2.1551087727191288e-10
+   },
+   {
+    "fE": 0.5,
+    "min_ratio": 0.7501044549556378,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.6827351444824995e-10
+   },
+   {
+    "fE": 0.5500000000000003,
+    "min_ratio": 0.7251149004483962,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.8857202180786486e-10
+   },
+   {
+    "fE": 0.6000000000000001,
+    "min_ratio": 0.70012534595076,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.8089627185204439e-10
+   },
+   {
+    "fE": 0.6500000000000004,
+    "min_ratio": 0.6751357914521828,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.956186312542992e-10
+   },
+   {
+    "fE": 0.7000000000000002,
+    "min_ratio": 0.6501462369375275,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.8857202550431062e-10
+   },
+   {
+    "fE": 0.75,
+    "min_ratio": 0.6251566824273593,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.95618634023291e-10
+   },
+   {
+    "fE": 0.8000000000000003,
+    "min_ratio": 0.6001671279347378,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.952105566423444e-10
+   },
+   {
+    "fE": 0.8500000000000001,
+    "min_ratio": 0.5751775734224814,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.7067758112158652e-10
+   },
+   {
+    "fE": 0.9000000000000004,
+    "min_ratio": 0.5501880189179587,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.956186378578667e-10
+   },
+   {
+    "fE": 0.9500000000000002,
+    "min_ratio": 0.5251984644095691,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 2.1551089482772213e-10
+   },
+   {
+    "fE": 1.0,
+    "min_ratio": 0.5002089099130803,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.929522632448307e-10
+   },
+   {
+    "fE": 1.0499999999999998,
+    "min_ratio": 0.47521935541659144,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.8857203414567118e-10
+   },
+   {
+    "fE": 1.1000000000000005,
+    "min_ratio": 0.45022980090998027,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.6955779233360047e-10
+   },
+   {
+    "fE": 1.1500000000000004,
+    "min_ratio": 0.42524024640190045,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.7895450579868488e-10
+   },
+   {
+    "fE": 1.2000000000000002,
+    "min_ratio": 0.40025069189351076,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.8996344375253127e-10
+   },
+   {
+    "fE": 1.25,
+    "min_ratio": 0.37526113739880074,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.9556072976434776e-10
+   },
+   {
+    "fE": 1.2999999999999998,
+    "min_ratio": 0.35027158289072163,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.771067023564574e-10
+   },
+   {
+    "fE": 1.3500000000000005,
+    "min_ratio": 0.3252820283823319,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.8557289908739798e-10
+   },
+   {
+    "fE": 1.4000000000000004,
+    "min_ratio": 0.3002924738876213,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.965050047560871e-10
+   },
+   {
+    "fE": 1.4500000000000002,
+    "min_ratio": 0.2753029193774535,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 2.0474545911773066e-10
+   },
+   {
+    "fE": 1.5,
+    "min_ratio": 0.2503133648705221,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.916154229767354e-10
+   },
+   {
+    "fE": 1.5499999999999998,
+    "min_ratio": 0.2253238103791514,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.8635528719951717e-10
+   },
+   {
+    "fE": 1.6000000000000005,
+    "min_ratio": 0.20033425585969789,
+    "at_x": 0.00019780128023503385,
+    "at_cos_e": 0.009396524957319852,
+    "antisym": 1.8880635988548988e-10
+   },
+   {
+    "fE": 1.6500000000000004,
+    "min_ratio": 0.170624604708968,
+    "at_x": 0.0001413897128706418,
+    "at_cos_e": 0.4637762213704831,
+    "antisym": 1.8945975201491846e-10
+   },
+   {
+    "fE": 1.7000000000000002,
+    "min_ratio": 0.1285976511614798,
+    "at_x": 0.0001530722954243574,
+    "at_cos_e": 0.4510201978888711,
+    "antisym": 1.8359021255727458e-10
+   },
+   {
+    "fE": 1.75,
+    "min_ratio": 0.0861505339428027,
+    "at_x": 0.00012706203719482835,
+    "at_cos_e": 0.44285704616212723,
+    "antisym": 1.8370917655540525e-10
+   },
+   {
+    "fE": 1.8000000000000007,
+    "min_ratio": 0.04342354724464272,
+    "at_x": 0.0001194047865349751,
+    "at_cos_e": 0.43233348299395397,
+    "antisym": 2.0641109676900004e-10
+   },
+   {
+    "fE": 1.8500000000000005,
+    "min_ratio": 0.0003605212221326703,
+    "at_x": 0.0001194047865349751,
+    "at_cos_e": 0.43233348299395397,
+    "antisym": 1.717008967210971e-10
+   },
+   {
+    "fE": 1.9000000000000004,
+    "min_ratio": -0.04282226358209587,
+    "at_x": 0.0001194047865349751,
+    "at_cos_e": 0.43233348299395397,
+    "antisym": 1.8340586388468744e-10
+   },
+   {
+    "fE": 1.9500000000000002,
+    "min_ratio": -0.08647434823731866,
+    "at_x": 0.00018470369637514988,
+    "at_cos_e": 0.41827372641577293,
+    "antisym": 1.872343892755443e-10
+   },
+   {
+    "fE": 2.0,
+    "min_ratio": -0.13033088865514406,
+    "at_x": 0.00021446428128824602,
+    "at_cos_e": 0.40784182051654555,
+    "antisym": 1.9162484783280626e-10
+   },
+   {
+    "fE": 2.0500000000000007,
+    "min_ratio": -0.1745067409854733,
+    "at_x": 0.00021446428128824602,
+    "at_cos_e": 0.40784182051654555,
+    "antisym": 1.8296591627473298e-10
+   },
+   {
+    "fE": 2.1000000000000005,
+    "min_ratio": -0.21880972912372185,
+    "at_x": 0.0001995925618275827,
+    "at_cos_e": 0.38488147254002963,
+    "antisym": 1.911906507279847e-10
+   },
+   {
+    "fE": 2.1500000000000004,
+    "min_ratio": -0.26376897927918985,
+    "at_x": 0.00011466848286910322,
+    "at_cos_e": 0.3761982981097439,
+    "antisym": 1.714601557978436e-10
+   },
+   {
+    "fE": 2.2,
+    "min_ratio": -0.30901688412864653,
+    "at_x": 0.00011466848286910322,
+    "at_cos_e": 0.3761982981097439,
+    "antisym": 1.924823592715606e-10
+   },
+   {
+    "fE": 2.25,
+    "min_ratio": -0.3543326052053619,
+    "at_x": 0.00011466848286910322,
+    "at_cos_e": 0.3761982981097439,
+    "antisym": 1.8178341411694202e-10
+   },
+   {
+    "fE": 2.3000000000000007,
+    "min_ratio": -0.3997112476019793,
+    "at_x": 0.00011466848286910322,
+    "at_cos_e": 0.3761982981097439,
+    "antisym": 1.7976612467964114e-10
+   },
+   {
+    "fE": 2.3500000000000005,
+    "min_ratio": -0.4451483700230107,
+    "at_x": 0.00011466848286910322,
+    "at_cos_e": 0.3761982981097439,
+    "antisym": 2.087691288060008e-10
+   },
+   {
+    "fE": 2.4000000000000004,
+    "min_ratio": -0.49099782278835197,
+    "at_x": 0.00011750307417256923,
+    "at_cos_e": 0.3563553573207954,
+    "antisym": 1.7702234646675436e-10
+   },
+   {
+    "fE": 2.45,
+    "min_ratio": -0.5370044863525588,
+    "at_x": 0.00011750307417256923,
+    "at_cos_e": 0.3563553573207954,
+    "antisym": 1.7814093164285294e-10
+   },
+   {
+    "fE": 2.5,
+    "min_ratio": -0.5830576048963361,
+    "at_x": 0.00011750307417256923,
+    "at_cos_e": 0.3563553573207954,
+    "antisym": 1.6594774541749978e-10
+   },
+   {
+    "fE": 2.5500000000000007,
+    "min_ratio": -0.6291541292281667,
+    "at_x": 0.00011750307417256923,
+    "at_cos_e": 0.3563553573207954,
+    "antisym": 1.759957612139977e-10
+   },
+   {
+    "fE": 2.6000000000000005,
+    "min_ratio": -0.6752912685974063,
+    "at_x": 0.00011750307417256923,
+    "at_cos_e": 0.3563553573207954,
+    "antisym": 1.838061136979357e-10
+   },
+   {
+    "fE": 2.6500000000000004,
+    "min_ratio": -0.7215320313454326,
+    "at_x": 0.0002354924986377062,
+    "at_cos_e": 0.34391519870305465,
+    "antisym": 1.7433918341299165e-10
+   },
+   {
+    "fE": 2.7,
+    "min_ratio": -0.7680508047491992,
+    "at_x": 0.00016589410901624084,
+    "at_cos_e": 0.31161490577196876,
+    "antisym": 2.0368618253915317e-10
+   },
+   {
+    "fE": 2.75,
+    "min_ratio": -0.8152010580812578,
+    "at_x": 0.00016589410901624084,
+    "at_cos_e": 0.31161490577196876,
+    "antisym": 1.7185676759743623e-10
+   },
+   {
+    "fE": 2.8000000000000007,
+    "min_ratio": -0.8624165652639747,
+    "at_x": 0.0001376695293598592,
+    "at_cos_e": 0.30819537364026056,
+    "antisym": 2.1656495862244946e-10
+   },
+   {
+    "fE": 2.8500000000000005,
+    "min_ratio": -0.9096895169906922,
+    "at_x": 0.0001376695293598592,
+    "at_cos_e": 0.30819537364026056,
+    "antisym": 1.8474025652211802e-10
+   },
+   {
+    "fE": 2.9000000000000004,
+    "min_ratio": -0.9570789299566016,
+    "at_x": 0.0001003272455966084,
+    "at_cos_e": 0.30170506556238696,
+    "antisym": 1.7396501722742455e-10
+   },
+   {
+    "fE": 2.95,
+    "min_ratio": -1.0045220204894028,
+    "at_x": 0.0001003272455966084,
+    "at_cos_e": 0.30170506556238696,
+    "antisym": 1.7688440127576567e-10
+   },
+   {
+    "fE": 3.0,
+    "min_ratio": -1.0519873485087345,
+    "at_x": 0.0001003272455966084,
+    "at_cos_e": 0.30170506556238696,
+    "antisym": 1.7166518469210626e-10
+   }
+  ],
+  "admissible_fE_min": -0.9499999999999997,
+  "admissible_fE_max": 1.8500000000000005,
+  "analytic_principal_bounds": {
+   "radial_lower": -1.0,
+   "radial_upper": 2.0,
+   "transverse_lower": -2.0,
+   "transverse_upper": 6.0
+  },
+  "note": "the interval is the intersection of the principal-direction bounds; the numerical scan over all directions is the binding one"
+ },
+ "deep_mond_argument": {
+  "fE": 0.3,
+  "h_constant": 0.25,
+  "fraction_of_cloud_with_indefinite_operator": 0.5885,
+  "ellipticity_lost_below_x": 0.025373252466245284,
+  "statement": "a constant (non-vanishing) h in deep MOND makes the kinetic operator indefinite wherever |grad Phi|/a0 is small enough; h must vanish at least as fast as mu there. h = mu(1-mu) does."
+ },
+ "known_limits": {
+  "rows": {
+   "Mercury_0.39AU": {
+    "g_SI": 0.039603244144889985,
+    "x": 330027034.54074985,
+    "h": 3.0300547812134348e-09,
+    "quadrupole_fE_0.3": 6.06010956242687e-10,
+    "quadrupole_fE_1.0": 2.0200365208089564e-09,
+    "quadrupole_fE_2.0": 4.040073041617913e-09
+   },
+   "Earth_1AU": {
+    "g_SI": 0.005931338272336028,
+    "x": 49427818.93613357,
+    "h": 2.0231521055563315e-08,
+    "quadrupole_fE_0.3": 4.0463042111126625e-09,
+    "quadrupole_fE_1.0": 1.3487680703708877e-08,
+    "quadrupole_fE_2.0": 2.6975361407417753e-08
+   },
+   "Neptune_30AU": {
+    "g_SI": 6.590375858151143e-06,
+    "x": 54919.79881792619,
+    "h": 1.8207706615429946e-05,
+    "quadrupole_fE_0.3": 3.641541323085989e-06,
+    "quadrupole_fE_1.0": 1.2138471076953297e-05,
+    "quadrupole_fE_2.0": 2.4276942153906594e-05
+   },
+   "Oort_10kAU": {
+    "g_SI": 5.931338272336028e-11,
+    "x": 0.4942781893613357,
+    "h": 0.2213647840905233,
+    "quadrupole_fE_0.3": 0.044272956818104656,
+    "quadrupole_fE_1.0": 0.14757652272701552,
+    "quadrupole_fE_2.0": 0.29515304545403104
+   },
+   "wide_binary_1Msun_10kAU(sealed regime)": {
+    "g_SI": 5.931338272336028e-11,
+    "x": 0.4942781893613357,
+    "h": 0.2213647840905233,
+    "quadrupole_fE_0.3": 0.044272956818104656,
+    "quadrupole_fE_1.0": 0.14757652272701552,
+    "quadrupole_fE_2.0": 0.29515304545403104
+   },
+   "transition_g=a0": {
+    "g_SI": 1.2e-10,
+    "x": 1.0,
+    "h": 0.25,
+    "quadrupole_fE_0.3": 0.049999999999999996,
+    "quadrupole_fE_1.0": 0.16666666666666666,
+    "quadrupole_fE_2.0": 0.3333333333333333
+   },
+   "galaxy_outskirts_0.1a0": {
+    "g_SI": 1.2e-11,
+    "x": 0.1,
+    "h": 0.08264462809917354,
+    "quadrupole_fE_0.3": 0.016528925619834708,
+    "quadrupole_fE_1.0": 0.05509641873278236,
+    "quadrupole_fE_2.0": 0.11019283746556471
+   },
+   "cluster_outskirts_0.07a0": {
+    "g_SI": 8.400000000000001e-12,
+    "x": 0.07,
+    "h": 0.06114071097912482,
+    "quadrupole_fE_0.3": 0.012228142195824963,
+    "quadrupole_fE_1.0": 0.04076047398608321,
+    "quadrupole_fE_2.0": 0.08152094797216641
+   },
+   "deep_MOND_0.01a0": {
+    "g_SI": 1.2e-12,
+    "x": 0.01,
+    "h": 0.009802960494069209,
+    "quadrupole_fE_0.3": 0.0019605920988138414,
+    "quadrupole_fE_1.0": 0.006535306996046139,
+    "quadrupole_fE_2.0": 0.013070613992092278
+   }
+  },
+  "peak_x": 1.0,
+  "peak_h": 0.25,
+  "statement": "the anisotropy is (2/3) f_E h(g/a0) P2 and h peaks at g = a0 with h = 1/4; at 1 AU it is 1.35e-08 f_E and at Mercury 2.02e-09 f_E. Fixed-axis anisotropies of the Solar-System potential are bounded at roughly the 1e-9 level (published PPN preferred-location and solar-J2 constraints, quoted as an order of magnitude, not evaluated here), so f_E of order unity is marginal at Mercury and f_E <~ 0.3 is safe; a steeper Newtonian cutoff of h would remove the tension at the cost of one constant."
+ },
+ "l2": {
+  "A2_all_negative_0p1a_to_300a": true,
+  "A2_at_3a_per_fE": -0.05831950214191633,
+  "rar_residual_dex_per_fE_at_3a": 0.012663918983789567,
+  "source": "Plummer 5e10 Msun, a = 3 kpc, AQUAL base mu = x/(1+x)",
+  "validation_constant_K_newton": {
+   "r_over_a": [
+    0.5,
+    1.0,
+    2.0,
+    5.0,
+    20.0,
+    100.0
+   ],
+   "chi_ode": [
+    -1875360668.5247688,
+    -4404764008.230885,
+    -5765819786.391016,
+    -3923033192.1273117,
+    -1169345589.8939946,
+    -238675878.33600375
+   ],
+   "chi_exact": [
+    -1876246977.5564008,
+    -4406406216.688515,
+    -5767241187.273098,
+    -3923756521.008181,
+    -1169541270.186439,
+    -238710016.864692
+   ],
+   "chi_point_mass_asymptote": [
+    -47798081186.5221,
+    -23899040593.26105,
+    -11949520296.630526,
+    -4779808118.652209,
+    -1194952029.6630523,
+    -238990405.9326105
+   ],
+   "max_rel_err": 0.0004723839890131435
+  },
+  "rmax_convergence_max_abs_change": 0.0031638085739404687,
+  "rows": [
+   {
+    "r_over_a": 0.3,
+    "r_kpc": 0.9,
+    "x0": 2.40753546952755,
+    "h": 0.20734421547750256,
+    "A2_exact_per_fE": -0.08370466274384045,
+    "A2_caricature_per_fE": -0.12001676626236353,
+    "chi_per_fE_m2s2": -615945735.0965585
+   },
+   {
+    "r_over_a": 0.5,
+    "r_kpc": 1.5,
+    "x0": 3.063526256795799,
+    "h": 0.1855305646275035,
+    "A2_exact_per_fE": -0.0597120879638088,
+    "A2_caricature_per_fE": -0.09823084300809201,
+    "chi_per_fE_m2s2": -1044884256.0665902
+   },
+   {
+    "r_over_a": 1.0,
+    "r_kpc": 3.0,
+    "x0": 3.0336977338669477,
+    "h": 0.18645138119954205,
+    "A2_exact_per_fE": -0.045766856096426015,
+    "A2_caricature_per_fE": -0.09905395274293914,
+    "chi_per_fE_m2s2": -1930803055.3604803
+   },
+   {
+    "r_over_a": 2.0,
+    "r_kpc": 6.0,
+    "x0": 1.796919083166504,
+    "h": 0.22970408395490763,
+    "A2_exact_per_fE": -0.05088463837074492,
+    "A2_caricature_per_fE": -0.15056703348548958,
+    "chi_per_fE_m2s2": -3174540690.3950696
+   },
+   {
+    "r_over_a": 3.0,
+    "r_kpc": 9.0,
+    "x0": 1.1467968867897467,
+    "h": 0.24883106116901585,
+    "A2_exact_per_fE": -0.05831950214191633,
+    "A2_caricature_per_fE": -0.20461234863939243,
+    "chi_per_fE_m2s2": -4041360412.7888236
+   },
+   {
+    "r_over_a": 5.0,
+    "r_kpc": 15.0,
+    "x0": 0.6294420080689317,
+    "h": 0.23707071346801087,
+    "A2_exact_per_fE": -0.06432016759585767,
+    "A2_caricature_per_fE": -0.28236840545756675,
+    "chi_per_fE_m2s2": -5199690407.174281
+   },
+   {
+    "r_over_a": 10.0,
+    "r_kpc": 30.0,
+    "x0": 0.2858324926493355,
+    "h": 0.17287922401886657,
+    "A2_exact_per_fE": -0.05875473149111303,
+    "A2_caricature_per_fE": -0.3726450590937353,
+    "chi_per_fE_m2s2": -6647067845.355817
+   },
+   {
+    "r_over_a": 20.0,
+    "r_kpc": 60.0,
+    "x0": 0.13505642038679508,
+    "h": 0.10482873270495492,
+    "A2_exact_per_fE": -0.04323866767153632,
+    "A2_caricature_per_fE": -0.43121841674861217,
+    "chi_per_fE_m2s2": -7744284624.248016
+   },
+   {
+    "r_over_a": 50.0,
+    "r_kpc": 150.0,
+    "x0": 0.05206501695674007,
+    "h": 0.04703930046782438,
+    "A2_exact_per_fE": -0.023397950490972666,
+    "A2_caricature_per_fE": -0.47123640026663716,
+    "chi_per_fE_m2s2": -8629823531.825977
+   },
+   {
+    "r_over_a": 100.0,
+    "r_kpc": 300.0,
+    "x0": 0.025715638585550305,
+    "h": 0.024442372552129228,
+    "A2_exact_per_fE": -0.01338736664342841,
+    "A2_caricature_per_fE": -0.4854018165679007,
+    "chi_per_fE_m2s2": -8988865000.12404
+   }
+  ],
+  "peak": {
+   "r_over_a": 0.10001915691317594,
+   "r_kpc": 0.3000574707395278,
+   "x0": 1.1765410990978311,
+   "A2_per_fE": -0.16061979724623054
+  },
+  "newtonian_side_asymptote": {
+   "source": "Plummer 5e12 Msun, a = 0.3 kpc (x0 >> 1 at r ~ a)",
+   "rows": [
+    {
+     "r_over_a": 1.0,
+     "x0": 22765.634090845553,
+     "A2_per_fE": -1.4540013050790606e-05,
+     "asymptote_minus_1_over_3x": -1.4641952515057437e-05,
+     "ratio": 0.9930378503712537
+    },
+    {
+     "r_over_a": 2.0,
+     "x0": 11535.139955486351,
+     "A2_per_fE": -2.8313113480277033e-05,
+     "asymptote_minus_1_over_3x": -2.88972075431814e-05,
+     "ratio": 0.9797871797116884
+    },
+    {
+     "r_over_a": 5.0,
+     "x0": 2436.8659275831396,
+     "A2_per_fE": -0.00012990805256956624,
+     "asymptote_minus_1_over_3x": -0.00013678771965264832,
+     "ratio": 0.949705521076366
+    }
+   ],
+   "statement": "A2 -> -1/(3 x0): the force quadrupole DECAYS as 1/x at high acceleration, with the sign fixed"
+  },
+  "deep_mond_asymptote": {
+   "r_over_a": 300.0,
+   "x0": 0.008505113435472639,
+   "chi_per_fE": -9257656532.107435,
+   "asymptote": -9407107979.253418,
+   "ratio": 0.984112923177284,
+   "A2_per_fE": -0.005030488841127067
+  },
+  "sign": {
+   "exact_first_order": "-",
+   "caricature_gated": "-",
+   "caricature_constant_K": "opposite to exact (analytic: 1 - (2/3) f_E P2 against the exact 1 + f_E P2/3)",
+   "statement": "for f_E > 0 the inward acceleration is WEAKER along the axis e (A2 - at every radius from 0.1 a to 300 a) even though the potential is DEEPER along e (chi < 0): the potential quadrupole is a nearly constant offset that is approached from above (chi ~ -a0 r/3 on the Newtonian side, chi -> -sqrt(G M a0)/3 in deep MOND), so its radial derivative is negative. A CONSTANT anisotropy of the same axis gives the opposite force sign (chi = -GM/3r rises toward zero). This is a derived, non-obvious prediction: a transition-band-gated tensor and a constant tensor of the same axis and sign have OPPOSITE force quadrupoles. The compiler's declared radial caricature has the opposite sign to the exact solution for constant K, and the same sign but a magnitude wrong by up to 40x (and no deep-MOND decay) for the gated case; gates 1 and 4 consume only |residual| and symmetry, so no verdict depends on it, but no sign may be read off that reduction."
+  },
+  "newton_limit_check": {
+   "note": "constant-K Newtonian limit: exact chi = -GM/(3r) far out, i.e. |g| = GM/r^2 (1 + f_E P2/3); the caricature gives 1 - (2/3) f_E P2"
+  }
+ },
+ "counterfactuals": [
+  {
+   "intervention": "rotate the external axis e by an angle dpsi, baryons fixed",
+   "observable": "phase of the m=2 harmonic of |g_r| (dynamics) and of the lensing-potential quadrupole",
+   "response": "d(phase)/d(psi_e) = +1 exactly, zero lag, at every radius; amplitude unchanged",
+   "sign": "+1 (rigid co-rotation)"
+  },
+  {
+   "intervention": "move the baryons holding e fixed",
+   "observable": "amplitude of the m=2 harmonic of |g_r|",
+   "response": "A2(r) = chi'(r)/g0(r) per unit f_E re-evaluated on the NEW baryons instantly; |A2| peaks at 0.161 f_E where g0 ~ 1.18 a0, decays as -1/(3 g0/a0) at high acceleration and -> 0 in deep MOND",
+   "sign": "- along e for f_E > 0: the inward pull is WEAKER along the tidal axis (the m=2 minimum of |g_r| sits on e); the potential is nonetheless deeper along e"
+  },
+  {
+   "intervention": "move the halo holding baryons fixed",
+   "observable": "anything",
+   "response": "0: there is no halo",
+   "sign": "0"
+  },
+  {
+   "intervention": "scramble members preserving every radial profile",
+   "observable": "m=2 amplitude and phase",
+   "response": "0: the response is a functional of the smooth field and the external axis, never of the member list",
+   "sign": "0"
+  },
+  {
+   "intervention": "change history preserving present matter and e",
+   "observable": "anything",
+   "response": "0: no memory",
+   "sign": "0"
+  },
+  {
+   "intervention": "change the photon path preserving endpoints",
+   "observable": "deflection / time delay",
+   "response": "follows the same Phi = Phi0 + f_E chi P2 the matter sees; the lensing quadrupole phase equals the dynamical one and the two amplitudes are the same chi (no slip)",
+   "sign": "fixed matter-light covariance = +1 in the potential"
+  },
+  {
+   "intervention": "radial profile of the quadrupole at fixed e",
+   "observable": "d(phase)/d ln r",
+   "response": "0 exactly (e is uniform across the object); a collisionless triaxial halo twists with radius",
+   "sign": "0 vs CDM != 0"
+  },
+  {
+   "intervention": "tilt the disk normal against e (angle psi)",
+   "observable": "azimuthally averaged rotation-curve residual (the RAR residual of one disk)",
+   "response": "the in-plane average of P2(e.rhat) is -(1/2) P2(cos psi) [<(e.rhat)^2>_plane = sin^2(psi)/2], so d ln g_c = -(1/2) P2(cos psi) A2(r) f_E with A2 < 0 for f_E > 0",
+   "sign": "+ for e along the disk normal (psi = 0), - for e in the plane (psi = 90 deg), for f_E > 0: a SIGNED, environment-locked RAR residual of 0.0127 f_E dex at r = 3 a of the caricature galaxy, with no per-object freedom"
+  }
+ ],
+ "provenance": {
+  "lane_root": "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/synthesis",
+  "n_read_paths_total": 0,
+  "n_read_paths_library": 0,
+  "n_read_paths_non_library": 0,
+  "non_library_reads": [],
+  "foreign_reads": [],
+  "sealed_tokens_guarded": [
+   "kids",
+   "kids-1000",
+   "kids1000",
+   "kv450",
+   "kids_dr4",
+   "kids_dr5",
+   "wide_binar",
+   "wide-binar",
+   "widebinar",
+   "gaia_wb",
+   "wb_catalog",
+   "hernandez_wb",
+   "banik_wb",
+   "chae_wb"
+  ],
+  "real_data_tokens_guarded": [
+   "sparc",
+   "xcop",
+   "x-cop",
+   "efeds",
+   "locuss",
+   "clash",
+   "frontier",
+   "pantheon",
+   "desi",
+   "des_y",
+   "act_dr",
+   "planck",
+   "sami",
+   "diskmass",
+   "herbonnet",
+   "mulroy",
+   "xxl"
+  ],
+  "any_real_observational_file_opened": false,
+  "assertion": "No path outside the lane root was read; no sealed token matched; no real-observation token matched.",
+  "armed": true,
+  "reserve_tokens_guarded": [
+   "spt",
+   "x-gap",
+   "xgap",
+   "clogs",
+   "gaia",
+   "muse",
+   "granata"
+  ],
+  "any_reserve_token_in_reads": false
+ },
+ "wall_seconds": 0.7976438999976381
+}

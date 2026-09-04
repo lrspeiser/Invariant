@@ -1,0 +1,1019 @@
+{
+ "generated_utc": "2026-09-04T22:34:24Z",
+ "compiler": "work/wellnet-2026-09/compiler/compiler.py (v2 + Run BK elements tensor_L, path_kernel)",
+ "tensor": {
+  "T_tensor_L_fE0.1": {
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "b_independent_axis"
+    ],
+    "max_single_probe_resid_dex": 0.00636930862544806,
+    "joint_resid_dex": 0.005892570146874626,
+    "axis_misalignment_deg": {
+     "galaxy_field": 60.00000000000001,
+     "cluster_shell": 60.00000000000001,
+     "galaxy_member": 60.00000000000007
+    },
+    "reason": "escapes b_independent_axis; max single-probe stretch residual 0.0064 dex, joint (one global stretch, per-object mass) 0.0059 dex, axis provenance 'external' misaligned by up to 60.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'gn' carries no undetermined additive constant: |g_N| is a first derivative of Phi_N"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'gn' = smooth, structure 'tensor_L'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": true,
+     "struct": "tensor_L",
+     "n": 240,
+     "max_relative_antisymmetry": 1.4435923467640913e-10,
+     "median_relative_antisymmetry": 4.974530215852076e-11,
+     "floor": 1e-07,
+     "is_a_gradient": true,
+     "note": "dM_i/du_j for M(u) = K(u)u, central differences in u-space; symmetric iff the QUMOND-form law comes from an action with Phi_N still Newtonian"
+    },
+    "jacobian_asymmetry": 0.0,
+    "reciprocity": {
+     "applicable": false,
+     "note": "no explicit pair kernel is declared"
+    },
+    "health": {
+     "k_condition": 1.1180651180520118,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 0.9531202743407383,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "",
+    "reason": "the response reads only 'declared external axis' / '|grad Phi_N|', so K(u)u is a gradient in u = grad Phi_N (u-space antisymmetry 1.44e-10 against a floor of 1e-07) and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "THE ACTION: L = -(1/8 pi G)[a0^2 F + f_E h(|u|/a0)((e.u)^2 - |u|^2/3)] - rho Phi; e_ext declared background"
+  },
+  "T_tensor_L_fE0.3": {
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "b_independent_axis"
+    ],
+    "max_single_probe_resid_dex": 0.018965832240141665,
+    "joint_resid_dex": 0.017570265289383026,
+    "axis_misalignment_deg": {
+     "galaxy_field": 60.00000000000001,
+     "cluster_shell": 60.00000000000001,
+     "galaxy_member": 60.00000000000007
+    },
+    "reason": "escapes b_independent_axis; max single-probe stretch residual 0.0190 dex, joint (one global stretch, per-object mass) 0.0176 dex, axis provenance 'external' misaligned by up to 60.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'gn' carries no undetermined additive constant: |g_N| is a first derivative of Phi_N"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'gn' = smooth, structure 'tensor_L'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": true,
+     "struct": "tensor_L",
+     "n": 240,
+     "max_relative_antisymmetry": 1.7984538111379725e-10,
+     "median_relative_antisymmetry": 5.363349453529099e-11,
+     "floor": 1e-07,
+     "is_a_gradient": true,
+     "note": "dM_i/du_j for M(u) = K(u)u, central differences in u-space; symmetric iff the QUMOND-form law comes from an action with Phi_N still Newtonian"
+    },
+    "jacobian_asymmetry": 0.0,
+    "reciprocity": {
+     "applicable": false,
+     "note": "no explicit pair kernel is declared"
+    },
+    "health": {
+     "k_condition": 1.3902927400256002,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 0.859360823022215,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "",
+    "reason": "the response reads only 'declared external axis' / '|grad Phi_N|', so K(u)u is a gradient in u = grad Phi_N (u-space antisymmetry 1.80e-10 against a floor of 1e-07) and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "THE ACTION: L = -(1/8 pi G)[a0^2 F + f_E h(|u|/a0)((e.u)^2 - |u|^2/3)] - rho Phi; e_ext declared background"
+  },
+  "T_tensor_L_fE1.0": {
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "b_independent_axis",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.06171037799854929,
+    "joint_resid_dex": 0.05741486632634023,
+    "axis_misalignment_deg": {
+     "galaxy_field": 60.00000000000001,
+     "cluster_shell": 60.00000000000001,
+     "galaxy_member": 60.00000000000007
+    },
+    "reason": "escapes a_spatial_variation, b_independent_axis, c_probe_disagreement; max single-probe stretch residual 0.0617 dex, joint (one global stretch, per-object mass) 0.0574 dex, axis provenance 'external' misaligned by up to 60.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'gn' carries no undetermined additive constant: |g_N| is a first derivative of Phi_N"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'gn' = smooth, structure 'tensor_L'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": true,
+     "struct": "tensor_L",
+     "n": 240,
+     "max_relative_antisymmetry": 1.772499394081641e-10,
+     "median_relative_antisymmetry": 5.000270781371582e-11,
+     "floor": 1e-07,
+     "is_a_gradient": true,
+     "note": "dM_i/du_j for M(u) = K(u)u, central differences in u-space; symmetric iff the QUMOND-form law comes from an action with Phi_N still Newtonian"
+    },
+    "jacobian_asymmetry": 0.0,
+    "reciprocity": {
+     "applicable": false,
+     "note": "no explicit pair kernel is declared"
+    },
+    "health": {
+     "k_condition": 3.058160769756434,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 0.5312027434073829,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "",
+    "reason": "the response reads only 'declared external axis' / '|grad Phi_N|', so K(u)u is a gradient in u = grad Phi_N (u-space antisymmetry 1.77e-10 against a floor of 1e-07) and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "THE ACTION: L = -(1/8 pi G)[a0^2 F + f_E h(|u|/a0)((e.u)^2 - |u|^2/3)] - rho Phi; e_ext declared background"
+  },
+  "T_tensor_L_fE1.8": {
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "b_independent_axis",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.10848927863766579,
+    "joint_resid_dex": 0.10134257878534507,
+    "axis_misalignment_deg": {
+     "galaxy_field": 60.00000000000001,
+     "cluster_shell": 60.00000000000001,
+     "galaxy_member": 60.00000000000007
+    },
+    "reason": "escapes a_spatial_variation, b_independent_axis, c_probe_disagreement; max single-probe stretch residual 0.1085 dex, joint (one global stretch, per-object mass) 0.1013 dex, axis provenance 'external' misaligned by up to 60.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'gn' carries no undetermined additive constant: |g_N| is a first derivative of Phi_N"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'gn' = smooth, structure 'tensor_L'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": true,
+     "struct": "tensor_L",
+     "n": 240,
+     "max_relative_antisymmetry": 2.162460843116988e-10,
+     "median_relative_antisymmetry": 4.533929636402022e-11,
+     "floor": 1e-07,
+     "is_a_gradient": true,
+     "note": "dM_i/du_j for M(u) = K(u)u, central differences in u-space; symmetric iff the QUMOND-form law comes from an action with Phi_N still Newtonian"
+    },
+    "jacobian_asymmetry": 0.0,
+    "reciprocity": {
+     "applicable": false,
+     "note": "no explicit pair kernel is declared"
+    },
+    "health": {
+     "k_condition": 13.60168376209296,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 0.15616493813328935,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "",
+    "reason": "the response reads only 'declared external axis' / '|grad Phi_N|', so K(u)u is a gradient in u = grad Phi_N (u-space antisymmetry 2.16e-10 against a floor of 1e-07) and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "THE ACTION: L = -(1/8 pi G)[a0^2 F + f_E h(|u|/a0)((e.u)^2 - |u|^2/3)] - rho Phi; e_ext declared background"
+  },
+  "T_tensor_L_fE0.3_dynamical_axis": {
+   "verdict": "OUTSIDE-CLASS",
+   "failed": [],
+   "labels": [
+    "action-based but OUTSIDE the scalar-potential class"
+   ],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "model_class": "extra_propagating_field",
+   "primary_bin": "outside_declared_model_class",
+   "defects": [
+    "outside_declared_model_class"
+   ],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "b_independent_axis"
+    ],
+    "max_single_probe_resid_dex": 0.018965832240141665,
+    "joint_resid_dex": 0.017570265289383026,
+    "axis_misalignment_deg": {
+     "galaxy_field": 60.00000000000001,
+     "cluster_shell": 60.00000000000001,
+     "galaxy_member": 60.00000000000007
+    },
+    "reason": "escapes b_independent_axis; max single-probe stretch residual 0.0190 dex, joint (one global stretch, per-object mass) 0.0176 dex, axis provenance 'external' misaligned by up to 60.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'gn' carries no undetermined additive constant: |g_N| is a first derivative of Phi_N"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'gn' = smooth, structure 'tensor_L'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": true,
+    "u_space": null,
+    "jacobian_asymmetry": NaN,
+    "reciprocity": {
+     "applicable": false
+    },
+    "health": {
+     "k_condition": 1.0,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 1.0,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "the environmental tidal tensor field That_env (its back-reaction carries the momentum the anisotropic force does not conserve)",
+    "reason": "OUT OF DECLARED SCOPE. This gate adjudicates the 'static_scalar_potential' class only; this candidate declares 'extra_propagating_field', which is a theory with extra PROPAGATING degrees of freedom (a dynamical scalar, vector or tensor beyond Phi). The action exists but its Euler-Lagrange system is not a single scalar equation for Phi, so the QUMOND-form integrability criterion does not decide it. LABELLED 'action-based but OUTSIDE the scalar-potential class'. NOT REJECTED: a non-zero curl is perfectly consistent with an action, and the published claim that it is not was wrong. This gate returns NO VERDICT on this candidate; gates 1, 2 and 3 still apply to it."
+   },
+   "note": "the same action with That_env promoted to a dynamical field"
+  },
+  "grammar_F1_ext_axis_const": {
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "b_independent_axis",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.04118200550822264,
+    "joint_resid_dex": 0.040830059361012194,
+    "axis_misalignment_deg": {
+     "galaxy_field": 60.00000000000001,
+     "cluster_shell": 60.00000000000001,
+     "galaxy_member": 60.00000000000007
+    },
+    "reason": "escapes a_spatial_variation, b_independent_axis, c_probe_disagreement; max single-probe stretch residual 0.0412 dex, joint (one global stretch, per-object mass) 0.0408 dex, axis provenance 'external' misaligned by up to 60.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'one' carries no undetermined additive constant: no invariant"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'one' = constant, structure 'tensor_E_const'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": true,
+     "struct": "tensor_E_const",
+     "n": 240,
+     "max_relative_antisymmetry": 0.0,
+     "median_relative_antisymmetry": 0.0,
+     "floor": 1e-07,
+     "is_a_gradient": true,
+     "note": "dM_i/du_j for M(u) = K(u)u, central differences in u-space; symmetric iff the QUMOND-form law comes from an action with Phi_N still Newtonian"
+    },
+    "jacobian_asymmetry": 0.0,
+    "reciprocity": {
+     "applicable": false,
+     "note": "no explicit pair kernel is declared"
+    },
+    "health": {
+     "k_condition": 1.3956124250860904,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 0.8776077356090689,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "",
+    "reason": "the response reads only 'declared external axis' / 'none', so K(u)u is a gradient in u = grad Phi_N (u-space antisymmetry 0.00e+00 against a floor of 1e-07) and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "K = exp[f0 I + f_E e_ext e_ext^T], f0 and f_E CONSTANT; e_ext a large-scale tidal axis declared from the environment"
+  },
+  "grammar_F2_ext_axis_gn_gated": {
+   "verdict": "REJECT",
+   "failed": [
+    "gate4_scalar_potential_integrability"
+   ],
+   "labels": [],
+   "flags": [],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "physically_incomplete_as_written",
+   "defects": [
+    "K_of_u_is_not_a_gradient"
+   ],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "b_independent_axis"
+    ],
+    "max_single_probe_resid_dex": 0.036007749081148975,
+    "joint_resid_dex": 0.03423804962675099,
+    "axis_misalignment_deg": {
+     "galaxy_field": 60.00000000000001,
+     "cluster_shell": 60.00000000000001,
+     "galaxy_member": 60.00000000000007
+    },
+    "reason": "escapes b_independent_axis; max single-probe stretch residual 0.0360 dex, joint (one global stretch, per-object mass) 0.0342 dex, axis provenance 'external' misaligned by up to 60.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'gn' carries no undetermined additive constant: |g_N| is a first derivative of Phi_N"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'gn' = smooth, structure 'tensor_E'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": false,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": true,
+     "struct": "tensor_E",
+     "n": 240,
+     "max_relative_antisymmetry": 0.04940213485921586,
+     "median_relative_antisymmetry": 0.006302804053734111,
+     "floor": 1e-07,
+     "is_a_gradient": false,
+     "note": "dM_i/du_j for M(u) = K(u)u, central differences in u-space; symmetric iff the QUMOND-form law comes from an action with Phi_N still Newtonian"
+    },
+    "jacobian_asymmetry": 0.0,
+    "reciprocity": {
+     "applicable": false,
+     "note": "no explicit pair kernel is declared"
+    },
+    "health": {
+     "k_condition": 1.368084670662609,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 0.8805617822609996,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "",
+    "reason": "K(u)u is NOT a gradient in u = grad Phi_N: the u-space Jacobian dM_i/du_j has relative antisymmetry 4.940e-02 against a measured floor of 1e-07. Within the declared static, velocity-independent scalar-potential class this is exactly equivalent to 'no action produces this law as written'. It is NOT a claim that no action exists for any theory with this response -- promoting the gating field to a dynamical one, or moving to a vector-potential sector, both change the answer and both leave this gate's scope."
+   },
+   "note": "the same element with f_E gated on |grad Phi_N|/a0"
+  },
+  "grammar_F3_ext_axis_tidal_gated": {
+   "verdict": "REJECT",
+   "failed": [
+    "gate4_scalar_potential_integrability"
+   ],
+   "labels": [],
+   "flags": [],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "physically_incomplete_as_written",
+   "defects": [
+    "not_variational_as_written"
+   ],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "b_independent_axis"
+    ],
+    "max_single_probe_resid_dex": 0.02352782785313799,
+    "joint_resid_dex": 0.013591449944656648,
+    "axis_misalignment_deg": {
+     "galaxy_field": 60.00000000000001,
+     "cluster_shell": 60.00000000000001,
+     "galaxy_member": 60.00000000000007
+    },
+    "reason": "escapes b_independent_axis; max single-probe stretch residual 0.0235 dex, joint (one global stretch, per-object mass) 0.0136 dex, axis provenance 'external' misaligned by up to 60.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'tidal' carries no undetermined additive constant: |T| is a local second derivative of Phi_N with no boundary constant"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'tidal' = smooth, structure 'tensor_E'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": false,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": false,
+     "struct": "tensor_E",
+     "invariant": "tidal",
+     "note": "the coupling is gated on 'tidal', which is not a function of u, so K is not a function of u."
+    },
+    "jacobian_asymmetry": 0.001859990426673271,
+    "reciprocity": {
+     "applicable": false,
+     "note": "no explicit pair kernel is declared"
+    },
+    "health": {
+     "k_condition": 1.3291683694018546,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 0.8939742458338399,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "",
+    "reason": "the response reads 'declared external axis' (tensor source) and 'Hessian of Phi_N' (invariant), and neither is a function of grad Phi_N alone. In the QUMOND form the law comes from an action with Phi_N still solving Poisson only if K(u)u is a gradient in u = grad Phi_N; it is not here, so NO ACTION IN THE DECLARED STATIC, VELOCITY-INDEPENDENT SCALAR-POTENTIAL CLASS produces this law AS WRITTEN and momentum is not conserved in that class. No momentum carrier is declared. SCOPE: a variational completion may well exist OUTSIDE that class -- promoting the gating field to a dynamical one is the standard route, and it is exactly how AQUAL supplies an action for MOND. This gate does not exclude it; it says the law as written is not it. The functional Jacobian delta Phi(r_i)/delta m_j is measured ASYMMETRIC at 1.860e-03 (worst pair 8.138e-04), confirming it."
+   },
+   "note": "the same element with f_E gated on the tidal invariant |T|"
+  }
+ },
+ "path": {
+  "P_path_kernel_fid": {
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.29541689636530183,
+    "joint_resid_dex": 0.24131840681491823,
+    "axis_misalignment_deg": {
+     "galaxy_field": 0.0,
+     "cluster_shell": 0.0,
+     "galaxy_member": 0.0
+    },
+    "reason": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.2954 dex, joint (one global stretch, per-object mass) 0.2413 dex, axis provenance 'none' misaligned by up to 0.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'one' carries no undetermined additive constant: no invariant"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'one' = constant, structure 'path_kernel'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": false,
+     "struct": "path_kernel",
+     "note": "K is not a function of u = grad Phi_N for structure 'path_kernel': it reads symmetric two-point kernel, so the question 'is K(u)u a gradient in u' does not arise. The structural argument decides it."
+    },
+    "jacobian_asymmetry": 3.104709959286661e-18,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "health": {
+     "k_condition": 1.0,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 1.0,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "matter on the connecting segment (three-body term -grad Phi_3); verified in path_results.json",
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 3.10e-18 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "THE ACTION: S = -(1/2) Int Int rho W rho, W = -(G/d)[1 + eps v], v = vacuum fraction of the segment, phi = 1/(1+rho/rho_*); eps = 0.3, rho_* = 1.0e-24 kg/m^3"
+  },
+  "P_path_kernel_eps0.03": {
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.07909516806621332,
+    "joint_resid_dex": 0.06458458201991632,
+    "axis_misalignment_deg": {
+     "galaxy_field": 0.0,
+     "cluster_shell": 0.0,
+     "galaxy_member": 0.0
+    },
+    "reason": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.0791 dex, joint (one global stretch, per-object mass) 0.0646 dex, axis provenance 'none' misaligned by up to 0.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'one' carries no undetermined additive constant: no invariant"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'one' = constant, structure 'path_kernel'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": false,
+     "struct": "path_kernel",
+     "note": "K is not a function of u = grad Phi_N for structure 'path_kernel': it reads symmetric two-point kernel, so the question 'is K(u)u a gradient in u' does not arise. The structural argument decides it."
+    },
+    "jacobian_asymmetry": 0.0,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "health": {
+     "k_condition": 1.0,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 1.0,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "matter on the connecting segment (three-body term)",
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "the same action at eps = 0.03 (member confinement 1.68x at 20 kpc)"
+  },
+  "P_path_kernel_eps0.003": {
+   "verdict": "REJECT",
+   "failed": [
+    "gate1_constant_K"
+   ],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "non_identifiable_on_this_bench",
+   "defects": [
+    "degenerate_with_a_coordinate_stretch"
+   ],
+   "gate1": {
+    "passed": false,
+    "escapes": [],
+    "max_single_probe_resid_dex": 0.010060988087671975,
+    "joint_resid_dex": 0.008215045522588425,
+    "axis_misalignment_deg": {
+     "galaxy_field": 0.0,
+     "cluster_shell": 0.0,
+     "galaxy_member": 0.0
+    },
+    "reason": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 1.01e-02 dex (single probe) and 8.22e-03 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'none' (a reciprocal two-point kernel gated on the matter/vacuum state of the connecting segment; no preferred axis), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection."
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'one' carries no undetermined additive constant: no invariant"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'one' = constant, structure 'path_kernel'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": false,
+     "struct": "path_kernel",
+     "note": "K is not a function of u = grad Phi_N for structure 'path_kernel': it reads symmetric two-point kernel, so the question 'is K(u)u a gradient in u' does not arise. The structural argument decides it."
+    },
+    "jacobian_asymmetry": 0.0,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "health": {
+     "k_condition": 1.0,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 1.0,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "matter on the connecting segment (three-body term)",
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "the same action at eps = 0.003 (member confinement 1.07x at 20 kpc)"
+  },
+  "P_path_kernel_fid_no_carrier_declared": {
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.29541689636530183,
+    "joint_resid_dex": 0.24131840681491823,
+    "axis_misalignment_deg": {
+     "galaxy_field": 0.0,
+     "cluster_shell": 0.0,
+     "galaxy_member": 0.0
+    },
+    "reason": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.2954 dex, joint (one global stretch, per-object mass) 0.2413 dex, axis provenance 'none' misaligned by up to 0.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'one' carries no undetermined additive constant: no invariant"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'one' = constant, structure 'path_kernel'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": false,
+     "struct": "path_kernel",
+     "note": "K is not a function of u = grad Phi_N for structure 'path_kernel': it reads symmetric two-point kernel, so the question 'is K(u)u a gradient in u' does not arise. The structural argument decides it."
+    },
+    "jacobian_asymmetry": 3.104709959286661e-18,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "health": {
+     "k_condition": 1.0,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 1.0,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "",
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 3.10e-18 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "the same element with no carrier declared: the kernel is reciprocal by construction, so this must still ADMIT -- the carrier flag is informational"
+  },
+  "P_path_kernel_rho_mean": {
+   "verdict": "REJECT",
+   "failed": [
+    "gate1_constant_K"
+   ],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "non_identifiable_on_this_bench",
+   "defects": [
+    "degenerate_with_a_coordinate_stretch"
+   ],
+   "gate1": {
+    "passed": false,
+    "escapes": [],
+    "max_single_probe_resid_dex": 0.009293388514702083,
+    "joint_resid_dex": 0.007588659255019305,
+    "axis_misalignment_deg": {
+     "galaxy_field": 0.0,
+     "cluster_shell": 0.0,
+     "galaxy_member": 0.0
+    },
+    "reason": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 9.29e-03 dex (single probe) and 7.59e-03 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'none' (a reciprocal two-point kernel gated on the matter/vacuum state of the connecting segment; no preferred axis), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection."
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'one' carries no undetermined additive constant: no invariant"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'one' = constant, structure 'path_kernel'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": false,
+     "struct": "path_kernel",
+     "note": "K is not a function of u = grad Phi_N for structure 'path_kernel': it reads symmetric two-point kernel, so the question 'is K(u)u a gradient in u' does not arise. The structural argument decides it."
+    },
+    "jacobian_asymmetry": 1.4318630703134513e-18,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "health": {
+     "k_condition": 1.0,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 1.0,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "matter on the connecting segment (three-body term)",
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 1.43e-18 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "the NO-NEW-SCALE variant rho_* = rho_mean: every probe segment runs through matter denser than the cosmic mean, so v ~ 0"
+  },
+  "P_path_kernel_field_carrier": {
+   "verdict": "OUTSIDE-CLASS",
+   "failed": [],
+   "labels": [
+    "action-based but OUTSIDE the scalar-potential class"
+   ],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "model_class": "extra_propagating_field",
+   "primary_bin": "outside_declared_model_class",
+   "defects": [
+    "outside_declared_model_class"
+   ],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.29541689636530183,
+    "joint_resid_dex": 0.24131840681491823,
+    "axis_misalignment_deg": {
+     "galaxy_field": 0.0,
+     "cluster_shell": 0.0,
+     "galaxy_member": 0.0
+    },
+    "reason": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.2954 dex, joint (one global stretch, per-object mass) 0.2413 dex, axis provenance 'none' misaligned by up to 0.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'one' carries no undetermined additive constant: no invariant"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'one' = constant, structure 'path_kernel'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": true,
+    "u_space": null,
+    "jacobian_asymmetry": NaN,
+    "reciprocity": {
+     "applicable": false
+    },
+    "health": {
+     "k_condition": 1.0,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 1.0,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "a vacuum-state field q sourced by rho with range l_q; the segment state is q along the path",
+    "reason": "OUT OF DECLARED SCOPE. This gate adjudicates the 'static_scalar_potential' class only; this candidate declares 'extra_propagating_field', which is a theory with extra PROPAGATING degrees of freedom (a dynamical scalar, vector or tensor beyond Phi). The action exists but its Euler-Lagrange system is not a single scalar equation for Phi, so the QUMOND-form integrability criterion does not decide it. LABELLED 'action-based but OUTSIDE the scalar-potential class'. NOT REJECTED: a non-zero curl is perfectly consistent with an action, and the published claim that it is not was wrong. This gate returns NO VERDICT on this candidate; gates 1, 2 and 3 still apply to it."
+   },
+   "note": "the variant whose path state is carried by a dynamical field rather than by the matter itself"
+  },
+  "grammar_XC5_symmetric_nonlocal_action": {
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [],
+   "model_class": "static_scalar_potential",
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.05180550370617944,
+    "joint_resid_dex": 0.04229901664933418,
+    "axis_misalignment_deg": {
+     "galaxy_field": 0.0,
+     "cluster_shell": 0.0,
+     "galaxy_member": 0.0
+    },
+    "reason": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.0518 dex, joint (one global stretch, per-object mass) 0.0423 dex, axis provenance 'none' misaligned by up to 0.0 deg"
+   },
+   "gate2": {
+    "passed": true,
+    "gauge_dependent": false,
+    "reason": "invariant 'one' carries no undetermined additive constant: no invariant"
+   },
+   "gate3": {
+    "passed": true,
+    "reason": "the response is a functional of the Poisson-smooth fields only (invariant 'one' = constant, structure 'nonlocal_sym'): the well list never enters, so the drift under re-tabulation is exactly zero by CONSTRUCTION, not numerically small"
+   },
+   "gate4": {
+    "passed": true,
+    "out_of_declared_class": false,
+    "u_space": {
+     "applicable": false,
+     "struct": "nonlocal_sym",
+     "note": "K is not a function of u = grad Phi_N for structure 'nonlocal_sym': it reads symmetric two-point kernel, so the question 'is K(u)u a gradient in u' does not arise. The structural argument decides it."
+    },
+    "jacobian_asymmetry": 0.0,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "health": {
+     "k_condition": 1.0,
+     "finite_positive_g": true,
+     "cond_max": 100000000.0,
+     "min_k_eigenvalue": 1.0,
+     "k_is_an_eigenvalue_of_the_kinetic_operator": true,
+     "positive_definite": true,
+     "degenerate": false
+    },
+    "momentum_carrier": "",
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NOT prove a relativistic completion exists. NOTE: the ALGEBRAIC vector form of this same law generally has non-zero curl in a nonspherical system -- curl g_alg = (grad nu) x g_N -- and that is not a defect: it is the difference between the algebraic prescription and the field-equation form, which is curl-free by construction."
+   },
+   "note": "S_int = -(1/2) Int Int rho W(|x-y|) rho with W(d) = -G[1/d + w0 exp(-d^2/2 lam^2)], w0 = -0.35, lam = 8 kpc: symmetric, and NOT the Green's function of any local operator"
+  }
+ },
+ "baseline_unchanged": {
+  "n_compared": 29,
+  "n_changed": 0,
+  "changed": [],
+  "external_controls_all_agree": true,
+  "statement": "the grammar extension is additive: no pre-existing verdict, failed-gate list, taxonomy bin, defect list or measured statistic changed"
+ },
+ "provenance": {
+  "lane_root": "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/synthesis",
+  "n_read_paths_total": 2,
+  "n_read_paths_library": 0,
+  "n_read_paths_non_library": 2,
+  "non_library_reads": [
+   "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/synthesis/baseline_verdicts_prepatch.json",
+   "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/synthesis/path_results.json"
+  ],
+  "foreign_reads": [],
+  "sealed_tokens_guarded": [
+   "kids",
+   "kids-1000",
+   "kids1000",
+   "kv450",
+   "kids_dr4",
+   "kids_dr5",
+   "wide_binar",
+   "wide-binar",
+   "widebinar",
+   "gaia_wb",
+   "wb_catalog",
+   "hernandez_wb",
+   "banik_wb",
+   "chae_wb"
+  ],
+  "real_data_tokens_guarded": [
+   "sparc",
+   "xcop",
+   "x-cop",
+   "efeds",
+   "locuss",
+   "clash",
+   "frontier",
+   "pantheon",
+   "desi",
+   "des_y",
+   "act_dr",
+   "planck",
+   "sami",
+   "diskmass",
+   "herbonnet",
+   "mulroy",
+   "xxl"
+  ],
+  "any_real_observational_file_opened": false,
+  "assertion": "No path outside the lane root was read; no sealed token matched; no real-observation token matched.",
+  "armed": true,
+  "reserve_tokens_guarded": [
+   "spt",
+   "x-gap",
+   "xgap",
+   "clogs",
+   "gaia",
+   "muse",
+   "granata"
+  ],
+  "any_reserve_token_in_reads": false
+ },
+ "wall_seconds": 15.07328150000103
+}
