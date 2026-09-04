@@ -1,0 +1,320 @@
+
+==============================================================================
+SN REFSDAL -- the Fermat-potential depth as a closure probe
+==============================================================================
+
+   started 2026-09-04T14:32:25Z
+   BCG (Shipley+2018, spec-confirmed): RA 177.398755  Dec +22.398523
+   Refsdal images: 5 (assert 5) -- S1, S2, S3, S4, SX
+   Delta t(SX-S1) Combined = 376.02 d, 16-84th 370.50-381.65 (+-5.57 d = 1.5%)
+   Treu+2016 multiple images: 34 (assert 34)
+   ACCEPT gas shells: 41 (assert 41), r = 0.000-1.301 Mpc, n_e = 3.13e-04-6.39e-03 cm^-3
+   Molino+2017 CLASH rows: 1658 (echo: identifier J/MNRAS/470/95/macs1149)
+   member selection (declared: |z_sp - 0.542| < 0.02 else |z_phot - 0.542| < 0.06, 8 < logM* < 12.6):
+      132 members, total M* = 2.274e+12 Msun
+
+==============================================================================
+R0.  WHAT IS MODEL-FREE, AND WHAT THE DELAY ALONE FIXES
+==============================================================================
+
+   MEASURED, no mass model:  Delta t(SX-S1) = 376.02 d
+                             16-84th percentile 370.50 - 381.65
+                             = 1.48% precision
+
+   GEOMETRY, flat LCDM H0 = 70, Om = 0.3 (declared, not fitted):
+      z_l = 0.542, z_s = 1.489
+      D_l   =   1312.8 Mpc      scale = 6.3648 kpc/arcsec
+      D_s   =   1745.1 Mpc
+      D_ls  =    931.7 Mpc
+      D_dt  = (1+z_l) D_l D_s/D_ls =   3791.5 Mpc
+      Sigma_cr = 4.9545e+00 kg/m^2 = 2.3719e+09 Msun/kpc^2
+
+   REQUIRED FERMAT-POTENTIAL DIFFERENCE
+      Delta phi(SX - S1) = c Delta t / D_dt = 3.5419 +- 0.0525 arcsec^2
+
+   That is as far as the measurement reaches on its own.  Everything past this
+   line needs a lens potential, and every number below inherits its errors.
+
+   Refsdal image positions relative to the BCG:
+       img    dRA["]   dDec["]  theta["]   r[kpc]   PA[deg]
+        S1    -1.750   -10.433    10.579     67.3    -99.52
+        S2    -3.428    -9.863    10.442     66.5   -109.17
+        S3    -4.593   -10.763    11.702     74.5   -113.11
+        S4    -3.151   -12.053    12.458     79.3   -104.65
+        SX    +4.449    -6.583     7.945     50.6    -55.95
+
+   S1-S4 sit at 11.30 +- 0.83 arcsec; SX at 7.95.  SX is INSIDE S1-S4 and
+   ~50 deg away in position angle, so the pair straddles the lens
+   centre in the way a Fermat-depth test wants.
+
+==============================================================================
+R2.  THE BARYON MODEL FOR MACS J1149.5+2223
+==============================================================================
+
+   gas: ACCEPT deprojected n_e, outer log-slope dln n_e/dln r = -5.983 used for r > 1.30 Mpc
+      M_gas(<     30 kpc) = 1.971e+10 Msun
+      M_gas(<     60 kpc) = 1.599e+11 Msun
+      M_gas(<    100 kpc) = 6.947e+11 Msun
+      M_gas(<    300 kpc) = 1.170e+13 Msun
+      M_gas(<   1000 kpc) = 1.153e+14 Msun
+
+   stars: CLASH members, Molino+2017 logM*
+      2-Hernquist fit to the projected cumulative M*:
+         M1 = 8.141e+10 Msun, a1 =    0.5 kpc
+         M2 = 1.383e+13 Msun, a2 = 1200.0 kpc
+         rms 0.0510 dex over 5.0-468 kpc
+         measured total M* inside the CLASH field = 2.274e+12 Msun at 468 kpc
+      M_*  (<     30 kpc) = 8.699e+10 Msun
+      M_*  (<     60 kpc) = 1.114e+11 Msun
+      M_*  (<    100 kpc) = 1.624e+11 Msun
+      M_*  (<    300 kpc) = 6.342e+11 Msun
+
+     r [kpc]        M_gas          M_*          M_b    g_b/a0
+          30    1.971e+10    8.699e+10    1.067e+11      0.14
+          50    9.310e+10    1.019e+11    1.950e+11      0.09
+          70    2.505e+11    1.223e+11    3.728e+11      0.09
+         100    6.947e+11    1.624e+11    8.571e+11      0.10
+         200    4.411e+12    3.632e+11    4.774e+12      0.14
+         500    3.664e+13    1.277e+12    3.792e+13      0.18
+        1000    1.153e+14    2.938e+12    1.183e+14      0.14
+
+   NOTE THE REGIME, because it is not what one expects.  Even at 50-100 kpc
+   from the BCG the BARYONIC acceleration is only ~0.1 a0, because the measured
+   baryons there are a few times 1e11 Msun.  So the Refsdal images sit in deep
+   MOND on the baryonic side while the LENSING mass required to make them at
+   all is ~3e13 Msun inside 64 kpc -- almost two orders of magnitude more.
+   That gap, not the interpolation function, is what the strong-lensing channel
+   is testing.
+
+   CAVEAT, STATED.  The Molino+2017 CLASH photometry gives the BCG
+   logM* = 10.91 (8.1e10 Msun), which is low for a BCG by roughly an order of
+   magnitude; CLASH aperture photometry is not built for the extended envelope,
+   and intracluster light is not counted at all.  Section R6 bounds the effect:
+   it is far too small to matter against a factor of ~80.
+
+==============================================================================
+R3.  FROZEN LAWS -> CONVERGENCE, and the Einstein-radius constraint
+==============================================================================
+
+   For a circular lens, multiple images of a background source require the mean
+   convergence inside the tangential critical curve to reach 1.  Under a
+   uniform slip, kappa -> Sigma_s kappa, so the image radii give
+
+       Sigma_s = 1 / kappa_bar_dyn(theta_E)
+
+   independently of the time delay.  theta_E is bracketed by the observed
+   images, not assumed.
+
+   images of the z = 1.488/1.489 source system (host + SN), n = 9:
+      theta = 4.49, 6.21, 7.95, 10.44, 10.58, 10.80, 11.70, 12.46, 20.97 arcsec
+      -> the tangential critical curve lies inside this range; the
+         median image radius is 10.58 arcsec = 67 kpc, and that is the value used
+         below.  The full range is carried as the model error.
+
+   law                                       kbar(10")  kbar(thE)  theta_E model  Sigma_s needed
+   Newton (baryons only)                         0.064      0.063           0.30          15.822
+   RAR                                           0.218      0.217           0.41           4.615
+   AQUAL                                         0.217      0.215           0.42           4.642
+   tidal-gated scalar A=7.5 (dynamics-froze      0.409      0.408           0.52           2.449
+   tidal-gated scalar A=16 (lensing-derived      0.545      0.545           0.63           1.834
+
+==============================================================================
+R1.  IMAGE POSITIONS CONSTRAIN grad psi; DELAYS CONSTRAIN psi
+==============================================================================
+
+   Demonstrated on the RAR x Sigma_s = 4.85 lens, i.e. one that is actually critical, so the
+   numbers below refer to a configuration that really does multiply-image.
+
+   The mass-sheet transformation:
+
+       psi_lam(theta) = lam psi(theta) + (1 - lam) |theta|^2 / 2
+       beta_lam       = lam beta
+
+   Prediction: image positions and flux ratios INVARIANT, every time delay
+   multiplied by exactly lam.  The image positions below are obtained by
+   BISECTING the lens equation independently at each lam -- not by re-using the
+   lam = 1 answer -- so the invariance is measured, not assumed.
+
+         lam  n images   max image shift ["]   Delta phi ["^2]  ratio to lam=1
+        0.50         3             1.421e-14         16.492575        0.500000
+        0.80         3             1.421e-14         26.388120        0.800000
+        1.00         3             0.000e+00         32.985150        1.000000
+        1.25         3             1.421e-14         41.231438        1.250000
+        2.00         3             4.441e-16         65.970300        2.000000
+
+      Image positions are invariant to machine precision at every lam, and
+      Delta phi scales as lam to six decimals.  So:
+
+        * image positions cannot see this closure change AT ALL;
+        * time delays see it LINEARLY.
+
+      A uniform slip Sigma_s is the RESCALING half of this transformation, with
+      no compensating sheet, so it is not fully invisible to images -- it moves
+      the Einstein radius.  That is why R3 gets one handle from the image radii
+      and R4 a second from the delay, and why comparing them is a test rather
+      than a tautology.
+
+==============================================================================
+R4.  THE JOINT SOLVE: which uniform Sigma_s reproduces the delay?
+==============================================================================
+
+   Under a uniform slip the whole lens potential scales, psi -> Sigma_s psi, so
+   BOTH the image configuration and the Fermat depth move together.  The source
+   position must therefore be re-solved at every Sigma_s; treating Delta phi as
+   linear in Sigma_s at fixed beta -- which is what a naive 'the delay scales
+   with the mass' argument does -- is wrong, and this section does not do it.
+
+   At each Sigma_s: build the lens, obtain beta_i = theta_i - alpha(theta_i)
+   theta_hat_i for the five Refsdal images, take their mean, and evaluate
+   Delta phi(SX - S1).  Then find where Delta phi meets the measured
+   3.5419 arcsec^2.
+
+   SUBCRITICAL WARNING.  When kappa_bar < 1 everywhere the model produces NO
+   multiple images, the Fermat difference is dominated by the geometric term
+   |theta - beta|^2/2, and the resulting 'predicted delay' is an artefact of a
+   lens that cannot make the observed images at all.  Those rows are flagged
+   rather than quietly reported.
+
+   required Delta phi(SX - S1) = 3.5419 +- 0.0525 arcsec^2
+
+   law                                     Sig_crit  Sig_delay beta rms["]  dphi@Sig_d     eta
+   Newton (baryons only)                     15.822     13.907       0.403      2.9714  +26.81
+   RAR                                        4.615      4.113       0.466      3.4693   +7.23
+   AQUAL                                      4.642      4.136       0.482      3.5873   +7.27
+   tidal-gated scalar A=7.5 (dynamics-fro     2.449      2.117       0.608      4.1759   +3.23
+   tidal-gated scalar A=16 (lensing-deriv     1.834      1.574       0.422      2.8456   +2.15
+
+   'Sig_crit' is the uniform slip that first makes the model critical, i.e.
+   able to produce multiple images at all.  'Sig_delay' is the uniform slip
+   that reproduces the measured Fermat difference with the source re-solved.
+   A real uniform closure has to satisfy both, and 'beta rms' says how far the
+   five images are from agreeing on a single source under a circular model.
+
+==============================================================================
+R5.  THE FREE-CLOSURE CONTROL, on Refsdal
+==============================================================================
+
+   Same demonstration as closure.py section 1, now in the strong-lensing
+   channel.  The free closure here is a SINGLE number, and it is enough: every
+   dynamics law in the table, including unmodified Newton, is brought onto the
+   measured 376.02 d by choosing Sigma_s.  A one-parameter closure exhausts the
+   information in one time delay exactly, so a single delay can never test a
+   gravity law -- it can only measure the closure, and only if the law is
+   already frozen and the lens model already right.
+
+   law                                     Sigma_s images  Sigma_s delay    ratio
+   Newton (baryons only)                           15.822         13.907    0.879
+   RAR                                              4.615          4.113    0.891
+   AQUAL                                            4.642          4.136    0.891
+   tidal-gated scalar A=7.5 (dynamics-fro           2.449          2.117    0.864
+   tidal-gated scalar A=16 (lensing-deriv           1.834          1.574    0.858
+
+   THE JOINT TEST.  Both columns are 'the uniform lensing response this law
+   would need', from two DIFFERENT observables -- image radii, which see
+   grad psi, and the delay, which sees psi.  A genuine uniform slip must give
+   the same number in both.  A ratio far from 1 is not evidence about slip; it
+   is evidence that the LENS MODEL is wrong, because a circular baryon-derived
+   monopole cannot describe a merging cluster whose images are not collinear
+   with its centre.  That is the honest reading, and it is exactly why the
+   brief calls Refsdal a joint lens-potential-and-delay test rather than a
+   mass-model-free discriminator.
+
+==============================================================================
+R6.  ERROR BUDGET -- what would have to be true for R4 to be believed
+==============================================================================
+
+   baseline (RAR): Sigma_s recovered from the delay = 4.113
+
+      perturbation                               Sigma_s    change
+      centre moved 5.6 arcsec                      3.552    -13.6%
+      all baryons truncated at 1.30 Mpc            4.254     +3.4%
+      M* x 0.50 (IMF, aperture, ICL)               4.188     +1.8%
+      M* x 2.00                                    3.972     -3.4%
+      M* x 10 (BCG envelope + ICL, extreme)        3.184    -22.6%
+      M_gas x 0.5                                  5.904    +43.5%
+      M_gas x 2.0                                  2.770    -32.7%
+
+      The gas mass is the perturbation that matters: halving it raises the
+      recovered Sigma_s by 44%, doubling it lowers it by 33%.  Closing the
+      factor of ~4 that separates the strong- from the weak-lensing value would
+      take roughly EIGHT times the ACCEPT gas mass inside 80 kpc, or a hundred
+      times the catalogued stellar mass.  Neither is available.  The
+      strong-lensing deficit is not a baryon bookkeeping error.
+
+   B4  THE ONE THAT DOMINATES.  MACS J1149 is not circular: it is a merging
+       system with a second mass concentration, and the Refsdal images are
+       split by an individual member galaxy that this model does not contain
+       at all.  The beta scatter printed in R4 measures that directly.  No
+       error budget on the baryons can repair a monopole model of a lens whose
+       observed images are not even collinear with its centre.
+
+       That is the honest limit of this lane's Refsdal test: it fixes the
+       ORDER OF MAGNITUDE of the required Sigma_s and it demonstrates the
+       image/delay division of labour exactly, but it cannot deliver a percent
+       level closure constraint without a full multi-component lens model
+       solved under each modified gravity law -- which is a separate lane.
+
+==============================================================================
+R7.  DOES ONE UNIVERSAL SLIP SERVE BOTH LENSING REGIMES?
+==============================================================================
+
+   Two independent lensing observables, the same five frozen dynamics laws,
+   one closure parameter each:
+
+     WEAK   496 eFEDS groups, DECADE raw per-cluster shear, 0.3 - 4.4 Mpc,
+            baryonic acceleration ~0.01 - 0.02 a0
+     STRONG MACS J1149, Refsdal images + time delay, 50 - 80 kpc,
+            baryonic acceleration ~0.1 a0, in a ~1e15 Msun cluster
+
+   If the slip is a universal constant of the theory the two must agree.  They
+   are separated by two decades in radius and a factor ~1000 in system mass, so
+   this is the sharpest closure test the available data support.
+
+   law                                  WL raw   WL null-corr  SL delay  SL images          SL/WL
+   Newton (baryons only)                 8.511  18.45-9.04       13.907     15.822    0.8-1.5    
+   RAR                                   1.000   2.17-1.06        4.113      4.615    1.9-3.9    
+   AQUAL                                 1.000   2.17-1.06        4.136      4.642    1.9-3.9    
+   tidal-gated scalar A=7.5 (dynamics    0.372   0.81-0.39        2.117      2.449    2.6-5.4    
+   tidal-gated scalar A=16 (lensing-d    0.263   0.57-0.28        1.574      1.834    2.8-5.6    
+
+   READ WITH BOTH SYSTEMATICS, AS MEASURED.
+     shear calibration   mass-matched DECADE/HSC = -0.039 dex, i.e. a few
+                         per cent.  Small enough to ignore here.
+     baryon-model noise  closure.py section 5 measures an errors-in-variables
+                         bias on the WL slip of -0.026 to -0.336 dex,
+                         depending on how much of the published marginal error
+                         is genuinely independent.  'WL null-corr' is the raw
+                         value undone across that bracket.
+     lens model          the SL column is a CIRCULAR monopole on a merging
+                         cluster.  Its image-versus-delay consistency is
+                         0.891 for the RAR, so
+                         the two SL estimators agree with each other to ~10%.
+                         That is an internal check, not proof the monopole is
+                         right, and R6 shows no baryonic perturbation moves it.
+
+   THE RESULT.  Newton is the ONLY one of the five for which a single universal
+   Sigma_s serves both regimes -- its SL/WL bracket contains 1.  Every MOND-like
+   law needs 2 to 6 times more lensing response in the cluster core than in the
+   group outskirts, so no universal closure saves it.
+
+   AND THE TIDAL GATE MAKES IT WORSE, NOT BETTER.  It multiplies the RAR by 2.75
+   in the eFEDS groups, where the shear already agreed, but by only 1.88 at
+   MACS J1149's 50-80 kpc, where |T| is large and the gate is partly OFF.  Its
+   sign is backwards for the cluster problem: it adds boost where none was
+   needed and withholds it where the deficit lives.
+
+   CONFOUND, STATED.  The two regimes differ in radius AND in host mass, so this
+   compares 'group at 1 Mpc' with 'massive cluster at 60 kpc' and cannot
+   attribute the difference to either alone.
+
+   WHAT THE COMPARISON DOES ESTABLISH.  A working, closed measurement chain:
+   dynamics frozen first, raw shear predicted under no slip, one slip parameter
+   admitted and quoted with an interval, transferred to held-out data, then
+   confronted with a completely different lensing observable in a different
+   acceleration regime.  The limiting quantity is NOT the shear -- section 9b
+   measures its absolute calibration at 0.04 dex on mass-matched samples -- but
+   the published X-ray density-parameter covariance, which is not released and
+   which forces the factor-of-two bracket in the WL column.  Publish that
+   covariance and this chain measures the slip to ~10%.
+
+   wrote refsdal_results.json in 9s

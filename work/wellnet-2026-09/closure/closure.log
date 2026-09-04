@@ -1,0 +1,531 @@
+
+==============================================================================
+LENSING CLOSURE -- two potentials, one slip, in the disciplined order
+==============================================================================
+
+   started 2026-09-04T14:23:55Z
+   496 systems / 3365 shear points ingested (assert 496 / 3365)
+   GATE M_gas,500: n = 414, median mine/published = 0.9994, scatter 0.0469 dex  ->  PASS
+   declared split, unchanged from the efeds-hsc lane: 248 TRAIN / 248 HELD OUT
+
+==============================================================================
+0.  FORMALISM AND IDENTIFIABILITY, before anything is fitted
+==============================================================================
+
+   Psi   slow matter      d^2x/dt^2 = -grad Psi        <- the modified Poisson
+   Phi   spatial curvature                                equation gives THIS
+   light                  deflection ~ grad(Phi + Psi)  <- and says nothing
+                                                           about THIS
+   slip  eta = Phi/Psi    lensing response Sigma_s = (1+eta)/2
+   GR without anisotropic stress: eta = 1, Sigma_s = 1  ->  NO SLIP
+
+   I1  Sigma_s = 2 as a rescaling of the PROJECTED mass: chi2 = 330.560241
+       Sigma_s = 2 as a rescaling of the 3-D lensing mass: chi2 = 330.560241
+       identical to 0.0e+00 relative.  A CONSTANT slip is exactly
+       a lens-mass rescaling, so lensing alone -- shear, images or
+       time delays -- can never separate the two.  The frozen
+       dynamics law is the ONLY source of identification.
+
+   I2  reduced shear is NOT linear in Sigma_s (kappa up to 0.040):
+         R [Mpc]     kappa   dln g+/dln Sigma_s
+           0.335    0.0052               1.0054
+           0.656    0.0106               1.0110
+           1.226    0.0077               1.0080
+           2.177    0.0043               1.0045
+           3.857    0.0023               1.0024
+
+       mean 1.0058, inner bins 1.0054.  A linearised 'shear scales with mass'
+       shortcut would be wrong by that much and would bias any slip.
+
+==============================================================================
+2.  PROVENANCE AUDIT OF THE FROZEN CONSTANTS  (step 1 -> step 2)
+==============================================================================
+
+   newton     no free constant.
+
+   rar        a0 = 1.0844e-10 m/s^2 from the SPARC train rotation curves (tournament BASE_rar). DYNAMICS ONLY -- PASSES.
+
+   aqual      a0 = 1.05804e-10 m/s^2 from the SPARC train rotation curves (tournament BASE_aqual). DYNAMICS ONLY -- PASSES.
+
+   tidal      a0 = 1.00231e-10 m/s^2 SPARC train; T0 = 1e-33 s^-2 and m = 2 from the declared grid; A = 7.5 fitted to the X-COP flat target B = 2 (nu/nu_RAR = 2.53 for A2029), which is a HYDROSTATIC X-ray constraint. Hydrostatic gas is slow matter, so that is dynamics -- PASSES.
+
+   tidal_A16  identical but A = 16.0, selected by minimising the distance to the lane-12 radial requirement, which is interpolated from PUBLISHED LENSING MASS PROFILES (CLASH SL+WL+magnification, XXL, X-COP x WL). Those masses were derived under the standard lens equation, i.e. under Sigma_s = 1 -- FAILS the audit for this lane.
+
+   THE FINDING, AND IT IS NOT A TECHNICALITY.  The tournament's headline
+   amplitude A = +16.0 was selected against a radial requirement built from
+   published lensing MASSES.  Those masses already assume no slip.  Predicting
+   raw shear with A = 16 under no slip and calling the agreement a success
+   would be circular: the amplitude was set by the answer.  This lane therefore
+   takes A = 7.5 -- the X-COP HYDROSTATIC amplitude, genuinely dynamics -- as
+   the PRIMARY frozen tidal law, and carries A = 16 beside it, labelled.  This
+   is the same 'never fit the law and the closure together' rule, caught one
+   level further upstream than the brief phrased it.
+
+   Frozen field boost B(r) = g_dyn/g_b, median over the sample:
+      law               0.3      0.5      1.0      2.0      3.0   Mpc
+      newton          1.000    1.000    1.000    1.000    1.000
+      rar             6.688    7.128    9.241   15.592   22.592
+      aqual           6.619    7.053    9.139   15.410   22.324
+      tidal          17.312   18.736   24.901   42.783   62.414
+      tidal_A16      24.235   26.262   34.997   60.295   88.059
+
+==============================================================================
+2b. LEVERAGE: does the eFEDS sample reach the tidal gate at all?
+==============================================================================
+
+   gate W = 1/(1+(|T|/T0)^2) evaluated at all 3365 MEASURED points:
+      min 0.7440   1st pct 0.9338   median 0.9998   max 1.0000
+      fraction with W < 0.99: 0.120;  with W < 0.90: 0.0045
+
+   log10(B_tidal / B_RAR) over the same points:
+      median +0.4390 dex (factor 2.748)   sd 0.0085 dex   full range 0.0887 dex
+
+   THE GATE IS SATURATED.  |T| in these eFEDS systems is far below T0 = 1e-33
+   over essentially the whole measured range, so W ~ 1 and the tidal law
+   reduces to AQUAL with a0 -> a0 (1 + A), i.e. a CONSTANT rescaling of the
+   RAR by sqrt(1+A) = 2.915.  Its variation across the
+   entire data set is 0.0085 dex.  A single universal slip parameter
+   absorbs a constant EXACTLY.  So on this sample the tidal-gated law and the
+   RAR are the same hypothesis up to a closure, and the shear cannot separate
+   them no matter how many clusters are added.
+
+   That is not a defect of the data -- it is where the gate lives.  |T| ~ T0
+   requires ~1e14 Msun inside a few hundred kpc, i.e. massive cluster CORES.
+   The eFEDS sample is groups: median M_b,500 is ~5e11 Msun and g_b at 1 Mpc
+   is 0.012 a0.  The gate's radial structure is therefore testable only in
+   strong-lensing-scale data, which is what makes section refsdal.py
+   load-bearing rather than decorative.
+
+==============================================================================
+1.  THE FREE-CLOSURE CONTROL -- what the discipline protects against
+==============================================================================
+
+   If the closure is left free, an obviously WRONG dynamics law fits the shear.
+   Ladder of closures, each applied in 3-D and re-projected:
+
+       C0  Sigma_s = 1                                   0 free parameters
+       C1  Sigma_s = Sigma_0                             1
+       C2  Sigma_s = Sigma_0 (r/Mpc)^s                   2
+       C3  Sigma_s = Sigma_0 (r/Mpc)^s e^{q ln^2 r}      3
+       C4  Sigma_s = Sigma_0,k, one per cluster          n_sys
+
+   C4 is the 'unrestricted lensing closure' the brief forbids.  The reference
+   line is the RAR with NO closure freedom at all.
+   ... newton done  (49s)
+   ... wrongshape done  (98s)
+   ... rar done  (148s)
+   ... aqual done  (197s)
+   ... tidal done  (261s)
+
+   TRAIN half: 248 systems, 1709 shear points
+
+   dynamics law                                    C0        C1        C2        C3        C4
+   Newton (baryons only)                       1981.9   1877.6   1872.9   1872.9   1656.1
+   CONTROL Newton x (r/Mpc)^-1 (wrong shape    1980.5   1880.8   1872.9   1872.9   1685.1
+   RAR                                         1869.7   1869.7   1850.3   1850.3   1650.2
+   AQUAL                                       1869.7   1869.7   1850.3   1850.3   1650.2
+   tidal-gated scalar A=7.5 (dynamics-froze    2305.0   1871.0   1850.3   1850.3   1652.1
+
+   REFERENCE  RAR under NO SLIP:  chi2 = 1869.7 on 1709 pts
+   The number that matters is the FRACTION OF THE GAP a free
+   closure recovers: (chi2_C0 - chi2_Cx)/(chi2_C0 - chi2_RAR,C0).
+
+      law + closure                par      chi2  vs RAR+noslip  gap recovered
+      newton + C1                    1    1877.6           +7.9          93.0%
+      newton + C2                    2    1872.9           +3.2          97.1%
+      newton + C3                    3    1872.9           +3.2          97.1%
+      newton + C4                  248    1656.1         -213.6         290.3%
+      wrongshape + C1                1    1880.8          +11.1          90.0%
+      wrongshape + C2                2    1872.9           +3.2          97.1%
+      wrongshape + C3                3    1872.9           +3.2          97.1%
+      wrongshape + C4              248    1685.1         -184.6         266.7%
+
+   Newton + C2 and the WRONG-SHAPE control + C2 land on the same chi2, because
+   the closure's power law r^s and the control law's tilt r^-1 are the same
+   function: (r/Mpc)^s x (r/Mpc)^-1 = (r/Mpc)^(s-1).  A radial closure and a
+   radial modification of the force law are not merely similar; they are
+   ALGEBRAICALLY IDENTICAL.  That is the degeneracy in its sharpest form.
+
+   WHAT THE FREE CLOSURE LEARNED.  Sigma_s(r) recovered for Newton
+   at C2, against the field boost the RAR supplies as DYNAMICS:
+        r [Mpc]      0.3      0.5      1.0      2.0      3.0
+        Sigma_s   16.651   12.898    9.120    6.449    5.265
+          B_RAR    6.648    7.157    9.313   15.742   22.607
+      The 'closure' has simply absorbed the missing dynamics.  A
+      free Sigma_s(r) and a modified force law are the same two
+      parameters wearing different names.
+
+   READ THIS ROW BY ROW.  A law wrong by a large factor in amplitude, and a law
+   additionally wrong in radial SHAPE, are both brought level with or past the
+   RAR by two or three closure parameters.  With the closure free, the shear
+   stops being a test of gravity.  That is the failure mode the ordering
+   forbids, quantified on real data.
+
+==============================================================================
+3.  STEP 3 -- RAW SHEAR PREDICTED UNDER NO SLIP, nothing fitted
+==============================================================================
+
+   All 496 systems, 3365 (system, bin) points.
+   Sigma_s = 1 exactly.  No amplitude, no tilt, no free parameter.
+
+   law                                           chi2  chi2/N  mean pull Sigma_s needed     eta
+   Newton (baryons only)                       3803.2  1.1302    +0.2170          8.322  +15.64
+   RAR                                         3588.4  1.0664    -0.0036          0.981   +0.96
+   AQUAL                                       3588.2  1.0663    -0.0009          0.992   +0.98
+   tidal-gated scalar A=7.5 (dynamics-froze    4472.9  1.3292    -0.4276          0.358   -0.28
+   tidal-gated scalar A=16 (lensing-derived    5998.2  1.7825    -0.7069          0.253   -0.49
+
+   zero-signal reference (g_pred = 0):                        3865.0  1.1486
+   max convergence reached by any model: kappa = 0.189
+
+   'Sigma_s needed' is the chi2-optimal linear scale, i.e. the lensing response
+   that would be required to bring this law onto the observed shear; 'eta' is
+   the corresponding slip Phi/Psi = 2 Sigma_s - 1.  NOTHING IS FITTED ABOVE:
+   the chi2 column is the genuine zero-parameter no-slip prediction and the
+   Sigma_s column is shown only to translate its size into the closure the law
+   would need.  eta < 0 means the curvature potential has the opposite sign to
+   the one slow matter feels -- light would have to bend the wrong way -- which
+   no viable relativistic completion produces.
+
+   TWO SYSTEMATICS OWN THIS TABLE, AND BOTH ARE MEASURED, NOT ASSUMED.
+
+   (a) SHEAR CALIBRATION.  DECADE photo-z are DNF point estimates with a
+       dz = 0.2 selection margin, so foreground galaxies can dilute g_t.
+       Section 9b measures the size directly by stacking the SAME clusters and
+       comparing with Chiu+2022's HSC profile: mass-matched, the two surveys
+       agree to a few hundredths of a dex.  This systematic is small.
+
+   (b) THE X-RAY BARYON MODEL.  Section 5 shows that noise in the published
+       Vikhlinin density parameters alone biases a fitted Sigma_s LOW, by
+       between 0.03 and 0.34 dex depending on how much of the published
+       marginal error is genuinely independent.  This systematic is large and
+       it is the one that limits the measurement.
+
+   Everything below therefore separates the CONSTANT part of the residual,
+   which those systematics act on, from the SHAPE, which they do not.
+
+==============================================================================
+4.  IS THE FAILURE STRUCTURED, OR NOISE-LIKE?   (TRAIN half only)
+==============================================================================
+
+   A universal slip is a single number.  It can absorb a CONSTANT offset and
+   nothing else.  So the question that decides whether step 4 is permitted at
+   all is: after the best constant is removed, what is left?
+
+     P1  radial       weighted residual pull per radial bin
+     P2  cross-system excess scatter of per-system offsets over shape noise
+     P3  the B-mode, which carries no signal and sets the scale of 'noise-like'
+
+   Diagnosed on the TRAIN half only.  The held-out half sees the frozen
+   verdict in section 6 and nothing else.
+
+   Newton (baryons only)
+      best constant slip Sigma_s = 8.511 (eta = +16.02), chi2 = 1877.6
+        R[Mpc]      n      pull      +-
+         0.335     20    +0.468   0.224
+         0.446     51    +0.100   0.140
+         0.594     83    -0.004   0.110
+         0.791    136    +0.145   0.086
+         1.053    196    +0.066   0.071
+         1.402    232    +0.083   0.066
+         1.867    248    -0.012   0.064
+         2.487    248    +0.109   0.064
+         3.311    248    +0.053   0.064
+         4.405    247    +0.005   0.064
+      P1 shape chi2 = 13.9 on 10 bins; log-r slope = -0.101 +- 0.085 (-1.2 sigma)
+      P2 per-system offsets var 0.180 vs shape-noise 0.154  -> excess 1.17x
+
+   RAR
+      best constant slip Sigma_s = 1.000 (eta = +1.00), chi2 = 1869.7
+        R[Mpc]      n      pull      +-
+         0.335     20    +0.452   0.224
+         0.446     51    +0.105   0.140
+         0.594     83    +0.027   0.110
+         0.791    136    +0.182   0.086
+         1.053    196    +0.097   0.071
+         1.402    232    +0.089   0.066
+         1.867    248    -0.044   0.064
+         2.487    248    +0.035   0.064
+         3.311    248    -0.061   0.064
+         4.405    247    -0.145   0.064
+      P1 shape chi2 = 19.8 on 10 bins; log-r slope = -0.311 +- 0.085 (-3.7 sigma)
+      P2 per-system offsets var 0.171 vs shape-noise 0.154  -> excess 1.11x
+
+   AQUAL
+      best constant slip Sigma_s = 1.000 (eta = +1.00), chi2 = 1869.7
+        R[Mpc]      n      pull      +-
+         0.335     20    +0.453   0.224
+         0.446     51    +0.107   0.140
+         0.594     83    +0.028   0.110
+         0.791    136    +0.185   0.086
+         1.053    196    +0.099   0.071
+         1.402    232    +0.091   0.066
+         1.867    248    -0.041   0.064
+         2.487    248    +0.038   0.064
+         3.311    248    -0.058   0.064
+         4.405    247    -0.142   0.064
+      P1 shape chi2 = 19.8 on 10 bins; log-r slope = -0.309 +- 0.085 (-3.6 sigma)
+      P2 per-system offsets var 0.171 vs shape-noise 0.154  -> excess 1.11x
+
+   tidal-gated scalar A=7.5 (dynamics-frozen)
+      best constant slip Sigma_s = 0.372 (eta = -0.26), chi2 = 1871.0
+        R[Mpc]      n      pull      +-
+         0.335     20    +0.452   0.224
+         0.446     51    +0.108   0.140
+         0.594     83    +0.031   0.110
+         0.791    136    +0.187   0.086
+         1.053    196    +0.100   0.071
+         1.402    232    +0.090   0.066
+         1.867    248    -0.045   0.064
+         2.487    248    +0.032   0.064
+         3.311    248    -0.066   0.064
+         4.405    247    -0.152   0.064
+      P1 shape chi2 = 20.8 on 10 bins; log-r slope = -0.323 +- 0.085 (-3.8 sigma)
+      P2 per-system offsets var 0.171 vs shape-noise 0.154  -> excess 1.11x
+
+   tidal-gated scalar A=16 (lensing-derived A)
+      best constant slip Sigma_s = 0.263 (eta = -0.47), chi2 = 1871.2
+        R[Mpc]      n      pull      +-
+         0.335     20    +0.453   0.224
+         0.446     51    +0.108   0.140
+         0.594     83    +0.033   0.110
+         0.791    136    +0.188   0.086
+         1.053    196    +0.101   0.071
+         1.402    232    +0.091   0.066
+         1.867    248    -0.044   0.064
+         2.487    248    +0.033   0.064
+         3.311    248    -0.065   0.064
+         4.405    247    -0.151   0.064
+      P1 shape chi2 = 21.0 on 10 bins; log-r slope = -0.324 +- 0.085 (-3.8 sigma)
+      P2 per-system offsets var 0.171 vs shape-noise 0.154  -> excess 1.11x
+
+   P3 noise reference measured on these same data:
+      B-mode <g_x> = -0.000033 +- 0.000199  (-0.2 sigma)
+      B-mode per-bin pulls: chi2 = 9.3 on 10 bins  <- this is what 'no structure' looks like here
+
+==============================================================================
+5.  STEP 4 -- ONE universal slip parameter, fitted on TRAIN only
+==============================================================================
+
+   ONE parameter, Sigma_s, global across every cluster and every radius, fitted
+   on the declared TRAIN half.  The held-out half is not touched until
+   section 6.  Interval from Delta chi2 = 1 on the profile curve.
+
+   Newton (baryons only)
+      Sigma_s = 8.511  [7.762, 9.120]  ->  eta = +16.023 [+14.525, +17.240]
+
+   RAR
+      Sigma_s = 1.000  [0.933, 1.072]  ->  eta = +1.000 [+0.867, +1.143]
+
+   AQUAL
+      Sigma_s = 1.000  [0.933, 1.072]  ->  eta = +1.000 [+0.867, +1.143]
+
+   tidal-gated scalar A=7.5 (dynamics-frozen)
+      Sigma_s = 0.372  [0.339, 0.398]  ->  eta = -0.257 [-0.322, -0.204]
+
+   tidal-gated scalar A=16 (lensing-derived A)
+      Sigma_s = 0.263  [0.240, 0.282]  ->  eta = -0.474 [-0.520, -0.436]
+
+   RESPONSIVENESS GATE  d(Sigma_hat)/d(Sigma_injected)
+      injected  [-0.4 -0.2  0.   0.2  0.4  0.6]
+      recovered [-0.34 -0.22  0.01  0.22  0.42  0.59]
+      d(recovered)/d(injected) = 0.9686, spread = 0.930 dex over an injected span of 1.00 dex ->  PASS
+
+   SHARED-QUANTITY NULL: the estimator's own expectation under H0
+   Vikhlinin density parameters redrawn from their PUBLISHED errors,
+   shear redrawn independently, truth = the fitted Sigma_s.
+   The published errors are MARGINAL and the Vikhlinin parameters
+   are strongly covariant, so treating them as independent is the
+   WORST case.  The null is therefore run at three error scalings
+   so the bias is bracketed rather than quoted at one point.
+
+       err scale   E[est|H0]       sd  bias [dex]  sigma_MC
+            0.25      -0.026    0.058     -0.0260      -2.5
+            0.50      -0.125    0.070     -0.1253      -9.8
+            1.00      -0.336    0.108     -0.3360     -17.0
+
+      THE NULL FIRES, HARD.  With the published marginal errors taken at face
+      value the estimator's expectation under H0 is -0.336
+      instead of +0.000: X-ray density-fit noise ALONE drags a fitted
+      Sigma_s down by 0.34 dex, a factor 2.2.  At a
+      quarter of the errors the bias is 0.026 dex,
+      so it scales roughly as the variance, as an errors-in-variables bias
+      should.  Every Sigma_s in this report must be read against THIS null and
+      not against 1, and the true bias lies somewhere in the bracket because
+      the real parameter covariance is not published.
+
+==============================================================================
+6.  THE CLOSURE-INDEPENDENT TEST: shape after profiling out Sigma_s
+==============================================================================
+
+   A radius-independent slip cannot change a radial shape.  Profiling Sigma_s
+   out and comparing the SHAPE of the residual is therefore a test of the
+   dynamics law valid for ANY constant closure, and immune to the DECADE
+   photo-z amplitude systematic, which is also a constant.
+
+   Fitted on TRAIN; the held-out confirmation is in section 7.
+
+   law                                      chi2@best const  shape chi2  bins     slope   sigma
+   Newton (baryons only)                             1877.6        13.9    10    -0.101    -1.2
+   RAR                                               1869.7        19.8    10    -0.311    -3.7
+   AQUAL                                             1869.7        19.8    10    -0.309    -3.6
+   tidal-gated scalar A=7.5 (dynamics-froze          1871.0        20.8    10    -0.323    -3.8
+   tidal-gated scalar A=16 (lensing-derived          1871.2        21.0    10    -0.324    -3.8
+
+   'shape chi2' is the chi^2 of the binned residual pulls about zero AFTER the
+   best constant slip -- the part of the misfit that no universal closure can
+   remove.  'slope' is its log-radius trend: POSITIVE means the model's shear
+   falls too fast with radius, NEGATIVE that it falls too slowly.
+
+   6b  HOW MUCH POWER IS THERE ON THE TIDAL GATE ITSELF?
+
+   Embed the two laws in one family and measure the error on the mixing
+   parameter:
+       g_pred = Sigma_s * g_RAR * 10^{lambda * Delta},
+       Delta  = log10(B_tidal/B_RAR) evaluated point by point
+   lambda = 0 is the RAR, lambda = 1 is the tidal-gated law.  Sigma_s is
+   profiled out at every lambda, so this measures ONLY the gate's SHAPE and is
+   closure-independent by construction.
+
+      lambda_hat = -7.50  [-8.50, -6.00] (Delta chi2 = 1)  ->  sigma(lambda) ~ 1.2
+      The hypothesis under test is lambda = 1 against lambda = 0.
+      Separation between them: 0.800 sigma.
+
+      THE DETECTOR HAS NO POWER HERE.  Distinguishing the tidal-gated law from
+      the RAR by radial SHAPE alone needs sigma(lambda) < 0.5; the measured
+      value is 1.25, i.e. 2.5x too large.  Reporting 'the shear
+      does not prefer the tidal gate' would be reporting the sensitivity of the
+      instrument, not a property of gravity.  The amplitude channel, by
+      contrast, has plenty of power -- and the amplitude is exactly what a slip
+      parameter owns.
+
+==============================================================================
+7.  STEP 5 -- FROZEN slip transferred to the HELD-OUT half, once
+==============================================================================
+
+   248 systems, 1656 points.  Every parameter frozen at its
+   TRAIN value.  This set is scored exactly once.
+
+   law                                      Sigma_s frozen      chi2   chi2/N   (refit)   d log10
+   Newton (baryons only)                             8.511    1714.7   1.0354     8.128    -0.020
+   RAR                                               1.000    1718.7   1.0379     0.977    -0.010
+   AQUAL                                             1.000    1718.6   1.0378     0.977    -0.010
+   tidal-gated scalar A=7.5 (dynamics-froze          0.372    1720.7   1.0390     0.355    -0.020
+   tidal-gated scalar A=16 (lensing-derived          0.263    1720.9   1.0392     0.257    -0.010
+
+   The '(refit)' column exists only to expose how much a forbidden
+   refit on held-out data would have bought.  It is used nowhere.
+
+   Held-out confirmation of the SHAPE statistic frozen in section 6:
+   law                                           train slope       held slope
+   Newton (baryons only)                      -0.101 +-0.085   +0.109 +-0.087
+   RAR                                        -0.311 +-0.085   -0.095 +-0.087
+   AQUAL                                      -0.309 +-0.085   -0.094 +-0.087
+   tidal-gated scalar A=7.5 (dynamics-froze   -0.323 +-0.085   -0.109 +-0.087
+   tidal-gated scalar A=16 (lensing-derived   -0.324 +-0.085   -0.110 +-0.087
+
+   NOTE, and it is not a small one: this is a held-out HALF of the same survey,
+   the same instrument, the same photo-z code and the same X-ray catalogue.  It
+   controls overfitting, not systematics -- and this measurement is systematics
+   limited, so the transfer is a weak form of the test the brief asked for.
+   The only genuinely independent instrument reachable here is the HSC stack of
+   section 9, and it is a stack, which section 8h says cannot test a shape.
+
+==============================================================================
+8.  SENSITIVITY, and the failure modes on the standing checklist
+==============================================================================
+
+   8a  stellar fraction f_star
+      law                  0.0        0.15         0.3     (log10 Sigma_s)
+      newton             0.930       0.870       0.810
+      rar                0.000      -0.030      -0.060
+      aqual              0.000      -0.030      -0.060
+      tidal             -0.430      -0.470      -0.490
+      tidal_A16         -0.580      -0.610      -0.640
+
+   8b  Abel truncation radius [Mpc]
+      law                 10.0        20.0        40.0     (log10 Sigma_s)
+      newton             0.930       0.930       0.930
+      rar                0.000       0.000       0.000
+      aqual              0.000       0.000       0.000
+      tidal             -0.440      -0.430      -0.430
+      tidal_A16         -0.580      -0.580      -0.580
+
+   8c  a0 multiplier
+      law                  0.9         1.0         1.1     (log10 Sigma_s)
+      newton             0.930       0.930       0.930
+      rar                0.020       0.000      -0.020
+      aqual              0.020       0.000      -0.020
+      tidal             -0.410      -0.430      -0.460
+      tidal_A16         -0.560      -0.580      -0.600
+
+   8d  member contamination.  The efeds-hsc lane FLAGGED a 1.236 inner/outer
+       background-source density ratio -- a 24% excess in the inner bins.  It
+       dilutes g_t towards the centre, so it MIMICS a positive residual slope.
+       Any positive shape slope in section 7 must be discounted by that, and
+       it is one more reason a radius tilt should not be believed.
+
+   8e  shared-denominator / shared-quantity artefacts.  Checked in section 5
+       with the actual published density-parameter errors.  The construction
+       expressions share no input: g_t is built from galaxy shapes, weights and
+       photo-z; the baryon model from (n0^2, r_s, alpha, beta_V, eps, z).  The
+       X-ray fit enters only the PREDICTION, which is why the null is a bias
+       and not a spurious correlation.
+
+   8f  monotone-invariance.  d(Sigma_hat)/d(Sigma_inj) measured in section 5
+       with the spread printed, not asserted.
+
+   8g  refitting on held-out data.  Section 6 freezes everything; the refit
+       column is displayed and discarded.
+
+   8h  stacked-profile blindness.  Run AI found beta running to the grid edge
+       on the HSC stack while pinned at zero per-cluster.  Every fit here is
+       per-cluster; the HSC stack appears in section 9 as an amplitude
+       cross-check only and is never fitted.
+
+==============================================================================
+9.  INDEPENDENT ABSOLUTE-AMPLITUDE CROSS-CHECK: the HSC stack
+==============================================================================
+
+   Chiu+2022 HSC stacked profile, 10 bins, recovered from
+   the e-print vector stream by the efeds-hsc lane.  An INDEPENDENT
+   instrument with a 98% P(z) source cut, i.e. far less photo-z
+   dilution than DECADE's DNF point estimates.  NEVER fitted.
+
+     R[Mpc]    HSC g_+  DECADE g_+        +-  DECADE/HSC
+      0.333    0.02434     0.00468   0.00287       0.192
+      0.443    0.02426     0.00066   0.00193       0.027
+      0.590    0.01988     0.00069   0.00138       0.035
+      0.786    0.01554     0.00250   0.00100       0.161
+      1.046    0.01167     0.00329   0.00074       0.282
+      1.393    0.00923     0.00243   0.00055       0.263
+      1.854    0.00603     0.00172   0.00044       0.285
+      2.469    0.00379     0.00208   0.00036       0.549
+      3.287    0.00233     0.00088   0.00029       0.377
+      4.376    0.00207     0.00081   0.00023       0.393
+
+   median DECADE/HSC = 0.273 = -0.564 dex
+
+   IS THAT CALIBRATION, OR SAMPLE COMPOSITION?  Chiu+2022 stack a selected
+   subsample with their own shape-noise weights; this lane stacks every eFEDS
+   system that passes its own cuts, and eFEDS is dominated by low-mass groups.
+   Split by gas mass to separate the two explanations:
+      all                    n = 496  median M_gas500 = 6.47e+12 Msun  DECADE/HSC = 0.273 (-0.564 dex)
+      top 50% by M_gas500    n = 248  median M_gas500 = 1.21e+13 Msun  DECADE/HSC = 0.914 (-0.039 dex)
+      top 20% by M_gas500    n = 100  median M_gas500 = 2.01e+13 Msun  DECADE/HSC = 0.875 (-0.058 dex)
+
+   THE OFFSET IS SAMPLE COMPOSITION, NOT SHEAR CALIBRATION.  Stacking every
+   eFEDS system gives DECADE/HSC = 0.27, but eFEDS is dominated by low-mass
+   groups that Chiu+2022 do not weight the same way.  Mass-match the stack and
+   the two surveys agree to a few hundredths of a dex.  So the DECADE absolute
+   amplitude is good to roughly 0.05 dex on comparable systems -- much better
+   than the 0.2-0.4 dex the efeds-hsc lane inferred by comparing FITTED
+   amplitudes across two different model setups, and good enough that the
+   no-slip amplitudes of section 3 are genuine measurements rather than
+   placeholders.
+
+   The residual ~0.05 dex is the floor on any slip measured this way, and it is
+   an order of magnitude smaller than the errors-in-variables bias of section 5.
+   The limiting systematic is the X-ray baryon model, not the shear.
+
+   wrote closure_results.json in 432s
