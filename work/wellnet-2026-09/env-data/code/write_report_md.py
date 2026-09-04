@@ -655,7 +655,62 @@ a sanity check that the extraction is not returning noise.
 
 ## Test 2 -- systems that measure two gravitational directions at once
 
-The system-by-system inventory is in `TWO_DIRECTION_INVENTORY.md`.
+Full system-by-system inventory: `TWO_DIRECTION_INVENTORY.md`.
+
+| category | systems with BOTH directions measured | numbers tabulated? |
+|---|---|---|
+| (a) polar rings | 9 with rotation measured independently in both planes; 40 confirmed PRGs | **no** |
+| (b) warped H I disks | 15 with i(R), PA(R) and V(R) in one table, ~9 credibly warped, +1 | yes |
+| (c) stellar streams | 60 Milky Way streams with a measured 3-D track, 30 with 6-D | yes |
+| (d) satellite systems | 101 SAGA hosts with orientation, 378 satellites | yes, but no in-plane curve |
+| (e) two-component galaxies | 105 near-orthogonal + 38 counter-rotating measured here; 447 + 261 from SAMI | yes |
+| vertical dispersion | 240 MaNGA face-on disks measured here; 2 external galaxies + the Milky Way | yes |
+
+**The sharpest finding is a negative on the configuration the task named as most
+powerful.** No polar-ring galaxy reachable from arXiv, VizieR, CDS or NED has a
+numerically tabulated rotation curve in **both** planes. Exactly two have one
+plane tabulated (NGC 4650A's host disk, 23 points; NGC 2685's warped H I disk,
+21 rings). Nine systems do have rotation measured independently in both planes
+-- NGC 4650A, NGC 4262, SPRC-7, SPRC-260, NGC 4632, NGC 6156, A0136-0801,
+UGC 7576, UGC 9796 -- and every one of them exists only as a figure. The physics
+is published; the numbers are not. Recovering them means digitising figures,
+re-reducing archival cubes, or asking the authors, and none of that is a
+data-acquisition task.
+
+**The category the task listed last turned out to be the largest by two orders
+of magnitude.** Integral-field spectroscopy measures two planes of the same
+galaxy by construction, because the stellar and ionised-gas velocity fields are
+independent tracers of the same potential. Measuring the gas-versus-stellar
+kinematic misalignment directly from the MAPS cubes this lane already holds
+(`clean/manga_gas_star_misalignment.csv`) gives 105 near-orthogonal and 38
+counter-rotating systems out of 891 with both components rotating -- with the
+resolved velocity fields in both planes already on disk, not merely cited. SAMI's
+published kinematic position angles give 447 and 261 more. That is a screen, not
+a measurement of record: a linear-gradient estimator cannot see a decoupled core
+or a warp, so anything used as a detection needs a proper kinematic-PA fit first.
+
+**Two structural obstructions worth recording, because they are not survey
+defects and no amount of further acquisition removes them:**
+
+1. **No external galaxy anywhere has a *measured* scale height alongside a
+   resolved sigma_z(R).** Measuring h_z requires an edge-on view; measuring
+   sigma_z requires a face-on one. Every face-on sigma_z in the literature --
+   DiskMass and Aniyan alike -- pairs with an h_z inferred from an h_R/h_z
+   relation. The correlated-by-construction problem the programme recorded for
+   DiskMass is therefore a geometric obstruction, not a DiskMass defect, and any
+   Sigma_dyn built from sigma_z^2/(2 pi G h_z) inherits it.
+2. **SAGA publishes no in-plane rotation curve for its hosts**, so category (d)
+   delivers excellent angular sampling of the out-of-plane field around 101
+   hosts with no in-plane field to compare it against. The Milky Way and M31
+   remain the only satellite systems where both directions are genuinely
+   available, at a few tens of objects each.
+
+**The largest untapped dataset found in the whole lane** is H I layer thickness
+in edge-on galaxies: gas dispersion plus a *measured* thickness gives the
+vertical force directly, and O'Brien et al. 2010 and Peters et al. 2017 jointly
+fit rotation curve, surface density, thickness and dispersion for 8 galaxies
+(the two series overlap, so the union is 8, not 14). All of it is published as
+figures. The sources are on disk.
 
 ---
 
@@ -664,34 +719,52 @@ The system-by-system inventory is in `TWO_DIRECTION_INVENTORY.md`.
 ```
 env-data/
   MATCHED_PAIRS.md                     field/cluster pairs, tolerances achieved
-  TWO_DIRECTION_INVENTORY.md           Test 2 inventory
+  TWO_DIRECTION_INVENTORY.md           Test 2 inventory, sections (a)-(e)
   REPORT.md                            this file
-  clean/
-    manga_env_master.csv               10,071 x 186, the joined sample  (+manifest)
-    matched_pairs.csv                  559 rows across 7 tiers          (+manifest)
-    matched_pairs_summary.json         per-tier achieved tolerances, power
-    manga_faceon_sigma_profiles.csv    {n_pts} radial points, {n_gal} disks (+manifest)
-    faceon_sample.csv                  the {n_gal} selected face-on disks
+  clean/                               every file has a sibling .manifest.json
+    manga_env_master.csv               10,071 x 196, the joined MaNGA sample
+    matched_pairs.csv                  784 rows across 7 declared tiers
+    matched_pairs_summary.json         per-tier achieved tolerances and power
+    sami_matched_pairs.csv             472 rows across 2 tiers, SAMI DR3
+    sami_matched_pairs_summary.json
+    manga_sami_crosscal.csv            103 galaxies observed by both surveys
+    manga_sami_crosscal_summary.json   the measured inter-survey offsets
+    manga_faceon_sigma_profiles.csv    1,671 radial points, 240 face-on disks
+    faceon_sample.csv                  the 240 selected disks
+    manga_gas_star_misalignment.csv    gas-vs-stellar kinematic PA, 900 cubes
     checks.json                        failure-mode verdicts
   raw/
-    manga/        DRPall, DAPall, PyMorph, morphology, HI-MaNGA, GEMA (+manifests)
-    manga/maps/   809 DAP MAPS cubes, 4.74 GB                         (+manifest)
-    groups/       Tempel+2014, Tempel+2017, MCXC                      (+manifests)
-    polar-rings/  Test 2a
-    warps-vertical/     Test 2b and the sigma_z literature search
+    manga/        DRPall, DAPall, PyMorph, morphology, HI-MaNGA, GEMA
+    manga/maps/   902 DAP MAPS cubes, 5.30 GB
+    groups/       Tempel+2014, Tempel+2017, MCXC
+    sami/         SAMI DR3, 14 catalogues + Owers+2017, 3068 x 81 inventory
+    polar-rings/       Test 2a  -> POLAR_RINGS.md
+    warps-vertical/    Test 2b and the sigma_z literature -> WARPS_AND_VERTICAL.md
     streams-satellites/ Test 2c, 2d, 2e
-    sami/         SAMI DR3 cluster sample
   code/
     vizier_tsv.py              VizieR TSV reader with the HTTP-200 trap assertion
     build_manga_env.py         ingest, cross-match, derived quantities
     build_matched_pairs.py     tiered matching, blind-protected
-    extract_sigma_profiles.py  resolved dispersion profiles
+    build_sami_pairs.py        the same build on SAMI DR3
+    crosscal_manga_sami.py     inter-survey offsets on the 103 shared galaxies
+    extract_sigma_profiles.py  resolved dispersion profiles from the MAPS cubes
+    extract_aniyan2018_ngc628.py  rotated-PDF table recovery, with validation
+    measure_gas_star_misalignment.py  Test 2(e) screen
     fetch_maps.py              MAPS downloader
     write_manifests.py         manifest generation
-    write_matched_pairs_md.py  MATCHED_PAIRS.md generator
-    write_report_md.py         this report's generator
     checks.py                  failure-mode checks
+    verify_lane.py             re-hash every manifest against its file
+    sanity_physical.py         end-to-end physical sanity check
+    validate_env_against_known_clusters.py   Coma / A2199 / Hercules check
+    diagnose_mcxc_match.py     why the first X-ray flag failed
+    check_manga_sami_overlap.py
+    write_matched_pairs_md.py, write_report_md.py, write_two_direction_md.py
 ```
+
+Every downloaded file carries a `<name>.manifest.json` with source URL,
+retrieval timestamp (UTC, ISO-8601), SHA-256, byte size, row count, column names
+with units, and the exact query issued. `code/verify_lane.py` re-hashes all of
+them: **330 manifests, 330 targets verified, zero mismatches.**
 """
 
 if __name__ == "__main__":
