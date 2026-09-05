@@ -1,0 +1,17 @@
+{
+  "status": "development protocol fixed before scoring; not pristine confirmation",
+  "hypothesis": "At matched baryonic Newtonian acceleration, lower stellar surface density predicts greater observed acceleration.",
+  "scope": "Existing 139-galaxy exploration photometry only; reserved confirmation sample excluded.",
+  "primary_feature": "log10(0.5 SBdisk + 0.7 SBbul), stellar surface mass density proxy, not total or 3D density",
+  "selection": "Q<=2; 30<=inclination<=80 degrees; positive radius, speed, baryonic inward force and stellar surface density; published velocity error/speed <=0.1; at least five retained positions per galaxy",
+  "mass_model": "Vbar^2 = Vgas abs(Vgas) + 0.5 Vdisk^2 + 0.7 Vbul^2; missing molecular gas is a limitation",
+  "prediction": "Leave one entire galaxy out. Equal total training weight per galaxy. Compare fitted one-scale RAR and fixed-knot flexible acceleration-only baseline with the same baselines plus one linear concentration residual. Feature residualization uses training data only.",
+  "flexible_knots_log10_m_s2": [-13,-12.5,-12,-11.5,-11,-10.5,-10,-9.5,-9,-8.5,-8],
+  "smoothness_penalty": 0.01,
+  "support": "At least five other galaxies within 0.15 dex in predicted acceleration and target concentration within the range of those training positions. Identical scoring support for all models.",
+  "matched_pairs": "Per-galaxy medians in fixed 0.1-dex acceleration bins; cross-galaxy acceleration difference <=0.05 dex and stellar concentration difference >=0.5 dex. Greedy closest acceleration match, largest concentration contrast as tie breaker; each galaxy occurs in at most one pair. Published fixed RAR removes small acceleration mismatch for this descriptive test only.",
+  "sensitivities": ["disk M/L 0.4 and 0.6; bulge 1.4 times disk", "Q=1 only", "inclinations 40 through 75 degrees"],
+  "controls": ["Target mutation cannot alter match selection", "Held-out target mutation cannot alter its predictions", "Synthetic acceleration-only null and injected negative concentration effect", "Shared stellar mass error null simulations, 64 draws with 0.1 dex galaxy-wide mass-to-light errors; not a full uncertainty posterior"],
+  "uncertainty": "Galaxy bootstrap of cross-validation score differences and pair bootstrap for disjoint pairs; descriptive development stability intervals, not discovery significance. Do not count radii as independent galaxies.",
+  "decision": "A promising pattern must have the expected negative coefficient, improve whole-galaxy prediction beyond both baselines and survive sensitivity checks. A stellar proxy result cannot confirm total-volume-density coherence."
+}
