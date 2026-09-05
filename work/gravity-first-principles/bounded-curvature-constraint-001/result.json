@@ -1,0 +1,54 @@
+{
+  "examples": [
+    {
+      "name": "exponential",
+      "f": "exp(-h)",
+      "B": "(2*h - 1)*exp(-h)",
+      "positive_when": "h>1/2"
+    },
+    {
+      "name": "inverse_power",
+      "f": "(h + 1)**(-p)",
+      "B": "p*(h + 1)**(-p - 2)*(h*(2*p + 1) - 1)",
+      "positive_when": "h>1/(2p+1)"
+    }
+  ],
+  "registered_action": [
+    {
+      "shape": 0.5,
+      "x": 1.0,
+      "first_sampled_negative_to_positive_root_h": 0.4892192385325597,
+      "B_below": -0.012265767947497425,
+      "B_above": 0.01045705809449185,
+      "B_large": 3.9880116639085895e-12
+    },
+    {
+      "shape": 1.0,
+      "x": 1.0,
+      "first_sampled_negative_to_positive_root_h": 0.5273012968102124,
+      "B_below": -0.021606456253345008,
+      "B_above": 0.018542506951195137,
+      "B_large": 3.999976662755055e-12
+    },
+    {
+      "shape": 2.0,
+      "x": 1.0,
+      "first_sampled_negative_to_positive_root_h": 0.5635562545308023,
+      "B_below": -0.03400990027792683,
+      "B_above": 0.029672329313517376,
+      "B_large": 3.999986662684181e-12
+    }
+  ],
+  "theorem": "A twice-differentiable function on the entire real line that is bounded below and concave everywhere must be constant. Applied to P at fixed gradient along H=H0+t*n*n, any bounded-below nonconstant dependence has positive second derivative somewhere.",
+  "implication": "For the local Hessian action, that second derivative is proportional to the leading B coefficient. Global B<=0 for pressureless shortwave safety conflicts with nontrivial bounded screening on such a ray.",
+  "assumptions": [
+    "local instantaneous Hessian action with the derived matter coupling",
+    "twice differentiable constitutive function on the full ray",
+    "bounded below and nonconstant along that ray",
+    "pressureless continuum shortwave criterion imposed on every admissible background"
+  ],
+  "limitation": "Conditional structural obstruction, not an exclusion of nonlocal, dynamical, restricted-domain or pressure-supported completions.",
+  "module_sha256": "1889511845419c3ad393a17effedde2c038af1bde3d8c159635ff13eb10adaf0",
+  "physical_exclusions": 0,
+  "observational_scores": 0
+}
