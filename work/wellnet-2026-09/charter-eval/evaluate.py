@@ -32,8 +32,10 @@ QUESTIONS = [
      "antisymmetric, mixed and emergent-geometry states UNREACHABLE (Run AZ)."),
     ("What establishes direction?", PARTIAL,
      "Source, tidal, external and well-network axes constructed; Run BF "
-     "recovers an external axis to 11.9 deg, but a 45-deg misspecified axis "
-     "sets no limit (0.005 +- 0.003)."),
+     "recovers an external axis to 11.9 deg (a 45-deg misspecified axis sets "
+     "no limit). Run BK: a halo quadrupole locks to the BARYON axis at 20 deg, "
+     "a tensor to the EXTERNAL axis at 12 deg, with opposite radial gradients. "
+     "Synthetic only."),
     ("Is the response local?", PARTIAL,
      "Point-local, finite-range nonlocal, path-dependent and globally "
      "constrained all built (locality is the best-covered axis at 80%); "
@@ -46,34 +48,51 @@ QUESTIONS = [
      "arc shapes, polarization and arrival times not."),
     ("Do matter and light see the same geometry?", PARTIAL,
      "Run AL measures the slip as a FITTED closure, not derived; Run AZ: the "
-     "relativistic geometry that would derive it is UNREACHABLE."),
+     "relativistic geometry that would derive it is UNREACHABLE. Run BL: the "
+     "tensor action PREDICTS matter-light covariance exactly +1 with no slip -- "
+     "a prediction, untested on data."),
     ("Why do galaxies and clusters differ?", NOT_MET,
      "Run BC's radius hypothesis was REFUSED by the Stage 4 gate (28.6% out of "
      "support; window choice reproduces 1.62x the effect). Run AX removed the "
      "CLASH leg. No admissible answer stands."),
     ("What happens locally?", PARTIAL,
-     "Solar-system and Cassini bounds carried as constraints; no candidate has "
-     "been propagated through binary-pulsar or GW timing."),
+     "Solar-system and Cassini bounds carried as constraints. Run BL DERIVES "
+     "safety for both actions (h -> 0 at high g; the path term is exactly "
+     "Newtonian in media denser than rho_*), but a relativistic completion "
+     "leaving tensor waves at c is an INVENTED assumption; no binary-pulsar or "
+     "GW propagation."),
     ("How does the universe form?", PARTIAL,
      "Run AP: linear growth integrated for every family; the tidal gate is "
      "ANTI-Zel'dovich (sphere/pancake 4.90 at z=999). Nothing past delta ~ 1."),
     ("What creates redshift?", PARTIAL,
-     "Run AK: the energy-drain half is excluded at 90 sigma by SN time "
-     "dilation; the geometric half is capped at 0.28-0.44% by the CMB and is "
-     "NOT a replacement for expansion (BA.10)."),
-    ("What would falsify it?", NOT_MET,
-     "No surviving candidate has a falsifier that survives its own controls. "
-     "Run BF: the seven candidate universes are ONE observational class."),
+     "Both tested mechanisms answered NEGATIVELY: Run AK excludes the "
+     "energy-drain half at 90 sigma; Run BI MEASURES the geometric half on "
+     "void path length x Planck, |c2/c1| < 0.0678% at 95% with 13.6-21.3 "
+     "sigma of power at AK's own bound (excluded 4-6x), within the "
+     "conventional distance frame (BJ.4). No positive mechanism; no "
+     "no-expansion universe tested."),
+    ("What would falsify it?", PARTIAL,
+     "Run BL supplies two falsifiers specific BY CONSTRUCTION: a zero-twist "
+     "phase lock to the present tidal axis (tensor) and a net-zero-mass bridge "
+     "scaling as M_A M_B (path). The bridge lane's CDM attack: positive masses "
+     "reproduce only 2-30% of it, 60 cluster masses at 60 deg. Falsifiers for "
+     "CANDIDATES, not for an established law; neither tested on data."),
 ]
 
 # ------------ the charter's twelve promotion criteria for new gravity (L1194-1216)
 PROMOTION = [
-    ("1. genuine physical dependence absent from the RAR", NOT_MET,
-     "Run BF: all seven modified-gravity universes are one observational class "
-     "at detectable amplitudes; no candidate adds a distinguishable dependence."),
-    ("2. generative", PARTIAL,
-     "Run BF's ten universes ARE generative to detector level; the candidate "
-     "laws scored on real data are not."),
+    ("1. genuine physical dependence absent from the RAR", PARTIAL,
+     "Run BL CONSTRUCTS two -- an environment-tidal tensor term and a "
+     "segment-vacuum path term -- both compiled admissible with CDM-distinct, "
+     "non-anisotropy falsifiers. Run BF's one-class result stands "
+     "CONDITIONALLY (BJ.2: given this corpus, amplitudes, geometries, noise). "
+     "Not demonstrated on data."),
+    ("2. generative", MET,
+     "Run BL: both candidate laws are actions with derived field equations; "
+     "the tensor solved to first order, the path family's momentum carrier in "
+     "closed form with five-body forces closing to 3e-9. Given a scene and "
+     "boundary conditions each PRODUCES a state. (The earlier real-data "
+     "candidates were fitted ratios and are retired.)"),
     ("3. one global parameter set", MET,
      "Enforced throughout; no per-object gravity parameter has ever been "
      "admitted. Run AL's A=16 was retired for inheriting a fitted closure."),
@@ -92,10 +111,13 @@ PROMOTION = [
     ("8. survives representation changes", MET,
      "Gate 3 plus Run BD's commutation gate; 7 of 8 substitutions refused, and "
      "the member-smoothing verdict is radius-dependent and measured."),
-    ("9. survives alternate-universe controls", NOT_MET,
-     "Run BF: family-wise false-positive rate on a DARK MATTER universe is "
-     "0.648 [0.604, 0.689]. The detectors cannot avoid finding new gravity in "
-     "a CDM world."),
+    ("9. survives alternate-universe controls", PARTIAL,
+     "Run BF: 0.648 family-wise on a dark-matter universe. Run BK DECOMPOSED "
+     "it -- two detector defects and a library accident, not a wall -- and a "
+     "signed joint procedure reaches FP 0.002 on CDM at power 0.989. BUT only "
+     "at zero halo-filament alignment; it collapses at f_lss = 0.38, and real "
+     "haloes align. The network detector is blind (power 0.000). Partial, "
+     "with the caveat named."),
     ("10. makes a distinctive SEALED prediction", BLOCKED,
      "Run AW: 23 of 25 datasets are spent; the reserve holds at most five "
      "one-shot evaluations, three in the same regime, and no reserved galaxy "
@@ -123,10 +145,12 @@ STAGES = [
     ("Stage 3  prune without opening target data", MET,
      "Runs AM/AU: 3,123 candidates compiled in 31-47 s with the charter's own "
      "five bins, 12/12 external controls, 0 files opened."),
-    ("Stage 4  remove redundant information", MET,
-     "Runs BB/BE: the sensitivity certificate refuses 5/5 historical failures "
-     "and 5/5 new mechanisms, 0 false alarms. Prospective suite is NOT "
-     "independently authored -- stated limitation."),
+    ("Stage 4  remove redundant information", PARTIAL,
+     "Runs BB/BE: the certificate refuses 5/5 historical failures and 5/5 new "
+     "mechanisms, 0 false alarms, and REFUSED a fresh result (Run BC) on "
+     "support. Downgraded from MET: the exit condition (BE.8) requires "
+     "INDEPENDENTLY AUTHORED prospective validation and BE.5 records that it "
+     "was self-authored."),
     ("Stage 5  identifiability in alternate universes", MET,
      "Run BF: ten universes, sizing on an untouched null half, and an "
      "equivalence-class map. The answer is negative and that IS the "
@@ -197,15 +221,20 @@ def main():
     print("   distinguish the remaining equivalence classes.'")
     print()
     print("  (a) a new generative field law         NOT_MET")
-    print("      No candidate survives its own controls. Run BF: the seven")
-    print("      modified-gravity families are ONE observational class, and the")
-    print("      detectors fire on a dark-matter universe at 0.648.")
+    print("      Run BL constructs two action-derived laws with specific, non-")
+    print("      anisotropy falsifiers; NEITHER has a successful untouched")
+    print("      prediction (no confirmation set exists, Run AW), the path law")
+    print("      confines cluster members x7.6 at identifiable amplitudes, and")
+    print("      the tensor's endpoint quadrupole has the wrong sign for the")
+    print("      cluster excess. Run BK: the CDM separation is a statement about")
+    print("      the halo-alignment prior, not about gravity.")
     print()
-    print("  (b) which classes are ruled out, and   MET  (Run BH)")
+    print("  (b) which classes are ruled out, and   MET  (Runs BH, BI, BJ)")
     print("      which observation separates the rest")
-    print("      ASSEMBLED in deliverable_b.py: 13 classes ruled out admissibly")
-    print("      -- 5 on mathematics alone, 6 on REAL observations, 2 detector")
-    print("      statements -- 1 elimination withdrawn as inadmissible (T4), and")
+    print("      ASSEMBLED in deliverable_b.py, in the four categories that")
+    print("      matter (BJ.3): 4 theory FAMILIES ruled out, 7 specific")
+    print("      IMPLEMENTATIONS, 3 STATISTICS, 1 NON-IDENTIFYING (spherical")
+    print("      blindness, an experimental limit); 1 withdrawn as T4; and")
     print("      6 remaining equivalence classes each with its named separating")
     print("      observation and cost. 2 of the 6 are separable with data that")
     print("      ALREADY EXISTS.")

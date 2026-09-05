@@ -12089,3 +12089,139 @@ Branch and `main` both at `d5c1f2b8`, matching origin. Two untracked lane
 directories (`bridge/` 49 files, `extraction/` 49 files) remain uncommitted by
 design until their lanes report. Four ignored raw catalogues on disk. The `dev/`
 copy of this record is byte-identical to the tracked one.
+
+---
+
+# Run BN — the charter, read and compared: 11 of 41 requirements met, deliverable (b) delivered, the goal not achieved
+
+The charter (`invariant-gravity-discovery-charter.md`, 1,242 lines) was opened in
+this session and its requirement-bearing text compared clause by clause against
+the record. This is that comparison, not the programme's self-assessment.
+Machine-readable form in `work/wellnet-2026-09/charter-eval/charter_eval.json`
+(refreshed for Runs BI-BM; 11 rows changed from the 21:04Z table).
+
+## BN.1 The goal statement (L11-15), clause by clause
+
+> *"Discover the simplest universal law of gravity or spacetime that starts only
+> from observable matter, energy, motion, light, and their complete spatial and
+> temporal arrangement, and predicts the behavior of massive objects and photons
+> across all accessible scales."*
+
+**NOT ACHIEVED.** Two candidate laws exist (Run BL), constructed as actions with
+two universal constants each; neither has been tested on data, and each carries a
+disqualifying property at bench-identifiable amplitude (P confines cluster
+members x7.6; T's endpoint quadrupole has the wrong sign for the cluster excess).
+
+> *"...must determine whether gravity depends only on local matter or also on
+> the emptiness, geometry, direction, connectivity, motion, and history of the
+> space between concentrations of matter."*
+
+**NOT DETERMINED.** Run BF: seven such dependences form ONE observational class
+on a realistic corpus (conditional on D, A, G, N — BJ.2). The corpus cannot yet
+tell local from non-local, and Run AZ found five of the charter's fifteen axes
+have never been varied.
+
+> *"...must treat individual galaxies, gas structures, stars or stellar
+> populations, and light paths before any averaging is imposed."*
+
+**BUILT, NOT EXERCISED ON DATA.** Stage 1 exists (Run BD, 38/38, contract
+enforced at construction) and the commutation gate refuses 7 of 8 averaging
+substitutions — but every scene it has processed is synthetic.
+
+> *"...one global set of physical constants, predict both internal motion within
+> galaxies and motion through groups and clusters, reproduce known
+> high-precision local gravity, and explain or sharply characterize the
+> remaining galaxy-cluster discrepancy."*
+
+**Global constants: MET** (never violated). **Internal + through-cluster motion
+by one law: NOT MET** (never same-scene; Run BC's cross-scene transfer was
+refused by the gate). **Local gravity: PARTIAL** (derived for both BL actions,
+with an invented relativistic assumption). **Galaxy-cluster discrepancy: sharply
+characterised, not explained** — Run AL: a galaxy-calibrated RAR lands within
+1.9% of the eFEDS shear normalisation with zero new gravity parameters, and the
+surviving excess rests on one admissible leg (eFEDS T0 shear inside its measured
+support) after CLASH (AX) and LoCuSS (BC) masses were graded T4.
+
+> *"Invariant must eliminate candidates that depend on arbitrary coordinate
+> choices, an arbitrary zero of potential, catalog deblending, hidden
+> object-specific parameters, non-identifiable quantities, or inconsistent
+> conservation rules."*
+
+**MET.** The compiler (AM/AU) does exactly this, in the charter's own five bins,
+with 12/12 external controls — and BJ.3/BA.5 keep "non-identifiable" and
+"unsupported by this scorer" from being read as "false".
+
+> *"It must test surviving laws against synthetic alternate universes and
+> untouched real observations."*
+
+**Synthetic: MET** (BF, BK, the bridge lane). **Untouched real observations:
+BLOCKED** — Run AW: the programme has no confirmation set; 23 of 25 datasets are
+spent, and the reserve is five product-scoped shots, three in one regime.
+
+> *"Its final output must be either a new generative field law with distinctive
+> successful predictions, or a precise statement of which broad classes of new
+> gravity have been ruled out and which observation would distinguish the
+> remaining equivalence classes."*
+
+**Branch (a): NOT MET. Branch (b): MET** — assembled in `deliverable_b.py`
+(BH/BI/BJ): 4 theory families ruled out, 7 specific implementations, 3
+statistics, 1 experimentally non-identifying; 5 equivalence classes remaining,
+each with its named separating observation; 1 separable with data that already
+exists. **The output clause is satisfied on its fallback branch and not on its
+primary one.**
+
+## BN.2 The twelve questions a final law must answer (L25-38)
+
+    0 MET   10 PARTIAL   2 NOT_MET
+
+Not one is answered *"from the same underlying description"* — the charter's own
+standard. The two NOT_MET: *what creates gravity* (every family ever built takes
+rest mass as its only source) and *why galaxies and clusters differ* (BC's
+radius hypothesis refused; no admissible answer stands). The best-served: *what
+creates redshift* — both tested mechanisms answered negatively (AK at 90 sigma;
+BI at 13.6-21.3 sigma of power) — and *what would falsify it*, now PARTIAL
+because Run BL supplies two falsifiers specific by construction, for candidates
+not for an established law.
+
+## BN.3 The twelve promotion criteria (L1194-1216)
+
+    6 MET   4 PARTIAL   1 NOT_MET   1 BLOCKED
+
+MET: generative (2), one global parameter set (3), preserves known limits (5),
+matches galaxy regularities (6), survives representation changes (8), sparse
+(11) — all by the two BL actions and the gates. PARTIAL: a dependence absent from
+the RAR (1: constructed, not demonstrated), multiple probes (4: predicted, never
+same-scene), alternate-universe controls (9: BK's FP 0.002 holds only at zero
+halo-filament alignment), can evolve (12: linear only). **NOT_MET: improves the
+cluster problem using ROOT observations (7).** **BLOCKED: a distinctive SEALED
+prediction (10) — there is nothing sealed to predict against.** The charter says
+a candidate is promoted only if it satisfies *all twelve*. None does.
+
+## BN.4 Stages 0-10 and Corpora A-F
+
+    Stages   4 MET   6 PARTIAL   1 NOT_MET      (Stage 10, confirmation: NOT_MET)
+    Corpora  1 MET   4 PARTIAL   1 BLOCKED      (Corpus E, gold cluster: BLOCKED)
+
+Stage 4 is downgraded from the earlier table's MET to PARTIAL: the certificate
+refuses 5/5 historical and 5/5 new failures and refused a fresh result (BC), but
+BE.8 requires *independently authored* prospective validation and BE.5 records
+that it was self-authored. Corpus E is blocked by the world, not the programme:
+Run BD found no public cluster carrying resolved baryons, member internal
+dynamics, raw lensing and environment together.
+
+## BN.5 The answer to "has the charter been met"
+
+    total   41 requirements:  11 MET   24 PARTIAL   4 NOT_MET   2 BLOCKED
+
+**No.** The charter is met on its fallback output branch and on its process
+requirements for elimination, synthetic testing and representation-invariance.
+It is not met on its goal, on any of the twelve questions, on the promotion
+criteria as a set, on cluster evidence from root observations, on a sealed
+prediction, or on the gold-cluster corpus. The bridge lane still running cannot
+change that: at best it certifies one falsifier of one candidate on synthetic
+data. What would change it is named in the record — a sealed confirmation scene
+(AW), a gold cluster (BD), and one of the two BL actions surviving a matter-and-
+light test in the same real scene (BE.8's exit condition).
+
+This entry is the evaluation the goal check asked for. Its verdict is that the
+condition is not satisfied, stated so rather than declared met to release it.
