@@ -1,0 +1,12 @@
+{
+  "kind": "synthetic",
+  "rotation": "One training-selected spin; nonnegative speeds <=600 km/s at 40,80,140,220,320,450,600 arcsec; zero at center.",
+  "dispersion": "Three radial coefficients 3..40 km/s.",
+  "geometry": "Global PA +/-20 and inclination +/-10 degrees; outer warp bounds unchanged at 15/8 degrees. Six damped implicit radius iterations.",
+  "starts": "Three rotation starts at 0.7/1/1.3 seed speed and -7/0/+7 PA; full starts from nested rotation, best simpler training fit and fixed mixed seed.",
+  "selection": "Minimum penalized training objective among converged starts; held-out score evaluated only afterwards.",
+  "no_gas_formula_selection": true,
+  "original_noise_and_masks_reused": true,
+  "caution": "Conditional same-observation source brightness; projected model, native beam velocity mixing and complete spectral response remain unvalidated.",
+  "synthetic_generator": "Independent NumPy analytic tanh rotation + varying dispersion at twice resolution; one case includes multiple vertical layers, lag and Hanning spectral smoothing."
+}
