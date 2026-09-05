@@ -1,0 +1,108 @@
+{
+  "config": {
+    "registration": "Frozen before this full-action run; all 54 existing cards, three distances, both qualified thicknesses.",
+    "grids": {
+      "coarse": {
+        "r_min": 0.0001,
+        "r_max": 3000.0,
+        "radial_nodes": 1025,
+        "angular_nodes": 192,
+        "l_max": 48
+      },
+      "fine": {
+        "r_min": 0.0001,
+        "r_max": 3000.0,
+        "radial_nodes": 2049,
+        "angular_nodes": 320,
+        "l_max": 80
+      },
+      "boundary": {
+        "r_min": 5e-05,
+        "r_max": 6000.0,
+        "radial_nodes": 2305,
+        "angular_nodes": 320,
+        "l_max": 80
+      },
+      "radial_only": {
+        "r_min": 0.0001,
+        "r_max": 3000.0,
+        "radial_nodes": 2049,
+        "angular_nodes": 192,
+        "l_max": 48
+      },
+      "angular_only": {
+        "r_min": 0.0001,
+        "r_max": 3000.0,
+        "radial_nodes": 1025,
+        "angular_nodes": 320,
+        "l_max": 80
+      }
+    },
+    "distances": [
+      0.8985507246376812,
+      1.0,
+      1.1014492753623188
+    ],
+    "variants": [
+      "primary",
+      "height_half"
+    ],
+    "force_refinement_target": 0.02,
+    "boundary_target": 0.005,
+    "reflection_target": 1e-08,
+    "scope": "Numerical development only. Other source scenarios, map uncertainty and observational scores remain pending.",
+    "length_signal_rule": "Record length minus zero-length force for every matching shape/a0/distance; full-field convergence alone does not resolve it.",
+    "boundary_rule": "Existing Green solver zero-extends anomalous flux outside each finite radial shell.",
+    "source_qualification": "Sampled source gate only, not a uniform error bound."
+  },
+  "input_hashes": {
+    "configs/gravity_ngc3198_scalar_development_v1.json": "0f670699b4c5c4518e8537a68ae3e36c704d8211daa679ddd1362d1a2fd7d121",
+    "scripts/audit_gravity_tensor_flux.py": "f57eedb2f7f8f214883e07b1702dbe6abbf3d0e5fe136f03b1ff873a020bfd09",
+    "scripts/run_gravity_tensor_poisson.py": "37fde8f08b7280ded873e1089949a414a8a6c8661463e887459ccf23aff2c8e3",
+    "src/invariant_gravity_extensions/__init__.py": "68bda97fad7e33c009c55fc92d51abaea6b596556c2907da9587e45c24714c81",
+    "src/invariant_gravity_extensions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/cli.py": "06a382c481a1347ee674a97ba8ffca562f2155e3ec94f86ca610699a6dce971e",
+    "src/invariant_gravity_extensions/cluster_pressure.py": "d1a5b96f7183b6b3810702cda3626f13c85fe61f67b42be5eef50a0bc18fbb1f",
+    "src/invariant_gravity_extensions/coherent_momentum.py": "fdf4fe72ce0d64e07b02411c4a9feaae478c783aaf4dcffae4de9f327cfdc713",
+    "src/invariant_gravity_extensions/direct_exterior.py": "eb4fe56133f79e9af6138d1c3130771275c15d636180265078bd5cd1edb79527",
+    "src/invariant_gravity_extensions/dynamics.py": "a8c1a1d3847558fb8759624f495aead39654e48df2f03acc8dbd0edf7b38ecb4",
+    "src/invariant_gravity_extensions/exterior_moments.py": "5d8fd010a8389ba5699c1a76de2bce7f8fd85bda6dd476de213dbb323a550d47",
+    "src/invariant_gravity_extensions/external_multifield.py": "5fdd051e54fba639f4c399916a7a3afba056570aafe53ba7c0addc7c2d9718d2",
+    "src/invariant_gravity_extensions/external_quadrupole.py": "54d4435f2018d9e4425dbd380bd7f4e27ac76c404c6472c8b48795434f18e6d9",
+    "src/invariant_gravity_extensions/fields.py": "d10e634034e5274eebb0ad1ee5e8659b0300161da51f98ee1f42346701b5fb51",
+    "src/invariant_gravity_extensions/galaxy_development.py": "648a3e215a4bda2a3c0012563c1f1acbcb112cdaa452adb1876a988bf985c8ec",
+    "src/invariant_gravity_extensions/hankel_axisymmetric.py": "28a25e2b160025f445d90f75f2e81519c68e0abc284195a6fd89fb4bf6cf45f0",
+    "src/invariant_gravity_extensions/hankel_midplane.py": "76802a8c68fcba9ec2132b923d7bea7f38129e29e77390a19f3626fb4d483d69",
+    "src/invariant_gravity_extensions/hankel_tail.py": "15419839659581f4fdc525bc0226a48629b1ad6be29b3a562ef7e481542fb211",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/isolated_multifield.py": "b48f7459e7290f87e8887ae0f1cc0fcd4cebc1b0572ff47f6495092ce7a63445",
+    "src/invariant_gravity_extensions/length_axisymmetric.py": "f0e6fd4174a6cf6c1028eb91589eb249b87f82c204369ca161f6adb5efc4a0e2",
+    "src/invariant_gravity_extensions/length_cluster_pressure.py": "887ea367d858e49c08178ebba084ae49b679d9d7a9aa6b89fa14740b017c81fe",
+    "src/invariant_gravity_extensions/length_galaxy_development.py": "428d32e0b093b132b8d0b5d444976b9331176b481167b302edf9c019ca1300f0",
+    "src/invariant_gravity_extensions/length_screening.py": "1889511845419c3ad393a17effedde2c038af1bde3d8c159635ff13eb10adaf0",
+    "src/invariant_gravity_extensions/local_limits.py": "51d8d373a543f4b44ff60ccaf4c2c2af661c77c8a6aa805df47a830186492ba5",
+    "src/invariant_gravity_extensions/matched_axisymmetric.py": "a39ecf23138e993bc50cb23ee3fece0d546a6e6df88647cd3357b2b31a669864",
+    "src/invariant_gravity_extensions/matched_tensor.py": "0ff004660ad2a71518eed64c96e57ec5abb5bd69fdf7940ed52fc484322ac75d",
+    "src/invariant_gravity_extensions/mixed_source.py": "5b3082c64c4ecd360a708491e73c708c58f238e00baf06b56220ab7c4b696ed1",
+    "src/invariant_gravity_extensions/observables.py": "7402b5549360455b9af815a72853f8c577ebdae68e1b5ff2254d1a0edb9fdd4d",
+    "src/invariant_gravity_extensions/policy.py": "c59e5174e0026f43b3dc16688141c7a2e494877195a2da0a0c1e087d17e9cb4c",
+    "src/invariant_gravity_extensions/potential_join.py": "ba76347ac09d9fc7ea2ed9494f651dc7da6969a170a577b4851d4c01e45ebe2f",
+    "src/invariant_gravity_extensions/precise_tail.py": "a92e654c2a7e971cc3c6d9545621ee04bdb43170ad63f9d72b258fdcbfaded8a",
+    "src/invariant_gravity_extensions/reconstructed_axisymmetric.py": "4916d14ee06e412fa7b1168e4b6d126dc5eb28762c1a2e355a08dea5a59be3dd",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "src/invariant_gravity_extensions/smooth_spherical_source.py": "2ac6ff60d56fc3b846e96e69add3d0963276046ce1e5547232fab7edd9e3352c",
+    "src/invariant_gravity_extensions/source_projection.py": "b25591ef5beeb81f9bc69bf513c3225fd01681208d31febbb32593a5ec55af11",
+    "src/invariant_gravity_extensions/tensor_potential.py": "3c36ea563a0728403883770d8680e8b3a93a7553f44280be4e625af501e6b274",
+    "src/invariant_gravity_extensions/vertical_green.py": "b2c6816ae60b451f6dc04137cefef3626c21d829e76406adee7f2f679b33e3b8",
+    "work/gravity-first-principles/exterior-moment-002/moments_height_half_reference.json": "a5eacd18db65dccdaa0675e7e3121f24a6df4841c05d7dc8b71ae96a67e35a0d",
+    "work/gravity-first-principles/exterior-moment-002/moments_primary_reference.json": "ce22ce81d1a74038b66b0077b2f79c4f7e67e30808be14b4331ec1e24860de23",
+    "work/gravity-first-principles/length-screening-local-001/result.json": "66ff601b1012da7cbc555a27d8836723a2c6e7b23f393ead530da64e6e938a77",
+    "work/gravity-first-principles/map-source-003/result.json": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+    "work/gravity-first-principles/ngc3198-scalar-001/radial_selection.json": "ce74cd7c7e7a291b81e4e9d9c82e984be74d5291d479ff6976745ed1c0556519",
+    "work/gravity-first-principles/radial-tensor-replay-001/mixed_canonical_height_half.json": "e4255be72d31e4d716c7888dc4e7a5e7eda27e7a05f93d51bb75864eb869ba28",
+    "work/gravity-first-principles/radial-tensor-replay-001/mixed_canonical_primary.json": "ec4a2d29a69ea9d77ebc24c7cbb15eeb401c3fc4a0fff653011e912e81ee3450",
+    "work/gravity-first-principles/radial-tensor-replay-001/result.json": "9136c90030a114b89b350f816beffa41ce24ad7958d6eeafaad107483e5c74c2"
+  },
+  "started_utc": "2026-09-05T08:20:32.329976+00:00"
+}
