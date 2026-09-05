@@ -1,0 +1,32 @@
+{
+  "started_utc": "2026-09-05T03:46:55.013433+00:00",
+  "input_hashes": {
+    "scripts/audit_gravity_length_screening.py": "6aea90ae15e2f7718d6dc4a5f872d208c733dd0c5a91986c457112455ab6b06f",
+    "configs/gravity_length_screening_audit_v1.json": "147df92596ba9dc195fe3e9ec05ed15c7049258936d8a515923199b6aef8b736",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92"
+  },
+  "config": {
+    "schema": 1,
+    "role": "Analytic admission audit before a new higher-derivative solver or observational prediction",
+    "prior_art": "https://arxiv.org/html/2305.01589v2, equations 6, 7 and 16",
+    "proposed_action": "P(x,h)=x+x*K_m(x+h); K_m(u)=[Q_m(u)-u]/u; K_m(0)=Q_m'(0)-1",
+    "scalar_kernel": "Existing saturated_q with shapes 0.5, 1 and 2; no previous action or card is modified",
+    "invariants": "x=grad(psi)^2/a0^2; h=ell^2*sum_ij(psi_ij^2)/a0^2",
+    "physical_flux": "J_i=P_x*psi_i-ell^2*partial_j(P_h*psi_ij)",
+    "spherical_boundary": "Zero anomalous central integration mass; radial flux applies away from the central point",
+    "symbolic_domain": "r, GM, a0, ell positive; separate ell=0 limit; regularized origin at epsilon>0; unregularized formulas are diagnostic limits",
+    "first_principles_status": "Translation/rotation invariant action ansatz within published GQUMOND, not a uniquely derived microscopic law",
+    "no_observations": true,
+    "physical_length_values_selected": false,
+    "no_claims": [
+      "full Solar System pass",
+      "galaxy or cluster success",
+      "covariant completion",
+      "global dynamical stability",
+      "historical novelty"
+    ]
+  },
+  "sympy": "1.14.0",
+  "observations_accessed": false
+}

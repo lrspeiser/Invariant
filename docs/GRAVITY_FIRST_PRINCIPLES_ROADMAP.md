@@ -45,8 +45,8 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 | Physical possibility | Present implementation | Next discriminating work |
 |---|---|---|
 | Local scalar response | Regularized QUMOND, bounded successors, isolated axisymmetric adapter and eight-cluster pressure development | Observed galaxy reconstruction; resolve conditional cluster–local tension |
-| Additional scalar fields and cross-gradients | TRIMOND subclass and validated conditional external-quadrupole solver | Observed nonspherical source transfer at the same global constants; joint member/cluster response |
-| Higher spatial derivatives or length scales | Generalized-QUMOND subclass | Boundary terms, resolution/regularizer convergence, stability |
+| Additional scalar fields and cross-gradients | Conditional external quadrupole plus observed NGC3198 transfer: 72 numerically resolved cards, all worse than RAR; 9 unresolved | Retain source/field resolution failures; independent source/response audit; joint member/cluster response |
+| Higher spatial derivatives or length scales | Generalized-QUMOND baseline and bounded successor's 13 analytic checks | Full finite-epsilon spherical and external-field flux; one physical length; numerical and stability controls |
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
 | Nonlocal paths and source connectivity | Sigma history imported; exact coherent-monopole base fails a new internal-force audit | Action-derived reaction terms, conserved causal kernels and partition-invariant source construction |
 | History-dependent inertia or fields | Oscillator and wave controls only | Derive a candidate law; constrain initial state; orbit-frequency transfer |
@@ -61,6 +61,35 @@ Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
 
+The [observed-source multifield transfer](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-NGC3198-multifield-results.md)
+now evaluates the frozen lower-a0 coupling grid on the previously exposed
+NGC3198 reconstruction. Seventy-two of 81 cards pass the declared numerical
+checks, including nine coupling-6 cards resolved by a higher-resolution
+follow-up. All 72 perform worse than RAR in all 99 scenarios and all three
+loss treatments. Independent replay verifies 7,128 scored records and their
+radial influence diagnostics. This is one quality-limited development galaxy,
+not independent confirmation or family pruning. Nine p=2, coupling-10 cards
+still fail map/field resolution gates and remain unscored. The spherical
+cluster predictions remain unchanged by this auxiliary sector.
+
+Parent evidence: `work/gravity-first-principles/ngc3198-multifield-003/`,
+SHA-256 `94a119f5a0ec415ef227b758e5f4e86a8f0e95454569ae2d96bc1102d1300b80`.
+Refinement: `work/gravity-first-principles/ngc3198-multifield-refinement-001/`,
+SHA-256 `bb650959e3cf70eb47418d3cfd185459bc5e2b73b4d57fae46445187ecb200ca`.
+The focused implementation suite now contains 162 passing checks.
+
+The [higher-derivative continuation](GRAVITY_LENGTH_SCREENING_DERIVATION.md)
+adds 13 symbolic checks for a separately registered bounded length-sensitive
+action. Independent radial variation and tensor divergence agree. The derived
+point-source limits show why a naive screened acceleration misses a required
+term and can give the wrong sign. No physical length or observational winner
+has been selected. Next: implement the full finite-epsilon spherical and
+external-field fluxes, retain boundary and regularizer controls, then evaluate
+the local constraints before observed source transfer. The updated queue is
+`configs/gravity_sigma_directions_v3.json`; the unresolved multifield numerical
+cases and Sigma thermodynamic-source repair remain open in parallel as research
+directions, without starting separate agents.
+
 The [multi-field external-quadrupole scan](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-multifield-external-results.md)
 now replaces the previously unsupported local observable for 36 bounded TRIMOND
 cards. Independent analytic, source-integral and scalar-reference checks pass;
@@ -74,9 +103,9 @@ quadrupole, not a full Solar System or cross-regime pass.
 Post-scan quadratic-scaling bounds leave lower-a0 absolute couplings up to
 3.19–3.71 for p=1 and 11.41–13.33 for p=2 across the declared kernels, when both
 assumed Galactic backgrounds must be compatible. These are diagnostic ranges,
-not fitted constants or confidence limits. Next: transfer the action to the
-already exposed observed galaxy source and test nonspherical response within a
-frozen range; retain all source/geometry scenarios and one universal coupling.
+not fitted constants or confidence limits. The observed galaxy transfer above
+now uses this frozen range and retains all source/geometry scenarios with one
+universal coupling per card.
 The exact spherical cluster branch still has zero auxiliary correction.
 Evidence: `work/gravity-first-principles/multifield-external-002/result.json`,
 SHA-256 `3995286cc99cbc1bd1079758ebd418eab357e0459c61097b0583ffba08611e55`.

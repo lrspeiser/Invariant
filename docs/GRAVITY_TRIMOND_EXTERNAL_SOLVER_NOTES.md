@@ -3,8 +3,9 @@
 These notes preceded `external_multifield.py`. Its analytic controls and frozen
 216-row conditional quadrupole scan are now complete; see
 `GRAVITY_MULTIFIELD_EXTERNAL_RESULTS.md`. The derivation and boundary cautions
-remain relevant. Relativistic completion and transfer to observed nonspherical
-matter sources remain outstanding.
+remain relevant. The observed NGC3198 transfer is now recorded in
+`GRAVITY_NGC3198_MULTIFIELD_RESULTS.md`. Relativistic completion and observed
+nonspherical cluster transfer remain outstanding.
 
 Use a0=GM=1 and p=grad(psi)=rhat/r^2-eta_N*zhat for the idealized point mass
 in a constant Newtonian background. Define

@@ -1,0 +1,19 @@
+{
+  "schema":1,
+  "role":"Numerical follow-up; no source or response selection and no tolerance relaxation",
+  "parent":"work/gravity-first-principles/ngc3198-multifield-003",
+  "parent_sha256":"94a119f5a0ec415ef227b758e5f4e86a8f0e95454569ae2d96bc1102d1300b80",
+  "parent_config":"configs/gravity_ngc3198_multifield_v1.json",
+  "refined_source_variants":["height_half","stellar_low"],
+  "why_these_variants":"These contain every resolution failure for p=2, lambda=6. Selection uses numerical discrepancies, not velocity residuals.",
+  "power":2,
+  "mixing":6.0,
+  "grid":{"r_min":0.0001,"r_max":3000.0,"radial_nodes":4097,"angular_nodes":640,"l_max":160},
+  "scalar_handling":"Keep the previously admitted fine scalar field; conservatively add its fine-minus-coarse discrepancy to lambda squared times the new-minus-old fine auxiliary discrepancy. Both approximate the same exact continuous density, without changing source parameters.",
+  "maximum_newtonian_refinement_change":0.005,
+  "combined_discrepancy_limit":0.02,
+  "normalizer":"max(abs(refined total candidate force), prior fine Newtonian force)",
+  "other_checks":"Keep every unaffected parent control, including map, boundary and reflection checks. Recheck reflection and physical branch on refined variants.",
+  "stronger_coupling":"lambda=10 remains unresolved under the original map and resolution gates; this run cannot score or promote it.",
+  "registration":"Parent galaxy outcomes already exposed; new high-resolution fields not yet computed. Numerical repair only, no new confirmation claim."
+}

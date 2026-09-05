@@ -1,0 +1,76 @@
+{
+  "bounded_leading_high_gradient_fractional_anomaly": "-2*C*a0**2*ell**2*r**6*(30*ell**2 + r**2)/(GM**2*(6*ell**2 + r**2)**3)",
+  "checks": {
+    "bounded_leading_high_gradient_force": true,
+    "bounded_leading_sign_outward": true,
+    "newtonian_flux": true,
+    "original_compact_system_coefficient": true,
+    "original_unregularized_point_formula": true,
+    "original_zero_length_limit": true,
+    "radial_tensor_flux_matches_reduced_action": true,
+    "shape_1/2_removable_K_origin": true,
+    "shape_1/2_zero_h_recovers_scalar": true,
+    "shape_1_removable_K_origin": true,
+    "shape_1_zero_h_recovers_scalar": true,
+    "shape_2_removable_K_origin": true,
+    "shape_2_zero_h_recovers_scalar": true
+  },
+  "config": {
+    "first_principles_status": "Translation/rotation invariant action ansatz within published GQUMOND, not a uniquely derived microscopic law",
+    "invariants": "x=grad(psi)^2/a0^2; h=ell^2*sum_ij(psi_ij^2)/a0^2",
+    "no_claims": [
+      "full Solar System pass",
+      "galaxy or cluster success",
+      "covariant completion",
+      "global dynamical stability",
+      "historical novelty"
+    ],
+    "no_observations": true,
+    "physical_flux": "J_i=P_x*psi_i-ell^2*partial_j(P_h*psi_ij)",
+    "physical_length_values_selected": false,
+    "prior_art": "https://arxiv.org/html/2305.01589v2, equations 6, 7 and 16",
+    "proposed_action": "P(x,h)=x+x*K_m(x+h); K_m(u)=[Q_m(u)-u]/u; K_m(0)=Q_m'(0)-1",
+    "role": "Analytic admission audit before a new higher-derivative solver or observational prediction",
+    "scalar_kernel": "Existing saturated_q with shapes 0.5, 1 and 2; no previous action or card is modified",
+    "schema": 1,
+    "spherical_boundary": "Zero anomalous central integration mass; radial flux applies away from the central point",
+    "symbolic_domain": "r, GM, a0, ell positive; separate ell=0 limit; regularized origin at epsilon>0; unregularized formulas are diagnostic limits"
+  },
+  "empirical_scores": null,
+  "input_hashes": {
+    "configs/gravity_length_screening_audit_v1.json": "147df92596ba9dc195fe3e9ec05ed15c7049258936d8a515923199b6aef8b736",
+    "scripts/audit_gravity_length_screening.py": "6aea90ae15e2f7718d6dc4a5f872d208c733dd0c5a91986c457112455ab6b06f",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92"
+  },
+  "note": "The leading bounded term is outward in this limit; the full finite-u force is not assigned a sign.",
+  "observations_accessed": false,
+  "original_compact_system_coefficient": "17*6**(3/4)/108",
+  "original_unregularized_point_anomaly": "sqrt(GM)*sqrt(a0)*(102*ell**4 + 40*ell**2*r**2 + 3*r**4)/(3*sqrt(r)*(6*ell**2 + r**2)**(9/4))",
+  "passes": true,
+  "physical_length_selected": false,
+  "proposed_cards": [
+    {
+      "K_origin": "1/(sqrt(epsilon)*(epsilon + 1)**(5/2))",
+      "bounded_excess_high_u_limit": "-4*epsilon**(3/2)/(3*(epsilon + 1)**(3/2)) + 4/3",
+      "proposed_action": "x + x*(-4*epsilon**(3/2)/(3*(epsilon + 1)**(3/2)) + 4*(epsilon**2 + h + x)**(3/4)/(3*(sqrt(epsilon**2 + h + x) + 1)**(3/2)))/(h + x)",
+      "shape": "1/2"
+    },
+    {
+      "K_origin": "1/(sqrt(epsilon)*(epsilon**2 + 1)**(7/4))",
+      "bounded_excess_high_u_limit": "-4*epsilon**(3/2)/(3*(epsilon**2 + 1)**(3/4)) + 4/3",
+      "proposed_action": "x + x*(-4*epsilon**(3/2)/(3*(epsilon**2 + 1)**(3/4)) + 4*(epsilon**2 + h + x)**(3/4)/(3*(epsilon**2 + h + x + 1)**(3/4)))/(h + x)",
+      "shape": "1"
+    },
+    {
+      "K_origin": "1/(sqrt(epsilon)*(epsilon**4 + 1)**(11/8))",
+      "bounded_excess_high_u_limit": "-4*epsilon**(3/2)/(3*(epsilon**4 + 1)**(3/8)) + 4/3",
+      "proposed_action": "x + x*(-4*epsilon**(3/2)/(3*(epsilon**4 + 1)**(3/8)) + 4*(epsilon**2 + h + x)**(3/4)/(3*((epsilon**2 + h + x)**2 + 1)**(3/8)))/(h + x)",
+      "shape": "2"
+    }
+  ],
+  "radial_flux": "P_x*g-ell^2*((P_h*g_prime)_prime+2*P_h*(g_prime-g/r)/r)",
+  "started_utc": "2026-09-05T03:46:55.013433+00:00",
+  "status": "ANALYTIC_CONTROLS_PASS_NOT_OBSERVATIONAL_ADMISSION",
+  "sympy": "1.14.0"
+}
