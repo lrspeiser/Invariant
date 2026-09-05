@@ -12006,3 +12006,86 @@ no slip; P predicts a photon feature with zero net mass. Neither has been tested
 on data, and P's testable signature needs a scene the bench cannot build. The
 primary objective remains not achieved; **it now has two concrete things to
 fail.**
+
+---
+
+# Run BM — the push to GitHub main: a 38-commit history rewrite, 6.7 GB of LFS, and an edit I clobbered
+
+A provenance entry, not a science one. Everything the programme has produced
+since Run AL is now on `origin/main` at `d5c1f2b8` (52 commits ahead of the
+previous `58caee92`, 0 behind, verified). Two things happened on the way that
+must be on the record.
+
+## BM.1 GitHub rejected the first push, and the fix rewrote 38 commits
+
+The pre-receive hook refused one blob over the 100 MB hard limit —
+`env-data/raw/groups/tempel2017_table1_galaxies.tsv` at 105.9 MB — with three
+more raw catalogues at 61-98 MB (warnings). All four are public catalogues that
+already carry `.manifest.json` hash pins, so the bytes never needed to be in git;
+committing them was an oversight against a partial `raw/` ignore rule.
+
+Removed from the 38 unpushed commits that carried them (`git filter-repo`,
+scoped to `origin/main..main` only), with the user's explicit choice of that
+over an LFS migration — the repo already holds LFS objects, but the added
+volume risked a quota failure the user could not rule out. Verified before the
+push: 0 blobs over 100 MB in the range, exactly 4 deletions and **zero other
+changes** against the pre-rewrite tree, 51 commits preserved, `origin` intact.
+The pre-rewrite `main` is kept as `backup/pre-rewrite-main` (`9a0ac7bc`) for
+one-command reversal. The four files remain on disk and are now `.gitignore`d
+so a future `add` cannot re-commit them; their manifests stay tracked.
+
+**The push then uploaded 1,511 LFS objects, 6.7 GB.** The repo's existing
+`.gitattributes` LFS rules cover far more of what the lanes committed (caches,
+arrays, maps) than the four files under inspection. It succeeded, so quota did
+not block, but that volume now sits in the user's GitHub LFS storage and may
+carry a billing consequence. Recorded so it is not a surprise.
+
+## BM.2 The rewrite clobbered a running lane's uncommitted edit — my error
+
+`filter-repo`'s final checkout reset the working tree to HEAD. Three tracked
+files carried uncommitted edits from live lanes at that moment: the bridge
+lane's `+147/-6` two-body-probe extension to `compiler/compiler.py`, its
+regenerated `compiler_results.json`, and its `registry.json` row. **All three
+were reverted.** I had snapshotted their hashes precisely to detect this and it
+detected it — but detection is not protection. The AU.6 lesson was about
+`git add -A` sweeping a lane's files *into* a commit; this is its mirror: a
+checkout sweeping a lane's edits *out of* the working tree. **Stash or copy
+every modified tracked file before any operation that checks out.**
+
+**Scope, established rather than assumed:**
+
+    extraction lane   UNHARMED. Every output (discriminator 17:18:10 ...
+                      certificates and REPORT.md 17:19:19) predates the revert
+                      at 17:19:59; it does not import the compiler; its registry
+                      row survived because registry.json was committed at BL.
+    bridge lane       COMPUTE COMPLETE AND SAFE. Its five substantive results --
+                      compile_bridge 16:51, cdm_attack 16:57, bridge.json 17:03,
+                      detect.json 17:14 -- all predate the revert, and its
+                      post-patch compiler test log (16:36) proves the suite
+                      passed with its edit. Zero python processes remain.
+                      PENDING AND BROKEN: its final certify -> tests -> report
+                      steps read `two_body_probe_consulted` and escape (d) from
+                      the compiler, which the reverted file lacks. They will
+                      fail or mis-report when the agent resumes.
+    registry          the bridge lane's row is the one lost edit.
+
+**Not reconstructed by hand.** The lost ~150 lines are gate logic the bridge
+lane designed; guessing at them from `compile_bridge.py`'s field names would
+manufacture a compiler extension and call it recovered. The lane's own files and
+results are the specification; on its completion report a targeted repair
+re-applies from them.
+
+## BM.3 Bookkeeping: registry letters drifted from record letters
+
+Lanes self-registered before record letters were assigned: the registry carries
+`BK-synthesis` and `BL-extraction`, where the record has BK = the CDM
+decomposition, BL = the synthesis, and BM = this entry. The registry's `run_id`
+is a lane label, not a record pointer; the record is authoritative. Noted so
+neither is "corrected" to match the other by a later reader.
+
+## BM.4 Working-tree state after the push
+
+Branch and `main` both at `d5c1f2b8`, matching origin. Two untracked lane
+directories (`bridge/` 49 files, `extraction/` 49 files) remain uncommitted by
+design until their lanes report. Four ignored raw catalogues on disk. The `dev/`
+copy of this record is byte-identical to the tracked one.
