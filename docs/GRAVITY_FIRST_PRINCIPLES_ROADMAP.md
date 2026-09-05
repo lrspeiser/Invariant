@@ -46,7 +46,7 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 |---|---|---|
 | Local scalar response | Regularized QUMOND, bounded successors, isolated axisymmetric adapter and eight-cluster pressure development | Observed galaxy reconstruction; resolve conditional cluster–local tension |
 | Additional scalar fields and cross-gradients | Conditional external quadrupole plus observed NGC3198 transfer: 72 numerically resolved cards, all worse than RAR; 9 unresolved | Retain source/field resolution failures; independent source/response audit; joint member/cluster response |
-| Higher spatial derivatives or length scales | Same 54 cards tested on local summaries, clusters and NGC3198; independent midplane audit now measures large inherited derivative errors despite small force errors | Extend validated cylindrical reference off-plane and validate the nonlinear-flux solve before larger lengths; full local, dynamical and photon sectors |
+| Higher spatial derivatives or length scales | Same 54 cards tested on local summaries, clusters and NGC3198; independent off-plane reference passes finite-grid derivative and source checks after exposing inherited errors | Establish full isolated source domain and nonlinear-flux solve before larger lengths; full local, dynamical and photon sectors |
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
 | Nonlocal paths and source connectivity | Sigma history imported; exact coherent-monopole base fails a new internal-force audit | Action-derived reaction terms, conserved causal kernels and partition-invariant source construction |
 | History-dependent inertia or fields | Oscillator and wave controls only | Derive a candidate law; constrain initial state; orbit-frequency transfer |
@@ -60,6 +60,41 @@ These categories organize an extensible search; neither this table nor the
 Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
+
+The [off-plane Newtonian reference](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-offplane-reference-results.md)
+now passes all five separate numerical refinements for both the nominal and
+half-height sources, on 273 locations including the axis and both sides of the
+disk. Fourteen configurations retain 3,822 field evaluations. Exact Green
+integrals of one declared vertical source and its weak derivatives supply all
+six independent Cartesian third derivatives, avoiding contact-term cancellation.
+The largest mandatory third-tensor refinement change is 0.00077314 and the
+largest physical density-gradient discrepancy is 0.00077610 on the registered
+scales. The corresponding force and Hessian refinement maxima are 6.9564e-7
+and 2.0414e-6. No points were dropped.
+
+The verifier loads 37 checked execution snapshots under an isolated package
+name, then uses fourth-order finite differences on every registered location
+and two step sizes. The finest derivative agreement is within 3.4456e-8;
+reflection and the previous midplane reference also agree. Six new synthetic
+controls bring the focused suite to 215 passing tests; lint passes. This is
+finite-grid Newtonian source progress, not a new physical card, an unbounded
+field guarantee, or independent observational confirmation.
+
+Next: extend the source provider over the entire isolated domain and verify
+any interpolation and exterior treatment, then propagate errors through the
+nonlinear action flux and its separate Poisson solve. An independently integrated
+exterior multipole expansion is a possible continuation for the far field;
+tail errors and potential/derivative agreement at the transition need explicit
+tests. A midplane or local flux must not replace the physical disk force.
+Only after this should a wider universal length grid be registered and repeated
+in all three regimes. The full matter/photon, source uncertainty, outer-star,
+stability and untouched-confirmation obligations remain open.
+
+Evidence: `work/gravity-first-principles/hankel-offplane-001/result.json`, SHA-256
+`1df5c6356c2f50d079fd29ef826d46cfc86daee3fff506bb51de66ce1b540b52`, and
+`hankel-offplane-verification-001/result.json`, SHA-256
+`58c6cfe5f68217dade78c3b47160dfe41b7d783156e1e2b80bb1aa42e471e695`.
+Current direction registry: `configs/gravity_sigma_directions_v8.json`.
 
 The [source and derivative audit](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-source-derivative-results.md)
 now quantifies the inherited angular truncation and establishes an independent
@@ -88,7 +123,7 @@ the physical modified disk acceleration. Full matter/photon dynamics, local
 observations, source uncertainty, direct outer stars and independent confirmation
 remain required. Evidence: `angular-source-resolution-002`, `hankel-midplane-001`,
 and `source-derivative-verification-001` under `work/gravity-first-principles/`.
-Current direction registry: `configs/gravity_sigma_directions_v7.json`.
+Its direction registry snapshot was `configs/gravity_sigma_directions_v7.json`.
 
 The [same-card NGC3198 transfer](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-length-NGC3198-results.md)
 now implements exact Green derivatives of a single density interpolation,

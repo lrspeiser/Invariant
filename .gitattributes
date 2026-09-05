@@ -993,3 +993,18 @@ src/invariant_gravity_extensions/hankel_midplane.py text eol=lf
 docs/GRAVITY_SOURCE_DERIVATIVE_RESULTS.md text eol=lf
 docs/GRAVITY_HANKEL_MIDPLANE_DERIVATION.md text eol=lf
 configs/gravity_sigma_directions_v7.json text eol=lf
+
+# Off-plane Green and derivative checks preserve their executed inputs.
+work/gravity-first-principles/hankel-offplane-*/** whitespace=cr-at-eol
+work/gravity-first-principles/hankel-offplane-*/result.json -diff
+work/gravity-first-principles/hankel-offplane-*/input-snapshots/**/transform_*.json -diff
+tests/test_gravity_hankel_axisymmetric.py text eol=lf
+scripts/audit_gravity_hankel_offplane.py text eol=lf
+scripts/verify_gravity_hankel_offplane.py text eol=lf
+scripts/report_gravity_hankel_offplane.py text eol=lf
+configs/gravity_hankel_offplane_audit_v*.json text eol=lf
+src/invariant_gravity_extensions/vertical_green.py text eol=lf
+src/invariant_gravity_extensions/hankel_axisymmetric.py text eol=lf
+configs/gravity_sigma_directions_v8.json text eol=lf
+docs/GRAVITY_HANKEL_OFFPLANE_DERIVATION.md text eol=lf
+docs/GRAVITY_HANKEL_OFFPLANE_RESULTS.md text eol=lf

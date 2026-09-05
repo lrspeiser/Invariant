@@ -1,0 +1,169 @@
+{
+  "schema": "independent-off-plane-hankel-jet-audit-1",
+  "registration": "After midplane audit 001 and analytic off-plane controls, before off-plane galaxy-source predictions. This is a source and numerical field audit, with no new gravity parameter or response scoring.",
+  "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+  "source_result": "work/gravity-first-principles/map-source-003/result.json",
+  "source_result_sha256": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+  "predecessor_result": "work/gravity-first-principles/hankel-midplane-001/result.json",
+  "predecessor_result_sha256": "24c594de9e07033e1becd8042d50d1d111969f0823201cbeb4cc64329ce70741",
+  "variants": [
+    {
+      "id": "primary"
+    },
+    {
+      "height_factor": 0.5,
+      "id": "height_half"
+    }
+  ],
+  "radii_kpc": [
+    0.0,
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    4.0,
+    8.0,
+    12.0,
+    16.0,
+    20.0,
+    24.0,
+    30.0,
+    35.0
+  ],
+  "heights_kpc": [
+    -32.0,
+    -16.0,
+    -8.0,
+    -4.0,
+    -2.0,
+    -1.0,
+    -0.5,
+    -0.2,
+    -0.1,
+    -0.025,
+    0.0,
+    0.025,
+    0.1,
+    0.2,
+    0.5,
+    1.0,
+    2.0,
+    4.0,
+    8.0,
+    16.0,
+    32.0
+  ],
+  "vertical_sources": [
+    {
+      "id": "fine",
+      "intervals": 2400,
+      "extent": 24.0
+    },
+    {
+      "id": "coarse",
+      "intervals": 1200,
+      "extent": 24.0
+    },
+    {
+      "id": "tail_extent",
+      "intervals": 3200,
+      "extent": 32.0
+    }
+  ],
+  "vertical_definition": "Positive-half cubic spline of sech-squared(u)/2, even by exact reflection, clamped to zero first derivative at zero and the physical first derivative at the declared extent. Beyond the extent use an exponential matched in value and first derivative, extending to infinity. Normalize the entire spline-plus-tail source to unit integral. Analytic Green integrals of the same curve and its weak derivatives define every vertical jet; include the f-second-derivative jump contribution when forming the third derivative. Compare the resulting field to the original physical sech-squared source as an external accuracy test.",
+  "transforms": [
+    {
+      "radial_nodes": 128,
+      "wavenumber_nodes": 32,
+      "path": "work/gravity-first-principles/hankel-midplane-001/transform_r128_k32.json",
+      "sha256": "e215fcee16320c4a60648b326af04157dcf6311739bd5e789edaf6bdcf184fde"
+    },
+    {
+      "radial_nodes": 64,
+      "wavenumber_nodes": 32,
+      "path": "work/gravity-first-principles/hankel-midplane-001/transform_r64_k32.json",
+      "sha256": "872eda64a486c6c2309014b0bb7a0ae82ee897bfe8826b6609c8bdb26b55c558"
+    },
+    {
+      "radial_nodes": 128,
+      "wavenumber_nodes": 16,
+      "path": "work/gravity-first-principles/hankel-midplane-001/transform_r128_k16.json",
+      "sha256": "5a01ee7904c7fb4c2d59efd16e8b0e728384ca7ef97fcc355c0f6d56e0ac50e6"
+    }
+  ],
+  "cases": [
+    {
+      "id": "reference",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 32,
+      "cutoff_kpc_inverse": 400.0,
+      "vertical_source": "fine",
+      "role": "reference"
+    },
+    {
+      "id": "radial_coarse",
+      "radial_nodes": 64,
+      "wavenumber_nodes": 32,
+      "cutoff_kpc_inverse": 400.0,
+      "vertical_source": "fine",
+      "role": "refinement"
+    },
+    {
+      "id": "wavenumber_coarse",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 16,
+      "cutoff_kpc_inverse": 400.0,
+      "vertical_source": "fine",
+      "role": "refinement"
+    },
+    {
+      "id": "cutoff_200",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 32,
+      "cutoff_kpc_inverse": 200.0,
+      "vertical_source": "fine",
+      "role": "refinement"
+    },
+    {
+      "id": "cutoff_100",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 32,
+      "cutoff_kpc_inverse": 100.0,
+      "vertical_source": "fine",
+      "role": "stress"
+    },
+    {
+      "id": "vertical_coarse",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 32,
+      "cutoff_kpc_inverse": 400.0,
+      "vertical_source": "coarse",
+      "role": "refinement"
+    },
+    {
+      "id": "tail_extent",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 32,
+      "cutoff_kpc_inverse": 400.0,
+      "vertical_source": "tail_extent",
+      "role": "refinement"
+    }
+  ],
+  "numerical_targets": {
+    "maximum_force_scaled_change": 0.0001,
+    "maximum_hessian_scaled_change": 0.002,
+    "maximum_third_tensor_scaled_change": 0.01,
+    "maximum_physical_density_scaled_error": 0.002,
+    "maximum_physical_density_gradient_scaled_error": 0.01,
+    "maximum_reflection_scaled_error": 1e-11,
+    "maximum_midplane_reference_scaled_difference": 2e-06
+  },
+  "normalizers": "Force: max(norm(p),1e-10*G*M/Rhalf^2). Hessian: max(Frobenius norm(H),1e-10*G*M/Rhalf^3). Third derivative: max(Frobenius norm(T), norm(H)/(sqrt(R^2+z^2)+minimum component height)). Physical density identity: max(abs(4*pi*G*rho),norm(H)). Physical density-gradient identity: max(norm(4*pi*G*grad rho),norm(H)/(sqrt(R^2+z^2)+minimum height)). These prevent near-zero source and field components from creating undefined fractional errors; no points are removed.",
+  "admission": "Every registered point on both sides of the disk and axis must pass all five one-factor refinements against the reference, plus reference physical-source identities, reflection and old midplane-reference agreement. The cutoff-100 case is retained as a stress diagnostic. No failed point or source variant is removed after inspection.",
+  "method_reference": "https://galaxiesbook.org/chapters/II-01.-Gravitation-in-Galactic-Disks_3-Gravitational-potentials-from-disk-density-distributions.html",
+  "scope": "Finite Newtonian source/derivative audit on an off-plane grid. Does not yet validate the entire unbounded domain, a production interpolation, a nonlinear action-flux Poisson solver, source posterior, or any gravity law. No velocity, raw/reserved cluster or local observations are opened.",
+  "control_tests": [
+    "tests/test_gravity_hankel_axisymmetric.py",
+    "tests/test_gravity_hankel_midplane.py"
+  ]
+}
