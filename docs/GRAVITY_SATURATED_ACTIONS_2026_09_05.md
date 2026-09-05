@@ -76,9 +76,11 @@ At a0=1.2e-10 m/s^2, Saturn's spherical anomalies are:
 | 1 | -2.038e-13 |
 | 2 | -1.058e-24 |
 
-These statements apply to the regular spherical branch. Galactic external-field
-effects, solar/planetary multipoles, time delays and light deflection are still
-uncomputed. A rapid local transition does not by itself eliminate the MOND
+These statements apply to the regular spherical branch. The subsequent
+[scalar external-field audit](GRAVITY_EXTERNAL_QUADRUPOLE_2026_09_05.md) finds
+12/18 scalar scenarios outside a historical Cassini-summary screen. Multi-field
+external effects, solar/planetary multipoles, time delays and light deflection
+remain uncomputed. A rapid local transition does not by itself eliminate the MOND
 external-field quadrupole; see [Milgrom, 2009](https://arxiv.org/abs/0906.4817).
 
 ## Joint source experiment and resolution
@@ -169,9 +171,10 @@ checkpoint. Later changes add signed confinement and configuration path handling
 
 ## Next decision
 
-Do not choose a winner from these periodic synthetic runs. First calculate the
-external-field quadrupole for the surviving scalar kernels, then build isolated
-galaxy/member/cluster predictions with the same constants and signed diagnostics.
+Do not choose a winner from these periodic synthetic runs. The subsequent scalar
+external-field audit narrows the declared a0 scenarios; now build isolated
+galaxy/member/cluster predictions with the same constants and signed diagnostics,
+and a separate external-field solution for the multi-field actions.
 Use the quadratic identity to constrain coupling jointly, rather than interpreting
 bulk-force enhancement without checking internal binding. The unresolved
 length-sensitive branch requires its own higher-derivative spherical solver.

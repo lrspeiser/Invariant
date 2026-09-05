@@ -50,7 +50,7 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
 | Nonlocal paths and source connectivity | Historical work to reconcile | Conserved causal kernels and partition-invariant source construction |
 | History-dependent inertia or fields | Oscillator and wave controls only | Derive a candidate law; constrain initial state; orbit-frequency transfer |
-| Environment and external fields | Joint periodic scenes only | Same-source environment interventions, internal COM-relative motion |
+| Environment and external fields | Joint periodic scenes and scalar point-source external quadrupole | Multi-field external boundary solution; isolated same-source interventions |
 | New sources: stress, radiation, vacuum state | Not implemented in the extension | Explicit universal coupling and independent source observables |
 | Geometry and matter/light coupling | Assumed metric only | Covariant completion and derived motion of matter, photons, and clocks |
 | Formation, cosmology and nonlinear evolution | Not implemented in the extension | Perturbation health before costly evolution; known-limit controls |
@@ -74,8 +74,15 @@ scenarios pass that limited screen; 288 successor joint-field solves and a
 coupling scan resolve small nonspherical effects. A strong-coupling case increases
 RMS acceleration while making member confinement outward, and is retained as a
 synthetic failure. These actions remain ansatz choices, not a discovered law.
-Next: external-field quadrupole and isolated same-source galaxy/cluster tests,
-using the exact quadratic coupling response and signed internal confinement.
+The [scalar external-field audit](GRAVITY_EXTERNAL_QUADRUPOLE_2026_09_05.md) now
+finds 12/18 scenarios outside a declared historical Cassini-summary screen.
+All six at a0=5e-11 m/s^2 remain inside it. Twelve published reference controls,
+two integral representations, refinement, and epsilon sensitivity checks pass;
+the focused suite now has 99 passing tests. The 36 multi-field cards remain
+unsupported for this observable and cannot inherit the scalar result. Next:
+isolated same-source galaxy/cluster tests of the surviving parameter region and
+a multi-field external auxiliary solution, using the exact quadratic coupling
+response and signed internal confinement. No per-regime retuning is allowed.
 
 1. **Finite local-limit audit (monopole stage complete; full local tests open).** Derive the high-acceleration correction,
    including regularization and auxiliary fields, rather than relying on a limit

@@ -1,0 +1,53 @@
+{
+  "schema": "invariant-external-quadrupole-audit-1",
+  "access": "public_published_development_summaries_only_no_raw_or_sealed_data",
+  "registration": "declared before full scenario scan; reference values and prototype numerical results already examined; not blind confirmation",
+  "shapes": [0.5, 1.0, 2.0],
+  "epsilon": 0.0001,
+  "epsilon_sensitivity": [0.00001, 0.000001],
+  "a0_m_s2": [5e-11, 1.2e-10, 2e-10],
+  "a0_role": "same illustrative universal-scale sweep as isolated-monopole audit; not fitted to galaxies or a confidence interval",
+  "physical_external_m_s2": [1.9e-10, 2.4e-10],
+  "external_field_role": "two published Hees2016 scenarios; not a current measured uncertainty interval",
+  "gm_sun_m3_s2": 1.32712440041279419e20,
+  "quadrature_nodes": [128, 256, 512],
+  "numerical_controls": {
+    "max_last_refinement_q_change": 2e-7,
+    "max_source_hessian_q_disagreement": 2e-6,
+    "max_epsilon_sensitivity_q_change": 2e-7,
+    "scope": "empirical refinement and cross-representation checks; not certified quadrature error bounds"
+  },
+  "cassini_summary": {
+    "mean_Q2_s_minus2": 3e-27,
+    "one_sigma_s_minus2": 3e-27,
+    "screen_sigma_multiplier": 2,
+    "role": "declared two-sigma historical published-summary development screen, conditional on fixed a0 and external field; not our own significance test or raw-data ephemeris fit"
+  },
+  "reference_controls": [
+    {"alpha": 2, "eta_physical": 1.0, "q_magnitude": 0.088, "rounding_tolerance": 0.0005},
+    {"alpha": 2, "eta_physical": 1.5, "q_magnitude": 0.11, "rounding_tolerance": 0.005},
+    {"alpha": 2, "eta_physical": 2.0, "q_magnitude": 0.12, "rounding_tolerance": 0.005},
+    {"alpha": 2, "eta_physical": 3.0, "q_magnitude": 0.12, "rounding_tolerance": 0.005},
+    {"alpha": 4, "eta_physical": 1.0, "q_magnitude": 0.074, "rounding_tolerance": 0.0005},
+    {"alpha": 4, "eta_physical": 1.5, "q_magnitude": 0.057, "rounding_tolerance": 0.0005},
+    {"alpha": 4, "eta_physical": 2.0, "q_magnitude": 0.038, "rounding_tolerance": 0.0005},
+    {"alpha": 4, "eta_physical": 3.0, "q_magnitude": 0.018, "rounding_tolerance": 0.0005},
+    {"alpha": 8, "eta_physical": 1.0, "q_magnitude": 0.061, "rounding_tolerance": 0.0005},
+    {"alpha": 8, "eta_physical": 1.5, "q_magnitude": 0.022, "rounding_tolerance": 0.0005},
+    {"alpha": 8, "eta_physical": 2.0, "q_magnitude": 0.0086, "rounding_tolerance": 0.00005},
+    {"alpha": 8, "eta_physical": 3.0, "q_magnitude": 0.0021, "rounding_tolerance": 0.00005}
+  ],
+  "sources": [
+    {"id": "HEES2016", "url": "https://arxiv.org/abs/1510.01369", "pdf_url": "https://arxiv.org/pdf/1510.01369", "pdf_sha256": "7931b315b086b04d67fa307c722effd3ac50c7a10adb7370f6a70d5c863832a8", "version": "arXiv:1510.01369v1", "location": "equations 5a and 10-12, printed page 6; table B1 printed page 13; external-field scenarios in section III", "visual_equation_and_table_verified": true, "checked_utc_date": "2026-09-05", "role": "QUMOND quadrupole formula and rounded reference magnitudes; table positive magnitudes distinguished from signed q"},
+    {"id": "CASSINI2014", "url": "https://arxiv.org/abs/1402.6950", "pdf_url": "https://arxiv.org/pdf/1402.6950", "pdf_sha256": "cdba1abaa49844e6c16d762ba561f33c6935e583f915571837330fd485bf4ef3", "location": "table I and equation 12, printed page 7", "visual_table_verified": true, "checked_utc_date": "2026-09-05", "role": "published Q2=(3 +/- 3)e-27 s^-2 with one-sigma uncertainty; historical Cassini summary, not necessarily latest constraint"},
+    {"id": "JPL_CONSTANTS", "url": "https://ssd.jpl.nasa.gov/astro_par.html", "role": "DE440 heliocentric gravitational parameter, carried forward from isolated-monopole audit"}
+  ],
+  "scope": {
+    "included": "QUMOND point-source leading quadrupole in constant Galactic external field",
+    "boundary_mapping": "eta_N*nu(eta_N)=g_external/a0; assumes standard scalar MOND external-field mapping, not a self-consistent Galactic reconstruction",
+    "excluded": ["TRIMOND external auxiliary field and nonspherical interaction", "higher multipoles", "finite-r/R_M corrections", "Galaxy mass reconstruction", "planet interactions", "relativistic completion", "own joint Cassini or ephemeris refit"],
+    "full_solar_system_pass_possible": false,
+    "galaxy_or_cluster_validation": false,
+    "theory_family_falsification": false
+  }
+}
