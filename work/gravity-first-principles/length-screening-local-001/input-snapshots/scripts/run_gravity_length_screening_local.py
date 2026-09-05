@@ -18,11 +18,7 @@ import scipy
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'src'))
 from invariant_gravity_extensions.external_quadrupole import newtonian_external_ratio
-from invariant_gravity_extensions.length_screening import (
-    LengthScreening,
-    point_monopole_delta,
-    point_quadrupole,
-)
+from invariant_gravity_extensions.length_screening import LengthScreening, point_monopole_delta, point_quadrupole
 from invariant_gravity_extensions.local_limits import Orbit, mas_per_century, perihelion_first_order
 from invariant_gravity_extensions.saturated_actions import SaturatedActionSpec
 
@@ -45,9 +41,9 @@ def local_card(card, config, monopole, external):
     for planet in monopole['planets']:
         orbit = Orbit(planet['a_au']*monopole['au_m'], planet['e'], gm)
 
-        def prediction(model, count, selected_orbit=orbit):
+        def prediction(model, count):
             delta = lambda y: point_monopole_delta(model, y, length)
-            return mas_per_century(perihelion_first_order(selected_orbit, a0, delta, nodes=count), selected_orbit, monopole['century_s'])
+            return mas_per_century(perihelion_first_order(orbit, a0, delta, nodes=count), orbit, monopole['century_s'])
 
         estimates = [{'nodes': count, 'precession_mas_century': prediction(spec, count)} for count in config['monopole_nodes']]
         epsilons = [{'epsilon': e, 'precession_mas_century': prediction(LengthScreening(card['shape'], e), config['monopole_nodes'][-1])}
@@ -79,15 +75,15 @@ def local_card(card, config, monopole, external):
         eta_n = newtonian_external_ratio(eta, scalar.delta_nu)
         estimates = []
 
-        def evaluate(count, boundary_ratio=eta_n):
-            return {'nodes': count, **point_quadrupole(spec, boundary_ratio, length, quadrature_nodes=count)}
+        def evaluate(count):
+            return {'nodes': count, **point_quadrupole(spec, eta_n, length, quadrature_nodes=count)}
 
         for count in config['quadrature_nodes']:
             estimates.append(evaluate(count))
 
-        def grid_ok(values=estimates):
-            return (abs(values[-1]['Q2_flux']-values[-2]['Q2_flux']) < config['maximum_dimensionless_Q2_change'] and
-                    values[-1]['absolute_agreement'] < config['maximum_action_flux_disagreement'])
+        def grid_ok():
+            return (abs(estimates[-1]['Q2_flux']-estimates[-2]['Q2_flux']) < config['maximum_dimensionless_Q2_change'] and
+                    estimates[-1]['absolute_agreement'] < config['maximum_action_flux_disagreement'])
 
         for count in config['automatic_numerical_refinements']:
             if grid_ok():

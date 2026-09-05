@@ -46,7 +46,7 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 |---|---|---|
 | Local scalar response | Regularized QUMOND, bounded successors, isolated axisymmetric adapter and eight-cluster pressure development | Observed galaxy reconstruction; resolve conditional cluster–local tension |
 | Additional scalar fields and cross-gradients | Conditional external quadrupole plus observed NGC3198 transfer: 72 numerically resolved cards, all worse than RAR; 9 unresolved | Retain source/field resolution failures; independent source/response audit; joint member/cluster response |
-| Higher spatial derivatives or length scales | Generalized-QUMOND baseline and bounded successor's 13 analytic checks | Full finite-epsilon spherical and external-field flux; one physical length; numerical and stability controls |
+| Higher spatial derivatives or length scales | Bounded length-sensitive action: full Cartesian and local fluxes; 34/54 cards within combined historical local screen | Source regularity and derivative convergence before same-constant galaxy/cluster transfer; dynamical and photon sectors |
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
 | Nonlocal paths and source connectivity | Sigma history imported; exact coherent-monopole base fails a new internal-force audit | Action-derived reaction terms, conserved causal kernels and partition-invariant source construction |
 | History-dependent inertia or fields | Oscillator and wave controls only | Derive a candidate law; constrain initial state; orbit-frequency transfer |
@@ -60,6 +60,29 @@ These categories organize an extensible search; neither this table nor the
 Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
+
+The [length-dependent local scan](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-length-screening-local-results.md)
+now implements the full variational flux and two independent quadrupole
+representations. Thirty-four of 54 fixed physical configurations lie within
+both historical local screens and 20 outside. All 108 quadrupole rows pass
+numerical controls; all 324 monopole predictions lie within their inherited
+intervals. Lengths of 1 and 10 pc pass this conditional screen for all sampled
+shape/acceleration groups, including the higher a0 values that previously
+exceeded the scalar Cassini screen. Small nonzero lengths can initially
+increase the quadrupole; no continuous allowed interval is inferred.
+
+This opens observed-source transfer, not a full Solar System or discovery
+claim. The old galaxy/cluster scores cannot be attached to the new cards.
+First audit density/source regularity and implement derivative-consistent
+Newtonian fields: piecewise linear stellar enclosed mass produces density
+discontinuities, and differentiating the existing C1 potential spline through
+third order is not a validated source representation. Retain measured source
+uncertainties and response-blind interpolation choices, then compare all
+eligible fixed cards at the same constants. Lensing, dynamics and independent
+validation remain open. The focused suite now has 179 passing tests.
+Evidence: `work/gravity-first-principles/length-screening-local-001/`, SHA-256
+`66ff601b1012da7cbc555a27d8836723a2c6e7b23f393ead530da64e6e938a77`.
+Current direction registry: `configs/gravity_sigma_directions_v4.json`.
 
 The [observed-source multifield transfer](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-NGC3198-multifield-results.md)
 now evaluates the frozen lower-a0 coupling grid on the previously exposed
@@ -83,10 +106,9 @@ adds 13 symbolic checks for a separately registered bounded length-sensitive
 action. Independent radial variation and tensor divergence agree. The derived
 point-source limits show why a naive screened acceleration misses a required
 term and can give the wrong sign. No physical length or observational winner
-has been selected. Next: implement the full finite-epsilon spherical and
-external-field fluxes, retain boundary and regularizer controls, then evaluate
-the local constraints before observed source transfer. The updated queue is
-`configs/gravity_sigma_directions_v3.json`; the unresolved multifield numerical
+was selected at that analytic stage. The local implementation and scan above
+now complete that next step; observed-source transfer remains outstanding.
+The then-current queue was `configs/gravity_sigma_directions_v3.json`; the unresolved multifield numerical
 cases and Sigma thermodynamic-source repair remain open in parallel as research
 directions, without starting separate agents.
 
