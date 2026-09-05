@@ -1,0 +1,2040 @@
+{
+  "config": {
+    "a0_m_s2": 5e-11,
+    "a0_role": "lower scenario retained by the previous scalar Cassini summary screen; not galaxy-fitted, universally selected or confirmed",
+    "access": {
+      "network": false,
+      "raw_observations": false,
+      "sealed_products": false
+    },
+    "controls": {
+      "max_boundary_force_change_relative": 0.0001,
+      "max_force_refinement_relative": 0.003,
+      "max_newtonian_reconstruction_relative": 0.002,
+      "max_spherical_relative_error": 1e-05,
+      "role": "declared implementation targets at sampled points; not observational tolerances or certified global error bounds"
+    },
+    "discovery_claim_possible": false,
+    "epsilon": 0.0001,
+    "finite_volume_check": {
+      "a0": 1.0,
+      "components": [
+        {
+          "a": 1.0,
+          "b": 0.2,
+          "gm": 2.0,
+          "name": "stars"
+        },
+        {
+          "a": 2.0,
+          "b": 0.4,
+          "gm": 0.5,
+          "name": "gas"
+        }
+      ],
+      "domain_R_z": 6.0,
+      "max_finest_relative_RMS_force_difference": 0.02,
+      "maxiter": 5000,
+      "reference_grid": {
+        "angular_nodes": 320,
+        "l_max": 96,
+        "plane_scale": 0.2,
+        "r_max": 10000.0,
+        "r_min": 0.0001,
+        "radial_nodes": 2049
+      },
+      "resolutions": [
+        96,
+        192
+      ],
+      "scope": "independent cylindrical finite-volume discretization of the same analytic anomalous source; boundary potential supplied by multipoles, so not an independent boundary or source-model validation",
+      "shape": 1.0,
+      "source": "work/gravitylab/axisym.py",
+      "tolerance": 1e-10
+    },
+    "grid": {
+      "angular_mapping": "sinh map about z=0 using minimum component thickness; not tuned to gravity residuals",
+      "boundary_inner_factor": 0.1,
+      "boundary_outer_factor": 10.0,
+      "r_max_over_scale": 1000.0,
+      "r_min_over_scale": 0.001,
+      "refinement": [
+        {
+          "angular_nodes": 256,
+          "l_max": 64,
+          "radial_nodes": 2049
+        },
+        {
+          "angular_nodes": 512,
+          "l_max": 128,
+          "radial_nodes": 4097
+        }
+      ],
+      "spherical_angular_nodes": 8,
+      "spherical_l_max": 0
+    },
+    "predecessor": "work/gravity-first-principles/external-quadrupole-002/result.json",
+    "registration": "development controls and numerical tolerances, after analytic/prototype inspection; not blind confirmation",
+    "scenes": [
+      {
+        "components": [
+          {
+            "a_kpc": 3.0,
+            "b_kpc": 0.3,
+            "mass_msun": 50000000000.0,
+            "name": "stars"
+          },
+          {
+            "a_kpc": 7.0,
+            "b_kpc": 0.6,
+            "mass_msun": 10000000000.0,
+            "name": "gas"
+          }
+        ],
+        "id": "illustrative_disk",
+        "offplane_z_over_R": 0.3,
+        "radial_scale_kpc": 3.0,
+        "radii_kpc": [
+          2.0,
+          3.0,
+          6.0,
+          12.0,
+          24.0,
+          40.0
+        ],
+        "role": "invented smooth stellar/gas source for dimensional solver transfer, not an observed galaxy"
+      },
+      {
+        "components": [
+          {
+            "a_kpc": 0.0,
+            "b_kpc": 200.0,
+            "mass_msun": 100000000000000.0,
+            "name": "gas"
+          },
+          {
+            "a_kpc": 0.0,
+            "b_kpc": 10.0,
+            "mass_msun": 500000000000.0,
+            "name": "central_stars"
+          }
+        ],
+        "id": "illustrative_spherical_cluster",
+        "offplane_z_over_R": 0.3,
+        "radial_scale_kpc": 200.0,
+        "radii_kpc": [
+          30.0,
+          100.0,
+          300.0,
+          600.0,
+          1000.0,
+          2000.0
+        ],
+        "role": "invented joint gas/central stellar source; circular-force diagnostic, not cluster velocity dispersion or observed hydrostatic mass"
+      }
+    ],
+    "schema": "invariant-isolated-scalar-development-1",
+    "shapes": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "sources": [
+      {
+        "role": "Miyamoto-Nagai analytic mass models, not astronomical observations",
+        "url": "https://academic.oup.com/pasj/article/27/4/533/8122399"
+      },
+      {
+        "role": "QUMOND field equation and the limitation of local algebraic acceleration",
+        "url": "https://academic.oup.com/mnras/article/403/2/886/1184577"
+      },
+      {
+        "role": "heliocentric GM carried forward from previous audit",
+        "url": "https://ssd.jpl.nasa.gov/astro_par.html"
+      }
+    ],
+    "units": {
+      "gm_sun_m3_s2": 1.3271244004127942e+20,
+      "interpretation": "kpc and km/s, mass inputs in solar mass units",
+      "length_m": 3.085677581491367e+19,
+      "speed_m_s": 1000.0
+    },
+    "unsupported": [
+      "arbitrary 3-D source reconstruction",
+      "off-axis cluster members",
+      "external fields",
+      "TRIMOND",
+      "derived photon law and lensing",
+      "equilibrium and formation",
+      "empirical galaxy or cluster fit",
+      "global stability"
+    ]
+  },
+  "converted_units": {
+    "a0_kms2_per_kpc": 1542.8387907456836,
+    "gm_per_solar_mass_kpc_kms2": 4.300917271374054e-06
+  },
+  "discovery_claim": false,
+  "empirical_three_regime_validation": false,
+  "git_revision": "f313103e1c60bdf822ca1f5c0a77d0f62288e1f1",
+  "independent_finite_volume": {
+    "config": {
+      "a0": 1.0,
+      "components": [
+        {
+          "a": 1.0,
+          "b": 0.2,
+          "gm": 2.0,
+          "name": "stars"
+        },
+        {
+          "a": 2.0,
+          "b": 0.4,
+          "gm": 0.5,
+          "name": "gas"
+        }
+      ],
+      "domain_R_z": 6.0,
+      "max_finest_relative_RMS_force_difference": 0.02,
+      "maxiter": 5000,
+      "reference_grid": {
+        "angular_nodes": 320,
+        "l_max": 96,
+        "plane_scale": 0.2,
+        "r_max": 10000.0,
+        "r_min": 0.0001,
+        "radial_nodes": 2049
+      },
+      "resolutions": [
+        96,
+        192
+      ],
+      "scope": "independent cylindrical finite-volume discretization of the same analytic anomalous source; boundary potential supplied by multipoles, so not an independent boundary or source-model validation",
+      "shape": 1.0,
+      "source": "work/gravitylab/axisym.py",
+      "tolerance": 1e-10
+    },
+    "independent_boundary_validation": false,
+    "passes": true,
+    "probe_R_z": [
+      [
+        0.7,
+        0.2
+      ],
+      [
+        1.2,
+        0.4
+      ],
+      [
+        2.0,
+        0.6
+      ],
+      [
+        3.0,
+        0.9
+      ],
+      [
+        4.0,
+        1.2
+      ]
+    ],
+    "reference_acceleration": [
+      [
+        -0.22196795317103393,
+        -0.3140481914366366,
+        -0.3750763607866886,
+        -0.33712495639260626,
+        -0.2850743675869706
+      ],
+      [
+        -0.3344445476228125,
+        -0.3472756029247196,
+        -0.30073539572685287,
+        -0.22173822467370968,
+        -0.1647374377350477
+      ]
+    ],
+    "rows": [
+      {
+        "anomalous_acceleration": [
+          [
+            -0.21657394741364108,
+            -0.3121427525526501,
+            -0.37433167764491615,
+            -0.33682893887992615,
+            -0.2849258774741612
+          ],
+          [
+            -0.33086658822918413,
+            -0.34633425956826125,
+            -0.300385956275454,
+            -0.22160424736816403,
+            -0.16463345956192654
+          ]
+        ],
+        "iterations": 484,
+        "relative_RMS_force_difference": 0.007314720848285848,
+        "relative_residual": 9.036798629740438e-11,
+        "resolution": 96
+      },
+      {
+        "anomalous_acceleration": [
+          [
+            -0.22108641731286666,
+            -0.31374643382707706,
+            -0.3749499513693621,
+            -0.3370824114318367,
+            -0.28506327256645536
+          ],
+          [
+            -0.33394559869559093,
+            -0.3470772692654699,
+            -0.30064577849962365,
+            -0.2216922677457525,
+            -0.1646837232621939
+          ]
+        ],
+        "iterations": 980,
+        "relative_RMS_force_difference": 0.0011598186578586078,
+        "relative_residual": 9.560452598313746e-11,
+        "resolution": 192
+      }
+    ]
+  },
+  "input_hashes": {
+    "configs/gravity_isolated_scalar_v1.json": "8709d5877405f81b1dccf9379721fb52d85256ddb0e9751ac15895853319d673",
+    "scripts/run_gravity_isolated_scalar.py": "a744ea44dd8d418273b9b6415d92593c4b204ccae8a50d16cfad076c2dde05fb",
+    "src/invariant_gravity_extensions/__init__.py": "68bda97fad7e33c009c55fc92d51abaea6b596556c2907da9587e45c24714c81",
+    "src/invariant_gravity_extensions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/cli.py": "06a382c481a1347ee674a97ba8ffca562f2155e3ec94f86ca610699a6dce971e",
+    "src/invariant_gravity_extensions/dynamics.py": "a8c1a1d3847558fb8759624f495aead39654e48df2f03acc8dbd0edf7b38ecb4",
+    "src/invariant_gravity_extensions/external_quadrupole.py": "54d4435f2018d9e4425dbd380bd7f4e27ac76c404c6472c8b48795434f18e6d9",
+    "src/invariant_gravity_extensions/fields.py": "d10e634034e5274eebb0ad1ee5e8659b0300161da51f98ee1f42346701b5fb51",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/local_limits.py": "51d8d373a543f4b44ff60ccaf4c2c2af661c77c8a6aa805df47a830186492ba5",
+    "src/invariant_gravity_extensions/observables.py": "7402b5549360455b9af815a72853f8c577ebdae68e1b5ff2254d1a0edb9fdd4d",
+    "src/invariant_gravity_extensions/policy.py": "c59e5174e0026f43b3dc16688141c7a2e494877195a2da0a0c1e087d17e9cb4c",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "work/gravity-first-principles/external-quadrupole-002/result.json": "e10b1f4e00bad3a932188976f156b144ac2471ba54ba2e0e66375b396a8824c1",
+    "work/gravitylab/axisym.py": "e196b7fe9e3e4ddea1928fe92a05565bc5fe68a3b4e38095523e8e4085deda51"
+  },
+  "newtonian_reconstruction": [
+    {
+      "grid": {
+        "angular_nodes": 256,
+        "l_max": 64,
+        "plane_scale": 0.3,
+        "r_max": 3000.0,
+        "r_min": 0.003,
+        "radial_nodes": 2049
+      },
+      "max_relative_force_error": 0.003377148148371563,
+      "scene": "illustrative_disk"
+    },
+    {
+      "grid": {
+        "angular_nodes": 512,
+        "l_max": 128,
+        "plane_scale": 0.3,
+        "r_max": 3000.0,
+        "r_min": 0.003,
+        "radial_nodes": 4097
+      },
+      "max_relative_force_error": 0.0008488609831604353,
+      "scene": "illustrative_disk"
+    },
+    {
+      "grid": {
+        "angular_nodes": 512,
+        "l_max": 128,
+        "plane_scale": 0.3,
+        "r_max": 30000.0,
+        "r_min": 0.00030000000000000003,
+        "radial_nodes": 4097
+      },
+      "max_relative_force_error": 0.0008488606223956946,
+      "scene": "illustrative_disk"
+    },
+    {
+      "grid": {
+        "angular_nodes": 8,
+        "l_max": 0,
+        "plane_scale": null,
+        "r_max": 200000.0,
+        "r_min": 0.2,
+        "radial_nodes": 2049
+      },
+      "max_relative_force_error": 5.430415839703368e-06,
+      "scene": "illustrative_spherical_cluster"
+    },
+    {
+      "grid": {
+        "angular_nodes": 8,
+        "l_max": 0,
+        "plane_scale": null,
+        "r_max": 200000.0,
+        "r_min": 0.2,
+        "radial_nodes": 4097
+      },
+      "max_relative_force_error": 5.439065612267307e-06,
+      "scene": "illustrative_spherical_cluster"
+    },
+    {
+      "grid": {
+        "angular_nodes": 8,
+        "l_max": 0,
+        "plane_scale": null,
+        "r_max": 2000000.0,
+        "r_min": 0.020000000000000004,
+        "radial_nodes": 4097
+      },
+      "max_relative_force_error": 7.959808251947975e-09,
+      "scene": "illustrative_spherical_cluster"
+    }
+  ],
+  "numpy": "2.2.6",
+  "prior_cassini_summary_scenarios": [
+    {
+      "Q2_s_minus2": 2.1983400858721757e-27,
+      "a0_m_s2": 5e-11,
+      "physical_external_m_s2": 1.9e-10,
+      "shape": 0.5,
+      "status": "WITHIN_DECLARED_SUMMARY_SCREEN"
+    },
+    {
+      "Q2_s_minus2": 1.800351062904843e-27,
+      "a0_m_s2": 5e-11,
+      "physical_external_m_s2": 2.4e-10,
+      "shape": 0.5,
+      "status": "WITHIN_DECLARED_SUMMARY_SCREEN"
+    },
+    {
+      "Q2_s_minus2": 1.571127363129805e-27,
+      "a0_m_s2": 5e-11,
+      "physical_external_m_s2": 1.9e-10,
+      "shape": 1.0,
+      "status": "WITHIN_DECLARED_SUMMARY_SCREEN"
+    },
+    {
+      "Q2_s_minus2": 9.89941658322013e-28,
+      "a0_m_s2": 5e-11,
+      "physical_external_m_s2": 2.4e-10,
+      "shape": 1.0,
+      "status": "WITHIN_DECLARED_SUMMARY_SCREEN"
+    },
+    {
+      "Q2_s_minus2": 4.975470069322979e-28,
+      "a0_m_s2": 5e-11,
+      "physical_external_m_s2": 1.9e-10,
+      "shape": 2.0,
+      "status": "WITHIN_DECLARED_SUMMARY_SCREEN"
+    },
+    {
+      "Q2_s_minus2": 2.319606167493511e-28,
+      "a0_m_s2": 5e-11,
+      "physical_external_m_s2": 2.4e-10,
+      "shape": 2.0,
+      "status": "WITHIN_DECLARED_SUMMARY_SCREEN"
+    }
+  ],
+  "python": "3.13.5",
+  "rows": [
+    {
+      "a0_m_s2": 5e-11,
+      "accelerations_kms2_per_kpc": [
+        [
+          [
+            -7672.196163091242,
+            -7524.241053280611,
+            -4367.666096346183,
+            -1772.693027803442,
+            -861.90842899707,
+            -544.2295666784737,
+            -6058.710393051257,
+            -5509.339937369018,
+            -3114.296315998963,
+            -1392.6257451169135,
+            -741.5614496237317,
+            -478.52454880747956
+          ],
+          [
+            -2.4458051356925973e-15,
+            -2.599751303370203e-15,
+            -2.6632919132561027e-15,
+            -2.7183682794439974e-15,
+            -2.3671106073108444e-15,
+            -7.799022203339256e-16,
+            -10134.991273901998,
+            -7085.03385495014,
+            -2604.915250160135,
+            -814.7191054847765,
+            -330.8053218648435,
+            -185.7212428366042
+          ]
+        ],
+        [
+          [
+            -7672.192282049138,
+            -7524.231677133596,
+            -4367.609747022431,
+            -1772.472736622719,
+            -861.7616079336136,
+            -544.2275864611872,
+            -6058.693677998052,
+            -5509.318303407121,
+            -3114.2289270464066,
+            -1392.4023179638789,
+            -741.2880456706605,
+            -478.3635261356529
+          ],
+          [
+            2.3626392157609323e-15,
+            2.412410904544703e-15,
+            1.750138908497887e-15,
+            1.514571769675088e-15,
+            1.2380839556004243e-16,
+            5.012753563385216e-16,
+            -10135.047013352783,
+            -7085.1061635268625,
+            -2605.1425346079072,
+            -815.4763581613206,
+            -331.7243982225797,
+            -186.25773649775647
+          ]
+        ],
+        [
+          [
+            -7672.192807646606,
+            -7524.231910388229,
+            -4367.609803330951,
+            -1772.4727494910355,
+            -861.7616084901142,
+            -544.2275817999723,
+            -6058.694139671037,
+            -5509.318508318035,
+            -3114.228979207666,
+            -1392.4023287956115,
+            -741.2880448685937,
+            -478.36352130034084
+          ],
+          [
+            5.533015444582532e-16,
+            5.92156762603239e-16,
+            3.1714107267977234e-16,
+            -7.626066384011696e-16,
+            -1.109097587074646e-15,
+            -1.460880619101957e-16,
+            -10135.047152123632,
+            -7085.106225403351,
+            -2605.1425510642734,
+            -815.4763630261878,
+            -331.7244012122492,
+            -186.25774043189233
+          ]
+        ]
+      ],
+      "algebraic_shortcut_relative_force_difference_by_point": [
+        0.003915846711951533,
+        0.003443016029808149,
+        0.006255186652657271,
+        0.012553383961125507,
+        0.007613251440782804,
+        0.0029048444004124035,
+        0.00032814121420440487,
+        0.00043171386838403034,
+        0.0007450018564975462,
+        0.0003023907456497233,
+        0.0006401031787535579,
+        0.0007327737252071738
+      ],
+      "card_sha256": "70ed116c210b1c724c64734cfa7172ef753864b50152bedc396448c06317059e",
+      "components": [
+        {
+          "a": 3.0,
+          "b": 0.3,
+          "gm": 215045.8635687027,
+          "name": "stars",
+          "z_center": 0.0
+        },
+        {
+          "a": 7.0,
+          "b": 0.6,
+          "gm": 43009.17271374054,
+          "name": "gas",
+          "z_center": 0.0
+        }
+      ],
+      "empirical_validation": false,
+      "grids": [
+        {
+          "angular_nodes": 256,
+          "l_max": 64,
+          "plane_scale": 0.3,
+          "r_max": 3000.0,
+          "r_min": 0.003,
+          "radial_nodes": 2049
+        },
+        {
+          "angular_nodes": 512,
+          "l_max": 128,
+          "plane_scale": 0.3,
+          "r_max": 3000.0,
+          "r_min": 0.003,
+          "radial_nodes": 4097
+        },
+        {
+          "angular_nodes": 512,
+          "l_max": 128,
+          "plane_scale": 0.3,
+          "r_max": 30000.0,
+          "r_min": 0.00030000000000000003,
+          "radial_nodes": 4097
+        }
+      ],
+      "inward_midplane_radial_force": true,
+      "max_boundary_relative_force_change": 6.850681632263564e-08,
+      "max_refinement_relative_force_change": 0.0011808854566872633,
+      "midplane_acceleration_ratio_to_newtonian": [
+        1.001239282714351,
+        1.0019861694907728,
+        1.0150805966873664,
+        1.1670436641257989,
+        2.0148849214293376,
+        3.4329359646522013
+      ],
+      "midplane_circular_v_km_s": [
+        123.87245704874515,
+        150.24212369094323,
+        161.88161977193613,
+        145.8412595731826,
+        143.81334640346404,
+        147.54356398026616
+      ],
+      "midplane_circular_v_squared_kms2": [
+        15344.385615293211,
+        22572.695731164687,
+        26205.658819985707,
+        21269.672993892425,
+        20682.27860376274,
+        21769.103271998894
+      ],
+      "newtonian_acceleration_kms2_per_kpc": [
+        [
+          -7662.696560254165,
+          -7509.317133800538,
+          -4302.7221853952215,
+          -1518.7715798266618,
+          -427.69768105604254,
+          -158.53123606257225,
+          -6049.496727963912,
+          -5491.450306765146,
+          -3035.841618137207,
+          -1128.263007431652,
+          -338.4847823455674,
+          -130.122892483459
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -10114.568655232706,
+          -7057.036185441253,
+          -2536.1435085573935,
+          -660.3416621378823,
+          -151.69905713261448,
+          -50.76940556754891
+        ]
+      ],
+      "probe_R_z_kpc": [
+        [
+          2.0,
+          0.0
+        ],
+        [
+          3.0,
+          0.0
+        ],
+        [
+          6.0,
+          0.0
+        ],
+        [
+          12.0,
+          0.0
+        ],
+        [
+          24.0,
+          0.0
+        ],
+        [
+          40.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.6
+        ],
+        [
+          3.0,
+          0.8999999999999999
+        ],
+        [
+          6.0,
+          1.7999999999999998
+        ],
+        [
+          12.0,
+          3.5999999999999996
+        ],
+        [
+          24.0,
+          7.199999999999999
+        ],
+        [
+          40.0,
+          12.0
+        ]
+      ],
+      "scene": "illustrative_disk",
+      "scope": "invented smooth stellar/gas source for dimensional solver transfer, not an observed galaxy",
+      "shape": 0.5,
+      "spherical_exact_relative_force_error": null
+    },
+    {
+      "a0_m_s2": 5e-11,
+      "accelerations_kms2_per_kpc": [
+        [
+          [
+            -7662.097944913287,
+            -7508.98697074587,
+            -4332.272528445065,
+            -1940.5615426472762,
+            -1133.4618354368442,
+            -642.5160053716806,
+            -6049.281715817362,
+            -5493.328591637415,
+            -3088.074529563716,
+            -1604.4231527948923,
+            -964.5840461824059,
+            -556.682277256264
+          ],
+          [
+            6.628030911131266e-15,
+            6.698699939035886e-15,
+            7.65972381116109e-15,
+            4.587996405921472e-15,
+            1.7427035924753418e-15,
+            7.794624655497226e-16,
+            -10119.788097216431,
+            -7066.357462781906,
+            -2587.399907390828,
+            -938.1344517837808,
+            -429.68782711292226,
+            -215.97643038846215
+          ]
+        ],
+        [
+          [
+            -7662.09674514568,
+            -7508.9822973666305,
+            -4332.213617214333,
+            -1940.088531958103,
+            -1133.3559856947152,
+            -642.5680569324018,
+            -6049.273948984328,
+            -5493.319012620245,
+            -3088.02218569583,
+            -1604.0332791982946,
+            -964.1487744614659,
+            -556.4826623139274
+          ],
+          [
+            2.2129489842539198e-15,
+            2.184020463550644e-15,
+            2.2472953463192942e-15,
+            1.408053914226509e-15,
+            2.3593794463533817e-16,
+            6.172547621178757e-16,
+            -10119.814034563962,
+            -7066.389522393953,
+            -2587.5773263266556,
+            -939.4602614943635,
+            -431.1438349770638,
+            -216.63882177792206
+          ]
+        ],
+        [
+          [
+            -7662.097374338421,
+            -7508.982576686648,
+            -4332.21368324338,
+            -1940.0885531132005,
+            -1133.3559856298514,
+            -642.56805257407,
+            -6049.274501799494,
+            -5493.3192580123805,
+            -3088.0222519349777,
+            -1604.033288831911,
+            -964.1487755436663,
+            -556.4826576781936
+          ],
+          [
+            3.9092258432709965e-15,
+            3.7999710062900565e-15,
+            3.020157899682939e-15,
+            3.0701936599275317e-15,
+            3.404262525438893e-16,
+            2.5784587442812894e-16,
+            -10119.814200677556,
+            -7066.389596414306,
+            -2587.57734700389,
+            -939.4602659987693,
+            -431.1438385331045,
+            -216.63882577340956
+          ]
+        ]
+      ],
+      "algebraic_shortcut_relative_force_difference_by_point": [
+        0.0016113602491582442,
+        0.0017021412808313284,
+        0.006479132599722729,
+        0.02390316814199887,
+        0.007012507609353765,
+        0.0023572040570731946,
+        0.0002596259511566126,
+        0.0004899219395374302,
+        0.0015442898685889463,
+        0.0004890848244495134,
+        0.0009145448100518181,
+        0.0007894879982325252
+      ],
+      "card_sha256": "29e53f329dcdb1f86d4486d3e401afee6b2cb49bc76138dd32197e30d3719ff1",
+      "components": [
+        {
+          "a": 3.0,
+          "b": 0.3,
+          "gm": 215045.8635687027,
+          "name": "stars",
+          "z_center": 0.0
+        },
+        {
+          "a": 7.0,
+          "b": 0.6,
+          "gm": 43009.17271374054,
+          "name": "gas",
+          "z_center": 0.0
+        }
+      ],
+      "empirical_validation": false,
+      "grids": [
+        {
+          "angular_nodes": 256,
+          "l_max": 64,
+          "plane_scale": 0.3,
+          "r_max": 3000.0,
+          "r_min": 0.003,
+          "radial_nodes": 2049
+        },
+        {
+          "angular_nodes": 512,
+          "l_max": 128,
+          "plane_scale": 0.3,
+          "r_max": 3000.0,
+          "r_min": 0.003,
+          "radial_nodes": 4097
+        },
+        {
+          "angular_nodes": 512,
+          "l_max": 128,
+          "plane_scale": 0.3,
+          "r_max": 30000.0,
+          "r_min": 0.00030000000000000003,
+          "radial_nodes": 4097
+        }
+      ],
+      "inward_midplane_radial_force": true,
+      "max_boundary_relative_force_change": 8.211756677994826e-08,
+      "max_refinement_relative_force_change": 0.0014391416562180165,
+      "midplane_acceleration_ratio_to_newtonian": [
+        0.9999218048227497,
+        0.9999554477314077,
+        1.0068541487405953,
+        1.2774064111303847,
+        2.6498997675915485,
+        4.05325832645655
+      ],
+      "midplane_circular_v_km_s": [
+        123.79093160921296,
+        150.0897988873992,
+        161.22432229493253,
+        152.58133122160916,
+        164.92587321313908,
+        160.32068519989178
+      ],
+      "midplane_circular_v_squared_kms2": [
+        15324.194748676842,
+        22526.947730059943,
+        25993.28209946028,
+        23281.062637358405,
+        27200.54365511643,
+        25702.722102962798
+      ],
+      "newtonian_acceleration_kms2_per_kpc": [
+        [
+          -7662.696560254165,
+          -7509.317133800538,
+          -4302.7221853952215,
+          -1518.7715798266618,
+          -427.69768105604254,
+          -158.53123606257225,
+          -6049.496727963912,
+          -5491.450306765146,
+          -3035.841618137207,
+          -1128.263007431652,
+          -338.4847823455674,
+          -130.122892483459
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -10114.568655232706,
+          -7057.036185441253,
+          -2536.1435085573935,
+          -660.3416621378823,
+          -151.69905713261448,
+          -50.76940556754891
+        ]
+      ],
+      "probe_R_z_kpc": [
+        [
+          2.0,
+          0.0
+        ],
+        [
+          3.0,
+          0.0
+        ],
+        [
+          6.0,
+          0.0
+        ],
+        [
+          12.0,
+          0.0
+        ],
+        [
+          24.0,
+          0.0
+        ],
+        [
+          40.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.6
+        ],
+        [
+          3.0,
+          0.8999999999999999
+        ],
+        [
+          6.0,
+          1.7999999999999998
+        ],
+        [
+          12.0,
+          3.5999999999999996
+        ],
+        [
+          24.0,
+          7.199999999999999
+        ],
+        [
+          40.0,
+          12.0
+        ]
+      ],
+      "scene": "illustrative_disk",
+      "scope": "invented smooth stellar/gas source for dimensional solver transfer, not an observed galaxy",
+      "shape": 1.0,
+      "spherical_exact_relative_force_error": null
+    },
+    {
+      "a0_m_s2": 5e-11,
+      "accelerations_kms2_per_kpc": [
+        [
+          [
+            -7660.782924079751,
+            -7506.338080401692,
+            -4298.8036718162875,
+            -2054.4871556840753,
+            -1226.7548981847938,
+            -651.5036906046569,
+            -6047.660569464117,
+            -5488.760540592304,
+            -3041.26974228993,
+            -1822.4891760211742,
+            -1026.0920245448856,
+            -562.7788293351834
+          ],
+          [
+            6.094291672095111e-15,
+            6.089637110960037e-15,
+            5.92221634566849e-15,
+            5.729047686406986e-15,
+            1.4096380092790893e-15,
+            2.70221327784802e-16,
+            -10115.825654372513,
+            -7059.255553683632,
+            -2550.8372352157608,
+            -1064.3698598374199,
+            -456.94119919850135,
+            -218.34043569801008
+          ]
+        ],
+        [
+          [
+            -7660.7829072987915,
+            -7506.3376747552975,
+            -4298.783991746999,
+            -2053.6265681888012,
+            -1226.7477797501022,
+            -651.5669748630063,
+            -6047.660053272124,
+            -5488.759891356769,
+            -3041.258046585161,
+            -1821.9497560489517,
+            -1025.6060174271388,
+            -562.5759390081323
+          ],
+          [
+            -1.402591007453905e-15,
+            -1.3834884180200337e-15,
+            -1.162115721778848e-15,
+            1.1758750975783147e-16,
+            2.2811476288103822e-17,
+            -5.002218051525342e-16,
+            -10115.827377943595,
+            -7059.257732288774,
+            -2550.8774034806006,
+            -1066.213615207503,
+            -458.5617140419895,
+            -219.01324210981204
+          ]
+        ],
+        [
+          [
+            -7660.78354521061,
+            -7506.337957958626,
+            -4298.784060098561,
+            -2053.6266343007533,
+            -1226.7477793015548,
+            -651.5669704823154,
+            -6047.6606138007355,
+            -5488.760140164929,
+            -3041.25811437595,
+            -1821.9497451432935,
+            -1025.6060184426842,
+            -562.5759344218766
+          ],
+          [
+            -3.0657332703500784e-15,
+            -3.1957305453300226e-15,
+            -3.654679465776688e-15,
+            -5.21257354270516e-15,
+            5.227969637341597e-16,
+            1.5170370071818213e-16,
+            -10115.827546371447,
+            -7059.257807334726,
+            -2550.8774246118774,
+            -1066.2136134845373,
+            -458.5617175781897,
+            -219.01324611988014
+          ]
+        ]
+      ],
+      "algebraic_shortcut_relative_force_difference_by_point": [
+        0.00031620609625123254,
+        0.0004719517284507335,
+        0.002996134324334841,
+        0.03943814639794316,
+        0.0054799616382301694,
+        0.0022206226753189898,
+        0.0001886470628364113,
+        0.0003902975266195916,
+        0.001973985265715141,
+        0.0008814127299717926,
+        0.0009870766712762155,
+        0.0007861134500856191
+      ],
+      "card_sha256": "1b0c8a58988f9bc15a5d87a04abffaa24b332b30afbaa2a3a82af5fd02ca2a0b",
+      "components": [
+        {
+          "a": 3.0,
+          "b": 0.3,
+          "gm": 215045.8635687027,
+          "name": "stars",
+          "z_center": 0.0
+        },
+        {
+          "a": 7.0,
+          "b": 0.6,
+          "gm": 43009.17271374054,
+          "name": "gas",
+          "z_center": 0.0
+        }
+      ],
+      "empirical_validation": false,
+      "grids": [
+        {
+          "angular_nodes": 256,
+          "l_max": 64,
+          "plane_scale": 0.3,
+          "r_max": 3000.0,
+          "r_min": 0.003,
+          "radial_nodes": 2049
+        },
+        {
+          "angular_nodes": 512,
+          "l_max": 128,
+          "plane_scale": 0.3,
+          "r_max": 3000.0,
+          "r_min": 0.003,
+          "radial_nodes": 4097
+        },
+        {
+          "angular_nodes": 512,
+          "l_max": 128,
+          "plane_scale": 0.3,
+          "r_max": 30000.0,
+          "r_min": 0.00030000000000000003,
+          "radial_nodes": 4097
+        }
+      ],
+      "inward_midplane_radial_force": true,
+      "max_boundary_relative_force_change": 8.326979452060954e-08,
+      "max_refinement_relative_force_change": 0.0015062054385796824,
+      "midplane_acceleration_ratio_to_newtonian": [
+        0.9997503470183751,
+        0.9996032694066812,
+        0.9990847363304032,
+        1.3521629332405172,
+        2.8682591317132027,
+        4.110022647051979
+      ],
+      "midplane_circular_v_km_s": [
+        123.78031786362976,
+        150.06336619533724,
+        160.60107210287035,
+        156.9825455635404,
+        171.5865574665956,
+        161.4393967385056
+      ],
+      "midplane_circular_v_squared_kms2": [
+        15321.56709042122,
+        22519.01387387588,
+        25792.704360591364,
+        24643.519611609037,
+        29441.946703237314,
+        26062.678819292614
+      ],
+      "newtonian_acceleration_kms2_per_kpc": [
+        [
+          -7662.696560254165,
+          -7509.317133800538,
+          -4302.7221853952215,
+          -1518.7715798266618,
+          -427.69768105604254,
+          -158.53123606257225,
+          -6049.496727963912,
+          -5491.450306765146,
+          -3035.841618137207,
+          -1128.263007431652,
+          -338.4847823455674,
+          -130.122892483459
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -10114.568655232706,
+          -7057.036185441253,
+          -2536.1435085573935,
+          -660.3416621378823,
+          -151.69905713261448,
+          -50.76940556754891
+        ]
+      ],
+      "probe_R_z_kpc": [
+        [
+          2.0,
+          0.0
+        ],
+        [
+          3.0,
+          0.0
+        ],
+        [
+          6.0,
+          0.0
+        ],
+        [
+          12.0,
+          0.0
+        ],
+        [
+          24.0,
+          0.0
+        ],
+        [
+          40.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.6
+        ],
+        [
+          3.0,
+          0.8999999999999999
+        ],
+        [
+          6.0,
+          1.7999999999999998
+        ],
+        [
+          12.0,
+          3.5999999999999996
+        ],
+        [
+          24.0,
+          7.199999999999999
+        ],
+        [
+          40.0,
+          12.0
+        ]
+      ],
+      "scene": "illustrative_disk",
+      "scope": "invented smooth stellar/gas source for dimensional solver transfer, not an observed galaxy",
+      "shape": 2.0,
+      "spherical_exact_relative_force_error": null
+    },
+    {
+      "a0_m_s2": 5e-11,
+      "accelerations_kms2_per_kpc": [
+        [
+          [
+            -3716.1597260337885,
+            -4158.344290066226,
+            -2934.422606667781,
+            -1377.7359702157612,
+            -848.9815070870757,
+            -449.48547015985946,
+            -3484.8933175029256,
+            -4025.6995482497778,
+            -2694.40418481063,
+            -1261.7641623509148,
+            -782.8449197868823,
+            -412.73631539598216
+          ],
+          [
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -1045.4679952508777,
+            -1207.7098644749333,
+            -808.321255443189,
+            -378.5292487052744,
+            -234.85347593606468,
+            -123.82089461879465
+          ]
+        ],
+        [
+          [
+            -3716.1597275661393,
+            -4158.34429118571,
+            -2934.422609662538,
+            -1377.7359724506289,
+            -848.9815084613155,
+            -449.4854704716446,
+            -3484.8933161818168,
+            -4025.699547368936,
+            -2694.4041850398435,
+            -1261.7641592447899,
+            -782.8449202754387,
+            -412.73631505850017
+          ],
+          [
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -1045.4679948545452,
+            -1207.7098642106807,
+            -808.321255511953,
+            -378.52924777343696,
+            -234.85347608263157,
+            -123.82089451755006
+          ]
+        ],
+        [
+          [
+            -3716.1791749079584,
+            -4158.346041695174,
+            -2934.4228034147363,
+            -1377.7360221684312,
+            -848.9815250014096,
+            -449.48547481260584,
+            -3484.9104043043744,
+            -4025.7010854064447,
+            -2694.4043570899266,
+            -1261.76420112916,
+            -782.8449359443529,
+            -412.7363189594502
+          ],
+          [
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -1045.4731212913125,
+            -1207.7103256219334,
+            -808.3213071269779,
+            -378.529260338748,
+            -234.85348078330586,
+            -123.82089568783506
+          ]
+        ]
+      ],
+      "algebraic_shortcut_relative_force_difference_by_point": [
+        2.894879108947238e-08,
+        2.2682522219482923e-09,
+        8.077969737223186e-10,
+        3.681612822555893e-10,
+        8.880497105341052e-10,
+        5.442930077821994e-11,
+        2.7365614569595873e-08,
+        2.142880045007627e-09,
+        1.0629633002076036e-10,
+        8.340942114443384e-10,
+        8.018992743936335e-11,
+        5.1706981571371244e-11
+      ],
+      "card_sha256": "70ed116c210b1c724c64734cfa7172ef753864b50152bedc396448c06317059e",
+      "components": [
+        {
+          "a": 0.0,
+          "b": 200.0,
+          "gm": 430091727.1374054,
+          "name": "gas",
+          "z_center": 0.0
+        },
+        {
+          "a": 0.0,
+          "b": 10.0,
+          "gm": 2150458.635687027,
+          "name": "central_stars",
+          "z_center": 0.0
+        }
+      ],
+      "empirical_validation": false,
+      "grids": [
+        {
+          "angular_nodes": 8,
+          "l_max": 0,
+          "plane_scale": null,
+          "r_max": 200000.0,
+          "r_min": 0.2,
+          "radial_nodes": 2049
+        },
+        {
+          "angular_nodes": 8,
+          "l_max": 0,
+          "plane_scale": null,
+          "r_max": 200000.0,
+          "r_min": 0.2,
+          "radial_nodes": 4097
+        },
+        {
+          "angular_nodes": 8,
+          "l_max": 0,
+          "plane_scale": null,
+          "r_max": 2000000.0,
+          "r_min": 0.020000000000000004,
+          "radial_nodes": 4097
+        }
+      ],
+      "inward_midplane_radial_force": true,
+      "max_boundary_relative_force_change": 5.233182436939014e-06,
+      "max_refinement_relative_force_change": 2.4617317851942935e-09,
+      "midplane_acceleration_ratio_to_newtonian": [
+        1.0322701491206276,
+        1.0245468326426745,
+        1.0568373923765877,
+        1.3427923966123374,
+        2.0825264836027513,
+        4.221804863326049
+      ],
+      "midplane_circular_v_km_s": [
+        333.89425758350313,
+        644.8523894423571,
+        938.2573426434886,
+        909.1983355137969,
+        921.4019345548443,
+        948.1407857619098
+      ],
+      "midplane_circular_v_squared_kms2": [
+        111485.37524723876,
+        415834.6041695174,
+        880326.8410244209,
+        826641.6133010588,
+        848981.5250014096,
+        898970.9496252117
+      ],
+      "newtonian_acceleration_kms2_per_kpc": [
+        [
+          -3600.006430558614,
+          -4058.7173852944375,
+          -2776.6076641325917,
+          -1026.0231035298168,
+          -407.6690172663156,
+          -106.46761026716175,
+          -3370.435124752558,
+          -3931.6794200647346,
+          -2535.1182380558457,
+          -912.824832084544,
+          -359.93922367926217,
+          -93.67158249966134
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -1011.1305374257674,
+          -1179.5038260194203,
+          -760.5354714167537,
+          -273.8474496253632,
+          -107.98176710377865,
+          -28.101474749898404
+        ]
+      ],
+      "probe_R_z_kpc": [
+        [
+          30.0,
+          0.0
+        ],
+        [
+          100.0,
+          0.0
+        ],
+        [
+          300.0,
+          0.0
+        ],
+        [
+          600.0,
+          0.0
+        ],
+        [
+          1000.0,
+          0.0
+        ],
+        [
+          2000.0,
+          0.0
+        ],
+        [
+          30.0,
+          9.0
+        ],
+        [
+          100.0,
+          30.0
+        ],
+        [
+          300.0,
+          90.0
+        ],
+        [
+          600.0,
+          180.0
+        ],
+        [
+          1000.0,
+          300.0
+        ],
+        [
+          2000.0,
+          600.0
+        ]
+      ],
+      "scene": "illustrative_spherical_cluster",
+      "scope": "invented joint gas/central stellar source; circular-force diagnostic, not cluster velocity dispersion or observed hydrostatic mass",
+      "shape": 0.5,
+      "spherical_exact_relative_force_error": 2.89487902514399e-08
+    },
+    {
+      "a0_m_s2": 5e-11,
+      "accelerations_kms2_per_kpc": [
+        [
+          [
+            -3690.385163711049,
+            -4125.6319128072055,
+            -2941.8938080726375,
+            -1688.872624274838,
+            -1112.396118465726,
+            -508.4047554758695,
+            -3461.973245341631,
+            -3993.9446724271957,
+            -2710.5532232808964,
+            -1572.5324523841855,
+            -1019.28992185378,
+            -463.1250380060582
+          ],
+          [
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -1038.5919736024894,
+            -1198.1834017281585,
+            -813.1659669842688,
+            -471.7597357152556,
+            -305.786976556134,
+            -138.93751140181746
+          ]
+        ],
+        [
+          [
+            -3690.3851668431857,
+            -4125.631913926622,
+            -2941.893819170893,
+            -1688.8726436452644,
+            -1112.3961162976047,
+            -508.404755919898,
+            -3461.9732424323192,
+            -3993.9446715619197,
+            -2710.553224178148,
+            -1572.5324320035813,
+            -1019.2899209599643,
+            -463.1250376087131
+          ],
+          [
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -1038.5919727296957,
+            -1198.183401468576,
+            -813.1659672534444,
+            -471.7597296010744,
+            -305.78697628798926,
+            -138.93751128261394
+          ]
+        ],
+        [
+          [
+            -3690.416997782929,
+            -4125.63477891074,
+            -2941.8941348218295,
+            -1688.872732524036,
+            -1112.3961464744928,
+            -508.40476303198034,
+            -3462.0012113518305,
+            -3993.9471889331744,
+            -2710.5535083364034,
+            -1572.5324962894279,
+            -1019.2899455879435,
+            -463.12504396751245
+          ],
+          [
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -1038.6003634055494,
+            -1198.1841566799524,
+            -813.1660525009211,
+            -471.75974888682833,
+            -305.7869836763831,
+            -138.93751319025372
+          ]
+        ]
+      ],
+      "algebraic_shortcut_relative_force_difference_by_point": [
+        3.111158869622734e-08,
+        2.4544311793245674e-09,
+        2.0152691731346138e-09,
+        3.6978538471416406e-09,
+        8.402256999346309e-10,
+        5.043553917799453e-11,
+        2.965640010674911e-08,
+        2.312043637044738e-09,
+        1.3712550589441674e-09,
+        3.661468746033701e-09,
+        3.6719469624415205e-10,
+        5.937698469501955e-11
+      ],
+      "card_sha256": "29e53f329dcdb1f86d4486d3e401afee6b2cb49bc76138dd32197e30d3719ff1",
+      "components": [
+        {
+          "a": 0.0,
+          "b": 200.0,
+          "gm": 430091727.1374054,
+          "name": "gas",
+          "z_center": 0.0
+        },
+        {
+          "a": 0.0,
+          "b": 10.0,
+          "gm": 2150458.635687027,
+          "name": "central_stars",
+          "z_center": 0.0
+        }
+      ],
+      "empirical_validation": false,
+      "grids": [
+        {
+          "angular_nodes": 8,
+          "l_max": 0,
+          "plane_scale": null,
+          "r_max": 200000.0,
+          "r_min": 0.2,
+          "radial_nodes": 2049
+        },
+        {
+          "angular_nodes": 8,
+          "l_max": 0,
+          "plane_scale": null,
+          "r_max": 200000.0,
+          "r_min": 0.2,
+          "radial_nodes": 4097
+        },
+        {
+          "angular_nodes": 8,
+          "l_max": 0,
+          "plane_scale": null,
+          "r_max": 2000000.0,
+          "r_min": 0.020000000000000004,
+          "radial_nodes": 4097
+        }
+      ],
+      "inward_midplane_radial_force": true,
+      "max_boundary_relative_force_change": 8.625370606033485e-06,
+      "max_refinement_relative_force_change": 1.2960371093702711e-08,
+      "midplane_acceleration_ratio_to_newtonian": [
+        1.0251140015909044,
+        1.0164873252468276,
+        1.0595282051635744,
+        1.6460377224585143,
+        2.7286747320996536,
+        4.775205921840717
+      ],
+      "midplane_circular_v_km_s": [
+        332.7348943731148,
+        642.3110445034197,
+        939.4510314255602,
+        1006.6397764416135,
+        1054.7019230448443,
+        1008.3697367850548
+      ],
+      "midplane_circular_v_squared_kms2": [
+        110712.50993348786,
+        412563.477891074,
+        882568.2404465489,
+        1013323.6395144217,
+        1112396.1464744927,
+        1016809.5260639606
+      ],
+      "newtonian_acceleration_kms2_per_kpc": [
+        [
+          -3600.006430558614,
+          -4058.7173852944375,
+          -2776.6076641325917,
+          -1026.0231035298168,
+          -407.6690172663156,
+          -106.46761026716175,
+          -3370.435124752558,
+          -3931.6794200647346,
+          -2535.1182380558457,
+          -912.824832084544,
+          -359.93922367926217,
+          -93.67158249966134
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -1011.1305374257674,
+          -1179.5038260194203,
+          -760.5354714167537,
+          -273.8474496253632,
+          -107.98176710377865,
+          -28.101474749898404
+        ]
+      ],
+      "probe_R_z_kpc": [
+        [
+          30.0,
+          0.0
+        ],
+        [
+          100.0,
+          0.0
+        ],
+        [
+          300.0,
+          0.0
+        ],
+        [
+          600.0,
+          0.0
+        ],
+        [
+          1000.0,
+          0.0
+        ],
+        [
+          2000.0,
+          0.0
+        ],
+        [
+          30.0,
+          9.0
+        ],
+        [
+          100.0,
+          30.0
+        ],
+        [
+          300.0,
+          90.0
+        ],
+        [
+          600.0,
+          180.0
+        ],
+        [
+          1000.0,
+          300.0
+        ],
+        [
+          2000.0,
+          600.0
+        ]
+      ],
+      "scene": "illustrative_spherical_cluster",
+      "scope": "invented joint gas/central stellar source; circular-force diagnostic, not cluster velocity dispersion or observed hydrostatic mass",
+      "shape": 1.0,
+      "spherical_exact_relative_force_error": 3.1111587728296416e-08
+    },
+    {
+      "a0_m_s2": 5e-11,
+      "accelerations_kms2_per_kpc": [
+        [
+          [
+            -3621.2806729900703,
+            -4070.616642886168,
+            -2848.714195748256,
+            -2010.1774790209088,
+            -1195.4585587673057,
+            -511.74768207522925,
+            -3393.1826815166937,
+            -3942.464839795247,
+            -2620.7039248074543,
+            -1876.2856823641941,
+            -1085.7445888134644,
+            -465.7184567536396
+          ],
+          [
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -1017.9548044550082,
+            -1182.7394519385741,
+            -786.2111774422362,
+            -562.8857047092583,
+            -325.7233766440393,
+            -139.71553702609188
+          ]
+        ],
+        [
+          [
+            -3621.280674534259,
+            -4070.6166430767225,
+            -2848.714225500819,
+            -2010.1774942343354,
+            -1195.4585558989634,
+            -511.7476821361738,
+            -3393.182679707332,
+            -3942.464839643724,
+            -2620.7039279347237,
+            -1876.2856938873904,
+            -1085.7445879396892,
+            -465.7184566982838
+          ],
+          [
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -1017.9548039121997,
+            -1182.7394518931173,
+            -786.2111783804171,
+            -562.8857081662171,
+            -325.72337638190675,
+            -139.71553700948513
+          ]
+        ],
+        [
+          [
+            -3621.3168698691734,
+            -4070.6199006630513,
+            -2848.7145803878075,
+            -2010.1775907556348,
+            -1195.4585904668072,
+            -511.74769027321133,
+            -3393.2144847438894,
+            -3942.4677021779803,
+            -2620.7042598578587,
+            -1876.2857759648416,
+            -1085.7446160650888,
+            -465.71846386371266
+          ],
+          [
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -1017.964345423167,
+            -1182.740310653394,
+            -786.2112779573577,
+            -562.8857327894525,
+            -325.7233848195266,
+            -139.7155391591138
+          ]
+        ]
+      ],
+      "algebraic_shortcut_relative_force_difference_by_point": [
+        3.1878000818680825e-08,
+        2.5503700033540897e-09,
+        4.861927002107842e-09,
+        1.8694255092358082e-09,
+        1.0562465531126933e-09,
+        5.0859288790494146e-11,
+        3.0188756875101404e-08,
+        2.3285160588861715e-09,
+        5.226460064933245e-09,
+        1.1662718439140537e-09,
+        3.173754586668082e-10,
+        3.426984336394018e-11
+      ],
+      "card_sha256": "1b0c8a58988f9bc15a5d87a04abffaa24b332b30afbaa2a3a82af5fd02ca2a0b",
+      "components": [
+        {
+          "a": 0.0,
+          "b": 200.0,
+          "gm": 430091727.1374054,
+          "name": "gas",
+          "z_center": 0.0
+        },
+        {
+          "a": 0.0,
+          "b": 10.0,
+          "gm": 2150458.635687027,
+          "name": "central_stars",
+          "z_center": 0.0
+        }
+      ],
+      "empirical_validation": false,
+      "grids": [
+        {
+          "angular_nodes": 8,
+          "l_max": 0,
+          "plane_scale": null,
+          "r_max": 200000.0,
+          "r_min": 0.2,
+          "radial_nodes": 2049
+        },
+        {
+          "angular_nodes": 8,
+          "l_max": 0,
+          "plane_scale": null,
+          "r_max": 200000.0,
+          "r_min": 0.2,
+          "radial_nodes": 4097
+        },
+        {
+          "angular_nodes": 8,
+          "l_max": 0,
+          "plane_scale": null,
+          "r_max": 2000000.0,
+          "r_min": 0.020000000000000004,
+          "radial_nodes": 4097
+        }
+      ],
+      "inward_midplane_radial_force": true,
+      "max_boundary_relative_force_change": 9.99517523422496e-06,
+      "max_refinement_relative_force_change": 1.0444207799951541e-08,
+      "midplane_acceleration_ratio_to_newtonian": [
+        1.0059195559012524,
+        1.0029325804776994,
+        1.0259694292379409,
+        1.959193300657696,
+        2.932424441972878,
+        4.806604459225397
+      ],
+      "midplane_circular_v_km_s": [
+        329.60507595617395,
+        638.0140986422676,
+        924.4535543316074,
+        1098.228826089254,
+        1093.370289731163,
+        1011.6794850872595
+      ],
+      "midplane_circular_v_squared_kms2": [
+        108639.5060960752,
+        407061.99006630515,
+        854614.3741163423,
+        1206106.5544533809,
+        1195458.5904668071,
+        1023495.3805464227
+      ],
+      "newtonian_acceleration_kms2_per_kpc": [
+        [
+          -3600.006430558614,
+          -4058.7173852944375,
+          -2776.6076641325917,
+          -1026.0231035298168,
+          -407.6690172663156,
+          -106.46761026716175,
+          -3370.435124752558,
+          -3931.6794200647346,
+          -2535.1182380558457,
+          -912.824832084544,
+          -359.93922367926217,
+          -93.67158249966134
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -1011.1305374257674,
+          -1179.5038260194203,
+          -760.5354714167537,
+          -273.8474496253632,
+          -107.98176710377865,
+          -28.101474749898404
+        ]
+      ],
+      "probe_R_z_kpc": [
+        [
+          30.0,
+          0.0
+        ],
+        [
+          100.0,
+          0.0
+        ],
+        [
+          300.0,
+          0.0
+        ],
+        [
+          600.0,
+          0.0
+        ],
+        [
+          1000.0,
+          0.0
+        ],
+        [
+          2000.0,
+          0.0
+        ],
+        [
+          30.0,
+          9.0
+        ],
+        [
+          100.0,
+          30.0
+        ],
+        [
+          300.0,
+          90.0
+        ],
+        [
+          600.0,
+          180.0
+        ],
+        [
+          1000.0,
+          300.0
+        ],
+        [
+          2000.0,
+          600.0
+        ]
+      ],
+      "scene": "illustrative_spherical_cluster",
+      "scope": "invented joint gas/central stellar source; circular-force diagnostic, not cluster velocity dispersion or observed hydrostatic mass",
+      "shape": 2.0,
+      "spherical_exact_relative_force_error": 3.187799980247392e-08
+    }
+  ],
+  "scipy": "1.16.1",
+  "source_hashes_authoritative": true,
+  "started_utc": "2026-09-05T01:50:31.748003+00:00",
+  "summary": {
+    "candidate_joint_solves": 18,
+    "candidate_scenes": 6,
+    "numerical_targets_met": true,
+    "worst_boundary_change": 9.99517523422496e-06,
+    "worst_fine_newtonian_reconstruction": 0.0008488609831604353,
+    "worst_refinement": 0.0015062054385796824,
+    "worst_spherical_exact_error": 3.187799980247392e-08
+  }
+}

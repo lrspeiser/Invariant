@@ -1,0 +1,33 @@
+{
+  "schema": "invariant-isolated-scalar-development-1",
+  "access": {"network": false, "raw_observations": false, "sealed_products": false},
+  "registration": "development controls and numerical tolerances, after analytic/prototype inspection; not blind confirmation",
+  "shapes": [0.5, 1.0, 2.0],
+  "a0_m_s2": 5e-11,
+  "a0_role": "lower scenario retained by the previous scalar Cassini summary screen; not galaxy-fitted, universally selected or confirmed",
+  "epsilon": 0.0001,
+  "units": {"length_m": 3.0856775814913673e19, "speed_m_s": 1000.0, "gm_sun_m3_s2": 1.32712440041279419e20, "interpretation": "kpc and km/s, mass inputs in solar mass units"},
+  "scenes": [
+    {"id": "illustrative_disk", "role": "invented smooth stellar/gas source for dimensional solver transfer, not an observed galaxy", "radial_scale_kpc": 3.0,
+     "components": [{"name": "stars", "mass_msun": 5e10, "a_kpc": 3.0, "b_kpc": 0.3}, {"name": "gas", "mass_msun": 1e10, "a_kpc": 7.0, "b_kpc": 0.6}],
+     "radii_kpc": [2.0, 3.0, 6.0, 12.0, 24.0, 40.0], "offplane_z_over_R": 0.3},
+    {"id": "illustrative_spherical_cluster", "role": "invented joint gas/central stellar source; circular-force diagnostic, not cluster velocity dispersion or observed hydrostatic mass", "radial_scale_kpc": 200.0,
+     "components": [{"name": "gas", "mass_msun": 1e14, "a_kpc": 0.0, "b_kpc": 200.0}, {"name": "central_stars", "mass_msun": 5e11, "a_kpc": 0.0, "b_kpc": 10.0}],
+     "radii_kpc": [30.0, 100.0, 300.0, 600.0, 1000.0, 2000.0], "offplane_z_over_R": 0.3}
+  ],
+  "grid": {"r_min_over_scale": 0.001, "r_max_over_scale": 1000.0,
+           "refinement": [{"radial_nodes": 2049, "angular_nodes": 256, "l_max": 64}, {"radial_nodes": 4097, "angular_nodes": 512, "l_max": 128}],
+           "angular_mapping": "sinh map about z=0 using minimum component thickness; not tuned to gravity residuals",
+           "boundary_inner_factor": 0.1, "boundary_outer_factor": 10.0,
+           "spherical_angular_nodes": 8, "spherical_l_max": 0},
+  "controls": {"max_force_refinement_relative": 0.003, "max_boundary_force_change_relative": 0.0001, "max_newtonian_reconstruction_relative": 0.002, "max_spherical_relative_error": 0.00001,
+               "role": "declared implementation targets at sampled points; not observational tolerances or certified global error bounds"},
+  "finite_volume_check": {"source": "work/gravitylab/axisym.py", "shape": 1.0, "a0": 1.0, "components": [{"name": "stars", "gm": 2.0, "a": 1.0, "b": 0.2}, {"name": "gas", "gm": 0.5, "a": 2.0, "b": 0.4}],
+                          "domain_R_z": 6.0, "resolutions": [96, 192], "tolerance": 1e-10, "maxiter": 5000, "max_finest_relative_RMS_force_difference": 0.02,
+                          "reference_grid": {"r_min": 0.0001, "r_max": 10000.0, "radial_nodes": 2049, "angular_nodes": 320, "l_max": 96, "plane_scale": 0.2},
+                          "scope": "independent cylindrical finite-volume discretization of the same analytic anomalous source; boundary potential supplied by multipoles, so not an independent boundary or source-model validation"},
+  "predecessor": "work/gravity-first-principles/external-quadrupole-002/result.json",
+  "sources": [{"url": "https://academic.oup.com/pasj/article/27/4/533/8122399", "role": "Miyamoto-Nagai analytic mass models, not astronomical observations"}, {"url": "https://academic.oup.com/mnras/article/403/2/886/1184577", "role": "QUMOND field equation and the limitation of local algebraic acceleration"}, {"url": "https://ssd.jpl.nasa.gov/astro_par.html", "role": "heliocentric GM carried forward from previous audit"}],
+  "unsupported": ["arbitrary 3-D source reconstruction", "off-axis cluster members", "external fields", "TRIMOND", "derived photon law and lensing", "equilibrium and formation", "empirical galaxy or cluster fit", "global stability"],
+  "discovery_claim_possible": false
+}
