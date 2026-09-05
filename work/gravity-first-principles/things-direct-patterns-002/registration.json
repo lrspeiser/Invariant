@@ -1,0 +1,224 @@
+{
+  "names": [
+    "DDO154",
+    "IC2574",
+    "NGC2841",
+    "NGC2903",
+    "NGC2976",
+    "NGC3198",
+    "NGC3521",
+    "NGC4214",
+    "NGC5055",
+    "NGC6946",
+    "NGC7331",
+    "UGC04305"
+  ],
+  "geometry": {
+    "NGC2903": {
+      "ra": 143.0424,
+      "dec": 21.50183,
+      "pa": 19.6,
+      "inc": 61.74834885857858,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "ok"
+    },
+    "NGC2976": {
+      "ra": 146.81366,
+      "dec": 67.91671,
+      "pa": 144.0,
+      "inc": 53.8623309521001,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "ok"
+    },
+    "NGC3198": {
+      "ra": 154.97921,
+      "dec": 45.54977,
+      "pa": 33.6,
+      "inc": 71.9229712372672,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "ok"
+    },
+    "NGC3521": {
+      "ra": 166.45241,
+      "dec": -0.03594,
+      "pa": 162.3,
+      "inc": 64.04533564587476,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "u"
+    },
+    "NGC4214": {
+      "ra": 183.91305,
+      "dec": 36.328,
+      "pa": 132.6,
+      "inc": 22.835911510514137,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "u"
+    },
+    "UGC04305": {
+      "ra": 124.76541666666664,
+      "dec": 70.7235,
+      "pa": 175.0,
+      "inc": 38.0,
+      "provenance": "Photometric 38 degree primary; 27 and 49 degree published source-systematic controls; no response-based selection.",
+      "flag": "photometric"
+    },
+    "NGC2841": {
+      "ra": 140.51083333333332,
+      "dec": 50.9765,
+      "pa": 152.6,
+      "inc": 73.7,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "IC2574": {
+      "ra": 157.11541666666665,
+      "dec": 68.4165,
+      "pa": 55.7,
+      "inc": 53.4,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "DDO154": {
+      "ra": 193.52374999999998,
+      "dec": 27.152749999999997,
+      "pa": 229.7,
+      "inc": 66.0,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "NGC5055": {
+      "ra": 198.95499999999998,
+      "dec": 42.02925,
+      "pa": 101.8,
+      "inc": 59.0,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "NGC6946": {
+      "ra": 308.7175,
+      "dec": 60.153999999999996,
+      "pa": 242.7,
+      "inc": 32.6,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "NGC7331": {
+      "ra": 339.2670833333333,
+      "dec": 34.41569444444444,
+      "pa": 167.7,
+      "inc": 75.8,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    }
+  },
+  "scenarios": {
+    "nominal": [
+      [
+        0.5,
+        0.7
+      ],
+      0,
+      0
+    ],
+    "lighter_stars": [
+      [
+        0.35,
+        0.5
+      ],
+      0,
+      0
+    ],
+    "heavier_stars": [
+      [
+        0.65,
+        0.9
+      ],
+      0,
+      0
+    ],
+    "inclination_minus5": [
+      [
+        0.5,
+        0.7
+      ],
+      -5,
+      0
+    ],
+    "inclination_plus5": [
+      [
+        0.5,
+        0.7
+      ],
+      5,
+      0
+    ],
+    "pa_minus5": [
+      [
+        0.5,
+        0.7
+      ],
+      0,
+      -5
+    ],
+    "pa_plus5": [
+      [
+        0.5,
+        0.7
+      ],
+      0,
+      5
+    ]
+  },
+  "source_hash": "ba97ab49d4219f7b9a48e48c5ade8a527863636eda91ea6ae126a1ad9749cabd",
+  "scope": "Previously exposed 12-galaxy development data, not independent confirmation.",
+  "target": "Half absolute velocity difference at diametrically opposite sky locations after intensity-weighted smoothing to a circular 20 arcsec Gaussian sigma. Cancels systemic velocity; measures odd LOS motion, not total circular acceleration.",
+  "source": "Actual HI MOM0 intensity; beam corrected to circular sigma 20,40,80 arcsec. Added broad/local log intensity contrasts and opposite-side log intensity asymmetry.",
+  "baseline": "Published SPARC source components -> nominal RAR circular speed -> photometric or published kinematic projection -> intensity-weighted smoothing; no rotation-curve velocities used as predictors.",
+  "local_stellar_input": "Squared stellar-disk force-component speed from published source decomposition; no new SPARC velocity targets opened for scoring. Complete 12-object surface-brightness supplement is unavailable, so no placeholder brightness is inserted.",
+  "mask": "Nonzero finite MOM0; MOM1 finite nonzero; Gaussian support local>.98, 80 arcsec>.75, velocity support>.98; reference projected speed>10 km/s; source radial support>.98; absolute cos(theta)>.5. Both sides required.",
+  "sampling": "Fixed 20-pixel grid, one side of each opposite pair, minimum 10 pairs per galaxy; whole galaxies hold out, not pixels. Geometry scenarios reuse the common admitted grid across all scenarios and both products.",
+  "validation": "Leave one galaxy out; three inner whole-galaxy folds select parameters. No target-galaxy nuisance fitting.",
+  "algorithms": {
+    "ridge": [
+      0.01,
+      0.1,
+      1.0
+    ],
+    "trees": [
+      [
+        3,
+        40
+      ],
+      [
+        7,
+        80
+      ]
+    ],
+    "gpu_rbf_features": [
+      [
+        1.0,
+        0.01
+      ],
+      [
+        1.0,
+        0.1
+      ],
+      [
+        3.0,
+        0.01
+      ],
+      [
+        3.0,
+        0.1
+      ]
+    ]
+  },
+  "limitations": [
+    "MOM2 is gas velocity spread, not an error bar; no chi-square or noise-calibrated significance.",
+    "Opposite-pair motion can include noncircular flows, warps and asymmetric profiles.",
+    "Seven-object metadata include kinematically inferred geometry; predictions are conditional on those published values.",
+    "Standard intensity-weighted convolution of released moments is an approximation to full cube forward modeling.",
+    "Shared observations and masks make natural/robust agreement a processing check, not independent replication.",
+    "Coverage cuts define detected gas; no physical void or unique 3D reconstruction is inferred."
+  ]
+}
