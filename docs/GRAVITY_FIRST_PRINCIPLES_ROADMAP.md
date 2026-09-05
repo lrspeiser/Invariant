@@ -46,7 +46,7 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 |---|---|---|
 | Local scalar response | Regularized QUMOND, bounded successors, isolated axisymmetric adapter and eight-cluster pressure development | Observed galaxy reconstruction; resolve conditional cluster–local tension |
 | Additional scalar fields and cross-gradients | Conditional external quadrupole plus observed NGC3198 transfer: 72 numerically resolved cards, all worse than RAR; 9 unresolved | Retain source/field resolution failures; independent source/response audit; joint member/cluster response |
-| Higher spatial derivatives or length scales | Bounded length-sensitive action: full Cartesian and local fluxes; 34/54 cards within combined historical local screen | Source regularity and derivative convergence before same-constant galaxy/cluster transfer; dynamical and photon sectors |
+| Higher spatial derivatives or length scales | Full local and spherical cluster transfer: 13/54 cards within historical local screens and lower cluster loss than RAR across declared scenarios | Derivative-consistent galaxy source and same-card transfer; full local, dynamical and photon sectors |
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
 | Nonlocal paths and source connectivity | Sigma history imported; exact coherent-monopole base fails a new internal-force audit | Action-derived reaction terms, conserved causal kernels and partition-invariant source construction |
 | History-dependent inertia or fields | Oscillator and wave controls only | Derive a candidate law; constrain initial state; orbit-frequency transfer |
@@ -61,7 +61,38 @@ Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
 
-The [length-dependent local scan](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-length-screening-local-results.md)
+The [length-action cluster transfer](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-length-cluster-pressure-results.md)
+now evaluates all 54 local cards plus two comparators on the same eight exposed
+clusters, with 25 global nuisance/source scenarios. Thirteen cards lie within
+both inherited local summary screens and lower the cluster loss relative to RAR
+in every nominal cluster and all matched scenarios and covariance treatments.
+Their comparison survives object influence removal and symmetric trimming.
+At 1 pc, the two higher-a0 shape-1/2 cards predict median pressure ratios about
+0.880/0.881, versus 0.725 for RAR. These are quality-limited comparisons, not an
+absolute fit criterion or discovery claim. All raw failures and outside-local
+cards remain recorded; qualified counterexample counts remain zero.
+
+The length term leaves cluster pressure indistinguishable at this numerical
+resolution from its same-a0 scalar limit, while reducing the local quadrupole.
+This is the demonstrated mechanism for reducing the old local/cluster tension.
+Source regularity was addressed before pressure prediction: the first smooth
+source audit failed a fixed stellar fidelity limit; a narrower common width
+and finer grid passed without relaxing the limit. Wider-width sensitivity cases
+retain their A85 source-fidelity flags. No reserved clusters or new raw data were
+opened. All 11,200 profile predictions pass numerical admission; independent
+Cartesian-flux/Simpson replay covers all 448 nominal profiles. The focused suite
+has 190 passing tests.
+
+Next: implement higher derivatives consistent with the continuous NGC3198
+source and test the same 54 cards, preserving the inherited source and response
+uncertainties. Do not transfer old scalar/multifield galaxy scores to nonzero
+lengths or differentiate the old C1 potential interpolation three times.
+Full local tests, light coupling, dynamics and independent validation remain
+open. Evidence: `work/gravity-first-principles/length-cluster-pressure-001/`,
+SHA-256 `3d97d94829de7fe2bce4e9b0eeeb30a4816a053b8cf8b9211ca6bbf5ab15cdbc`.
+Current direction registry: `configs/gravity_sigma_directions_v5.json`.
+
+The preceding [length-dependent local scan](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-length-screening-local-results.md)
 now implements the full variational flux and two independent quadrupole
 representations. Thirty-four of 54 fixed physical configurations lie within
 both historical local screens and 20 outside. All 108 quadrupole rows pass
@@ -82,7 +113,7 @@ eligible fixed cards at the same constants. Lensing, dynamics and independent
 validation remain open. The focused suite now has 179 passing tests.
 Evidence: `work/gravity-first-principles/length-screening-local-001/`, SHA-256
 `66ff601b1012da7cbc555a27d8836723a2c6e7b23f393ead530da64e6e938a77`.
-Current direction registry: `configs/gravity_sigma_directions_v4.json`.
+The direction registry at that stage was `configs/gravity_sigma_directions_v4.json`.
 
 The [observed-source multifield transfer](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-NGC3198-multifield-results.md)
 now evaluates the frozen lower-a0 coupling grid on the previously exposed
