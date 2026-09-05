@@ -1,0 +1,171 @@
+{
+  "config": {
+    "a0_m_s2": 5e-11,
+    "access": "Previously exposed development source and response only; no new observational payload or holdout",
+    "beta": [
+      0.0,
+      0.5,
+      2.0
+    ],
+    "claim_ceiling": "QUALITY_LIMITED_DEVELOPMENT_EVIDENCE_RETAINED; full residuals and influence checks required. No per-galaxy gravity fit, family pruning, fresh validation, or cross-regime success claim.",
+    "coupling_bounds": "work/gravity-first-principles/multifield-coupling-bounds-001/result.json",
+    "coupling_selection": "Fixed grid below the smallest conditional Cassini upper bound for each p. No coupling is chosen from these galaxy predictions. Every card is evaluated on all source/geometry variants.",
+    "known_limit": "The auxiliary physical correction is zero in exact spherical symmetry; existing spherical cluster-pressure predictions therefore remain unchanged.",
+    "local_result_sha256": "3995286cc99cbc1bd1079758ebd418eab357e0459c61097b0583ffba08611e55",
+    "local_run": "work/gravity-first-principles/multifield-external-002",
+    "mixing_by_power": {
+      "1": [
+        0.25,
+        0.75,
+        1.5,
+        3.0
+      ],
+      "2": [
+        0.25,
+        0.75,
+        3.0,
+        6.0,
+        10.0
+      ]
+    },
+    "newtonian_source": "Rebuild the same plane-focused density integral and compare Newtonian force to the exact predecessor field file; evaluate its spectral coefficients on ordinary Gaussian angles for the auxiliary flux solver.",
+    "numerical_controls": {
+      "failed_numerical_cards": "Retain full fields and failed radii; do not score an unresolved card on any scenario",
+      "maximum_boundary_difference": 0.005,
+      "maximum_map_difference": 0.03,
+      "maximum_relative_source_replay_error": 1e-08,
+      "maximum_relative_vertical_force": 1e-08,
+      "maximum_resolution_difference": 0.02,
+      "nonpositive_inward_force": "Separate no-circular-branch outcome under this source assumption; keep every failing radius and do not convert negative squared speeds to a positive velocity",
+      "normalizer": "max(abs(total candidate inward force), Newtonian inward force) at each radius; retains crossings through zero without dividing by zero"
+    },
+    "object_id": "NGC3198",
+    "powers": [
+      1,
+      2
+    ],
+    "registration": "Freeze before multi-field galaxy predictions. Scalar NGC3198 residuals and conditional Solar System coupling bounds are already exposed; this is adaptive development, not confirmation.",
+    "reuse": "All eleven source variants, 99 source/distance/inclination scenarios, 24 response radii and 97 numerical radii from the scalar predecessor, unchanged. Scalars and RAR are exact predecessor comparators, not recomputed fits.",
+    "scalar_config": "configs/gravity_ngc3198_scalar_development_v1.json",
+    "scalar_result_sha256": "2892912141e39808ae1b30917d718fa9cc5d0b1970b650ab2a7419f6ede6db1e",
+    "scalar_run": "work/gravity-first-principles/ngc3198-scalar-001",
+    "schema": 1,
+    "shapes": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "solver": {
+      "max_iterations": 100,
+      "tolerance": 1e-09
+    },
+    "source_run": "work/gravity-first-principles/map-source-003",
+    "theory_controls": {
+      "a0": 1.0,
+      "beta": [
+        0.0,
+        0.5,
+        2.0
+      ],
+      "components": [
+        {
+          "a": 0.0,
+          "b": 0.5,
+          "gm": 1.0,
+          "name": "light",
+          "z_center": 2.0
+        },
+        {
+          "a": 0.0,
+          "b": 0.5,
+          "gm": 2.0,
+          "name": "heavy",
+          "z_center": -1.0
+        }
+      ],
+      "grid": {
+        "angular_nodes": 160,
+        "l_max": 64,
+        "r_max": 200.0,
+        "r_min": 0.0001,
+        "radial_nodes": 1025
+      },
+      "maximum_beta_zero_field_disagreement": 0.0001,
+      "maximum_gradient_angle_replay_error": 1e-09,
+      "maximum_normalized_internal_force": 0.0001,
+      "powers": [
+        1,
+        2
+      ]
+    },
+    "unresolved": [
+      "Full source-response covariance",
+      "Missing outer stellar/CO coverage",
+      "Inclination reprojection, warp and noncircular gas motion",
+      "Environmental external field for NGC3198",
+      "Population replication",
+      "Observed non-spherical cluster dynamics and lensing",
+      "Relativistic completion"
+    ]
+  },
+  "controls_only": false,
+  "git_revision": "fcedb5a851e0aeaf20b5b7445710222ad38e2230",
+  "input_hashes": {
+    "configs/gravity_ngc3198_multifield_v1.json": "5afe5d91f422857c359a4814554b90debf2d86a45e2fd51b98ce10a0d9f4424d",
+    "configs/gravity_ngc3198_scalar_development_v1.json": "0f670699b4c5c4518e8537a68ae3e36c704d8211daa679ddd1362d1a2fd7d121",
+    "scripts/run_gravity_ngc3198_multifield.py": "4f00a0804f4023be7d055875e9757fc098b2b63fffc87cb343ceb8e5dc448ba5",
+    "src/invariant_gravity_extensions/__init__.py": "68bda97fad7e33c009c55fc92d51abaea6b596556c2907da9587e45c24714c81",
+    "src/invariant_gravity_extensions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/cli.py": "06a382c481a1347ee674a97ba8ffca562f2155e3ec94f86ca610699a6dce971e",
+    "src/invariant_gravity_extensions/cluster_pressure.py": "d1a5b96f7183b6b3810702cda3626f13c85fe61f67b42be5eef50a0bc18fbb1f",
+    "src/invariant_gravity_extensions/coherent_momentum.py": "fdf4fe72ce0d64e07b02411c4a9feaae478c783aaf4dcffae4de9f327cfdc713",
+    "src/invariant_gravity_extensions/dynamics.py": "a8c1a1d3847558fb8759624f495aead39654e48df2f03acc8dbd0edf7b38ecb4",
+    "src/invariant_gravity_extensions/external_multifield.py": "5fdd051e54fba639f4c399916a7a3afba056570aafe53ba7c0addc7c2d9718d2",
+    "src/invariant_gravity_extensions/external_quadrupole.py": "54d4435f2018d9e4425dbd380bd7f4e27ac76c404c6472c8b48795434f18e6d9",
+    "src/invariant_gravity_extensions/fields.py": "d10e634034e5274eebb0ad1ee5e8659b0300161da51f98ee1f42346701b5fb51",
+    "src/invariant_gravity_extensions/galaxy_development.py": "648a3e215a4bda2a3c0012563c1f1acbcb112cdaa452adb1876a988bf985c8ec",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/isolated_multifield.py": "b48f7459e7290f87e8887ae0f1cc0fcd4cebc1b0572ff47f6495092ce7a63445",
+    "src/invariant_gravity_extensions/local_limits.py": "51d8d373a543f4b44ff60ccaf4c2c2af661c77c8a6aa805df47a830186492ba5",
+    "src/invariant_gravity_extensions/observables.py": "7402b5549360455b9af815a72853f8c577ebdae68e1b5ff2254d1a0edb9fdd4d",
+    "src/invariant_gravity_extensions/policy.py": "c59e5174e0026f43b3dc16688141c7a2e494877195a2da0a0c1e087d17e9cb4c",
+    "src/invariant_gravity_extensions/reconstructed_axisymmetric.py": "4916d14ee06e412fa7b1168e4b6d126dc5eb28762c1a2e355a08dea5a59be3dd",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "work/gravity-first-principles/map-source-003/result.json": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+    "work/gravity-first-principles/map-source-003/source_profiles.json": "6e5e256ef60a725c87f8b07fd720beeab40c77b4e19aaf9b0dea5173f8588f39",
+    "work/gravity-first-principles/multifield-coupling-bounds-001/result.json": "e81b05bc5a82cee0b6394626e8ddd1e883377b006eb15a64cb2515f121e1611b",
+    "work/gravity-first-principles/multifield-external-002/result.json": "3995286cc99cbc1bd1079758ebd418eab357e0459c61097b0583ffba08611e55",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_aperture_24_coarse.json": "6f350df9958c4f0d5cd1ead8cb0752265277b6f50a8a05704b3a1527fd1e837e",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_aperture_24_fine.json": "0119d2b92e623fe777c550c55538f9fa1329c1e0e99f60e97df924b585a50e8b",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_aperture_30_coarse.json": "ef8bfd5e52f67dc3099d9a33e842540a7ffcaaea0d88c766ed19f013bec5d487",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_aperture_30_fine.json": "13c513e684acef78bcbfba0ffbc32624e896963f89aa9a21763e5c4c576e9bee",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_atomic_high_coarse.json": "ea6bd24b707e39b5a9fc5c2d0a86462d8234d8b3ce207cbf30cc8452d5df0e88",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_atomic_high_fine.json": "84aa75424fe01e1d3853425726bcf9a353eadc3da440d3bf47158f7728b48efa",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_atomic_low_coarse.json": "184d1a8b24e959df71b8643f41f189116cceeda247eb35dcd5097fb439e2bf43",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_atomic_low_fine.json": "daf59ca7daffa73c1e577d969f89e55be7ad1e6cd68994441b4608f3768bd72b",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_boundary.json": "201596c5013e1493e45a463a3f9fa117928af32c8a3d966f695ca98a1b57f8c1",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_height_double_coarse.json": "f4a9ce74b39056cdac7b689300fe7bdfdc17931e6071489e5cc38cc5c3a14bd4",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_height_double_fine.json": "10e7f7c942517e45c5b60a9506bc19bae3408e4802e0980b5ab77e6501a1e9a0",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_height_half_coarse.json": "555eab310213bf4be06c8b54663fbe3705cbab8dde3ee3bb09c4a5e806534615",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_height_half_fine.json": "c4e388785b8dd31068f93ec1f4be13e21ee747a6d61d11d1d703e851c2cbb5ea",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_map.json": "1fa6a6d374244e27ec6e964f62a8a924bc00b46030c6126bdc3211f2080d24b1",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_molecular_high_coarse.json": "42817d59844e710c4513c8fa0b48a344c3e49acdc13526c2ccb9486d98f274d8",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_molecular_high_fine.json": "2d83e39af1430a3b860194b095a889591e6e250c6cc3ff97b18adb4f986329c1",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_molecular_low_coarse.json": "20b93342e57cbc2625a01762c7ba73c079c4fa778c57a98ba1cd202f748017af",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_molecular_low_fine.json": "9978448146f6eb8eab5ff272b5b4512b5e05837b46b783a319b004ac39d240b2",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_primary_coarse.json": "3de906c74a56aa7dc9e2ebfb972f25ee23a72d2679842db2c9ae895df4f1a914",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_primary_fine.json": "7c02e20d2319dd5de815600abda135cf8c006bc2a96e596eff9dabf7308a16f9",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_stellar_high_coarse.json": "1d050b2702c0067a4065612b56d332cd6da9a3b99250a42365b1930851f8c6c7",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_stellar_high_fine.json": "f591a93920d96a8c94140e66588a68fe8b3c5d328977e0ce503a06adf62cc689",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_stellar_low_coarse.json": "b5c3c1f2f16541886f84e4abe83ccc64ebe8bb985f84b354654f868c77b2abf8",
+    "work/gravity-first-principles/ngc3198-scalar-001/fields_stellar_low_fine.json": "30452b589d2424e6c879933b7d6cf23fbf070b1ccfc190ad19d99ffd5042f909",
+    "work/gravity-first-principles/ngc3198-scalar-001/result.json": "2892912141e39808ae1b30917d718fa9cc5d0b1970b650ab2a7419f6ede6db1e"
+  },
+  "numpy": "2.2.6",
+  "python": "3.13.5",
+  "raw_observations_accessed": false,
+  "scipy": "1.16.1",
+  "started_utc": "2026-09-05T03:30:51.728500+00:00",
+  "thread_workers": 3
+}
