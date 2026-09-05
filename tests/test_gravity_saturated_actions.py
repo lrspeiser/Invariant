@@ -1,3 +1,6 @@
+from pathlib import Path
+from types import SimpleNamespace
+
 import numpy as np
 import pytest
 
@@ -87,6 +90,23 @@ def test_auxiliary_interaction_has_exact_quadratic_amplitude_scaling():
     expected = 9*(weak.acceleration-base.acceleration)
     actual = strong.acceleration-base.acceleration
     assert np.linalg.norm(actual-expected) / np.linalg.norm(actual) < 2e-7
+
+
+def test_confinement_sign_and_uniform_acceleration_null(monkeypatch):
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1]/"scripts"))
+    from run_gravity_amplitude_transfer import signed_confinement
+
+    grid = PeriodicGrid(13, 12)
+    xyz = grid.coordinates()
+    rho = np.exp(-np.sum(xyz*xyz, axis=0))
+    definition = {"components": [{"id": "body", "centre": [0, 0, 0]}]}
+    inward = SimpleNamespace(grid=grid, acceleration=-xyz)
+    outward = SimpleNamespace(grid=grid, acceleration=xyz)
+    shifted = SimpleNamespace(grid=grid, acceleration=-xyz+np.array([10, -9, 7])[:, None, None, None])
+    expected = float(np.sum(rho*np.sum(xyz*xyz, axis=0))/rho.sum())
+    for solution, sign in ((inward, 1), (outward, -1), (shifted, 1)):
+        actual = signed_confinement(solution, {"body": rho}, definition)["body"]
+        assert actual == pytest.approx(sign*expected, rel=1e-13)
 
 
 def test_solar_tail_is_small_but_does_not_authorize_complete_local_pass():

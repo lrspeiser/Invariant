@@ -8,6 +8,10 @@ on:
       - 'tests/test_gravity_local_limits.py'
       - 'scripts/run_gravity_local_limits.py'
       - 'configs/gravity_local_limit_audit_v1.json'
+      - 'tests/test_gravity_saturated_actions.py'
+      - 'scripts/run_gravity_saturated_actions.py'
+      - 'scripts/run_gravity_amplitude_transfer.py'
+      - 'configs/gravity_saturated_actions*.json'
       - 'scripts/run_gravity_extensions.py'
       - '.github/workflows/gravity-extensions.yml'
   workflow_dispatch:
@@ -35,9 +39,9 @@ jobs:
       - name: Install only control dependencies
         run: python -m pip install "numpy>=2,<3" "scipy>=1.15,<2" "sympy>=1.13,<2" "pytest>=8.3" "ruff>=0.9"
       - name: Lint new code only
-        run: python -m ruff check src/invariant_gravity_extensions tests/test_gravity_extensions.py tests/test_gravity_local_limits.py scripts/run_gravity_extensions.py scripts/run_gravity_local_limits.py
+        run: python -m ruff check src/invariant_gravity_extensions tests/test_gravity_extensions.py tests/test_gravity_local_limits.py tests/test_gravity_saturated_actions.py scripts/run_gravity_extensions.py scripts/run_gravity_local_limits.py scripts/run_gravity_saturated_actions.py scripts/run_gravity_amplitude_transfer.py
       - name: Analytic and adversarial implementation controls
-        run: python -m pytest tests/test_gravity_extensions.py tests/test_gravity_local_limits.py -q
+        run: python -m pytest tests/test_gravity_extensions.py tests/test_gravity_local_limits.py tests/test_gravity_saturated_actions.py -q
       - name: Synthetic campaign (no scientific data or LFS)
         run: python scripts/run_gravity_extensions.py demo --assume-no-slip --output tmp/gravity-extensions-ci
       - name: Published-summary monopole diagnostic (no downloads)

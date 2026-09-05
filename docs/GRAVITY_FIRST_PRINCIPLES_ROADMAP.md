@@ -68,6 +68,15 @@ miss the screen. This takes priority over further searches of the same baseline'
 auxiliary parameters. Next: derive a versioned action-level successor with a fast
 local limit, and test its low-acceleration behavior and nonspherical predictions.
 
+The [bounded-action successor experiment](GRAVITY_SATURATED_ACTIONS_2026_09_05.md)
+now supplies 39 versioned cards that avoid the old spherical tail. All 54 orbital
+scenarios pass that limited screen; 288 successor joint-field solves and a
+coupling scan resolve small nonspherical effects. A strong-coupling case increases
+RMS acceleration while making member confinement outward, and is retained as a
+synthetic failure. These actions remain ansatz choices, not a discovered law.
+Next: external-field quadrupole and isolated same-source galaxy/cluster tests,
+using the exact quadratic coupling response and signed internal confinement.
+
 1. **Finite local-limit audit (monopole stage complete; full local tests open).** Derive the high-acceleration correction,
    including regularization and auxiliary fields, rather than relying on a limit
    equal to one. Establish dimensionful units and universal transition scales.

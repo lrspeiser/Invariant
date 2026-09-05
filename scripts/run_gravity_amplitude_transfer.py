@@ -19,7 +19,32 @@ from invariant_gravity_extensions.fields import (
     joint_density,
     solve_fields,
 )
+from invariant_gravity_extensions.observables import member_relative_acceleration
 from invariant_gravity_extensions.saturated_actions import SaturatedActionSpec
+
+
+def signed_confinement(solution, components, definition):
+    """Mass-weighted -r_relative dot a_relative; positive means inward virial.
+
+    Positions are shortest periodic displacements around each declared centre,
+    then centered by their mass-weighted mean. This instantaneous diagnostic
+    makes no equilibrium or velocity-dispersion claim.
+    """
+    grid = solution.grid
+    coords = grid.coordinates()
+    result = {}
+    for component in definition["components"]:
+        name = component["id"]
+        if name == "gas":
+            continue
+        rho = components[name]
+        centre = np.array(component["centre"])[:, None, None, None]
+        position = (coords-centre+grid.length/2) % grid.length-grid.length/2
+        mean = np.sum(position*rho[None], axis=(1, 2, 3))/rho.sum()
+        position -= mean[:, None, None, None]
+        relative, _ = member_relative_acceleration(solution, rho)
+        result[name] = float(-np.sum(rho*np.sum(position*relative, axis=0))/rho.sum())
+    return result
 
 
 def main():
@@ -55,6 +80,7 @@ def main():
             base_spec = SaturatedActionSpec("qumond", shape=1)
             base = solve_fields(grid, rho, base_spec)
             base_features = features(base, components)
+            base_virial = signed_confinement(base, components, config["periodic_scene"])
             for power in settings["powers"]:
                 unit = solve_fields(grid, rho, SaturatedActionSpec("trimond_alignment", 1, 2, power=power, shape=1))
                 delta = unit.physical-base.physical
@@ -62,8 +88,12 @@ def main():
                     extrapolated = FieldSolution(base_spec, grid, base.newtonian,
                                                  base.physical+mixing**2*delta, None, {})
                     predicted = features(extrapolated, components)
+                    virial = signed_confinement(extrapolated, components, config["periodic_scene"])
                     rows.append({"mass_scale": scale, "power": power, "mixing": mixing,
                                  "features": predicted,
+                                 "signed_confinement": virial,
+                                 "confinement_fractional_change_from_scalar": {k: virial[k]/base_virial[k]-1 for k in virial},
+                                 "all_component_virials_inward": all(v > 0 for v in virial.values()),
                                  "fractional_change_from_scalar": {k: predicted[k]/base_features[k]-1 for k in predicted}})
                     if mixing in settings["direct_check_mixing"]:
                         direct = solve_fields(grid, rho, SaturatedActionSpec("trimond_alignment", mixing, 2, power=power, shape=1))
