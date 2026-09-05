@@ -1,0 +1,149 @@
+{
+  "names": [
+    "DDO154",
+    "IC2574",
+    "NGC2841",
+    "NGC2903",
+    "NGC2976",
+    "NGC3198",
+    "NGC3521",
+    "NGC4214",
+    "NGC5055",
+    "NGC6946",
+    "NGC7331",
+    "UGC04305"
+  ],
+  "geometry": {
+    "NGC2903": {
+      "ra": 143.0424,
+      "dec": 21.50183,
+      "pa": 19.6,
+      "inc": 61.74834885857858,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "ok"
+    },
+    "NGC2976": {
+      "ra": 146.81366,
+      "dec": 67.91671,
+      "pa": 144.0,
+      "inc": 53.8623309521001,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "ok"
+    },
+    "NGC3198": {
+      "ra": 154.97921,
+      "dec": 45.54977,
+      "pa": 33.6,
+      "inc": 71.9229712372672,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "ok"
+    },
+    "NGC3521": {
+      "ra": 166.45241,
+      "dec": -0.03594,
+      "pa": 162.3,
+      "inc": 64.04533564587476,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "u"
+    },
+    "NGC4214": {
+      "ra": 183.91305,
+      "dec": 36.328,
+      "pa": 132.6,
+      "inc": 22.835911510514137,
+      "provenance": "Independent photometric orientation with assumed intrinsic axis ratio 0.13",
+      "flag": "u"
+    },
+    "UGC04305": {
+      "ra": 124.76541666666664,
+      "dec": 70.7235,
+      "pa": 175.0,
+      "inc": 38.0,
+      "provenance": "Photometric 38 degree primary; 27 and 49 degree published source-systematic controls; no response-based selection.",
+      "flag": "photometric"
+    },
+    "NGC2841": {
+      "ra": 140.51083333333332,
+      "dec": 50.9765,
+      "pa": 152.6,
+      "inc": 73.7,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "IC2574": {
+      "ra": 157.11541666666665,
+      "dec": 68.4165,
+      "pa": 55.7,
+      "inc": 53.4,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "DDO154": {
+      "ra": 193.52374999999998,
+      "dec": 27.152749999999997,
+      "pa": 229.7,
+      "inc": 66.0,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "NGC5055": {
+      "ra": 198.95499999999998,
+      "dec": 42.02925,
+      "pa": 101.8,
+      "inc": 59.0,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "NGC6946": {
+      "ra": 308.7175,
+      "dec": 60.153999999999996,
+      "pa": 242.7,
+      "inc": 32.6,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    },
+    "NGC7331": {
+      "ra": 339.2670833333333,
+      "dec": 34.41569444444444,
+      "pa": 167.7,
+      "inc": 75.8,
+      "provenance": "de Blok et al. 2008 Table 2",
+      "flag": "kinematic_geometry"
+    }
+  },
+  "status": "DEVELOPMENT_PILOT",
+  "modes": [
+    "rotation",
+    "warp",
+    "stream",
+    "asymmetric",
+    "full"
+  ],
+  "maxiter": 180,
+  "mask": "Fixed deprojected 48<r<450 arcsec; 192 arcsec checkerboard blocks, interiors pixels 5..10, all channels. No intensity or velocity selection.",
+  "noise": "Separate sky annulus 550..680 arcsec, checkerboard train/test; channel variances plus tapered six-lag Toeplitz correlation, positive-definite floor. Gate: held-out median whitened variance .5..2 and absolute lag1<.15.",
+  "gas_beta_grid": [
+    -0.3,
+    -0.25,
+    -0.2,
+    -0.15,
+    -0.1,
+    -0.05000000000000002,
+    0.0,
+    0.04999999999999999,
+    0.09999999999999998,
+    0.14999999999999997,
+    0.19999999999999996,
+    0.24999999999999994,
+    0.3
+  ],
+  "gas_test": "Freeze full-model nuisance parameters; select one gas beta from OTHER galaxies training spectra, equal galaxy weights; score spatial test spectra. No target test fitting.",
+  "limits": [
+    "Conditional on same-observation brightness; not independent observing data or pristine confirmation.",
+    "Projected coarse cube approximation; native-beam velocity mixing, disk thickness and exact instrumental spectral response not validated.",
+    "Warp, radial streaming and lagging profiles need not be physically identifiable from line-of-sight data.",
+    "Free rotation curve absorbs smooth radial gravity changes; this is a kinematic nuisance test, not a gravity-law validation.",
+    "HI context is not total density. Stellar/CO assets are audited separately; their mass conversion and matched-resolution modeling remain necessary.",
+    "Spectral whitening does not model spatial covariance; no pixel-count significance or calibrated chi-square."
+  ]
+}

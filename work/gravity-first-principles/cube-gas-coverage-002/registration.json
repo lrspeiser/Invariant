@@ -1,0 +1,11 @@
+{
+  "predecessor": "conditional-cube-pilot-001",
+  "correction": "Pilot gas term treated blanked MOM0 as intensity zero. Those gas scores are inadmissible; retain for audit.",
+  "source_mask": "MOM0 finite and positive; block-average intensity divided by covered fraction; Gaussian support >=.98 at 48 and 96 arcsec FWHM. Detected-emission domain only, not empty-space inference.",
+  "context": "Bounded log(broad/local) on covered points; subtract mean in fixed 50 arcsec deprojected annuli, clip [-1,1]. Zero candidate correction outside coverage, not zero physical mass.",
+  "spatial_score": "Original geometric train/test masks intersect context coverage, minimum 30 pixels each. Same full-cube baseline parameters remain frozen.",
+  "transfer": "13 beta values [-.3,.3]; choose from OTHER galaxies training loss, normalized per-galaxy by beta=0; score target test spectra. No target test tuning.",
+  "eligibility": "All five original cube fits converged, covariance gate passed, and sufficient covered train/test pixels.",
+  "matter_audit": "Stellar light/mass-tracer and CO intensity/error map footprints at the same sky positions. Finite coverage is not a detection or calibrated total density. CO nondetection is not zero H2.",
+  "independent_confirmation": false
+}

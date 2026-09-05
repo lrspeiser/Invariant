@@ -1,0 +1,56 @@
+INFO: 
+                Inconsistent SIP distortion information is present in the FITS header and the WCS object:
+                SIP coefficients were detected, but CTYPE is missing a "-SIP" suffix.
+                astropy.wcs is using the SIP distortion coefficients,
+                therefore the coordinates calculated here might be incorrect.
+
+                If you do not want to apply the SIP distortion coefficients,
+                please remove the SIP coefficients from the FITS header or the
+                WCS object.  As an example, if the image is already distortion-corrected
+                (e.g., drizzled) then distortion components should not apply and the SIP
+                coefficients should be removed.
+
+                While the SIP distortion coefficients are being applied here, if that was indeed the intent,
+                for consistency please append "-SIP" to the CTYPE in the FITS header or the WCS object.
+
+                 [astropy.wcs.wcs]
+Traceback (most recent call last):
+  File "C:\Users\henry\Documents\Codex\2026-09-04\pu-2\work\Invariant\scripts\audit_gravity_cube_gas_context.py", line 100, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\henry\Documents\Codex\2026-09-04\pu-2\work\Invariant\scripts\audit_gravity_cube_gas_context.py", line 46, in main
+    maps={role:sample(a,ra,dec) for role,a in specific.items() if role in ('STELLAR_MASS_MAP','STELLAR_IRAC1_FLUX','STELLAR_IRAC1_WEIGHT','STELLAR_ICA_MASK','CO21_MOM0','CO21_EMOM0')}
+               ~~~~~~^^^^^^^^^^
+  File "C:\Users\henry\Documents\Codex\2026-09-04\pu-2\work\Invariant\scripts\audit_gravity_cube_gas_context.py", line 21, in sample
+    x,y=w.all_world2pix(ra,dec,0)
+        ~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\henry\AppData\Local\Programs\Python\Python313\Lib\site-packages\astropy\wcs\wcs.py", line 2111, in all_world2pix
+    return self._array_converter(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        lambda *args, **kwargs: self._all_world2pix(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\henry\AppData\Local\Programs\Python\Python313\Lib\site-packages\astropy\wcs\wcs.py", line 1547, in _array_converter
+    return _return_list_of_arrays(axes, origin)
+  File "C:\Users\henry\AppData\Local\Programs\Python\Python313\Lib\site-packages\astropy\wcs\wcs.py", line 1497, in _return_list_of_arrays
+    output = func(xy, origin)
+  File "C:\Users\henry\AppData\Local\Programs\Python\Python313\Lib\site-packages\astropy\wcs\wcs.py", line 2112, in <lambda>
+    lambda *args, **kwargs: self._all_world2pix(
+                            ~~~~~~~~~~~~~~~~~~~^
+        *args,
+        ^^^^^^
+    ...<4 lines>...
+        quiet=quiet,
+        ^^^^^^^^^^^^
+    ),
+    ^
+  File "C:\Users\henry\AppData\Local\Programs\Python\Python313\Lib\site-packages\astropy\wcs\wcs.py", line 2084, in _all_world2pix
+    raise NoConvergence(
+    ...<9 lines>...
+    )
+astropy.wcs.wcs.NoConvergence: 'WCS.all_world2pix' failed to converge to the requested accuracy.
+After 20 iterations, the solution is diverging at least for one input point.
