@@ -19,7 +19,7 @@ class ConstrainedCube(CubeModel):
         self.rings=tensor([0,40,80,140,220,320,450,600])
         self.spin=1. if np.sum(packet['rotation_initial'])>=0 else -1.
 
-    def geometry(self,p,mode):
+    def render(self,p,mode,gas_beta=0.,context=None):
         radius=self.radius
         # Smooth implicit tilted-ring geometry, damped to avoid oscillation.
         for _ in range(6):
@@ -34,10 +34,6 @@ class ConstrainedCube(CubeModel):
             minor=(self.x*torch.cos(pa)-self.y*torch.sin(pa))/torch.cos(inc)
             current=torch.sqrt(major**2+minor**2+1e-8)
             radius=.5*(radius+current)
-        return current,major,minor,inc
-
-    def render(self,p,mode,gas_beta=0.,context=None):
-        current,major,minor,inc=self.geometry(p,mode)
         speed=interpolate(current,self.rings,torch.cat([p.new_zeros(1),p[:7]*200]))
         c=self.gas if context is None else context
         speed=speed*(1+gas_beta*c)

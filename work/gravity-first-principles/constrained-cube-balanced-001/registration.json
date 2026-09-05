@@ -1,0 +1,19 @@
+{
+  "reason": "Original geometric checkerboard can separate inner test radii from outer training radii. This is a radial extrapolation confound.",
+  "selection": "Reuse all original guarded block interiors; choose block labels using geometry only, balancing radial bins and approaching/receding geometry. No spectra, amplitudes or velocities enter assignment.",
+  "radius_edges_arcsec": [
+    48,
+    100,
+    160,
+    240,
+    330,
+    450
+  ],
+  "candidate_assignments": 4096,
+  "minimum_points_each_side_in_radial_bin": 8,
+  "objective": "Squared fractional count imbalance per radius/major-axis-sign cell, plus penalty for empty calibration or test radial bins; require both folds in an admitted radial bin.",
+  "guard": "Existing 120 arcsec block guard; every candidate block has the same guard regardless of its label.",
+  "initialization": "Recompute systemic and rotation seeds using the NEW training spectra only. No parameters fitted to an earlier partition are reused.",
+  "fitting": "Same constrained model and multistart rule as constrained-cube-real-001.",
+  "scope": "Previously exposed development data with a repaired validation design, not independent confirmation. No new gas term is fitted."
+}
