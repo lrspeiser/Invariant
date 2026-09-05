@@ -1,0 +1,71 @@
+{
+  "status": "development protocol fixed before new scoring; not exhaustive physics or pristine confirmation",
+  "active_exclusion": "The empty-space explanation is set aside at the user's request. Historical records are retained, not reinterpreted as current evidence.",
+  "datasets": [
+    "SPARC existing 139 exploration galaxies, using the preceding quality selection",
+    "MaNGA Item 12 existing 585 quality-qualified exploration galaxies; Item 13 existing exploration sample for transport"
+  ],
+  "forbidden_inputs": [
+    "observed speed, period or angular momentum as predictors of the same motion",
+    "inferred dark halo or target gravitational mass",
+    "galaxy identity as a numeric feature",
+    "reserved confirmation responses"
+  ],
+  "SPARC": {
+    "selection": "Same Q<=2, inclination 30-80 degrees, fractional velocity error<=0.1 and >=5 eligible positions as matched-concentration-001. No changes based on results.",
+    "families": [
+      "radius and size",
+      "stellar surface concentration",
+      "stellar and atomic-gas composition",
+      "baryonic compactness",
+      "source-predicted orbital/crossing times",
+      "radial gradients and curvature",
+      "truncated potential depth",
+      "interior and exterior stellar profiles",
+      "profile irregularity",
+      "morphology",
+      "measurement and coverage diagnostics"
+    ],
+    "evaluation": "Five outer galaxy folds and three inner galaxy folds, with two deterministic split salts. All training and scores give equal total weight to each galaxy. Target-blind descriptors; training-only imputation, standardization, residualization against acceleration and candidate selection. Compare fixed-knot flexible acceleration and fitted RAR baselines.",
+    "candidate_grammar": "Per descriptor: linear, tanh, or centered-square of training-standardized acceleration residual; ungated or weighted by 1/(1+gbar/1.2e-10); coefficient ridge 0.1, 1, or 10. Nested selection chooses transformation, gate and penalty. Also nested selection across all physical descriptors and combined ridge with all physical descriptors. Diagnostics are not eligible physical winners.",
+    "correction_bound": "Every fitted correction clipped to +/-0.5 dex in log acceleration for numerical robustness; not a physical field theory.",
+    "scoring": "Common positions with at least five other training galaxies within 0.15 dex acceleration; >=3 scoring positions per galaxy. Primary equal-galaxy log-acceleration MSE; also fractional-speed and km/s MSE. Report per-family missingness, extrapolation, and selected forms.",
+    "multiplicity": "Outer folds never select the winning family. Wild galaxy-sign residual null reruns the entire inner and outer selection for 99 draws; approximate exchangeability diagnostic, not a calibrated causal probability.",
+    "robustness": [
+      "stellar disk M/L 0.4 and 0.6",
+      "Q=1",
+      "inclination 40-75",
+      "second fold salt",
+      "same selection with either baseline"
+    ],
+    "alias_rule": "Period, circular speed, angular momentum and spherical-equivalent mean density computed from gbar and radius are algebraic rewrites, not independent mechanisms or actual age/volume density. Their scores are diagnostic only."
+  },
+  "MaNGA": {
+    "target": "log10 stellar velocity dispersion within one effective radius; not a dark-matter acceleration residual",
+    "controls": "Original nine structural, color, redshift and signal-quality predictors; compare linear ridge and nonlinear extra-trees baselines with identical fitting budgets.",
+    "groups": [
+      "Dn4000 break",
+      "Balmer absorption",
+      "Halpha emission and specific star formation",
+      "all spectral/population indicators",
+      "source-only crossing-time ratio"
+    ],
+    "evaluation": "Retain original whole-galaxy outer folds; select regularization or tree leaf size only on three inner folds. Refit on all Item 12 development data and predict the disjoint existing Item 13 development galaxies without using their responses for model choice.",
+    "sensitivities": [
+      "SNR>=10",
+      "sigma>=70 km/s",
+      "other sample transport"
+    ],
+    "boundary": "Stellar spectral age is not orbit age; same spectra inform stellar dispersion and population indices. A predictive signal may reflect populations, mass-to-light ratio, anisotropy, ordinary formation history, or measurement systematics."
+  },
+  "not_directly_testable_here": [
+    "age of an individual stable orbit",
+    "3D clump counts and exact topology",
+    "full baryonic external-field reconstruction for SPARC",
+    "magnetic and cosmic-ray pressure",
+    "full thermal history",
+    "time derivatives of gravity",
+    "universal propagator or action-level mechanism",
+    "cross-regime cluster/lensing/Solar-System confirmation of a new law"
+  ]
+}

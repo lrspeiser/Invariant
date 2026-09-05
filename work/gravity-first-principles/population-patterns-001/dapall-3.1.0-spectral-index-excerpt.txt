@@ -1,0 +1,48 @@
+    def _spectral_index_metrics(self, dapmaps, deconstruct, specindex_units):
+
+        # Unique bins
+        # TODO: Select the BINID channel using the channel dictionary
+        unique, indx = numpy.unique(dapmaps['BINID'].data[4,:,:].ravel(), return_index=True)
+        unique = unique[1:]
+        unique_indx = indx[1:]
+
+        nindx = dapmaps['SPECINDEX'].shape[0]
+
+        # Pull the data from the maps file
+        cooext = 'SPX_ELLCOO' if deconstruct else 'BIN_LWELLCOO'
+        r_re = dapmaps[cooext].data.copy()[1,:,:].ravel()[unique_indx]
+        specindex = numpy.ma.MaskedArray(dapmaps['SPECINDEX'].data.copy(),
+                                         mask=self.maps_bm.flagged(dapmaps['SPECINDEX_MASK'].data,
+                                                    'DONOTUSE')).reshape(nindx,-1)[:,unique_indx]
+        specindex_corr = numpy.ma.MaskedArray(
+                            dapmaps['SPECINDEX_CORR'].data.copy().reshape(nindx,-1)[:,unique_indx],
+                                              mask=specindex.mask.copy())
+
+        # Get the corrected indices; Unitless and ang units are treated
+        # the same.
+        mag = specindex_units == 'mag'
+        ang = numpy.invert(mag)
+        specindex_corr[ang] = specindex[ang]*specindex_corr[ang]
+        specindex_corr[mag] = specindex[mag]+specindex_corr[mag]
+
+        # Get the growth limits
+        specindex_lo = numpy.empty(nindx, dtype=float)
+        specindex_hi = numpy.empty(nindx, dtype=float)
+        specindex_lo_clip = numpy.empty(nindx, dtype=float)
+        specindex_hi_clip = numpy.empty(nindx, dtype=float)
+        for i in range(nindx): 
+            if numpy.all(specindex_corr.mask[i,:]):
+                specindex_lo[i] = -999.
+                specindex_hi[i] = -999.
+                specindex_lo_clip[i] = -999.
+                specindex_hi_clip[i] = -999.
+                continue
+            specindex_lo[i], specindex_hi[i] = sample_growth(specindex_corr[i,:].compressed(),
+                                                             [0.025,0.975])
+            specindex_lo_clip[i], specindex_hi_clip[i] \
+                        = sample_growth(sigma_clip(specindex_corr[i,:]).compressed(), [0.025,0.975])
+
+        # Get the median within 1 Re
+        specindex_1re = numpy.ma.median(specindex[:,r_re < 1.], axis=1).filled(-999.)
+
+        return specindex_lo, specindex_hi, specindex_lo_clip, specindex_hi_clip, specindex_1re
