@@ -61,6 +61,31 @@ Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
 
+The [matched source and tail audit](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-source-tail-results.md)
+retains a new numerical failure and a partial repair. The denser 60--80 kpc
+matched potential is checked at 4,715 locations for each thickness. Its worst
+source-gradient identity error is 0.315080 at the unchanged R=36 kpc taper.
+Adding the leading omitted high-wavenumber potential lowers the worst error
+to 0.000946245 and passes all registered source-grid/refinement targets.
+
+Independent derivative verification nevertheless fails: fine-step radial
+third-tensor errors are 0.000743873 nominal and 0.005949803 half-height, above
+the fixed 0.0001 target. Both step sizes, all points and both one-sided
+interface stencils are retained. A focused 50-digit diagnostic at the exposed
+R=66.5 kpc point sharply reduces the error, identifying cancellation in the
+logarithmic tail potential. Windows numpy.longdouble provides no additional
+mantissa precision here. The first serialization failure and partial JSON are
+also preserved; only the subsequent complete run is a scientific result.
+
+Next: implement a stable scalar-tail evaluation and repeat every source,
+refinement and derivative gate without changing the mass model or tolerances.
+The provider is not yet admitted for the nonlinear action solver. Production
+interpolation, full action flux, separate Poisson solve and all scientific
+validation requirements remain open. No new observational scores or physical
+exclusions were added. Current registry: `configs/gravity_sigma_directions_v10.json`.
+The focused implementation suite has 228 passing tests and lint passes.
+The earlier entries below retain their historical checkpoint descriptions.
+
 The [exterior and potential-join audit](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-exterior-and-join-results.md)
 now provides independently checked exterior potentials and retains a failed
 first C3 join. Order 64 passes its registered exterior targets from 80 kpc;

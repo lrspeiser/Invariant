@@ -1035,3 +1035,44 @@ src/invariant_gravity_extensions/potential_join.py text eol=lf
 docs/GRAVITY_EXTERIOR_AND_JOIN_DERIVATION.md text eol=lf
 docs/GRAVITY_EXTERIOR_AND_JOIN_RESULTS.md text eol=lf
 configs/gravity_sigma_directions_v9.json text eol=lf
+
+# Matched source and tail evidence keeps byte-exact attempts, including failures.
+work/gravity-first-principles/matched-source-*/** whitespace=cr-at-eol
+work/gravity-first-principles/matched-source-*/result.json -diff
+work/gravity-first-principles/matched-source-*/**/fields_*.json -diff
+work/gravity-first-principles/matched-source-*/**/transform_*.json -diff
+work/gravity-first-principles/source-tail-*/** whitespace=cr-at-eol
+work/gravity-first-principles/source-tail-*/result.json -diff
+work/gravity-first-principles/source-tail-*/**/fields_*.json -diff
+work/gravity-first-principles/source-tail-*/**/transform_*.json -diff
+work/gravity-first-principles/source-tail-verification-*/** whitespace=cr-at-eol
+work/gravity-first-principles/source-tail-verification-*/result.json -diff
+work/gravity-first-principles/source-tail-verification-*/**/fields_*.json -diff
+work/gravity-first-principles/source-tail-verification-*/**/transform_*.json -diff
+work/gravity-first-principles/tail-precision-diagnostic-*/** whitespace=cr-at-eol
+work/gravity-first-principles/tail-precision-diagnostic-*/result.json -diff
+work/gravity-first-principles/tail-precision-diagnostic-*/**/fields_*.json -diff
+work/gravity-first-principles/tail-precision-diagnostic-*/**/transform_*.json -diff
+work/gravity-first-principles/source-tail-controls-*/** whitespace=cr-at-eol
+work/gravity-first-principles/source-tail-controls-*/result.json -diff
+work/gravity-first-principles/source-tail-controls-*/**/fields_*.json -diff
+work/gravity-first-principles/source-tail-controls-*/**/transform_*.json -diff
+tests/test_gravity_matched_axisymmetric.py text eol=lf
+tests/test_gravity_hankel_tail.py text eol=lf
+scripts/audit_gravity_matched_source.py text eol=lf
+scripts/audit_gravity_source_tail.py text eol=lf
+scripts/verify_gravity_source_tail.py text eol=lf
+scripts/diagnose_gravity_tail_precision.py text eol=lf
+scripts/report_gravity_source_tail.py text eol=lf
+configs/gravity_matched_source_audit_v*.json text eol=lf
+configs/gravity_source_tail_audit_v*.json text eol=lf
+src/invariant_gravity_extensions/matched_axisymmetric.py text eol=lf
+src/invariant_gravity_extensions/hankel_tail.py text eol=lf
+docs/GRAVITY_SOURCE_TAIL_RESULTS.md text eol=lf
+docs/GRAVITY_SOURCE_TAIL_DERIVATION.md text eol=lf
+configs/gravity_sigma_directions_v10.json text eol=lf
+
+# Numeric upstream inputs remain inspectable without flooding the code diff.
+work/gravity-first-principles/matched-source-*/input-snapshots/work/** -diff
+work/gravity-first-principles/source-tail-*/input-snapshots/work/** -diff
+work/gravity-first-principles/tail-precision-diagnostic-*/input-snapshots/work/** -diff
