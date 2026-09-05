@@ -1,0 +1,100 @@
+{
+  "schema": "invariant-scalar-galaxy-development-1.0",
+  "object_id": "NGC3198",
+  "admission": "DATA_AND_PAPER_ADMITTED_CONDITIONAL_AXISYMMETRIC_LIFT",
+  "registration": "Frozen after source-only refinement and before this runner's implementation or any individual velocity comparison. Public summary Vflat and its error were accidentally displayed during metadata extraction; the full response container was already exposed historically and parsed again for schema. Development only, no claim of response-blind or untouched confirmation.",
+  "source_run": "work/gravity-first-principles/map-source-003",
+  "source_result_sha256": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+  "response_asset": "configs/sparc_rotation_curves_full_v1.json",
+  "response_name": "NGC3198",
+  "response_rows_sha256": "d44c3249f001bcd07aa77590cb46a94abb059380f989d79c870e53cea1a09485",
+  "metadata_receipt": "work/gravity-first-principles/map-response-metadata-001/receipt.json",
+  "split_contract": "work/gravitylab/configs/splits/runA_split.json",
+  "source_radius_kpc": 36.0,
+  "radial_selection": {
+    "minimum_at_nominal_source_distance_kpc": 2.0,
+    "maximum_at_nominal_source_distance_kpc": 20.0,
+    "outer_stratum_minimum_kpc": 12.0,
+    "supplementary_uniform_control_radii_count": 73,
+    "all_selected_rows_must_pass_all_candidate_numerical_gates": true,
+    "failed_rows_retained_without_response_based_exclusion": true
+  },
+  "candidates": {
+    "family": "qumond",
+    "shapes": [0.5, 1.0, 2.0],
+    "a0_m_s2": [5e-11, 1.2e-10, 2e-10],
+    "epsilon": 0.0001,
+    "same_global_constants_as_cluster_and_local_runs": true,
+    "per_object_fitted_parameters": 0,
+    "comparators": ["NEWTON_BARYONS", "RAR_2016_ALGEBRAIC"],
+    "RAR_a0_m_s2": 1.2e-10,
+    "RAR_is_empirical_force_comparator_not_a_new_field_solution": true
+  },
+  "field_grids": {
+    "coarse": {"r_min": 0.0001, "r_max": 3000.0, "radial_nodes": 1025, "angular_nodes": 192, "l_max": 48},
+    "fine": {"r_min": 0.0001, "r_max": 3000.0, "radial_nodes": 2049, "angular_nodes": 320, "l_max": 80},
+    "boundary": {"r_min": 0.00005, "r_max": 6000.0, "radial_nodes": 2305, "angular_nodes": 320, "l_max": 80},
+    "maximum_relative_force_refinement": 0.02,
+    "maximum_relative_force_boundary_change": 0.005,
+    "maximum_relative_force_map_refinement": 0.03,
+    "all_inward_forces_positive": true,
+    "reflection_relative_vertical_force_maximum": 1e-8,
+    "failure_blocks_individual_velocity_conversion_and_scoring": true
+  },
+  "source_variants": [
+    {"id": "primary"},
+    {"id": "stellar_low", "stellar_factor": 0.7943282347242815},
+    {"id": "stellar_high", "stellar_factor": 1.2589254117941673},
+    {"id": "atomic_low", "hi_factor": 0.9},
+    {"id": "atomic_high", "hi_factor": 1.1},
+    {"id": "molecular_low", "co_factor": 0.7},
+    {"id": "molecular_high", "co_factor": 1.3},
+    {"id": "height_half", "height_factor": 0.5},
+    {"id": "height_double", "height_factor": 2.0},
+    {"id": "aperture_24", "outer_kpc": 24.0},
+    {"id": "aperture_30", "outer_kpc": 30.0}
+  ],
+  "source_sensitivity_rule": "One source variation at a time, all candidates on every variation, no best-nuisance selection. Stellar +/-0.1 dex follows the fixed-M/L paper's approximate systematic scale; gas +/-10% and +/-30%, doubled/halved heights and aperture alternatives are declared stress tests, not measured confidence intervals. Fine/coarse field gates apply to every variant; the pre-existing 1024/2048 map comparison and extended-boundary check apply to primary only. Variation-specific map and boundary covariance remain unresolved.",
+  "geometry": {
+    "published_distance_mpc": 13.8,
+    "published_distance_error_mpc": 1.4,
+    "published_inclination_deg": 73.0,
+    "published_inclination_error_deg": 3.0,
+    "quality_flag": 1,
+    "distance_offsets_mpc": [-1.4, 0.0, 1.4],
+    "inclination_offsets_deg": [-3.0, 0.0, 3.0],
+    "primary_radius_conversion": "r_model=r_published*D_source/D_published",
+    "primary_velocity_conversion": "v_model_geometry=v_published*sin(i_published)/sin(i_photometric); same multiplier for random velocity error",
+    "distance_sensitivity": "Homologous rescaling of ALL lengths, including assumed vertical heights, preserves accelerations at corresponding angles and scales speeds as sqrt(D/D_nominal). This is a declared source-shape sensitivity, not full distance/source covariance.",
+    "inclination_sensitivity": "Shift kinematic deprojection only by +/-3 degrees; source-footprint/inclination re-projection and warp uncertainty remain unresolved. No claim of full joint geometry propagation."
+  },
+  "scoring": {
+    "primary": "mean squared published-random-error-standardized circular-velocity residual",
+    "secondary": "same residual with shared inclination rank-one covariance and with an extra 5 km/s diagonal stress floor, separately",
+    "minimum_selected_rows": 5,
+    "no_p_value_or_likelihood_calibration": true,
+    "symmetric_radial_influence_trim_fraction_each_tail": 0.05,
+    "single_object_removal": "undefined because this pilot contains one object; report explicitly",
+    "largest_radial_comparative_loss_removal": true,
+    "report_full_residuals_and_all_scenarios": true,
+    "raw_counterexample_unit": "one galaxy versus RAR on matched source and geometry",
+    "quality_verified_counterexamples": 0,
+    "uncertainty_resolved_counterexamples": 0
+  },
+  "unresolved": [
+    "Source maps and gas velocities share measurements and are not statistically independent.",
+    "Missing outer stellar/CO data are not observations of zero material.",
+    "Warp, pressure support, noncircular streaming and exact detector response are not fitted or corrected here.",
+    "Alternate HI weighting/reduction, full inclination reprojection and joint source-response covariance are not propagated.",
+    "Fixed isolated boundary omits environmental external-field effects.",
+    "No galaxy population, held-out confirmation, direct outer-star velocity measurement or derived lensing test."
+  ],
+  "primary_papers": [
+    "https://arxiv.org/abs/1606.09251",
+    "https://arxiv.org/abs/1609.05917",
+    "https://arxiv.org/abs/1410.0009",
+    "https://arxiv.org/abs/0810.2125",
+    "https://arxiv.org/abs/0905.4742"
+  ],
+  "claim_ceiling": "QUALITY_LIMITED_DEVELOPMENT_EVIDENCE_RETAINED; no formula-family pruning or empirical promotion"
+}
