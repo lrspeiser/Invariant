@@ -1,0 +1,44 @@
+{
+  "schema": "invariant-scalar-xcop-pressure-development-1",
+  "access_class": "PREVIOUSLY_EXPOSED_DEVELOPMENT_ONLY",
+  "authorization_basis": "current user's active gravity research goal; this is a new development study, not reuse of an older single-run authorization or an untouched confirmation test",
+  "registration": "parameters retained from prior scalar audits; method declared after source schema and release-alignment inspection but before candidate pressure scoring; not blind confirmation",
+  "clusters": ["A1644", "A1795", "A2142", "A2255", "A2319", "A3266", "A85", "ZW1215"],
+  "forbidden_clusters": ["A2029", "A3158", "A644", "RXC1825"],
+  "source_contract": "configs/gravity_extended_source_clock_xcop_development_v1.json",
+  "covariance_manifest": "work/gravity-first-principles/xcop-covariance-acquisition-001.json",
+  "access_history": ["configs/gravity_item59_xcop_forward_observable_gate_v1.json", "configs/gravity_gain_persistence_gp01_xcop_source_preflight_v1.json", "work/wellnet-2026-09/confirmation/seal.json"],
+  "predecessor": "work/gravity-first-principles/external-quadrupole-002/result.json",
+  "shapes": [0.5, 1.0, 2.0], "a0_m_s2": [5e-11, 1.2e-10, 2e-10], "epsilon": 0.0001,
+  "comparators": ["newtonian_baryons", "empirical_RAR_a0_1.2e-10"],
+  "source_mapping": {
+    "density": "published electron density, log-linear between source knots, constant density to zero inside first knot; exact piecewise-power mass integration independent of target radii",
+    "stellar": "published cumulative stellar profile with recorded monotone correction, cubic enclosed-mass continuation to origin, constant mass beyond outer stellar support; shared normalization only",
+    "missing_stellar": "one shared stellar/gas mass ratio for the three missing-profile clusters, with predeclared sensitivity",
+    "gravity": "exact regular spherical QUMOND relation for joint baryonic enclosed mass; not an arbitrary local disk approximation",
+    "pressure": "d[P_e/(1-f)]/dr=-mu*m_p*n_e*g; f=f_out*r/r_anchor is the isotropic nonthermal fraction of total pressure",
+    "boundary": "outermost usable SZ pressure point is measured boundary and never scored; its correlated uncertainty is propagated",
+    "temperature": "unsupported projected-spectroscopic response; no temperature scores and no local P_e/n_e versus projected temperature comparison",
+    "geometry": "published cosmological distance and spherical reconstruction are conditional source assumptions; R500/P500 are used to undo release units, never as candidate mass predictors"
+  },
+  "nominal_nuisance": {"outer_nonthermal_fraction": 0.15, "stellar_scale": 1.0, "missing_stellar_gas_ratio": 0.1, "density_error_shift": 0, "distance_scale": 1.0, "pressure_calibration": 1.0},
+  "single_sensitivities": {"outer_nonthermal_fraction": [0.0, 0.3], "stellar_scale": [0.7, 1.3], "missing_stellar_gas_ratio": [0.05, 0.2], "density_error_shift": [-1, 1], "distance_scale": [0.9, 1.1], "pressure_calibration": [0.9, 1.1]},
+  "joint_corner_sensitivities": {"outer_nonthermal_fraction": [0.0, 0.3], "stellar_scale": [0.7, 1.3], "distance_scale": [0.9, 1.1]},
+  "nuisance_role": "21 fixed global scenarios, not per-object tuning, probability intervals, a joint posterior, or an exhaustive nuisance envelope; no winning corner promoted",
+  "covariance": {
+    "primary_diagnostic": "native pressure correlation matrix transferred to the high-level quoted errors; an explicit unverified covariance-mapping assumption",
+    "alternate_diagnostics": ["native covariance with the exact mean-profile normalization", "diagonal quoted errors"],
+    "anchor": "residual covariance C_ij-k_i*C_aj-k_j*C_ia+k_i*k_j*C_aa",
+    "no_pvalues_or_discovery_significance": true,
+    "density_star_distance_cross_covariance_complete": false
+  },
+  "selection": {"exclude_initial_pressure_bins": 3, "reason": "published Planck beam/deconvolution limitation, Ghirardini2019 section 2.5", "require_measured_density_support": true, "minimum_targets_per_cluster": 3, "all_excluded_rows_retained": true},
+  "scoring": {"primary_descriptive_loss": "equal-cluster mean squared log10(predicted/observed) pressure", "additional_loss": "equal-cluster mean covariance-whitened squared pressure residual per target, conditional on source mapping", "objects_independent_assumption": true, "source_uncertainty_fully_marginalized": false, "leave_one": "remove largest absolute candidate-minus-baseline object contribution", "symmetric_trim": "remove one smallest and one largest comparative object contribution among eight", "strata": ["published stellar profile present", "published stellar profile absent"]},
+  "numerical_control": {"nodes": 2049, "refined_nodes": 4097, "maximum_relative_pressure_change": 0.00005},
+  "claim_ceiling": "QUALITY_LIMITED_EVIDENCE_RETAINED; no family pruning, independent replication, galaxy success, lensing prediction or full Solar System pass",
+  "sources": [
+    {"url": "https://dominiqueeckert.wixsite.com/xcop/data", "role": "published release and provenance"},
+    {"url": "https://arxiv.org/abs/1805.00042", "location": "sections 2.4.2, 2.5 and 3.4", "role": "projected X-ray temperature, deprojected SZ pressure, covariance and inner-three-bin exclusion"},
+    {"url": "https://arxiv.org/abs/1805.00034", "location": "section 3.2, equation 6", "role": "total-pressure hydrostatic equation and definition of nonthermal pressure fraction"}
+  ]
+}

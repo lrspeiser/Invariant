@@ -1,0 +1,184 @@
+{
+  "astropy": "7.1.1",
+  "config": {
+    "a0_m_s2": [
+      5e-11,
+      1.2e-10,
+      2e-10
+    ],
+    "access_class": "PREVIOUSLY_EXPOSED_DEVELOPMENT_ONLY",
+    "access_history": [
+      "configs/gravity_item59_xcop_forward_observable_gate_v1.json",
+      "configs/gravity_gain_persistence_gp01_xcop_source_preflight_v1.json",
+      "work/wellnet-2026-09/confirmation/seal.json"
+    ],
+    "authorization_basis": "current user's active gravity research goal; this is a new development study, not reuse of an older single-run authorization or an untouched confirmation test",
+    "claim_ceiling": "QUALITY_LIMITED_EVIDENCE_RETAINED; no family pruning, independent replication, galaxy success, lensing prediction or full Solar System pass",
+    "clusters": [
+      "A1644",
+      "A1795",
+      "A2142",
+      "A2255",
+      "A2319",
+      "A3266",
+      "A85",
+      "ZW1215"
+    ],
+    "comparators": [
+      "newtonian_baryons",
+      "empirical_RAR_a0_1.2e-10"
+    ],
+    "covariance": {
+      "alternate_diagnostics": [
+        "native covariance with the exact mean-profile normalization",
+        "diagonal quoted errors"
+      ],
+      "anchor": "residual covariance C_ij-k_i*C_aj-k_j*C_ia+k_i*k_j*C_aa",
+      "density_star_distance_cross_covariance_complete": false,
+      "no_pvalues_or_discovery_significance": true,
+      "primary_diagnostic": "native pressure correlation matrix transferred to the high-level quoted errors; an explicit unverified covariance-mapping assumption"
+    },
+    "covariance_manifest": "work/gravity-first-principles/xcop-covariance-acquisition-001.json",
+    "epsilon": 0.0001,
+    "forbidden_clusters": [
+      "A2029",
+      "A3158",
+      "A644",
+      "RXC1825"
+    ],
+    "joint_corner_sensitivities": {
+      "distance_scale": [
+        0.9,
+        1.1
+      ],
+      "outer_nonthermal_fraction": [
+        0.0,
+        0.3
+      ],
+      "stellar_scale": [
+        0.7,
+        1.3
+      ]
+    },
+    "nominal_nuisance": {
+      "density_error_shift": 0,
+      "distance_scale": 1.0,
+      "missing_stellar_gas_ratio": 0.1,
+      "outer_nonthermal_fraction": 0.15,
+      "pressure_calibration": 1.0,
+      "stellar_scale": 1.0
+    },
+    "nuisance_role": "21 fixed global scenarios, not per-object tuning, probability intervals, a joint posterior, or an exhaustive nuisance envelope; no winning corner promoted",
+    "numerical_control": {
+      "maximum_relative_pressure_change": 5e-05,
+      "nodes": 2049,
+      "refined_nodes": 4097
+    },
+    "predecessor": "work/gravity-first-principles/external-quadrupole-002/result.json",
+    "registration": "parameters retained from prior scalar audits; method declared after source schema and release-alignment inspection but before candidate pressure scoring; not blind confirmation",
+    "schema": "invariant-scalar-xcop-pressure-development-1",
+    "scoring": {
+      "additional_loss": "equal-cluster mean covariance-whitened squared pressure residual per target, conditional on source mapping",
+      "leave_one": "remove largest absolute candidate-minus-baseline object contribution",
+      "objects_independent_assumption": true,
+      "primary_descriptive_loss": "equal-cluster mean squared log10(predicted/observed) pressure",
+      "source_uncertainty_fully_marginalized": false,
+      "strata": [
+        "published stellar profile present",
+        "published stellar profile absent"
+      ],
+      "symmetric_trim": "remove one smallest and one largest comparative object contribution among eight"
+    },
+    "selection": {
+      "all_excluded_rows_retained": true,
+      "exclude_initial_pressure_bins": 3,
+      "minimum_targets_per_cluster": 3,
+      "reason": "published Planck beam/deconvolution limitation, Ghirardini2019 section 2.5",
+      "require_measured_density_support": true
+    },
+    "shapes": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "single_sensitivities": {
+      "density_error_shift": [
+        -1,
+        1
+      ],
+      "distance_scale": [
+        0.9,
+        1.1
+      ],
+      "missing_stellar_gas_ratio": [
+        0.05,
+        0.2
+      ],
+      "outer_nonthermal_fraction": [
+        0.0,
+        0.3
+      ],
+      "pressure_calibration": [
+        0.9,
+        1.1
+      ],
+      "stellar_scale": [
+        0.7,
+        1.3
+      ]
+    },
+    "source_contract": "configs/gravity_extended_source_clock_xcop_development_v1.json",
+    "source_mapping": {
+      "boundary": "outermost usable SZ pressure point is measured boundary and never scored; its correlated uncertainty is propagated",
+      "density": "published electron density, log-linear between source knots, constant density to zero inside first knot; exact piecewise-power mass integration independent of target radii",
+      "geometry": "published cosmological distance and spherical reconstruction are conditional source assumptions; R500/P500 are used to undo release units, never as candidate mass predictors",
+      "gravity": "exact regular spherical QUMOND relation for joint baryonic enclosed mass; not an arbitrary local disk approximation",
+      "missing_stellar": "one shared stellar/gas mass ratio for the three missing-profile clusters, with predeclared sensitivity",
+      "pressure": "d[P_e/(1-f)]/dr=-mu*m_p*n_e*g; f=f_out*r/r_anchor is the isotropic nonthermal fraction of total pressure",
+      "stellar": "published cumulative stellar profile with recorded monotone correction, cubic enclosed-mass continuation to origin, constant mass beyond outer stellar support; shared normalization only",
+      "temperature": "unsupported projected-spectroscopic response; no temperature scores and no local P_e/n_e versus projected temperature comparison"
+    },
+    "sources": [
+      {
+        "role": "published release and provenance",
+        "url": "https://dominiqueeckert.wixsite.com/xcop/data"
+      },
+      {
+        "location": "sections 2.4.2, 2.5 and 3.4",
+        "role": "projected X-ray temperature, deprojected SZ pressure, covariance and inner-three-bin exclusion",
+        "url": "https://arxiv.org/abs/1805.00042"
+      },
+      {
+        "location": "section 3.2, equation 6",
+        "role": "total-pressure hydrostatic equation and definition of nonthermal pressure fraction",
+        "url": "https://arxiv.org/abs/1805.00034"
+      }
+    ]
+  },
+  "git_revision": "a8a41fdd96132f321d9742fb6ee87a0d79d243ed",
+  "input_hashes": {
+    "configs/gravity_extended_source_clock_xcop_development_v1.json": "789dfafbce5f6fad77c7daab5ed8dee0ccd8f713073fea28fbebc8bd08255992",
+    "configs/gravity_xcop_pressure_development_v1.json": "7858bc401f60ca8fb64fcfe02b4a371abad423857772f89fd664bbfdcf05e3d0",
+    "scripts/run_gravity_xcop_pressure.py": "bd0bf1d2cc9d4a55fde93c389e31f8105db5c74cc7f7c978d103fd683e4e6d8e",
+    "src/invariant_gravity_extensions/__init__.py": "68bda97fad7e33c009c55fc92d51abaea6b596556c2907da9587e45c24714c81",
+    "src/invariant_gravity_extensions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/cli.py": "06a382c481a1347ee674a97ba8ffca562f2155e3ec94f86ca610699a6dce971e",
+    "src/invariant_gravity_extensions/cluster_pressure.py": "433bd14a5ad9371a5ee430c10686cf52146cacdf18d1d4c48cdaa1d5cf09a90c",
+    "src/invariant_gravity_extensions/dynamics.py": "a8c1a1d3847558fb8759624f495aead39654e48df2f03acc8dbd0edf7b38ecb4",
+    "src/invariant_gravity_extensions/external_quadrupole.py": "54d4435f2018d9e4425dbd380bd7f4e27ac76c404c6472c8b48795434f18e6d9",
+    "src/invariant_gravity_extensions/fields.py": "d10e634034e5274eebb0ad1ee5e8659b0300161da51f98ee1f42346701b5fb51",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/local_limits.py": "51d8d373a543f4b44ff60ccaf4c2c2af661c77c8a6aa805df47a830186492ba5",
+    "src/invariant_gravity_extensions/observables.py": "7402b5549360455b9af815a72853f8c577ebdae68e1b5ff2254d1a0edb9fdd4d",
+    "src/invariant_gravity_extensions/policy.py": "c59e5174e0026f43b3dc16688141c7a2e494877195a2da0a0c1e087d17e9cb4c",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "work/gravity-first-principles/external-quadrupole-002/result.json": "e10b1f4e00bad3a932188976f156b144ac2471ba54ba2e0e66375b396a8824c1",
+    "work/gravity-first-principles/xcop-covariance-acquisition-001.json": "81ad9fbb10e8917b7efcbdc9cba3c9b8460f1f2f6d7d86cf3ecdf878c6a22fa7"
+  },
+  "numpy": "2.2.6",
+  "python": "3.13.5",
+  "scipy": "1.16.1",
+  "source_hashes_authoritative": true,
+  "started_utc": "2026-09-05T02:08:33.125844+00:00"
+}
