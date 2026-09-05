@@ -1,4 +1,4 @@
-"""Frozen same-constant cluster transfer of the 54 length-action local cards."""
+"""Frozen same-constant cluster transfer of registered length-action cards."""
 from __future__ import annotations
 
 import argparse
@@ -90,8 +90,10 @@ def campaign(config, write):
         if {key: value for key, value in card.items() if key != 'id'} != expected:
             raise ValueError('Local action card changed')
         models.append({**card, 'family': 'length_screening', 'prior_local_status': row['status']})
-    if len(models) != 56:
-        raise ValueError('All 54 cards and two comparators required')
+    expected_cards = config.get('expected_formula_cards', 54)
+    if (type(expected_cards) is not int or expected_cards <= 0
+            or len(models) != expected_cards+2 or len({m['id'] for m in models}) != len(models)):
+        raise ValueError('All registered unique cards and two comparators required')
     inherited = json.loads((ROOT/config['inherited_scenario_config']).read_bytes())
     _, scenarios = definitions(inherited)
     for scenario in scenarios:
@@ -180,7 +182,7 @@ def campaign(config, write):
                               'maximum_mse_dex2': max(e['summary']['equal_cluster_mse_log10_ratio'] for e in subset)})
     return {'models': models, 'scenarios': scenarios, 'entries': entries, 'dispositions': dispositions,
             'numerical_controls': numerical, 'nominal_comparisons': comparisons, 'global_sensitivities': sensitivities,
-            'summary': {'formula_cards': 54, 'comparators': 2, 'clusters': 8, 'scenarios': len(scenarios),
+            'summary': {'formula_cards': expected_cards, 'comparators': 2, 'clusters': 8, 'scenarios': len(scenarios),
                         'profile_predictions': len(models)*len(scenarios)*len(packets),
                         'numerically_admitted_models': sum(d['numerically_admitted'] for d in dispositions),
                         'disposition_counts': dict(Counter(d['status'] for d in dispositions)),

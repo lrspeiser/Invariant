@@ -1,0 +1,71 @@
+{
+  "schema": "length-action-xcop-extended-development-1",
+  "registration": "Frozen before extended-length cluster pressure predictions. Transfer all 63 cards from the extended local scan, including all 45 new 100 pc--1 Mpc cards and 18 repeated controls. Preserve every development cluster, scenario, comparator and numerical threshold; no local-status filtering or object-specific parameter fits.",
+  "local_result": "work/gravity-first-principles/length-screening-extended-local-001/result.json",
+  "local_result_sha256": "b3e3853c993246575bfa4914c582d5aeb59d4ecb60cd6f62bfde592ddd2afe88",
+  "source_audit": "work/gravity-first-principles/xcop-smooth-source-002/result.json",
+  "source_audit_sha256": "490eba0a4d5860e698ce33c85e0681e102838de1f4242cc819cf0db585fda263",
+  "source_packet": "work/gravity-first-principles/xcop-pressure-002/source_preflight.json",
+  "source_packet_sha256": "8fccc6db5270a24d492abcdd9359407cffd3593bad44919012edbd826e3a0a82",
+  "inherited_scenario_config": "configs/gravity_xcop_pressure_development_v2.json",
+  "population": "Exactly the original eight development clusters, same 30 pressure targets and eight unscored boundary points; reserved clusters and new raw data are not read.",
+  "primary_source": {
+    "width": 0.0025,
+    "outer_factor": 2.0,
+    "outer_slope": "last"
+  },
+  "source_sensitivities_at_nominal_nuisance": [
+    {
+      "id": "source_width_0.005",
+      "width": 0.005,
+      "outer_factor": 2.0,
+      "outer_slope": "last"
+    },
+    {
+      "id": "source_width_0.01",
+      "width": 0.01,
+      "outer_factor": 2.0,
+      "outer_slope": "last"
+    },
+    {
+      "id": "source_outer_flat",
+      "width": 0.0025,
+      "outer_factor": 2.0,
+      "outer_slope": "flat"
+    },
+    {
+      "id": "source_outer_factor_3",
+      "width": 0.0025,
+      "outer_factor": 3.0,
+      "outer_slope": "last"
+    }
+  ],
+  "source_sensitivity_scope": "Wider reconstructions already exceed the primary 2 percent stellar fidelity limit for A85. Retain them as flagged sensitivity probes, never as acceptable fitted source alternatives. Outer closures are unmeasured source assumptions. No winning nuisance scenario is promoted.",
+  "source_control": {
+    "coarse_nodes": 16385,
+    "fine_nodes": 32769,
+    "maximum_gas_smoothing_shift_quoted_errors": 1.0,
+    "maximum_stellar_mass_fraction_change": 0.02,
+    "maximum_total_mass_error": 1e-06
+  },
+  "pressure_control": {
+    "coarse_nodes": 2049,
+    "fine_nodes": 4097,
+    "maximum_relative_pressure_change": 5e-05,
+    "scope": "Every model, cluster and global scenario. Separately refine source and pressure integration grids. Any unresolved case withholds all pressure scores for that card; never remove an object to obtain admission."
+  },
+  "pressure_mapping": "Integrate d[Pe/(1-f)]/dr=-mu*mp*ne*g with the same smoothed gas density used in the joint gravitational source; f=fout*r/ranchor. Full radial action variation includes the density-gradient term and both tangential Hessian components. No algebraic proxy for the length-dependent force.",
+  "response_interval": "From the first eligible target to the unscored measured boundary; retain all measured gas and stellar source knots inside that integration interval. This grid choice uses radii only.",
+  "comparators": [
+    "newtonian_baryons",
+    "empirical_RAR_a0_1.2e-10"
+  ],
+  "scoring": "Same equal-cluster mean squared log10 pressure ratio and three conditional covariance treatments as the preceding cluster study. Matched nuisance comparisons, object influence, symmetric trim and stellar-profile strata. Raw descriptive counts separate from quality-verified and uncertainty-resolved counterexamples.",
+  "claim_ceiling": "Quality-limited spherical development diagnostic. No family pruning, first-principles derivation, full Solar System pass, galaxy success, lensing or independent validation claim.",
+  "control_tests": [
+    "tests/test_gravity_smooth_spherical_source.py",
+    "tests/test_gravity_length_cluster_pressure.py"
+  ],
+  "predecessor": "configs/gravity_length_cluster_pressure_v1.json",
+  "expected_formula_cards": 63
+}
