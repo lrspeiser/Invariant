@@ -1,0 +1,37 @@
+{
+  "schema": "invariant-isolated-monopole-audit-1",
+  "access": "public_published_development_summaries_only_no_raw_or_sealed_data",
+  "a0_m_s2": [5e-11, 1.2e-10, 2e-10],
+  "a0_role": "illustrative universal scale sweep, not a fit or confidence interval",
+  "au_m": 149597870700,
+  "gm_sun_m3_s2": 1.32712440041279419e20,
+  "century_s": 3155760000,
+  "epsilon": 0.0001,
+  "quadrature_nodes": [64, 128],
+  "power_tail_exponents": [0.5, 1.0, 1.5, 2.0],
+  "power_tail_coefficient": 1.0,
+  "tail_scope": "asymptotic controls, not complete candidate actions or galaxy fits",
+  "candidate_config": "configs/gravity_extension_discovery_v1.json",
+  "planets": [
+    {"name": "Mercury", "a_au": 0.38709927, "e": 0.20563593, "interval_center_mas_cy": 0.4, "interval_halfwidth_mas_cy": 0.6},
+    {"name": "Venus", "a_au": 0.72333566, "e": 0.00677672, "interval_center_mas_cy": 0.2, "interval_halfwidth_mas_cy": 1.5},
+    {"name": "Earth-Moon barycenter", "a_au": 1.00000261, "e": 0.01671123, "interval_center_mas_cy": -0.2, "interval_halfwidth_mas_cy": 0.9},
+    {"name": "Mars", "a_au": 1.52371034, "e": 0.09339410, "interval_center_mas_cy": -0.04, "interval_halfwidth_mas_cy": 0.15},
+    {"name": "Jupiter", "a_au": 5.20288700, "e": 0.04838624, "interval_center_mas_cy": -41.0, "interval_halfwidth_mas_cy": 42.0},
+    {"name": "Saturn", "a_au": 9.53667594, "e": 0.05386179, "interval_center_mas_cy": 0.15, "interval_halfwidth_mas_cy": 0.65}
+  ],
+  "sources": [
+    {"id": "INPOP10a", "url": "https://arxiv.org/abs/1108.5546", "pdf_url": "https://arxiv.org/pdf/1108.5546", "pdf_sha256": "83fe373c9ec9244f441a22e5c590b066f71438200a84a84ad803d29d043de2d4", "location": "Table 5, printed page 7; interpretation in section 4.3", "version": "arXiv:1108.5546v1", "checked_utc_date": "2026-09-05", "visual_table_verified": true, "role": "published supplementary precession sensitivity intervals; postfit residual change below 5 percent; NOT Gaussian standard errors, NOT a candidate-specific likelihood, NOT the latest ephemeris"},
+    {"id": "JPL_ELEMENTS", "url": "https://ssd.jpl.nasa.gov/planets/approx_pos.html", "location": "Table 1 J2000 semimajor axes and eccentricities, approximate elements", "checked_utc_date": "2026-09-05", "role": "approximate orbit geometry for a diagnostic, not a precision ephemeris"},
+    {"id": "JPL_CONSTANTS", "url": "https://ssd.jpl.nasa.gov/astro_par.html", "location": "AU, Julian century and DE440 heliocentric gravitational constant", "checked_utc_date": "2026-09-05", "role": "units and gravitational parameter"},
+    {"id": "EXTERNAL_FIELD_CAVEAT", "url": "https://arxiv.org/abs/0906.4817", "role": "external-field quadrupole can remain even with fast high-acceleration interpolation; not calculated by this monopole diagnostic"},
+    {"id": "KNOWN_TRANSITION_CONSTRAINTS", "url": "https://arxiv.org/abs/1510.01369", "role": "prior combined galaxy and Cassini study; changing the transition is not itself a new gravity discovery"}
+  ],
+  "scope": {
+    "spherical_branch": "regular collinear auxiliary branch; no anomalous central integration mass",
+    "perturbation": "first-order radial Gauss average plus independent Binet integration for unregularized log tail",
+    "not_included": ["planet interactions", "galactic external field", "solar multipoles", "relativistic completion", "joint ephemeris refit", "ranging", "light propagation", "length-sensitive spherical solution"],
+    "confirmation": false,
+    "full_solar_system_pass_possible": false
+  }
+}
