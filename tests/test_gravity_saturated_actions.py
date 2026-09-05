@@ -75,6 +75,20 @@ def test_auxiliary_interaction_and_rotation_survive_saturation():
     np.testing.assert_allclose(rotated.physical, np.transpose(sol.physical, (2, 0, 1)), atol=1e-10)
 
 
+def test_auxiliary_interaction_has_exact_quadratic_amplitude_scaling():
+    grid = PeriodicGrid(13, 12)
+    xyz = grid.coordinates()
+    rho = np.exp(-np.sum((xyz/np.array([2, 1, .8])[:, None, None, None])**2, axis=0))
+    rho -= rho.mean()
+    base = solve_fields(grid, rho, SaturatedActionSpec("qumond", shape=1))
+    weak = solve_fields(grid, rho, SaturatedActionSpec("trimond_alignment", .25, 2, shape=1))
+    strong = solve_fields(grid, rho, SaturatedActionSpec("trimond_alignment", .75, 2, shape=1))
+    np.testing.assert_allclose(strong.auxiliary, 3*weak.auxiliary, rtol=2e-8, atol=2e-11)
+    expected = 9*(weak.acceleration-base.acceleration)
+    actual = strong.acceleration-base.acceleration
+    assert np.linalg.norm(actual-expected) / np.linalg.norm(actual) < 2e-7
+
+
 def test_solar_tail_is_small_but_does_not_authorize_complete_local_pass():
     orbit = Orbit(9.53667594 * 149597870700, .05386179, 1.32712440041279419e20)
     for shape in (.5, 1, 2):

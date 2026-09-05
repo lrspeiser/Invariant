@@ -1,0 +1,110 @@
+{
+  "schema": "invariant-saturated-action-campaign-1",
+  "access": {
+    "network": false,
+    "raw_observations": false,
+    "sealed_products": false
+  },
+  "grammar": {
+    "epsilon": 0.0001,
+    "shapes": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "mixing": [
+      0.75
+    ],
+    "beta": [
+      2.0
+    ],
+    "powers": [
+      1,
+      2
+    ]
+  },
+  "periodic_scene": {
+    "box_length": 12.0,
+    "grids": [
+      33,
+      65
+    ],
+    "mass_scales": [
+      0.2,
+      2.0,
+      20.0
+    ],
+    "components": [
+      {
+        "id": "central",
+        "mass": 10.0,
+        "centre": [
+          0,
+          0,
+          0
+        ],
+        "widths": [
+          1.6,
+          0.9,
+          0.6
+        ]
+      },
+      {
+        "id": "gas",
+        "mass": 30.0,
+        "centre": [
+          0,
+          0,
+          0
+        ],
+        "widths": [
+          2.4,
+          2.4,
+          2.4
+        ]
+      },
+      {
+        "id": "member-a",
+        "mass": 2.0,
+        "centre": [
+          1.7,
+          1.0,
+          0.5
+        ],
+        "widths": [
+          0.7,
+          0.8,
+          0.6
+        ]
+      },
+      {
+        "id": "member-b",
+        "mass": 3.0,
+        "centre": [
+          -1.5,
+          -1.5,
+          -0.6
+        ],
+        "widths": [
+          0.9,
+          0.7,
+          0.6
+        ]
+      }
+    ],
+    "source_convention": "periodic wrapped Gaussians normalized to component masses; explicitly subtract homogeneous background",
+    "units": "synthetic a0=1 and 4piG=1; no mapping to an observed cluster"
+  },
+  "solver": {
+    "tolerance": 1e-09,
+    "maxiter": 1000
+  },
+  "local_reference": "configs/gravity_local_limit_audit_v1.json",
+  "scope": "new action ansatz and synthetic field predictions; no galaxy fit, isolated cluster solution, covariant light law, global stability proof or discovery",
+  "predecessors": [
+    "configs/gravity_extension_discovery_v1.json",
+    "work/gravity-first-principles/local-limit-002/receipt.json",
+    "work/gravity-first-principles/saturated-actions-001/receipt.json"
+  ],
+  "purpose": "Numerical follow-up of strongest original auxiliary interactions; same sources and physical parameter values, no response-based refit"
+}

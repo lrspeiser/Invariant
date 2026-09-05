@@ -130,6 +130,7 @@ def main():
     parser.add_argument("--config", type=Path, default=ROOT/"configs/gravity_saturated_actions_v1.json")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    args.config = args.config.resolve()
     args.output.mkdir(parents=True, exist_ok=False)
 
     def write(name, value):
@@ -147,7 +148,8 @@ def main():
             return {p.relative_to(ROOT).as_posix() if p.is_relative_to(ROOT) else str(p): sha256(p.read_bytes()).hexdigest() for p in paths}
 
         before = hashes()
-        if sha256(config_bytes).hexdigest() != before[args.config.relative_to(ROOT).as_posix()]:
+        config_key = args.config.relative_to(ROOT).as_posix() if args.config.is_relative_to(ROOT) else str(args.config)
+        if sha256(config_bytes).hexdigest() != before[config_key]:
             raise RuntimeError("config changed before run")
         write("started.json", {"input_hashes": before})
         result = run(config, json.loads(local_path.read_bytes()), args.output)
