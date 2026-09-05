@@ -1,0 +1,150 @@
+{
+  "config": {
+    "a0_m_s2": [
+      5e-11,
+      1.2e-10,
+      2e-10
+    ],
+    "background": "psi=-1/r-eta_N*z; grad chi infinity=s(eta_N^2)*grad psi infinity; collinear Galactic boundary is an assumption, not a measured Galactic field reconstruction",
+    "controls": {
+      "max_auxiliary_boundary_Q2_error": 2e-05,
+      "max_auxiliary_refinement_Q2_error": 2e-05,
+      "max_auxiliary_surface_Q2": 2e-05,
+      "max_beta_zero_relative_field_disagreement": 0.0001,
+      "max_manufactured_absolute_Q2_error": 1e-05,
+      "max_manufactured_relative_field_error": 1e-05,
+      "max_scalar_absolute_Q2_disagreement": 2e-06,
+      "max_scaling_relative_disagreement": 1e-08
+    },
+    "failure_rule": "Retain every unresolved numerical control. No empirical classification may be made for a row whose declared numerical gates fail.",
+    "grammar": {
+      "beta": [
+        0.0,
+        0.5,
+        2.0
+      ],
+      "epsilon": 0.0001,
+      "mixing": [
+        0.25,
+        0.75
+      ],
+      "powers": [
+        1,
+        2
+      ],
+      "shapes": [
+        0.5,
+        1.0,
+        2.0
+      ]
+    },
+    "grids": [
+      {
+        "angular_nodes": 64,
+        "l_max": 24,
+        "r_max": 100.0,
+        "r_min": 0.0001,
+        "radial_nodes": 513
+      },
+      {
+        "angular_nodes": 128,
+        "l_max": 48,
+        "r_max": 100.0,
+        "r_min": 0.0001,
+        "radial_nodes": 1025
+      },
+      {
+        "angular_nodes": 160,
+        "l_max": 64,
+        "r_max": 200.0,
+        "r_min": 5e-05,
+        "radial_nodes": 1153
+      }
+    ],
+    "historical_summary_config": "configs/gravity_external_quadrupole_v1.json",
+    "physical_external_m_s2": [
+      1.9e-10,
+      2.4e-10
+    ],
+    "probes_R_z": [
+      [
+        0.05,
+        0.02
+      ],
+      [
+        0.2,
+        -0.1
+      ],
+      [
+        0.7,
+        0.3
+      ],
+      [
+        1.2,
+        -0.4
+      ],
+      [
+        2.0,
+        0.7
+      ],
+      [
+        4.0,
+        -1.0
+      ]
+    ],
+    "registration": "Freeze before auxiliary results; scalar predecessors and Cassini summary already exposed. Not independent confirmation.",
+    "scalar_predecessor": "work/gravity-first-principles/external-quadrupole-002/result.json",
+    "schema": 1,
+    "scope": "THEORY_BENCHMARK_ONLY until independent numerical controls pass; conditional historical published-summary diagnostic thereafter",
+    "scope_exclusions": [
+      "self-consistent Galaxy",
+      "finite-radius local multipoles beyond leading quadrupole",
+      "joint ephemeris refit",
+      "relativistic matter/photon coupling",
+      "galaxy or cluster validation",
+      "discovery or whole-family falsification"
+    ],
+    "solver": {
+      "max_iterations": 100,
+      "tolerance": 1e-09
+    },
+    "theory_controls": {
+      "beta": 2.0,
+      "eta_newtonian": 1.4,
+      "mixing": 1.0,
+      "power": 1
+    },
+    "units": "GM=a0=1; radius in sqrt(GM/a0); physical Q2=dimensionless_Q2*a0^(3/2)/sqrt(GM)"
+  },
+  "controls_only": false,
+  "git_revision": "3d7231ff68ef73b30b6b30c88a006de85c70dd72",
+  "input_hashes": {
+    "configs/gravity_external_quadrupole_v1.json": "46b07cbfe419861ed2461bba1b9c11fde217bea3d12d6dfc98a1a37ec28e2f35",
+    "configs/gravity_multifield_external_v1.json": "03875d7943cec53c4dc0a5fa0386836c13b65c3cb97f06d90fa46e88e70491c8",
+    "scripts/run_gravity_multifield_external.py": "7c6e225d522ed56d6e17a3b9c57a680924917e68893503b5ab0bfcd5d5f33fd1",
+    "src/invariant_gravity_extensions/__init__.py": "68bda97fad7e33c009c55fc92d51abaea6b596556c2907da9587e45c24714c81",
+    "src/invariant_gravity_extensions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/cli.py": "06a382c481a1347ee674a97ba8ffca562f2155e3ec94f86ca610699a6dce971e",
+    "src/invariant_gravity_extensions/cluster_pressure.py": "d1a5b96f7183b6b3810702cda3626f13c85fe61f67b42be5eef50a0bc18fbb1f",
+    "src/invariant_gravity_extensions/coherent_momentum.py": "fdf4fe72ce0d64e07b02411c4a9feaae478c783aaf4dcffae4de9f327cfdc713",
+    "src/invariant_gravity_extensions/dynamics.py": "a8c1a1d3847558fb8759624f495aead39654e48df2f03acc8dbd0edf7b38ecb4",
+    "src/invariant_gravity_extensions/external_multifield.py": "5fdd051e54fba639f4c399916a7a3afba056570aafe53ba7c0addc7c2d9718d2",
+    "src/invariant_gravity_extensions/external_quadrupole.py": "54d4435f2018d9e4425dbd380bd7f4e27ac76c404c6472c8b48795434f18e6d9",
+    "src/invariant_gravity_extensions/fields.py": "d10e634034e5274eebb0ad1ee5e8659b0300161da51f98ee1f42346701b5fb51",
+    "src/invariant_gravity_extensions/galaxy_development.py": "648a3e215a4bda2a3c0012563c1f1acbcb112cdaa452adb1876a988bf985c8ec",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/local_limits.py": "51d8d373a543f4b44ff60ccaf4c2c2af661c77c8a6aa805df47a830186492ba5",
+    "src/invariant_gravity_extensions/observables.py": "7402b5549360455b9af815a72853f8c577ebdae68e1b5ff2254d1a0edb9fdd4d",
+    "src/invariant_gravity_extensions/policy.py": "c59e5174e0026f43b3dc16688141c7a2e494877195a2da0a0c1e087d17e9cb4c",
+    "src/invariant_gravity_extensions/reconstructed_axisymmetric.py": "4916d14ee06e412fa7b1168e4b6d126dc5eb28762c1a2e355a08dea5a59be3dd",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "work/gravity-first-principles/external-quadrupole-002/result.json": "e10b1f4e00bad3a932188976f156b144ac2471ba54ba2e0e66375b396a8824c1"
+  },
+  "numpy": "2.2.6",
+  "python": "3.13.5",
+  "raw_observations_accessed": false,
+  "scipy": "1.16.1",
+  "started_utc": "2026-09-05T03:14:36.087119+00:00",
+  "thread_workers": 3
+}

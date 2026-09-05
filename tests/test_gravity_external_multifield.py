@@ -4,6 +4,7 @@ import pytest
 
 from invariant_gravity_extensions.external_multifield import (
     FluxPoissonSolver,
+    auxiliary_anisotropy,
     beta_zero_source,
     physical_auxiliary_flux,
     solve_external_auxiliary,
@@ -92,3 +93,22 @@ def test_explicit_unsupported_and_nonconvergence_errors():
         solve_external_auxiliary(solver(), 1, 1, 3, 1)
     with pytest.raises(RuntimeError):
         solve_external_auxiliary(solver(), 1.4, 1, 2, 1, max_iterations=2)
+
+
+def test_returned_iterate_satisfies_fixed_point_equation():
+    s = solver()
+    a = solve_external_auxiliary(s, 1.4, 1, 2, 1)
+    coupling = 1/(1+(a.p*a.p).sum(axis=0))
+    rhs = coupling*a.p-a.background_q-auxiliary_anisotropy(a.p, a.q, 2)
+    equation_q = a.background_q+s.gradient(s.solve(rhs))
+    assert s.energy_norm(equation_q-a.q)/s.energy_norm(a.q-a.background_q) < 1e-9
+    assert np.max(np.linalg.norm(equation_q-a.q, axis=0)) < 1e-9
+
+
+def test_spherical_auxiliary_branch_gives_zero_physical_correction():
+    s = solver()
+    a = solve_external_auxiliary(s, 0, .75, 2, 1)
+    expected = .75/(1+(a.p*a.p).sum(axis=0))*a.p
+    assert np.max(abs(a.q-expected)) < 1e-12
+    flux = physical_auxiliary_flux(a.p, a.q, .75, 2, 1)
+    assert abs(s.quadrupole(flux)["Q2_volume"]) < 1e-12

@@ -45,7 +45,7 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 | Physical possibility | Present implementation | Next discriminating work |
 |---|---|---|
 | Local scalar response | Regularized QUMOND, bounded successors, isolated axisymmetric adapter and eight-cluster pressure development | Observed galaxy reconstruction; resolve conditional cluster–local tension |
-| Additional scalar fields and cross-gradients | TRIMOND subclass | Nonspherical sources, independent solvers, joint member/cluster response |
+| Additional scalar fields and cross-gradients | TRIMOND subclass and validated conditional external-quadrupole solver | Observed nonspherical source transfer at the same global constants; joint member/cluster response |
 | Higher spatial derivatives or length scales | Generalized-QUMOND subclass | Boundary terms, resolution/regularizer convergence, stability |
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
 | Nonlocal paths and source connectivity | Sigma history imported; exact coherent-monopole base fails a new internal-force audit | Action-derived reaction terms, conserved causal kernels and partition-invariant source construction |
@@ -60,6 +60,28 @@ These categories organize an extensible search; neither this table nor the
 Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
+
+The [multi-field external-quadrupole scan](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-multifield-external-results.md)
+now replaces the previously unsupported local observable for 36 bounded TRIMOND
+cards. Independent analytic, source-integral and scalar-reference checks pass;
+324 auxiliary solves evaluate 216 fixed candidate/background combinations.
+All declared numerical gates pass. Seventy-two lower-a0 rows lie inside the
+historical Cassini summary screen and 144 higher-a0 rows outside it. Every
+auxiliary quadrupole coefficient is positive, so increasing coupling cannot
+lower the tested higher-a0 predictions. This remains a conditional leading
+quadrupole, not a full Solar System or cross-regime pass.
+
+Post-scan quadratic-scaling bounds leave lower-a0 absolute couplings up to
+3.19–3.71 for p=1 and 11.41–13.33 for p=2 across the declared kernels, when both
+assumed Galactic backgrounds must be compatible. These are diagnostic ranges,
+not fitted constants or confidence limits. Next: transfer the action to the
+already exposed observed galaxy source and test nonspherical response within a
+frozen range; retain all source/geometry scenarios and one universal coupling.
+The exact spherical cluster branch still has zero auxiliary correction.
+Evidence: `work/gravity-first-principles/multifield-external-002/result.json`,
+SHA-256 `3995286cc99cbc1bd1079758ebd418eab357e0459c61097b0583ffba08611e55`.
+The focused suite now has 156 passing tests. The Sigma measurement-source route
+and relativistic completion remain outstanding.
 
 The [Sigma history transfer and conservation audit](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-Sigma-history.md)
 adds 23 exact source snapshots, a registry of 128 historically scored formulas

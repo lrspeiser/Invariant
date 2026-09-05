@@ -1,7 +1,10 @@
-# Pending multi-field external-boundary derivation
+# Multi-field external-boundary derivation
 
-These are algebraic implementation notes, not a completed or validated solver.
-They preserve the current next step while incorporating the Sigma history.
+These notes preceded `external_multifield.py`. Its analytic controls and frozen
+216-row conditional quadrupole scan are now complete; see
+`GRAVITY_MULTIFIELD_EXTERNAL_RESULTS.md`. The derivation and boundary cautions
+remain relevant. Relativistic completion and transfer to observed nonspherical
+matter sources remain outstanding.
 
 Use a0=GM=1 and p=grad(psi)=rhat/r^2-eta_N*zhat for the idealized point mass
 in a constant Newtonian background. Define
@@ -53,14 +56,15 @@ After integration by parts with appropriate boundary terms, decaying inner
 and outer integrals have integrands r*(l*J_l-K_l) and
 r*((l+1)*J_l+K_l), respectively. The proposed potential coefficients are
 (I-O)/(2*l+1), with logarithmic derivative
-r*J_l-[(l+1)*I+l*O]/(2*l+1). This must be tested against an independently
-manufactured source before any physical use. Zero-extending flux outside a
+r*J_l-[(l+1)*I+l*O]/(2*l+1). Independent manufactured-source checks now pass
+in the accompanying implementation. Zero-extending flux outside a
 finite shell represents surface sources; this is not automatically the desired
 infinite-domain solution.
 
-Required first checks: manufactured potentials, beta=0 analytic auxiliary
+Completed first checks: manufactured potentials, beta=0 analytic auxiliary
 source, lambda sign/scaling and zero-coupling limits, constant-background and
 boundary refinement, independent flux/source quadrupole integrals, and known
-scalar normalization. No measurement has been scored with this proposal.
+scalar normalization. The historical Cassini summary has now been evaluated
+conditionally; no raw measurements or independent confirmation were opened.
 See the action framework in
 [Milgrom, Tripotential MOND](https://arxiv.org/abs/2305.19986).
