@@ -1,0 +1,159 @@
+{
+  "schema": "invariant-open-gravity-rg-things-heracles-s4g-model-lifted-3d-source-builder-1.0",
+  "package_id": "open-gravity-rg-things-heracles-s4g-model-lifted-3d-source-builder-v1",
+  "status": "RESPONSE_BLIND_FIVE_OBJECT_MODEL_LIFTED_2P5D_SOURCE_BUILDER",
+  "purpose": "Build response-independent model-lifted baryonic 3D source families for the five THINGS/HERACLES galaxies with direct public S4G P5 stellar maps and public S4G geometry.",
+  "admission_policy": {
+    "path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+    "sha256": "174e68e85872566d86d5007f152e75113ea3fb1b0a3d375c61d65db71be672e"
+  },
+  "source_acquisition_binding": {
+    "config_path": "configs/open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_source_acquisition_v1.json",
+    "config_raw_sha256": "a55b4ae9e262783f0622b59411fe23aaae4ec7ffa56184cc66dca257bde457c1",
+    "module_path": "src/sigma_theory_compiler/open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_source_acquisition_v1.py",
+    "module_raw_sha256": "e855540dfadac04d51543923ac7cc09c0b9c9de9cad778c3cac95792def7a4f6",
+    "test_path": "tests/test_open_gravity_refracted_gravity_things_heracles_sparc_3d_expansion_source_acquisition_v1.py",
+    "test_raw_sha256": "c80e8f8917b7ee07a96548f0af36ec057c8a5aa4728ade6f2c44e7db3df2f771",
+    "receipt_path": "runs/gravity/open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-source-acquisition-v1/receipt.json",
+    "receipt_raw_sha256": "d75575e1ecbb8e4081434e3879b3f2ca1d6170656ef104b353d01734d9c43fb5",
+    "receipt_content_sha256": "cdc063c777919de5d6af9a53e0f982f2a47b87de00fb60d5a33e150996e20d81"
+  },
+  "geometry_binding": {
+    "config_path": "configs/open_gravity_rg_s4g_geometry_source_v1.json",
+    "config_raw_sha256": "16bbe54ae9410a47fd1cb8109f07cdee578398ca8d147fa3e972ad9f0df9dbb3",
+    "module_path": "src/sigma_theory_compiler/open_gravity_rg_s4g_geometry_source_v1.py",
+    "module_raw_sha256": "972d7a345bb44ed366006f1d70c554316d69beccceb2a8eb8c4a1ce3fe283d56",
+    "test_path": "tests/test_open_gravity_rg_s4g_geometry_source_v1.py",
+    "test_raw_sha256": "46fd1fcb57a66a0e47fe7138078afc09de2e63c00cfde97540bfa406225b399e",
+    "receipt_path": "runs/gravity/open-gravity-rg-s4g-geometry-source-v1/receipt.json",
+    "receipt_raw_sha256": "e5cf8e49861419dabde4490974b64ac1667656e69659d81cafc17d17a0138f3f",
+    "receipt_content_sha256": "e191b1f72842373616a510b61de0040e332b31d1d4eadd78f1d813c64c321136"
+  },
+  "operator_benchmark_binding": {
+    "config_path": "configs/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.json",
+    "config_raw_sha256": "9360749f561fbe783d7a21d1b179ab947fa2f29214bb4425495dddd3f7465ede",
+    "module_path": "src/sigma_theory_compiler/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py",
+    "module_raw_sha256": "32c92d615c302426738ea8374657448f14861eee9ea117fcf2059fa9f41bda1c",
+    "test_path": "tests/test_open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py",
+    "test_raw_sha256": "a90f1c45575320c85a751e41ebe26381ca2caa25953a4bf4d156de3f1b15afbb",
+    "receipt_path": "runs/gravity/open-gravity-phangs-things-model-lifted-3d-source-builder-v1/receipt.json",
+    "receipt_raw_sha256": "18c7d20b1ff7413edbd1b0b9277c53e6cbe4d9d05b4bcf55a8c70bc054f8ea82",
+    "receipt_content_sha256": "422df42eb1134620ee5941d5259ac9bc8fc156f3ee59f30cbdd19f98f8d0e004"
+  },
+  "objects": ["NGC2903", "NGC2976", "NGC3198", "NGC3521", "NGC4214"],
+  "source_inventory": {
+    "exact_file_count": 35,
+    "exact_source_bytes": 90449926,
+    "survey_role_counts": {"S4G_P5": 15, "THINGS": 10, "HERACLES": 10},
+    "required_roles": ["STELLAR_MASS_MAP", "STELLAR_ICA_MASK", "STELLAR_COLOR_MAP", "HI_MOM0_NATURAL", "HI_MOM0_ROBUST", "CO21_MOM0", "CO21_EMOM0"]
+  },
+  "map_transform": {
+    "primary_grid_pixels": 192,
+    "primary_box_kpc": 40.0,
+    "coarse_grid_pixels": 96,
+    "padded_grid_pixels": 384,
+    "padded_box_kpc": 80.0,
+    "interpolation_order": 1,
+    "mask_interpolation_order": 0,
+    "orientation_source": "public S4G Pipeline 4 outer-isophote geometry only; no velocity or response fit",
+    "s4g_sip_sensitivity_mode": "HEADER_SIP_ENABLED_DESPITE_MISSING_-SIP_CTYPE",
+    "s4g_native_fwhm_arcsec": 2.0,
+    "beam_policy": "convolve S4G stellar and HERACLES CO maps to selected THINGS major-axis FWHM; selected THINGS map remains publisher beam-smeared",
+    "ica_mask_rule": "mask==0 and finite stellar intensity is valid; nearest-neighbor inpaint before reprojection; negative intensity clips to zero",
+    "co_detection_rule": "retain finite positive HERACLES CO21 MOM0 only where MOM0>=3*EMOM0; otherwise source pixel is zero"
+  },
+  "mass_conversion": {
+    "stellar_lsun_pc2_per_mjy_sr": 704.04,
+    "stellar_ml_fixed": 0.6,
+    "stellar_ml_color_formula": "log10(Upsilon_3.6)=-0.339*([3.6]-[4.5])-0.336",
+    "stellar_color_valid_min_mag": -0.15,
+    "stellar_color_valid_max_mag": -0.02,
+    "stellar_color_fallback_ml": 0.6,
+    "hi_jybeam_mps_to_jybeam_kms": 0.001,
+    "hi_brightness_temperature_constant": 1222000.0,
+    "hi_column_per_k_kms_cm2": 1.823e18,
+    "hi_column_per_msun_pc2_cm2": 1.248e20,
+    "helium_factor": 1.36,
+    "co_alpha_co10_with_helium": 4.35,
+    "co_r21": 0.65,
+    "face_on_rule": "multiply optically thin projected surface densities by cos(inclination) after deprojection"
+  },
+  "vertical_and_gravity_model": {
+    "stellar_height_over_exponential_scale_cells": [0.1, 0.136986301369863, 0.2],
+    "gas_height_pc_cells": [100.0, 200.0, 400.0],
+    "vertical_profile": "rho=Sigma*sech^2(z/h)/(2h)",
+    "stellar_scale_rule": "R_d=R_half/1.678 from the central-geometry fixed-M/L face-on stellar map",
+    "newton_g_pc_kms2_msun": 0.00430091727003628,
+    "pc_m": 3.085677581491367e16,
+    "c_km_s": 299792.458,
+    "vertical_gauss_legendre_nodes": 48,
+    "pixel_softening_rule": "epsilon=dx/sqrt(pi)",
+    "isolated_convolution": "linear zero-padded two-dimensional FFT convolution with the declared vertically averaged kernel",
+    "radial_sample_count": 60,
+    "radial_min_kpc": 0.5,
+    "radial_max_kpc": 15.0,
+    "azimuth_sample_count": 64,
+    "nonaxisymmetric_modes": [1, 2, 3, 4],
+    "matched_acceleration_m_s2": 1.2e-10
+  },
+  "cell_contract": {
+    "central_geometry_intrinsic_q0": 0.13,
+    "primary_cartesian_axes": {
+      "beam": ["ROBUST_PRIMARY", "NATURAL_SENSITIVITY"],
+      "stellar_ml": ["FIXED_0P6", "COLOR_PUBLISHED_WITH_FALLBACK"],
+      "co_source": ["WITH_CO", "WITHOUT_CO"],
+      "stellar_height_ratio": [0.1, 0.136986301369863, 0.2],
+      "gas_height_pc": [100.0, 200.0, 400.0]
+    },
+    "primary_cartesian_cells_per_object": 72,
+    "geometry_controls_all_objects": ["Q0_0P0", "Q0_0P2"],
+    "uncertain_orientation_controls": ["PA_MINUS_1SIGMA", "PA_PLUS_1SIGMA", "ELL_MINUS_1SIGMA", "ELL_PLUS_1SIGMA"],
+    "numerical_controls": ["COARSE_96_PRIMARY_PHYSICS", "PADDED_384_PRIMARY_PHYSICS", "S4G_SIP_HEADER_SENSITIVITY_PRIMARY_PHYSICS"],
+    "reliable_object_cells": 77,
+    "uncertain_object_cells": 81,
+    "total_cells": 393,
+    "response_based_cell_selection": false,
+    "retain_every_failure": true
+  },
+  "published_anchor_contract": {
+    "measurement_sources": [
+      {"id": "S4G_P5_STELLAR", "paper_url": "https://arxiv.org/abs/1410.0009", "data_role": "ICA-cleaned old-stellar 3.6 micron maps, masks, and colors"},
+      {"id": "S4G_GEOMETRY", "paper_url": "https://ui.adsabs.harvard.edu/abs/2015ApJS..219....4S/abstract", "data_role": "public outer-disk centers, position angles, ellipticities, errors, and flags"},
+      {"id": "THINGS_HI", "paper_url": "https://arxiv.org/abs/0810.2125", "data_role": "public robust and natural integrated-HI maps and beams"},
+      {"id": "HERACLES_CO21", "paper_url": "https://arxiv.org/abs/0905.4742", "data_role": "public CO(2-1) moment and error maps"}
+    ],
+    "independent_benchmarks": [
+      {"id": "FREEMAN_EXPONENTIAL_DISK", "paper_url": "https://articles.adsabs.harvard.edu/pdf/1970ApJ...160..811F", "test": "thin exponential-disk Bessel circular-force solution"},
+      {"id": "CASERTANO_FINITE_THICKNESS", "paper_url": "https://doi.org/10.1093/mnras/203.3.735", "test": "finite thickness suppresses the inner and peak disk force"},
+      {"id": "POINT_MASS_AND_SECH2", "paper_url": null, "test": "analytic far-field point mass and exact sech2 vertical normalization"}
+    ],
+    "mandatory_before_response": ["exact source byte and schema validation", "public geometry byte and record validation", "sech2 normalization", "point-mass far field", "Freeman disk", "finite-thickness ordering", "source mass and beam sanity", "coarse and padded convergence"],
+    "failure_policy": "Any failed source, paper-derived, analytic, or convergence benchmark blocks response scoring and is retained."
+  },
+  "private_profile_output_path": "work/private/open-gravity-rg-things-heracles-s4g-model-lifted-3d-source-builder-v1/profiles.json",
+  "scientific_boundary": {
+    "source_files_opened": 35,
+    "source_bytes_opened": 90449926,
+    "response_or_velocity_files_opened": 0,
+    "response_rows_opened": 0,
+    "scores_computed": 0,
+    "models_fit": 0,
+    "selection_events": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "paid_calls": 0,
+    "observed_full_3d_geometry": false,
+    "model_lifted_2p5d_only": true
+  },
+  "claims": {
+    "five_real_source_sets_bound": true,
+    "model_lifted_source_profiles_derived": true,
+    "geometry_and_vertical_systematics_enumerated": true,
+    "observed_full_3d_sources": false,
+    "scientific_response_scored": false,
+    "refracted_gravity_supported": false,
+    "new_gravity_law_established": false,
+    "publication_ready": false
+  },
+  "output_path": "runs/gravity/open-gravity-rg-things-heracles-s4g-model-lifted-3d-source-builder-v1/receipt.json"
+}

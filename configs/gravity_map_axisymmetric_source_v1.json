@@ -1,0 +1,47 @@
+{
+  "schema": "invariant-map-axisymmetric-source-1",
+  "admission": "DATA_AND_PAPER_ADMITTED_CONDITIONAL_AXISYMMETRIC_LIFT",
+  "registration": "new source and numerical bridge declared before implementation or candidate response scoring; previously exposed development inputs, not pristine confirmation",
+  "object_id": "NGC3198",
+  "selection_reason": "available hash-verified S4G/THINGS/HERACLES maps and reliable photometric geometry, old Run A train and SPARC photometry exploration membership; source-selected single-object pilot, not population evidence",
+  "source_receipt": "runs/gravity/open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-source-acquisition-v1/receipt.json",
+  "geometry_contract": "configs/open_gravity_rg_s4g_geometry_source_v1.json",
+  "source_builder_contract": "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json",
+  "source_builder_module": "src/sigma_theory_compiler/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py",
+  "split_contract": "work/gravitylab/configs/splits/runA_split.json",
+  "photometry_exploration_contract": "configs/sparc_surface_brightness_exploration_v1.json",
+  "source_roles": ["STELLAR_MASS_MAP", "STELLAR_ICA_MASK", "STELLAR_COLOR_MAP", "HI_MOM0_NATURAL", "HI_MOM0_ROBUST", "CO21_MOM0", "CO21_EMOM0"],
+  "geometry": {"distance_mpc": 13.987, "ra_deg": 154.97921, "dec_deg": 45.54977, "position_angle_deg": 33.6, "outer_ellipticity": 0.666, "intrinsic_q0": 0.13},
+  "map": {"box_kpc": 80.0, "pixels": 512, "coarse_pixels": 256, "annulus_width_kpc": 0.5, "source_radius_kpc": 36.0, "inner_core": "constant density inside first annulus midpoint", "outer_taper_width_kpc": 2.0, "source_radius_sensitivities_kpc": [24.0, 30.0], "primary_hi": "ROBUST_PRIMARY", "primary_stellar_mass_to_light": 0.6, "primary_co_r21": 0.65},
+  "source_assumptions": [
+    "axisymmetric azimuthal mean of observed maps; nonaxisymmetric structure is measured then discarded explicitly",
+    "sech-squared vertical density with stellar h=R_half/(1.678*7.3) and gas h=0.2 kpc, both uncertain",
+    "source conversion and mask inpainting use the separately hash-bound existing builder; its approximate face-on beam treatment is not an exact detector response",
+    "missing map samples become zero in this conditional reconstruction, never labelled measured empty space; coverage and aperture dependence must be reported",
+    "nonnegative PCHIP surface density and fixed cosine taper at the chosen aperture; no source fit to circular velocities"
+  ],
+  "units": {"length": "kpc", "speed": "km/s", "mass": "Msun", "G_kpc_kms2_msun": 0.00000430091727003628},
+  "probe_radii_kpc": [2.0, 4.0, 8.0, 12.0, 16.0, 20.0],
+  "multipole_grid": {"r_min": 0.0001, "r_max": 3000.0, "refinement": [{"radial_nodes": 1025, "angular_nodes": 192, "l_max": 48}, {"radial_nodes": 2049, "angular_nodes": 320, "l_max": 80}]},
+  "independent_controls": {
+    "miyamoto_nagai": "compare reconstructed potential, gradients and Hessian to exact analytic source; spherical and flattened cases",
+    "hessian_relative_RMS_max": 0.015,
+    "force_relative_RMS_max": 0.003,
+    "spherical_qumond_relative_force_max": 0.0001,
+    "freeman_disk": "thin exponential disk Bessel circular speed with finite-height sensitivity; maximum relative force error below 0.03 for h/Rd=0.02 at fixed radii",
+    "field_source_refinement_relative_force_max": 0.01,
+    "source_aperture_force_change_reported_not_assumed_small": true,
+    "failure_blocks_rotation_response_scoring": true
+  },
+  "candidate_followup": {"shapes": [0.5, 1.0, 2.0], "a0_m_s2": [5e-11, 1.2e-10, 2e-10], "epsilon": 0.0001, "same_global_parameters_as_cluster_and_local_audits": true},
+  "response_scope": {"velocity_columns_used_by_source_builder": false, "this_package_scores_rotation": false, "promotion_requires_separate_frozen_response_and_source_uncertainty_contract": true},
+  "primary_sources": [
+    {"url": "https://arxiv.org/abs/1410.0009", "role": "S4G old stellar maps, masks and 704.04 luminosity conversion, section 5"},
+    {"url": "https://arxiv.org/abs/0810.2125", "role": "THINGS integrated atomic gas maps and beams"},
+    {"url": "https://arxiv.org/abs/0905.4742", "role": "HERACLES integrated molecular gas maps; line conversion uncertainty"},
+    {"url": "https://ui.adsabs.harvard.edu/abs/2015ApJS..219....4S/abstract", "role": "S4G outer photometric geometry"},
+    {"url": "https://arxiv.org/abs/1606.09251", "role": "SPARC data context and existing development source membership"},
+    {"url": "https://articles.adsabs.harvard.edu/pdf/1970ApJ...160..811F", "role": "independent exponential-disk solution"}
+  ],
+  "claim_ceiling": "source and implementation bridge only; no observed 3D matter field, galaxy population validation, lensing closure, or discovered gravity law"
+}

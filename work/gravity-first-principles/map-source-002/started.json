@@ -1,0 +1,174 @@
+{
+  "config": {
+    "admission": "DATA_AND_PAPER_ADMITTED_CONDITIONAL_AXISYMMETRIC_LIFT",
+    "candidate_followup": {
+      "a0_m_s2": [
+        5e-11,
+        1.2e-10,
+        2e-10
+      ],
+      "epsilon": 0.0001,
+      "same_global_parameters_as_cluster_and_local_audits": true,
+      "shapes": [
+        0.5,
+        1.0,
+        2.0
+      ]
+    },
+    "claim_ceiling": "source and implementation bridge only; no observed 3D matter field, galaxy population validation, lensing closure, or discovered gravity law",
+    "geometry": {
+      "dec_deg": 45.54977,
+      "distance_mpc": 13.987,
+      "intrinsic_q0": 0.13,
+      "outer_ellipticity": 0.666,
+      "position_angle_deg": 33.6,
+      "ra_deg": 154.97921
+    },
+    "geometry_contract": "configs/open_gravity_rg_s4g_geometry_source_v1.json",
+    "independent_controls": {
+      "failure_blocks_rotation_response_scoring": true,
+      "field_source_refinement_relative_force_max": 0.01,
+      "force_relative_RMS_max": 0.003,
+      "freeman_disk": "thin exponential disk Bessel circular speed with finite-height sensitivity; maximum relative force error below 0.03 for h/Rd=0.02 at fixed radii",
+      "hessian_relative_RMS_max": 0.015,
+      "map_refinement_relative_force_max": 0.03,
+      "miyamoto_nagai": "compare reconstructed potential, gradients and Hessian to exact analytic source; spherical and flattened cases",
+      "monopole_flux_relative_mass_error_max": 0.003,
+      "source_aperture_force_change_reported_not_assumed_small": true,
+      "spherical_qumond_relative_force_max": 0.0001
+    },
+    "map": {
+      "annulus_width_kpc": 0.5,
+      "box_kpc": 80.0,
+      "coarse_pixels": 512,
+      "inner_core": "constant density inside first annulus midpoint",
+      "outer_taper_width_kpc": 2.0,
+      "pixels": 1024,
+      "primary_co_r21": 0.65,
+      "primary_hi": "ROBUST_PRIMARY",
+      "primary_stellar_mass_to_light": 0.6,
+      "source_radius_kpc": 36.0,
+      "source_radius_sensitivities_kpc": [
+        24.0,
+        30.0
+      ]
+    },
+    "multipole_grid": {
+      "r_max": 3000.0,
+      "r_min": 0.0001,
+      "refinement": [
+        {
+          "angular_nodes": 192,
+          "l_max": 48,
+          "radial_nodes": 1025
+        },
+        {
+          "angular_nodes": 320,
+          "l_max": 80,
+          "radial_nodes": 2049
+        }
+      ]
+    },
+    "object_id": "NGC3198",
+    "photometry_exploration_contract": "configs/sparc_surface_brightness_exploration_v1.json",
+    "predecessor_result": "work/gravity-first-principles/map-source-001/result.json",
+    "primary_sources": [
+      {
+        "role": "S4G old stellar maps, masks and 704.04 luminosity conversion, section 5",
+        "url": "https://arxiv.org/abs/1410.0009"
+      },
+      {
+        "role": "THINGS integrated atomic gas maps and beams",
+        "url": "https://arxiv.org/abs/0810.2125"
+      },
+      {
+        "role": "HERACLES integrated molecular gas maps; line conversion uncertainty",
+        "url": "https://arxiv.org/abs/0905.4742"
+      },
+      {
+        "role": "S4G outer photometric geometry",
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ApJS..219....4S/abstract"
+      },
+      {
+        "role": "SPARC data context and existing development source membership",
+        "url": "https://arxiv.org/abs/1606.09251"
+      },
+      {
+        "role": "independent exponential-disk solution",
+        "url": "https://articles.adsabs.harvard.edu/pdf/1970ApJ...160..811F"
+      }
+    ],
+    "probe_radii_kpc": [
+      2.0,
+      4.0,
+      8.0,
+      12.0,
+      16.0,
+      20.0
+    ],
+    "registration": "new source and numerical bridge declared before implementation or candidate response scoring; previously exposed development inputs, not pristine confirmation; v2 numerical source refinement declared after v1 map/source diagnostics; no rotation response scored or used in repair",
+    "response_scope": {
+      "promotion_requires_separate_frozen_response_and_source_uncertainty_contract": true,
+      "this_package_scores_rotation": false,
+      "velocity_columns_used_by_source_builder": false
+    },
+    "schema": "invariant-map-axisymmetric-source-2",
+    "selection_reason": "available hash-verified S4G/THINGS/HERACLES maps and reliable photometric geometry, old Run A train and SPARC photometry exploration membership; source-selected single-object pilot, not population evidence",
+    "source_assumptions": [
+      "axisymmetric azimuthal mean of observed maps; nonaxisymmetric structure is measured then discarded explicitly",
+      "sech-squared vertical density with stellar h=R_half/(1.678*7.3) and gas h=0.2 kpc, both uncertain",
+      "source conversion and mask inpainting use the separately hash-bound existing builder; its approximate face-on beam treatment is not an exact detector response",
+      "missing map samples become zero in this conditional reconstruction, never labelled measured empty space; coverage and aperture dependence must be reported",
+      "nonnegative PCHIP surface density and fixed cosine taper at the chosen aperture; no source fit to circular velocities"
+    ],
+    "source_builder_contract": "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json",
+    "source_builder_module": "src/sigma_theory_compiler/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py",
+    "source_receipt": "runs/gravity/open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-source-acquisition-v1/receipt.json",
+    "source_roles": [
+      "STELLAR_MASS_MAP",
+      "STELLAR_ICA_MASK",
+      "STELLAR_COLOR_MAP",
+      "HI_MOM0_NATURAL",
+      "HI_MOM0_ROBUST",
+      "CO21_MOM0",
+      "CO21_EMOM0"
+    ],
+    "split_contract": "work/gravitylab/configs/splits/runA_split.json",
+    "units": {
+      "G_kpc_kms2_msun": 4.30091727003628e-06,
+      "length": "kpc",
+      "mass": "Msun",
+      "speed": "km/s"
+    }
+  },
+  "exact_runtime_input_snapshots_preserved": true,
+  "git_revision": "dc3741ae24e783fddcbb0d0e2b5a4558f282adc9",
+  "input_hashes": {
+    "configs/gravity_map_axisymmetric_source_v2.json": "98643a48477446adaa5f69ed803fd963ec9adce3378b6fcdca4404821be3e7f1",
+    "configs/open_gravity_rg_s4g_geometry_source_v1.json": "6a4998ee1fb21f2d391ef2ea0f72a7bb1e8703b3db60c25d9639e5ad48befe6c",
+    "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json": "69679616855c38631561ed5d9c241e68b489c5fafbcc0f7cf695e12aad3c5cd2",
+    "configs/sparc_surface_brightness_exploration_v1.json": "b2661b94a4d71cbe4b747968c069b452f762ddad83b8edcb793d6e6cca5e262f",
+    "runs/gravity/open-gravity-refracted-gravity-things-heracles-sparc-3d-expansion-source-acquisition-v1/receipt.json": "3a10217520923094f3c84ac9dd4bd98f3ce4e6b64486553424aa94d594a75721",
+    "scripts/run_gravity_map_source.py": "b6f8bdc87e62a1df0e642a5ace95c907ff1103fe46c199375392684c2bb4cc8c",
+    "src/invariant_gravity_extensions/__init__.py": "68bda97fad7e33c009c55fc92d51abaea6b596556c2907da9587e45c24714c81",
+    "src/invariant_gravity_extensions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/cli.py": "06a382c481a1347ee674a97ba8ffca562f2155e3ec94f86ca610699a6dce971e",
+    "src/invariant_gravity_extensions/cluster_pressure.py": "d1a5b96f7183b6b3810702cda3626f13c85fe61f67b42be5eef50a0bc18fbb1f",
+    "src/invariant_gravity_extensions/dynamics.py": "a8c1a1d3847558fb8759624f495aead39654e48df2f03acc8dbd0edf7b38ecb4",
+    "src/invariant_gravity_extensions/external_quadrupole.py": "54d4435f2018d9e4425dbd380bd7f4e27ac76c404c6472c8b48795434f18e6d9",
+    "src/invariant_gravity_extensions/fields.py": "d10e634034e5274eebb0ad1ee5e8659b0300161da51f98ee1f42346701b5fb51",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/local_limits.py": "51d8d373a543f4b44ff60ccaf4c2c2af661c77c8a6aa805df47a830186492ba5",
+    "src/invariant_gravity_extensions/observables.py": "7402b5549360455b9af815a72853f8c577ebdae68e1b5ff2254d1a0edb9fdd4d",
+    "src/invariant_gravity_extensions/policy.py": "c59e5174e0026f43b3dc16688141c7a2e494877195a2da0a0c1e087d17e9cb4c",
+    "src/invariant_gravity_extensions/reconstructed_axisymmetric.py": "4916d14ee06e412fa7b1168e4b6d126dc5eb28762c1a2e355a08dea5a59be3dd",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "src/sigma_theory_compiler/open_gravity_phangs_things_model_lifted_3d_source_builder_v1.py": "ee107b7ae1d0ea778e4e60f0618f0a39ba5eed76b16df347d4ddee3197a3812b",
+    "work/gravitylab/configs/splits/runA_split.json": "e5f74522d2a4178d39aababc5042c7fc3ed1fe58241c1ef38f8b78ff2dbe9dc8"
+  },
+  "numpy": "2.2.6",
+  "python": "3.13.5",
+  "scipy": "1.16.1",
+  "started_utc": "2026-09-05T02:28:26.351306+00:00"
+}
