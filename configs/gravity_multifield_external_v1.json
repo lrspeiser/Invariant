@@ -1,0 +1,32 @@
+{
+  "schema":1,
+  "scope":"THEORY_BENCHMARK_ONLY until independent numerical controls pass; conditional historical published-summary diagnostic thereafter",
+  "registration":"Freeze before auxiliary results; scalar predecessors and Cassini summary already exposed. Not independent confirmation.",
+  "units":"GM=a0=1; radius in sqrt(GM/a0); physical Q2=dimensionless_Q2*a0^(3/2)/sqrt(GM)",
+  "background":"psi=-1/r-eta_N*z; grad chi infinity=s(eta_N^2)*grad psi infinity; collinear Galactic boundary is an assumption, not a measured Galactic field reconstruction",
+  "grammar":{"shapes":[0.5,1.0,2.0],"mixing":[0.25,0.75],"beta":[0.0,0.5,2.0],"powers":[1,2],"epsilon":0.0001},
+  "a0_m_s2":[5e-11,1.2e-10,2e-10],
+  "physical_external_m_s2":[1.9e-10,2.4e-10],
+  "scalar_predecessor":"work/gravity-first-principles/external-quadrupole-002/result.json",
+  "historical_summary_config":"configs/gravity_external_quadrupole_v1.json",
+  "grids":[
+    {"r_min":0.0001,"r_max":100.0,"radial_nodes":513,"angular_nodes":64,"l_max":24},
+    {"r_min":0.0001,"r_max":100.0,"radial_nodes":1025,"angular_nodes":128,"l_max":48},
+    {"r_min":0.00005,"r_max":200.0,"radial_nodes":1153,"angular_nodes":160,"l_max":64}
+  ],
+  "solver":{"tolerance":1e-9,"max_iterations":100},
+  "controls":{
+    "max_manufactured_relative_field_error":0.00001,
+    "max_manufactured_absolute_Q2_error":0.00001,
+    "max_beta_zero_relative_field_disagreement":0.0001,
+    "max_scalar_absolute_Q2_disagreement":0.000002,
+    "max_scaling_relative_disagreement":0.00000001,
+    "max_auxiliary_refinement_Q2_error":0.00002,
+    "max_auxiliary_boundary_Q2_error":0.00002,
+    "max_auxiliary_surface_Q2":0.00002
+  },
+  "probes_R_z":[[0.05,0.02],[0.2,-0.1],[0.7,0.3],[1.2,-0.4],[2.0,0.7],[4.0,-1.0]],
+  "theory_controls":{"eta_newtonian":1.4,"power":1,"mixing":1.0,"beta":2.0},
+  "scope_exclusions":["self-consistent Galaxy","finite-radius local multipoles beyond leading quadrupole","joint ephemeris refit","relativistic matter/photon coupling","galaxy or cluster validation","discovery or whole-family falsification"],
+  "failure_rule":"Retain every unresolved numerical control. No empirical classification may be made for a row whose declared numerical gates fail."
+}
