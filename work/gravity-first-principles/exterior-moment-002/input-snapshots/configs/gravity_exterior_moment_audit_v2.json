@@ -1,0 +1,186 @@
+{
+  "schema": "independent-exterior-moment-audit-2",
+  "registration": "After potential-join-001 failed third-derivative and density-gradient targets in the far empty region. Test a distinct numerical representation with 128 moments and exterior admission from 60 kpc; keep all derivative tolerances unchanged. Registration precedes the new moments and direct-source evaluation. The failed 80--120 kpc join remains retained and is not reclassified.",
+  "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+  "source_result": "work/gravity-first-principles/map-source-003/result.json",
+  "source_result_sha256": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+  "predecessor_result": "work/gravity-first-principles/hankel-offplane-001/result.json",
+  "predecessor_result_sha256": "1df5c6356c2f50d079fd29ef826d46cfc86daee3fff506bb51de66ce1b540b52",
+  "variants": [
+    {
+      "id": "primary"
+    },
+    {
+      "height_factor": 0.5,
+      "id": "height_half"
+    }
+  ],
+  "canonical_minimum_radius_kpc": 60.0,
+  "shell_radii_kpc": [
+    45.0,
+    50.0,
+    55.0,
+    60.0,
+    70.0,
+    80.0,
+    120.0,
+    250.0,
+    1000.0,
+    6000.0
+  ],
+  "shell_mu": [
+    -1.0,
+    -0.95,
+    -0.75,
+    -0.5,
+    -0.1,
+    0.0,
+    0.1,
+    0.5,
+    0.75,
+    0.95,
+    1.0
+  ],
+  "multipole_orders": [
+    32,
+    64,
+    96,
+    128
+  ],
+  "moment_cases": [
+    {
+      "id": "reference",
+      "radial_nodes": 128,
+      "vertical_nodes": 32,
+      "vertical_extent": 24.0
+    },
+    {
+      "id": "radial_coarse",
+      "radial_nodes": 64,
+      "vertical_nodes": 32,
+      "vertical_extent": 24.0
+    },
+    {
+      "id": "vertical_coarse",
+      "radial_nodes": 128,
+      "vertical_nodes": 16,
+      "vertical_extent": 24.0
+    },
+    {
+      "id": "shorter_tail",
+      "radial_nodes": 128,
+      "vertical_nodes": 32,
+      "vertical_extent": 16.0
+    },
+    {
+      "id": "longer_tail",
+      "radial_nodes": 128,
+      "vertical_nodes": 32,
+      "vertical_extent": 32.0
+    }
+  ],
+  "moment_scale_kpc": 36.0,
+  "vertical_interval": 0.5,
+  "compact_source_definition": "Integrate the physical positive sech-squared lift only within |z| <= U*h for the moments, without renormalizing it. This gives a bounded source for a convergent exterior expansion. The omitted physical vertical mass fraction is exactly 2*exp(-2U)/(1+exp(-2U)). Compare with an independent infinite-height spatial quadrature; the mass fraction alone is not a field-error bound.",
+  "direct_probes_R_z_kpc": [
+    [
+      50.0,
+      0.0
+    ],
+    [
+      60.0,
+      0.0
+    ],
+    [
+      80.0,
+      0.0
+    ],
+    [
+      40.0,
+      30.0
+    ],
+    [
+      48.0,
+      36.0
+    ],
+    [
+      64.0,
+      48.0
+    ],
+    [
+      0.0,
+      50.0
+    ],
+    [
+      0.0,
+      60.0
+    ],
+    [
+      0.0,
+      80.0
+    ]
+  ],
+  "direct_cases": [
+    {
+      "id": "reference",
+      "radial_nodes": 8,
+      "vertical_nodes": 64,
+      "azimuth_nodes": 64
+    },
+    {
+      "id": "radial_coarse",
+      "radial_nodes": 4,
+      "vertical_nodes": 64,
+      "azimuth_nodes": 64
+    },
+    {
+      "id": "vertical_coarse",
+      "radial_nodes": 8,
+      "vertical_nodes": 32,
+      "azimuth_nodes": 64
+    },
+    {
+      "id": "azimuth_coarse",
+      "radial_nodes": 8,
+      "vertical_nodes": 64,
+      "azimuth_nodes": 32
+    }
+  ],
+  "direct_method": "Cartesian 1/distance kernel and its first three derivatives, integrated with positive source weights. Every radial PCHIP/core/taper interval is separate. Gauss-Laguerre integrates both physical infinite-height halves with v=2|z|/h and weight exp(-v)/(1+exp(-v))^2. A periodic trapezoidal rule integrates azimuth. No multipole or Hankel kernel enters this reference.",
+  "hankel_overlap_R_z_kpc": [
+    [
+      30.0,
+      -32.0
+    ],
+    [
+      30.0,
+      32.0
+    ],
+    [
+      35.0,
+      -32.0
+    ],
+    [
+      35.0,
+      32.0
+    ]
+  ],
+  "numerical_targets": {
+    "maximum_moment_refinement_scaled_error": 1e-08,
+    "maximum_direct_force_scaled_change": 1e-07,
+    "maximum_direct_hessian_scaled_change": 1e-06,
+    "maximum_direct_third_tensor_scaled_change": 1e-05,
+    "maximum_cross_method_force_scaled_difference": 1e-07,
+    "maximum_cross_method_hessian_scaled_difference": 1e-06,
+    "maximum_cross_method_third_tensor_scaled_difference": 1e-05,
+    "maximum_order64_uniform_third_tail_bound": 1e-07,
+    "maximum_vacuum_identity_scaled_error": 1e-10
+  },
+  "normalizers": "All exterior comparisons use monopole units G*M/r, G*M/r^2, G*M/r^3, G*M/r^4 for potential and derivative orders zero through three, with the reference compact source M. Frobenius norms include the complete Cartesian tensor, not individual nonzero components only. All canonical points and both source variants must pass.",
+  "tail_bound": "For source support radius s<r, |M_l|<=M*s^l. Conservative Cartesian tensor norm bounds per mode are (l+3)^(2n), n=0..3. Sum every omitted mode, including zero odd modes, exactly as a rational polynomial-geometric series and round outward. This bounds ideal finite-series truncation only; finite-precision moments and physical source truncation are independently assessed. The legacy key maximum_order64_uniform_third_tail_bound is applied by the executor to the maximum configured order, here 128; its numeric tolerance remains 1e-7.",
+  "scope": "Exterior numerical source provider and mathematical truncation bound, not a full near/far matched potential, production interpolation, nonlinear action-flux solve, gravity rejection, or independent observational validation.",
+  "control_tests": [
+    "tests/test_gravity_exterior_moments.py",
+    "tests/test_gravity_direct_exterior.py"
+  ]
+}

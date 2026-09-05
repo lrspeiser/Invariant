@@ -1,0 +1,167 @@
+{
+  "schema": "C3-potential-join-audit-1",
+  "registration": "Fixed before this join audit. The exterior audit admitted r>=80 kpc. Join the near Hankel and far moment potentials between 80 and 120 kpc with a septic step whose first three derivatives vanish at both endpoints. This is numerical source work, with no new gravity-card, response, or reserved-data access.",
+  "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+  "source_result": "work/gravity-first-principles/map-source-003/result.json",
+  "input_files": {
+    "work/gravity-first-principles/map-source-003/source_profiles.json": "6e5e256ef60a725c87f8b07fd720beeab40c77b4e19aaf9b0dea5173f8588f39",
+    "work/gravity-first-principles/map-source-003/result.json": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+    "work/gravity-first-principles/exterior-moment-001/result.json": "744eeb06e59c38cbd0c7421092d81e98f813671db94c689c26c3eaa45c834a14",
+    "work/gravity-first-principles/hankel-midplane-001/transform_r128_k32.json": "e215fcee16320c4a60648b326af04157dcf6311739bd5e789edaf6bdcf184fde",
+    "work/gravity-first-principles/exterior-moment-001/moments_primary_reference.json": "da72a10f76b479265135384b51566b8ea21c8ef119fa5be4d3f3ba0d3899d2de",
+    "work/gravity-first-principles/exterior-moment-001/moments_height_half_reference.json": "0b011497e05e5335f5cbf48bb84df7bb60f17de7352d9471e3c16be5594ce646"
+  },
+  "variants": [
+    {
+      "id": "primary"
+    },
+    {
+      "height_factor": 0.5,
+      "id": "height_half"
+    }
+  ],
+  "moment_files": {
+    "primary": "work/gravity-first-principles/exterior-moment-001/moments_primary_reference.json",
+    "height_half": "work/gravity-first-principles/exterior-moment-001/moments_height_half_reference.json"
+  },
+  "inner_join_kpc": 80.0,
+  "outer_join_kpc": 120.0,
+  "cutoff": 400.0,
+  "radii_kpc": [
+    0.0,
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    4.0,
+    8.0,
+    12.0,
+    16.0,
+    20.0,
+    24.0,
+    30.0,
+    35.0,
+    50.0,
+    64.0,
+    80.0,
+    96.0,
+    110.0,
+    120.0
+  ],
+  "heights_kpc": [
+    -120.0,
+    -96.0,
+    -80.0,
+    -72.0,
+    -64.0,
+    -48.0,
+    -32.0,
+    -16.0,
+    -8.0,
+    -4.0,
+    -2.0,
+    -1.0,
+    -0.5,
+    -0.2,
+    -0.1,
+    -0.025,
+    0.0,
+    0.025,
+    0.1,
+    0.2,
+    0.5,
+    1.0,
+    2.0,
+    4.0,
+    8.0,
+    16.0,
+    32.0,
+    48.0,
+    64.0,
+    72.0,
+    80.0,
+    96.0,
+    120.0
+  ],
+  "transforms": [
+    {
+      "radial_nodes": 128,
+      "wavenumber_nodes": 64
+    },
+    {
+      "radial_nodes": 64,
+      "wavenumber_nodes": 64
+    },
+    {
+      "radial_nodes": 128,
+      "wavenumber_nodes": 32,
+      "path": "work/gravity-first-principles/hankel-midplane-001/transform_r128_k32.json"
+    }
+  ],
+  "cases": [
+    {
+      "id": "reference",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 64,
+      "cutoff": 400.0,
+      "vertical_intervals": 2400,
+      "vertical_extent": 24.0
+    },
+    {
+      "id": "radial_coarse",
+      "radial_nodes": 64,
+      "wavenumber_nodes": 64,
+      "cutoff": 400.0,
+      "vertical_intervals": 2400,
+      "vertical_extent": 24.0
+    },
+    {
+      "id": "wavenumber_coarse",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 32,
+      "cutoff": 400.0,
+      "vertical_intervals": 2400,
+      "vertical_extent": 24.0
+    },
+    {
+      "id": "cutoff_200",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 64,
+      "cutoff": 200.0,
+      "vertical_intervals": 2400,
+      "vertical_extent": 24.0
+    },
+    {
+      "id": "vertical_coarse",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 64,
+      "cutoff": 400.0,
+      "vertical_intervals": 1200,
+      "vertical_extent": 24.0
+    },
+    {
+      "id": "tail_extent",
+      "radial_nodes": 128,
+      "wavenumber_nodes": 64,
+      "cutoff": 400.0,
+      "vertical_intervals": 3200,
+      "vertical_extent": 32.0
+    }
+  ],
+  "control_tests": [
+    "tests/test_gravity_potential_join.py",
+    "tests/test_gravity_hankel_axisymmetric.py",
+    "tests/test_gravity_exterior_moments.py",
+    "tests/test_gravity_direct_exterior.py"
+  ],
+  "numerical_targets": {
+    "potential": 1e-06,
+    "force": 0.0001,
+    "hessian": 0.002,
+    "third": 0.01,
+    "density": 0.002,
+    "density_gradient": 0.01
+  },
+  "normalizers": "Same source-scaled near-field derivative and identity normalizers as off-plane audit 001. Evaluate all registered near points r<=120 kpc and all registered join points 80<=r<=120; no point is dropped after inspection. Potential cross difference uses GM/r. All source variants and all five one-factor refinements must pass. The physical density and its gradient are external checks, never imposed on field derivatives.",
+  "scope": "A finite-domain Newtonian source and matched-potential audit. It does not validate production interpolation or integration of the full modified action. Nonlinear solve, new regime predictions and scientific validation remain open."
+}

@@ -44,9 +44,9 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 
 | Physical possibility | Present implementation | Next discriminating work |
 |---|---|---|
-| Local scalar response | Regularized QUMOND, bounded successors, isolated axisymmetric adapter and eight-cluster pressure development | Observed galaxy reconstruction; resolve conditional cluster–local tension |
+| Local scalar response | Regularized QUMOND, bounded successors, isolated axisymmetric adapter and eight-cluster pressure development | Observed galaxy reconstruction; resolve conditional clusterâ€“local tension |
 | Additional scalar fields and cross-gradients | Conditional external quadrupole plus observed NGC3198 transfer: 72 numerically resolved cards, all worse than RAR; 9 unresolved | Retain source/field resolution failures; independent source/response audit; joint member/cluster response |
-| Higher spatial derivatives or length scales | Same 54 cards tested on local summaries, clusters and NGC3198; independent off-plane reference passes finite-grid derivative and source checks after exposing inherited errors | Establish full isolated source domain and nonlinear-flux solve before larger lengths; full local, dynamical and photon sectors |
+| Higher spatial derivatives or length scales | Same 54 cards tested on local summaries, clusters and NGC3198; off-plane and exterior references pass their finite numerical checks; first potential join fails and is retained | Audit the revised matched potential and full nonlinear-flux solve before larger lengths; full local, dynamical and photon sectors |
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
 | Nonlocal paths and source connectivity | Sigma history imported; exact coherent-monopole base fails a new internal-force audit | Action-derived reaction terms, conserved causal kernels and partition-invariant source construction |
 | History-dependent inertia or fields | Oscillator and wave controls only | Derive a candidate law; constrain initial state; orbit-frequency transfer |
@@ -60,6 +60,42 @@ These categories organize an extensible search; neither this table nor the
 Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
+
+The [exterior and potential-join audit](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-exterior-and-join-results.md)
+now provides independently checked exterior potentials and retains a failed
+first C3 join. Order 64 passes its registered exterior targets from 80 kpc;
+after the join failure, order 128 passes unchanged targets from 60 kpc. Both
+source thicknesses pass radial/vertical moment and direct spatial quadrature
+refinements. The largest order-128 ideal omitted-third-series bound at 60 kpc
+is 1.7542e-12 in monopole units; its direct comparison at canonical probes is
+within 7.7099e-13. Source-tail and quadrature limits remain separate from that
+uniform compact-source series bound.
+
+The first 80--120 kpc potential join fails: the maximum third-tensor refinement
+change is 0.054124, near-source-gradient identity error 0.051394 and joined
+source-gradient error 0.036513, against the unchanged 0.01 targets. All 545
+near-domain and 152 join points per thickness are retained. The worst near
+source-gradient error occurs at R=96 kpc, z=0; the worst cutoff refinement at
+R=120 kpc, z=0. Neither force agreement nor a smooth join alone establishes
+third-derivative accuracy. This is a numerical representation failure, not a
+physical gravity-family rejection.
+
+Independent verifiers check saved execution bytes, recombine stored moment
+integrals at 80-digit precision, and differentiate every registered exterior
+point. Symbolic controls verify all product-rule and Cartesian derivative
+terms of the joined potential, including a potential-zero mismatch witness.
+The focused suite now has 224 passing tests; lint passes. No new gravity cards,
+responses, reserved data, physical exclusions or confirmation tests were added.
+
+Next: test a new 60--80 kpc potential transition using the admitted order-128
+exterior provider and denser sampling across the source taper and join. Audit
+the actual assembled field everywhere; retain standalone-provider diagnostics
+separately when that provider has zero weight. Preserve all old failures and
+numerical tolerances. Validate a production representation derived from one C3
+potential, then the complete nonlinear action flux and its separate Poisson
+solve, before widening the universal length grid. The cross-regime discovery
+requirements, including matter/photon dynamics and direct outer stars, remain
+open. Current direction registry: `configs/gravity_sigma_directions_v9.json`.
 
 The [off-plane Newtonian reference](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-offplane-reference-results.md)
 now passes all five separate numerical refinements for both the nominal and
@@ -94,7 +130,7 @@ Evidence: `work/gravity-first-principles/hankel-offplane-001/result.json`, SHA-2
 `1df5c6356c2f50d079fd29ef826d46cfc86daee3fff506bb51de66ce1b540b52`, and
 `hankel-offplane-verification-001/result.json`, SHA-256
 `58c6cfe5f68217dade78c3b47160dfe41b7d783156e1e2b80bb1aa42e471e695`.
-Current direction registry: `configs/gravity_sigma_directions_v8.json`.
+Registry at that checkpoint: `configs/gravity_sigma_directions_v8.json`.
 
 The [source and derivative audit](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-source-derivative-results.md)
 now quantifies the inherited angular truncation and establishes an independent
@@ -135,7 +171,7 @@ the inclination-covariance diagnostic. At m=2, a0=1.2e-10 and length 1 pc,
 the three diagnostics improve in 66/99, 50/99 and 0/99 scenarios, respectively
 (random errors, 5 km/s floor, inclination covariance).
 
-The estimated length effects in this 0–10 pc grid are below numerical resolution.
+The estimated length effects in this 0â€“10 pc grid are below numerical resolution.
 More significantly, the finite angular source expansion still rings strongly:
 fine-grid nominal negative projected mass fraction is 20.1%, with 67.1% L1
 density error. Target-force convergence does not validate the full derivative
@@ -243,7 +279,7 @@ lower the tested higher-a0 predictions. This remains a conditional leading
 quadrupole, not a full Solar System or cross-regime pass.
 
 Post-scan quadratic-scaling bounds leave lower-a0 absolute couplings up to
-3.19–3.71 for p=1 and 11.41–13.33 for p=2 across the declared kernels, when both
+3.19â€“3.71 for p=1 and 11.41â€“13.33 for p=2 across the declared kernels, when both
 assumed Galactic backgrounds must be compatible. These are diagnostic ranges,
 not fitted constants or confidence limits. The observed galaxy transfer above
 now uses this frozen range and retains all source/geometry scenarios with one
@@ -312,8 +348,8 @@ multi-field external-boundary work.
 
 The [observed cluster-pressure development test](GRAVITY_XCOP_PRESSURE_2026_09_05.md)
 now evaluates nine scalar candidates and two comparators across eight previously
-exposed clusters and 21 shared nuisance scenarios. At a0=5e-11 m/s², nominal
-median predicted/observed pressure ratios are 0.566–0.635; these candidates have
+exposed clusters and 21 shared nuisance scenarios. At a0=5e-11 m/sÂ², nominal
+median predicted/observed pressure ratios are 0.566â€“0.635; these candidates have
 greater loss than the RAR comparator in every matched global scenario. Larger
 sampled scales improve pressure but exceed the earlier Cassini-summary screen.
 All 130 focused tests pass, and the integration refinement changes pressure by
@@ -324,7 +360,7 @@ X-ray temperature is left unscored until its projected spectroscopic response
 is verified. The corrected total-pressure equation and old Item59 observable
 limitations are documented without rewriting historical receipts. Next: observed
 galaxy source reconstruction and a physically distinct response that can address
-the cluster–local conflict without changing constants by regime. The multi-field
+the clusterâ€“local conflict without changing constants by regime. The multi-field
 external boundary and derived light coupling remain open.
 
 1. **Finite local-limit audit (monopole stage complete; full local tests open).** Derive the high-acceleration correction,

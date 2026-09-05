@@ -1,0 +1,233 @@
+{
+  "config": {
+    "canonical_minimum_radius_kpc": 60.0,
+    "compact_source_definition": "Integrate the physical positive sech-squared lift only within |z| <= U*h for the moments, without renormalizing it. This gives a bounded source for a convergent exterior expansion. The omitted physical vertical mass fraction is exactly 2*exp(-2U)/(1+exp(-2U)). Compare with an independent infinite-height spatial quadrature; the mass fraction alone is not a field-error bound.",
+    "control_tests": [
+      "tests/test_gravity_exterior_moments.py",
+      "tests/test_gravity_direct_exterior.py"
+    ],
+    "direct_cases": [
+      {
+        "azimuth_nodes": 64,
+        "id": "reference",
+        "radial_nodes": 8,
+        "vertical_nodes": 64
+      },
+      {
+        "azimuth_nodes": 64,
+        "id": "radial_coarse",
+        "radial_nodes": 4,
+        "vertical_nodes": 64
+      },
+      {
+        "azimuth_nodes": 64,
+        "id": "vertical_coarse",
+        "radial_nodes": 8,
+        "vertical_nodes": 32
+      },
+      {
+        "azimuth_nodes": 32,
+        "id": "azimuth_coarse",
+        "radial_nodes": 8,
+        "vertical_nodes": 64
+      }
+    ],
+    "direct_method": "Cartesian 1/distance kernel and its first three derivatives, integrated with positive source weights. Every radial PCHIP/core/taper interval is separate. Gauss-Laguerre integrates both physical infinite-height halves with v=2|z|/h and weight exp(-v)/(1+exp(-v))^2. A periodic trapezoidal rule integrates azimuth. No multipole or Hankel kernel enters this reference.",
+    "direct_probes_R_z_kpc": [
+      [
+        50.0,
+        0.0
+      ],
+      [
+        60.0,
+        0.0
+      ],
+      [
+        80.0,
+        0.0
+      ],
+      [
+        40.0,
+        30.0
+      ],
+      [
+        48.0,
+        36.0
+      ],
+      [
+        64.0,
+        48.0
+      ],
+      [
+        0.0,
+        50.0
+      ],
+      [
+        0.0,
+        60.0
+      ],
+      [
+        0.0,
+        80.0
+      ]
+    ],
+    "hankel_overlap_R_z_kpc": [
+      [
+        30.0,
+        -32.0
+      ],
+      [
+        30.0,
+        32.0
+      ],
+      [
+        35.0,
+        -32.0
+      ],
+      [
+        35.0,
+        32.0
+      ]
+    ],
+    "moment_cases": [
+      {
+        "id": "reference",
+        "radial_nodes": 128,
+        "vertical_extent": 24.0,
+        "vertical_nodes": 32
+      },
+      {
+        "id": "radial_coarse",
+        "radial_nodes": 64,
+        "vertical_extent": 24.0,
+        "vertical_nodes": 32
+      },
+      {
+        "id": "vertical_coarse",
+        "radial_nodes": 128,
+        "vertical_extent": 24.0,
+        "vertical_nodes": 16
+      },
+      {
+        "id": "shorter_tail",
+        "radial_nodes": 128,
+        "vertical_extent": 16.0,
+        "vertical_nodes": 32
+      },
+      {
+        "id": "longer_tail",
+        "radial_nodes": 128,
+        "vertical_extent": 32.0,
+        "vertical_nodes": 32
+      }
+    ],
+    "moment_scale_kpc": 36.0,
+    "multipole_orders": [
+      32,
+      64,
+      96,
+      128
+    ],
+    "normalizers": "All exterior comparisons use monopole units G*M/r, G*M/r^2, G*M/r^3, G*M/r^4 for potential and derivative orders zero through three, with the reference compact source M. Frobenius norms include the complete Cartesian tensor, not individual nonzero components only. All canonical points and both source variants must pass.",
+    "numerical_targets": {
+      "maximum_cross_method_force_scaled_difference": 1e-07,
+      "maximum_cross_method_hessian_scaled_difference": 1e-06,
+      "maximum_cross_method_third_tensor_scaled_difference": 1e-05,
+      "maximum_direct_force_scaled_change": 1e-07,
+      "maximum_direct_hessian_scaled_change": 1e-06,
+      "maximum_direct_third_tensor_scaled_change": 1e-05,
+      "maximum_moment_refinement_scaled_error": 1e-08,
+      "maximum_order64_uniform_third_tail_bound": 1e-07,
+      "maximum_vacuum_identity_scaled_error": 1e-10
+    },
+    "predecessor_result": "work/gravity-first-principles/hankel-offplane-001/result.json",
+    "predecessor_result_sha256": "1df5c6356c2f50d079fd29ef826d46cfc86daee3fff506bb51de66ce1b540b52",
+    "registration": "After potential-join-001 failed third-derivative and density-gradient targets in the far empty region. Test a distinct numerical representation with 128 moments and exterior admission from 60 kpc; keep all derivative tolerances unchanged. Registration precedes the new moments and direct-source evaluation. The failed 80--120 kpc join remains retained and is not reclassified.",
+    "schema": "independent-exterior-moment-audit-2",
+    "scope": "Exterior numerical source provider and mathematical truncation bound, not a full near/far matched potential, production interpolation, nonlinear action-flux solve, gravity rejection, or independent observational validation.",
+    "shell_mu": [
+      -1.0,
+      -0.95,
+      -0.75,
+      -0.5,
+      -0.1,
+      0.0,
+      0.1,
+      0.5,
+      0.75,
+      0.95,
+      1.0
+    ],
+    "shell_radii_kpc": [
+      45.0,
+      50.0,
+      55.0,
+      60.0,
+      70.0,
+      80.0,
+      120.0,
+      250.0,
+      1000.0,
+      6000.0
+    ],
+    "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+    "source_result": "work/gravity-first-principles/map-source-003/result.json",
+    "source_result_sha256": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+    "tail_bound": "For source support radius s<r, |M_l|<=M*s^l. Conservative Cartesian tensor norm bounds per mode are (l+3)^(2n), n=0..3. Sum every omitted mode, including zero odd modes, exactly as a rational polynomial-geometric series and round outward. This bounds ideal finite-series truncation only; finite-precision moments and physical source truncation are independently assessed. The legacy key maximum_order64_uniform_third_tail_bound is applied by the executor to the maximum configured order, here 128; its numeric tolerance remains 1e-7.",
+    "variants": [
+      {
+        "id": "primary"
+      },
+      {
+        "height_factor": 0.5,
+        "id": "height_half"
+      }
+    ],
+    "vertical_interval": 0.5
+  },
+  "git_revision": "ae5a1134c7e7f977dcb1d7da46610bc09ce509d3",
+  "input_hashes": {
+    "configs/gravity_exterior_moment_audit_v2.json": "a64e3944a0045e9699e9a208eabe7930b1f615e38217677865f567acb4037afb",
+    "scripts/audit_gravity_exterior_moments.py": "a15432f799a7792146b348b7baf1e675afd1e9d67c78575e4632980eab113ae6",
+    "src/invariant_gravity_extensions/__init__.py": "68bda97fad7e33c009c55fc92d51abaea6b596556c2907da9587e45c24714c81",
+    "src/invariant_gravity_extensions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/cli.py": "06a382c481a1347ee674a97ba8ffca562f2155e3ec94f86ca610699a6dce971e",
+    "src/invariant_gravity_extensions/cluster_pressure.py": "d1a5b96f7183b6b3810702cda3626f13c85fe61f67b42be5eef50a0bc18fbb1f",
+    "src/invariant_gravity_extensions/coherent_momentum.py": "fdf4fe72ce0d64e07b02411c4a9feaae478c783aaf4dcffae4de9f327cfdc713",
+    "src/invariant_gravity_extensions/direct_exterior.py": "eb4fe56133f79e9af6138d1c3130771275c15d636180265078bd5cd1edb79527",
+    "src/invariant_gravity_extensions/dynamics.py": "a8c1a1d3847558fb8759624f495aead39654e48df2f03acc8dbd0edf7b38ecb4",
+    "src/invariant_gravity_extensions/exterior_moments.py": "5d8fd010a8389ba5699c1a76de2bce7f8fd85bda6dd476de213dbb323a550d47",
+    "src/invariant_gravity_extensions/external_multifield.py": "5fdd051e54fba639f4c399916a7a3afba056570aafe53ba7c0addc7c2d9718d2",
+    "src/invariant_gravity_extensions/external_quadrupole.py": "54d4435f2018d9e4425dbd380bd7f4e27ac76c404c6472c8b48795434f18e6d9",
+    "src/invariant_gravity_extensions/fields.py": "d10e634034e5274eebb0ad1ee5e8659b0300161da51f98ee1f42346701b5fb51",
+    "src/invariant_gravity_extensions/galaxy_development.py": "648a3e215a4bda2a3c0012563c1f1acbcb112cdaa452adb1876a988bf985c8ec",
+    "src/invariant_gravity_extensions/hankel_axisymmetric.py": "28a25e2b160025f445d90f75f2e81519c68e0abc284195a6fd89fb4bf6cf45f0",
+    "src/invariant_gravity_extensions/hankel_midplane.py": "76802a8c68fcba9ec2132b923d7bea7f38129e29e77390a19f3626fb4d483d69",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/isolated_multifield.py": "b48f7459e7290f87e8887ae0f1cc0fcd4cebc1b0572ff47f6495092ce7a63445",
+    "src/invariant_gravity_extensions/length_axisymmetric.py": "f0e6fd4174a6cf6c1028eb91589eb249b87f82c204369ca161f6adb5efc4a0e2",
+    "src/invariant_gravity_extensions/length_cluster_pressure.py": "887ea367d858e49c08178ebba084ae49b679d9d7a9aa6b89fa14740b017c81fe",
+    "src/invariant_gravity_extensions/length_galaxy_development.py": "428d32e0b093b132b8d0b5d444976b9331176b481167b302edf9c019ca1300f0",
+    "src/invariant_gravity_extensions/length_screening.py": "1889511845419c3ad393a17effedde2c038af1bde3d8c159635ff13eb10adaf0",
+    "src/invariant_gravity_extensions/local_limits.py": "51d8d373a543f4b44ff60ccaf4c2c2af661c77c8a6aa805df47a830186492ba5",
+    "src/invariant_gravity_extensions/observables.py": "7402b5549360455b9af815a72853f8c577ebdae68e1b5ff2254d1a0edb9fdd4d",
+    "src/invariant_gravity_extensions/policy.py": "c59e5174e0026f43b3dc16688141c7a2e494877195a2da0a0c1e087d17e9cb4c",
+    "src/invariant_gravity_extensions/potential_join.py": "ba76347ac09d9fc7ea2ed9494f651dc7da6969a170a577b4851d4c01e45ebe2f",
+    "src/invariant_gravity_extensions/reconstructed_axisymmetric.py": "4916d14ee06e412fa7b1168e4b6d126dc5eb28762c1a2e355a08dea5a59be3dd",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "src/invariant_gravity_extensions/smooth_spherical_source.py": "2ac6ff60d56fc3b846e96e69add3d0963276046ce1e5547232fab7edd9e3352c",
+    "src/invariant_gravity_extensions/source_projection.py": "b25591ef5beeb81f9bc69bf513c3225fd01681208d31febbb32593a5ec55af11",
+    "src/invariant_gravity_extensions/vertical_green.py": "b2c6816ae60b451f6dc04137cefef3626c21d829e76406adee7f2f679b33e3b8",
+    "tests/test_gravity_direct_exterior.py": "8b7a92470975b428badfc627d1984134c9031cb5bec2e46eccb6e6592f4123ee",
+    "tests/test_gravity_exterior_moments.py": "9ad35f61c4f3ecaf48db8a634fb7fd96aa280cd9c5712a03a7683ce9be3dd925",
+    "work/gravity-first-principles/hankel-offplane-001/result.json": "1df5c6356c2f50d079fd29ef826d46cfc86daee3fff506bb51de66ce1b540b52",
+    "work/gravity-first-principles/map-source-003/result.json": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+    "work/gravity-first-principles/map-source-003/source_profiles.json": "6e5e256ef60a725c87f8b07fd720beeab40c77b4e19aaf9b0dea5173f8588f39"
+  },
+  "new_gravity_parameters": false,
+  "new_raw_or_reserved_data": false,
+  "new_response_scoring": false,
+  "quality_verified_astronomical_tests": 0,
+  "started_utc": "2026-09-05T06:08:34.018775+00:00"
+}

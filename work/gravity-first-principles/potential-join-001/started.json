@@ -1,0 +1,220 @@
+{
+  "complete_nonlinear_action_solver": false,
+  "config": {
+    "cases": [
+      {
+        "cutoff": 400.0,
+        "id": "reference",
+        "radial_nodes": 128,
+        "vertical_extent": 24.0,
+        "vertical_intervals": 2400,
+        "wavenumber_nodes": 64
+      },
+      {
+        "cutoff": 400.0,
+        "id": "radial_coarse",
+        "radial_nodes": 64,
+        "vertical_extent": 24.0,
+        "vertical_intervals": 2400,
+        "wavenumber_nodes": 64
+      },
+      {
+        "cutoff": 400.0,
+        "id": "wavenumber_coarse",
+        "radial_nodes": 128,
+        "vertical_extent": 24.0,
+        "vertical_intervals": 2400,
+        "wavenumber_nodes": 32
+      },
+      {
+        "cutoff": 200.0,
+        "id": "cutoff_200",
+        "radial_nodes": 128,
+        "vertical_extent": 24.0,
+        "vertical_intervals": 2400,
+        "wavenumber_nodes": 64
+      },
+      {
+        "cutoff": 400.0,
+        "id": "vertical_coarse",
+        "radial_nodes": 128,
+        "vertical_extent": 24.0,
+        "vertical_intervals": 1200,
+        "wavenumber_nodes": 64
+      },
+      {
+        "cutoff": 400.0,
+        "id": "tail_extent",
+        "radial_nodes": 128,
+        "vertical_extent": 32.0,
+        "vertical_intervals": 3200,
+        "wavenumber_nodes": 64
+      }
+    ],
+    "control_tests": [
+      "tests/test_gravity_potential_join.py",
+      "tests/test_gravity_hankel_axisymmetric.py",
+      "tests/test_gravity_exterior_moments.py",
+      "tests/test_gravity_direct_exterior.py"
+    ],
+    "cutoff": 400.0,
+    "heights_kpc": [
+      -120.0,
+      -96.0,
+      -80.0,
+      -72.0,
+      -64.0,
+      -48.0,
+      -32.0,
+      -16.0,
+      -8.0,
+      -4.0,
+      -2.0,
+      -1.0,
+      -0.5,
+      -0.2,
+      -0.1,
+      -0.025,
+      0.0,
+      0.025,
+      0.1,
+      0.2,
+      0.5,
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      16.0,
+      32.0,
+      48.0,
+      64.0,
+      72.0,
+      80.0,
+      96.0,
+      120.0
+    ],
+    "inner_join_kpc": 80.0,
+    "input_files": {
+      "work/gravity-first-principles/exterior-moment-001/moments_height_half_reference.json": "0b011497e05e5335f5cbf48bb84df7bb60f17de7352d9471e3c16be5594ce646",
+      "work/gravity-first-principles/exterior-moment-001/moments_primary_reference.json": "da72a10f76b479265135384b51566b8ea21c8ef119fa5be4d3f3ba0d3899d2de",
+      "work/gravity-first-principles/exterior-moment-001/result.json": "744eeb06e59c38cbd0c7421092d81e98f813671db94c689c26c3eaa45c834a14",
+      "work/gravity-first-principles/hankel-midplane-001/transform_r128_k32.json": "e215fcee16320c4a60648b326af04157dcf6311739bd5e789edaf6bdcf184fde",
+      "work/gravity-first-principles/map-source-003/result.json": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+      "work/gravity-first-principles/map-source-003/source_profiles.json": "6e5e256ef60a725c87f8b07fd720beeab40c77b4e19aaf9b0dea5173f8588f39"
+    },
+    "moment_files": {
+      "height_half": "work/gravity-first-principles/exterior-moment-001/moments_height_half_reference.json",
+      "primary": "work/gravity-first-principles/exterior-moment-001/moments_primary_reference.json"
+    },
+    "normalizers": "Same source-scaled near-field derivative and identity normalizers as off-plane audit 001. Evaluate all registered near points r<=120 kpc and all registered join points 80<=r<=120; no point is dropped after inspection. Potential cross difference uses GM/r. All source variants and all five one-factor refinements must pass. The physical density and its gradient are external checks, never imposed on field derivatives.",
+    "numerical_targets": {
+      "density": 0.002,
+      "density_gradient": 0.01,
+      "force": 0.0001,
+      "hessian": 0.002,
+      "potential": 1e-06,
+      "third": 0.01
+    },
+    "outer_join_kpc": 120.0,
+    "radii_kpc": [
+      0.0,
+      0.25,
+      0.5,
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      12.0,
+      16.0,
+      20.0,
+      24.0,
+      30.0,
+      35.0,
+      50.0,
+      64.0,
+      80.0,
+      96.0,
+      110.0,
+      120.0
+    ],
+    "registration": "Fixed before this join audit. The exterior audit admitted r>=80 kpc. Join the near Hankel and far moment potentials between 80 and 120 kpc with a septic step whose first three derivatives vanish at both endpoints. This is numerical source work, with no new gravity-card, response, or reserved-data access.",
+    "schema": "C3-potential-join-audit-1",
+    "scope": "A finite-domain Newtonian source and matched-potential audit. It does not validate production interpolation or integration of the full modified action. Nonlinear solve, new regime predictions and scientific validation remain open.",
+    "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+    "source_result": "work/gravity-first-principles/map-source-003/result.json",
+    "transforms": [
+      {
+        "radial_nodes": 128,
+        "wavenumber_nodes": 64
+      },
+      {
+        "radial_nodes": 64,
+        "wavenumber_nodes": 64
+      },
+      {
+        "path": "work/gravity-first-principles/hankel-midplane-001/transform_r128_k32.json",
+        "radial_nodes": 128,
+        "wavenumber_nodes": 32
+      }
+    ],
+    "variants": [
+      {
+        "id": "primary"
+      },
+      {
+        "height_factor": 0.5,
+        "id": "height_half"
+      }
+    ]
+  },
+  "git_revision": "ae5a1134c7e7f977dcb1d7da46610bc09ce509d3",
+  "input_hashes": {
+    "configs/gravity_potential_join_audit_v1.json": "36a7cd52ddf6b1ca32e14ad1f230e48a66b23c1996b6dbe9a28ad2e33a134b10",
+    "scripts/audit_gravity_potential_join.py": "24de19f184bddca23b0fa5406eb6859b84dfcba49bd5233b3e124fa4d98c3fa3",
+    "src/invariant_gravity_extensions/__init__.py": "68bda97fad7e33c009c55fc92d51abaea6b596556c2907da9587e45c24714c81",
+    "src/invariant_gravity_extensions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/cli.py": "06a382c481a1347ee674a97ba8ffca562f2155e3ec94f86ca610699a6dce971e",
+    "src/invariant_gravity_extensions/cluster_pressure.py": "d1a5b96f7183b6b3810702cda3626f13c85fe61f67b42be5eef50a0bc18fbb1f",
+    "src/invariant_gravity_extensions/coherent_momentum.py": "fdf4fe72ce0d64e07b02411c4a9feaae478c783aaf4dcffae4de9f327cfdc713",
+    "src/invariant_gravity_extensions/direct_exterior.py": "eb4fe56133f79e9af6138d1c3130771275c15d636180265078bd5cd1edb79527",
+    "src/invariant_gravity_extensions/dynamics.py": "a8c1a1d3847558fb8759624f495aead39654e48df2f03acc8dbd0edf7b38ecb4",
+    "src/invariant_gravity_extensions/exterior_moments.py": "5d8fd010a8389ba5699c1a76de2bce7f8fd85bda6dd476de213dbb323a550d47",
+    "src/invariant_gravity_extensions/external_multifield.py": "5fdd051e54fba639f4c399916a7a3afba056570aafe53ba7c0addc7c2d9718d2",
+    "src/invariant_gravity_extensions/external_quadrupole.py": "54d4435f2018d9e4425dbd380bd7f4e27ac76c404c6472c8b48795434f18e6d9",
+    "src/invariant_gravity_extensions/fields.py": "d10e634034e5274eebb0ad1ee5e8659b0300161da51f98ee1f42346701b5fb51",
+    "src/invariant_gravity_extensions/galaxy_development.py": "648a3e215a4bda2a3c0012563c1f1acbcb112cdaa452adb1876a988bf985c8ec",
+    "src/invariant_gravity_extensions/hankel_axisymmetric.py": "28a25e2b160025f445d90f75f2e81519c68e0abc284195a6fd89fb4bf6cf45f0",
+    "src/invariant_gravity_extensions/hankel_midplane.py": "76802a8c68fcba9ec2132b923d7bea7f38129e29e77390a19f3626fb4d483d69",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/isolated_multifield.py": "b48f7459e7290f87e8887ae0f1cc0fcd4cebc1b0572ff47f6495092ce7a63445",
+    "src/invariant_gravity_extensions/length_axisymmetric.py": "f0e6fd4174a6cf6c1028eb91589eb249b87f82c204369ca161f6adb5efc4a0e2",
+    "src/invariant_gravity_extensions/length_cluster_pressure.py": "887ea367d858e49c08178ebba084ae49b679d9d7a9aa6b89fa14740b017c81fe",
+    "src/invariant_gravity_extensions/length_galaxy_development.py": "428d32e0b093b132b8d0b5d444976b9331176b481167b302edf9c019ca1300f0",
+    "src/invariant_gravity_extensions/length_screening.py": "1889511845419c3ad393a17effedde2c038af1bde3d8c159635ff13eb10adaf0",
+    "src/invariant_gravity_extensions/local_limits.py": "51d8d373a543f4b44ff60ccaf4c2c2af661c77c8a6aa805df47a830186492ba5",
+    "src/invariant_gravity_extensions/observables.py": "7402b5549360455b9af815a72853f8c577ebdae68e1b5ff2254d1a0edb9fdd4d",
+    "src/invariant_gravity_extensions/policy.py": "c59e5174e0026f43b3dc16688141c7a2e494877195a2da0a0c1e087d17e9cb4c",
+    "src/invariant_gravity_extensions/potential_join.py": "ba76347ac09d9fc7ea2ed9494f651dc7da6969a170a577b4851d4c01e45ebe2f",
+    "src/invariant_gravity_extensions/reconstructed_axisymmetric.py": "4916d14ee06e412fa7b1168e4b6d126dc5eb28762c1a2e355a08dea5a59be3dd",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "src/invariant_gravity_extensions/smooth_spherical_source.py": "2ac6ff60d56fc3b846e96e69add3d0963276046ce1e5547232fab7edd9e3352c",
+    "src/invariant_gravity_extensions/source_projection.py": "b25591ef5beeb81f9bc69bf513c3225fd01681208d31febbb32593a5ec55af11",
+    "src/invariant_gravity_extensions/vertical_green.py": "b2c6816ae60b451f6dc04137cefef3626c21d829e76406adee7f2f679b33e3b8",
+    "tests/test_gravity_direct_exterior.py": "8b7a92470975b428badfc627d1984134c9031cb5bec2e46eccb6e6592f4123ee",
+    "tests/test_gravity_exterior_moments.py": "9ad35f61c4f3ecaf48db8a634fb7fd96aa280cd9c5712a03a7683ce9be3dd925",
+    "tests/test_gravity_hankel_axisymmetric.py": "12f4e4a232d0bef115ac98e1a7ad5c63cfd0188f027899c20ead5efeee82e355",
+    "tests/test_gravity_potential_join.py": "160f328b9245bb04c8dda5c73f40aa586057849160c0be809796e5b410ac937e",
+    "work/gravity-first-principles/exterior-moment-001/moments_height_half_reference.json": "0b011497e05e5335f5cbf48bb84df7bb60f17de7352d9471e3c16be5594ce646",
+    "work/gravity-first-principles/exterior-moment-001/moments_primary_reference.json": "da72a10f76b479265135384b51566b8ea21c8ef119fa5be4d3f3ba0d3899d2de",
+    "work/gravity-first-principles/exterior-moment-001/result.json": "744eeb06e59c38cbd0c7421092d81e98f813671db94c689c26c3eaa45c834a14",
+    "work/gravity-first-principles/hankel-midplane-001/transform_r128_k32.json": "e215fcee16320c4a60648b326af04157dcf6311739bd5e789edaf6bdcf184fde",
+    "work/gravity-first-principles/map-source-003/result.json": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+    "work/gravity-first-principles/map-source-003/source_profiles.json": "6e5e256ef60a725c87f8b07fd720beeab40c77b4e19aaf9b0dea5173f8588f39"
+  },
+  "new_gravity_parameters": false,
+  "new_raw_or_reserved_data": false,
+  "new_response_scoring": false,
+  "quality_verified_observational_tests": 0,
+  "started_utc": "2026-09-05T06:03:08.299480+00:00"
+}
