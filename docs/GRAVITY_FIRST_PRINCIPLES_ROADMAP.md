@@ -61,6 +61,24 @@ Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
 
+The user-proposed [overlapping-range and elastic directions](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-overlap-elastic-assessment.md)
+now have a bounded analytic audit and explicit known-family comparisons. A
+finite ladder of subtracted-Yukawa responses gives an intermediate 1/r extra
+force and a far inverse-square return. Its independent quadrature, potential
+and N-body energy-gradient controls pass. A literal dominant Hooke force gives
+rising rather than flat outer speeds. A fixed mass-linear flat-tail kernel
+also has the wrong asymptotic mass exponent; an independently square-rooted
+mass per source piece fails partition invariance by a factor sqrt(2).
+
+These are scoped constraints on explicit translations, not blanket exclusions
+of multiscale or nonlinear elastic mechanisms. Historical Items 19 and 38 and
+the G4 cross-scale work were inspected and preserved as previously exposed
+summaries; no new astronomical response was scored. A successor must derive
+its collective source response and range weights from one action, with local,
+cluster, matter/light and stability tests. Current registry:
+`configs/gravity_sigma_directions_v11.json`. The source-tail precision repair
+below remains pending; no new tail run or production admission is claimed.
+
 The [matched source and tail audit](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-source-tail-results.md)
 retains a new numerical failure and a partial repair. The denser 60--80 kpc
 matched potential is checked at 4,715 locations for each thickness. Its worst
