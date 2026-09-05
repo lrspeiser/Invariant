@@ -239,6 +239,12 @@ receipt. Result SHA-256:
 The preflight-only failure and its exact implementation are retained in commit
 `373a9340`, including the unchanged v1 contract. Successful scoring uses the v2
 contract, which was declared after the normalization check but before scoring.
+The existing source contract had CRLF runtime bytes while Git stores LF; its
+exact hashed bytes are preserved under `input-snapshots/` and bound by
+`input-snapshot-map.json`. The difference is verified to be newlines only.
+All other recorded code/configuration/predecessor bytes match the committed
+versions. Use the snapshot when reproducing the exact input hash on another OS;
+the JSON values and all source-file hashes are identical under either newline form.
 
 The 21 required density/pressure/stellar FITS payloads are hash-bound by the
 existing development source contract; 29 already-exposed files were hydrated
