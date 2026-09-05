@@ -6,26 +6,38 @@ No astronomical file or historical response loader is imported.
 from __future__ import annotations
 
 import json
-from pathlib import Path
 import subprocess
 import sys
+from pathlib import Path
 
 import numpy as np
 import pytest
 import sympy as sp
 
 from invariant_gravity_extensions.actions import (
-    ActionSpec, H, X, Y, Z, action_certificates, generate_specs,
+    ActionSpec,
+    H,
+    X,
+    Y,
+    Z,
+    action_certificates,
+    generate_specs,
 )
 from invariant_gravity_extensions.cli import main, read_config, run_demo
 from invariant_gravity_extensions.dynamics import InertiaMemory, evolve_auxiliary
 from invariant_gravity_extensions.fields import PeriodicGrid, joint_density, solve_fields
 from invariant_gravity_extensions.observables import (
-    UnsupportedSectorError, assumed_metric, born_lensing, member_relative_acceleration,
+    UnsupportedSectorError,
+    assumed_metric,
+    born_lensing,
+    member_relative_acceleration,
     require_supported_sector,
 )
 from invariant_gravity_extensions.policy import (
-    CompatibilityPolicy, assess_compatibility, next_stage, rank_experiments,
+    CompatibilityPolicy,
+    assess_compatibility,
+    next_stage,
+    rank_experiments,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -121,9 +133,9 @@ def test_catalog_hashes_and_zero_amplitude_deduplication():
     assert specs[0].card() == ActionSpec("qumond").card()
 
 
-@pytest.mark.parametrize("spec", [dict(family="bogus"), dict(family="qumond", beta=1),
-                                  dict(family="gqumond_length", length=-1),
-                                  dict(family="qumond", epsilon=0)])
+@pytest.mark.parametrize("spec", [{"family": "bogus"}, {"family": "qumond", "beta": 1},
+                                  {"family": "gqumond_length", "length": -1},
+                                  {"family": "qumond", "epsilon": 0}])
 def test_invalid_action_parameters(spec):
     with pytest.raises(ValueError):
         ActionSpec(**spec)
@@ -393,7 +405,7 @@ def test_invalid_light_state_and_worldline_tolerance(grid, density):
 
 
 def test_cli_retains_failure_and_never_writes_success_receipt(tmp_path, monkeypatch):
-    import invariant_gravity_extensions.cli as cli
+    from invariant_gravity_extensions import cli
 
     def fail(*args, **kwargs):
         raise RuntimeError("injected solver failure")
@@ -408,7 +420,7 @@ def test_cli_retains_failure_and_never_writes_success_receipt(tmp_path, monkeypa
 
 
 def test_cli_quarantines_config_changed_mid_run(tmp_path, monkeypatch):
-    import invariant_gravity_extensions.cli as cli
+    from invariant_gravity_extensions import cli
 
     config = tmp_path / "config.json"
     config.write_bytes(CONFIG.read_bytes())

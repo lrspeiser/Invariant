@@ -8,10 +8,10 @@ A shared spherical limit is not a proof of equal disk rotation curves.
 """
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from functools import lru_cache
 from hashlib import sha256
-import json
 from typing import Any
 
 import numpy as np

@@ -30,12 +30,15 @@ class CompatibilityPolicy:
             raise ValueError("use at least 100 resamples and a nonnegative seed")
 
 
+DEFAULT_COMPATIBILITY_POLICY = CompatibilityPolicy()
+
+
 def assess_compatibility(
     observed_log10: np.ndarray,
     baseline_log10: np.ndarray,
     candidate_log10: np.ndarray,
     object_ids: list[str],
-    policy: CompatibilityPolicy = CompatibilityPolicy(),
+    policy: CompatibilityPolicy = DEFAULT_COMPATIBILITY_POLICY,
     *,
     role: str = "development",
 ) -> dict[str, Any]:
