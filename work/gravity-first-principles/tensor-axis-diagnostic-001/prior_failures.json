@@ -1,0 +1,17 @@
+{
+  "first_attempt": {
+    "test": "test_tensor_polynomial_exactness_and_regular_axis_quotients",
+    "ordinary_field_max_error": 0.6,
+    "cause": "sign(z)^j at z=0 erased even z derivatives",
+    "repair": "use reflection sign +1 for z>=0, -1 for z<0; retain exact analytic odd input zeros"
+  },
+  "second_attempt": {
+    "ordinary_fields": "117 comparisons pass",
+    "near_axis_ratio_absolute_error": 1.646977e-11,
+    "near_axis_ratio_relative_error": 2.99427732e-10,
+    "original_rtol": 2e-10,
+    "original_atol": 1e-12,
+    "finding": "Rounding the source potential with an additive 17 dominates the error. Correctly rounded samples alone do not recover lost bits.",
+    "test_change": "Retain original analytic tolerance on the same polynomial after removing its additive gauge BEFORE sampling. Separately verify implementation against an independent 60-digit monomial boundary solve of the original rounded inputs with absolute tolerance 2e-12. This does not reclassify the original offset-sample analytic comparison as passing."
+  }
+}

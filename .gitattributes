@@ -1094,3 +1094,18 @@ scripts/report_gravity_precise_tail.py text eol=lf
 docs/GRAVITY_PRECISE_TAIL_METHOD.md text eol=lf
 docs/GRAVITY_PRECISE_TAIL_RESULTS.md text eol=lf
 configs/gravity_sigma_directions_v12.json text eol=lf
+
+# Tensor interpolation evidence retains exact executed input bytes.
+work/gravity-first-principles/tensor-*/** whitespace=cr-at-eol
+work/gravity-first-principles/tensor-source-*/mixed_table.json -diff
+work/gravity-first-principles/tensor-source-*/direct_reference.json -diff
+work/gravity-first-principles/tensor-source-*/interpolated_*.json -diff
+work/gravity-first-principles/tensor-source-*/input-snapshots/work/** -diff
+src/invariant_gravity_extensions/tensor_potential.py text eol=lf
+src/invariant_gravity_extensions/mixed_source.py text eol=lf
+tests/test_gravity_tensor_potential.py text eol=lf
+tests/test_gravity_mixed_source.py text eol=lf
+scripts/audit_gravity_tensor_source.py text eol=lf
+scripts/diagnose_gravity_tensor_axis.py text eol=lf
+docs/GRAVITY_TENSOR_SOURCE_RESULTS.md text eol=lf
+configs/gravity_sigma_directions_v13.json text eol=lf

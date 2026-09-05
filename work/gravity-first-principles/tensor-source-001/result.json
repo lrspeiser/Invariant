@@ -1,0 +1,94 @@
+{
+  "completed_utc": "2026-09-05T07:28:17.786153+00:00",
+  "config": {
+    "coarse_spacing_kpc": [
+      0.25,
+      0.1
+    ],
+    "cutoff": 400.0,
+    "fine_spacing_kpc": [
+      0.125,
+      0.05
+    ],
+    "full_action_solver_admitted": false,
+    "new_observations": false,
+    "physical_source_changed": false,
+    "precision": {
+      "digits": 50,
+      "low_k_limit": 8.0
+    },
+    "probe_rule": "one-quarter into every coarse cell in both coordinates; common fixed off-grid probes",
+    "scope": "primary source only; R=0..4 kpc, z=0..0.8 kpc; numerical pilot, not full-domain admission",
+    "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+    "source_result": "work/gravity-first-principles/map-source-003/result.json",
+    "target_origin": "unchanged force/H/T values from gravity_matched_source_audit_v1.json",
+    "targets": {
+      "force": 0.0001,
+      "hessian": 0.002,
+      "third": 0.01
+    },
+    "transform": "work/gravity-first-principles/potential-join-001/transform_r128_k64.json",
+    "vertical_extent": 24.0,
+    "vertical_intervals": 2400
+  },
+  "full_source_interpolation_admitted": false,
+  "higher_mixed_derivative_quadrature_refinement": "pending",
+  "new_quality_verified_observational_tests": 0,
+  "probe_count": 128,
+  "rows": [
+    {
+      "grid": "coarse",
+      "maxima": {
+        "force": 2.659369639474448e-06,
+        "hessian": 2.4670731609883914e-06,
+        "third": 0.00016023304862326795
+      },
+      "shape": [
+        17,
+        9
+      ],
+      "within_pilot_targets": true,
+      "worst": {
+        "force": {
+          "R_kpc": 0.3125,
+          "z_kpc": 0.025
+        },
+        "hessian": {
+          "R_kpc": 0.3125,
+          "z_kpc": 0.025
+        },
+        "third": {
+          "R_kpc": 3.8125,
+          "z_kpc": 0.025
+        }
+      }
+    },
+    {
+      "grid": "fine",
+      "maxima": {
+        "force": 7.336832754295528e-09,
+        "hessian": 3.484528208443156e-07,
+        "third": 1.8669753441666245e-06
+      },
+      "shape": [
+        33,
+        17
+      ],
+      "within_pilot_targets": true,
+      "worst": {
+        "force": {
+          "R_kpc": 0.3125,
+          "z_kpc": 0.025
+        },
+        "hessian": {
+          "R_kpc": 0.3125,
+          "z_kpc": 0.025
+        },
+        "third": {
+          "R_kpc": 0.3125,
+          "z_kpc": 0.025
+        }
+      }
+    }
+  ]
+}

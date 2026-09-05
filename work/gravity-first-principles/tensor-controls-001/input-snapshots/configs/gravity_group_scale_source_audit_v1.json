@@ -1,0 +1,673 @@
+{
+  "schema_version": "invariant-gravity-group-scale-source-audit-config-1.0",
+  "status": "frozen_metadata_only_zero_ready_lanes_with_disclosed_excerpt",
+  "audit_id": "gravity-group-scale-source-audit-v1",
+  "audit_cutoff": "2026-08-29",
+  "purpose": "Freeze a target-blind public-source metadata audit, direct-endpoint contract, alias/overlap rules, and whole-group split algorithm for CP10.1-CP10.2. Builder access remains zero-row; a separately disclosed interactive web-search excerpt incident is not concealed.",
+  "implementation_evidence": {
+    "module_path": "src/sigma_theory_compiler/gravity_group_scale_source_audit.py",
+    "test_path": "tests/test_gravity_group_scale_source_audit.py",
+    "test_file_sha256": "3f5689428cd0b9e58bec8b46894d32d3bc4903bb08eee73b2fb478d3f669a069",
+    "hash_mode": "SHA256_RAW_BYTES",
+    "test_binding_required": true
+  },
+  "fact_provenance_contract": {
+    "binding_algorithm": "SHA256_CANONICAL_JSON",
+    "binding_fields": [
+      "source_id",
+      "lane_id",
+      "source_type",
+      "url",
+      "doi",
+      "observed_release",
+      "audited_fact",
+      "observation_method",
+      "retrieved_at",
+      "evidence_locator"
+    ],
+    "retrieved_at_precision": "UTC_DAY",
+    "remote_content_archived": false,
+    "remote_content_sha256_available": false,
+    "claim_limit": "The fact binding detects local factual-field mutation but does not prove that mutable remote pages retain their observed content."
+  },
+  "interactive_audit_disclosure": {
+    "incident_id": "XGAP_2026_FORWARD_MODEL_WEB_FIND_EXCERPT_2026_08_29",
+    "disclosed": true,
+    "source_id": "XGAP_2026_FORWARD_MODEL",
+    "observation_method": "web_find_excerpt_returned_with_metadata_query",
+    "retrieved_at": "2026-08-29",
+    "public_appendix_measurement_rows_rendered": 1,
+    "downloaded": false,
+    "persisted_in_package": false,
+    "used_for_fact_or_lane_readiness": false,
+    "scored": false,
+    "receipt_builder_involved": false,
+    "consequence": "INTERACTIVE_ZERO_ROW_PURITY_FALSE_BUILDER_ZERO_ROW_COUNTS_REMAIN_TRUE"
+  },
+  "xgap_redshift_reconciliation": {
+    "legacy_project_page_source_id": "XGAP_SAMPLE_SELECTION",
+    "legacy_project_selection_rule": "z < 0.05",
+    "primary_2024_source_id": "XGAP_PRIMARY_PAPER",
+    "primary_2024_program_selection_rule": "z < 0.06",
+    "primary_2024_reported_actual_range": "0.025 < z < 0.06",
+    "discrepancy_resolved": false,
+    "payload_selection_rule_chosen": null,
+    "required_resolution": "Reconcile the retrievable canonical 49-object manifest against the 2024 primary selection and actual-range statements before aliases, eligibility, or splits are frozen.",
+    "failure_action": "BLOCK_SAMPLE_ASSEMBLY_AND_SPLIT"
+  },
+  "publication_contract": {
+    "staging_location": "OUTPUT_SAME_DIRECTORY",
+    "staging_file_fsync_before_publish": true,
+    "publish_primitive": "SAME_DIRECTORY_HARD_LINK_NO_REPLACE",
+    "directory_fsync": "POSIX_WHEN_SUPPORTED_AFTER_PUBLISH_AND_TEMP_CLEANUP",
+    "existing_identical_receipt_action": "RETURN_WITHOUT_REWRITE",
+    "existing_different_receipt_action": "FAIL_CLOSED",
+    "race_loser_action": "VERIFY_IDENTICAL_OR_FAIL_CLOSED"
+  },
+  "mass_scope": {
+    "lower_m500_msun": 10000000000000.0,
+    "upper_m500_msun": 100000000000000.0,
+    "selection_role_only": true,
+    "mass_as_response_or_candidate_input": false,
+    "rule": "A source may document membership in the approximate group-scale interval, but source-inferred hydrostatic, lensing, dynamical, richness, luminosity-scaling, or count-rate-scaling mass may not be loaded as a response or candidate input."
+  },
+  "authoritative_sources": [
+    {
+      "source_id": "XGAP_SAMPLE_SELECTION",
+      "lane_id": "XGAP_49_XMM",
+      "source_type": "official_project_page",
+      "url": "https://www.astro.unige.ch/xgap/blog/sample-selection",
+      "doi": null,
+      "observed_release": "xgap_master_v1.1.fits reported as 25.31 KB",
+      "audited_fact": "The X-GAP project page documents a 49-group sample selected with R500 below 15 arcmin, redshift below 0.05, and more than eight optical members, spanning 1e13 < M500 < 1e14 solar masses; it reports that 38 groups had not previously been observed by modern X-ray satellites.",
+      "observation_method": "official_project_page_web_open_metadata_only",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "official project page final-sample criteria and attachment table",
+      "fact_binding_sha256": "d83b627744e610390c7bf00ab3e03821c4b5c6de8b448fd4b0e8c24286f3c12f"
+    },
+    {
+      "source_id": "XGAP_MASTER_ATTACHMENT",
+      "lane_id": "XGAP_49_XMM",
+      "source_type": "official_project_manifest",
+      "url": "https://www.astro.unige.ch/xgap/sites/default/files/xgap_master_v1.1.fits",
+      "doi": null,
+      "observed_release": "legacy v1.1 attachment URL checked 2026-08-29",
+      "audited_fact": "The legacy project page names the FITS attachment, but the attachment URL currently redirects to the generic University of Geneva astronomy home page; no file bytes or rows were downloaded.",
+      "observation_method": "official_attachment_url_redirect_check_no_payload",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "official attachment URL and observed redirect destination",
+      "fact_binding_sha256": "180c26f03f6e54c566332b7af15f1efed09df7c9d2396e019a6efdd86f713946"
+    },
+    {
+      "source_id": "XGAP_OBSERVATIONAL_STRATEGY",
+      "lane_id": "XGAP_49_XMM",
+      "source_type": "official_project_page",
+      "url": "https://www.astro.unige.ch/xgap/blog/observational-strategy",
+      "doi": null,
+      "observed_release": "project page indexed 2026-08-29",
+      "audited_fact": "The project reports deprojected density, temperature, entropy, and pressure for four archival demonstration systems and states an intention to provide similar high-level products for the full sample; an intention is not a released 49-object file packet.",
+      "observation_method": "official_project_page_web_open_metadata_only",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "official project observational-strategy text and high-level-product commitment",
+      "fact_binding_sha256": "36bc40c1f614dd5cc3cbb21379be3ef147cdd0dd3ac898fb4c30bb5091c7c00f"
+    },
+    {
+      "source_id": "XGAP_PRIMARY_PAPER",
+      "lane_id": "XGAP_49_XMM",
+      "source_type": "primary_paper",
+      "url": "https://doi.org/10.3390/galaxies12030024",
+      "doi": "10.3390/galaxies12030024",
+      "observed_release": "Galaxies 12(3), 24 (2024), article CC BY",
+      "audited_fact": "The 2024 primary paper describes a 49-object X-GAP program selected with z < 0.06 and reports an actual range 0.025 < z < 0.06, differing from the legacy project page's z < 0.05 statement. It says X-GAP data will be publicly released on the project website; the article license does not establish reuse terms for each future FITS, calibration, covariance, or stellar-baryon product.",
+      "observation_method": "primary_article_metadata_and_method_text_review",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "primary article sample-selection, reported sample range, data-release, and license statements",
+      "fact_binding_sha256": "8f5eed2b354ffe1d6c82bad7f4408db267392a11b873bcc1f017ba4c5c985b35"
+    },
+    {
+      "source_id": "XGAP_2026_SCALING_RELATIONS",
+      "lane_id": "XGAP_49_XMM",
+      "source_type": "primary_paper",
+      "url": "https://arxiv.org/abs/2512.04203",
+      "doi": "10.1051/0004-6361/202558334",
+      "observed_release": "Astronomy & Astrophysics 709, L4 (2026); arXiv v2 2026-05-19",
+      "audited_fact": "The current paper documents an analysis sample of 44 X-GAP groups in the 1e13-1e14 solar-mass range using the directly measured X-ray luminosity-temperature relation. It does not establish a machine-readable release of direct radial density, pressure, temperature, and stellar-baryon endpoints with their joint covariance.",
+      "observation_method": "primary_article_abstract_and_release_metadata_only",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "arXiv abstract, journal reference, DOI, and version history",
+      "fact_binding_sha256": "6eb9ce7ee0d4bccf6486af4014987f1933fbcbea4258bf39340804a5c56bed41"
+    },
+    {
+      "source_id": "XGAP_2026_FORWARD_MODEL",
+      "lane_id": "XGAP_49_XMM",
+      "source_type": "primary_paper",
+      "url": "https://arxiv.org/abs/2604.24863",
+      "doi": "10.1051/0004-6361/202660011",
+      "observed_release": "Astronomy & Astrophysics 710, A153 (2026); arXiv v1 2026-04-27",
+      "audited_fact": "The current forward-model analysis publishes integrated X-GAP observables and accounts for covariance among its population summaries. That population-level covariance is not a released per-object radial likelihood covariance, and the paper does not establish a complete direct density-pressure-temperature-stellar profile packet.",
+      "observation_method": "primary_article_abstract_plus_html_metadata_search_with_disclosed_excerpt",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "arXiv abstract, journal reference, DOI, version history, section headings, and disclosed web-find excerpt incident",
+      "fact_binding_sha256": "21f923dd5077934dda17cfba25f1733eaa908e5fb33b06446df89e055c3f5ff8"
+    },
+    {
+      "source_id": "XMM_SCIENCE_ARCHIVE",
+      "lane_id": "XGAP_49_XMM",
+      "source_type": "official_archive",
+      "url": "https://www.cosmos.esa.int/web/xmm-newton/xsa",
+      "doi": null,
+      "observed_release": "XSA documentation and access page current in 2026 audit",
+      "audited_fact": "The XSA exposes observation data, ODFs, pipeline products, catalogs, and bibliographic links; archive availability does not identify the X-GAP observation set or supply the program's deprojection, stellar-baryon, and joint-covariance products.",
+      "observation_method": "official_archive_documentation_web_open_metadata_only",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "ESA XMM-Newton Science Archive documentation and access landing page",
+      "fact_binding_sha256": "1c2009fde3e472d45e02afefeb8433217e90d66e2681fea794f57f1c4c8a66dd"
+    },
+    {
+      "source_id": "XMM_CALIBRATION_DOCUMENTATION",
+      "lane_id": "XGAP_49_XMM",
+      "source_type": "official_calibration",
+      "url": "https://www.cosmos.esa.int/web/xmm-newton/calibration-documentation",
+      "doi": null,
+      "observed_release": "EPIC calibration status 3.14 (February 2025) listed by ESA",
+      "audited_fact": "ESA publishes calibration status, Current Calibration File guidance, and release notes; a future packet must freeze the exact SAS, CCF, response, background, PSF, and observation-specific calibration lineage.",
+      "observation_method": "official_calibration_documentation_web_open_metadata_only",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "ESA XMM-Newton calibration documentation landing page and listed status revision",
+      "fact_binding_sha256": "01ab21a841f29c33bb45326a692c2328d2e87b0557fc3f36eef1f2e90f51e113"
+    },
+    {
+      "source_id": "SUN09_PRIMARY_PAPER",
+      "lane_id": "SUN09_CHANDRA_43",
+      "source_type": "primary_paper",
+      "url": "https://arxiv.org/abs/0805.2320",
+      "doi": "10.1088/0004-637X/693/2/1142",
+      "observed_release": "Astrophysical Journal 693, 1142-1172 (2009)",
+      "audited_fact": "Sun et al. analyze 43 Chandra groups with kT500 0.7-2.7 keV or M500 1e13-1e14 h^-1 solar masses; all reach beyond r2500, while 23 reach or are extrapolated to r500. The paper is not a verified object-level density, temperature, pressure, stellar-baryon, and covariance release.",
+      "observation_method": "primary_article_abstract_and_bibliographic_metadata_only",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "arXiv abstract, journal reference, and DOI metadata",
+      "fact_binding_sha256": "2596de13876af09fd98c8b727cb40c265907112009f287b75846c319249938c7"
+    },
+    {
+      "source_id": "ERASS1_DR1_ARCHIVE",
+      "lane_id": "ERASS1_STACKED_GROUP_THERMODYNAMICS",
+      "source_type": "official_archive",
+      "url": "https://erosita.mpe.mpg.de/dr1/",
+      "doi": null,
+      "observed_release": "DR1 public 2024-01-31; main catalog v1.2 announced 2026-01-12",
+      "audited_fact": "eROSITA-DE DR1 publicly provides eRASS1 calibrated event lists, images, exposure and background maps, sensitivity maps, catalogs, selected bright-source products, eSASS4DR1, CALDB, and known-issue documentation for the western hemisphere.",
+      "observation_method": "official_archive_release_documentation_web_open_metadata_only",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "official eROSITA DR1 release landing page and release notices",
+      "fact_binding_sha256": "12b3ace1fea8b2f11788e7bb42bed95d29cf991c20367a5a55a5bfa459063e15"
+    },
+    {
+      "source_id": "ERASS1_GROUP_CATALOG_RELEASE",
+      "lane_id": "ERASS1_STACKED_GROUP_THERMODYNAMICS",
+      "source_type": "official_archive",
+      "url": "https://erosita.mpe.mpg.de/dr1/AllSkySurveyData_dr1/Catalogues_dr1/",
+      "doi": "10.1051/0004-6361/202348264",
+      "observed_release": "12,247-object primary eRASS1 groups-and-clusters catalog",
+      "audited_fact": "The official catalog page exposes a public object inventory and data model, but not the 1178-object eRASS:4 thermodynamic subset as a direct per-group endpoint packet.",
+      "observation_method": "official_catalog_release_documentation_web_open_metadata_only",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "official eROSITA DR1 catalog release page and catalog metadata",
+      "fact_binding_sha256": "cbbdd13fce5165c90507341c8cd4b25f175c2fa60165ad10173432612c8733e8"
+    },
+    {
+      "source_id": "ERASS1_GROUP_THERMODYNAMICS_PAPER",
+      "lane_id": "ERASS1_STACKED_GROUP_THERMODYNAMICS",
+      "source_type": "primary_paper",
+      "url": "https://doi.org/10.1051/0004-6361/202449399",
+      "doi": "10.1051/0004-6361/202449399",
+      "observed_release": "Astronomy & Astrophysics 691, A188 (2024)",
+      "audited_fact": "The analysis starts from 1178 groups spanning 2.1e12-1e14 solar masses, bins them into 271 subsamples, and estimates stacked density, temperature, and entropy at characteristic radii using deeper eRASS:4 data and count-rate/scaling-relation mass estimates; these are not target-blind direct per-group endpoints.",
+      "observation_method": "primary_article_abstract_methods_and_release_metadata_only",
+      "retrieved_at": "2026-08-29",
+      "evidence_locator": "primary article abstract, methods metadata, journal reference, and DOI",
+      "fact_binding_sha256": "31156a3aef66025a47f4a636a24304353e8b222e060d9ca763e61fed9f98a826"
+    }
+  ],
+  "file_manifest_audit": [
+    {
+      "manifest_id": "XGAP_MASTER_V1_1",
+      "lane_id": "XGAP_49_XMM",
+      "evidence_source_ids": ["XGAP_SAMPLE_SELECTION", "XGAP_MASTER_ATTACHMENT"],
+      "role": "sample_alias_and_selection_inventory",
+      "url": "https://www.astro.unige.ch/xgap/sites/default/files/xgap_master_v1.1.fits",
+      "reported_filename": "xgap_master_v1.1.fits",
+      "reported_size": "25.31 KB",
+      "file_sha256": null,
+      "license_for_file_verified": false,
+      "current_retrieval_state": "BLOCKED_LEGACY_ATTACHMENT_REDIRECTS_TO_GENERIC_DEPARTMENT_PAGE",
+      "payload_opened": false
+    },
+    {
+      "manifest_id": "XGAP_FULL_SAMPLE_THERMODYNAMIC_PRODUCTS",
+      "lane_id": "XGAP_49_XMM",
+      "evidence_source_ids": [
+        "XGAP_OBSERVATIONAL_STRATEGY",
+        "XGAP_2026_SCALING_RELATIONS",
+        "XGAP_2026_FORWARD_MODEL"
+      ],
+      "role": "density_pressure_temperature_profiles_and_covariance",
+      "url": null,
+      "reported_filename": null,
+      "reported_size": null,
+      "file_sha256": null,
+      "license_for_file_verified": false,
+      "current_retrieval_state": "BLOCKED_NO_OFFICIAL_FULL_SAMPLE_FILE_MANIFEST_VERIFIED",
+      "payload_opened": false
+    },
+    {
+      "manifest_id": "XGAP_STELLAR_BARYON_PRODUCTS",
+      "lane_id": "XGAP_49_XMM",
+      "evidence_source_ids": ["XGAP_PRIMARY_PAPER", "XGAP_2026_FORWARD_MODEL"],
+      "role": "BGG_satellite_and_diffuse_stellar_baryon_profiles",
+      "url": null,
+      "reported_filename": null,
+      "reported_size": null,
+      "file_sha256": null,
+      "license_for_file_verified": false,
+      "current_retrieval_state": "BLOCKED_NO_OFFICIAL_STELLAR_BARYON_PROFILE_MANIFEST_VERIFIED",
+      "payload_opened": false
+    },
+    {
+      "manifest_id": "ERASS1_PUBLIC_CATALOG_AND_EVENTS",
+      "lane_id": "ERASS1_STACKED_GROUP_THERMODYNAMICS",
+      "evidence_source_ids": ["ERASS1_DR1_ARCHIVE", "ERASS1_GROUP_CATALOG_RELEASE"],
+      "role": "prospective_public_eRASS1_reduction_inputs",
+      "url": "https://erosita.mpe.mpg.de/dr1/AllSkySurveyData_dr1/",
+      "reported_filename": null,
+      "reported_size": null,
+      "file_sha256": null,
+      "license_for_file_verified": false,
+      "current_retrieval_state": "PUBLIC_LANDING_AND_FILE_TREE_ONLY_NO_FROZEN_1178_OBJECT_PACKET",
+      "payload_opened": false
+    }
+  ],
+  "readiness_fields": [
+    "public_sample_scope_documented",
+    "machine_readable_sample_manifest_documented",
+    "machine_readable_sample_manifest_currently_retrievable",
+    "stable_alias_map_frozen",
+    "mass_scope_1e13_1e14_documented",
+    "density_endpoint_files_verified",
+    "pressure_endpoint_files_verified",
+    "temperature_endpoint_files_verified",
+    "stellar_baryon_endpoint_files_verified",
+    "within_endpoint_covariance_verified",
+    "cross_endpoint_covariance_verified",
+    "calibration_and_background_roles_verified",
+    "per_file_reuse_terms_verified",
+    "xcop_overlap_audited",
+    "target_blind_whole_group_split_committable",
+    "no_inferred_mass_or_lensing_target_dependency",
+    "payload_commitment_frozen"
+  ],
+  "candidate_lanes": [
+    {
+      "lane_id": "XGAP_49_XMM",
+      "sample_scope": "49 X-ray/optically selected groups, 1e13 < M500 < 1e14 solar masses; legacy page says z < 0.05 while the 2024 primary says z < 0.06 and actual 0.025 < z < 0.06; unresolved before assembly",
+      "instrument_family": "XMM-Newton plus SDSS/ROSAT selection and future optical/IR stellar-baryon inputs",
+      "payload_opened": false,
+      "selected_role": null,
+      "readiness": {
+        "public_sample_scope_documented": true,
+        "machine_readable_sample_manifest_documented": true,
+        "machine_readable_sample_manifest_currently_retrievable": false,
+        "stable_alias_map_frozen": false,
+        "mass_scope_1e13_1e14_documented": true,
+        "density_endpoint_files_verified": false,
+        "pressure_endpoint_files_verified": false,
+        "temperature_endpoint_files_verified": false,
+        "stellar_baryon_endpoint_files_verified": false,
+        "within_endpoint_covariance_verified": false,
+        "cross_endpoint_covariance_verified": false,
+        "calibration_and_background_roles_verified": false,
+        "per_file_reuse_terms_verified": false,
+        "xcop_overlap_audited": false,
+        "target_blind_whole_group_split_committable": false,
+        "no_inferred_mass_or_lensing_target_dependency": true,
+        "payload_commitment_frozen": false
+      },
+      "audit_details": {
+        "evidence_source_ids": [
+          "XGAP_SAMPLE_SELECTION",
+          "XGAP_MASTER_ATTACHMENT",
+          "XGAP_OBSERVATIONAL_STRATEGY",
+          "XGAP_PRIMARY_PAPER",
+          "XGAP_2026_SCALING_RELATIONS",
+          "XGAP_2026_FORWARD_MODEL",
+          "XMM_SCIENCE_ARCHIVE",
+          "XMM_CALIBRATION_DOCUMENTATION"
+        ],
+        "observed_availability": [
+          "The official project page documents the exact 49-object mass-matched parent sample and a named v1.1 FITS master catalog.",
+          "The legacy page states z < 0.05, whereas the 2024 primary states z < 0.06 and reports the actual range 0.025 < z < 0.06; no payload eligibility rule is chosen until the canonical manifest reconciles them.",
+          "The project reports four archival demonstration systems with deprojected density, temperature, entropy, and pressure.",
+          "Two current 2026 primary papers analyze 44 usable X-GAP systems with integrated luminosity, gas-mass, and temperature observables, but do not establish the required direct radial multi-endpoint file packet.",
+          "XMM raw and pipeline products and mission calibration documentation are public through ESA archives."
+        ],
+        "exact_missing_fields": [
+          "machine_readable_sample_manifest_currently_retrievable",
+          "stable_alias_map_frozen",
+          "density_endpoint_files_verified",
+          "pressure_endpoint_files_verified",
+          "temperature_endpoint_files_verified",
+          "stellar_baryon_endpoint_files_verified",
+          "within_endpoint_covariance_verified",
+          "cross_endpoint_covariance_verified",
+          "calibration_and_background_roles_verified",
+          "per_file_reuse_terms_verified",
+          "xcop_overlap_audited",
+          "target_blind_whole_group_split_committable",
+          "payload_commitment_frozen"
+        ],
+        "alias_and_overlap_blocker": "The 49 master rows were not opened, the legacy FITS attachment currently redirects, the legacy/primary redshift discrepancy is unresolved, canonical aliases are not frozen, and X-COP overlap cannot be evaluated without that target-blind alias inventory.",
+        "endpoint_blocker": "Current papers provide integrated observables for 44 usable systems, but no current official full-sample file bundle was verified for direct radial density, pressure, spectroscopic temperature, and BGG+satellite+diffuse stellar baryon endpoints.",
+        "covariance_blocker": "Population-summary covariance in the current forward-model analysis does not substitute for a complete per-object within-radius, cross-radius, cross-endpoint, shared-background, PSF/response, deprojection, and stellar-population covariance packet; no such packet was verified.",
+        "calibration_blocker": "Mission calibration exists, but exact observation IDs, SAS/CCF revisions, filters, flare filtering, backgrounds, ARF/RMF, PSF mixing, and deprojection provenance are not frozen per group.",
+        "licensing_blocker": "The article is CC BY and XSA observations are public, but per-file reuse terms are not bound for the legacy master FITS or any future derived thermodynamic, covariance, and stellar-baryon products.",
+        "population_limitation": "The mass range and 49-object parent count fit the CP10 domain-mapping use case, but the redshift definition and eligible count after file availability, endpoint completeness, covariance, alias, overlap, and quality gates are unresolved.",
+        "payload_commitment": null
+      },
+      "decision": "PREFERRED_GROUP_SCALE_LANE_BLOCKED_CURRENT_MANIFEST_ENDPOINTS_COVARIANCE_ALIASES_LICENSE_AND_CALIBRATION"
+    },
+    {
+      "lane_id": "SUN09_CHANDRA_43",
+      "sample_scope": "43 Chandra groups, M500 approximately 1e13-1e14 h^-1 solar masses; 23 reach or are extrapolated to r500",
+      "instrument_family": "Chandra archival observations",
+      "payload_opened": false,
+      "selected_role": null,
+      "readiness": {
+        "public_sample_scope_documented": true,
+        "machine_readable_sample_manifest_documented": false,
+        "machine_readable_sample_manifest_currently_retrievable": false,
+        "stable_alias_map_frozen": false,
+        "mass_scope_1e13_1e14_documented": true,
+        "density_endpoint_files_verified": false,
+        "pressure_endpoint_files_verified": false,
+        "temperature_endpoint_files_verified": false,
+        "stellar_baryon_endpoint_files_verified": false,
+        "within_endpoint_covariance_verified": false,
+        "cross_endpoint_covariance_verified": false,
+        "calibration_and_background_roles_verified": false,
+        "per_file_reuse_terms_verified": false,
+        "xcop_overlap_audited": false,
+        "target_blind_whole_group_split_committable": false,
+        "no_inferred_mass_or_lensing_target_dependency": true,
+        "payload_commitment_frozen": false
+      },
+      "audit_details": {
+        "evidence_source_ids": ["SUN09_PRIMARY_PAPER"],
+        "observed_availability": [
+          "The primary paper documents a mass-matched 43-group Chandra analysis with robust background modeling and radial thermodynamic results.",
+          "The paper distinguishes 23 systems reaching or extrapolated to r500 from the full sample."
+        ],
+        "exact_missing_fields": [
+          "machine_readable_sample_manifest_documented",
+          "machine_readable_sample_manifest_currently_retrievable",
+          "stable_alias_map_frozen",
+          "density_endpoint_files_verified",
+          "pressure_endpoint_files_verified",
+          "temperature_endpoint_files_verified",
+          "stellar_baryon_endpoint_files_verified",
+          "within_endpoint_covariance_verified",
+          "cross_endpoint_covariance_verified",
+          "calibration_and_background_roles_verified",
+          "per_file_reuse_terms_verified",
+          "xcop_overlap_audited",
+          "target_blind_whole_group_split_committable",
+          "payload_commitment_frozen"
+        ],
+        "alias_and_overlap_blocker": "No frozen machine-readable 43-object alias inventory was verified, so X-COP and X-GAP overlap remain unaudited.",
+        "endpoint_blocker": "Published tables and figures are not a verified direct per-bin density, temperature, pressure, and stellar-baryon file bundle, and some r500 values are extrapolated.",
+        "covariance_blocker": "No released full radial and cross-endpoint covariance bundle was verified.",
+        "calibration_blocker": "A historical analysis description does not freeze current observation-level CALDB, background, response, PSF, and reduction lineage for replay.",
+        "licensing_blocker": "Article access and public Chandra observations do not establish per-file reuse terms for a derived multi-endpoint packet.",
+        "population_limitation": "The 43-object sample is useful as historical metadata and a possible reduction control, but current eligible direct-endpoint and covariance counts are zero until a file-level packet is frozen.",
+        "payload_commitment": null
+      },
+      "decision": "HISTORICAL_GROUP_LANE_BLOCKED_MACHINE_MANIFEST_DIRECT_ENDPOINT_FILES_COVARIANCE_ALIASES_LICENSE_AND_CALIBRATION"
+    },
+    {
+      "lane_id": "ERASS1_STACKED_GROUP_THERMODYNAMICS",
+      "sample_scope": "1178 eROSITA groups spanning 2.1e12-1e14 solar masses, analyzed in 271 stacked subsamples with eRASS:4",
+      "instrument_family": "eROSITA eRASS1 selection plus deeper eRASS:4 stacked imaging and spectroscopy",
+      "payload_opened": false,
+      "selected_role": null,
+      "readiness": {
+        "public_sample_scope_documented": true,
+        "machine_readable_sample_manifest_documented": false,
+        "machine_readable_sample_manifest_currently_retrievable": false,
+        "stable_alias_map_frozen": false,
+        "mass_scope_1e13_1e14_documented": false,
+        "density_endpoint_files_verified": false,
+        "pressure_endpoint_files_verified": false,
+        "temperature_endpoint_files_verified": false,
+        "stellar_baryon_endpoint_files_verified": false,
+        "within_endpoint_covariance_verified": false,
+        "cross_endpoint_covariance_verified": false,
+        "calibration_and_background_roles_verified": false,
+        "per_file_reuse_terms_verified": false,
+        "xcop_overlap_audited": false,
+        "target_blind_whole_group_split_committable": false,
+        "no_inferred_mass_or_lensing_target_dependency": false,
+        "payload_commitment_frozen": false
+      },
+      "audit_details": {
+        "evidence_source_ids": [
+          "ERASS1_DR1_ARCHIVE",
+          "ERASS1_GROUP_CATALOG_RELEASE",
+          "ERASS1_GROUP_THERMODYNAMICS_PAPER"
+        ],
+        "observed_availability": [
+          "The eRASS1 12,247-object groups-and-clusters parent catalog, DR1 event products, exposure/background maps, eSASS, CALDB, and known-issue documentation are public.",
+          "The published thermodynamic study uses 1178 groups, 271 stacks, deeper eRASS:4 observations, and average thermodynamic measurements rather than direct per-group endpoint vectors."
+        ],
+        "exact_missing_fields": [
+          "machine_readable_sample_manifest_documented",
+          "machine_readable_sample_manifest_currently_retrievable",
+          "stable_alias_map_frozen",
+          "mass_scope_1e13_1e14_documented",
+          "density_endpoint_files_verified",
+          "pressure_endpoint_files_verified",
+          "temperature_endpoint_files_verified",
+          "stellar_baryon_endpoint_files_verified",
+          "within_endpoint_covariance_verified",
+          "cross_endpoint_covariance_verified",
+          "calibration_and_background_roles_verified",
+          "per_file_reuse_terms_verified",
+          "xcop_overlap_audited",
+          "target_blind_whole_group_split_committable",
+          "no_inferred_mass_or_lensing_target_dependency",
+          "payload_commitment_frozen"
+        ],
+        "alias_and_overlap_blocker": "The exact 1178-subset aliases and stack membership were not frozen or reconciled against X-COP or X-GAP.",
+        "endpoint_blocker": "The reported endpoints are stack-level averages and rely on deeper eRASS:4 analysis; they are not a direct per-group density, pressure, temperature, and stellar-baryon packet.",
+        "covariance_blocker": "No public per-group full radial and cross-endpoint covariance packet was verified; a public simulation covariance does not substitute for the observational likelihood covariance.",
+        "calibration_blocker": "DR1 calibration products cannot by themselves reproduce the deeper eRASS:4 stacked analysis, and exact stack-specific background, response, PSF, and selection covariance is not frozen.",
+        "licensing_blocker": "The DR1 archive is public with acknowledgment instructions, but reuse terms and provenance for a complete joined eRASS:4 thermodynamic and stellar-baryon packet are not verified per file.",
+        "population_limitation": "The parent population is large, but the published sample extends below 1e13 solar masses, and selecting the in-range subset would require opening identity/mass rows. Its temperatures and masses are coupled to luminosity/count-rate scaling relations and cannot serve as direct target-blind endpoints.",
+        "payload_commitment": null
+      },
+      "decision": "LARGE_PUBLIC_PARENT_BLOCKED_DIRECT_PER_GROUP_ENDPOINTS_ERASS4_PACKET_STELLAR_BARYONS_COVARIANCE_AND_INFERRED_MASS_LEAKAGE"
+    }
+  ],
+  "direct_endpoint_contract": [
+    {
+      "endpoint_id": "ELECTRON_DENSITY_RADIAL",
+      "quantity": "n_e(r)",
+      "required_source": "X-ray surface-brightness or emission-measure deprojection with frozen emissivity, geometry, background, PSF, and radial covariance",
+      "allowed_derivation": "direct deprojection only",
+      "forbidden_substitutes": [
+        "hydrostatic_total_mass",
+        "catalog_mass_proxy",
+        "entropy_only_table",
+        "stack_average_as_object_endpoint"
+      ]
+    },
+    {
+      "endpoint_id": "ELECTRON_PRESSURE_RADIAL",
+      "quantity": "P_e(r)",
+      "required_source": "direct deprojected X-ray/SZ pressure or n_e(r) times kT(r) with joint posterior draws",
+      "allowed_derivation": "P_e = n_e kT only when density-temperature cross-covariance is preserved",
+      "forbidden_substitutes": [
+        "universal_pressure_template_without_object_likelihood",
+        "integrated_Y_mass_proxy",
+        "hydrostatic_total_mass",
+        "stack_average_as_object_endpoint"
+      ]
+    },
+    {
+      "endpoint_id": "SPECTROSCOPIC_TEMPERATURE_RADIAL",
+      "quantity": "kT_X(r)",
+      "required_source": "background-subtracted projected or deprojected spectral fits with ARF, RMF, PSF mixing, abundance model, and radial covariance",
+      "allowed_derivation": "instrument-reported spectroscopic temperature only",
+      "forbidden_substitutes": [
+        "luminosity_temperature_scaling_estimate",
+        "count_rate_temperature_scaling_estimate",
+        "simulation_temperature",
+        "stack_average_as_object_endpoint"
+      ]
+    },
+    {
+      "endpoint_id": "STELLAR_BARYON_CUMULATIVE",
+      "quantity": "M_star(<r)",
+      "required_source": "BGG, satellites, and diffuse intragroup light with membership probabilities, photometric calibration, mass-to-light or SED posterior, IMF convention, and covariance",
+      "allowed_derivation": "cumulative stellar baryon profile from frozen member-level light and stellar-population nuisance draws",
+      "forbidden_substitutes": [
+        "richness_as_stellar_mass",
+        "BGG_only_mass",
+        "fixed_cosmic_baryon_fraction",
+        "total_mass_minus_gas_mass"
+      ]
+    }
+  ],
+  "required_covariance_roles": [
+    "density_cross_radius_deprojection_covariance",
+    "temperature_cross_radius_spectral_covariance",
+    "pressure_cross_radius_covariance_or_joint_density_temperature_draws",
+    "stellar_profile_membership_photometry_IMF_and_diffuse_light_covariance",
+    "shared_Xray_background_abundance_and_calibration_covariance",
+    "PSF_ARF_RMF_and_deprojection_model_covariance",
+    "cross_endpoint_density_temperature_pressure_covariance"
+  ],
+  "required_calibration_roles": [
+    "observation_ids_dates_instruments_modes_filters_and_exposures",
+    "pipeline_software_and_exact_calibration_database_revision",
+    "flare_filtering_masks_point_source_and_background_provenance",
+    "ARF_RMF_PSF_mixing_and_spectral_abundance_model",
+    "surface_brightness_emissivity_deprojection_and_geometry",
+    "optical_IR_catalog_release_zeropoint_extinction_membership_and_IMF",
+    "radius_cosmology_redshift_and_unit_transformations"
+  ],
+  "alias_overlap_contract": {
+    "canonical_alias_fields": [
+      "lane_id",
+      "source_object_id",
+      "ra_deg",
+      "dec_deg",
+      "redshift"
+    ],
+    "normalization_order": [
+      "normalize_catalog_prefix_and_whitespace",
+      "resolve_published_synonyms_without_response_values",
+      "coordinate_match_with_frozen_radius_and_redshift_tolerance",
+      "audit_XCOP_and_cross_lane_overlap",
+      "freeze_one_canonical_group_key_before_any_endpoint_row_is_opened"
+    ],
+    "xcop_overlap_reference": "the already exposed X-COP development and same-release confirmation alias inventory",
+    "xcop_overlap_audited": false,
+    "cross_lane_overlap_audited": false,
+    "missing_alias_action": "FAIL_BEFORE_SPLIT_OR_PAYLOAD_ACCESS",
+    "post_response_alias_reassignment_allowed": false
+  },
+  "whole_group_split_contract": {
+    "algorithm": "SHA256_UTF8_PREFIX_BUCKET",
+    "namespace": "invariant-group-scale-split-v1|",
+    "canonical_key": "lane_id|source_object_id|ra_deg_6dp|dec_deg_6dp|redshift_6dp",
+    "bucket_derivation": "interpret the first eight SHA-256 bytes as an unsigned big-endian integer modulo 10",
+    "assignments": {
+      "development_train": [0, 1, 2, 3, 4, 5],
+      "development_holdout": [6, 7],
+      "confirmation": [8, 9]
+    },
+    "pre_split_exclusions": [
+      "unresolved_alias",
+      "duplicate_cross_lane_identity",
+      "any_XCOP_overlap",
+      "missing_required_endpoint_or_covariance_role"
+    ],
+    "response_or_target_fields_used": [],
+    "whole_group_rule": "All radii, instruments, and endpoints for one canonical group remain in one split.",
+    "post_response_movement_allowed": false,
+    "split_execution_authorized": false
+  },
+  "leakage_and_access_contract": {
+    "allowed_before_authorization": [
+      "official_landing_page_metadata",
+      "reported_filename_size_release_and_data_model",
+      "paper_abstract_methods_data_availability_and_license_metadata",
+      "archive_and_calibration_documentation"
+    ],
+    "forbidden_before_authorization": [
+      "thermodynamic_response_rows",
+      "object_level_density_pressure_or_temperature_values",
+      "stellar_baryon_values",
+      "inferred_hydrostatic_dynamical_lensing_or_scaling_relation_mass_rows",
+      "lensing_shear_or_mass_rows",
+      "candidate_scores_or_residuals",
+      "post_response_quality_selection"
+    ],
+    "forbidden_candidate_inputs": [
+      "object_or_catalog_label",
+      "split_label",
+      "hydrostatic_mass",
+      "lensing_mass",
+      "dynamical_mass",
+      "richness_mass_proxy",
+      "Xray_luminosity_mass_proxy",
+      "response_derived_r500_as_physics_feature"
+    ],
+    "failure_action": "FAIL_CLOSED_BEFORE_PAYLOAD_LOAD",
+    "paid_or_model_calls_allowed": false
+  },
+  "selection_state": {
+    "counts_scope": "RECEIPT_BUILDER_ONLY",
+    "selected_lane": null,
+    "sample_alias_inventory_frozen": false,
+    "payload_manifest_committed": false,
+    "split_executed": false,
+    "observational_authorization": false,
+    "payload_rows_opened": 0,
+    "thermodynamic_rows_opened": 0,
+    "stellar_baryon_rows_opened": 0,
+    "inferred_mass_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "scientific_scores_computed": 0,
+    "paid_or_model_calls": 0,
+    "downloads": 0,
+    "downloaded_bytes": 0
+  },
+  "claim_boundary": {
+    "CP10_1_complete": false,
+    "CP10_2_complete": false,
+    "source_metadata_audit_complete": true,
+    "interactive_audit_zero_row_purity": false,
+    "receipt_builder_zero_row_purity": true,
+    "direct_endpoint_contract_frozen": true,
+    "target_blind_split_algorithm_frozen": true,
+    "public_lane_ready": false,
+    "group_sample_assembled": false,
+    "group_splits_frozen": false,
+    "scientific_data_ready": false,
+    "candidate_tested_on_groups": false,
+    "domain_boundary_measured": false,
+    "publication_claim_supported": false,
+    "central_readiness_changed": false
+  },
+  "output_path": "runs/gravity/publication-readiness/group-scale-source-audit-v1.json"
+}
