@@ -1,0 +1,424 @@
+{
+  "registration": {
+    "input_hashes": {
+      "configs/sparc_rotation_curves_full_v1.json": "dde80c7fc72974358b1370e1978726b87fe1a4048f0880ae79cf513e260a7cf1",
+      "configs/sparc_surface_brightness_exploration_v1.json": "b2661b94a4d71cbe4b747968c069b452f762ddad83b8edcb793d6e6cca5e262f",
+      "runs/gravity/g4/conditional-formula-generator-v4.json": "2b8e57d956e58df419745e325fca7226b740496cdb24a2afec5e58b44a8f8eb4",
+      "configs/gravity_g0_experiment.json": "de8a0be7f6d198136f984b5b1e8658aa998341983aa19abd5c1afafd9d97a028"
+    },
+    "names": [
+      "CamB",
+      "D564-8",
+      "D631-7",
+      "DDO064",
+      "DDO161",
+      "DDO168",
+      "DDO170",
+      "ESO079-G014",
+      "ESO116-G012",
+      "ESO563-G021",
+      "F561-1",
+      "F563-1",
+      "F563-V1",
+      "F565-V2",
+      "F567-2",
+      "F568-1",
+      "F568-3",
+      "F568-V1",
+      "F571-8",
+      "F571-V1",
+      "F574-2",
+      "F579-V1",
+      "F583-1",
+      "F583-4",
+      "KK98-251",
+      "NGC0024",
+      "NGC0055",
+      "NGC0100",
+      "NGC0247",
+      "NGC0289",
+      "NGC0300",
+      "NGC0801",
+      "NGC0891",
+      "NGC1003",
+      "NGC1090",
+      "NGC1705",
+      "NGC2403",
+      "NGC2683",
+      "NGC2841",
+      "NGC2915",
+      "NGC2955",
+      "NGC2976",
+      "NGC2998",
+      "NGC3109",
+      "NGC3198",
+      "NGC3521",
+      "NGC3741",
+      "NGC3769",
+      "NGC3877",
+      "NGC3893",
+      "NGC3917",
+      "NGC3949",
+      "NGC3972",
+      "NGC3992",
+      "NGC4010",
+      "NGC4051",
+      "NGC4068",
+      "NGC4085",
+      "NGC4088",
+      "NGC4100",
+      "NGC4157",
+      "NGC4183",
+      "NGC5005",
+      "NGC5033",
+      "NGC5371",
+      "NGC5585",
+      "NGC5907",
+      "NGC5985",
+      "NGC6015",
+      "NGC6195",
+      "NGC6503",
+      "NGC6674",
+      "NGC6789",
+      "NGC6946",
+      "NGC7331",
+      "NGC7814",
+      "PGC51017",
+      "UGC00128",
+      "UGC00191",
+      "UGC00731",
+      "UGC00891",
+      "UGC01230",
+      "UGC02259",
+      "UGC02487",
+      "UGC02916",
+      "UGC02953",
+      "UGC03205",
+      "UGC03580",
+      "UGC04278",
+      "UGC04305",
+      "UGC04325",
+      "UGC04483",
+      "UGC04499",
+      "UGC05414",
+      "UGC05716",
+      "UGC05750",
+      "UGC05764",
+      "UGC05829",
+      "UGC05986",
+      "UGC05999",
+      "UGC06399",
+      "UGC06614",
+      "UGC06628",
+      "UGC06667",
+      "UGC06786",
+      "UGC06787",
+      "UGC06818",
+      "UGC06917",
+      "UGC06923",
+      "UGC06973",
+      "UGC06983",
+      "UGC07089",
+      "UGC07125",
+      "UGC07151",
+      "UGC07232",
+      "UGC07261",
+      "UGC07323",
+      "UGC07399",
+      "UGC07524",
+      "UGC07577",
+      "UGC07603",
+      "UGC07608",
+      "UGC07866",
+      "UGC08286",
+      "UGC08490",
+      "UGC08550",
+      "UGC08699",
+      "UGC08837",
+      "UGC09037",
+      "UGC09133",
+      "UGC09992",
+      "UGC10310",
+      "UGC11455",
+      "UGC11820",
+      "UGC11914",
+      "UGC12506",
+      "UGCA281",
+      "UGCA442",
+      "UGCA444"
+    ],
+    "scope": "Previously exposed 139-galaxy development data only. New nested CV does not restore independent confirmation.",
+    "scenarios": {
+      "nominal": [
+        0.5,
+        0.7
+      ],
+      "lighter_stars": [
+        0.35,
+        0.5
+      ],
+      "heavier_stars": [
+        0.65,
+        0.9
+      ]
+    },
+    "targets": "fractional velocity residual Vobs/VRAR-1; equal total training weight per galaxy.",
+    "model_groups": [
+      "offset",
+      "acceleration",
+      "local_structure",
+      "nonlocal_structure"
+    ],
+    "folds": "Five outer whole-galaxy folds, three inner whole-galaxy folds; SHA256 name ordering, two fixed salts.",
+    "salts": [
+      "sparc-pattern-round1-A",
+      "sparc-pattern-round1-B"
+    ],
+    "ridge": [
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "limits": "Fixed mass-to-light sensitivity only; no complete distance/inclination/thickness/molecular-gas/covariance marginalization. No motion source or full 3D field law.",
+    "radial_statistics": "Equal-count inner and outer thirds; a within-galaxy radial contrast, not a fixed physical boundary.",
+    "feature_definitions": [
+      "log10(gbar/a0)",
+      "its square",
+      "log10(r/r_disk_peak)",
+      "signed gas fraction",
+      "bulge fraction",
+      "log10(1+SBdisk+SBbul)",
+      "gradient log Vbar^2 versus log r",
+      "interior and exterior averages of SB/(SB+100) minus local SB/(SB+100), logarithmic reaches .25 and 1",
+      "interior and exterior signed-gas-fraction averages minus local, logarithmic reach 1"
+    ],
+    "followup": {
+      "parent_sha256": "4ddf5c1cdf9a717284e1e28b646d28a650af89e4ed72b554d3e0b91e91fbfdae",
+      "scope": "Post-result development robustness audit, not independent confirmation.",
+      "bootstrap": "2000 paired galaxy bootstrap draws of fixed out-of-fold losses; does not repeat model selection or account for historical search.",
+      "shape": "Subtract observed mean fractional residual per galaxy to isolate shape. Diagnostic only: the test-galaxy normalization is not predicted.",
+      "shuffle": "12 seeded permutations of the six nonlocal feature columns together within each galaxy; local columns unchanged. Tests radial alignment, not every source correlation."
+    }
+  },
+  "variance_decomposition": {
+    "total_fractional_mse": 0.05587262502751014,
+    "mean_offset_component": 0.03980719585025246,
+    "fraction_in_galaxy_mean_offsets": 0.71246331867623,
+    "within_curve_component": 0.01606542917725768
+  },
+  "paired_bootstrap": [
+    {
+      "salt": "sparc-pattern-round1-A",
+      "rar_gain_interval": [
+        0.0021284879823995706,
+        0.0698630367211307,
+        0.13854116736963035
+      ],
+      "gain_beyond_local_interval": [
+        0.0017327175391644108,
+        0.025919936049569492,
+        0.04984326014655215
+      ]
+    },
+    {
+      "salt": "sparc-pattern-round1-B",
+      "rar_gain_interval": [
+        -0.0512801795294124,
+        0.03866635743894037,
+        0.12578885623427338
+      ],
+      "gain_beyond_local_interval": [
+        -0.014347417332065227,
+        0.013944420941435332,
+        0.04421686736283305
+      ]
+    }
+  ],
+  "centered_shape": [
+    {
+      "salt": "sparc-pattern-round1-A",
+      "model": "acceleration",
+      "gain": -0.0028499549482432496,
+      "improved": 58
+    },
+    {
+      "salt": "sparc-pattern-round1-A",
+      "model": "local_structure",
+      "gain": 0.00980862199496102,
+      "improved": 78
+    },
+    {
+      "salt": "sparc-pattern-round1-A",
+      "model": "nonlocal_structure",
+      "gain": 0.05123486013096201,
+      "improved": 79
+    },
+    {
+      "salt": "sparc-pattern-round1-B",
+      "model": "acceleration",
+      "gain": -0.0006021800922761944,
+      "improved": 62
+    },
+    {
+      "salt": "sparc-pattern-round1-B",
+      "model": "local_structure",
+      "gain": 0.02134689053055161,
+      "improved": 79
+    },
+    {
+      "salt": "sparc-pattern-round1-B",
+      "model": "nonlocal_structure",
+      "gain": 0.05511070479288327,
+      "improved": 76
+    }
+  ],
+  "shuffled_nonlocal": [
+    {
+      "trial": 0,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.054742466525410816,
+      "improved": 76
+    },
+    {
+      "trial": 0,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.024165494627394146,
+      "improved": 68
+    },
+    {
+      "trial": 1,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05339626823176824,
+      "improved": 72
+    },
+    {
+      "trial": 1,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.024880838034267327,
+      "improved": 69
+    },
+    {
+      "trial": 2,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05232944057707234,
+      "improved": 73
+    },
+    {
+      "trial": 2,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.026284522815757327,
+      "improved": 68
+    },
+    {
+      "trial": 3,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05164139277088364,
+      "improved": 72
+    },
+    {
+      "trial": 3,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.025589411584249877,
+      "improved": 67
+    },
+    {
+      "trial": 4,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05402606994087289,
+      "improved": 72
+    },
+    {
+      "trial": 4,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.02428547746934162,
+      "improved": 69
+    },
+    {
+      "trial": 5,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05442418055553544,
+      "improved": 75
+    },
+    {
+      "trial": 5,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.027409237768223127,
+      "improved": 68
+    },
+    {
+      "trial": 6,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05304309058980905,
+      "improved": 71
+    },
+    {
+      "trial": 6,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.022737606460205284,
+      "improved": 67
+    },
+    {
+      "trial": 7,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05058025732639926,
+      "improved": 72
+    },
+    {
+      "trial": 7,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.025848480876818458,
+      "improved": 69
+    },
+    {
+      "trial": 8,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.050601086795587724,
+      "improved": 74
+    },
+    {
+      "trial": 8,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.02619176507126808,
+      "improved": 70
+    },
+    {
+      "trial": 9,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05358769935347152,
+      "improved": 72
+    },
+    {
+      "trial": 9,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.02520375135622066,
+      "improved": 67
+    },
+    {
+      "trial": 10,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05555104628802121,
+      "improved": 73
+    },
+    {
+      "trial": 10,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.028079860801542567,
+      "improved": 69
+    },
+    {
+      "trial": 11,
+      "salt": "sparc-pattern-round1-A",
+      "gain": 0.05330315337419289,
+      "improved": 74
+    },
+    {
+      "trial": 11,
+      "salt": "sparc-pattern-round1-B",
+      "gain": 0.024377197410243356,
+      "improved": 69
+    }
+  ],
+  "admitted_laws": 0
+}
