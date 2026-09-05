@@ -1,0 +1,840 @@
+{
+  "config": {
+    "registration": "After radial-only cutoff repair, before full replay. Generate only added radial nodes; preserve all original mixed samples bit for bit. All six cases and both thicknesses are required.",
+    "cases": [
+      {
+        "id": "canonical",
+        "transform": "work/gravity-first-principles/potential-join-001/transform_r128_k64.json",
+        "cutoff": 400,
+        "vertical_intervals": 2400,
+        "vertical_extent": 24
+      },
+      {
+        "id": "radial_coarse",
+        "transform": "work/gravity-first-principles/potential-join-001/transform_r64_k64.json",
+        "cutoff": 400,
+        "vertical_intervals": 2400,
+        "vertical_extent": 24
+      },
+      {
+        "id": "wavenumber_coarse",
+        "transform": "work/gravity-first-principles/hankel-midplane-001/transform_r128_k32.json",
+        "cutoff": 400,
+        "vertical_intervals": 2400,
+        "vertical_extent": 24
+      },
+      {
+        "id": "cutoff_200",
+        "transform": "work/gravity-first-principles/potential-join-001/transform_r128_k64.json",
+        "cutoff": 200,
+        "vertical_intervals": 2400,
+        "vertical_extent": 24
+      },
+      {
+        "id": "vertical_coarse",
+        "transform": "work/gravity-first-principles/potential-join-001/transform_r128_k64.json",
+        "cutoff": 400,
+        "vertical_intervals": 1200,
+        "vertical_extent": 24
+      },
+      {
+        "id": "tail_extent",
+        "transform": "work/gravity-first-principles/potential-join-001/transform_r128_k64.json",
+        "cutoff": 400,
+        "vertical_intervals": 3200,
+        "vertical_extent": 32
+      }
+    ],
+    "targets": {
+      "force": 0.0001,
+      "hessian": 0.002,
+      "third": 0.01,
+      "density": 0.002,
+      "density_gradient": 0.01
+    },
+    "probe_entries_per_thickness": 2842,
+    "derivative_steps": [
+      0.001,
+      0.0005
+    ],
+    "fine_derivative_target": 0.0001,
+    "derivative_rule": "Retain old derivative probes and add every new radial boundary at the old heights; central diagnostics retained, both one-sided radial stencils qualify interfaces",
+    "cutoff_200_new_nodes": "Reuse retained radial-refinement samples, not a new integration",
+    "scope": "Sampled numerical admission for a development field solve, not uniform error bounds or an observational/theory validation",
+    "new_observational_scores": 0
+  },
+  "rows": [
+    {
+      "case": "canonical",
+      "variant": "primary",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "old canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 1.783050292276938e-08,
+          "R_kpc": 41.25,
+          "z_kpc": 0.00625
+        },
+        "hessian": {
+          "value": 1.0692407903373065e-06,
+          "R_kpc": 41.0,
+          "z_kpc": 0.025
+        },
+        "third": {
+          "value": 4.626482567563594e-05,
+          "R_kpc": 66.75,
+          "z_kpc": 0.06875
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00010069592155662848,
+          "R_kpc": 0.0,
+          "z_kpc": 32.0
+        },
+        "density_gradient": {
+          "value": 0.00046640168581166253,
+          "R_kpc": 5.625,
+          "z_kpc": 32.0
+        }
+      },
+      "within_field_and_source_targets": true,
+      "derivative_probe_entries": 360,
+      "independent_derivatives": [
+        {
+          "step": 0.001,
+          "stencil": "central",
+          "errors": {
+            "force": {
+              "value": 1.0687322744597218e-09,
+              "R_kpc": 0.25,
+              "z_kpc": 0.0
+            },
+            "hessian": {
+              "value": 1.345116554774876e-09,
+              "R_kpc": 0.125,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 0.0006714628440077725,
+              "R_kpc": 36.0,
+              "z_kpc": 0.0
+            }
+          }
+        },
+        {
+          "step": 0.001,
+          "stencil": "left",
+          "errors": {
+            "force": {
+              "value": 2.9653995286275834e-10,
+              "R_kpc": 51.0,
+              "z_kpc": 32.0
+            },
+            "hessian": {
+              "value": 3.4172960618634605e-09,
+              "R_kpc": 12.25,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 8.099556330297849e-06,
+              "R_kpc": 0.25,
+              "z_kpc": 60.0
+            }
+          }
+        },
+        {
+          "step": 0.001,
+          "stencil": "right",
+          "errors": {
+            "force": {
+              "value": 3.298754720303205e-10,
+              "R_kpc": 63.0,
+              "z_kpc": 1.0
+            },
+            "hessian": {
+              "value": 7.39965367589503e-09,
+              "R_kpc": 30.0,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 3.928670666995344e-06,
+              "R_kpc": 30.0,
+              "z_kpc": 60.0
+            }
+          }
+        },
+        {
+          "step": 0.0005,
+          "stencil": "central",
+          "errors": {
+            "force": {
+              "value": 1.3819939930019172e-10,
+              "R_kpc": 0.75,
+              "z_kpc": 60.0
+            },
+            "hessian": {
+              "value": 2.5664350602752423e-09,
+              "R_kpc": 0.125,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 0.0003357330256701981,
+              "R_kpc": 36.0,
+              "z_kpc": 0.0
+            }
+          }
+        },
+        {
+          "step": 0.0005,
+          "stencil": "left",
+          "errors": {
+            "force": {
+              "value": 6.476520552878881e-10,
+              "R_kpc": 12.25,
+              "z_kpc": 60.0
+            },
+            "hessian": {
+              "value": 5.5728966917917245e-09,
+              "R_kpc": 12.25,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 1.6152080902972815e-05,
+              "R_kpc": 0.25,
+              "z_kpc": 60.0
+            }
+          }
+        },
+        {
+          "step": 0.0005,
+          "stencil": "right",
+          "errors": {
+            "force": {
+              "value": 6.415439303826964e-10,
+              "R_kpc": 65.0,
+              "z_kpc": 0.5
+            },
+            "hessian": {
+              "value": 5.5536718586903e-09,
+              "R_kpc": 12.25,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 1.4718097611317257e-05,
+              "R_kpc": 32.75,
+              "z_kpc": 60.0
+            }
+          }
+        }
+      ],
+      "additional_source_identities": {
+        "density": {
+          "value": 0.00010069592155662848,
+          "R_kpc": 0.0,
+          "z_kpc": 32.0
+        },
+        "density_gradient": {
+          "value": 0.00031561147411446816,
+          "R_kpc": 32.75,
+          "z_kpc": 1.0
+        }
+      },
+      "fine_derivatives_pass": true,
+      "additional_source_checks_pass": true
+    },
+    {
+      "case": "canonical",
+      "variant": "height_half",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "old canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 1.8696772724967e-08,
+          "R_kpc": 41.25,
+          "z_kpc": 0.018750000000000003
+        },
+        "hessian": {
+          "value": 3.0724040539578124e-06,
+          "R_kpc": 60.75,
+          "z_kpc": 0.00625
+        },
+        "third": {
+          "value": 0.0017044359401445581,
+          "R_kpc": 61.0,
+          "z_kpc": 0.025
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00012803269850452173,
+          "R_kpc": 25.625,
+          "z_kpc": 0.5
+        },
+        "density_gradient": {
+          "value": 0.002161913269251441,
+          "R_kpc": 36.0625,
+          "z_kpc": 0.025
+        }
+      },
+      "within_field_and_source_targets": true,
+      "derivative_probe_entries": 360,
+      "independent_derivatives": [
+        {
+          "step": 0.001,
+          "stencil": "central",
+          "errors": {
+            "force": {
+              "value": 1.706669294374651e-09,
+              "R_kpc": 0.25,
+              "z_kpc": 0.0
+            },
+            "hessian": {
+              "value": 3.199983888092864e-09,
+              "R_kpc": 34.0,
+              "z_kpc": 0.0
+            },
+            "third": {
+              "value": 0.0009527694222783452,
+              "R_kpc": 36.0,
+              "z_kpc": 0.0
+            }
+          }
+        },
+        {
+          "step": 0.001,
+          "stencil": "left",
+          "errors": {
+            "force": {
+              "value": 1.686782988516062e-09,
+              "R_kpc": 0.0,
+              "z_kpc": 0.025
+            },
+            "hessian": {
+              "value": 3.420596804439322e-09,
+              "R_kpc": 12.25,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 1.0908531651918912e-05,
+              "R_kpc": 32.75,
+              "z_kpc": -0.1
+            }
+          }
+        },
+        {
+          "step": 0.001,
+          "stencil": "right",
+          "errors": {
+            "force": {
+              "value": 1.686782988516062e-09,
+              "R_kpc": 0.0,
+              "z_kpc": 0.025
+            },
+            "hessian": {
+              "value": 7.525950457292858e-09,
+              "R_kpc": 30.0,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 1.0908531651927938e-05,
+              "R_kpc": 32.75,
+              "z_kpc": -0.1
+            }
+          }
+        },
+        {
+          "step": 0.0005,
+          "stencil": "central",
+          "errors": {
+            "force": {
+              "value": 2.1035921249708868e-10,
+              "R_kpc": 0.25,
+              "z_kpc": 0.0
+            },
+            "hessian": {
+              "value": 2.6569654360150464e-09,
+              "R_kpc": 0.125,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 0.000476391689458287,
+              "R_kpc": 36.0,
+              "z_kpc": 0.0
+            }
+          }
+        },
+        {
+          "step": 0.0005,
+          "stencil": "left",
+          "errors": {
+            "force": {
+              "value": 7.336324904388035e-10,
+              "R_kpc": 0.75,
+              "z_kpc": 60.0
+            },
+            "hessian": {
+              "value": 5.568460991801539e-09,
+              "R_kpc": 12.25,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 1.4908675636640853e-05,
+              "R_kpc": 0.25,
+              "z_kpc": 32.0
+            }
+          }
+        },
+        {
+          "step": 0.0005,
+          "stencil": "right",
+          "errors": {
+            "force": {
+              "value": 7.153388973026584e-10,
+              "R_kpc": 49.0,
+              "z_kpc": 32.0
+            },
+            "hessian": {
+              "value": 5.5316456684067695e-09,
+              "R_kpc": 12.25,
+              "z_kpc": 60.0
+            },
+            "third": {
+              "value": 1.472427023369131e-05,
+              "R_kpc": 32.75,
+              "z_kpc": 60.0
+            }
+          }
+        }
+      ],
+      "additional_source_identities": {
+        "density": {
+          "value": 0.00010005158407566465,
+          "R_kpc": 0.0,
+          "z_kpc": 32.0
+        },
+        "density_gradient": {
+          "value": 0.002161913269251441,
+          "R_kpc": 36.0625,
+          "z_kpc": 0.025
+        }
+      },
+      "fine_derivatives_pass": true,
+      "additional_source_checks_pass": true
+    },
+    {
+      "case": "radial_coarse",
+      "variant": "primary",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 5.5997179500871426e-11,
+          "R_kpc": 0.125,
+          "z_kpc": 0.0
+        },
+        "hessian": {
+          "value": 1.2833823381932186e-08,
+          "R_kpc": 65.75,
+          "z_kpc": 0.018750000000000003
+        },
+        "third": {
+          "value": 2.1272494728883198e-05,
+          "R_kpc": 64.25,
+          "z_kpc": 0.043750000000000004
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00010069592155676061,
+          "R_kpc": 0.0,
+          "z_kpc": 32.0
+        },
+        "density_gradient": {
+          "value": 0.00046640070712384316,
+          "R_kpc": 5.625,
+          "z_kpc": 32.0
+        }
+      },
+      "within_field_and_source_targets": true
+    },
+    {
+      "case": "radial_coarse",
+      "variant": "height_half",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 3.662548352980169e-10,
+          "R_kpc": 0.125,
+          "z_kpc": 0.0
+        },
+        "hessian": {
+          "value": 1.3189669491426064e-07,
+          "R_kpc": 65.75,
+          "z_kpc": 0.00625
+        },
+        "third": {
+          "value": 6.980152617081925e-05,
+          "R_kpc": 65.75,
+          "z_kpc": 0.03125
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00012803281077408818,
+          "R_kpc": 25.625,
+          "z_kpc": 0.5
+        },
+        "density_gradient": {
+          "value": 0.002161665905682858,
+          "R_kpc": 36.0625,
+          "z_kpc": 0.025
+        }
+      },
+      "within_field_and_source_targets": true
+    },
+    {
+      "case": "wavenumber_coarse",
+      "variant": "primary",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 6.56631578078727e-11,
+          "R_kpc": 63.75,
+          "z_kpc": 0.13125
+        },
+        "hessian": {
+          "value": 2.9311768605451905e-08,
+          "R_kpc": 62.25,
+          "z_kpc": 0.03125
+        },
+        "third": {
+          "value": 3.686685542787312e-05,
+          "R_kpc": 63.75,
+          "z_kpc": 0.15625000000000003
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.0001006959222490791,
+          "R_kpc": 0.0,
+          "z_kpc": 32.0
+        },
+        "density_gradient": {
+          "value": 0.00046636683659833945,
+          "R_kpc": 5.625,
+          "z_kpc": 32.0
+        }
+      },
+      "within_field_and_source_targets": true
+    },
+    {
+      "case": "wavenumber_coarse",
+      "variant": "height_half",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 2.388195415322044e-10,
+          "R_kpc": 61.25,
+          "z_kpc": 0.06875
+        },
+        "hessian": {
+          "value": 1.4566633010263936e-07,
+          "R_kpc": 65.75,
+          "z_kpc": 0.00625
+        },
+        "third": {
+          "value": 6.276589078737457e-05,
+          "R_kpc": 66.25,
+          "z_kpc": 0.03125
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00012803274691093253,
+          "R_kpc": 25.625,
+          "z_kpc": 0.5
+        },
+        "density_gradient": {
+          "value": 0.002156965829693429,
+          "R_kpc": 36.0625,
+          "z_kpc": 0.025
+        }
+      },
+      "within_field_and_source_targets": true
+    },
+    {
+      "case": "cutoff_200",
+      "variant": "primary",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 3.2922009395891827e-09,
+          "R_kpc": 0.125,
+          "z_kpc": 0.0
+        },
+        "hessian": {
+          "value": 1.6745367224377777e-08,
+          "R_kpc": 62.25,
+          "z_kpc": 0.03125
+        },
+        "third": {
+          "value": 2.165141132373318e-05,
+          "R_kpc": 60.25,
+          "z_kpc": 0.14375000000000002
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00010069592155662848,
+          "R_kpc": 0.0,
+          "z_kpc": 32.0
+        },
+        "density_gradient": {
+          "value": 0.00046640168581166253,
+          "R_kpc": 5.625,
+          "z_kpc": 32.0
+        }
+      },
+      "within_field_and_source_targets": true
+    },
+    {
+      "case": "cutoff_200",
+      "variant": "height_half",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 2.977410940338289e-08,
+          "R_kpc": 0.125,
+          "z_kpc": 0.025
+        },
+        "hessian": {
+          "value": 4.0313549412219076e-07,
+          "R_kpc": 62.25,
+          "z_kpc": 0.00625
+        },
+        "third": {
+          "value": 0.00021135324741490406,
+          "R_kpc": 62.25,
+          "z_kpc": 0.03125
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00012803169877124326,
+          "R_kpc": 25.625,
+          "z_kpc": 0.5
+        },
+        "density_gradient": {
+          "value": 0.0022923503332149494,
+          "R_kpc": 36.0625,
+          "z_kpc": 0.025
+        }
+      },
+      "within_field_and_source_targets": true
+    },
+    {
+      "case": "vertical_coarse",
+      "variant": "primary",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 5.5865220895186684e-09,
+          "R_kpc": 0.0,
+          "z_kpc": 0.025
+        },
+        "hessian": {
+          "value": 1.6279887285103638e-08,
+          "R_kpc": 0.0,
+          "z_kpc": 0.5
+        },
+        "third": {
+          "value": 3.333753713882495e-05,
+          "R_kpc": 63.25,
+          "z_kpc": 0.09375
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00010069580386726893,
+          "R_kpc": 0.0,
+          "z_kpc": 32.0
+        },
+        "density_gradient": {
+          "value": 0.00046639460260521385,
+          "R_kpc": 5.625,
+          "z_kpc": 32.0
+        }
+      },
+      "within_field_and_source_targets": true
+    },
+    {
+      "case": "vertical_coarse",
+      "variant": "height_half",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 4.543293656905987e-09,
+          "R_kpc": 0.0,
+          "z_kpc": 0.025
+        },
+        "hessian": {
+          "value": 1.48721962339115e-08,
+          "R_kpc": 0.125,
+          "z_kpc": 0.25
+        },
+        "third": {
+          "value": 2.8749516339986845e-05,
+          "R_kpc": 65.25,
+          "z_kpc": 0.15625000000000003
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00012802495208913636,
+          "R_kpc": 25.625,
+          "z_kpc": 0.5
+        },
+        "density_gradient": {
+          "value": 0.0021632477493457197,
+          "R_kpc": 36.0625,
+          "z_kpc": 0.025
+        }
+      },
+      "within_field_and_source_targets": true
+    },
+    {
+      "case": "tail_extent",
+      "variant": "primary",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 1.1629857454347204e-12,
+          "R_kpc": 38.0625,
+          "z_kpc": 32.0
+        },
+        "hessian": {
+          "value": 3.324892959596195e-11,
+          "R_kpc": 35.0625,
+          "z_kpc": 58.400000000000006
+        },
+        "third": {
+          "value": 9.335516380453779e-07,
+          "R_kpc": 39.5625,
+          "z_kpc": 58.400000000000006
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00010069592155675983,
+          "R_kpc": 0.0,
+          "z_kpc": 32.0
+        },
+        "density_gradient": {
+          "value": 0.0004663695739573931,
+          "R_kpc": 5.625,
+          "z_kpc": 32.0
+        }
+      },
+      "within_field_and_source_targets": true
+    },
+    {
+      "case": "tail_extent",
+      "variant": "height_half",
+      "probe_entries": 2842,
+      "shape": [
+        241,
+        23
+      ],
+      "change_reference": "refined canonical mesh",
+      "field_change": {
+        "force": {
+          "value": 1.712924088943742e-12,
+          "R_kpc": 33.0625,
+          "z_kpc": 58.400000000000006
+        },
+        "hessian": {
+          "value": 2.0214991342935507e-10,
+          "R_kpc": 0.125,
+          "z_kpc": 60.0
+        },
+        "third": {
+          "value": 1.3971634289508697e-06,
+          "R_kpc": 33.0625,
+          "z_kpc": 58.400000000000006
+        }
+      },
+      "source_identities": {
+        "density": {
+          "value": 0.00012803269850452173,
+          "R_kpc": 25.625,
+          "z_kpc": 0.5
+        },
+        "density_gradient": {
+          "value": 0.002161913269251441,
+          "R_kpc": 36.0625,
+          "z_kpc": 0.025
+        }
+      },
+      "within_field_and_source_targets": true
+    }
+  ],
+  "all_registered_cases_complete": true,
+  "all_sampled_numerical_checks_pass": true,
+  "ready_for_development_field_solve": true,
+  "uniform_error_bound": false,
+  "new_observational_scores": 0,
+  "completed_utc": "2026-09-05T08:15:30.889741+00:00"
+}
