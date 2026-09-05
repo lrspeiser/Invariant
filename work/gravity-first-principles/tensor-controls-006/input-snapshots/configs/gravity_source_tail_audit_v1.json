@@ -1,0 +1,76 @@
+{
+  "schema": "leading-hankel-tail-completion-audit-1",
+  "registration": "After matched-source-001 exposed a density-gradient discrepancy at the fixed C1 outer taper. Before evaluating the leading-tail potential completion on these galaxy sources. Keep the source, grid, 60--80 kpc transition, exterior provider and all numerical tolerances unchanged. Add an explicit scalar potential correction -4 pi G sum f(z) A_K(R), where A_K is the omitted 2D logarithmic Green integral. Do not overwrite density or trace gradients.",
+  "base_directory": "work/gravity-first-principles/matched-source-001",
+  "base_result": "work/gravity-first-principles/matched-source-001/result.json",
+  "input_files": {
+    "work/gravity-first-principles/exterior-moment-002/moments_height_half_reference.json": "a5eacd18db65dccdaa0675e7e3121f24a6df4841c05d7dc8b71ae96a67e35a0d",
+    "work/gravity-first-principles/exterior-moment-002/moments_primary_reference.json": "ce22ce81d1a74038b66b0077b2f79c4f7e67e30808be14b4331ec1e24860de23",
+    "work/gravity-first-principles/exterior-moment-002/result.json": "284c32202b0c4950ba6b9320fdf915497023bb5616aba076ef822d793f1e7920",
+    "work/gravity-first-principles/hankel-midplane-001/transform_r128_k32.json": "e215fcee16320c4a60648b326af04157dcf6311739bd5e789edaf6bdcf184fde",
+    "work/gravity-first-principles/map-source-003/result.json": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+    "work/gravity-first-principles/map-source-003/source_profiles.json": "6e5e256ef60a725c87f8b07fd720beeab40c77b4e19aaf9b0dea5173f8588f39",
+    "work/gravity-first-principles/potential-join-001/result.json": "5e5563f0e21d544db3e43da01927f2857cf2eb97536e03180694489924d0c1df",
+    "work/gravity-first-principles/potential-join-001/transform_r128_k64.json": "365dfe3f0a2938d9b6b90c59eda8e53df50011e7a8bf82b37809e5ce99c0094f",
+    "work/gravity-first-principles/potential-join-001/transform_r64_k64.json": "6b4a6ae21b2e896de2e72c6aa2b544a9a44f8ab421476a3f3f6ddfbf97af3b68",
+    "work/gravity-first-principles/matched-source-001/result.json": "ee10f07adc9bff3950fce090a114ebf3d7c490caf2965040ae78593273b1c2c8",
+    "work/gravity-first-principles/matched-source-001/fields_primary_reference.json": "d139c2c37a474b14b1fae7bf5fd9b3593420baba4fd0d150002efdaff0c7e2f4",
+    "work/gravity-first-principles/matched-source-001/fields_primary_radial_coarse.json": "de11ff926aceb2d47589312b90919198b41cdf840c1e7965735cf58613689a9c",
+    "work/gravity-first-principles/matched-source-001/fields_primary_wavenumber_coarse.json": "6efd4e03b50f994afc7687ca29766f9651b41d96bd1e0c26a43786ffe413c3a3",
+    "work/gravity-first-principles/matched-source-001/fields_primary_cutoff_200.json": "9c3e5ab6767d5d993f9a8fe947d77a568a17b8b94999c4c02d6f60c1867b649e",
+    "work/gravity-first-principles/matched-source-001/fields_primary_vertical_coarse.json": "1a9c5fd76083c541d143f775d8644b165c799be3a11c7ca1006e573ea907f769",
+    "work/gravity-first-principles/matched-source-001/fields_primary_tail_extent.json": "9d0649f00a05c487a758eab257dcb7bf11e7928354f5ad10172ece9b8c9e934b",
+    "work/gravity-first-principles/matched-source-001/fields_height_half_reference.json": "005da46ae70cde26c7591989ff8beaf17a8d817d294b2625a7ffaac3dc658cb7",
+    "work/gravity-first-principles/matched-source-001/fields_height_half_radial_coarse.json": "4eb7c7d89a7a6d7ab4e27ed275d111a82b0066bfd8013f7217b278261bd27a8d",
+    "work/gravity-first-principles/matched-source-001/fields_height_half_wavenumber_coarse.json": "85be5d29346adea27b67e83fd504a96cf5d52e256f2fa6aa4717ba29920bb87e",
+    "work/gravity-first-principles/matched-source-001/fields_height_half_cutoff_200.json": "e4a9dd30c4fef8d8d1f6a27bfd95cfd8d2fa8b99293b59c551f8f016483807cf",
+    "work/gravity-first-principles/matched-source-001/fields_height_half_vertical_coarse.json": "3912a0be9f52d29482668648f5b8932adf39d5b03984bf1aefe66f772f22775f",
+    "work/gravity-first-principles/matched-source-001/fields_height_half_tail_extent.json": "5cce9cae94b54e32b585362cf2f9478173c14da83f530a5d5f75da6b742c1cc4"
+  },
+  "cases": [
+    {
+      "id": "reference",
+      "base_case": "reference",
+      "log_nodes": 128
+    },
+    {
+      "id": "radial_coarse",
+      "base_case": "radial_coarse",
+      "log_nodes": 128
+    },
+    {
+      "id": "wavenumber_coarse",
+      "base_case": "wavenumber_coarse",
+      "log_nodes": 128
+    },
+    {
+      "id": "cutoff_200",
+      "base_case": "cutoff_200",
+      "log_nodes": 128
+    },
+    {
+      "id": "vertical_coarse",
+      "base_case": "vertical_coarse",
+      "log_nodes": 128
+    },
+    {
+      "id": "tail_extent",
+      "base_case": "tail_extent",
+      "log_nodes": 128
+    },
+    {
+      "id": "log_coarse",
+      "base_case": "reference",
+      "log_nodes": 64
+    }
+  ],
+  "control_tests": [
+    "tests/test_gravity_hankel_tail.py",
+    "tests/test_gravity_matched_axisymmetric.py",
+    "tests/test_gravity_potential_join.py",
+    "tests/test_gravity_hankel_axisymmetric.py"
+  ],
+  "method": "Use Z(k,z)=2 f_physical(z)/k+O(k^-3) only for the omitted interval k>K. Evaluate the resulting A_K through the 2D log Green identity and the retained finite-k transform. Radial derivatives belong to that same explicit potential, using its radial Poisson identity; analytic physical sech-squared derivatives supply vertical factors. Preserve the higher-order tail residual and check it against the original physical source. Small-R even series avoids singular numerical quotients.",
+  "admission": "All 4715 registered locations per source and all six independent refinements (the five inherited axes plus radial log-Green quadrature) must meet the unchanged source_config numerical targets. Retain the potential-zero comparison at the transition. No failed points, prior failures or source variants are dropped.",
+  "scope": "Numerical completion of the original fixed source potential. Not a changed physical source, new gravity formula, full nonlinear action solve, production interpolation or independent observational confirmation."
+}
