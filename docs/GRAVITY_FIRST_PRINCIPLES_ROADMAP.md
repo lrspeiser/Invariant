@@ -44,7 +44,7 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 
 | Physical possibility | Present implementation | Next discriminating work |
 |---|---|---|
-| Local scalar response | Regularized QUMOND, bounded successors, isolated analytic axisymmetric adapter | Observed source reconstruction and shared-parameter disk/cluster scoring |
+| Local scalar response | Regularized QUMOND, bounded successors, isolated axisymmetric adapter and eight-cluster pressure development | Observed galaxy reconstruction; resolve conditional cluster–local tension |
 | Additional scalar fields and cross-gradients | TRIMOND subclass | Nonspherical sources, independent solvers, joint member/cluster response |
 | Higher spatial derivatives or length scales | Generalized-QUMOND subclass | Boundary terms, resolution/regularizer convergence, stability |
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
@@ -94,6 +94,23 @@ disk. The suite has 114 passing tests. These are invented sources, not empirical
 galaxy or cluster validation. Next: reconcile data-access history and build
 observed-source adapters with uncertainty, while retaining the unresolved
 multi-field external-boundary work.
+
+The [observed cluster-pressure development test](GRAVITY_XCOP_PRESSURE_2026_09_05.md)
+now evaluates nine scalar candidates and two comparators across eight previously
+exposed clusters and 21 shared nuisance scenarios. At a0=5e-11 m/s², nominal
+median predicted/observed pressure ratios are 0.566–0.635; these candidates have
+greater loss than the RAR comparator in every matched global scenario. Larger
+sampled scales improve pressure but exceed the earlier Cassini-summary screen.
+All 130 focused tests pass, and the integration refinement changes pressure by
+at most 0.000715%. The result remains quality-limited: covariance-product mapping,
+joint source uncertainty and geometry/systematics are incomplete. An initial
+normalization preflight failure is retained; no reserved cluster was opened.
+X-ray temperature is left unscored until its projected spectroscopic response
+is verified. The corrected total-pressure equation and old Item59 observable
+limitations are documented without rewriting historical receipts. Next: observed
+galaxy source reconstruction and a physically distinct response that can address
+the cluster–local conflict without changing constants by regime. The multi-field
+external boundary and derived light coupling remain open.
 
 1. **Finite local-limit audit (monopole stage complete; full local tests open).** Derive the high-acceleration correction,
    including regularization and auxiliary fields, rather than relying on a limit

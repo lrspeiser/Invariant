@@ -125,7 +125,8 @@ def campaign(config, write):
     packets, failures = [], []
     for cluster in config["clusters"]:
         try:
-            packet = load_development_packet(ROOT, cluster, source_contract, covariance_manifest)
+            packet = load_development_packet(ROOT, cluster, source_contract, covariance_manifest,
+                                              allow_radius_scale=config["covariance"].get("allow_constant_radius_scale", False))
             pressure_indices(packet)
             packets.append(packet)
         except (OSError, ValueError, KeyError, IndexError, StopIteration) as exc:
@@ -202,7 +203,7 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
-    config_path = ROOT/"configs/gravity_xcop_pressure_development_v1.json"
+    config_path = ROOT/"configs/gravity_xcop_pressure_development_v2.json"
     config = json.loads(config_path.read_bytes())
     paths = [Path(__file__), config_path, ROOT/config["source_contract"], ROOT/config["covariance_manifest"],
              ROOT/config["predecessor"], *sorted((ROOT/"src/invariant_gravity_extensions").glob("*.py"))]

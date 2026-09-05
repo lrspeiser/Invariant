@@ -3,14 +3,20 @@ import pytest
 from scipy.integrate import quad, solve_ivp
 
 from invariant_gravity_extensions.cluster_pressure import (
+    KPC,
     MU,
+    MU_E,
+    PRESSURE_SI_PER_KEV_CM3,
     PROTON_MASS,
+    G,
     PowerLawDensity,
     boundary_residual_covariance,
     covariance_loss,
     integrate_electron_pressure,
     load_development_packet,
+    predict_pressure,
     pressure_indices,
+    release_normalizations,
 )
 
 
@@ -86,3 +92,34 @@ def test_radius_and_boundary_gate_is_independent_of_pressure_values():
 def test_invalid_nonthermal_fraction_is_not_clipped():
     with pytest.raises(ValueError):
         integrate_electron_pressure([1, 2], [1, 1], [1, 1], [.2, 1.1], 2)
+
+
+def test_release_scaling_is_explicit_and_rejects_changed_bin_geometry():
+    r, p = np.array([1, 2, 3.]), np.array([3, 2, 1.])
+    assert release_normalizations(r, p, r, p/1.01) == pytest.approx((1, 1.01))
+    with pytest.raises(ValueError, match="radial bins"):
+        release_normalizations(r, p, r/1.02, p/1.04)
+    assert release_normalizations(r, p, r/1.02, p/1.04, allow_radius_scale=True) == pytest.approx((1.02, 1.04))
+    with pytest.raises(ValueError, match="geometry"):
+        release_normalizations(r, p, [1, 2, 3.1], p, allow_radius_scale=True)
+    with pytest.raises(ValueError, match="normalization"):
+        release_normalizations(r, p, r, [3, 2, 1.1], allow_radius_scale=True)
+
+
+@pytest.mark.parametrize("distance", [.9, 1, 1.1])
+def test_full_adapter_uniform_sphere_with_physical_units_and_distance_scaling(distance):
+    # Analytic uniform-density baryonic sphere: g = 4*pi*G*rho*r/3.
+    # This exercises the whole pressure adapter, not just its integrator.
+    packet = {"density_radius_kpc": np.array([1, 12.]), "ne_cm3": np.array([1e-3, 1e-3]),
+              "ne_low_error": np.zeros(2), "ne_high_error": np.zeros(2),
+              "pressure_radius_kpc": np.arange(1, 11.), "pressure": np.full(10, 1e-6), "stellar": None}
+    nuisance = {"distance_scale": distance, "outer_nonthermal_fraction": .15, "missing_stellar_gas_ratio": 0}
+    result = predict_pressure(packet, {"family": "newtonian"}, nuisance)
+    r = packet["pressure_radius_kpc"][result["indices"]]*KPC*distance
+    rb = 10*KPC*distance
+    ne = 1e3/distance**.5
+    g_coefficient = 4*np.pi*G*(ne*MU_E*PROTON_MASS)/3
+    boundary_si = 1e-6/distance*PRESSURE_SI_PER_KEV_CM3
+    exact = (1-.15*r/rb)*(boundary_si/.85+MU*PROTON_MASS*ne*g_coefficient*(rb*rb-r*r)/2)
+    np.testing.assert_allclose(result["prediction"]*PRESSURE_SI_PER_KEV_CM3, exact, rtol=2e-14, atol=0)
+    np.testing.assert_allclose(result["predicted_acceleration_m_s2"], g_coefficient*r, rtol=2e-14, atol=0)

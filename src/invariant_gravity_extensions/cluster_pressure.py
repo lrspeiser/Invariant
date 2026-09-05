@@ -127,7 +127,29 @@ def _verified_path(root: Path, relative: str, expected_hash: str) -> Path:
     return path
 
 
-def load_development_packet(root, cluster, source_contract, covariance_manifest):
+def release_normalizations(radius, pressure, native_radius, native_pressure, *, allow_radius_scale=False):
+    """Verify index-wise bin geometry and mean profile up to declared scales.
+
+    This documents an empirical product mapping. It does not establish the
+    astrophysical reason for a normalization change or validate covariance use.
+    """
+    r, p, cr, cp = [_positive_array(value, name) for value, name in
+                     [(radius, "radius"), (pressure, "pressure"),
+                      (native_radius, "native radius"), (native_pressure, "native pressure")]]
+    if not r.shape == p.shape == cr.shape == cp.shape:
+        raise ValueError("covariance and released pressure bin counts do not match")
+    radial_ratio, pressure_ratio = r/cr, p/cp
+    radial_scale, pressure_scale = float(np.median(radial_ratio)), float(np.median(pressure_ratio))
+    if not np.allclose(radial_ratio, radial_scale, rtol=1e-8, atol=0):
+        raise ValueError("covariance and released pressure bin geometry not related by constant scale")
+    if not allow_radius_scale and not np.isclose(radial_scale, 1, rtol=1e-8, atol=0):
+        raise ValueError("covariance and released pressure radial bins do not match")
+    if not np.allclose(pressure_ratio, pressure_scale, rtol=1e-8, atol=0):
+        raise ValueError("pressure products are not related by a constant normalization")
+    return radial_scale, pressure_scale
+
+
+def load_development_packet(root, cluster, source_contract, covariance_manifest, *, allow_radius_scale=False):
     """Read only the named development cluster and required table columns."""
     if cluster not in DEVELOPMENT_CLUSTERS:
         raise PermissionError("reserved or unregistered cluster: no data access")
@@ -177,12 +199,8 @@ def load_development_packet(root, cluster, source_contract, covariance_manifest)
         cr = np.asarray(table["RW"][0], float)
         cp = np.asarray(table["FLUX"][0], float)
         cov = np.asarray(table["COVMAT"][0], float)
-    if cr.shape != packet["pressure_radius_kpc"].shape or not np.allclose(cr, packet["pressure_radius_kpc"], rtol=1e-8):
-        raise ValueError("covariance and released pressure radial bins do not match")
-    ratio = packet["pressure"]/cp
-    mean_scale = float(np.median(ratio))
-    if not np.allclose(ratio, mean_scale, rtol=1e-8):
-        raise ValueError("pressure products are not related by a constant normalization")
+    radius_scale, mean_scale = release_normalizations(packet["pressure_radius_kpc"], packet["pressure"], cr, cp,
+                                                      allow_radius_scale=allow_radius_scale)
     corr = cov/np.outer(np.sqrt(np.diag(cov)), np.sqrt(np.diag(cov)))
     np.linalg.cholesky(corr)
     if not np.allclose(corr, corr.T, rtol=1e-10, atol=1e-12):
@@ -190,6 +208,7 @@ def load_development_packet(root, cluster, source_contract, covariance_manifest)
     packet["covariance"] = corr*np.outer(packet["pressure_error"], packet["pressure_error"])
     packet["native_scaled_covariance"] = cov*mean_scale**2
     packet["covariance_mapping"] = {
+        "radius_scale": radius_scale,
         "mean_profile_scale": mean_scale,
         "quoted_error_over_scaled_native_sigma": (packet["pressure_error"]/(mean_scale*np.sqrt(np.diag(cov)))).tolist(),
         "correlation_min_eigenvalue": float(np.linalg.eigvalsh(corr).min()),
