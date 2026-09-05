@@ -1,0 +1,19 @@
+{
+  "schema": "reflection-symmetric-source-projection-audit-1",
+  "registration": "Source-only follow-up to the completed 54-card galaxy scan, after its angular ringing was observed. No new velocity prediction, score or gravity parameter selection in this audit.",
+  "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+  "source_result": "work/gravity-first-principles/map-source-003/result.json",
+  "source_result_sha256": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+  "predecessor_result": "work/gravity-first-principles/length-ngc3198-001/result.json",
+  "predecessor_result_sha256": "430f1f69a50e29079a4ad09a8fdaef003798336f2b10ca64e8ed369c23ca6009",
+  "variants": [{"id": "primary"}, {"id": "height_half", "height_factor": 0.5}],
+  "shell_radii_kpc": [0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 12.0, 16.0, 20.0, 24.0, 30.0, 35.0],
+  "orders": [48, 80, 160, 320, 640, 1280, 2560],
+  "source_half_gauss_nodes": [2048, 4096],
+  "evaluation_half_gauss_nodes": [4096, 8192],
+  "source_definition": "Same positive surface profiles, regular core and sech-squared lifts as the completed galaxy scan. Reflection symmetry is exact for these assumed sources; only even Legendre coefficients are needed. Project density and the physical source's radial derivative separately at fixed spherical angle.",
+  "measures": "At every registered shell, density negative fraction and L1 error normalized by the physical hemispheric density integral, gradient L1 error normalized by its physical norm integral, peak-scaled density error, and shell mass conservation. Use independent source and evaluation quadrature refinements. No spatial probes are removed after inspecting results.",
+  "numerical_targets": {"maximum_density_L1_fraction_error": 0.01, "maximum_gradient_L1_fraction_error": 0.05, "maximum_negative_density_fraction": 0.005, "maximum_absolute_quadrature_metric_change": 0.001},
+  "target_scope": "Engineering resolution targets for this fixed conditional source only. They do not establish posterior source accuracy, full field convergence, a positive spectral density at every point, or physical theory admission. A failure is retained as numerical/source unresolved, not a gravity rejection.",
+  "control_tests": ["tests/test_gravity_source_projection.py"]
+}

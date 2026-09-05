@@ -1,0 +1,121 @@
+{
+  "config": {
+    "comparison_multipole_grids": [
+      {
+        "angular_nodes": 192,
+        "id": "inherited_coarse",
+        "l_max": 48,
+        "r_max": 3000.0,
+        "r_min": 0.0001,
+        "radial_nodes": 1025
+      },
+      {
+        "angular_nodes": 320,
+        "id": "inherited_fine",
+        "l_max": 80,
+        "r_max": 3000.0,
+        "r_min": 0.0001,
+        "radial_nodes": 2049
+      }
+    ],
+    "control_tests": [
+      "tests/test_gravity_hankel_midplane.py",
+      "tests/test_gravity_source_projection.py"
+    ],
+    "method_reference": "https://galaxiesbook.org/chapters/II-01.-Gravitation-in-Galactic-Disks_3-Gravitational-potentials-from-disk-density-distributions.html",
+    "midplane_radii_kpc": [
+      0.25,
+      0.5,
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      12.0,
+      16.0,
+      20.0,
+      24.0,
+      30.0,
+      35.0
+    ],
+    "numerical_targets": {
+      "maximum_force_fraction_change": 0.0001,
+      "maximum_hessian_norm_scaled_change": 0.002,
+      "maximum_physical_density_fraction_error": 0.002,
+      "maximum_physical_density_gradient_scaled_error": 0.01,
+      "maximum_third_derivative_scaled_change": 0.01
+    },
+    "predecessor_result": "work/gravity-first-principles/length-ngc3198-001/result.json",
+    "predecessor_result_sha256": "430f1f69a50e29079a4ad09a8fdaef003798336f2b10ca64e8ed369c23ca6009",
+    "radial_nodes_per_source_interval": [
+      64,
+      128
+    ],
+    "reference": "Largest cutoff and both largest quadratures. Admission requires each separate one-factor refinement (cutoff 200 to 400; radial 64 to 128; wavenumber 16 to 32) to meet targets on every probe, plus source density and gradient consistency. Cutoff 100 results are retained as stress diagnostics.",
+    "registration": "After source-only shell audit 002; before new disk Hankel predictions. No velocity scoring or new gravity parameter scan. All wavenumber cutoffs, quadrature changes, probes and numerical targets are declared here before evaluating this source.",
+    "schema": "independent-newtonian-midplane-source-jet-audit-1",
+    "scope": "Conditional source-only Newtonian z=0 reference. Not a full two-dimensional derivative provider, modified force, source uncertainty posterior, outer-star test, local test, lensing prediction or physical law rejection. Do not enlarge length-action parameter scan based on midplane agreement alone.",
+    "source_intervals": "Split at all PCHIP knots, the analytic core join, and both outer cosine taper boundaries. Same fixed positive map source as predecessor, no smoothing or knot changes. All components are summed before forming Hessian invariants. Heights only change vertical transforms, so radial transforms are reused for the two registered variants.",
+    "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+    "source_result": "work/gravity-first-principles/map-source-003/result.json",
+    "source_result_sha256": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+    "third_derivative_scale": "Per radius, max(norm(dH/dR), norm(H)/R); source gradient error uses max(abs(4*pi*G*density_R), norm(H)/R). No zero crossings are dropped.",
+    "variants": [
+      {
+        "id": "primary"
+      },
+      {
+        "height_factor": 0.5,
+        "id": "height_half"
+      }
+    ],
+    "wavenumber_cutoffs_kpc_inverse": [
+      100.0,
+      200.0,
+      400.0
+    ],
+    "wavenumber_interval_kpc_inverse": 0.5,
+    "wavenumber_nodes_per_interval": [
+      16,
+      32
+    ]
+  },
+  "git_revision": "a2992e8cef1f5ad2f77a0e645874ec1d8b1da25b",
+  "input_hashes": {
+    "configs/gravity_hankel_midplane_audit_v1.json": "d277fbea6405a3c0a08aa1b4b0871ee39f62f44903dbb7dff3b405a4fd420761",
+    "scripts/audit_gravity_hankel_midplane.py": "35ec2060b361a95ad8151901c00c27eff92deebeeeadf4274467ae9b74f4a593",
+    "src/invariant_gravity_extensions/__init__.py": "68bda97fad7e33c009c55fc92d51abaea6b596556c2907da9587e45c24714c81",
+    "src/invariant_gravity_extensions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/invariant_gravity_extensions/actions.py": "337d9c72e40937bbecb9b2ef803bd42b5ee549f7cb361d3bbb1e54e2bbb75565",
+    "src/invariant_gravity_extensions/cli.py": "06a382c481a1347ee674a97ba8ffca562f2155e3ec94f86ca610699a6dce971e",
+    "src/invariant_gravity_extensions/cluster_pressure.py": "d1a5b96f7183b6b3810702cda3626f13c85fe61f67b42be5eef50a0bc18fbb1f",
+    "src/invariant_gravity_extensions/coherent_momentum.py": "fdf4fe72ce0d64e07b02411c4a9feaae478c783aaf4dcffae4de9f327cfdc713",
+    "src/invariant_gravity_extensions/dynamics.py": "a8c1a1d3847558fb8759624f495aead39654e48df2f03acc8dbd0edf7b38ecb4",
+    "src/invariant_gravity_extensions/external_multifield.py": "5fdd051e54fba639f4c399916a7a3afba056570aafe53ba7c0addc7c2d9718d2",
+    "src/invariant_gravity_extensions/external_quadrupole.py": "54d4435f2018d9e4425dbd380bd7f4e27ac76c404c6472c8b48795434f18e6d9",
+    "src/invariant_gravity_extensions/fields.py": "d10e634034e5274eebb0ad1ee5e8659b0300161da51f98ee1f42346701b5fb51",
+    "src/invariant_gravity_extensions/galaxy_development.py": "648a3e215a4bda2a3c0012563c1f1acbcb112cdaa452adb1876a988bf985c8ec",
+    "src/invariant_gravity_extensions/hankel_midplane.py": "76802a8c68fcba9ec2132b923d7bea7f38129e29e77390a19f3626fb4d483d69",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/isolated_multifield.py": "b48f7459e7290f87e8887ae0f1cc0fcd4cebc1b0572ff47f6495092ce7a63445",
+    "src/invariant_gravity_extensions/length_axisymmetric.py": "f0e6fd4174a6cf6c1028eb91589eb249b87f82c204369ca161f6adb5efc4a0e2",
+    "src/invariant_gravity_extensions/length_cluster_pressure.py": "887ea367d858e49c08178ebba084ae49b679d9d7a9aa6b89fa14740b017c81fe",
+    "src/invariant_gravity_extensions/length_galaxy_development.py": "428d32e0b093b132b8d0b5d444976b9331176b481167b302edf9c019ca1300f0",
+    "src/invariant_gravity_extensions/length_screening.py": "1889511845419c3ad393a17effedde2c038af1bde3d8c159635ff13eb10adaf0",
+    "src/invariant_gravity_extensions/local_limits.py": "51d8d373a543f4b44ff60ccaf4c2c2af661c77c8a6aa805df47a830186492ba5",
+    "src/invariant_gravity_extensions/observables.py": "7402b5549360455b9af815a72853f8c577ebdae68e1b5ff2254d1a0edb9fdd4d",
+    "src/invariant_gravity_extensions/policy.py": "c59e5174e0026f43b3dc16688141c7a2e494877195a2da0a0c1e087d17e9cb4c",
+    "src/invariant_gravity_extensions/reconstructed_axisymmetric.py": "4916d14ee06e412fa7b1168e4b6d126dc5eb28762c1a2e355a08dea5a59be3dd",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "src/invariant_gravity_extensions/smooth_spherical_source.py": "2ac6ff60d56fc3b846e96e69add3d0963276046ce1e5547232fab7edd9e3352c",
+    "src/invariant_gravity_extensions/source_projection.py": "b25591ef5beeb81f9bc69bf513c3225fd01681208d31febbb32593a5ec55af11",
+    "tests/test_gravity_hankel_midplane.py": "2ba8f2550f0320cba172cb93af9fc673c1cf80754523b6c30556cad6032f1c5f",
+    "tests/test_gravity_source_projection.py": "a557624a92e7cfb40756da2b79f53fac1d650c9d0344f6ca3c55a6cbeb21e72c",
+    "work/gravity-first-principles/map-source-003/result.json": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+    "work/gravity-first-principles/map-source-003/source_profiles.json": "6e5e256ef60a725c87f8b07fd720beeab40c77b4e19aaf9b0dea5173f8588f39"
+  },
+  "new_modified_gravity_predictions": false,
+  "new_raw_or_reserved_data": false,
+  "new_response_scoring": false,
+  "quality_verified_observational_tests": 0,
+  "started_utc": "2026-09-05T05:10:41.869618+00:00"
+}

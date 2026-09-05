@@ -970,3 +970,26 @@ tests/test_gravity_length_axisymmetric.py text eol=lf
 configs/gravity_sigma_directions_v6.json text eol=lf
 docs/GRAVITY_LENGTH_GALAXY_DERIVATIVES.md text eol=lf
 docs/GRAVITY_LENGTH_NGC3198_RESULTS.md text eol=lf
+
+# Source and independent derivative audits retain executed bytes.
+work/gravity-first-principles/angular-source-resolution-*/** whitespace=cr-at-eol
+work/gravity-first-principles/angular-source-resolution-*/result.json -diff
+work/gravity-first-principles/hankel-midplane-*/** whitespace=cr-at-eol
+work/gravity-first-principles/hankel-midplane-*/result.json -diff
+work/gravity-first-principles/source-derivative-verification-*/** whitespace=cr-at-eol
+work/gravity-first-principles/source-derivative-verification-*/result.json -diff
+work/gravity-first-principles/angular-source-resolution-*/coefficients_*.json -diff
+work/gravity-first-principles/hankel-midplane-*/transform_*.json -diff
+tests/test_gravity_source_projection.py text eol=lf
+tests/test_gravity_hankel_midplane.py text eol=lf
+scripts/audit_gravity_angular_source_resolution.py text eol=lf
+scripts/audit_gravity_hankel_midplane.py text eol=lf
+scripts/verify_gravity_source_derivative_audits.py text eol=lf
+scripts/report_gravity_source_derivative_audits.py text eol=lf
+configs/gravity_angular_source_resolution_v*.json text eol=lf
+configs/gravity_hankel_midplane_audit_v*.json text eol=lf
+src/invariant_gravity_extensions/source_projection.py text eol=lf
+src/invariant_gravity_extensions/hankel_midplane.py text eol=lf
+docs/GRAVITY_SOURCE_DERIVATIVE_RESULTS.md text eol=lf
+docs/GRAVITY_HANKEL_MIDPLANE_DERIVATION.md text eol=lf
+configs/gravity_sigma_directions_v7.json text eol=lf

@@ -1,0 +1,26 @@
+{
+  "schema": "independent-newtonian-midplane-source-jet-audit-1",
+  "registration": "After source-only shell audit 002; before new disk Hankel predictions. No velocity scoring or new gravity parameter scan. All wavenumber cutoffs, quadrature changes, probes and numerical targets are declared here before evaluating this source.",
+  "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+  "source_result": "work/gravity-first-principles/map-source-003/result.json",
+  "source_result_sha256": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+  "predecessor_result": "work/gravity-first-principles/length-ngc3198-001/result.json",
+  "predecessor_result_sha256": "430f1f69a50e29079a4ad09a8fdaef003798336f2b10ca64e8ed369c23ca6009",
+  "variants": [{"id": "primary"}, {"id": "height_half", "height_factor": 0.5}],
+  "midplane_radii_kpc": [0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 12.0, 16.0, 20.0, 24.0, 30.0, 35.0],
+  "radial_nodes_per_source_interval": [64, 128],
+  "wavenumber_nodes_per_interval": [16, 32],
+  "wavenumber_interval_kpc_inverse": 0.5,
+  "wavenumber_cutoffs_kpc_inverse": [100.0, 200.0, 400.0],
+  "source_intervals": "Split at all PCHIP knots, the analytic core join, and both outer cosine taper boundaries. Same fixed positive map source as predecessor, no smoothing or knot changes. All components are summed before forming Hessian invariants. Heights only change vertical transforms, so radial transforms are reused for the two registered variants.",
+  "reference": "Largest cutoff and both largest quadratures. Admission requires each separate one-factor refinement (cutoff 200 to 400; radial 64 to 128; wavenumber 16 to 32) to meet targets on every probe, plus source density and gradient consistency. Cutoff 100 results are retained as stress diagnostics.",
+  "numerical_targets": {"maximum_force_fraction_change": 0.0001, "maximum_hessian_norm_scaled_change": 0.002, "maximum_third_derivative_scaled_change": 0.01, "maximum_physical_density_fraction_error": 0.002, "maximum_physical_density_gradient_scaled_error": 0.01},
+  "third_derivative_scale": "Per radius, max(norm(dH/dR), norm(H)/R); source gradient error uses max(abs(4*pi*G*density_R), norm(H)/R). No zero crossings are dropped.",
+  "comparison_multipole_grids": [
+    {"id": "inherited_coarse", "r_min": 0.0001, "r_max": 3000.0, "radial_nodes": 1025, "angular_nodes": 192, "l_max": 48},
+    {"id": "inherited_fine", "r_min": 0.0001, "r_max": 3000.0, "radial_nodes": 2049, "angular_nodes": 320, "l_max": 80}
+  ],
+  "scope": "Conditional source-only Newtonian z=0 reference. Not a full two-dimensional derivative provider, modified force, source uncertainty posterior, outer-star test, local test, lensing prediction or physical law rejection. Do not enlarge length-action parameter scan based on midplane agreement alone.",
+  "method_reference": "https://galaxiesbook.org/chapters/II-01.-Gravitation-in-Galactic-Disks_3-Gravitational-potentials-from-disk-density-distributions.html",
+  "control_tests": ["tests/test_gravity_hankel_midplane.py", "tests/test_gravity_source_projection.py"]
+}
