@@ -44,7 +44,7 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 
 | Physical possibility | Present implementation | Next discriminating work |
 |---|---|---|
-| Local scalar response | Regularized QUMOND control | Finite-acceleration local-limit errors; disk and cluster transfer |
+| Local scalar response | Regularized QUMOND, bounded successors, isolated analytic axisymmetric adapter | Observed source reconstruction and shared-parameter disk/cluster scoring |
 | Additional scalar fields and cross-gradients | TRIMOND subclass | Nonspherical sources, independent solvers, joint member/cluster response |
 | Higher spatial derivatives or length scales | Generalized-QUMOND subclass | Boundary terms, resolution/regularizer convergence, stability |
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
@@ -84,6 +84,17 @@ isolated same-source galaxy/cluster tests of the surviving parameter region and
 a multi-field external auxiliary solution, using the exact quadratic coupling
 response and signed internal confinement. No per-regime retuning is allowed.
 
+The [isolated scalar transfer](GRAVITY_ISOLATED_SCALAR_2026_09_05.md) adds a
+nonperiodic multipole field solver for named analytic axisymmetric sources.
+Eighteen dimensional disk/cluster solves at the same a0=5e-11 m/s^2 meet the
+declared numerical targets. Finest Newtonian reconstruction is within 0.0849%,
+and a separate finite-volume discretization agrees to 0.1160% RMS for its anomaly
+control. A local algebraic shortcut differs by up to 3.94% in the illustrative
+disk. The suite has 114 passing tests. These are invented sources, not empirical
+galaxy or cluster validation. Next: reconcile data-access history and build
+observed-source adapters with uncertainty, while retaining the unresolved
+multi-field external-boundary work.
+
 1. **Finite local-limit audit (monopole stage complete; full local tests open).** Derive the high-acceleration correction,
    including regularization and auxiliary fields, rather than relying on a limit
    equal to one. Establish dimensionful units and universal transition scales.
@@ -91,7 +102,7 @@ response and signed internal confinement. No per-regime retuning is allowed.
    orbital precession, ranging, time delay and light deflection. Mark each
    unsupported observable explicitly; obtain current primary measurement sources
    before choosing tolerances. Do not invent numerical pass thresholds.
-2. **Joint isolated scenes.** Add open-boundary and nested member/cluster solvers
+2. **Joint isolated scenes (analytic axisymmetric scalar stage implemented).** Add general source and nested member/cluster solvers
    with manufactured solutions, independent discretization checks, box-size,
    resolution and epsilon convergence. Preserve individual source identities and
    measure stellar acceleration relative to the member COM. Solve total fields

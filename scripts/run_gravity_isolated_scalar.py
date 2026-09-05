@@ -96,7 +96,7 @@ def campaign(config, progress):
         grids.append(MultipoleGrid(**wide))
         exact_newtonian = -total_newtonian(components, R, z)["gradient"]
         for grid in grids:
-            reconstructed = solve_poisson(grid, lambda R, z: total_newtonian(components, R, z)["laplacian"])
+            reconstructed = solve_poisson(grid, lambda R, z, parts=components: total_newtonian(parts, R, z)["laplacian"])
             newtonian.append({"scene": scene["id"], "grid": asdict(grid),
                               "max_relative_force_error": relative_vector_error(reconstructed.evaluate(R, z)["acceleration"], exact_newtonian)})
         for shape in config["shapes"]:
