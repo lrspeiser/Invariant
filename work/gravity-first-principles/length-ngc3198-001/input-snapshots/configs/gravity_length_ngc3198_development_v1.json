@@ -1,0 +1,28 @@
+{
+  "schema": "length-action-ngc3198-development-1",
+  "registration": "Freeze all 54 local/cluster action cards and inherited galaxy source scenarios before new length-action force or velocity comparisons. Previously exposed development galaxy only. This is not an untouched test.",
+  "local_result": "work/gravity-first-principles/length-screening-local-001/result.json",
+  "local_result_sha256": "66ff601b1012da7cbc555a27d8836723a2c6e7b23f393ead530da64e6e938a77",
+  "cluster_result": "work/gravity-first-principles/length-cluster-pressure-001/result.json",
+  "cluster_result_sha256": "3d97d94829de7fe2bce4e9b0eeeb30a4816a053b8cf8b9211ca6bbf5ab15cdbc",
+  "galaxy_predecessor": "work/gravity-first-principles/ngc3198-scalar-001/result.json",
+  "galaxy_predecessor_sha256": "2892912141e39808ae1b30917d718fa9cc5d0b1970b650ab2a7419f6ede6db1e",
+  "inherited_config": "configs/gravity_ngc3198_scalar_development_v1.json",
+  "source_profiles": "work/gravity-first-principles/map-source-003/source_profiles.json",
+  "source_result": "work/gravity-first-principles/map-source-003/result.json",
+  "source_result_sha256": "042cc43e16ca2ae43e2aa2731a0fe4f97eb36070b80913489784b8df0982153b",
+  "radial_selection": "work/gravity-first-principles/ngc3198-scalar-001/radial_selection.json",
+  "source_regularization": {
+    "inner_continuation": "Quadratic log surface density below the first positive source radius, matching its measured value and inherited PCHIP slope. The radial derivative is zero on the symmetry axis. All measured knots and the C1 outer taper remain unchanged. The unmeasured core is a declared source assumption.",
+    "maximum_component_total_mass_fraction_change": 0.01,
+    "maximum_measured_surface_change_over_peak": 1e-12
+  },
+  "field_method": "Project the same joint positive source on the plane-focused angular grid. Interpolate density multipoles S_l(log r), treating all radius factors analytically in exact cubic exponential Green integrals. Derive potential and its first three radial derivatives from those integrals. Evaluate the full Hessian, gradient of its norm and gradient of its trace in three dimensions, then solve the full action-flux divergence with isolated boundaries. No differentiation of the old C1 potential spline; no physical-density substitution inside a numerically different potential's flux.",
+  "source_projection_scope": "Record negative-mass and L1 errors of the finite spectral approximation against the positive physical source; these are numerical artifacts, not negative matter. Target-force convergence does not establish pointwise convergence of every higher derivative or full source/response quality.",
+  "distance_rule": "Keep physical ell and a0 fixed. For distance factor d and the inherited homologous source scaling, gN stays fixed at corresponding angles, H scales as 1/d, and its derivative as 1/d^2. Evaluate the action at effective ell/d in nominal coordinates and multiply circular speeds by sqrt(d). The scalar shortcut of scaling velocities alone is not used for nonzero length.",
+  "inherited_scenarios": "All eleven source variants and three distance by three inclination scenarios from the old config. Recompute the 54 cards and both comparators on the new source. No winning source/geometry choice is promoted.",
+  "numerical_admission": "Use the old 2 percent field-resolution, 0.5 percent boundary, 3 percent map and 1e-8 reflection gates, at all 97 registered radii and all three distances. Refine every source variant; map and boundary checks remain primary-only. Any failure withholds all 99 scores for that model. Nonpositive circular branches are recorded separately and never repaired by clipping or object removal.",
+  "workers": 3,
+  "control_tests": ["tests/test_gravity_length_axisymmetric.py", "tests/test_gravity_length_screening.py", "tests/test_gravity_isolated_axisymmetric.py"],
+  "claim_ceiling": "Quality-limited single-galaxy gas-traced circular-speed development. No direct outer-star test, full Solar System fit, light coupling, population confirmation, first-principles derivation or family pruning. Preserve every numerical failure, source caveat and unfavorable comparison."
+}

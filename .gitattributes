@@ -958,3 +958,15 @@ scripts/report_gravity_length_cluster_pressure.py text eol=lf
 scripts/run_gravity_length_cluster_pressure.py text eol=lf
 tests/test_gravity_length_cluster_pressure.py text eol=lf
 tests/test_gravity_smooth_spherical_source.py text eol=lf
+
+# Derivative-consistent galaxy transfer retains exact execution snapshots.
+work/gravity-first-principles/length-ngc3198-*/** whitespace=cr-at-eol
+work/gravity-first-principles/length-ngc3198-*/result.json -diff
+work/gravity-first-principles/length-ngc3198-*/fields_*.json -diff
+configs/gravity_length_ngc3198_development_v*.json text eol=lf
+scripts/run_gravity_length_ngc3198.py text eol=lf
+scripts/report_gravity_length_ngc3198.py text eol=lf
+tests/test_gravity_length_axisymmetric.py text eol=lf
+configs/gravity_sigma_directions_v6.json text eol=lf
+docs/GRAVITY_LENGTH_GALAXY_DERIVATIVES.md text eol=lf
+docs/GRAVITY_LENGTH_NGC3198_RESULTS.md text eol=lf
