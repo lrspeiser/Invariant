@@ -1,0 +1,12 @@
+{
+  "interface_treatment": "At measured radial knots, core join and taper endpoints, use both left and right fourth-order one-sided stencils: the source is C1 there and a central high-order stencil would straddle a higher-derivative jump. At the axis use signed Cartesian x with the proper component parity. Other points use central stencils.",
+  "maximum_fine_scaled_derivative_error": 0.0001,
+  "method": "Fourth-order finite differences of the active correction potential, its gradient and Hessian, using the preserved execution code. All registered coordinates retained. The correction is multiplied by the exact complementary join weight, so its contribution is zero where the exterior provider is active.",
+  "run_result_sha256": "363524c53eab9bfca2d0efe01bfaf80f876660e4f9b236557f844c9f23763a6f",
+  "scope": "Numerical derivative consistency of the newly added active potential correction, normalized by the full matched field. Inherited Hankel and exterior derivatives have separate controls. This is not a full nonlinear action solve or new astronomical validation.",
+  "stencil_sampling": "Evaluate the union of all required central and interface one-sided stencil coordinates; unused third and fourth offsets away from interfaces need not be evaluated. All original validation points and stencils are retained.",
+  "step_sizes_kpc": [
+    0.001,
+    0.0005
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "recorded_after_test": true,
+  "input_hashes": {
+    "src/invariant_gravity_extensions/precise_tail.py": "b4114957f61ac6cd74380f6f69724dac6f76860520ed295a8f5c09b9cc7377c6",
+    "tests/test_gravity_precise_tail.py": "9d6476dfd08091f1c086a11e1ea353024fa12435cccfb59b9159fd3fd2ad7032"
+  },
+  "status": "UNIT_CONTROL_FAILURE_RETAINED",
+  "command": "python -m pytest tests/test_gravity_precise_tail.py tests/test_gravity_hankel_tail.py -q",
+  "outcome": "1 failed, 3 passed",
+  "failed_control": "test_precise_log_source_against_independent_taper_integrals",
+  "absolute_mass_error": 3.235955564913291e-05,
+  "registered_absolute_target": 1e-05,
+  "diagnosis": "Double-precision Gauss nodes and weights embedded in high-precision arithmetic retain quadrature-rounding error. Refine the same Legendre rule in high precision; do not relax the control target."
+}

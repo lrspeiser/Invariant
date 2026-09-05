@@ -61,6 +61,30 @@ Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
 
+The [precise-tail reference](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-precise-tail-results.md)
+now passes its registered source-grid checks and the independent derivative
+checks of the newly added active correction. The same 4,715 locations per
+thickness, 60--80 kpc join and source prescriptions are retained. Eighteen
+configurations include eight separate variations per thickness. Accurate
+cancellation arithmetic, low-k Bessel values and same-order Gauss rules
+replace the inadequate Windows long-double evaluation.
+
+Maximum fine-step third-tensor discrepancies are 3.346782e-7 nominal and
+4.765752e-7 half-height, below the unchanged 1e-4 target. The source-gradient
+identity maximum is 0.000780684 on its inherited scale. The initial Gauss-rule
+unit failure and first precise verifier's inactive-row indexing failure are
+preserved. A regression control and complete stencil lookup preflight guard
+that optimization. The focused suite has 231 passing tests; lint passes.
+
+These checks differentiate the new correction and retain earlier controls for
+the inherited fields. They do not establish a uniform continuum error bound
+or a production interpolant. Next: build a C3 potential representation with
+mixed derivatives and axis regularity, check independent off-grid values and
+then the complete nonlinear action flux and separate Poisson solve. No new
+astronomical score, physical exclusion or gravity-law validation was added.
+The overlap and elastic directions remain open under their recorded physical
+constraints. Current registry: `configs/gravity_sigma_directions_v12.json`.
+
 The user-proposed [overlapping-range and elastic directions](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-overlap-elastic-assessment.md)
 now have a bounded analytic audit and explicit known-family comparisons. A
 finite ladder of subtracted-Yukawa responses gives an intermediate 1/r extra
