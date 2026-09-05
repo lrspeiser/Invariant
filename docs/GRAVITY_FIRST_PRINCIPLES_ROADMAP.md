@@ -61,7 +61,14 @@ Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
 
-1. **Finite local-limit audit (next).** Derive the high-acceleration correction,
+The [first local-limit audit](GRAVITY_LOCAL_LIMIT_AUDIT_2026_09_05.md) now shows
+that 13/15 extension cards exceed a published monopole precession screen; 2/15
+need a higher-derivative spherical solver. All 18 six-orbit/three-scale scenarios
+miss the screen. This takes priority over further searches of the same baseline's
+auxiliary parameters. Next: derive a versioned action-level successor with a fast
+local limit, and test its low-acceleration behavior and nonspherical predictions.
+
+1. **Finite local-limit audit (monopole stage complete; full local tests open).** Derive the high-acceleration correction,
    including regularization and auxiliary fields, rather than relying on a limit
    equal to one. Establish dimensionful units and universal transition scales.
    Then implement isolated-source predictions and source-bound likelihoods for
