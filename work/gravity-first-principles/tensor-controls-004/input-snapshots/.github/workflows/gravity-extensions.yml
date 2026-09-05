@@ -1,0 +1,151 @@
+name: Gravity extension controls
+on:
+  pull_request:
+    paths:
+      - 'src/invariant_gravity_extensions/**'
+      - 'configs/gravity_extension_discovery_v1.json'
+      - 'tests/test_gravity_extensions.py'
+      - 'tests/test_gravity_local_limits.py'
+      - 'scripts/run_gravity_local_limits.py'
+      - 'configs/gravity_local_limit_audit_v1.json'
+      - 'tests/test_gravity_saturated_actions.py'
+      - 'scripts/run_gravity_saturated_actions.py'
+      - 'scripts/run_gravity_amplitude_transfer.py'
+      - 'configs/gravity_saturated_actions*.json'
+      - 'tests/test_gravity_external_quadrupole.py'
+      - 'scripts/run_gravity_external_quadrupole.py'
+      - 'configs/gravity_external_quadrupole_v1.json'
+      - 'tests/test_gravity_isolated_axisymmetric.py'
+      - 'scripts/run_gravity_isolated_scalar.py'
+      - 'configs/gravity_isolated_scalar_v1.json'
+      - 'tests/test_gravity_cluster_pressure.py'
+      - 'scripts/run_gravity_xcop_pressure.py'
+      - 'scripts/restore_gravity_xcop_development_covariance.py'
+      - 'scripts/plot_gravity_xcop_pressure.py'
+      - 'configs/gravity_xcop_pressure_development_v*.json'
+      - 'tests/test_gravity_reconstructed_axisymmetric.py'
+      - 'scripts/run_gravity_map_source.py'
+      - 'configs/gravity_map_axisymmetric_source_v*.json'
+      - 'tests/test_gravity_galaxy_development.py'
+      - 'scripts/run_gravity_ngc3198_development.py'
+      - 'scripts/plot_gravity_ngc3198_development.py'
+      - 'configs/gravity_ngc3198_scalar_development_v*.json'
+      - 'tests/test_gravity_coherent_momentum.py'
+      - 'scripts/run_gravity_coherent_momentum.py'
+      - 'scripts/import_gravity_sigma_history.py'
+      - 'configs/gravity_coherent_momentum_v*.json'
+      - 'tests/test_gravity_external_multifield.py'
+      - 'scripts/run_gravity_multifield_external.py'
+      - 'scripts/analyze_gravity_multifield_coupling.py'
+      - 'configs/gravity_multifield_external_v*.json'
+      - 'tests/test_gravity_isolated_multifield.py'
+      - 'scripts/run_gravity_ngc3198_multifield.py'
+      - 'scripts/refine_gravity_ngc3198_multifield.py'
+      - 'scripts/report_gravity_ngc3198_multifield.py'
+      - 'configs/gravity_ngc3198_multifield*.json'
+      - 'scripts/audit_gravity_length_screening.py'
+      - 'configs/gravity_length_screening_audit_v1.json'
+      - 'tests/test_gravity_length_screening.py'
+      - 'scripts/run_gravity_length_screening_local.py'
+      - 'scripts/report_gravity_length_screening_local.py'
+      - 'configs/gravity_length_screening_local_v1.json'
+      - 'tests/test_gravity_smooth_spherical_source.py'
+      - 'tests/test_gravity_length_cluster_pressure.py'
+      - 'scripts/audit_gravity_xcop_smooth_source.py'
+      - 'scripts/run_gravity_length_cluster_pressure.py'
+      - 'scripts/report_gravity_length_cluster_pressure.py'
+      - 'scripts/analyze_gravity_length_cluster_pressure.py'
+      - 'configs/gravity_xcop_smooth_source_v*.json'
+      - 'configs/gravity_length_cluster_pressure_v*.json'
+      - 'tests/test_gravity_length_axisymmetric.py'
+      - 'scripts/run_gravity_length_ngc3198.py'
+      - 'scripts/report_gravity_length_ngc3198.py'
+      - 'configs/gravity_length_ngc3198_development_v*.json'
+      - 'tests/test_gravity_source_projection.py'
+      - 'tests/test_gravity_hankel_midplane.py'
+      - 'scripts/audit_gravity_angular_source_resolution.py'
+      - 'scripts/audit_gravity_hankel_midplane.py'
+      - 'scripts/verify_gravity_source_derivative_audits.py'
+      - 'scripts/report_gravity_source_derivative_audits.py'
+      - 'configs/gravity_angular_source_resolution_v*.json'
+      - 'configs/gravity_hankel_midplane_audit_v*.json'
+      - 'tests/test_gravity_hankel_axisymmetric.py'
+      - 'scripts/audit_gravity_hankel_offplane.py'
+      - 'scripts/verify_gravity_hankel_offplane.py'
+      - 'scripts/report_gravity_hankel_offplane.py'
+      - 'configs/gravity_hankel_offplane_audit_v*.json'
+      - 'scripts/run_gravity_extensions.py'
+      - '.github/workflows/gravity-extensions.yml'
+      - 'tests/test_gravity_exterior_moments.py'
+      - 'tests/test_gravity_direct_exterior.py'
+      - 'tests/test_gravity_potential_join.py'
+      - 'scripts/audit_gravity_exterior_moments.py'
+      - 'scripts/verify_gravity_exterior_moments.py'
+      - 'scripts/audit_gravity_potential_join.py'
+      - 'scripts/report_gravity_exterior_and_join.py'
+      - 'configs/gravity_exterior_moment_audit_v*.json'
+      - 'configs/gravity_potential_join_audit_v*.json'
+      - 'tests/test_gravity_matched_axisymmetric.py'
+      - 'tests/test_gravity_hankel_tail.py'
+      - 'scripts/audit_gravity_matched_source.py'
+      - 'scripts/audit_gravity_source_tail.py'
+      - 'scripts/verify_gravity_source_tail.py'
+      - 'scripts/diagnose_gravity_tail_precision.py'
+      - 'scripts/report_gravity_source_tail.py'
+      - 'configs/gravity_matched_source_audit_v*.json'
+      - 'configs/gravity_source_tail_audit_v*.json'
+      - 'scripts/audit_gravity_overlap_elastic.py'
+      - 'scripts/report_gravity_overlap_elastic.py'
+      - 'configs/gravity_overlap_elastic_audit_v*.json'
+      - 'tests/test_gravity_precise_tail.py'
+      - 'tests/test_gravity_tail_verifier.py'
+      - 'scripts/report_gravity_precise_tail.py'
+      - 'tests/test_gravity_tensor_potential.py'
+      - 'tests/test_gravity_mixed_source.py'
+      - 'scripts/audit_gravity_tensor_source.py'
+      - 'tests/test_gravity_tensor_flux.py'
+      - 'scripts/audit_gravity_tensor_flux.py'
+      - 'scripts/diagnose_gravity_tensor_axis.py'
+      - 'configs/gravity_tensor_source_expanded*.json'
+      - 'tests/test_gravity_matched_tensor.py'
+      - 'scripts/audit_gravity_matched_tensor.py'
+      - 'scripts/audit_gravity_tensor_quadrature.py'
+      - 'configs/gravity_tensor_quadrature_v*.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-controls:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.12']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: src
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install only control dependencies
+        run: python -m pip install "numpy>=2,<3" "scipy>=1.15,<2" "sympy>=1.13,<2" "astropy>=7,<8" "pytest>=8.3" "ruff>=0.9"
+      - name: Lint new code only
+        run: python -m ruff check scripts/audit_gravity_tensor_quadrature.py tests/test_gravity_matched_tensor.py scripts/audit_gravity_matched_tensor.py tests/test_gravity_tensor_flux.py scripts/audit_gravity_tensor_flux.py scripts/diagnose_gravity_tensor_axis.py tests/test_gravity_tensor_potential.py tests/test_gravity_mixed_source.py scripts/audit_gravity_tensor_source.py tests/test_gravity_tail_verifier.py scripts/report_gravity_precise_tail.py tests/test_gravity_precise_tail.py scripts/audit_gravity_overlap_elastic.py scripts/report_gravity_overlap_elastic.py tests/test_gravity_matched_axisymmetric.py tests/test_gravity_hankel_tail.py scripts/audit_gravity_matched_source.py scripts/audit_gravity_source_tail.py scripts/verify_gravity_source_tail.py scripts/diagnose_gravity_tail_precision.py scripts/report_gravity_source_tail.py tests/test_gravity_exterior_moments.py tests/test_gravity_direct_exterior.py tests/test_gravity_potential_join.py scripts/audit_gravity_exterior_moments.py scripts/verify_gravity_exterior_moments.py scripts/audit_gravity_potential_join.py scripts/report_gravity_exterior_and_join.py src/invariant_gravity_extensions tests/test_gravity_hankel_axisymmetric.py scripts/audit_gravity_hankel_offplane.py scripts/verify_gravity_hankel_offplane.py scripts/report_gravity_hankel_offplane.py tests/test_gravity_source_projection.py tests/test_gravity_hankel_midplane.py scripts/audit_gravity_angular_source_resolution.py scripts/audit_gravity_hankel_midplane.py scripts/verify_gravity_source_derivative_audits.py scripts/report_gravity_source_derivative_audits.py tests/test_gravity_extensions.py tests/test_gravity_local_limits.py tests/test_gravity_saturated_actions.py tests/test_gravity_external_quadrupole.py tests/test_gravity_isolated_axisymmetric.py tests/test_gravity_cluster_pressure.py tests/test_gravity_reconstructed_axisymmetric.py tests/test_gravity_galaxy_development.py tests/test_gravity_coherent_momentum.py tests/test_gravity_external_multifield.py tests/test_gravity_isolated_multifield.py tests/test_gravity_length_screening.py tests/test_gravity_smooth_spherical_source.py tests/test_gravity_length_cluster_pressure.py tests/test_gravity_length_axisymmetric.py scripts/run_gravity_length_ngc3198.py scripts/report_gravity_length_ngc3198.py scripts/audit_gravity_xcop_smooth_source.py scripts/run_gravity_length_cluster_pressure.py scripts/report_gravity_length_cluster_pressure.py scripts/analyze_gravity_length_cluster_pressure.py scripts/run_gravity_length_screening_local.py scripts/report_gravity_length_screening_local.py scripts/run_gravity_ngc3198_multifield.py scripts/refine_gravity_ngc3198_multifield.py scripts/report_gravity_ngc3198_multifield.py scripts/audit_gravity_length_screening.py scripts/run_gravity_extensions.py scripts/run_gravity_local_limits.py scripts/run_gravity_saturated_actions.py scripts/run_gravity_amplitude_transfer.py scripts/run_gravity_external_quadrupole.py scripts/run_gravity_isolated_scalar.py scripts/run_gravity_xcop_pressure.py scripts/restore_gravity_xcop_development_covariance.py scripts/plot_gravity_xcop_pressure.py scripts/run_gravity_map_source.py scripts/run_gravity_ngc3198_development.py scripts/plot_gravity_ngc3198_development.py scripts/import_gravity_sigma_history.py scripts/run_gravity_coherent_momentum.py scripts/run_gravity_multifield_external.py scripts/analyze_gravity_multifield_coupling.py
+      - name: Analytic and adversarial implementation controls
+        run: python -m pytest tests/test_gravity_matched_tensor.py tests/test_gravity_tensor_flux.py tests/test_gravity_tensor_potential.py tests/test_gravity_mixed_source.py tests/test_gravity_tail_verifier.py tests/test_gravity_precise_tail.py tests/test_gravity_matched_axisymmetric.py tests/test_gravity_hankel_tail.py tests/test_gravity_exterior_moments.py tests/test_gravity_direct_exterior.py tests/test_gravity_potential_join.py tests/test_gravity_hankel_axisymmetric.py tests/test_gravity_source_projection.py tests/test_gravity_hankel_midplane.py tests/test_gravity_extensions.py tests/test_gravity_local_limits.py tests/test_gravity_saturated_actions.py tests/test_gravity_external_quadrupole.py tests/test_gravity_isolated_axisymmetric.py tests/test_gravity_cluster_pressure.py tests/test_gravity_reconstructed_axisymmetric.py tests/test_gravity_galaxy_development.py tests/test_gravity_coherent_momentum.py tests/test_gravity_external_multifield.py tests/test_gravity_isolated_multifield.py tests/test_gravity_length_screening.py tests/test_gravity_smooth_spherical_source.py tests/test_gravity_length_cluster_pressure.py tests/test_gravity_length_axisymmetric.py -q
+      - name: Synthetic campaign (no scientific data or LFS)
+        run: python scripts/run_gravity_extensions.py demo --assume-no-slip --output tmp/gravity-extensions-ci
+      - name: Higher-derivative analytic controls (no observations)
+        run: python scripts/audit_gravity_length_screening.py --output tmp/gravity-length-screening-ci
+      - name: Published-summary monopole diagnostic (no downloads)
+        run: python scripts/run_gravity_local_limits.py --output tmp/gravity-local-limits-ci
+      - name: Published-summary external quadrupole diagnostic (no downloads)
+        run: python scripts/run_gravity_external_quadrupole.py --output tmp/gravity-external-quadrupole-ci
+      - name: Overlapping-range and elastic analytic controls (no new observations)
+        run: python scripts/audit_gravity_overlap_elastic.py --output tmp/gravity-overlap-elastic-ci

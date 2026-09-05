@@ -1,0 +1,12 @@
+{
+  "registration": "After matched-tensor-002 sampled checks; before any tensor quadrature variation. Hold the fine tensor mesh, physical source, join, global gravity parameters and all probes fixed. Vary one numerical source-integration setting at a time. All five cases are required; partial completion does not admit the source.",
+  "targets": {"force": 0.0001, "hessian": 0.002, "third": 0.01, "density": 0.002, "density_gradient": 0.01},
+  "cases": [
+    {"id": "radial_coarse", "transform": "work/gravity-first-principles/potential-join-001/transform_r64_k64.json", "cutoff": 400, "vertical_intervals": 2400, "vertical_extent": 24},
+    {"id": "wavenumber_coarse", "transform": "work/gravity-first-principles/hankel-midplane-001/transform_r128_k32.json", "cutoff": 400, "vertical_intervals": 2400, "vertical_extent": 24},
+    {"id": "cutoff_200", "transform": "work/gravity-first-principles/potential-join-001/transform_r128_k64.json", "cutoff": 200, "vertical_intervals": 2400, "vertical_extent": 24},
+    {"id": "vertical_coarse", "transform": "work/gravity-first-principles/potential-join-001/transform_r128_k64.json", "cutoff": 400, "vertical_intervals": 1200, "vertical_extent": 24},
+    {"id": "tail_extent", "transform": "work/gravity-first-principles/potential-join-001/transform_r128_k64.json", "cutoff": 400, "vertical_intervals": 3200, "vertical_extent": 32}
+  ],
+  "claim_ceiling": "Finite source-integration convergence diagnostics for two retained thicknesses, not uniform error bounds, new observations, a full action solve or a validated law. Coarser quadrature failures are retained and do not automatically falsify a finer representation or a physical family."
+}
