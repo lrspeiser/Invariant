@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "scope": "THEORY_BENCHMARK_ONLY",
+  "candidate": "P0696 coherent-monopole base; no routed or source-blended addition",
+  "hypothesis": "An instantaneous isolated gravitational operator must have zero net internal force on its complete matter source if it is to supply a closed momentum-conserving nonrelativistic model.",
+  "formula": "g0=<inward gN>_sphere; delta_g=2*a0*g0/(sqrt(g0*g0+4*a0*g0)+g0); g_extra=-delta_g*rhat about the baryonic COM",
+  "units": "G=1, mass unit=1, length unit=1, acceleration unit=G*mass_unit/length_unit^2; gm equals mass in these units",
+  "a0": 1.0,
+  "source_kind": "Analytic smooth Plummer density, positive everywhere. Entire source COM is known exactly; finite-volume tails are audited.",
+  "scenes": [
+    {"id": "asymmetric", "components": [{"name":"light", "gm":1.0,"a":0.0,"b":0.5,"z_center":2.0},{"name":"heavy","gm":2.0,"a":0.0,"b":0.5,"z_center":-1.0}]},
+    {"id": "reflected", "components": [{"name":"light", "gm":1.0,"a":0.0,"b":0.5,"z_center":-2.0},{"name":"heavy","gm":2.0,"a":0.0,"b":0.5,"z_center":1.0}]},
+    {"id": "symmetric", "components": [{"name":"left", "gm":1.0,"a":0.0,"b":0.5,"z_center":-1.5},{"name":"right","gm":1.0,"a":0.0,"b":0.5,"z_center":1.5}]},
+    {"id": "concentric", "components": [{"name":"central", "gm":3.0,"a":0.0,"b":0.5,"z_center":0.0}]}
+  ],
+  "grids": [
+    {"r_min":0.0001,"r_max":100.0,"radial_nodes":1025,"angular_nodes":128,"l_max":0},
+    {"r_min":0.0001,"r_max":100.0,"radial_nodes":2049,"angular_nodes":256,"l_max":0},
+    {"r_min":0.00005,"r_max":200.0,"radial_nodes":2305,"angular_nodes":320,"l_max":0}
+  ],
+  "normalizer": "Integral rho*|gN| dV of total exact analytic Newtonian field; not a probability or observational error",
+  "controls": {
+    "max_normalized_newtonian_net_force": 0.00001,
+    "max_normalized_symmetric_force": 0.00000001,
+    "max_relative_reflection_mismatch": 0.00000001,
+    "max_relative_force_refinement": 0.001,
+    "max_relative_force_boundary_change": 0.001,
+    "max_relative_shell_gauss_error_for_r_at_least_0_01": 0.00001,
+    "max_relative_fine_mass_deficit": 0.0001,
+    "min_normalized_candidate_force_for_resolved_witness": 0.02
+  },
+  "legacy_replay": {
+    "source_import": "work/gravity-first-principles/sigmagravity-import-002",
+    "box_width":24.0,
+    "grid_nodes":[49,65,97],
+    "scene":"asymmetric",
+    "role":"Independent Cartesian implementation cross-check only; its finite cube, density-defined COM and shell binning differ from continuum. Not a gate for the analytic witness."
+  },
+  "constraints": [
+    "Freeze before numerical metrics; retain every version and failed control.",
+    "No observational source or response, no parameter selection from results.",
+    "A resolved witness rejects this exact instantaneous base as a closed momentum-conserving matter law. It does not rule out all coherence, all nonlocality, or an action completion with explicitly derived reaction terms.",
+    "Do not subtract the mass-weighted mean force as a post-hoc repair and call it a derived theory.",
+    "The P0697 hybrid and P0699/P0701 blends require separate full-operator tests."
+  ]
+}

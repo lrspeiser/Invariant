@@ -48,7 +48,7 @@ without a solver stays unresolved; numerical failure is not physical falsificati
 | Additional scalar fields and cross-gradients | TRIMOND subclass | Nonspherical sources, independent solvers, joint member/cluster response |
 | Higher spatial derivatives or length scales | Generalized-QUMOND subclass | Boundary terms, resolution/regularizer convergence, stability |
 | Vector/tensor response and preferred directions | Not implemented in the extension | Derive an action and source-aligned tensor response; rotate all scenes |
-| Nonlocal paths and source connectivity | Historical work to reconcile | Conserved causal kernels and partition-invariant source construction |
+| Nonlocal paths and source connectivity | Sigma history imported; exact coherent-monopole base fails a new internal-force audit | Action-derived reaction terms, conserved causal kernels and partition-invariant source construction |
 | History-dependent inertia or fields | Oscillator and wave controls only | Derive a candidate law; constrain initial state; orbit-frequency transfer |
 | Environment and external fields | Joint periodic scenes and scalar point-source external quadrupole | Multi-field external boundary solution; isolated same-source interventions |
 | New sources: stress, radiation, vacuum state | Not implemented in the extension | Explicit universal coupling and independent source observables |
@@ -60,6 +60,28 @@ These categories organize an extensible search; neither this table nor the
 Use the existing programme record before reopening previously excluded cases.
 
 ## Ordered work packages
+
+The [Sigma history transfer and conservation audit](C:/Users/henry/Documents/Codex/2026-09-04/pu-2/outputs/Gravity-Sigma-history.md)
+adds 23 exact source snapshots, a registry of 128 historically scored formulas
+and nine research directions. The final local Sigma handoff records numerous
+specific coherence failures and leaves thermodynamic stress/baroclinicity
+untested pending correction of the spectral footprint model. Source files and
+their failed interpretations remain distinguishable from newly validated data.
+No reserved observational payload was opened in this transfer.
+
+A preregistered synthetic audit now finds that P0696's radial coherent-monopole
+base produces nonzero total internal force in an unequal two-cloud source.
+The force is 0.337515922559 in declared dimensionless units, or 6.67% of the
+Newtonian internal force-magnitude integral; all eight numerical controls pass.
+The legacy code reproduces the effect qualitatively but has unresolved Cartesian
+quadrature errors. This rejects the exact instantaneous base as a closed
+momentum-conserving matter law, not all coherence theories or the untested full
+hybrid operators. Any successor must derive its reaction terms from an action.
+Evidence: `work/gravity-first-principles/coherent-momentum-001/`;
+result SHA-256 `8ab9d42c79bc17863e4cf711143121effa36f6f1bf4af9153a43c7f05d8c6d99`.
+The focused suite now contains 146 tests. The pending multi-field external
+boundary derivation is preserved in `docs/GRAVITY_TRIMOND_EXTERNAL_SOLVER_NOTES.md`;
+its implementation and physical validation remain outstanding.
 
 The [first local-limit audit](GRAVITY_LOCAL_LIMIT_AUDIT_2026_09_05.md) now shows
 that 13/15 extension cards exceed a published monopole precession screen; 2/15

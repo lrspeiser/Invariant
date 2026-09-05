@@ -1,0 +1,173 @@
+{
+  "config": {
+    "a0": 1.0,
+    "candidate": "P0696 coherent-monopole base; no routed or source-blended addition",
+    "constraints": [
+      "Freeze before numerical metrics; retain every version and failed control.",
+      "No observational source or response, no parameter selection from results.",
+      "A resolved witness rejects this exact instantaneous base as a closed momentum-conserving matter law. It does not rule out all coherence, all nonlocality, or an action completion with explicitly derived reaction terms.",
+      "Do not subtract the mass-weighted mean force as a post-hoc repair and call it a derived theory.",
+      "The P0697 hybrid and P0699/P0701 blends require separate full-operator tests."
+    ],
+    "controls": {
+      "max_normalized_newtonian_net_force": 1e-05,
+      "max_normalized_symmetric_force": 1e-08,
+      "max_relative_fine_mass_deficit": 0.0001,
+      "max_relative_force_boundary_change": 0.001,
+      "max_relative_force_refinement": 0.001,
+      "max_relative_reflection_mismatch": 1e-08,
+      "max_relative_shell_gauss_error_for_r_at_least_0_01": 1e-05,
+      "min_normalized_candidate_force_for_resolved_witness": 0.02
+    },
+    "formula": "g0=<inward gN>_sphere; delta_g=2*a0*g0/(sqrt(g0*g0+4*a0*g0)+g0); g_extra=-delta_g*rhat about the baryonic COM",
+    "grids": [
+      {
+        "angular_nodes": 128,
+        "l_max": 0,
+        "r_max": 100.0,
+        "r_min": 0.0001,
+        "radial_nodes": 1025
+      },
+      {
+        "angular_nodes": 256,
+        "l_max": 0,
+        "r_max": 100.0,
+        "r_min": 0.0001,
+        "radial_nodes": 2049
+      },
+      {
+        "angular_nodes": 320,
+        "l_max": 0,
+        "r_max": 200.0,
+        "r_min": 5e-05,
+        "radial_nodes": 2305
+      }
+    ],
+    "hypothesis": "An instantaneous isolated gravitational operator must have zero net internal force on its complete matter source if it is to supply a closed momentum-conserving nonrelativistic model.",
+    "legacy_replay": {
+      "box_width": 24.0,
+      "grid_nodes": [
+        49,
+        65,
+        97
+      ],
+      "role": "Independent Cartesian implementation cross-check only; its finite cube, density-defined COM and shell binning differ from continuum. Not a gate for the analytic witness.",
+      "scene": "asymmetric",
+      "source_import": "work/gravity-first-principles/sigmagravity-import-002"
+    },
+    "normalizer": "Integral rho*|gN| dV of total exact analytic Newtonian field; not a probability or observational error",
+    "scenes": [
+      {
+        "components": [
+          {
+            "a": 0.0,
+            "b": 0.5,
+            "gm": 1.0,
+            "name": "light",
+            "z_center": 2.0
+          },
+          {
+            "a": 0.0,
+            "b": 0.5,
+            "gm": 2.0,
+            "name": "heavy",
+            "z_center": -1.0
+          }
+        ],
+        "id": "asymmetric"
+      },
+      {
+        "components": [
+          {
+            "a": 0.0,
+            "b": 0.5,
+            "gm": 1.0,
+            "name": "light",
+            "z_center": -2.0
+          },
+          {
+            "a": 0.0,
+            "b": 0.5,
+            "gm": 2.0,
+            "name": "heavy",
+            "z_center": 1.0
+          }
+        ],
+        "id": "reflected"
+      },
+      {
+        "components": [
+          {
+            "a": 0.0,
+            "b": 0.5,
+            "gm": 1.0,
+            "name": "left",
+            "z_center": -1.5
+          },
+          {
+            "a": 0.0,
+            "b": 0.5,
+            "gm": 1.0,
+            "name": "right",
+            "z_center": 1.5
+          }
+        ],
+        "id": "symmetric"
+      },
+      {
+        "components": [
+          {
+            "a": 0.0,
+            "b": 0.5,
+            "gm": 3.0,
+            "name": "central",
+            "z_center": 0.0
+          }
+        ],
+        "id": "concentric"
+      }
+    ],
+    "schema": 1,
+    "scope": "THEORY_BENCHMARK_ONLY",
+    "source_kind": "Analytic smooth Plummer density, positive everywhere. Entire source COM is known exactly; finite-volume tails are audited.",
+    "units": "G=1, mass unit=1, length unit=1, acceleration unit=G*mass_unit/length_unit^2; gm equals mass in these units"
+  },
+  "config_frozen_before_metrics": true,
+  "git_revision": "5c6c49281144b959c5066ed45eec93788627f26f",
+  "input_hashes": {
+    "configs/gravity_coherent_momentum_v1.json": "21a81093e303c88addb61b25c1ced96adad4c94b126ecd92ff86d71c689424c9",
+    "scripts/run_gravity_coherent_momentum.py": "9df0fb4c1de5915c801b8a18fe9339db1afc29dd7023251730b09eaaae72393e",
+    "src/invariant_gravity_extensions/coherent_momentum.py": "fdf4fe72ce0d64e07b02411c4a9feaae478c783aaf4dcffae4de9f327cfdc713",
+    "src/invariant_gravity_extensions/isolated_axisymmetric.py": "c906b90874c9886825203f08b5e431a4d6e6248c2787d706e956a70c1b75ae77",
+    "src/invariant_gravity_extensions/saturated_actions.py": "8e5a9e9f9a168f2c4c1752ff6fadc7aeee89ab952bd5bf3966cbc69b99715b92",
+    "work/gravity-first-principles/sigmagravity-import-002/manifest.json": "aef4d5d18e1be7a7de94141d0d53f0fed4e635365e958586eb5c12caefc76dc5",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/CPR0_MEASURED_DENSITY_AND_COHERENCE_RESULTS.md": "92647a812514e018b005cc3b9e07a3596999e46606d54807c282c9172f3138f7",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/FORMULA_AND_PRIOR_ART_REGISTRY.md": "89a1c4a179d1ae16c3aa323ebb01705ff1beab558ce7dd4bb0b2815b850cf877",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/FORMULA_SCORECARD.md": "f11bc713c4ea84c398d8c7ca1dfa5effacdefb0f7ee6d376f11e8cfd3080a0df",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/MASTER_FORMULA_VALIDATION_MATRIX.md": "7c93366fa225cb4ebcda630bf5c84a42bf336b200891329ef432bdaff956f467",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/P0696_COHERENT_MONOPOLE_MATH_AUDIT_RESULTS.md": "593dd40401a626874e71958e14e230e41b094a5092380d54c5771669f9682f93",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/P0697_SPENT_COHERENT_MONOPOLE_JOINT_RESULTS.md": "882599b727c811a76b01130cd244f2ecd7e8e279c2322ef2f5cd61163e8f18d3",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/P0698_LOCAL_VECTOR_COHERENCE_MATH_AUDIT_RESULTS.md": "01762bd81fcb9acb06b0e58d362a7db7cf13727ca88c232029b38e37f1ef0c10",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/P0699_SPENT_LOCAL_VECTOR_COHERENCE_JOINT_RESULTS.md": "f8ad50b6786ec7b16f4b18791e53e7259fecc0817c177e9ae1307c4c626fb764",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/P0700_BARYCENTRIC_RADIAL_ALIGNMENT_MATH_AUDIT_RESULTS.md": "95ea7b5969176b48e494a0102114a23d336e9cbb8f1baee9aa7126f9081b55fd",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/P0701_SPENT_BARYCENTRIC_RADIAL_ALIGNMENT_JOINT_RESULTS.md": "fbe230cff52b828b59360ddbb4f98a9e41094ee8f4c5baaf1007755b87a39a93",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/docs/PROJECT_WRAP_UP_AND_NEXT_STEPS_2026-08-06.md": "e84fbf1bf17bbcac82ec6133f0e888283375f92a618da8ca35802ec7ec05d58e",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/results/formula_prior_art_registry/formula_prior_art_registry.json": "ff17310ef71c1361cf18dcf3044aa181ab1f95e79d5d2839d8d9bd033f056d27",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/results/formula_scorecard/formula_scorecard.json": "8bbe6e783224fe940f5ba454e19eee3bea5ae332d2d172da5513c14c5820800b",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/src/voidscreen/__init__.py": "8dc3c09dfd760d78cb6ace5240560032dba23a2db15509abaf7c7efe50a13542",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/src/voidscreen/coherent_monopole.py": "1073c6fd4036883c219859f3076ddbd57a8c0cdf8c171d25e905e9c6e5854fac",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/src/voidscreen/field_solvers.py": "fdb452e6d568b66684f32be29043f5166144a3814beb6e0b9bc05094bbf1d6a8",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/src/voidscreen/local_vector_coherence.py": "b258b82f2d6bd2e6701dcdfeadbe09452553955cb60cef8dd595dca18d25a156",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/src/voidscreen/potential_channel_qumond.py": "5897693caff02c23cfd39886820185221db58e45e44b89290af312530899519b",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/frontiers/src/voidscreen/spatial_qumond_3d.py": "a8d3f992746fa0105f07615716548f73050edc236e2fb6850b48f6bb826d1de9",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/legacy/README.md": "e16cd801ac951edf80ed9b360253b9562fb0a0f26611e369f0c0fbb40ddb92b9",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/legacy/docs/EXTENDED_PHASE_COHERENCE.md": "2a6e1d1cd9a16427168e20bb4227b2add09845b6a9b68c883ed0d3fc96e2df55",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/legacy/docs/HONEST_STATUS_SUMMARY.md": "2e055b4878178d95251e197a5e5d084f591dc49b660a1a11dc1d4f32abbc38db",
+    "work/gravity-first-principles/sigmagravity-import-002/source-snapshots/legacy/theory/DYNAMICAL_COHERENCE_FIELD_THEORY.md": "096f9af76a5c30cf0f932adf805e1af9596712dc977e6dfc9aeb8b3a7c589157"
+  },
+  "numpy": "2.2.6",
+  "python": "3.13.5",
+  "raw_observations_accessed": false,
+  "scipy": "1.16.1",
+  "started_utc": "2026-09-05T03:04:03.223517+00:00"
+}
