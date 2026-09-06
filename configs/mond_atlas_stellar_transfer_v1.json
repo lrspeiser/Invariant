@@ -1,0 +1,41 @@
+{
+  "id": "mond-atlas-stellar-transfer-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "Source-only relative registration of P5 stellar+nonstellar reconstruction against P1 IRAC1. No gravity, stellar-mass or motion fit; relative transfer cannot fix deficient absolute astrometry.",
+  "objects": ["NGC2903", "NGC2976", "NGC3198", "NGC3521", "NGC4214"],
+  "p1_inputs": "work/gravity-first-principles/stellar-gaia-alignment-001/result.json",
+  "p5_inputs": "work/gravity-first-principles/stellar-co-acquisition-001/receipt.json",
+  "absolute_astrometry": "work/gravity-first-principles/mond-atlas-astrometry-001/summary.json",
+  "publisher_url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/docs/P5_README.html",
+  "primary_paper": "https://arxiv.org/abs/1410.0009",
+  "private_directory": "work/private/mond-atlas-stellar-transfer-001",
+  "download_limit_bytes": 250000000,
+  "wcs": "Explicit plain TAN with full CD matrix. Use the previously Gaia-tested P1 linear TAN choice, with inherited SIP ignored explicitly. Compare P5 with the same declared projection. Record SIP presence; this is relative source transfer, not general distortion calibration.",
+  "shift": "Sample P1 at its nominal mapped pixel coordinates plus (dx,dy); shifts are in P1 pixels. No input FITS headers are edited.",
+  "search_radius_p1_pixels": 8,
+  "integer_step_pixels": 1,
+  "refine_continuous": true,
+  "optimizer": "L-BFGS-B profiled least-squares with flux scale and offset fitted only on calibration samples; ftol=1e-14, gtol=1e-10, maxiter=200",
+  "sampling_stride_p5_pixels": 3,
+  "partition_block_p5_pixels": 80,
+  "block_edge_guard_pixels": 10,
+  "calibration_parity": 0,
+  "bright_percentile_of_calibration_p5_reconstruction": 80,
+  "minimum_calibration_samples": 100,
+  "minimum_validation_samples": 100,
+  "support": "P5 ICA mask exactly zero; both reconstructed components and P1 support finite. Require every P1 pixel within the full shift-search margin finite before any candidate comparison. Apply one P5 brightness threshold learned from calibration only to both partitions.",
+  "gates": {
+    "validation_relative_rms_max": 0.05,
+    "validation_correlation_min": 0.99,
+    "maximum_shift_boundary_margin_pixels": 0.05,
+    "minimum_positive_flux_scale": 0.0
+  },
+  "benchmarks": {
+    "bilinear_absolute_tolerance": 1e-12,
+    "synthetic_shift_error_pixels": 0.02,
+    "synthetic_validation_relative_rms_max": 0.005,
+    "wcs_astropy_pixel_absolute_tolerance": 1e-6
+  },
+  "exposure": "NGC2903 has known historical shift (-3,-1) and is a replay/control; four other transfers are newly executed here. All five galaxies were already used in development. Reconstructed P5 and P1 share observations, so holdout blocks are an implementation check, not an independent observing epoch.",
+  "nonclaims": ["Flux scale/background are registration nuisance parameters, not absolute calibration.", "No transfer pass identifies stellar mass or 3D depth.", "Source-derived masks and image reconstruction share processing; this does not certify measurement covariance.", "Existing failed/limited absolute Gaia astrometry remains failed/limited even if relative transfer passes."]
+}

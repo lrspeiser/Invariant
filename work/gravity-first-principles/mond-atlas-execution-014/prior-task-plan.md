@@ -9,11 +9,11 @@ outside Git. Independent tasks own separate files in the shared checkout.
 | Task | Deliverable and acceptance | Dependencies | Execution |
 |---|---|---|---|
 | T1: Compute and numerical controls | Run actual CUDA learning; agree with CPU and independent library; prevent held-out response leakage; limit GPU allocations | None | First milestone complete in pattern-learning-001; CuPy on RTX 5090 |
-| T2: Independent baryonic inputs | Recover original geometry, reconcile units and identities, document mass-conversion assumptions without fitting velocities | None | Metadata milestone complete; relative stellar transfer passes five seeds and prior absolute position passes four. Absolute mass/calibration/uncertainty remains. Completed task: Recover independent baryonic mass inputs, thread 01a077c5-6c38-7831-9701-c97dafed68b3 |
+| T2: Independent baryonic inputs | Recover original geometry, reconcile units and identities, document mass-conversion assumptions without fitting velocities | None | First metadata milestone complete; calibration/uncertainty remains. Task: Recover independent baryonic mass inputs, thread 01a077c5-6c38-7831-9701-c97dafed68b3 |
 | T3: Native gas selection and noise | Execute a native-geometry selection/injection pilot; distinguish conditional tests from validated observed covariance | None | First conditional injection milestone complete; exact mask/covariance remains. Task: Validate native gas cube selection, thread 01a077c5-6e58-7a21-8e3b-185a99065e49 |
 | T4: Observable pattern learning | Reusable nested galaxy holdouts, simple/nonlinear comparison, shuffled-feature controls, all outcomes retained | T1; existing radial data supports exploratory development now | First GPU milestone complete on 126 galaxies; resolved extension awaits T2/T3/T6 |
-| T5: Lensing pilot | Ingest measured images/redshifts/dispersion for 1–3 systems; identify PSF/noise/mass-calibration gaps and required light-propagation model | None for ingestion; gravity scoring requires a validated relativistic closure | Ingest/replay milestone complete for three SLACS systems, with native HST SCI/ERR/DQ. PSF, image likelihood, mass calibration and light model remain. Completed task: Acquire a direct-observable lensing pilot, thread 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e |
-| T6: Resolved matter and motion | Plausible 3D ensembles; independently checked full-field gravity; rotation/warp/streaming/pressure and instrument cube controls; observed prediction uncertainties | T2/T3; existing source/field work is development foundation | Synthetic mechanics milestone complete: 25 numerical controls and six injections. Pressure, observed covariance/selection and additional source pilots remain. Completed task: Build resolved galaxy motion controls, thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef |
+| T5: Lensing pilot | Ingest measured images/redshifts/dispersion for 1–3 systems; identify PSF/noise/mass-calibration gaps and required light-propagation model | None for ingestion; gravity scoring requires a validated relativistic closure | Running: Acquire a direct-observable lensing pilot, thread 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e |
+| T6: Resolved matter and motion | Plausible 3D ensembles; independently checked full-field gravity; rotation/warp/streaming/pressure and instrument cube controls; observed prediction uncertainties | T2/T3; existing source/field work is development foundation | Synthetic mechanics controls running: Build resolved galaxy motion controls, thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef; observed scoring still awaits source/instrument validation |
 | T7: Transfer and formula tests | Add eligible galaxies and physical group/survey holdouts; test structure additions; convert reproducible effects into dimensionally consistent formulas and test fixed predictions | T4/T6, with T5 adding a separate light-deflection test | Queued; no verified new gravity law claimed |
 
 Execution sequence:
@@ -33,7 +33,7 @@ summaries, not measured 3D clumps. A fresh split does not make old development
 galaxies a pristine confirmation sample. All pixels of a galaxy stay together;
 physical group and survey separation remain later requirements.
 
-T5 has disclosed incidental exposure to previously reserved SLACS table
+T5 has disclosed incidental exposure to some previously reserved SLACS table
 rows while inspecting primary sources. New exact-row ingestion is confined to
 three historical exploration systems. The later transfer audit must not claim
 the complete historical reserved set has remained unseen.
@@ -61,25 +61,3 @@ PyTorch in Python313 is CPU-only, but CuPy 13.5.1 works on the 5090. No existing
 environment or other process was replaced or stopped.
 
 - Source/native milestone: execution-013; 112 publication-subset tests pass. Two original geometry tables recovered; 864 actual-background injections executed. Details and unresolved observational admission are retained in each package.
-
-- Source/motion/lensing milestone: execution-014; 152 publication-subset tests
-  pass. Four galaxies have relative-transfer plus prior absolute-position
-  support; NGC4214 limitations are retained. Three lensing systems have actual
-  native images and measured catalog rows, with no admitted lensing likelihood.
-  Six motion injections retain recovery, null and non-identifiability results.
-
-Next executable increments, in dependency order:
-
-1. T2/T6: implement a generic source adapter and a second conditional pilot,
-   starting with NGC2976; retain stellar/CO/HI calibration and depth alternatives.
-2. T3/T6: extend motion controls to known correlated channel noise and selection,
-   then validate the actual source/instrument likelihood and pressure closure.
-3. T5: obtain/validate PSF, foreground/arc separation and covariance; benchmark
-   an explicit light-propagation operator before fitting a gravity model.
-4. T4/T7: expand eligible resolved galaxies; evaluate structural corrections on
-   whole galaxies and physical groups/surveys held out from model selection.
-
-The four separately created app tasks have completed their bounded first
-milestones. The parent continues the remaining system work under the active
-goal. Use `run_mond_atlas_stellar_transfer_checked.py` with a fresh private and
-public directory for later transfers; original frozen run packets are immutable.

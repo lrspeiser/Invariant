@@ -1,0 +1,248 @@
+{
+  "schema_version": "mond-atlas-lensing-pilot-v1",
+  "disposition_before_implementation": "SOURCE_BLOCKED",
+  "scope": "Source-provenance ingest and instrument audit only; no source builder, gravity solver, fit or response score.",
+  "claim_ceiling": "Three previously exposed development SLACS systems with original observed inputs and explicit missing gates.",
+  "max_download_bytes": 1000000000,
+  "private_root": "work/private/mond-atlas-lensing-pilot-001",
+  "output_root": "work/gravity-first-principles/mond-atlas-lensing-pilot-001",
+  "historical_sample_manifest": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/sample-manifest.json",
+  "historical_sample_sha256": "4ab0c3625f22d1b456538f4e7951e189b975d601ee2c7fc90d46c39a4157338f",
+  "selection_rationale": "Previously exposed Item 17 exploration targets present in the author-hosted first SLACS imaging release; no residual-based selection; convenience development pilot, not a holdout or representative sample.",
+  "targets": [
+    {
+      "name": "J0216-0813",
+      "sdss": "021652.54-081345.3",
+      "historical_role": "exploration",
+      "image_member_prefix": "0668-52162-428"
+    },
+    {
+      "name": "J0737+3216",
+      "sdss": "073728.45+321618.6",
+      "historical_role": "exploration",
+      "image_member_prefix": "0541-51959-145"
+    },
+    {
+      "name": "J0912+0029",
+      "sdss": "091205.31+002901.2",
+      "historical_role": "exploration",
+      "image_member_prefix": "0472-51955-429"
+    }
+  ],
+  "table_sources": {
+    "bolton_observed": {
+      "catalog": "J/ApJ/682/964/table4",
+      "identity": "Name",
+      "columns": [
+        "Name",
+        "SDSS",
+        "Plate",
+        "MJD",
+        "Fiber",
+        "zFG",
+        "zBG",
+        "sigma",
+        "e_sigma",
+        "Imag",
+        "n_Imag",
+        "AI",
+        "Re",
+        "b/a",
+        "PA",
+        "Mph",
+        "Mul",
+        "Lens"
+      ],
+      "release": "Bolton et al. 2008; CDS ReadMe 2009",
+      "paper": "https://arxiv.org/abs/0805.1931"
+    },
+    "auger_photometry": {
+      "catalog": "J/ApJ/705/1099/lenses",
+      "identity": "SDSS",
+      "columns": [
+        "SDSS",
+        "MType",
+        "f_MType",
+        "Bmag",
+        "Re(B)",
+        "Vmag",
+        "f_Vmag",
+        "Re(V)",
+        "Imag",
+        "Re(I)",
+        "Hmag"
+      ],
+      "release": "Auger et al. 2009; CDS ReadMe 05-Dec-2011",
+      "paper": "https://arxiv.org/abs/0911.2471",
+      "cache_tag": "-lenses"
+    },
+    "auger_sps": {
+      "catalog": "J/ApJ/705/1099/lenses",
+      "identity": "SDSS",
+      "columns": [
+        "SDSS",
+        "logMc",
+        "e_logMc",
+        "logMs",
+        "e_logMs"
+      ],
+      "release": "Auger et al. 2009; CDS ReadMe 05-Dec-2011",
+      "paper": "https://arxiv.org/abs/0911.2471",
+      "classification": "ancillary_SPS_inference_NOT_independent_of_velocity_dispersion",
+      "dependency_warning": "Auger 2009 section 4.2 uses a metallicity prior conditioned on lens velocity dispersion and redshift. Do not use as independent baryonic truth in a velocity-dispersion test.",
+      "cache_tag": "-lenses"
+    },
+    "grillo_photometry": {
+      "catalog": "J/A+A/501/461/lens",
+      "identity": "SLACS",
+      "columns": [
+        "SLACS",
+        "umag",
+        "e_umag",
+        "gmag",
+        "e_gmag",
+        "rmag",
+        "e_rmag",
+        "imag",
+        "e_imag",
+        "zmag",
+        "e_zmag"
+      ],
+      "release": "Grillo et al. 2009; CDS ReadMe 31-Aug-2009",
+      "paper": "https://doi.org/10.1051/0004-6361/200811604"
+    },
+    "grillo_sps": {
+      "catalog": "J/A+A/501/461/lens",
+      "identity": "SLACS",
+      "columns": [
+        "SLACS",
+        "MSalBC",
+        "E_MSalBC",
+        "e_MSalBC",
+        "MSalM",
+        "E_MSalM",
+        "e_MSalM",
+        "MChaBC",
+        "E_MChaBC",
+        "e_MChaBC",
+        "MKroM",
+        "E_MKroM",
+        "e_MKroM"
+      ],
+      "release": "Grillo et al. 2009; CDS ReadMe 31-Aug-2009",
+      "paper": "https://doi.org/10.1051/0004-6361/200811604",
+      "classification": "photometric_SPS_inference_independent_of_individual_motion_and_lensing_response_conditional_on_SPS_assumptions"
+    }
+  },
+  "image_archive": {
+    "url": "https://web.mit.edu/~burles/www/SLACS/driz_20050714.tar.gz",
+    "index_url": "https://web.mit.edu/~burles/www/SLACS/table.htm",
+    "release": "Filename driz_20050714; HTTP Last-Modified 11-Jan-2006; author-hosted Paper I cutouts, not the later Paper V re-reduction",
+    "paper": "https://arxiv.org/abs/astro-ph/0511453"
+  },
+  "forbidden_source_columns": [
+    "bSIE",
+    "bLTM",
+    "Mass",
+    "Mtotlen",
+    "Fc",
+    "Fs",
+    "F",
+    "RE",
+    "qSIE",
+    "gammaLTM",
+    "thetaE",
+    "fap",
+    "MSalBC2",
+    "MSalM2",
+    "MChaBC2",
+    "MKroM2"
+  ],
+  "observational_scoring_allowed": false,
+  "relativistic_closure_required": true,
+  "no_automatic_hi_seed_match": true,
+  "missing_admission_gates": [
+    "Validated imaging PSF, masks and noise/covariance; independent complete baryonic reconstruction with conversions and geometry; independently benchmarked dynamics and relativistic light operator; prospective untouched sample and selection/likelihood protocol."
+  ],
+  "exposure_disclosure": "Discovery opened the complete MIT SLACS overview and extracted text from the Bolton 2006, Bolton 2008, Auger 2009 and Grillo 2009 primary PDFs, including table content with legacy reserved systems. The PDFs and original 28-system cutout archive are cached privately. Do not certify any of the 12 legacy confirmations entirely unseen after this session. Production exact-row catalog queries and FITS-array parsing/extraction were restricted to the three existing exploration systems. No reserved exact-row query, gravity fit, lensing score or modification of historical receipts occurred.",
+  "configuration_revision_note": "Added Grillo independent photometric constraints after primary-paper review revealed velocity-dispersion conditioning of Auger metallicity priors. No gravity fit, score, or residual-based tuning occurs.",
+  "native_images": [
+    {
+      "name": "J0216-0813",
+      "filename": "j93i27kuq_flt.fits",
+      "url": "https://mast.stsci.edu/api/v0.1/Download/file?uri=mast:HST/product/j93i27kuq_flt.fits",
+      "release": "MAST calibrated FLT retrieved in 2026; historical observation, not a reproduction of Paper I/Paper V processing."
+    },
+    {
+      "name": "J0737+3216",
+      "filename": "j93i40gzq_flt.fits",
+      "url": "https://mast.stsci.edu/api/v0.1/Download/file?uri=mast:HST/product/j93i40gzq_flt.fits",
+      "release": "MAST calibrated FLT retrieved in 2026; historical observation, not a reproduction of Paper I/Paper V processing."
+    },
+    {
+      "name": "J0912+0029",
+      "filename": "j93i43ilq_flt.fits",
+      "url": "https://mast.stsci.edu/api/v0.1/Download/file?uri=mast:HST/product/j93i43ilq_flt.fits",
+      "release": "MAST calibrated FLT retrieved in 2026; historical observation, not a reproduction of Paper I/Paper V processing."
+    }
+  ],
+  "instrument_documentation": [
+    {
+      "key": "acs-file-types.html",
+      "url": "https://hst-docs.stsci.edu/acsdhb/chapter-2-acs-data-structure/2-1-types-of-acs-files"
+    },
+    {
+      "key": "acs-file-structure.html",
+      "url": "https://hst-docs.stsci.edu/acsdhb/chapter-2-acs-data-structure/2-2-acs-file-structure"
+    },
+    {
+      "key": "acs-pipeline.html",
+      "url": "https://hst-docs.stsci.edu/acsdhb/chapter-3-acs-calibration-pipeline/3-2-pipeline-overview"
+    }
+  ],
+  "native_acquisition_reason": "Legacy cutouts have only RAZERO/DECZERO, no standard WCS or BUNIT. Acquire the same three named F814W native FLT exposures to bind image pixels, instrumental units, ERR, DQ and celestial coordinates. Expected total download remains below 1 GB.",
+  "primary_documents": [
+    {
+      "discovery_path": "research/bolton2006.pdf",
+      "key": "bolton2006.pdf",
+      "url": "https://arxiv.org/pdf/astro-ph/0511453",
+      "sha256": "7832ce913a9a5352e5e359fa1aa61107086afe1421ea75a9b47238fc134f2473"
+    },
+    {
+      "discovery_path": "research/bolton2008.pdf",
+      "key": "bolton2008.pdf",
+      "url": "https://arxiv.org/pdf/0805.1931",
+      "sha256": "bfe4a042dbfcfac2d0ed49a7fdf155ff777de3bf1b06edd8aca6db5d815d4a96"
+    },
+    {
+      "discovery_path": "research/auger2009.pdf",
+      "key": "auger2009.pdf",
+      "url": "https://arxiv.org/pdf/0911.2471",
+      "sha256": "31f2d6b38c8143a9d8216a0cdfda3ca95e7f5536d3f784f479f47c01228e1668"
+    },
+    {
+      "discovery_path": "research/bolton-readme.txt",
+      "key": "bolton-readme.txt",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/682/964/ReadMe",
+      "sha256": "7cd53666c6fa5362b1feaaf479c4875e56d4b5dde640920101de6765c84b4b11"
+    },
+    {
+      "discovery_path": "research/auger-readme.txt",
+      "key": "auger-readme.txt",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/705/1099/ReadMe",
+      "sha256": "647d27d14c42080b2759d881daf7bb21d4975af872ee437016bcae563b654e97"
+    },
+    {
+      "discovery_path": "research/grillo-readme.txt",
+      "key": "grillo-readme.txt",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/501/461/ReadMe",
+      "sha256": "641f9db50ef08d7e94abd1cce52042dcc496e89c88568fa9047433aad7d6f165"
+    },
+    {
+      "discovery_path": "raw/grillo2009.pdf",
+      "key": "grillo2009.pdf",
+      "url": "https://arxiv.org/pdf/0904.3282",
+      "sha256": "df3746887007595b00e7fb2564ae1e9121e95849c68c04e55d2a06e3324587cf"
+    }
+  ]
+}

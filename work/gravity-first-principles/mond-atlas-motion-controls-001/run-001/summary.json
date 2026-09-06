@@ -1,0 +1,2248 @@
+{
+  "started_utc": "2026-09-06T17:48:31.725539+00:00",
+  "run_id": "run-001",
+  "disposition": "THEORY_BENCHMARK_ONLY",
+  "frozen_preflight": {
+    "frozen_utc": "2026-09-06T17:43:55.5470027Z",
+    "disposition": "THEORY_BENCHMARK_ONLY",
+    "implementation_started": false,
+    "synthetic_response_generated": false,
+    "config_sha256": "0c22d8121f2dfb575d041e4f36d883fa35347ae45ec82c56a6448e507f53f11f",
+    "preflight_sha256": "ea565a52f83353db8e30c4544242cbd28f506e70095515529a6e370a5e0643d8",
+    "shared_cube_sha256": "b9f15de69bfff55f363da3eebb0b51f6085091d8bedece8a6009cc99e353f6a1"
+  },
+  "verified_input_hashes": {
+    "config_sha256": "0c22d8121f2dfb575d041e4f36d883fa35347ae45ec82c56a6448e507f53f11f",
+    "preflight_sha256": "ea565a52f83353db8e30c4544242cbd28f506e70095515529a6e370a5e0643d8",
+    "shared_cube_sha256": "b9f15de69bfff55f363da3eebb0b51f6085091d8bedece8a6009cc99e353f6a1"
+  },
+  "implementation_hashes": {
+    "scripts\\mond_atlas_motion_controls.py": "29b0b475767f74ddc6d7b3fb952f27e3cb469b6cdf5acd12f077e001efb0e4ed",
+    "scripts\\run_mond_atlas_motion_controls.py": "8212654fc5b3c39796595ebff673842e8d8cf4fe0ab2622beca860aca2bf3aa8",
+    "tests\\test_mond_atlas_motion_controls.py": "41fb4a09f3704f2f5b889cc434255dac3829683a7b23b6e11bad46f718c98abc"
+  },
+  "runtime": {
+    "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\henry\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "numpy": "2.2.6",
+    "scipy": "1.16.1",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "device": "CPU",
+    "numerical_library_threads": 1
+  },
+  "access_accounting": {
+    "observed_source_files_opened": 0,
+    "observed_response_files_opened": 0,
+    "synthetic_response_generated": true,
+    "network_requests": 0
+  },
+  "completed_utc": "2026-09-06T17:49:07.357822+00:00",
+  "elapsed_s": 35.632268199988175,
+  "status": "EXECUTED_THEORY_BENCHMARK_ONLY",
+  "numerical_control_count": 24,
+  "numerical_controls_passed": true,
+  "cases": [
+    {
+      "name": "amplitude_zero",
+      "truth_parameters": {
+        "rotation_km_s": 100.0,
+        "inclination_deg": 55.0,
+        "position_angle_deg": 18.0,
+        "systemic_km_s": 0.0,
+        "dispersion_km_s": 7.0,
+        "warp_inclination_deg": 0.0,
+        "warp_position_angle_deg": 0.0,
+        "radial_km_s": 0.0,
+        "asymmetry": 0.0
+      },
+      "noise_seed_spawn_key": [
+        0
+      ],
+      "fits": {
+        "circular_only": {
+          "model": "circular_only",
+          "parameters": {
+            "rotation_km_s": 100.1082930061452,
+            "inclination_deg": 54.792185677154194,
+            "position_angle_deg": 18.141412422556847,
+            "systemic_km_s": 0.16310635864482492,
+            "dispersion_km_s": 6.6467662138713335,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": 0.0,
+            "asymmetry": 0.0
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 0,
+          "starts": [
+            {
+              "training_q": 4671.5745680126165,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 7,
+              "parameters": {
+                "rotation_km_s": 100.1082930061452,
+                "inclination_deg": 54.792185677154194,
+                "position_angle_deg": 18.141412422556847,
+                "systemic_km_s": 0.16310635864482492,
+                "dispersion_km_s": 6.6467662138713335,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            },
+            {
+              "training_q": 4671.574570819947,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 8,
+              "parameters": {
+                "rotation_km_s": 100.10827785778572,
+                "inclination_deg": 54.79220376615942,
+                "position_angle_deg": 18.141151688318445,
+                "systemic_km_s": 0.16309397326012132,
+                "dispersion_km_s": 6.646799433883041,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            }
+          ],
+          "training_q": 4671.5745680126165,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 5,
+          "local_scaled_jacobian_singular_values": [
+            863.0668871040236,
+            361.5058063590522,
+            341.89906102170136,
+            214.48666864883398,
+            93.195613704394
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 745.4925866064402,
+            "inclination_deg": 484.5934593157473,
+            "position_angle_deg": 341.92079903656196,
+            "systemic_km_s": 361.4894340604314,
+            "dispersion_km_s": 94.77003623602228
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.8592756507801526
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.14077980981636698
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.07085625629625746
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "dispersion_km_s"
+              ],
+              "cosine": -0.008868832578069745
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "systemic_km_s"
+              ],
+              "cosine": -0.004923417070148822
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 0.9931068384380562,
+              "weighted_truth_error_per_voxel": 0.0015331524879293363
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.012672568973801,
+              "weighted_truth_error_per_voxel": 0.0011747749632231054
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 0.9800952822880933,
+              "weighted_truth_error_per_voxel": 0.001526203144246266
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 0.9675435792312616,
+              "weighted_truth_error_per_voxel": 0.0011919606161400502
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": 0.10829300614520321,
+            "inclination_deg": -0.20781432284580603,
+            "position_angle_deg": 0.14141242255684716,
+            "systemic_km_s": 0.16310635864482492,
+            "dispersion_km_s": -0.3532337861286665,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": 0.0,
+            "asymmetry": 0.0
+          },
+          "parameter_recovery": true,
+          "predictive_recovery": true
+        },
+        "expanded": {
+          "model": "expanded",
+          "parameters": {
+            "rotation_km_s": 100.03744873678608,
+            "inclination_deg": 55.0929666192221,
+            "position_angle_deg": 18.111991637343976,
+            "systemic_km_s": 0.17155774508933774,
+            "dispersion_km_s": 6.659659692137856,
+            "warp_inclination_deg": -0.6485286451209866,
+            "warp_position_angle_deg": 0.5753435597354297,
+            "radial_km_s": -0.39996957532265753,
+            "asymmetry": -0.0029574603418771606
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s",
+            "warp_inclination_deg",
+            "warp_position_angle_deg",
+            "radial_km_s",
+            "asymmetry"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 1,
+          "starts": [
+            {
+              "training_q": 4670.150873300212,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 7,
+              "parameters": {
+                "rotation_km_s": 100.03801308662798,
+                "inclination_deg": 55.09234722668871,
+                "position_angle_deg": 18.111637874936434,
+                "systemic_km_s": 0.17152243990353,
+                "dispersion_km_s": 6.6597285278251315,
+                "warp_inclination_deg": -0.648353340277783,
+                "warp_position_angle_deg": 0.5754235599286659,
+                "radial_km_s": -0.3994600497677041,
+                "asymmetry": -0.0029565152640050885
+              }
+            },
+            {
+              "training_q": 4670.150869957555,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 9,
+              "parameters": {
+                "rotation_km_s": 100.03744873678608,
+                "inclination_deg": 55.0929666192221,
+                "position_angle_deg": 18.111991637343976,
+                "systemic_km_s": 0.17155774508933774,
+                "dispersion_km_s": 6.659659692137856,
+                "warp_inclination_deg": -0.6485286451209866,
+                "warp_position_angle_deg": 0.5753435597354297,
+                "radial_km_s": -0.39996957532265753,
+                "asymmetry": -0.0029574603418771606
+              }
+            }
+          ],
+          "training_q": 4670.150869957555,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 9,
+          "local_scaled_jacobian_singular_values": [
+            867.0616383161156,
+            403.69535199678245,
+            363.88460777348007,
+            216.298599378928,
+            157.4039417469392,
+            94.24945312817381,
+            81.45084604391933,
+            38.600340858596866,
+            30.851862322498178
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 747.9118833348651,
+            "inclination_deg": 485.036790426615,
+            "position_angle_deg": 340.39975513926237,
+            "systemic_km_s": 361.9618656885416,
+            "dispersion_km_s": 95.71486450872119,
+            "warp_inclination_deg": 67.86699974271687,
+            "warp_position_angle_deg": 102.70261921014473,
+            "radial_km_s": 211.35760124143602,
+            "asymmetry": 161.8318594042381
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "position_angle_deg",
+                "warp_position_angle_deg"
+              ],
+              "cosine": 0.9126297539947573
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "radial_km_s"
+              ],
+              "cosine": 0.9032948607495324
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "warp_inclination_deg"
+              ],
+              "cosine": 0.8806668236530427
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.8598500746615578
+            },
+            {
+              "parameters": [
+                "warp_position_angle_deg",
+                "radial_km_s"
+              ],
+              "cosine": 0.7893509404617266
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 0.9928041815385961,
+              "weighted_truth_error_per_voxel": 0.0018338088078505555
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.013691176612267,
+              "weighted_truth_error_per_voxel": 0.0014738026392647021
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 0.9807905293965997,
+              "weighted_truth_error_per_voxel": 0.001829849172010625
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 0.9683747421960307,
+              "weighted_truth_error_per_voxel": 0.001497650365961906
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": 0.03744873678607519,
+            "inclination_deg": 0.09296661922210347,
+            "position_angle_deg": 0.11199163734397644,
+            "systemic_km_s": 0.17155774508933774,
+            "dispersion_km_s": -0.3403403078621441,
+            "warp_inclination_deg": -0.6485286451209866,
+            "warp_position_angle_deg": 0.5753435597354297,
+            "radial_km_s": -0.39996957532265753,
+            "asymmetry": -0.0029574603418771606
+          },
+          "parameter_recovery": true,
+          "predictive_recovery": true
+        }
+      },
+      "conditional_source_parameters": {
+        "radius_max_kpc": 4.0,
+        "scale_kpc": 1.4,
+        "turn_kpc": 1.1,
+        "asymmetry_phase_deg": 35.0
+      },
+      "split_counts": {
+        "train": 4704,
+        "heldout_channels": 2646,
+        "heldout_pixels": 2352,
+        "heldout_joint": 1323
+      },
+      "production_truth_flux_accounting": {
+        "intrinsic_flux": 1.0,
+        "finite_band_flux": 0.9999999999996849,
+        "spectral_loss": 3.1508129438861943e-13,
+        "outside_halo_assignment_loss": 0.0,
+        "before_beam_in_science_field": 0.9999999999996849,
+        "before_beam_in_halo": 0.0,
+        "beam_export_from_science_field": 8.52773750600333e-05,
+        "beam_import_from_halo": 0.0,
+        "extended_grid_beam_boundary_loss": -1.1102230246251565e-16,
+        "final_science_flux": 0.9999147226246249,
+        "total_spatial_loss_after_band": 8.52773750600333e-05,
+        "total_loss": 8.52773753751146e-05,
+        "flux_accounting_residual": 0.0,
+        "beam_continuous_square_tail_diagnostic": 0.0003536378703379306
+      },
+      "elapsed_s": 5.175037999986671,
+      "synthetic_arrays": {
+        "path": "work\\private\\mond-atlas-motion-controls-001\\run-001\\amplitude_zero.npz",
+        "sha256": "a101196b834da43c265bae9dc991feee675403d507471e6ff2741b4d2c76f172"
+      }
+    },
+    {
+      "name": "warp_only",
+      "truth_parameters": {
+        "rotation_km_s": 100.0,
+        "inclination_deg": 55.0,
+        "position_angle_deg": 18.0,
+        "systemic_km_s": 0.0,
+        "dispersion_km_s": 7.0,
+        "warp_inclination_deg": 10.0,
+        "warp_position_angle_deg": 20.0,
+        "radial_km_s": 0.0,
+        "asymmetry": 0.0
+      },
+      "noise_seed_spawn_key": [
+        1
+      ],
+      "fits": {
+        "circular_only": {
+          "model": "circular_only",
+          "parameters": {
+            "rotation_km_s": 99.04233450866091,
+            "inclination_deg": 59.31728525935826,
+            "position_angle_deg": 26.35680902441279,
+            "systemic_km_s": -0.12287939645141677,
+            "dispersion_km_s": 7.813809890271733,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": 0.0,
+            "asymmetry": 0.0
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 0,
+          "starts": [
+            {
+              "training_q": 4998.212661058131,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 8,
+              "parameters": {
+                "rotation_km_s": 99.04233450866091,
+                "inclination_deg": 59.31728525935826,
+                "position_angle_deg": 26.35680902441279,
+                "systemic_km_s": -0.12287939645141677,
+                "dispersion_km_s": 7.813809890271733,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            },
+            {
+              "training_q": 4998.212665352128,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 8,
+              "parameters": {
+                "rotation_km_s": 99.04224067397548,
+                "inclination_deg": 59.31728921300108,
+                "position_angle_deg": 26.356727248213154,
+                "systemic_km_s": -0.12288402914997931,
+                "dispersion_km_s": 7.813902407451364,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            }
+          ],
+          "training_q": 4998.212661058131,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 5,
+          "local_scaled_jacobian_singular_values": [
+            740.0293485044192,
+            331.58588734046646,
+            323.74059794157387,
+            247.0426715612468,
+            88.19911312852022
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 674.4319508033755,
+            "inclination_deg": 391.86014531320683,
+            "position_angle_deg": 331.50457499620256,
+            "systemic_km_s": 323.82516746642347,
+            "dispersion_km_s": 89.66005319080855
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.7234552419626309
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.07198112995143655
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "dispersion_km_s"
+              ],
+              "cosine": -0.053174065140377286
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "systemic_km_s"
+              ],
+              "cosine": 0.004881960934211554
+            },
+            {
+              "parameters": [
+                "systemic_km_s",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.0039037874105816057
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 1.0625452085582765,
+              "weighted_truth_error_per_voxel": 0.07119407725849901
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.1181835192078307,
+              "weighted_truth_error_per_voxel": 0.0689549475216945
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 1.1277600478147627,
+              "weighted_truth_error_per_voxel": 0.07764437283474168
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 1.0241323148869679,
+              "weighted_truth_error_per_voxel": 0.0775348329915606
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": -0.9576654913390854,
+            "inclination_deg": 4.317285259358258,
+            "position_angle_deg": 8.35680902441279,
+            "systemic_km_s": -0.12287939645141677,
+            "dispersion_km_s": 0.8138098902717328,
+            "warp_inclination_deg": -10.0,
+            "warp_position_angle_deg": -20.0,
+            "radial_km_s": 0.0,
+            "asymmetry": 0.0
+          },
+          "parameter_recovery": false,
+          "predictive_recovery": true
+        },
+        "expanded": {
+          "model": "expanded",
+          "parameters": {
+            "rotation_km_s": 100.52139736344432,
+            "inclination_deg": 54.18438522590636,
+            "position_angle_deg": 18.738855887415177,
+            "systemic_km_s": -0.11738810577806902,
+            "dispersion_km_s": 7.091851972706643,
+            "warp_inclination_deg": 11.861757737557646,
+            "warp_position_angle_deg": 19.55743309776976,
+            "radial_km_s": -0.5679498090233324,
+            "asymmetry": -0.0030541632797508322
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s",
+            "warp_inclination_deg",
+            "warp_position_angle_deg",
+            "radial_km_s",
+            "asymmetry"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 1,
+          "starts": [
+            {
+              "training_q": 4642.438465851728,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 11,
+              "parameters": {
+                "rotation_km_s": 100.52125711538582,
+                "inclination_deg": 54.184798316387756,
+                "position_angle_deg": 18.73903174588306,
+                "systemic_km_s": -0.11734010480138579,
+                "dispersion_km_s": 7.0918708361000045,
+                "warp_inclination_deg": 11.860707315812505,
+                "warp_position_angle_deg": 19.557143800104512,
+                "radial_km_s": -0.5680791478196952,
+                "asymmetry": -0.0030549350447004464
+              }
+            },
+            {
+              "training_q": 4642.438464790933,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 8,
+              "parameters": {
+                "rotation_km_s": 100.52139736344432,
+                "inclination_deg": 54.18438522590636,
+                "position_angle_deg": 18.738855887415177,
+                "systemic_km_s": -0.11738810577806902,
+                "dispersion_km_s": 7.091851972706643,
+                "warp_inclination_deg": 11.861757737557646,
+                "warp_position_angle_deg": 19.55743309776976,
+                "radial_km_s": -0.5679498090233324,
+                "asymmetry": -0.0030541632797508322
+              }
+            }
+          ],
+          "training_q": 4642.438464790933,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 9,
+          "local_scaled_jacobian_singular_values": [
+            723.1200549985097,
+            389.69523141390204,
+            323.49445582803503,
+            262.5040847928264,
+            156.31716383766982,
+            98.54509843028785,
+            79.61408451773148,
+            33.99361020581898,
+            22.259559260528462
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 650.2356560117126,
+            "inclination_deg": 408.6165526423369,
+            "position_angle_deg": 333.1911536160109,
+            "systemic_km_s": 321.4835824694543,
+            "dispersion_km_s": 81.29512810456262,
+            "warp_inclination_deg": 50.94714963328916,
+            "warp_position_angle_deg": 97.288738685881,
+            "radial_km_s": 204.71097924350698,
+            "asymmetry": 160.43554848938297
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "position_angle_deg",
+                "warp_position_angle_deg"
+              ],
+              "cosine": 0.9185715944057532
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "warp_inclination_deg"
+              ],
+              "cosine": 0.8713400073289933
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "radial_km_s"
+              ],
+              "cosine": 0.8472045159682411
+            },
+            {
+              "parameters": [
+                "warp_position_angle_deg",
+                "radial_km_s"
+              ],
+              "cosine": 0.7115756307265008
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.7024969180225041
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 0.9869129389436505,
+              "weighted_truth_error_per_voxel": 0.0017581433621402236
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.0372295681044483,
+              "weighted_truth_error_per_voxel": 0.0027916505863394615
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 1.0549863034701248,
+              "weighted_truth_error_per_voxel": 0.0018459956382741924
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 0.9928482883569344,
+              "weighted_truth_error_per_voxel": 0.002815509115814086
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": 0.5213973634443221,
+            "inclination_deg": -0.815614774093639,
+            "position_angle_deg": 0.7388558874151769,
+            "systemic_km_s": -0.11738810577806902,
+            "dispersion_km_s": 0.09185197270664336,
+            "warp_inclination_deg": 1.861757737557646,
+            "warp_position_angle_deg": -0.4425669022302401,
+            "radial_km_s": -0.5679498090233324,
+            "asymmetry": -0.0030541632797508322
+          },
+          "parameter_recovery": true,
+          "predictive_recovery": true
+        }
+      },
+      "conditional_source_parameters": {
+        "radius_max_kpc": 4.0,
+        "scale_kpc": 1.4,
+        "turn_kpc": 1.1,
+        "asymmetry_phase_deg": 35.0
+      },
+      "split_counts": {
+        "train": 4704,
+        "heldout_channels": 2646,
+        "heldout_pixels": 2352,
+        "heldout_joint": 1323
+      },
+      "production_truth_flux_accounting": {
+        "intrinsic_flux": 1.0,
+        "finite_band_flux": 0.9999999997590909,
+        "spectral_loss": 2.409090704702521e-10,
+        "outside_halo_assignment_loss": 1.1102230246251565e-16,
+        "before_beam_in_science_field": 0.9999999997590909,
+        "before_beam_in_halo": -1.1102230246251565e-16,
+        "beam_export_from_science_field": 6.464553038876275e-06,
+        "beam_import_from_halo": 1.1102230246251565e-16,
+        "extended_grid_beam_boundary_loss": -2.220446049250313e-16,
+        "final_science_flux": 0.9999935352060522,
+        "total_spatial_loss_after_band": 6.464553038765253e-06,
+        "total_loss": 6.464793947835723e-06,
+        "flux_accounting_residual": 0.0,
+        "beam_continuous_square_tail_diagnostic": 0.0003536378703379306
+      },
+      "elapsed_s": 6.07482889998937,
+      "synthetic_arrays": {
+        "path": "work\\private\\mond-atlas-motion-controls-001\\run-001\\warp_only.npz",
+        "sha256": "199d86c9bbd51012510386479784c57d91f8afd87817c28b46e24d6cfe19845c"
+      }
+    },
+    {
+      "name": "radial_only",
+      "truth_parameters": {
+        "rotation_km_s": 100.0,
+        "inclination_deg": 55.0,
+        "position_angle_deg": 18.0,
+        "systemic_km_s": 0.0,
+        "dispersion_km_s": 7.0,
+        "warp_inclination_deg": 0.0,
+        "warp_position_angle_deg": 0.0,
+        "radial_km_s": 25.0,
+        "asymmetry": 0.0
+      },
+      "noise_seed_spawn_key": [
+        2
+      ],
+      "fits": {
+        "circular_only": {
+          "model": "circular_only",
+          "parameters": {
+            "rotation_km_s": 105.5579283632537,
+            "inclination_deg": 53.8890792447922,
+            "position_angle_deg": 31.229686811664614,
+            "systemic_km_s": 0.0805080147545496,
+            "dispersion_km_s": 7.704245417938981,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": 0.0,
+            "asymmetry": 0.0
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 1,
+          "starts": [
+            {
+              "training_q": 5360.1290376418465,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 7,
+              "parameters": {
+                "rotation_km_s": 105.55443670015791,
+                "inclination_deg": 53.89203317607443,
+                "position_angle_deg": 31.22701915247397,
+                "systemic_km_s": 0.08059701080583537,
+                "dispersion_km_s": 7.704295681646203,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            },
+            {
+              "training_q": 5360.129036997399,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 7,
+              "parameters": {
+                "rotation_km_s": 105.5579283632537,
+                "inclination_deg": 53.8890792447922,
+                "position_angle_deg": 31.229686811664614,
+                "systemic_km_s": 0.0805080147545496,
+                "dispersion_km_s": 7.704245417938981,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            }
+          ],
+          "training_q": 5360.129036997399,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 5,
+          "local_scaled_jacobian_singular_values": [
+            731.3539310796349,
+            321.94015542808114,
+            314.17478396829387,
+            197.07925733624293,
+            86.55470023164938
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 619.4134960872265,
+            "inclination_deg": 435.60211985939765,
+            "position_angle_deg": 321.7854224910867,
+            "systemic_km_s": 314.33333795928036,
+            "dispersion_km_s": 88.25071913146456
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.8466084319190311
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.06564852793947637
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "dispersion_km_s"
+              ],
+              "cosine": -0.031213316490145415
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "systemic_km_s"
+              ],
+              "cosine": 0.0068656757628436085
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "dispersion_km_s"
+              ],
+              "cosine": -0.0019306829206262445
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 1.1394832136474065,
+              "weighted_truth_error_per_voxel": 0.15030511325873339
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.14776071891307,
+              "weighted_truth_error_per_voxel": 0.11848166855922175
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 1.138491694698583,
+              "weighted_truth_error_per_voxel": 0.15112919697109306
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 1.0774335590919875,
+              "weighted_truth_error_per_voxel": 0.11790863740449431
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": 5.557928363253694,
+            "inclination_deg": -1.1109207552078004,
+            "position_angle_deg": 13.229686811664614,
+            "systemic_km_s": 0.0805080147545496,
+            "dispersion_km_s": 0.7042454179389814,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": -25.0,
+            "asymmetry": 0.0
+          },
+          "parameter_recovery": false,
+          "predictive_recovery": true
+        },
+        "expanded": {
+          "model": "expanded",
+          "parameters": {
+            "rotation_km_s": 99.40461749025344,
+            "inclination_deg": 54.6372605361136,
+            "position_angle_deg": 17.634596608055404,
+            "systemic_km_s": 0.09749527856746454,
+            "dispersion_km_s": 6.967106311075861,
+            "warp_inclination_deg": 1.481101678711699,
+            "warp_position_angle_deg": -0.025723993131563816,
+            "radial_km_s": 25.730388550973856,
+            "asymmetry": -0.00820401541949689
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s",
+            "warp_inclination_deg",
+            "warp_position_angle_deg",
+            "radial_km_s",
+            "asymmetry"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 0,
+          "starts": [
+            {
+              "training_q": 4601.121873003449,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 8,
+              "parameters": {
+                "rotation_km_s": 99.40461749025344,
+                "inclination_deg": 54.6372605361136,
+                "position_angle_deg": 17.634596608055404,
+                "systemic_km_s": 0.09749527856746454,
+                "dispersion_km_s": 6.967106311075861,
+                "warp_inclination_deg": 1.481101678711699,
+                "warp_position_angle_deg": -0.025723993131563816,
+                "radial_km_s": 25.730388550973856,
+                "asymmetry": -0.00820401541949689
+              }
+            },
+            {
+              "training_q": 4601.121873011695,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 8,
+              "parameters": {
+                "rotation_km_s": 99.40463513809681,
+                "inclination_deg": 54.637262850044685,
+                "position_angle_deg": 17.634621301601065,
+                "systemic_km_s": 0.09749269803166527,
+                "dispersion_km_s": 6.967102376764521,
+                "warp_inclination_deg": 1.4810839891314025,
+                "warp_position_angle_deg": -0.025734072315927392,
+                "radial_km_s": 25.730353160043023,
+                "asymmetry": -0.008204024227716045
+              }
+            }
+          ],
+          "training_q": 4601.121873003449,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 9,
+          "local_scaled_jacobian_singular_values": [
+            780.4734517319438,
+            395.2602341168049,
+            331.30310994253387,
+            204.79968173301438,
+            163.58329575473732,
+            90.87838637229923,
+            78.39864295161034,
+            38.96834261768193,
+            27.026684004350283
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 648.0555139602126,
+            "inclination_deg": 466.0225464568014,
+            "position_angle_deg": 334.7011510651903,
+            "systemic_km_s": 328.1092080439606,
+            "dispersion_km_s": 87.12854096086548,
+            "warp_inclination_deg": 61.45095904176918,
+            "warp_position_angle_deg": 101.10573860180364,
+            "radial_km_s": 230.55676755535683,
+            "asymmetry": 170.02336842347665
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "position_angle_deg",
+                "warp_position_angle_deg"
+              ],
+              "cosine": 0.9134402089101037
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "warp_inclination_deg"
+              ],
+              "cosine": 0.8814337357695577
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.8435317962729231
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "radial_km_s"
+              ],
+              "cosine": 0.7086609451598268
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "warp_inclination_deg"
+              ],
+              "cosine": 0.6942388995374468
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 0.9781296498731822,
+              "weighted_truth_error_per_voxel": 0.0014260937777839486
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.0210884966815101,
+              "weighted_truth_error_per_voxel": 0.0012802969309941242
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 0.9596456495648731,
+              "weighted_truth_error_per_voxel": 0.0014176604076368683
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 0.9701680971779246,
+              "weighted_truth_error_per_voxel": 0.0012704171133035445
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": -0.5953825097465568,
+            "inclination_deg": -0.362739463886399,
+            "position_angle_deg": -0.3654033919445965,
+            "systemic_km_s": 0.09749527856746454,
+            "dispersion_km_s": -0.032893688924138687,
+            "warp_inclination_deg": 1.481101678711699,
+            "warp_position_angle_deg": -0.025723993131563816,
+            "radial_km_s": 0.7303885509738564,
+            "asymmetry": -0.00820401541949689
+          },
+          "parameter_recovery": true,
+          "predictive_recovery": true
+        }
+      },
+      "conditional_source_parameters": {
+        "radius_max_kpc": 4.0,
+        "scale_kpc": 1.4,
+        "turn_kpc": 1.1,
+        "asymmetry_phase_deg": 35.0
+      },
+      "split_counts": {
+        "train": 4704,
+        "heldout_channels": 2646,
+        "heldout_pixels": 2352,
+        "heldout_joint": 1323
+      },
+      "production_truth_flux_accounting": {
+        "intrinsic_flux": 1.0,
+        "finite_band_flux": 0.9999999999969038,
+        "spectral_loss": 3.0961899710746366e-12,
+        "outside_halo_assignment_loss": 2.220446049250313e-16,
+        "before_beam_in_science_field": 0.9999999999969037,
+        "before_beam_in_halo": -1.1102230246251565e-16,
+        "beam_export_from_science_field": 8.52773750580349e-05,
+        "beam_import_from_halo": 1.1102230246251565e-16,
+        "extended_grid_beam_boundary_loss": -3.3306690738754696e-16,
+        "final_science_flux": 0.9999147226218458,
+        "total_spatial_loss_after_band": 8.52773750580349e-05,
+        "total_loss": 8.527737815422487e-05,
+        "flux_accounting_residual": 0.0,
+        "beam_continuous_square_tail_diagnostic": 0.0003536378703379306
+      },
+      "elapsed_s": 5.182614499994088,
+      "synthetic_arrays": {
+        "path": "work\\private\\mond-atlas-motion-controls-001\\run-001\\radial_only.npz",
+        "sha256": "0d9fcce1ea33dca43b2f557dda42c064f5ef469a358a9b6b345ddd2608ba8d59"
+      }
+    },
+    {
+      "name": "asymmetry_only",
+      "truth_parameters": {
+        "rotation_km_s": 100.0,
+        "inclination_deg": 55.0,
+        "position_angle_deg": 18.0,
+        "systemic_km_s": 0.0,
+        "dispersion_km_s": 7.0,
+        "warp_inclination_deg": 0.0,
+        "warp_position_angle_deg": 0.0,
+        "radial_km_s": 0.0,
+        "asymmetry": 0.4
+      },
+      "noise_seed_spawn_key": [
+        3
+      ],
+      "fits": {
+        "circular_only": {
+          "model": "circular_only",
+          "parameters": {
+            "rotation_km_s": 99.32292584578694,
+            "inclination_deg": 55.25502639213798,
+            "position_angle_deg": 17.88819305572671,
+            "systemic_km_s": 1.4147381500926386,
+            "dispersion_km_s": 6.742898017316483,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": 0.0,
+            "asymmetry": 0.0
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 0,
+          "starts": [
+            {
+              "training_q": 7399.324272219691,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 8,
+              "parameters": {
+                "rotation_km_s": 99.32292584578694,
+                "inclination_deg": 55.25502639213798,
+                "position_angle_deg": 17.88819305572671,
+                "systemic_km_s": 1.4147381500926386,
+                "dispersion_km_s": 6.742898017316483,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            },
+            {
+              "training_q": 7399.324303773512,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 9,
+              "parameters": {
+                "rotation_km_s": 99.32264970067165,
+                "inclination_deg": 55.25499276655847,
+                "position_angle_deg": 17.888105464586573,
+                "systemic_km_s": 1.4143453860047153,
+                "dispersion_km_s": 6.742943128015105,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            }
+          ],
+          "training_q": 7399.324272219691,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 5,
+          "local_scaled_jacobian_singular_values": [
+            855.4085879101782,
+            360.45841409578424,
+            340.6368552170712,
+            219.42533538152483,
+            93.87623743096962
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 744.779358868286,
+            "inclination_deg": 474.1957268206963,
+            "position_angle_deg": 340.64582907383516,
+            "systemic_km_s": 360.4788063738126,
+            "dispersion_km_s": 95.42212539682184
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.8476406987914538
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.13676229828564793
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.06396989273203064
+            },
+            {
+              "parameters": [
+                "systemic_km_s",
+                "dispersion_km_s"
+              ],
+              "cosine": -0.02441764001656376
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "systemic_km_s"
+              ],
+              "cosine": -0.013553579680681556
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 1.5729856020875195,
+              "weighted_truth_error_per_voxel": 0.5871321220969642
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.5860885770737319,
+              "weighted_truth_error_per_voxel": 0.56800672148292
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 1.5697981863732577,
+              "weighted_truth_error_per_voxel": 0.5912454077386315
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 1.6497007104201713,
+              "weighted_truth_error_per_voxel": 0.5662459196907087
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": -0.6770741542130594,
+            "inclination_deg": 0.25502639213797806,
+            "position_angle_deg": -0.1118069442732903,
+            "systemic_km_s": 1.4147381500926386,
+            "dispersion_km_s": -0.25710198268351725,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": 0.0,
+            "asymmetry": -0.4
+          },
+          "parameter_recovery": false,
+          "predictive_recovery": false
+        },
+        "expanded": {
+          "model": "expanded",
+          "parameters": {
+            "rotation_km_s": 99.82595642962406,
+            "inclination_deg": 55.061708640633995,
+            "position_angle_deg": 18.030931282820987,
+            "systemic_km_s": 0.1169674296062162,
+            "dispersion_km_s": 6.885581336262209,
+            "warp_inclination_deg": 0.5459735709538052,
+            "warp_position_angle_deg": -0.7556635581967548,
+            "radial_km_s": 0.5073305448527137,
+            "asymmetry": 0.3888923660925273
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s",
+            "warp_inclination_deg",
+            "warp_position_angle_deg",
+            "radial_km_s",
+            "asymmetry"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 0,
+          "starts": [
+            {
+              "training_q": 4762.49639588462,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 7,
+              "parameters": {
+                "rotation_km_s": 99.82595642962406,
+                "inclination_deg": 55.061708640633995,
+                "position_angle_deg": 18.030931282820987,
+                "systemic_km_s": 0.1169674296062162,
+                "dispersion_km_s": 6.885581336262209,
+                "warp_inclination_deg": 0.5459735709538052,
+                "warp_position_angle_deg": -0.7556635581967548,
+                "radial_km_s": 0.5073305448527137,
+                "asymmetry": 0.3888923660925273
+              }
+            },
+            {
+              "training_q": 4762.496395898923,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 8,
+              "parameters": {
+                "rotation_km_s": 99.82596196907313,
+                "inclination_deg": 55.061703182986754,
+                "position_angle_deg": 18.030930876485783,
+                "systemic_km_s": 0.11696414842277392,
+                "dispersion_km_s": 6.8855886311972565,
+                "warp_inclination_deg": 0.5459831361261838,
+                "warp_position_angle_deg": -0.7556744087710641,
+                "radial_km_s": 0.5073443181906896,
+                "asymmetry": 0.3888925816714299
+              }
+            }
+          ],
+          "training_q": 4762.49639588462,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 9,
+          "local_scaled_jacobian_singular_values": [
+            896.5790412179838,
+            428.0701895114222,
+            309.61594156694366,
+            225.98084054158065,
+            155.51365661179133,
+            94.41396882886629,
+            92.64178429800138,
+            40.827074564323475,
+            30.579353718748603
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 760.2599567921777,
+            "inclination_deg": 486.9185944799384,
+            "position_angle_deg": 355.1178061230057,
+            "systemic_km_s": 370.2288186287852,
+            "dispersion_km_s": 97.64906930106767,
+            "warp_inclination_deg": 66.60741687996217,
+            "warp_position_angle_deg": 106.73628323914929,
+            "radial_km_s": 219.89445537812958,
+            "asymmetry": 162.26314908391348
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "position_angle_deg",
+                "warp_position_angle_deg"
+              ],
+              "cosine": 0.9123040747577823
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "warp_inclination_deg"
+              ],
+              "cosine": 0.877576804877779
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "radial_km_s"
+              ],
+              "cosine": 0.8749871758518487
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.8497941432737568
+            },
+            {
+              "parameters": [
+                "warp_position_angle_deg",
+                "radial_km_s"
+              ],
+              "cosine": 0.7650529739967857
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 1.0124354583088053,
+              "weighted_truth_error_per_voxel": 0.0012774349622923242
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 0.9734913589342472,
+              "weighted_truth_error_per_voxel": 0.001027219646549078
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 0.9796743075260838,
+              "weighted_truth_error_per_voxel": 0.0012799162074410442
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 1.0224553781080687,
+              "weighted_truth_error_per_voxel": 0.0010182345896309602
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": -0.1740435703759431,
+            "inclination_deg": 0.06170864063399506,
+            "position_angle_deg": 0.030931282820986894,
+            "systemic_km_s": 0.1169674296062162,
+            "dispersion_km_s": -0.11441866373779064,
+            "warp_inclination_deg": 0.5459735709538052,
+            "warp_position_angle_deg": -0.7556635581967548,
+            "radial_km_s": 0.5073305448527137,
+            "asymmetry": -0.011107633907472714
+          },
+          "parameter_recovery": true,
+          "predictive_recovery": true
+        }
+      },
+      "conditional_source_parameters": {
+        "radius_max_kpc": 4.0,
+        "scale_kpc": 1.4,
+        "turn_kpc": 1.1,
+        "asymmetry_phase_deg": 35.0
+      },
+      "split_counts": {
+        "train": 4704,
+        "heldout_channels": 2646,
+        "heldout_pixels": 2352,
+        "heldout_joint": 1323
+      },
+      "production_truth_flux_accounting": {
+        "intrinsic_flux": 0.9999999999999999,
+        "finite_band_flux": 0.9999999999996848,
+        "spectral_loss": 3.1508129438861943e-13,
+        "outside_halo_assignment_loss": -1.1102230246251565e-16,
+        "before_beam_in_science_field": 0.9999999999996849,
+        "before_beam_in_halo": 0.0,
+        "beam_export_from_science_field": 8.52773750600333e-05,
+        "beam_import_from_halo": 1.1102230246251565e-16,
+        "extended_grid_beam_boundary_loss": -1.1102230246251565e-16,
+        "final_science_flux": 0.999914722624625,
+        "total_spatial_loss_after_band": 8.527737505981126e-05,
+        "total_loss": 8.527737537489255e-05,
+        "flux_accounting_residual": 0.0,
+        "beam_continuous_square_tail_diagnostic": 0.0003536378703379306
+      },
+      "elapsed_s": 5.503601000003982,
+      "synthetic_arrays": {
+        "path": "work\\private\\mond-atlas-motion-controls-001\\run-001\\asymmetry_only.npz",
+        "sha256": "589c7e16b7db23cf06fd39b56a5ae9abaef9ba462280fde71bff733b8f7f2638"
+      }
+    },
+    {
+      "name": "combined",
+      "truth_parameters": {
+        "rotation_km_s": 100.0,
+        "inclination_deg": 55.0,
+        "position_angle_deg": 18.0,
+        "systemic_km_s": 0.0,
+        "dispersion_km_s": 7.0,
+        "warp_inclination_deg": 8.0,
+        "warp_position_angle_deg": 16.0,
+        "radial_km_s": 22.0,
+        "asymmetry": 0.3
+      },
+      "noise_seed_spawn_key": [
+        4
+      ],
+      "fits": {
+        "circular_only": {
+          "model": "circular_only",
+          "parameters": {
+            "rotation_km_s": 102.42229900578636,
+            "inclination_deg": 58.075709193878815,
+            "position_angle_deg": 34.827257975391646,
+            "systemic_km_s": 1.5003165605309974,
+            "dispersion_km_s": 8.489404520305692,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": 0.0,
+            "asymmetry": 0.0
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 0,
+          "starts": [
+            {
+              "training_q": 7091.548246996433,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 10,
+              "parameters": {
+                "rotation_km_s": 102.42229900578636,
+                "inclination_deg": 58.075709193878815,
+                "position_angle_deg": 34.827257975391646,
+                "systemic_km_s": 1.5003165605309974,
+                "dispersion_km_s": 8.489404520305692,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            },
+            {
+              "training_q": 7091.5482505010295,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 9,
+              "parameters": {
+                "rotation_km_s": 102.42272586493063,
+                "inclination_deg": 58.075519885277394,
+                "position_angle_deg": 34.82770126357678,
+                "systemic_km_s": 1.4995126324028298,
+                "dispersion_km_s": 8.489211431575912,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            }
+          ],
+          "training_q": 7091.548246996433,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 5,
+          "local_scaled_jacobian_singular_values": [
+            668.0283362994406,
+            317.487256370414,
+            297.74860817540844,
+            229.97831831065272,
+            85.71793607644119
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 600.8382449917157,
+            "inclination_deg": 371.14142049482524,
+            "position_angle_deg": 317.43320018576105,
+            "systemic_km_s": 297.99134662719985,
+            "dispersion_km_s": 87.38770673669441
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.7265147379690848
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.08372830421440558
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "dispersion_km_s"
+              ],
+              "cosine": -0.04978255206863027
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "systemic_km_s"
+              ],
+              "cosine": -0.03088073812935277
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "systemic_km_s"
+              ],
+              "cosine": -0.030197975945167953
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 1.5075570252968606,
+              "weighted_truth_error_per_voxel": 0.5083552778967327
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.4681044081018104,
+              "weighted_truth_error_per_voxel": 0.4581648748857012
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 1.5323897066586423,
+              "weighted_truth_error_per_voxel": 0.5125976742244177
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 1.3584880349371247,
+              "weighted_truth_error_per_voxel": 0.46009726429168796
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": 2.422299005786357,
+            "inclination_deg": 3.075709193878815,
+            "position_angle_deg": 16.827257975391646,
+            "systemic_km_s": 1.5003165605309974,
+            "dispersion_km_s": 1.4894045203056923,
+            "warp_inclination_deg": -8.0,
+            "warp_position_angle_deg": -16.0,
+            "radial_km_s": -22.0,
+            "asymmetry": -0.3
+          },
+          "parameter_recovery": false,
+          "predictive_recovery": false
+        },
+        "expanded": {
+          "model": "expanded",
+          "parameters": {
+            "rotation_km_s": 99.7407586751091,
+            "inclination_deg": 55.597592991184925,
+            "position_angle_deg": 17.2167133173768,
+            "systemic_km_s": -0.14375151076183457,
+            "dispersion_km_s": 7.245917605357509,
+            "warp_inclination_deg": 7.523813889934509,
+            "warp_position_angle_deg": 17.98257701411015,
+            "radial_km_s": 21.71225861460379,
+            "asymmetry": 0.3053847718048076
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "inclination_deg",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s",
+            "warp_inclination_deg",
+            "warp_position_angle_deg",
+            "radial_km_s",
+            "asymmetry"
+          ],
+          "fixed_parameters": {},
+          "selected_start": 1,
+          "starts": [
+            {
+              "training_q": 4661.28516287632,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 8,
+              "parameters": {
+                "rotation_km_s": 99.74114455507761,
+                "inclination_deg": 55.59815240297948,
+                "position_angle_deg": 17.21793285850312,
+                "systemic_km_s": -0.143747356338622,
+                "dispersion_km_s": 7.246016600951377,
+                "warp_inclination_deg": 7.524151506689776,
+                "warp_position_angle_deg": 17.984101602066552,
+                "radial_km_s": 21.709673841002882,
+                "asymmetry": 0.3053849792004688
+              }
+            },
+            {
+              "training_q": 4661.285126670429,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 9,
+              "parameters": {
+                "rotation_km_s": 99.7407586751091,
+                "inclination_deg": 55.597592991184925,
+                "position_angle_deg": 17.2167133173768,
+                "systemic_km_s": -0.14375151076183457,
+                "dispersion_km_s": 7.245917605357509,
+                "warp_inclination_deg": 7.523813889934509,
+                "warp_position_angle_deg": 17.98257701411015,
+                "radial_km_s": 21.71225861460379,
+                "asymmetry": 0.3053847718048076
+              }
+            }
+          ],
+          "training_q": 4661.285126670429,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 9,
+          "local_scaled_jacobian_singular_values": [
+            738.536104491624,
+            392.5655296582526,
+            278.3874781939482,
+            238.99819433916298,
+            158.03890834770527,
+            98.12676401640887,
+            79.8961220075218,
+            37.67842245112733,
+            22.091513634396044
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 625.8186600440179,
+            "inclination_deg": 422.56650141603967,
+            "position_angle_deg": 334.9087210073864,
+            "systemic_km_s": 313.1881369687079,
+            "dispersion_km_s": 84.05562172097738,
+            "warp_inclination_deg": 52.54685843833969,
+            "warp_position_angle_deg": 97.85741314450027,
+            "radial_km_s": 221.41566024219486,
+            "asymmetry": 167.83817531655447
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "position_angle_deg",
+                "warp_position_angle_deg"
+              ],
+              "cosine": 0.9117005426248261
+            },
+            {
+              "parameters": [
+                "inclination_deg",
+                "warp_inclination_deg"
+              ],
+              "cosine": 0.8741738153164877
+            },
+            {
+              "parameters": [
+                "rotation_km_s",
+                "inclination_deg"
+              ],
+              "cosine": 0.7502655805842792
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "radial_km_s"
+              ],
+              "cosine": 0.6663911338111093
+            },
+            {
+              "parameters": [
+                "warp_position_angle_deg",
+                "radial_km_s"
+              ],
+              "cosine": 0.5762216020373935
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 0.9909194572003467,
+              "weighted_truth_error_per_voxel": 0.0016332213848423143
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.0044008632931238,
+              "weighted_truth_error_per_voxel": 0.0015231903591756697
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 0.9886909277115595,
+              "weighted_truth_error_per_voxel": 0.0016559246776002754
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 0.9154166600401443,
+              "weighted_truth_error_per_voxel": 0.0015759347921461117
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": -0.259241324890894,
+            "inclination_deg": 0.5975929911849249,
+            "position_angle_deg": -0.7832866826231992,
+            "systemic_km_s": -0.14375151076183457,
+            "dispersion_km_s": 0.2459176053575094,
+            "warp_inclination_deg": -0.47618611006549116,
+            "warp_position_angle_deg": 1.9825770141101486,
+            "radial_km_s": -0.28774138539620964,
+            "asymmetry": 0.00538477180480762
+          },
+          "parameter_recovery": true,
+          "predictive_recovery": true
+        }
+      },
+      "conditional_source_parameters": {
+        "radius_max_kpc": 4.0,
+        "scale_kpc": 1.4,
+        "turn_kpc": 1.1,
+        "asymmetry_phase_deg": 35.0
+      },
+      "split_counts": {
+        "train": 4704,
+        "heldout_channels": 2646,
+        "heldout_pixels": 2352,
+        "heldout_joint": 1323
+      },
+      "production_truth_flux_accounting": {
+        "intrinsic_flux": 1.0,
+        "finite_band_flux": 0.9999999995854446,
+        "spectral_loss": 4.145553900158916e-10,
+        "outside_halo_assignment_loss": 1.1102230246251565e-16,
+        "before_beam_in_science_field": 0.9999999995854446,
+        "before_beam_in_halo": -1.1102230246251565e-16,
+        "beam_export_from_science_field": 1.3121513102953841e-05,
+        "beam_import_from_halo": 1.1102230246251565e-16,
+        "extended_grid_beam_boundary_loss": -2.220446049250313e-16,
+        "final_science_flux": 0.9999868780723418,
+        "total_spatial_loss_after_band": 1.3121513102842819e-05,
+        "total_loss": 1.3121927658232835e-05,
+        "flux_accounting_residual": 0.0,
+        "beam_continuous_square_tail_diagnostic": 0.0003536378703379306
+      },
+      "elapsed_s": 5.951523800002178,
+      "synthetic_arrays": {
+        "path": "work\\private\\mond-atlas-motion-controls-001\\run-001\\combined.npz",
+        "sha256": "fa326631e81da8ea3f943518d59adcd23d36b6f33f0a76dd0991b2dfc11926f6"
+      }
+    },
+    {
+      "name": "face_on_radial_unidentifiable",
+      "truth_parameters": {
+        "rotation_km_s": 100.0,
+        "inclination_deg": 0.0,
+        "position_angle_deg": 18.0,
+        "systemic_km_s": 0.0,
+        "dispersion_km_s": 7.0,
+        "warp_inclination_deg": 0.0,
+        "warp_position_angle_deg": 0.0,
+        "radial_km_s": 25.0,
+        "asymmetry": 0.0
+      },
+      "noise_seed_spawn_key": [
+        5
+      ],
+      "fits": {
+        "circular_only": {
+          "model": "circular_only",
+          "parameters": {
+            "rotation_km_s": 90.0,
+            "inclination_deg": 0.0,
+            "position_angle_deg": 11.2502461895197,
+            "systemic_km_s": -0.043929124389194385,
+            "dispersion_km_s": 7.009603196168857,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": 0.0,
+            "asymmetry": 0.0
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s"
+          ],
+          "fixed_parameters": {
+            "inclination_deg": 0.0,
+            "warp_inclination_deg": 0.0
+          },
+          "selected_start": 0,
+          "starts": [
+            {
+              "training_q": 4790.809865585689,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 20,
+              "parameters": {
+                "rotation_km_s": 90.0,
+                "inclination_deg": 0.0,
+                "position_angle_deg": 11.2502461895197,
+                "systemic_km_s": -0.043929124389194385,
+                "dispersion_km_s": 7.009603196168857,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            },
+            {
+              "training_q": 4790.809884098021,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 17,
+              "parameters": {
+                "rotation_km_s": 120.0,
+                "inclination_deg": 0.0,
+                "position_angle_deg": 8.75031841848801,
+                "systemic_km_s": -0.043931401463350284,
+                "dispersion_km_s": 7.00973092193862,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 0.0,
+                "radial_km_s": 0.0,
+                "asymmetry": 0.0
+              }
+            }
+          ],
+          "training_q": 4790.809865585689,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 3,
+          "local_scaled_jacobian_singular_values": [
+            1377.3920470474875,
+            339.4992012660388,
+            7.69231276350692,
+            0.0
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 0.0,
+            "position_angle_deg": 7.727759381108769,
+            "systemic_km_s": 1377.3775426345405,
+            "dispersion_km_s": 339.5572372761033
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "position_angle_deg",
+                "dispersion_km_s"
+              ],
+              "cosine": -0.09563036322663762
+            },
+            {
+              "parameters": [
+                "systemic_km_s",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.018041372518383895
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "systemic_km_s"
+              ],
+              "cosine": -1.2148333747329426e-05
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 1.0184544782282503,
+              "weighted_truth_error_per_voxel": 0.0004944688974513792
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.0025076260445234,
+              "weighted_truth_error_per_voxel": 5.7009725955715344e-05
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 0.9625281766271275,
+              "weighted_truth_error_per_voxel": 0.0004947329207124179
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 1.0202377553308275,
+              "weighted_truth_error_per_voxel": 5.693623054614176e-05
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": -10.0,
+            "inclination_deg": 0.0,
+            "position_angle_deg": -6.7497538104803,
+            "systemic_km_s": -0.043929124389194385,
+            "dispersion_km_s": 0.009603196168857409,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 0.0,
+            "radial_km_s": -25.0,
+            "asymmetry": 0.0
+          },
+          "parameter_recovery": false,
+          "predictive_recovery": true
+        },
+        "expanded": {
+          "model": "expanded",
+          "parameters": {
+            "rotation_km_s": 90.0,
+            "inclination_deg": 0.0,
+            "position_angle_deg": 45.6203451331743,
+            "systemic_km_s": -0.043673920465565175,
+            "dispersion_km_s": 7.009674455628058,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 24.736569587950044,
+            "radial_km_s": -9.947598300641403e-14,
+            "asymmetry": 0.011765923755192254
+          },
+          "free_parameters": [
+            "rotation_km_s",
+            "position_angle_deg",
+            "systemic_km_s",
+            "dispersion_km_s",
+            "warp_position_angle_deg",
+            "radial_km_s",
+            "asymmetry"
+          ],
+          "fixed_parameters": {
+            "inclination_deg": 0.0,
+            "warp_inclination_deg": 0.0
+          },
+          "selected_start": 0,
+          "starts": [
+            {
+              "training_q": 4789.21933443438,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 13,
+              "parameters": {
+                "rotation_km_s": 90.0,
+                "inclination_deg": 0.0,
+                "position_angle_deg": 45.6203451331743,
+                "systemic_km_s": -0.043673920465565175,
+                "dispersion_km_s": 7.009674455628058,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": 24.736569587950044,
+                "radial_km_s": -9.947598300641403e-14,
+                "asymmetry": 0.011765923755192254
+              }
+            },
+            {
+              "training_q": 4790.674257379219,
+              "success": true,
+              "status": 2,
+              "message": "`ftol` termination condition is satisfied.",
+              "nfev": 15,
+              "parameters": {
+                "rotation_km_s": 120.0,
+                "inclination_deg": 0.0,
+                "position_angle_deg": 10.583543832074284,
+                "systemic_km_s": -0.04384545198567835,
+                "dispersion_km_s": 7.010286306167002,
+                "warp_inclination_deg": 0.0,
+                "warp_position_angle_deg": -16.400496617453673,
+                "radial_km_s": 12.000000000000064,
+                "asymmetry": 0.004624864454478295
+              }
+            }
+          ],
+          "training_q": 4789.21933443438,
+          "optimizer_success": true,
+          "local_scaled_jacobian_rank": 5,
+          "local_scaled_jacobian_singular_values": [
+            1377.378079122315,
+            339.49109509186667,
+            130.84002778041517,
+            2.3090614485142704,
+            0.3956791031089795,
+            0.0,
+            0.0
+          ],
+          "local_scaled_jacobian_column_norms": {
+            "rotation_km_s": 0.0,
+            "position_angle_deg": 2.2298691121449217,
+            "systemic_km_s": 1377.36364257075,
+            "dispersion_km_s": 339.5489183399632,
+            "warp_position_angle_deg": 0.7188129004623692,
+            "radial_km_s": 0.0,
+            "asymmetry": 130.84195374501337
+          },
+          "largest_local_sensitivity_cosines": [
+            {
+              "parameters": [
+                "position_angle_deg",
+                "warp_position_angle_deg"
+              ],
+              "cosine": 0.8214115864608899
+            },
+            {
+              "parameters": [
+                "dispersion_km_s",
+                "warp_position_angle_deg"
+              ],
+              "cosine": -0.020094672956093046
+            },
+            {
+              "parameters": [
+                "systemic_km_s",
+                "dispersion_km_s"
+              ],
+              "cosine": 0.017999484005573406
+            },
+            {
+              "parameters": [
+                "warp_position_angle_deg",
+                "asymmetry"
+              ],
+              "cosine": -0.013151204111285427
+            },
+            {
+              "parameters": [
+                "position_angle_deg",
+                "dispersion_km_s"
+              ],
+              "cosine": -0.008785947150203277
+            }
+          ],
+          "bound_contacts": [],
+          "identifiability_note": "Local sensitivity in bound-width-scaled coordinates, not posterior coverage or unique global recovery.",
+          "evaluation": {
+            "train": {
+              "n": 4704,
+              "weighted_data_error_per_voxel": 1.0181163551093495,
+              "weighted_truth_error_per_voxel": 0.0008380665161106227
+            },
+            "heldout_channels": {
+              "n": 2646,
+              "weighted_data_error_per_voxel": 1.003563077236505,
+              "weighted_truth_error_per_voxel": 0.001808336893232185
+            },
+            "heldout_pixels": {
+              "n": 2352,
+              "weighted_data_error_per_voxel": 0.9627548441673298,
+              "weighted_truth_error_per_voxel": 0.0008375664596843498
+            },
+            "heldout_joint": {
+              "n": 1323,
+              "weighted_data_error_per_voxel": 1.0195096916268087,
+              "weighted_truth_error_per_voxel": 0.0018044697615212115
+            }
+          },
+          "parameter_errors": {
+            "rotation_km_s": -10.0,
+            "inclination_deg": 0.0,
+            "position_angle_deg": 27.620345133174297,
+            "systemic_km_s": -0.043673920465565175,
+            "dispersion_km_s": 0.009674455628058354,
+            "warp_inclination_deg": 0.0,
+            "warp_position_angle_deg": 24.736569587950044,
+            "radial_km_s": -25.0000000000001,
+            "asymmetry": 0.011765923755192254
+          },
+          "parameter_recovery": false,
+          "predictive_recovery": true
+        }
+      },
+      "conditional_source_parameters": {
+        "radius_max_kpc": 4.0,
+        "scale_kpc": 1.4,
+        "turn_kpc": 1.1,
+        "asymmetry_phase_deg": 35.0
+      },
+      "split_counts": {
+        "train": 4704,
+        "heldout_channels": 2646,
+        "heldout_pixels": 2352,
+        "heldout_joint": 1323
+      },
+      "production_truth_flux_accounting": {
+        "intrinsic_flux": 1.0,
+        "finite_band_flux": 0.9999999999999999,
+        "spectral_loss": 1.1102230246251565e-16,
+        "outside_halo_assignment_loss": -1.1102230246251565e-16,
+        "before_beam_in_science_field": 1.0,
+        "before_beam_in_halo": 0.0,
+        "beam_export_from_science_field": 0.00029748876777513367,
+        "beam_import_from_halo": 3.3306690738754696e-16,
+        "extended_grid_beam_boundary_loss": -2.220446049250313e-16,
+        "final_science_flux": 0.9997025112322252,
+        "total_spatial_loss_after_band": 0.0002974887677746896,
+        "total_loss": 0.0002974887677748006,
+        "flux_accounting_residual": 0.0,
+        "beam_continuous_square_tail_diagnostic": 0.0003536378703379306
+      },
+      "elapsed_s": 6.241545299999416,
+      "synthetic_arrays": {
+        "path": "work\\private\\mond-atlas-motion-controls-001\\run-001\\face_on_radial_unidentifiable.npz",
+        "sha256": "8bb3e2fc2bcdc1f61b2061308d596efb72cb576659da44732c26cb47e3bfd479"
+      }
+    }
+  ],
+  "admitted_observed_cube_likelihoods": 0,
+  "gravity_scores_produced": 0,
+  "covariance": "Supplied positive diagonal covariance: sigma[c,y,x]=noise_sigma_flux*(1+0.15*cos(2*pi*c/nc))*(1+0.1*x/(nx-1)); independent noise between every voxel. No estimated or astronomical covariance.",
+  "missing_closures": [
+    "pressure support / asymmetric drift",
+    "force balance and time evolution",
+    "finite thickness / vertical motions",
+    "optical depth and self absorption",
+    "observed source conversion, geometry and covariance",
+    "gravity and relativistic light propagation"
+  ]
+}

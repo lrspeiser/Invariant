@@ -1,0 +1,38 @@
+{
+  "schema": "mond_atlas_motion_controls_v1",
+  "disposition": "THEORY_BENCHMARK_ONLY",
+  "observational_scoring_allowed": false,
+  "source_dataset": null,
+  "source_classification": "Analytically prescribed optically thin line emission in arbitrary flux units; no galaxy, mass map, gravity field or observed covariance.",
+  "primary_references": [
+    {"id": "Schoenmakers_Franx_de_Zeeuw_1997", "url": "https://arxiv.org/pdf/astro-ph/9707332", "version": "v1", "equations": "Appendix A, equation A11: v_los = sin(i) [v_R sin(psi) + v_phi cos(psi)]; A23 documents geometry/kinematic harmonic confusion. Only the projection identity is implemented, not epicycle dynamics."},
+    {"id": "Di_Teodoro_Fraternali_2015", "url": "https://arxiv.org/pdf/1505.07834", "version": "v1", "equations": "Sections 2.1-2.2: emitting tilted rings, Gaussian line profiles and spatial convolution; equation 1: Gaussian beam. This is an independent restricted mechanics implementation, not a reproduction of the full 3DBarolo package."}
+  ],
+  "missing_closures": ["pressure support / asymmetric drift", "force balance and time evolution", "finite thickness / vertical motions", "optical depth and self absorption", "observed source conversion, geometry and covariance", "gravity and relativistic light propagation"],
+  "geometry": {"radius_max_kpc": 4.0, "scale_kpc": 1.4, "turn_kpc": 1.1, "asymmetry_phase_deg": 35.0},
+  "instrument": {"npix": 21, "pixel_kpc": 0.5, "beam_sigma_kpc": 0.6, "beam_half_width": 4, "channel_min_km_s": -125.0, "channel_max_km_s": 125.0, "nchannel": 25},
+  "base_parameters": {"rotation_km_s": 100.0, "inclination_deg": 55.0, "position_angle_deg": 18.0, "systemic_km_s": 0.0, "dispersion_km_s": 7.0, "warp_inclination_deg": 0.0, "warp_position_angle_deg": 0.0, "radial_km_s": 0.0, "asymmetry": 0.0},
+  "parameter_bounds": {"rotation_km_s": [30.0, 170.0], "inclination_deg": [0.0, 75.0], "position_angle_deg": [-20.0, 55.0], "systemic_km_s": [-20.0, 20.0], "dispersion_km_s": [3.0, 20.0], "warp_inclination_deg": [-12.0, 12.0], "warp_position_angle_deg": [-25.0, 25.0], "radial_km_s": [-40.0, 40.0], "asymmetry": [-0.6, 0.6]},
+  "quadrature": {"fit": [48, 144], "truth": [96, 288], "convergence": [[24, 72], [48, 144], [96, 288]], "truth_method": "independent Gauss-Legendre radius, staggered periodic azimuth, rotation matrices, scipy ndtr and direct spatial convolution"},
+  "gates": {"geometry_absolute": 1e-10, "flux_relative": 1e-10, "gaussian_reference_absolute_per_unit_flux": 2e-7, "direct_cube_relative_l1": 0.015, "fine_quadrature_relative_l1": 0.01, "fine_error_to_coarse_error_max": 0.8, "spectral_rebin_relative_l1": 2e-6, "beam_boundary_absolute_per_unit_flux": 1e-10, "length_scale_relative_l1": 1e-10},
+  "study": {
+    "seed": 2026090601,
+    "noise_sigma_flux": 0.00012,
+    "covariance": "Supplied positive diagonal covariance: sigma[c,y,x]=noise_sigma_flux*(1+0.15*cos(2*pi*c/nc))*(1+0.1*x/(nx-1)); independent noise between every voxel. No estimated or astronomical covariance.",
+    "split": "Fixed by indices before generation. Training: c%3!=0 and (x+2*y)%3!=0. Held-out channels: c%3==0 at training pixels. Held-out pixels: held-out spatial pixels at training channels. Joint: both held-out. All cells retained, no signal-selected masks.",
+    "fit": "Bounded scipy least_squares, two fixed starts, maximum 100 function evaluations per start, select by training weighted sum of squares only. Parameters scaled by bound width. Geometry/source radial shape/center/total flux fixed except enumerated parameters.",
+    "starts": [[90.0, 50.0, 15.0, 2.0, 9.0, 0.0, 0.0, 0.0, 0.0], [120.0, 60.0, 25.0, -2.0, 6.0, 3.0, -8.0, 12.0, 0.15]],
+    "expanded_predictive_recovery_criterion": "Descriptive only: every held-out split has noise-weighted squared residual per voxel <=1.25 AND truth-mean weighted squared error per voxel <=0.25. Failure retained; no benchmark gate depends on achieving recovery or fitted parameter accuracy.",
+    "parameter_recovery_tolerances": {"rotation_km_s": 5.0, "inclination_deg": 3.0, "position_angle_deg": 3.0, "systemic_km_s": 2.0, "dispersion_km_s": 2.0, "warp_inclination_deg": 4.0, "warp_position_angle_deg": 5.0, "radial_km_s": 5.0, "asymmetry": 0.05},
+    "cases": [
+      {"name": "amplitude_zero", "overrides": {}},
+      {"name": "warp_only", "overrides": {"warp_inclination_deg": 10.0, "warp_position_angle_deg": 20.0}},
+      {"name": "radial_only", "overrides": {"radial_km_s": 25.0}},
+      {"name": "asymmetry_only", "overrides": {"asymmetry": 0.4}},
+      {"name": "combined", "overrides": {"warp_inclination_deg": 8.0, "warp_position_angle_deg": 16.0, "radial_km_s": 22.0, "asymmetry": 0.3}},
+      {"name": "face_on_radial_unidentifiable", "overrides": {"inclination_deg": 0.0, "radial_km_s": 25.0}, "fixed_fit_parameters": {"inclination_deg": 0.0, "warp_inclination_deg": 0.0}}
+    ]
+  },
+  "independent_controls": ["Cartesian rotation-matrix projection versus scalar formula", "face-on, edge-on, rotation/radial sign and rigid-rotation limits", "analytic truncated exponential integrated flux and independent Gaussian CDF", "independent direct cube quadrature with different nodes", "fixed-instrument ring quadrature convergence", "exact spectral channel rebinning", "physical length-unit rescaling", "narrow-band losses and cropped beam flux transport including outside-FOV in-scatter", "amplitude-zero nesting", "face-on full-cube and unresolved-spectrum rotation/radial degeneracies"],
+  "access_accounting": {"observed_source_files_opened": 0, "observed_response_files_opened": 0, "large_downloads": 0, "device": "CPU", "freeze_requirement": "Write config hash and primary references before implementation and synthetic response generation; pass all numerical gates before injection study."}
+}
