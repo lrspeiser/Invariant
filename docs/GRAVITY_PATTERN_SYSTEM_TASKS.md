@@ -1,101 +1,74 @@
 # Gravity pattern system: execution tasks
 
 User authorization: create tasks and execute the ordinary-matter gravity pattern
-system, 2026-09-06. The active goal covers the full system. This file records
-dependencies and completion criteria; it does not imply every task is complete.
-The coordinator publishes validated milestones to main and preserves raw data
-outside Git. Independent tasks own separate files in the shared checkout.
+system, 2026-09-06; publish validated milestones to main regularly. The active
+goal covers the full system. Completion below refers to bounded increments.
+Raw data stay outside Git and independently running tasks own separate files.
 
-| Task | Deliverable and acceptance | Dependencies | Execution |
+| Task | Deliverable and acceptance | Dependencies | Current state |
 |---|---|---|---|
-| T1: Compute and numerical controls | Run actual CUDA learning; agree with CPU and independent library; prevent held-out response leakage; limit GPU allocations | None | First milestone complete in pattern-learning-001; CuPy on RTX 5090 |
-| T2: Independent baryonic inputs | Recover original geometry, reconcile units and identities, document mass-conversion assumptions without fitting velocities | None | Metadata milestone complete; relative stellar transfer passes five seeds and prior absolute position passes four. Absolute mass/calibration/uncertainty remains. Completed task: Recover independent baryonic mass inputs, thread 01a077c5-6c38-7831-9701-c97dafed68b3 |
-| T3: Native gas selection and noise | Execute a native-geometry selection/injection pilot; distinguish conditional tests from validated observed covariance | None | First conditional injection milestone complete; exact mask/covariance remains. Task: Validate native gas cube selection, thread 01a077c5-6e58-7a21-8e3b-185a99065e49 |
-| T4: Observable pattern learning | Reusable nested galaxy holdouts, simple/nonlinear comparison, shuffled-feature controls, all outcomes retained | T1; existing radial data supports exploratory development now | First GPU milestone complete on 126 galaxies; resolved extension awaits T2/T3/T6 |
-| T5: Lensing pilot | Ingest measured images/redshifts/dispersion for 1–3 systems; identify PSF/noise/mass-calibration gaps and required light-propagation model | None for ingestion; gravity scoring requires a validated relativistic closure | Ingest/replay milestone complete for three SLACS systems, with native HST SCI/ERR/DQ. PSF, image likelihood, mass calibration and light model remain. Completed task: Acquire a direct-observable lensing pilot, thread 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e |
-| T6: Resolved matter and motion | Plausible 3D ensembles; independently checked full-field gravity; rotation/warp/streaming/pressure and instrument cube controls; observed prediction uncertainties | T2/T3; existing source/field work is development foundation | Synthetic mechanics and correlated-noise milestones complete: six first injections plus 96 correlated-noise fits. Pressure, observed covariance/selection and additional source pilots remain. Completed task: Build resolved galaxy motion controls, thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef |
-| T7: Transfer and formula tests | Add eligible galaxies and physical group/survey holdouts; test structure additions; convert reproducible effects into dimensionally consistent formulas and test fixed predictions | T4/T6, with T5 adding a separate light-deflection test | Queued; no verified new gravity law claimed |
-
-Execution sequence:
+| T1: Compute and numerical controls | Actual CUDA fits agree with independent CPU/reference calculations; allocations bounded | None | Complete initial milestone; CuPy RTX 5090 learning and 36 new source refinements |
+| T2: Independent baryonic inputs | Original metadata, registered tracer maps and explicit conversion/geometry uncertainties | None | Metadata and two conditional source pilots complete; calibration, missing phases and source noise remain |
+| T3: Gas selection and noise | Native injection pilot, then validated mask and observed channel/spatial noise | None | Conditional native injections complete; observed likelihood not admitted |
+| T4: Pattern learning | Nested whole-galaxy validation, simple/nonlinear baselines and shuffled controls | T1; radial data already usable for development | First 126-galaxy experiment complete; no stable structural correction |
+| T5: Lensing | Measured images/redshifts plus independent mass inputs, instrument model and explicit light closure | Ingest independent; scoring requires all source/theory gates | Three-system ingest complete; light-propagation theory controls running |
+| T6: Resolved gravity and motion | Source alternatives; force solver; warp/streaming/pressure/instrument and uncertainty controls | T2/T3 | Mechanics, correlated-noise and fixed-image refinement complete; pressure theory controls running |
+| T7: Transfer and formulas | Expand eligible systems; group/survey holdouts; derive and test fixed physical predictions | T4/T6, with T5 supplying separate light test | Pending eligible observed likelihoods; no verified new gravity law |
 
 ```mermaid
 flowchart LR
-  T1[CUDA controls] --> T4[Exploratory pattern learning]
-  T2[Independent mass inputs] --> T6[Resolved gravity and motion]
+  T1[CUDA controls] --> T4[Exploratory learning]
+  T2[Independent matter inputs] --> T6[Resolved forces and motion]
   T3[Native selection and noise] --> T6
   T4 --> T7[Independent transfer and formula tests]
   T6 --> T7
-  T5[Lensing observations and light model] --> T7
+  T5[Lensing and light model] --> T7
 ```
 
-The first learning pass uses previously exposed radial data and photometric
-summaries, not measured 3D clumps. A fresh split does not make old development
-galaxies a pristine confirmation sample. All pixels of a galaxy stay together;
-physical group and survey separation remain later requirements.
+Existing separately created app tasks:
 
-T5 has disclosed incidental exposure to previously reserved SLACS table
-rows while inspecting primary sources. New exact-row ingestion is confined to
-three historical exploration systems. The later transfer audit must not claim
-the complete historical reserved set has remained unseen.
+- Recover independent baryonic mass inputs: 01a077c5-6c38-7831-9701-c97dafed68b3,
+  bounded metadata increment complete.
+- Validate native gas cube selection: 01a077c5-6e58-7a21-8e3b-185a99065e49,
+  bounded conditional injection increment complete.
+- Acquire a direct-observable lensing pilot: 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e,
+  ingest complete; light follow-up turn 01a077f6-c6ab-7cb0-8dc8-add09ac5d379 running.
+- Build resolved galaxy motion controls: 01a077cf-96a5-75c3-b0e3-db86f91e6eef,
+  mechanics/noise complete; pressure turn 01a077f6-c647-79f1-875b-0f1d950e6c66 running.
 
-A formula advances only when it predicts independent observables beyond source
-uncertainty and motion/instrument baselines. A useful null finding is retained.
-Published lens-model masses and velocity-inferred masses are not independent
-baryonic training labels. Unknown depth is represented by alternatives and
-uncertainty, never by an invented observed 3D truth.
+These live follow-ups remain THEORY_BENCHMARK_ONLY. The parent owns integration
+and publication. Query task handles for fresh status before claiming completion.
+Unfinished pressure/light files are excluded from execution-017 publication.
 
-## Completed execution receipts
+Milestones 012–016 established actual CUDA learning, original source metadata,
+native selection injections, stellar registration, a lensing ingest, synthetic
+motion/noise controls and a second conditional source-grid galaxy, NGC2976.
+Prior execution manifests preserve evidence and failed/superseded attempts.
 
-- Historical atlas/source/field/selection milestone published to main as
-  `34b156ac95e9b03a8fc27a82bb99e3727331a756`; exact manifest bytes verified in
-  the Git index, 85 atlas tests passed, raw arrays excluded.
-- `work/gravity-first-principles/mond-atlas-pattern-learning-001/summary.json`:
-  actual CUDA nested regression, 126 galaxies, 3 fold seeds, 8 bundle/model
-  comparisons and 16 structure shuffles. Independent numerical controls pass.
-- Scientific result: adding the combined coarse structure summaries gives
-  only a small, split-sensitive improvement. No stable structural correction
-  has been established. See `mond-atlas-pattern-findings-001/README.md`.
+Execution-017 adds 36 source refinements of the SAME measured NGC2976 cells.
+All converge; eight independent benchmarks pass; every private packet and CPU
+projection/stationarity replay passes. Thin stellar mismatch falls from 5.23%
+to .081%; CO reaches its 9.23% nonnegative floor. These are representation and
+measurement diagnostics. They do not measure 3D depth or validate gravity.
 
-The old filesystem/network restrictions no longer apply in this session.
-PyTorch in Python313 is CPU-only, but CuPy 13.5.1 works on the 5090. No existing
-environment or other process was replaced or stopped.
+Next dependency steps:
 
-- Source/native milestone: execution-013; 112 publication-subset tests pass. Two original geometry tables recovered; 864 actual-background injections executed. Details and unresolved observational admission are retained in each package.
+1. Review/publish the running pressure and light controls.
+2. Validate signed source/beam models and actual native mask/noise behavior.
+3. Add eligible registered-source pilots and checked finite-volume force inputs.
+4. Test structural corrections on whole galaxies and physical groups/surveys
+   withheld from selection, then test any candidate formula on fixed observables.
 
-- Source/motion/lensing milestone: execution-014; 152 publication-subset tests
-  pass. Four galaxies have relative-transfer plus prior absolute-position
-  support; NGC4214 limitations are retained. Three lensing systems have actual
-  native images and measured catalog rows, with no admitted lensing likelihood.
-  Six motion injections retain recovery, null and non-identifiability results.
+13525 catalog identity groups are not certified distinct systems. 175 radial
+and 126 learning galaxies, 12 resolved seeds, two conditional source galaxies,
+70 source-fit executions including alternatives/reruns, and 29 conditional
+field runs for one galaxy are available. There are ZERO admitted observed
+full-field cube or lensing likelihoods. Target remains 10–20 development pilots,
+then an eligible 100–300 resolved sample and broader population tiers.
 
-Next executable increments, in dependency order:
-
-1. T2/T6: implement a generic source adapter and a second conditional pilot,
-   starting with NGC2976; retain stellar/CO/HI calibration and depth alternatives.
-2. T3/T6: extend motion controls to known correlated channel noise and selection,
-   then validate the actual source/instrument likelihood and pressure closure.
-3. T5: obtain/validate PSF, foreground/arc separation and covariance; benchmark
-   an explicit light-propagation operator before fitting a gravity model.
-4. T4/T7: expand eligible resolved galaxies; evaluate structural corrections on
-   whole galaxies and physical groups/surveys held out from model selection.
-
-The four separately created app tasks have completed their bounded first
-milestones. The parent continues the remaining system work under the active
-goal. Use `run_mond_atlas_stellar_transfer_checked.py` with a fresh private and
-public directory for later transfers; original frozen run packets are immutable.
-
-
-- Execution-015: second conditional source-grid galaxy NGC2976 constructed by a
-  generic registered adapter. Twelve source cases and 72 conditional mass rows;
-  161 integration tests pass. Source covariance, physical depth and observed
-  gravity/motion admission remain incomplete. Next is common-basis vertical
-  reprojection, retaining the measured images as constraints.
-- T6 correlated-noise follow-up completed in the existing motion-controls task
-  01a077cf-96a5-75c3-b0e3-db86f91e6eef and is reviewed in execution-016. All app
-  tasks are idle with their assigned increments complete.
-
-- Execution-016: 179 tests pass; 96 correlated-noise motion fits and twelve
-  NGC2976 source-height fits executed. Noise interpolation can conceal motion
-  errors; fresh-noise/noiseless metrics distinguish signal recovery. Negative
-  CO data impose a 9.23% floor above the 5% source diagnostic. Retain those failures
-  and validate source noise/resolution before physical height or gravity claims.
+All radial learning data are historically exposed development data. Fresh folds
+do not restore an unseen confirmation sample. Lensing work disclosed incidental
+exposure to legacy reserved rows. Preserve that disclosure. Velocity-derived and
+lens-model masses are not independent ordinary-matter training labels.
+Unknown depth remains a family of assumptions. A formula advances only with
+independent observable predictions beyond source/motion/instrument uncertainty.

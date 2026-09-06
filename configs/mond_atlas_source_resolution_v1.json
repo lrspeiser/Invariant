@@ -1,0 +1,71 @@
+{
+  "id": "mond-atlas-ngc2976-fixed-image-source-resolution-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "permitted_scope": "Source-image reprojection diagnostics for separable flat disk families; no motion or gravity scoring.",
+  "object_id": "NGC2976",
+  "source_summary": "work/gravity-first-principles/mond-atlas-generic-source-001/run-002/summary.json",
+  "source_summary_sha256": "bee2ed639223c4984e6f4dcc6a89f923b51ddc0d2cbee800f558334ed130f697",
+  "source_packet": "work/private/mond-atlas-generic-source-001/run-002/nominal.npz",
+  "source_packet_sha256": "2bbc96be9a86d929a18527358db05c05372ff58b0264e5f970a27a8670475a3a",
+  "inclination_deg": 53.8623309521001,
+  "components": [
+    "stellar_luminosity",
+    "atomic_helium",
+    "co21"
+  ],
+  "height_grid_kpc": [
+    0.0,
+    0.1,
+    0.2,
+    0.4
+  ],
+  "model": "Exact integration of finer bilinear source nodes into the SAME 129 by 129 measured image cells; Laplace minor-axis kernel for each fixed height. No rebinning of target, coverage, radius or weights.",
+  "source_fit": {
+    "regularization": 0.0001,
+    "max_iterations": 12000,
+    "projected_gradient_relative_rms_tolerance": 1e-06,
+    "minimum_cell_coverage": 0.5,
+    "fitted_radius_kpc": 5.0,
+    "reported_radius_kpc": 3.0,
+    "source_support_radius_kpc": 6.0,
+    "initial_condition": "zero for every candidate; no warm start from response or other fits",
+    "stationarity": "RMS of L times projected step over all latent nodes, multiplied by refinement squared; normalized source intensity",
+    "regularization_convention": "same lambda times sum of squared nearest-neighbor differences; approximates the same 2D gradient energy on square uniform grids",
+    "lipschitz_bound": "product of maximum row sum and column sum for each nonnegative axis operator, plus 8 lambda"
+  },
+  "gross_source_image_mismatch_threshold": 0.05,
+  "benchmark_tests": "tests/test_mond_atlas_source_resolution.py",
+  "operator": "scripts/mond_atlas_source_resolution.py",
+  "primary_sources": [
+    "https://arxiv.org/abs/1410.0009",
+    "https://arxiv.org/abs/0810.2125",
+    "https://arxiv.org/abs/0905.4742"
+  ],
+  "interpretation": [
+    "Heights are illustrative model alternatives, not independent measurements or posterior draws.",
+    "No best-height selection: all candidates, convergence failures and source residuals retained.",
+    "Input maps contain different native beams. Only an effective beam-blurred source is represented; no joint beam matching or deconvolution.",
+    "Coverage-weighted fitting is not a likelihood; partial native-pixel masks within coarse cells remain an approximation.",
+    "Fitted source light is evaluated on the same source data; these are closure diagnostics, not independent predictions.",
+    "The source axis, masks, support, penalty and gates are fixed before these source closure results; no velocity data are read.",
+    "Distance/conversion/geometry alternatives from generic-source-001 still apply; this first height pass uses nominal geometry only.",
+    "Finer source coefficients are latent parameters, not finer observations; this experiment cannot establish superresolution or true 3D structure.",
+    "Node-center support radius stays 6 kpc; bilinear hats extend by one latent spacing past a support node. Inner 3 kpc reporting remains far from that boundary.",
+    "Resolution dependence is reported for every component and height; no candidate is selected to improve a gravity response."
+  ],
+  "source_refinement_factors": [
+    1,
+    2,
+    4
+  ],
+  "backend": "CuPy float64; cap default memory pool at 1 GiB; no claim of speedup",
+  "benchmark_gates": {
+    "analytic_quadrature_absolute": 2e-09,
+    "nested_basis_absolute": 2e-10,
+    "old_square_absolute": 2e-10,
+    "adjoint_relative": 1e-11,
+    "cpu_gpu_prediction_absolute": 2e-09,
+    "independent_optimizer_prediction_relative": 0.0002,
+    "enclosed_flux_relative": 1e-09
+  }
+}

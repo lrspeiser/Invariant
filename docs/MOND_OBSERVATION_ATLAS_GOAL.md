@@ -1,139 +1,120 @@
-# Active goal: gravity pattern system and MOND observation atlas
+# MOND observation atlas and gravity pattern system: active handoff
 
-The user requested tasks and execution on 2026-09-06. The goal is active and
-unfinished. Read work/gravity-first-principles/mond-atlas-execution-016/README.md
-and execution-status.json, then docs/GRAVITY_PATTERN_SYSTEM_TASKS.md.
-Prior handoff/task documents are preserved byte-for-byte in execution-016.
+Authoritative current parent receipt: `work/gravity-first-principles/mond-atlas-execution-017/`.
+The overall unbudgeted goal remains ACTIVE. This is a completed source-resolution
+increment, not completion of the full system or discovery of a new gravity law.
+Prior handoffs are preserved exactly in each execution package.
 
-Filesystem/network/Git access works. The latest previously published milestone
-is 0d3aace45309ffa2792c2d78953a624b3fb5c4d5 (execution-015). Execution-016 is the
-next source-closure/correlated-noise package; inspect Git to confirm publication.
-Do not repeat obsolete permission blockers. Coordinator owns publication;
-fetch/integrate concurrent changes and push ordinary fast-forward milestones
-to main. Keep all raw arrays/private data outside Git.
+## User authorization and environment
 
-Python C:/Users/henry/AppData/Local/Programs/Python/Python313/python.exe has
-NumPy2.2.6, SciPy1.16.1, sklearn1.7.1, Astropy7.1.1 and working CuPy13.5.1 CUDA
-on RTX5090. Torch2.7.1 here is CPU-only. No existing process was stopped or
-environment replaced. CuPy learning passed CPU/independent reference checks.
+The user authorized building/executing the system, separate tasks, using the
+RTX 5090, and publishing validated milestones to GitHub main regularly.
+Repository: lrspeiser/Invariant. Current checkout is the research branch;
+publish with an ordinary fast-forward to main after fetching remote changes.
+AGENTS.md requires intended-file staging and raw arrays outside Git. No force
+push, blanket add, deletion of concurrent work, or repeated permission request.
+The former filesystem/network restrictions are resolved.
 
-First learning run: mond-atlas-pattern-learning-001, report pattern-findings-001.
-126 previously exposed SPARC galaxies, 8 comparisons, 3 five-fold seeds,
-3024 OOF rows and 16 structure shuffles. Combined nonlinear features yield
-2.26% MSE gain, with -5.33% to +10.29% across splits and uncertainty including
-zero. No stable structure correction; gas-only features do not help here.
-All outcomes retained. No causal, unique-3D or independently confirmed law claim.
+Python313: C:/Users/henry/AppData/Local/Programs/Python/Python313/python.exe.
+CuPy 13.5.1 works on the RTX 5090 with CUDA 12.9. PyTorch remains CPU-only.
+Use bounded GPU allocations and one CPU numerical thread; leave other processes
+alone. Source-resolution-001 used a maximum 19,091,968-byte default CuPy pool.
 
-Execution-014 parent audit: 152 tests pass, zero failures/errors/skips; 609 prior
-manifest entries and 787 unique input/artifact files rehashed. Raw files remain
-required for reproduction. verify_mond_atlas_execution014.py is the entry point;
-it requires a fresh report output and checks archived prior mutable context.
+## What has actually been executed
 
-COMPLETED TASK MILESTONES (all app tasks idle; T6 follow-up now completed below):
+- 13525 identity groups, not certified distinct galaxies; 175 radial galaxies;
+  126 development-learning galaxies; 12 resolved seeds.
+- The first CUDA learning pass on 126 galaxies found a small, split-sensitive
+  combined-feature gain, not a stable structural correction. Galaxy folds do
+  not supply physical-group/survey holdouts or pristine confirmation.
+- Two galaxies have conditional source-grid work: NGC2903 and NGC2976.
+  There are 70 source-fit executions (34 earlier + 36 refinement fits), including
+  reruns and alternative parameterizations of the same observations. These are
+  not 70 independent models, galaxies, measured depths, or validation samples.
+- 29 prior conditional field runs remain for NGC2903 only.
+- ZERO admitted observed full-field cube likelihoods and ZERO admitted lensing
+  likelihoods. Target remains 10–20 validated development pilots, then an
+  eligible 100–300 resolved sample and broader population tiers.
+
+## New result: fixed-image source refinement
+
+`mond-atlas-source-resolution-001/run-001`, findings-001, and verification.json.
+Source-only SOURCE_BLOCKED. Exact observed NGC2976 cells, coverage, radius masks
+and weights are held fixed while latent bilinear source spacing changes from
+125 to 62.5 to 31.25 pc. Heights 0/.1/.2/.4 kpc are illustrative alternatives.
+All 36 CuPy fits converge. Eight independent benchmark tests pass before the
+source packet is opened; all 36 saved projections, stationary optimality
+receipts and unchanged observation weights replay on CPU. No response read.
+
+Thin-sheet stellar RMS falls 5.228% -> .1675% -> .0807%. The old discrepancy
+was strongly affected by source representation. HI falls .1253% -> .0128% ->
+.0102%. CO falls 9.8533% -> 9.2343% -> 9.2343%, reaching the unavoidable
+9.234263% nonnegative prediction floor from 411 negative signed measurements.
+Finite-height alternatives retain residuals; at .1 kpc the finest stellar/HI/CO
+RMS is 14.57/.579/10.77 percent. Do not convert this into measured thickness:
+native beams differ, source covariance/calibration/depth remain uncertain, and
+latent refinement adds freedom without adding observations. Zero height is a
+sheet limit and cannot be loaded as finite volume density by a 3D field solver.
+All old 12 NGC2976 height fits remain unchanged.
+
+## Existing task milestones and current live follow-ups
 
 T2: Recover independent baryonic mass inputs
-  Thread 01a077c5-6c38-7831-9701-c97dafed68b3, baryon-recovery-001.
-  Original S4G tables recovered; nine geometries, six uncertain orientations,
-  three missing. Current fixed M/L=.6 fields unaffected by historical misuse of
-  an uncleaned integrated-color relation on cleaned P5 images. Five historical
-  STELLAR_MASS_MAP products are flux images, not stellar-mass observations.
+Thread 01a077c5-6c38-7831-9701-c97dafed68b3. Completed bounded metadata increment.
+Original S4G tables, nine geometries (six uncertain), three missing. Four seeds
+have relative stellar-transfer and prior absolute Gaia support: NGC2903/2976/
+3198/3521. NGC4214 lacks absolute support and has a 9.11% local mismatch. P5
+STELLAR_MASS_MAP products are flux, not observed stellar mass. Historical misuse
+of an uncleaned color relation did not alter current fixed M/L=.6 fields.
+Use run_mond_atlas_stellar_transfer_checked.py and fresh private/public paths;
+do not reuse original frozen runner output paths.
+
 T3: Validate native gas cube selection
-  Thread 01a077c5-6e58-7a21-8e3b-185a99065e49, native-selection-001/run-001.
-  864 actual-background and 2304 conditional simulated injections. Publisher
-  mask, spectral response, clean line-free support and covariance unresolved.
+Thread 01a077c5-6e58-7a21-8e3b-185a99065e49. Completed conditional native pilot.
+864 actual-background and 2304 simulated injections. Exact publisher mask,
+clean background support, spectral response and observed covariance unresolved.
+The native NGC2976 header/geometry check is not a full remote-cube rehash.
+
 T5: Acquire a direct-observable lensing pilot
-  Thread 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e, lensing-pilot-001/replay-002.
-  Three SLACS systems, measured redshifts/aperture dispersions, photometric
-  alternatives and three native HST SCI/ERR/DQ images. 29 principal downloads,
-  650187552 bytes rehashed. 21 tests. PSF, foreground/arc masks, image covariance,
-  independent mass calibration and light-propagation closure remain missing.
-  Auger SPS mass conditions on velocity dispersion: ancillary, not independent
-  input mass. Grillo photometric alternatives retain their assumptions.
-  Legacy confirmation rows incidentally exposed: old reserved sample is not
-  certified unseen. No crossmatch to the nearby HI pilots is established.
+Thread 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e. Three SLACS systems and native HST
+SCI/ERR/DQ acquired and replayed, 29 principal assets / 650187552 bytes.
+PSF, foreground/arc separation, full noise model and independent mass calibration
+remain. Auger SPS mass uses velocity-dispersion-conditioned metallicity: ancillary,
+not independent input mass. Legacy reserved table rows were incidentally exposed;
+do not claim that old reserved sample is unseen. No established HI-seed match.
+Current bounded follow-up RUNNING: turn 01a077f6-c6ab-7cb0-8dc8-add09ac5d379,
+THEORY_BENCHMARK_ONLY light-potential/deflection controls. Its unfinished files
+are not part of execution-017. Query this exact app handle before changing status.
+
 T6: Build resolved galaxy motion controls
-  Thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef, motion-controls-001/run-002.
-  THEORY_BENCHMARK_ONLY. 25 numerical controls and six synthetic cases, known
-  source/instrument/diagonal covariance. Warps, streaming and emission asymmetry
-  improve held-out predictions; zero-amplitude case slightly worsens. Face-on
-  motions remain unidentified despite predictive pass; retain that failure.
-  No pressure support, force balance or observed galaxy likelihood is supplied.
+Thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef. Synthetic mechanics and correlated-noise
+increments completed: 25 mechanics controls, 30 statistical controls, 96 fits /
+192 starts across four independent noise realizations per class. All noise and
+prediction arrays replay. Correct conditional channel forecasts can look good
+while a wrong motion model fails on fresh noise. Combined circular fresh q/N
+1.517 versus expanded 1.013; zero extra motion slightly worsens with more freedom.
+Known synthetic masks/covariance and imposed velocities are not observed truth.
+Current bounded follow-up RUNNING: turn 01a077f6-c647-79f1-875b-0f1d950e6c66,
+THEORY_BENCHMARK_ONLY pressure/force-balance controls. Its unfinished files are
+not part of execution-017. Query this exact app handle before changing status.
 
-Additional parent source milestone: stellar-transfer-001 and -002, summary in
-stellar-transfer-findings-001. Five P5 sums reconstructed against P1 and measured
-translations checked on disjoint blocks. Four pass relative transfer plus prior
-absolute Gaia support: NGC2903/2976/3198/3521. NGC4214 lacks absolute support and
-has a 9.11% local quadrant mismatch. Both split passes are sensitivity on the
-same data, not independent observations or posterior samples. Old fields intact.
+## Next executable work
 
-The original stellar-transfer runner is frozen by executed hashes. Use
-run_mond_atlas_stellar_transfer_checked.py for future work with a copied config,
-fresh private_directory and fresh public output. The checked wrapper prevents
-private sample overwrite; all ten previous sample packets remain unchanged.
+1. Finish, independently review and publish the existing pressure and light
+   follow-ups. Keep their theory status distinct from observational admission.
+2. Build signed source-noise/beam controls and validate actual native cube
+   covariance/selection before interpreting source residuals or gas speeds.
+3. Expand the generic registered-source adapter to eligible additional galaxies,
+   carrying mass-conversion, calibration, geometry and depth alternatives.
+   NGC2976 refined sources need finite-volume compatibility and numerical field
+   controls before adding conditional forces; no response tuning.
+4. Evaluate structure additions beyond motion/instrument/source uncertainty,
+   with whole galaxies and physical groups/surveys withheld from selection.
+   Translate only reproducible effects into candidate physical formulas.
 
-NEXT WORK:
-
-1. NGC2976 source maps and twelve common-basis height fits now exist. Investigate
-   source resolution, beam and signed-data noise before a physical height or
-   gravity claim. Use registered-source and registered-projection adapters;
-   retain the earlier geometry/mass alternatives. No new field/observed score.
-2. Correlated-noise motion controls now pass. Validate actual observed channel
-   and spatial covariance/selection and add pressure support before interpreting
-   speeds as gravitational force. Known synthetic covariance is not observed truth.
-3. Validate the lensing instrument/foreground model and explicit relativistic
-   light closure. Inferred total/lens/halo masses are not baryonic truth labels.
-4. Expand eligible resolved systems and run galaxy/group/survey transfer tests
-   before extracting or promoting candidate gravity formulas.
-
-Scientific scale: 13525 identity groups (not certified distinct), 175 radial
-galaxies, 126 learning galaxies, 12 resolved seeds, 22 source-image fits and 29
-conditional field runs for one galaxy. ZERO admitted full-field cube likelihoods
-and ZERO admitted lensing likelihoods. Target remains 10–20 validated development
-pilots then 100–300 eligible resolved galaxies plus broader population tiers.
-
-Read docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md before new physical
-builders/operators. Existing radial reanalysis is exploratory; full-field source
-admission remains SOURCE_BLOCKED. Preserve failed/prior controls and uncertainty.
-HI is not total ordinary matter. Unknown depth must be represented by constrained
-alternatives, never invented observed 3D truth. A nonrelativistic acceleration
-formula alone does not specify light bending. The overall goal remains active.
-
-EXECUTION-015 UPDATE:
-NGC2976 generic source: 12 cases, 36 tracer grids, 72 conditional mass rows;
-161 publication-subset tests pass. Stellar/HI/CO coverage inside nominal 6 kpc
-is 99.53/78.50/37.54 percent. Nominal conditional mass 2.394e9 Msun; conversion
-alternatives 1.619–3.243e9; distance-scatter alternatives 1.549–3.424e9. These
-are not confidence intervals or directly measured total masses. Orientation
-changes redistribute tracer coordinates while total mass changes less than
-0.6 percent. All missing phases/source likelihood/3D admission remain open.
-Nine new tests and independent real-header Jacobian/translation checks pass.
-Initial cropped-test assumption and FITS-header failure preserved with original
-code snapshots. Corrected report legend is findings-002; both numeric reports agree.
-There are now two galaxies with conditional source-grid work, still only one
-with the 29 old conditional fields; ZERO admitted observed full-field likelihoods.
-
-T6 correlated-noise follow-up COMPLETE: thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef,
-turn 01a077e1-2fe4-7fe2-8a22-03aac0682bda completed; authoritative app status idle.
-No live job remains. Package motion-covariance-001/run-001, 96 fits/192 starts,
-30 statistical +25 mechanics controls, 18 new tests. All 36 noise draws and
-96 predictions replay exactly. Three injection classes, four independent noise
-realizations each, two overlapping folds. Correct covariance and deliberate
-diagonal approximation, circular and expanded mean models. Combined circular
-conditional q/N 1.084 looks close to noise but fresh q/N 1.517; expanded fresh 1.013.
-Zero-extra-amplitude models slightly worsen with added motion freedom. All
-separate marginal/conditional/fresh/noiseless metrics retained. Fixed masks and
-known AR(1) channel noise with independent spatial pixels remain synthetic.
-No pressure, observed covariance, source uncertainty or gravity admission.
-
-EXECUTION-016 UPDATE: 179 tests pass. NGC2976 common-basis vertical projection
-in mond-atlas-ngc2976-projection-001/run-001 and findings-001 executes 12 fits,
-all converge, ten above the 5% descriptive flag. HI thin/.1kpc RMS .13/1.50%; stars
-thin 5.23%. CO negative measurements impose a 9.23% nonnegative-prediction RMS floor;
-the thin fit has 9.85%, so 5% is not a physical rejection threshold. All negative values
-are retained. Heights 0/0.1/0.2/0.4 kpc are model alternatives, not measured/posterior
-heights. Zero height is a sheet limit, not a finite-volume field input. Existing
-nodal operator unchanged; five independent controls replay. Next needs signed
-source likelihood, finer source/beam checks and additional galaxies before
-new observed-gravity scoring. Total source-image fits now 34 (prior 22 + new 12),
-conditionalfields still 29 for one galaxy, conditional source work for two galaxies.
-ZERO admitted observed full-field cube or lensing likelihoods. Goal remains active.
+Read docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md before new operators.
+HI is not all ordinary matter. Unknown 3D structure is not observed truth.
+Inferred lens/halo/dynamical masses are not independent baryonic labels.
+Nonrelativistic MOND or a new acceleration formula alone does not define photons.
+The system currently supports exploratory diagnostics and theory controls; a
+new first-principles gravity formula has not been established.
