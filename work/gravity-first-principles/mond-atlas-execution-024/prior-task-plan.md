@@ -136,19 +136,3 @@ evidence that time supplies energy. Energy exchange, source histories, actual
 distributed 3D source fields, cluster/Solar System transfer and lensing remain
 unresolved. No parameter is inferred independently of training responses merely
 because its formula uses photometry. Overall research goal remains unfinished.
-
-## Execution-024: coverage correction and broader nonclock comparisons
-
-Audited 25 proposed mechanisms and confirmed that earlier numerical checks did
-not establish comprehensive mechanism coverage. Parameter settings were not
-independent ideas. Actual 3D distribution, directional transport, nested geometry,
-motion couplings and memory remain incomplete. The audit is preserved at
-`work/gravity-first-principles/mond-atlas-coverage-audit-001/README.md`.
-
-Expanded surface coherence, passive/active re-emission and finite return proxies
-with continuous global parameters, three starts, central/outer/mass-scale changes,
-same 102-galaxy cohort, and gas-rich/stellar-rich transfer in both directions.
-Independent replay and retained failures accompany all completed results at
-`work/gravity-first-principles/mond-atlas-nonclock-robust-001/README.md`.
-This improves testing of specific radial proxies; it does not complete the 25
-mechanism program or supply 3D/source/noise/history/lensing admission. Goal unfinished.

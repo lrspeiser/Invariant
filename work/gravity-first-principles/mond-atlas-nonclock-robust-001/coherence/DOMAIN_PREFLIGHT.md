@@ -1,0 +1,3 @@
+# Domain-transfer extension, frozen after ordinary-fold run
+
+Ordinary-fold run001 is complete and its summary known. This new evaluation is separately post-hoc. Freeze before domain fits: gas-rich proxy 1.33 HI/(1.33 HI+.5 L)>=.5, using nominal source quantities independent of fitted mf. Fit each original family on gas-rich donor galaxies, score only stellar-rich recipients; reverse once. Preserve original bounds, three starts, weighting and explicit nested Newton comparison. No threshold or parameter-range changes. Same 102 galaxies, no reserved sources. Domains are source-proxy partitions, not true total gas fractions. Record every start, choice, held prediction and equal-galaxy MSE, plus signed inner/middle/outer residuals. No confirmation claim.

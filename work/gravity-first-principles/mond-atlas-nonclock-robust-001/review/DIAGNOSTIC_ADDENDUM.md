@@ -1,0 +1,5 @@
+# Post-hoc sampling and influence diagnostic
+
+Before computing these diagnostics, freeze: use the completed per-galaxy MSEs averaged over the same three seeds, compare each branch with its own continuous MOND control. Families: return finite_mix, truncated_point_kernel, finite_flat_bridge, and coherence_free. Define improvement d=MSE_MOND-MSE_candidate. Draw 4000 paired whole-galaxy resamples with fixed seed9062491; report the 2.5/97.5 percentiles of mean d. No model refitting, new optimization, changed predictions, clipping or exclusions.
+
+For the bridge, report largest absolute galaxy contribution relative to sum absolute contributions, largest positive contribution relative to net gain (can exceed100%), all leave-one-galaxy-out percentage gains relative to that subset's MOND mean, and their min/max. Use the same diagnostics on the other families for context. These are descriptive post-hoc diagnostics on historically exposed data. They do not incorporate refitting, model search, cross-validation dependence, survey correlations or nuisance uncertainty and are not calibrated significance tests.
