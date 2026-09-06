@@ -1,0 +1,81 @@
+{
+  "config": {
+    "id": "mond-atlas-pattern-learning-v1",
+    "scope": "Exploratory machine learning on previously exposed SPARC galaxy-level residuals of an existing fixed radial algebraic MOND baseline. No new source builder, gravity operator, full-field score or causal claim.",
+    "full_field_admission_disposition": "SOURCE_BLOCKED",
+    "input": "work/gravity-first-principles/mond-atlas-radial-002/galaxy-residuals.csv",
+    "source_paper": "https://arxiv.org/abs/1606.09251",
+    "algorithm_reference": "https://scikit-learn.org/stable/modules/generated/sklearn.kernel_ridge.KernelRidge.html",
+    "target": "median_log10_vobs_over_mond",
+    "selection": "Existing selected=True rows; finite target and all eight declared input columns. Retain and report any exclusions; no outcome-based removal.",
+    "baseline_features": [
+      "median_log10_gbar",
+      "spread_log10_gbar",
+      "quality",
+      "inclination_deg"
+    ],
+    "stellar_features": [
+      "log10_effective_stellar_surface_brightness",
+      "log10_disk_scale_length",
+      "hubble_type"
+    ],
+    "gas_features": [
+      "gas_mass_fraction_proxy"
+    ],
+    "feature_bundles": [
+      "baseline",
+      "stellar",
+      "gas",
+      "combined"
+    ],
+    "estimators": [
+      "linear_ridge",
+      "rbf_kernel_ridge"
+    ],
+    "ridge_penalties": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "rbf_gamma_multipliers": [
+      0.25,
+      1.0
+    ],
+    "rbf_gamma_definition": "multiplier divided by number of features, after training-only standardization",
+    "outer_fold_count": 5,
+    "fold_seeds": [
+      9060601,
+      9060602,
+      9060603
+    ],
+    "inner_validation": "Use the remaining four whole-galaxy fold labels within each outer training partition. Select hyperparameters by equal-galaxy mean squared error. Refit only outer training data.",
+    "null_replicates": 16,
+    "null_seed": 9060677,
+    "null_scope": "For first fold seed only, jointly permute the four extra structure columns within four rank bins of baseline median acceleration. Refit the entire nested combined kernel model. Exploratory conditional shuffle diagnostic, not a calibrated causal or discovery p-value.",
+    "bootstrap_replicates": 4000,
+    "bootstrap_scope": "Resample paired per-galaxy squared-error differences averaged over the three fold seeds. Conditional uncertainty on these fitted OOF predictions; not full training uncertainty, group independence, or a virgin confirmation set.",
+    "cuda_memory_pool_limit_bytes": 1073741824,
+    "benchmarks": {
+      "cpu_gpu_prediction_absolute_tolerance": 1e-08,
+      "independent_sklearn_prediction_absolute_tolerance": 1e-08,
+      "positive_control_rmse_ratio_max": 0.65
+    },
+    "limitations": [
+      "All observed galaxies were development-exposed; new CV partitions do not erase that exposure.",
+      "Physical group and independent survey holdouts remain unavailable in this module.",
+      "Gas fraction is a HI plus uniform stellar-M/L proxy. Stellar features are photometric summaries, not unique 3D density or independently measured age.",
+      "Errors refer to an algebraic radial MOND approximation, so a learned correction can absorb missing physics, mass calibration or geometry errors.",
+      "Eight prespecified bundle/estimator comparisons are all reported; the best observed outcome is not a confirmed discovery.",
+      "This small dataset need not run faster on GPU. The experiment verifies an executable GPU learning path for later ensembles."
+    ]
+  },
+  "bindings": {
+    "configs/mond_atlas_pattern_learning_v1.json": "c1df21030c1fb99cf778bf379197b63a1aeebd7b35261c3b64d4d888723b7e11",
+    "work/gravity-first-principles/mond-atlas-radial-002/galaxy-residuals.csv": "7d6583627866a91a690ef722f20d9b1b364cbab5f1ab0d9cc4100397fea09f21",
+    "scripts/run_mond_atlas_pattern_learning.py": "fac04944e716ecd52044c27e6dbd3c6c8586661a9efa06ee9b60f2d10e270da0",
+    "scripts/mond_atlas_pattern_learning.py": "e6f54547c73aa600053e513ad0b2c0c6f43601d1c18f88c35947095e8dafe3a8",
+    "tests/test_mond_atlas_pattern_learning.py": "2d7df81d24620240c7b7e73c5d2fb1be60fb2a8293dafad02fdeb256fad09b76"
+  },
+  "development_data_previously_exposed": true,
+  "new_full_field_response_access": false
+}

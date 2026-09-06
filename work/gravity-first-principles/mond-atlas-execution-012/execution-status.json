@@ -1,0 +1,76 @@
+{
+  "status": "CUDA_PATTERN_LEARNING_EXECUTED_SOURCE_TASKS_ACTIVE",
+  "goal_complete": false,
+  "goal_remains_active": true,
+  "publication_status": "PRIOR_535_FILE_MILESTONE_PUBLISHED_NEW_MILESTONE_READY",
+  "published_prior_commit": "34b156ac95e9b03a8fc27a82bb99e3727331a756",
+  "counts": {
+    "identity_groups": 13525,
+    "certified_distinct": false,
+    "radial_baseline_galaxies": 175,
+    "learning_galaxies": 126,
+    "resolved_seed_galaxies": 12,
+    "source_image_fits": 22,
+    "conditional_field_runs": 29,
+    "conditional_field_galaxies": 1,
+    "admitted_full_field_cube_predictions": 0,
+    "new_gpu_nested_oof_predictions": 3024,
+    "learning_comparisons": 8,
+    "whole_galaxy_fold_seeds": 3,
+    "structure_shuffles": 16,
+    "publication_subset_unit_tests_passed": 89
+  },
+  "no_stable_new_structure_correction": true,
+  "source_and_3d_admission_incomplete": true,
+  "tasks": [
+    {
+      "id": "T1",
+      "name": "Compute and numerical controls",
+      "status": "FIRST_MILESTONE_COMPLETE"
+    },
+    {
+      "id": "T2",
+      "name": "Recover independent baryonic mass inputs",
+      "status": "ACTIVE",
+      "thread_id": "01a077c5-6c38-7831-9701-c97dafed68b3"
+    },
+    {
+      "id": "T3",
+      "name": "Validate native gas cube selection",
+      "status": "ACTIVE",
+      "thread_id": "01a077c5-6e58-7a21-8e3b-185a99065e49"
+    },
+    {
+      "id": "T4",
+      "name": "Observable pattern learning",
+      "status": "FIRST_RADIAL_GPU_MILESTONE_COMPLETE_RESOLVED_EXTENSION_PENDING"
+    },
+    {
+      "id": "T5",
+      "name": "Acquire a direct-observable lensing pilot",
+      "status": "ACTIVE",
+      "thread_id": "01a077c5-7055-7f80-a7d1-7ddbbe69cb4e"
+    },
+    {
+      "id": "T6",
+      "name": "Resolved matter and motion",
+      "status": "QUEUED_AFTER_SOURCE_REVIEW",
+      "depends_on": [
+        "T2",
+        "T3"
+      ]
+    },
+    {
+      "id": "T7",
+      "name": "Transfer and formula tests",
+      "status": "QUEUED",
+      "depends_on": [
+        "T4",
+        "T6",
+        "T5"
+      ]
+    }
+  ],
+  "runtime": "Python313 + CuPy13.5.1 executes CUDA on RTX5090. Torch2.7.1 in this environment is CPU-only.",
+  "exposure": "All SPARC learning galaxies previously development-exposed. Lensing task additionally disclosed incidental reserved SLACS table exposure; retain that disclosure."
+}
