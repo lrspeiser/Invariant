@@ -1,0 +1,14 @@
+{
+  "disposition": "THEORY_BENCHMARK_ONLY",
+  "stage": "declared after implementation and before first execution; tolerances remain in the earlier frozen config",
+  "finite_boundary_ray_kpc": [1.0, 0.0],
+  "finite_boundary_components": ["point mass", "Plummer a=0.8 kpc"],
+  "finite_tail_required_depth_kpc": 512,
+  "finite_tail_asymptotic_minimum_order": 1.9,
+  "finite_difference_convergence_ray_kpc": [0.7, 0.4],
+  "quadrature_sweep_ray_radii_kpc": [0.2, 1.0],
+  "asymmetric_surface_reference_orders": [[256, 512], [512, 1024]],
+  "required_vs_diagnostic": "All finite-domain integrals must agree with their exact finite-domain reference. All coarse truncation, quadrature and finite-difference comparisons are retained against the same frozen finest tolerance; only the finest sweep member is a required accuracy gate. Measured fourth-order finite-difference and asymptotic second-order tail convergence are required. Independent surface-integral reference agreement is required at both resolutions.",
+  "boundary_scope": "Largest-depth tail threshold applies to the declared 1 kpc ray only, not arbitrary rays or a guarantee for real field boundaries. Default radial/asymmetric benchmarks use the ideal infinite map. No analytic tail correction is inserted into the operator.",
+  "observational_inputs": []
+}

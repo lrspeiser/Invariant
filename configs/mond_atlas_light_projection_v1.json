@@ -1,0 +1,317 @@
+{
+  "schema_version": "mond-atlas-light-projection-v1",
+  "disposition_before_implementation": "THEORY_BENCHMARK_ONLY",
+  "declared_utc": "2026-09-06T18:28:36.996267+00:00",
+  "observational_access_allowed": false,
+  "observational_scoring_allowed": false,
+  "gpu_allowed": false,
+  "scope": "Static scalar weak-field, Born, isolated single thin lens plane; scalar potential callables -> numerical transverse derivative -> line-of-sight deflection -> angular lens equation and local Jacobian. Synthetic fixtures only.",
+  "not_implemented": [
+    "Einstein/modified-gravity field solver",
+    "cosmological distance inference",
+    "multi-plane or post-Born ray tracing",
+    "time-varying/vector/tensor metrics",
+    "source reconstruction",
+    "observational image likelihood",
+    "relativistic sigma/MOND/refracted-gravity completion"
+  ],
+  "conventions": {
+    "metric_signature": "(-,+,+,+)",
+    "metric": "ds^2=-(1+2 Phi/c^2)c^2 dt^2+(1-2 Psi/c^2)(dx^2+dy^2+dell^2)",
+    "potential_unit": "m^2 s^-2",
+    "gradient_unit": "m s^-2",
+    "length_unit": "m",
+    "mass_unit": "kg",
+    "angle_unit": "radian",
+    "coordinates": "x,y are right-handed transverse physical Cartesian coordinates in one local lens plane; ell is physical longitudinal distance; rays use fixed transverse xi in the thin-lens/Born integral.",
+    "alpha_hat": "c^-2 integral grad_perp(Phi+Psi) dell, outward for a negative point potential and positive impact xi; actual propagation-direction change is -alpha_hat.",
+    "lens_equation": "beta(theta)=theta-(D_ls/D_s)*alpha_hat(D_l*theta)",
+    "distance_rule": "D_l, D_s and D_ls are separately supplied angular-diameter distances; never replace D_ls by D_s-D_l. Local ell is not an angular-diameter distance.",
+    "jacobian": "A_ij=partial beta_i/partial theta_j; signed magnification=1/det(A); flux magnification=abs(signed magnification)",
+    "lewis_challinor_mapping": "Their (+---), c=1 potentials map as Psi_N=Phi/c^2 and Phi_N=-Psi/c^2; their Weyl potential is (Phi+Psi)/(2c^2). Their source-minus-image displacement is the negative of the reduced deflection used here."
+  },
+  "closure": {
+    "label": "EQUAL_POTENTIALS_BENCHMARK_ONLY",
+    "definition": "Psi=Phi for the principal Newtonian point/Plummer fixtures. This is an explicit test closure, not a derived closure for a candidate gravity law.",
+    "fixed_synthetic_ablation_ratios": [
+      0.0,
+      1.0,
+      2.0,
+      -1.0
+    ],
+    "ablation_note": "Psi=eta*Phi values are manufactured factor/sign/cancellation tests only; never fitted, selected or applied to observations."
+  },
+  "constants": {
+    "G_m3_kg_s2": 6.6743e-11,
+    "c_m_s": 299792458.0,
+    "Msun_kg": 1.98847e+30,
+    "kpc_m": 3.085677581491367e+19,
+    "Mpc_m": 3.085677581491367e+22,
+    "note": "Fixed unit-conversion/numerical constants; uncertainties in physical G/Msun are outside these deterministic checks."
+  },
+  "distances": {
+    "D_l_Mpc": 810.0456831502036,
+    "D_s_Mpc": 1254.3882571373822,
+    "D_ls_Mpc": 727.85856308975,
+    "provenance": "Supplied before implementation from Astropy 7.1.1 FlatLambdaCDM(H0=70,Om0=1,Tcmb0=0), synthetic z_l=.3,z_s=1.0. Operator accepts only the three numbers; an independent EdS closed form validates them in the benchmark. No local SLACS redshift was read.",
+    "synthetic_redshift_lens": 0.3,
+    "synthetic_redshift_source": 1.0,
+    "H0_km_s_Mpc": 70.0
+  },
+  "numerics": {
+    "gradient_scheme": "fourth_order_centered_five_point",
+    "gradient_step_kpc": 0.0001,
+    "line_map": "ell=scale*tan(t), Gauss-Legendre t quadrature; finite bound tmax=atan(L/scale) or ideal infinite tmax=pi/2",
+    "line_scale_kpc": 1.0,
+    "quadrature_order": 256,
+    "quadrature_orders": [
+      4,
+      8,
+      16,
+      32,
+      64,
+      128,
+      256
+    ],
+    "finite_depths_kpc": [
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128,
+      256,
+      512
+    ],
+    "gradient_steps_kpc": [
+      0.08,
+      0.04,
+      0.02,
+      0.01,
+      0.005
+    ],
+    "jacobian_step_theta_E": 0.001,
+    "weak_potential_fraction_limit": 0.001,
+    "singular_ray_stencil_guard_steps": 4.0
+  },
+  "fixtures": {
+    "point_mass_Msun": 100000000000.0,
+    "plummer_mass_Msun": 100000000000.0,
+    "plummer_scale_kpc": 0.8,
+    "radial_impact_kpc": [
+      0.2,
+      0.5,
+      1,
+      2,
+      5,
+      10
+    ],
+    "azimuth_radians": [
+      0,
+      0.37,
+      1.2,
+      2.7
+    ],
+    "asymmetric_components": [
+      {
+        "mass_Msun": 120000000000.0,
+        "scale_kpc": 0.7,
+        "center_kpc": [
+          -1.2,
+          0.7,
+          -2
+        ]
+      },
+      {
+        "mass_Msun": 40000000000.0,
+        "scale_kpc": 1.3,
+        "center_kpc": [
+          2.1,
+          -0.6,
+          0.9
+        ]
+      },
+      {
+        "mass_Msun": 20000000000.0,
+        "scale_kpc": 0.4,
+        "center_kpc": [
+          0.2,
+          -1.8,
+          1.4
+        ]
+      }
+    ],
+    "asymmetric_rays_kpc": [
+      [
+        3,
+        0.8
+      ],
+      [
+        -2.2,
+        -0.8
+      ],
+      [
+        0.4,
+        2.6
+      ]
+    ],
+    "point_source_beta_over_theta_E": [
+      0.1,
+      0.5,
+      1,
+      3,
+      10
+    ],
+    "reference_surface_radial_order": 256,
+    "reference_surface_angular_order": 512,
+    "transformation_rotation_radians": 0.61,
+    "transformation_translation_kpc": [
+      1.7,
+      -2.3,
+      0.6
+    ]
+  },
+  "tolerances": {
+    "deflection_relative": 2e-07,
+    "finite_integral_relative": 2e-07,
+    "density_projection_relative": 1e-08,
+    "surface_integral_relative": 2e-05,
+    "symmetry_relative": 5e-07,
+    "zero_absolute_radian": 1e-14,
+    "distance_relative": 1e-12,
+    "image_position_relative_theta_E": 2e-06,
+    "magnification_relative": 2e-05,
+    "jacobian_antisymmetry_absolute": 2e-06,
+    "minimum_fd_convergence_order": 3.5,
+    "finite_tail_largest_depth_relative": 0.0001,
+    "quadrature_finest_relative": 2e-07,
+    "finite_difference_finest_relative": 2e-07,
+    "source_weak_field_limit": 0.001
+  },
+  "expected_underresolved_diagnostics": "All quadrature-order and finite-depth comparisons are retained against the fixed finest target. Coarse target failures are expected and are not hidden or converted into passes. Required gates check the declared finest order, independent references, and measured convergence. No response-based threshold changes.",
+  "sources": [
+    {
+      "url": "https://arxiv.org/pdf/astro-ph/0601594",
+      "resolved_url": "https://arxiv.org/pdf/astro-ph/0601594",
+      "sha256": "7f8566ff8d5cf460ad97410e96ed5493a70fecbceb68885fc71881d726b19788",
+      "bytes": 1361019,
+      "headers": {
+        "Connection": "close",
+        "Content-Length": "1361019",
+        "content-disposition": "inline; filename=\"0601594v4.pdf\"",
+        "via": "1.1 google, 1.1 varnish, 1.1 varnish, 1.1 varnish",
+        "last-modified": "Thu, 19 Jan 2023 20:39:17 GMT",
+        "etag": "\"sha256:98710785728dca1c0bf7002c44d96e775903cf17b6d3c0a37c3d19e444fb80b8\"",
+        "content-type": "application/pdf",
+        "server": "Google Frontend",
+        "link": "<https://arxiv.org/pdf/astro-ph/0601594>; rel='canonical'",
+        "x-cloud-trace-context": "ce6dedc3527160ea68bd25051df37489",
+        "access-control-allow-origin": "*",
+        "Accept-Ranges": "bytes",
+        "Date": "Sun, 06 Sep 2026 18:25:48 GMT",
+        "Age": "174328",
+        "X-Served-By": "cache-lga21984-LGA, cache-lga21984-LGA, cache-lga21978-LGA, cache-pao-kpao1770022-PAO",
+        "X-Cache": "MISS, HIT, MISS",
+        "X-Timer": "S1788719149.575135,VS0,VE70"
+      },
+      "retrieved_utc": "2026-09-06T18:25:48.571347+00:00",
+      "role": "theory_equations_only; no observational table/image inspection",
+      "path": "work/private/mond-atlas-light-projection-001/references/lewis-challinor-2006.pdf"
+    },
+    {
+      "url": "https://arxiv.org/pdf/astro-ph/9606001v2",
+      "resolved_url": "https://arxiv.org/pdf/astro-ph/9606001v2",
+      "sha256": "b15b17c04c53fee0403300fbc14e22c058a993cb88306f30c192cc6371c9b3f5",
+      "bytes": 751034,
+      "headers": {
+        "Connection": "close",
+        "Content-Length": "751034",
+        "content-disposition": "inline; filename=\"9606001v2.pdf\"",
+        "etag": "COjfjKX3gooDEAE=",
+        "server": "Google Frontend",
+        "link": "<https://arxiv.org/pdf/astro-ph/9606001>; rel='canonical'",
+        "last-modified": "Sat, 30 Nov 2024 01:44:26 GMT",
+        "access-control-allow-origin": "*",
+        "via": "1.1 google, 1.1 varnish, 1.1 varnish, 1.1 varnish",
+        "content-type": "application/pdf",
+        "x-cloud-trace-context": "62516abf30c7c7e01a8da0b7e501bee2",
+        "Accept-Ranges": "bytes",
+        "Age": "616386",
+        "Date": "Sun, 06 Sep 2026 18:26:21 GMT",
+        "X-Served-By": "cache-lga21988-LGA, cache-lga21988-LGA, cache-lga21964-LGA, cache-pao-kpao1770034-PAO",
+        "X-Cache": "MISS, HIT, MISS",
+        "X-Timer": "S1788719181.066233,VS0,VE72"
+      },
+      "retrieved_utc": "2026-09-06T18:26:21.086759+00:00",
+      "role": "theory_equations",
+      "path": "work/private/mond-atlas-light-projection-001/references/narayan-bartelmann-1997-v2.pdf"
+    },
+    {
+      "url": "https://arxiv.org/pdf/astro-ph/0602368",
+      "resolved_url": "https://arxiv.org/pdf/astro-ph/0602368",
+      "sha256": "b5c1aba66fdecf10dbcf47d27658a0e9ca17205e71e97b90d098eabe175941fa",
+      "bytes": 493294,
+      "headers": {
+        "Connection": "close",
+        "Content-Length": "493294",
+        "content-disposition": "inline; filename=\"0602368v2.pdf\"",
+        "server": "Google Frontend",
+        "last-modified": "Thu, 19 Jan 2023 21:28:06 GMT",
+        "etag": "CMqs0N7J1PwCEAE=",
+        "access-control-allow-origin": "*",
+        "via": "1.1 google, 1.1 varnish, 1.1 varnish, 1.1 varnish",
+        "x-cloud-trace-context": "e12c758db73cd9b01cf8f2581c0d4e10",
+        "content-type": "application/pdf",
+        "link": "<https://arxiv.org/pdf/astro-ph/0602368>; rel='canonical'",
+        "Accept-Ranges": "bytes",
+        "Date": "Sun, 06 Sep 2026 18:26:21 GMT",
+        "Age": "215090",
+        "X-Served-By": "cache-lga21989-LGA, cache-lga21989-LGA, cache-lga21948-LGA, cache-pao-kpao1770020-PAO",
+        "X-Cache": "MISS, HIT, MISS",
+        "X-Timer": "S1788719181.215215,VS0,VE66"
+      },
+      "retrieved_utc": "2026-09-06T18:26:21.200863+00:00",
+      "role": "theory_equations",
+      "path": "work/private/mond-atlas-light-projection-001/references/werner-evans-2006.pdf"
+    }
+  ],
+  "equation_bindings": [
+    {
+      "source": "Lewis & Challinor 2006, astro-ph/0601594",
+      "equations": [
+        "2.1",
+        "2.3",
+        "2.6",
+        "2.11-2.13"
+      ],
+      "use": "two scalar potentials, metric/sign mapping, null-geodesic Born displacement"
+    },
+    {
+      "source": "Narayan & Bartelmann astro-ph/9606001v2",
+      "equations": [
+        "4-7",
+        "9-14",
+        "17",
+        "20",
+        "23-28"
+      ],
+      "use": "local potential integral, point mass, projected density, angular distance factors, image positions and signed/absolute magnification"
+    },
+    {
+      "source": "Werner & Evans astro-ph/0602368v2",
+      "equations": [
+        "3-8"
+      ],
+      "use": "Plummer density, projected density/critical density, potential/lens map/Jacobian"
+    }
+  ],
+  "local_math_audit": [
+    "configs/gravity_matter_lensing_theory_preflight_v1.json",
+    "src/sigma_theory_compiler/gravity_shared_quadrature_lensing_backreaction.py",
+    "work/gravity-cluster-audit-2026-09/runE/runE_slacs.py"
+  ],
+  "audit_conclusion": "Existing symbolic work distinguishes metric potentials/conformal cancellation. Old runE has spherical projected-mass and Einstein-radius machinery; it is not imported or executed because this task must not load its observational sample. New independent functions only.",
+  "private_root": "work/private/mond-atlas-light-projection-001",
+  "output_root": "work/gravity-first-principles/mond-atlas-light-projection-001"
+}

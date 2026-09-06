@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "admission": "THEORY_BENCHMARK_ONLY",
+  "name": "mond-atlas-pressure-support-001",
+  "scope": "Synthetic radial mechanics only; steady axisymmetric inviscid gas with isotropic thermal plus turbulent pressure, zero radial and vertical mean flow. No cube extension and no observed source or velocity access.",
+  "equations": {
+    "volume": "vphi^2 = R * [partial_R Phi + partial_R P / rho] at a specified height",
+    "surface": "vphi^2 = R * [g_bar + partial_R Pi / Sigma], Pi=int P dz=Sigma*c_eff^2, g_bar=int rho*partial_R Phi dz/Sigma; vphi is height-independent in the admitted closure",
+    "support": "D = -R * partial_R Pi / Sigma; vphi^2 = vc^2-D; vc^2=R*g_bar",
+    "stress": "c_eff^2 = c_thermal^2 + sigma_turbulent_1d^2; turbulent stress must be isotropic",
+    "line": "sigma_line^2 = c_thermal^2*(mean_particle_mass/tracer_particle_mass) + sigma_turbulent_1d^2 + sigma_instrument^2 + sigma_unresolved^2; the latter two terms are not pressure",
+    "continuity": "R*Sigma*u_R = constant; regular center and no sink imply u_R=0. Nonzero radial or vertical mean flow is rejected, not fitted."
+  },
+  "units": {"radius": "kpc", "speed": "km/s", "force": "(km/s)^2/kpc, positive inward magnitude", "Sigma": "arbitrary consistent mass/kpc^2", "Pi": "Sigma*(km/s)^2"},
+  "references": [
+    {"authors": "Wang, Klessen, Dullemond, van den Bosch and Fuchs", "year": 2010, "title": "Equilibrium Initialization and Stability of Three-Dimensional Gas Disks", "identifier": "arXiv:1004.5593v1", "url": "https://arxiv.org/pdf/1004.5593", "binding": "Equations (1), (2), (6), (9) and Appendix A: steady radial and vertical Euler equations, isothermal scalar pressure, vertical equilibrium and height-independent barotropic rotation. No Poisson/self-gravity solver is implemented."},
+    {"authors": "Iorio et al.", "year": 2017, "title": "LITTLE THINGS in 3D: robust determination of the circular velocity of dwarf irregular galaxies", "identifier": "arXiv:1611.03865; doi:10.1093/mnras/stw3285", "url": "https://arxiv.org/pdf/1611.03865", "binding": "Section 4.3, equations (6)-(7): isotropic gas Euler/Jeans asymmetric-drift sign and density-pressure logarithmic gradient. Only equations are used, no galaxy measurements or fitted profiles."}
+  ],
+  "independent_controls": {
+    "analytic_relative_tolerance": 1e-11,
+    "finite_difference_relative_tolerance": 1e-6,
+    "finite_difference_step_kpc": 0.0001,
+    "resolution_nodes": [33, 65, 129, 257],
+    "resolution_last_to_first_max": 0.025,
+    "resolution_final_scaled_error_max": 0.0005,
+    "vertical_quadrature_heights": [6, 8],
+    "vertical_quad_relative_tolerance": 1e-10,
+    "center_gradient_absolute_tolerance": 1e-12,
+    "fit_amplitude_relative_tolerance": 1e-7,
+    "manufactured_flare": {"omega_km_s_kpc": 25, "sigma_km_s": 12, "density_scale_kpc": 1.8, "flare_scale_kpc": 2.5, "height0_kpc": 0.2},
+    "definitions": [
+      "pressureless equality to supplied circular force",
+      "declining, constant and increasing pressure signs",
+      "Gaussian density and dispersion-gradient analytic support",
+      "independent finite differences of scalar potential and pressure",
+      "second-order pressure derivative resolution including outer boundary",
+      "length and density unit invariance",
+      "density normalization cancels",
+      "regular center zero speed and gradient; cusp at center rejected",
+      "negative rotation squared retained and speed request rejected",
+      "surface/volume column types cannot be interchanged",
+      "flaring 3D manufactured Euler solution with vertical quadrature and vertical hydrostatic balance",
+      "flaring surface force must be density-weighted, not midplane",
+      "thermal tracer conversion and isotropic turbulent stress guard",
+      "same line width can imply different supporting stress",
+      "nonzero radial and vertical mean flow rejected; constant radial flow violates continuity",
+      "known-pressure noiseless recovery in independent harmonic and cored-log manufactured curves",
+      "harmonic pressure-blind force bias and exact pressure-force degeneracy"
+    ]
+  },
+  "profiles": "Sigma=Sigma0*exp(-R^2/(2*L_Sigma^2)); c_eff^2=c0^2*exp(-R^2/(2*L_c^2)), with null L_c meaning constant. Profiles continue smoothly beyond the sample window. Sigma0=1.",
+  "boundary": "Regular center when included. Rmax is a sampling boundary, not a vacuum truncation. Outer pressure is supplied by continuation of the analytic profile; no free-edge equilibrium is claimed.",
+  "study": {
+    "radius_min_kpc": 0.2, "radius_max_kpc": 4.0, "radius_count": 32,
+    "inclination_deg": 55.0, "systemic_km_s": 0.0,
+    "observable": "major-axis LOS mean speeds sin(i)*vphi; fixed geometry; synthetic radial samples without beam, mask or cube",
+    "noise": "independent Gaussian speed errors, known constant sigma; each fresh packet independent of training packet",
+    "noise_sigma_km_s": 0.6,
+    "seeds": [61901, 61902, 61903, 61904],
+    "fresh_seed_offset": 100000,
+    "case_seed_stride": 1000,
+    "train_indices": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    "heldout_indices": [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31],
+    "fit_models": ["pressure_blind", "known_pressure"],
+    "fit": "One potential amplitude, fixed shape and pressure profile. Minimize speed Gaussian chi-square with scipy.optimize.minimize_scalar bounded; enforce nonnegative vphi^2 at all sampled radii. No squared-speed Gaussian approximation.",
+    "optimizer": {"method": "bounded", "xatol": 1e-9, "maxiter": 1000},
+    "cases": [
+      {"id": "null_harmonic", "potential": "harmonic", "amplitude": 625.0, "core_kpc": null, "density_scale_kpc": 1.2, "dispersion0_km_s": 0.0, "dispersion_scale_kpc": null, "amplitude_bounds": [1.0, 2500.0]},
+      {"id": "supported_harmonic", "potential": "harmonic", "amplitude": 625.0, "core_kpc": null, "density_scale_kpc": 1.2, "dispersion0_km_s": 18.0, "dispersion_scale_kpc": null, "amplitude_bounds": [1.0, 2500.0]},
+      {"id": "gradient_cored_log", "potential": "cored_log", "amplitude": 4225.0, "core_kpc": 1.0, "density_scale_kpc": 2.0, "dispersion0_km_s": 16.0, "dispersion_scale_kpc": 3.0, "amplitude_bounds": [100.0, 16000.0]}
+    ],
+    "impossible_case": {"id": "impossible_harmonic", "potential": "harmonic", "amplitude": 625.0, "core_kpc": null, "density_scale_kpc": 1.2, "dispersion0_km_s": 40.0, "dispersion_scale_kpc": null, "amplitude_bounds": [1.0, 2500.0]},
+    "unknown_pressure_harmonic_alternatives_km_s": [0.0, 12.0, 18.0, 24.0],
+    "report": "Retain every fit/failure, signed invalid vphi^2, amplitude relative bias, train and heldout q/N, fresh-noise q/N on heldout radii, and noiseless signal RMSE. These are small conditional diagnostics, not significance or gravity-law evidence."
+  },
+  "execution": {"cpu_threads": 1, "gpu": false, "raw_arrays": "private only", "observational_data_access": "forbidden", "retune_after_scoring": false, "failed_cases": "retain and fail closed"},
+  "unresolved": ["observational pressure tensor and thermal/turbulent decomposition", "source inclination and deprojection uncertainty", "vertical structure and force averaging in observed systems", "radial transport and torques", "energy/cooling/heating closure", "magnetic, cosmic-ray and anisotropic stresses", "gas self-gravity or coupled Poisson solution", "beam, selection and line-profile inference", "boundary mass/pressure matching for real gas disks"]
+}

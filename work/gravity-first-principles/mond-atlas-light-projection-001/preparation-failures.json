@@ -1,0 +1,19 @@
+{
+  "disposition": "THEORY_BENCHMARK_ONLY",
+  "scientific_benchmark_failures": [],
+  "preparation_failures_retained": [
+    {
+      "operation": "Initial primary theory PDF request to https://arxiv.org/pdf/astro-ph/9606001",
+      "failure": "TLS connection reset, WinError 10054, before successful PDF receipt",
+      "resolution": "Explicit version https://arxiv.org/pdf/astro-ph/9606001v2 downloaded successfully; exact receipt is in the frozen config",
+      "observational_input_accessed": false
+    },
+    {
+      "operation": "Print theoretical PDF pages 10-11 using bundled Python/pypdf",
+      "failure": "UnicodeEncodeError: cp1252 could not encode Greek theta U+03B8",
+      "resolution": "Repeated the same text extraction with Python -X utf8; no change to the source file",
+      "observational_table_or_image_accessed": false
+    }
+  ],
+  "coarse_numerical_target_failures": "All 27 failed diagnostic IDs, values and tolerances are retained in run-001/checks.json; these were declared sweep diagnostics before execution and remain failures against their fixed targets."
+}
