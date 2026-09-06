@@ -1,0 +1,49 @@
+{
+  "id": "mond-atlas-ngc2976-common-basis-projection-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "permitted_scope": "Source-image reprojection diagnostics for separable flat disk families; no motion or gravity scoring.",
+  "object_id": "NGC2976",
+  "source_summary": "work/gravity-first-principles/mond-atlas-generic-source-001/run-002/summary.json",
+  "source_summary_sha256": "bee2ed639223c4984e6f4dcc6a89f923b51ddc0d2cbee800f558334ed130f697",
+  "source_packet": "work/private/mond-atlas-generic-source-001/run-002/nominal.npz",
+  "source_packet_sha256": "2bbc96be9a86d929a18527358db05c05372ff58b0264e5f970a27a8670475a3a",
+  "inclination_deg": 53.8623309521001,
+  "components": [
+    "stellar_luminosity",
+    "atomic_helium",
+    "co21"
+  ],
+  "height_grid_kpc": [
+    0.0,
+    0.1,
+    0.2,
+    0.4
+  ],
+  "model": "Nonnegative bilinear planar nodal density times exp(-abs(z)/h)/(2h), or thin sheet for h=0. Same basis is integrated over image cells along both axes.",
+  "source_fit": {
+    "regularization": 0.0001,
+    "max_iterations": 4000,
+    "projected_gradient_relative_rms_tolerance": 1e-06,
+    "minimum_cell_coverage": 0.5,
+    "fitted_radius_kpc": 5.0,
+    "reported_radius_kpc": 3.0,
+    "source_support_radius_kpc": 6.0
+  },
+  "gross_source_image_mismatch_threshold": 0.05,
+  "benchmark_tests": "tests/test_mond_atlas_nodal.py",
+  "operator": "scripts/mond_atlas_nodal_projection.py",
+  "primary_sources": [
+    "https://arxiv.org/abs/1410.0009",
+    "https://arxiv.org/abs/0810.2125",
+    "https://arxiv.org/abs/0905.4742"
+  ],
+  "interpretation": [
+    "Heights are illustrative model alternatives, not independent measurements or posterior draws.",
+    "No best-height selection: all candidates, convergence failures and source residuals retained.",
+    "Input maps contain different native beams. Only an effective beam-blurred source is represented; no joint beam matching or deconvolution.",
+    "Coverage-weighted fitting is not a likelihood; partial native-pixel masks within coarse cells remain an approximation.",
+    "Fitted source light is evaluated on the same source data; these are closure diagnostics, not independent predictions.",
+    "The source axis, masks, support, penalty and gates are fixed before these source closure results; no velocity data are read.",
+    "Distance/conversion/geometry alternatives from generic-source-001 still apply; this first height pass uses nominal geometry only."
+  ]
+}

@@ -1,0 +1,307 @@
+{
+  "status": "REGISTERED_COMMON_BASIS_SOURCE_DIAGNOSTIC",
+  "disposition": "SOURCE_BLOCKED",
+  "object_id": "NGC2976",
+  "config": {
+    "id": "mond-atlas-ngc2976-common-basis-projection-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "permitted_scope": "Source-image reprojection diagnostics for separable flat disk families; no motion or gravity scoring.",
+    "object_id": "NGC2976",
+    "source_summary": "work/gravity-first-principles/mond-atlas-generic-source-001/run-002/summary.json",
+    "source_summary_sha256": "bee2ed639223c4984e6f4dcc6a89f923b51ddc0d2cbee800f558334ed130f697",
+    "source_packet": "work/private/mond-atlas-generic-source-001/run-002/nominal.npz",
+    "source_packet_sha256": "2bbc96be9a86d929a18527358db05c05372ff58b0264e5f970a27a8670475a3a",
+    "inclination_deg": 53.8623309521001,
+    "components": [
+      "stellar_luminosity",
+      "atomic_helium",
+      "co21"
+    ],
+    "height_grid_kpc": [
+      0.0,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "model": "Nonnegative bilinear planar nodal density times exp(-abs(z)/h)/(2h), or thin sheet for h=0. Same basis is integrated over image cells along both axes.",
+    "source_fit": {
+      "regularization": 0.0001,
+      "max_iterations": 4000,
+      "projected_gradient_relative_rms_tolerance": 1e-06,
+      "minimum_cell_coverage": 0.5,
+      "fitted_radius_kpc": 5.0,
+      "reported_radius_kpc": 3.0,
+      "source_support_radius_kpc": 6.0
+    },
+    "gross_source_image_mismatch_threshold": 0.05,
+    "benchmark_tests": "tests/test_mond_atlas_nodal.py",
+    "operator": "scripts/mond_atlas_nodal_projection.py",
+    "primary_sources": [
+      "https://arxiv.org/abs/1410.0009",
+      "https://arxiv.org/abs/0810.2125",
+      "https://arxiv.org/abs/0905.4742"
+    ],
+    "interpretation": [
+      "Heights are illustrative model alternatives, not independent measurements or posterior draws.",
+      "No best-height selection: all candidates, convergence failures and source residuals retained.",
+      "Input maps contain different native beams. Only an effective beam-blurred source is represented; no joint beam matching or deconvolution.",
+      "Coverage-weighted fitting is not a likelihood; partial native-pixel masks within coarse cells remain an approximation.",
+      "Fitted source light is evaluated on the same source data; these are closure diagnostics, not independent predictions.",
+      "The source axis, masks, support, penalty and gates are fixed before these source closure results; no velocity data are read.",
+      "Distance/conversion/geometry alternatives from generic-source-001 still apply; this first height pass uses nominal geometry only."
+    ]
+  },
+  "config_sha256": "b0d2c453150a0d015e0fb3563d2ffefe7e749a50eb8ad655a3913c09d58b22d6",
+  "runner_sha256": "78ac28be1dae7d0aaccc1faab41c7df884973cf71f18a29dab60312e4437c3d5",
+  "rows": [
+    {
+      "id": "stellar_luminosity-h0p0",
+      "component": "stellar_luminosity",
+      "height_kpc": 0.0,
+      "unchanged_source_image_rms": 0.1359820298577967,
+      "refitted_source_image_rms": 0.05227956610634372,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 250,
+      "conditional_source_integral": 3494729004.450078,
+      "fitted_cells": 4996,
+      "reported_cells": 1776,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "stellar_luminosity-h0p1",
+      "component": "stellar_luminosity",
+      "height_kpc": 0.1,
+      "unchanged_source_image_rms": 0.23941261491182117,
+      "refitted_source_image_rms": 0.17151141612438384,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 750,
+      "conditional_source_integral": 3551019561.0006714,
+      "fitted_cells": 4996,
+      "reported_cells": 1776,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "stellar_luminosity-h0p2",
+      "component": "stellar_luminosity",
+      "height_kpc": 0.2,
+      "unchanged_source_image_rms": 0.2903245804485289,
+      "refitted_source_image_rms": 0.22634775610190438,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 1100,
+      "conditional_source_integral": 3571822940.6119,
+      "fitted_cells": 4996,
+      "reported_cells": 1776,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "stellar_luminosity-h0p4",
+      "component": "stellar_luminosity",
+      "height_kpc": 0.4,
+      "unchanged_source_image_rms": 0.3679642544117004,
+      "refitted_source_image_rms": 0.26958385652722383,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 1450,
+      "conditional_source_integral": 3600443622.015536,
+      "fitted_cells": 4996,
+      "reported_cells": 1776,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "atomic_helium-h0p0",
+      "component": "atomic_helium",
+      "height_kpc": 0.0,
+      "unchanged_source_image_rms": 0.052873607224387074,
+      "refitted_source_image_rms": 0.0012529929916955942,
+      "gross_refitted_mismatch": false,
+      "optimizer_converged": true,
+      "iterations": 300,
+      "conditional_source_integral": 177040152.05583677,
+      "fitted_cells": 4572,
+      "reported_cells": 1789,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "atomic_helium-h0p1",
+      "component": "atomic_helium",
+      "height_kpc": 0.1,
+      "unchanged_source_image_rms": 0.11369256965118187,
+      "refitted_source_image_rms": 0.014982648107341116,
+      "gross_refitted_mismatch": false,
+      "optimizer_converged": true,
+      "iterations": 650,
+      "conditional_source_integral": 181718379.08415926,
+      "fitted_cells": 4572,
+      "reported_cells": 1789,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "atomic_helium-h0p2",
+      "component": "atomic_helium",
+      "height_kpc": 0.2,
+      "unchanged_source_image_rms": 0.1732896859354158,
+      "refitted_source_image_rms": 0.053538856000712585,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 1050,
+      "conditional_source_integral": 183508318.90679944,
+      "fitted_cells": 4572,
+      "reported_cells": 1789,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "atomic_helium-h0p4",
+      "component": "atomic_helium",
+      "height_kpc": 0.4,
+      "unchanged_source_image_rms": 0.2664758023401151,
+      "refitted_source_image_rms": 0.11875972067700986,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 1500,
+      "conditional_source_integral": 187683288.8322634,
+      "fitted_cells": 4572,
+      "reported_cells": 1789,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "co21-h0p0",
+      "component": "co21",
+      "height_kpc": 0.0,
+      "unchanged_source_image_rms": 0.11706287323461181,
+      "refitted_source_image_rms": 0.0985328283404459,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 550,
+      "conditional_source_integral": 16632741.710506057,
+      "fitted_cells": 2712,
+      "reported_cells": 1760,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "co21-h0p1",
+      "component": "co21",
+      "height_kpc": 0.1,
+      "unchanged_source_image_rms": 0.1869255609130981,
+      "refitted_source_image_rms": 0.11515604070623067,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 600,
+      "conditional_source_integral": 16653303.200511495,
+      "fitted_cells": 2712,
+      "reported_cells": 1760,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "co21-h0p2",
+      "component": "co21",
+      "height_kpc": 0.2,
+      "unchanged_source_image_rms": 0.28822516802915116,
+      "refitted_source_image_rms": 0.15459385101710965,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 900,
+      "conditional_source_integral": 17605987.15262774,
+      "fitted_cells": 2712,
+      "reported_cells": 1760,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    },
+    {
+      "id": "co21-h0p4",
+      "component": "co21",
+      "height_kpc": 0.4,
+      "unchanged_source_image_rms": 0.44130989673026416,
+      "refitted_source_image_rms": 0.2636632855479299,
+      "gross_refitted_mismatch": true,
+      "optimizer_converged": true,
+      "iterations": 1550,
+      "conditional_source_integral": 19587766.201131508,
+      "fitted_cells": 2712,
+      "reported_cells": 1760,
+      "noise_likelihood": false,
+      "independent_prediction": false
+    }
+  ],
+  "assets": [
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/stellar_luminosity-h0p0.npz",
+      "sha256": "9ea0a59cb3f92d7436ce065ff142070397c9c67d3e39243f475207b2c9de5121",
+      "id": "stellar_luminosity-h0p0"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/stellar_luminosity-h0p1.npz",
+      "sha256": "12d946a947e8ac72c484ed7639d478ea4e4f15bd76ff1e47ba1aa16c3f676c8a",
+      "id": "stellar_luminosity-h0p1"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/stellar_luminosity-h0p2.npz",
+      "sha256": "f6db93494cf0cecc523b92f80773d47ce22f6f4f9c1bdb50db7a7486a66466d3",
+      "id": "stellar_luminosity-h0p2"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/stellar_luminosity-h0p4.npz",
+      "sha256": "c90d738b6c4a7051ceedb5392ce9069cbd29fa21de424ac67f995286f3da33d4",
+      "id": "stellar_luminosity-h0p4"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/atomic_helium-h0p0.npz",
+      "sha256": "36b776b8008db80aca6f88aaa1bd38aca4e50a0f17f0be8516785512d011277f",
+      "id": "atomic_helium-h0p0"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/atomic_helium-h0p1.npz",
+      "sha256": "e5ba2841b68bdcc4dde7ad5978af9726da6c9527af45a39597f15a606e7117ab",
+      "id": "atomic_helium-h0p1"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/atomic_helium-h0p2.npz",
+      "sha256": "16afad44e46c33b730db3c7ac1fd65dfb563643892b2d6186a6cd44ea9f83dd0",
+      "id": "atomic_helium-h0p2"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/atomic_helium-h0p4.npz",
+      "sha256": "a32b8cee91586cf0c64bebb2551a5a92afad4eefa90ff7fd5681561e3274cb56",
+      "id": "atomic_helium-h0p4"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/co21-h0p0.npz",
+      "sha256": "631f229ec5c651d0643436107a7c53631c5bb633635aaaf87fabf7bd242e3388",
+      "id": "co21-h0p0"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/co21-h0p1.npz",
+      "sha256": "f02f0391838955400777bda595efce73ee5e919f8f4a755ac8d30ab1cd6323fe",
+      "id": "co21-h0p1"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/co21-h0p2.npz",
+      "sha256": "5586dd4736f075e5e7a12b7af3af5b3aafb9932df6b21e91c22c837af0534f4b",
+      "id": "co21-h0p2"
+    },
+    {
+      "path": "work/private/mond-atlas-ngc2976-projection-001/run-001/co21-h0p4.npz",
+      "sha256": "45745ab73f59f7e5e246afcf03fc0fb40d654e8efd0010d6bc163c5920a64ff8",
+      "id": "co21-h0p4"
+    }
+  ],
+  "tests_passed": 5,
+  "all_optimizers_converged": true,
+  "source_models": 12,
+  "new_observed_motion_scores": 0,
+  "new_gravity_fields": 0,
+  "source_3d_observed": false,
+  "elapsed_seconds": 4.769680800003698
+}

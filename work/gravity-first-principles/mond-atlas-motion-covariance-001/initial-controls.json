@@ -1,0 +1,413 @@
+{
+  "disposition": "THEORY_BENCHMARK_ONLY",
+  "all_passed": true,
+  "statistical_controls": [
+    {
+      "name": "whitening_quadratic_vs_dense_inverse",
+      "error": 1.535062728501075e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "whitening_vector_vs_dense_cholesky",
+      "error": 5.475097462457628e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "logdet_vs_dense_determinant",
+      "error": 0.0,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "name": "gaussian_logpdf_vs_scipy",
+      "error": 2.1316282072803006e-14,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "name": "strict_positive_definiteness",
+      "passed": true,
+      "minimum_eigenvalue": 0.08067387762608205,
+      "condition_number": 29.283136983087008
+    },
+    {
+      "name": "conditional_schur_vs_joint_precision",
+      "error": 4.589038498673815e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "conditional_mean_vs_joint_precision",
+      "error": 1.9176558191545753e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "joint_density_factorization",
+      "error": 2.842170943040401e-14,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "name": "training_marginal_vs_dense_subcovariance",
+      "error": 0.0,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "full_precision_subset_is_not_marginal",
+      "passed": true,
+      "correct_marginal_q": 8.517408011955007,
+      "wrong_precision_subset_q": 19.38680184753857
+    },
+    {
+      "name": "conditional_noise_uncorrelated_with_training",
+      "error": 1.1102230246251565e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "AR_innovations_exact_covariance",
+      "error": 1.3117001708709318e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "diagonal_conditional_gain_zero",
+      "error": 0.0,
+      "tolerance": 1e-12,
+      "passed": true
+    },
+    {
+      "name": "diagonal_schur_equals_marginal",
+      "error": 0.0,
+      "tolerance": 1e-12,
+      "passed": true
+    },
+    {
+      "name": "diagonal_whitening_limit",
+      "error": 0.0,
+      "tolerance": 1e-12,
+      "passed": true
+    },
+    {
+      "name": "fresh_replica_zero_conditional_gain",
+      "error": 0.0,
+      "tolerance": 1e-12,
+      "passed": true
+    },
+    {
+      "name": "fresh_replica_marginal_covariance",
+      "error": 0.0,
+      "tolerance": 1e-12,
+      "passed": true
+    },
+    {
+      "name": "heldout_pixel_zero_conditional_gain",
+      "error": 0.0,
+      "tolerance": 1e-12,
+      "passed": true
+    },
+    {
+      "name": "heldout_pixel_marginal_covariance",
+      "error": 0.0,
+      "tolerance": 1e-12,
+      "passed": true
+    },
+    {
+      "name": "invalid_covariance_rejected_without_repair",
+      "passed": true,
+      "rejected": 5,
+      "total": 5
+    },
+    {
+      "name": "oracle_conditional_whitened_mean",
+      "error": 0.02023162479626861,
+      "tolerance": 0.06,
+      "passed": true
+    },
+    {
+      "name": "oracle_conditional_whitened_covariance",
+      "error": 0.03358270046093437,
+      "tolerance": 0.08,
+      "passed": true
+    },
+    {
+      "name": "oracle_conditional_q_expectation",
+      "error": 0.006641609575496421,
+      "tolerance": 0.06,
+      "passed": true
+    },
+    {
+      "name": "oracle_same_noise_interpolation_expectation",
+      "error": 0.00677326433751313,
+      "tolerance": 0.06,
+      "passed": true,
+      "measured_q_per_cell": 0.6770851146493635,
+      "expected_q_per_cell": 0.6703118503118504
+    },
+    {
+      "name": "oracle_fresh_noise_marginal_expectation",
+      "error": 0.0010265162233609182,
+      "tolerance": 0.06,
+      "passed": true
+    },
+    {
+      "name": "oracle_fresh_noise_transfer_penalty",
+      "error": 0.01566548048854921,
+      "tolerance": 0.06,
+      "passed": true,
+      "measured_q_per_cell": 1.3453536301766988,
+      "expected_q_per_cell": 1.3296881496881496
+    },
+    {
+      "name": "fixed_mask_disjoint_complete_measured_partition",
+      "error": 0.0,
+      "tolerance": 0.0,
+      "passed": true
+    },
+    {
+      "name": "heldout_and_masked_response_cannot_change_correct_fit",
+      "error": 0.0,
+      "tolerance": 0.0,
+      "passed": true,
+      "control_optimizer_budget": 8
+    },
+    {
+      "name": "heldout_and_masked_response_cannot_change_diagonal_fit",
+      "error": 0.0,
+      "tolerance": 0.0,
+      "passed": true,
+      "control_optimizer_budget": 8
+    },
+    {
+      "name": "conditional_covariance_response_independent",
+      "error": 0.0,
+      "tolerance": 0.0,
+      "passed": true
+    }
+  ],
+  "prior_forward_controls": {
+    "all_passed": true,
+    "controls": [
+      {
+        "name": "independent_cartesian_position_kpc",
+        "value": 4.440892098500626e-16,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "independent_cartesian_velocity_km_s",
+        "value": 1.4210854715202004e-14,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "analytic_intrinsic_flux",
+        "value": 0.0,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "face_on_planar_velocity",
+        "value": 0.0,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "face_on_full_cube_degeneracy",
+        "value": 0.0,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "edge_on_projected_minor_axis",
+        "value": 2.3359370976522586e-16,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "edge_on_velocity",
+        "value": 1.4210854715202004e-14,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "edge_on_depth",
+        "value": 0.0,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "velocity_sign_channel_reversal",
+        "value": 3.044211321022265e-16,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "rigid_rotation_los",
+        "value": 1.4210854715202004e-14,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "production_law_rigid_rotation_limit",
+        "value": 7.105427357601002e-13,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "rigid_rotation_channel_cube",
+        "value": 3.9699323722459e-16,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "independent_gaussian_channels",
+        "value": 2.381126942320455e-08,
+        "tolerance": 2e-07,
+        "passed": true
+      },
+      {
+        "name": "independent_direct_cube",
+        "value": 0.0002586266192177331,
+        "tolerance": 0.015,
+        "passed": true,
+        "errors": [
+          0.001142026705874534,
+          0.0002586266192177331,
+          6.589628499153041e-05
+        ]
+      },
+      {
+        "name": "fine_quadrature_error",
+        "value": 6.589628499153041e-05,
+        "tolerance": 0.01,
+        "passed": true
+      },
+      {
+        "name": "fine_to_coarse_error_ratio",
+        "value": 0.057701176909929416,
+        "tolerance": 0.8,
+        "passed": true
+      },
+      {
+        "name": "spectral_rebinning",
+        "value": 5.290141661158038e-16,
+        "tolerance": 2e-06,
+        "passed": true
+      },
+      {
+        "name": "length_unit_rescaling",
+        "value": 4.2332392363363373e-16,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "amplitude_zero_nesting",
+        "value": 0.0,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "cropped_direct_cube",
+        "value": 0.0004887492516969746,
+        "tolerance": 0.015,
+        "passed": true,
+        "accounting": {
+          "intrinsic_flux": 1.0,
+          "finite_band_flux": 0.29901104734571265,
+          "spectral_loss": 0.7009889526542874,
+          "outside_halo_assignment_loss": 5.551115123125783e-17,
+          "before_beam_in_science_field": 0.2966173209811546,
+          "before_beam_in_halo": 0.00239372636455798,
+          "beam_export_from_science_field": 0.011274146799194251,
+          "beam_import_from_halo": 0.0007817506511922367,
+          "extended_grid_beam_boundary_loss": 4.088838948201889e-06,
+          "final_science_flux": 0.2861249248331526,
+          "total_spatial_loss_after_band": 0.01288612251256005,
+          "total_loss": 0.7138750751668475,
+          "flux_accounting_residual": 0.0,
+          "beam_continuous_square_tail_diagnostic": 0.0003536378703379306
+        }
+      },
+      {
+        "name": "loss_balance",
+        "value": 5.551115123125783e-17,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "finite_band_and_spatial_losses_retained",
+        "passed": true,
+        "accounting": {
+          "intrinsic_flux": 1.0,
+          "finite_band_flux": 0.29901104734571265,
+          "spectral_loss": 0.7009889526542874,
+          "outside_halo_assignment_loss": 5.551115123125783e-17,
+          "before_beam_in_science_field": 0.2966173209811546,
+          "before_beam_in_halo": 0.00239372636455798,
+          "beam_export_from_science_field": 0.011274146799194251,
+          "beam_import_from_halo": 0.0007817506511922367,
+          "extended_grid_beam_boundary_loss": 4.088838948201889e-06,
+          "final_science_flux": 0.2861249248331526,
+          "total_spatial_loss_after_band": 0.01288612251256005,
+          "total_loss": 0.7138750751668475,
+          "flux_accounting_residual": 0.0,
+          "beam_continuous_square_tail_diagnostic": 0.0003536378703379306
+        }
+      },
+      {
+        "name": "outside_field_beam_inscatter",
+        "value": 1.3877787807814457e-17,
+        "tolerance": 1e-10,
+        "passed": true,
+        "accounting": {
+          "intrinsic_flux": 1.0,
+          "finite_band_flux": 1.0,
+          "spectral_loss": 0.0,
+          "outside_halo_assignment_loss": 0.0,
+          "before_beam_in_science_field": 0.6,
+          "before_beam_in_halo": 0.4,
+          "beam_export_from_science_field": -1.1102230246251565e-16,
+          "beam_import_from_halo": 0.13131870427384817,
+          "extended_grid_beam_boundary_loss": 0.03425166558200521,
+          "final_science_flux": 0.7313187042738483,
+          "total_spatial_loss_after_band": 0.26868129572615174,
+          "total_loss": 0.26868129572615174,
+          "flux_accounting_residual": 0.0,
+          "beam_continuous_square_tail_diagnostic": 0.0730563090565518
+        }
+      },
+      {
+        "name": "wide_field_band_flux_conservation",
+        "value": 0.0,
+        "tolerance": 1e-10,
+        "passed": true
+      },
+      {
+        "name": "unresolved_rotation_radial_degeneracy",
+        "value": 1.0747644718387512e-16,
+        "tolerance": 1e-10,
+        "passed": true,
+        "rotation_radial_pair": [
+          100.0,
+          30.0
+        ],
+        "equivalent_circular_speed": 104.4030650891055
+      }
+    ],
+    "quadrature_reference_relative_l1": [
+      0.001142026705874534,
+      0.0002586266192177331,
+      6.589628499153041e-05
+    ],
+    "disposition": "THEORY_BENCHMARK_ONLY"
+  },
+  "statistical_control_count": 30,
+  "prior_forward_control_count": 25,
+  "oracle_control_draws": 8192,
+  "elapsed_s": 1.5431359000212979
+}

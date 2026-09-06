@@ -1,0 +1,53 @@
+{
+  "schema": "mond_atlas_motion_covariance_v1",
+  "disposition": "THEORY_BENCHMARK_ONLY",
+  "observational_scoring_allowed": false,
+  "source_dataset": null,
+  "prior_motion_config": "configs/mond_atlas_motion_controls_v1.json",
+  "prior_publication_commit_reported_by_coordinator": "25045db1463ded44e641fa0e7756dbeb04ba1a8a",
+  "primary_statistical_references": [
+    {"id": "Rasmussen_Williams_2006_Appendix_A", "url": "https://gaussianprocess.org/gpml/chapters/RWA.pdf", "equations": "A.4 Gaussian density; A.5-A.6 Gaussian marginal and conditional mean/covariance; A.11-A.13 block inverse; A.18 log determinant. Author-hosted published mathematical reference."},
+    {"id": "Rasmussen_Williams_2006_Chapter_2", "url": "https://gaussianprocess.org/gpml/chapters/RW2.pdf", "equations": "2.30 and Algorithm 2.1: Cholesky evaluation of a correlated Gaussian log likelihood. Here the mean is a prescribed parametric motion cube, not a Gaussian-process signal prior."}
+  ],
+  "independent_library_reference": {"url": "https://docs.scipy.org/doc/scipy-1.16.1/reference/generated/scipy.stats.multivariate_normal.html", "role": "Dense multivariate_normal.logpdf comparison on small matrices; singular covariance is forbidden."},
+  "physics": "Import the frozen emitting-ring forward law and its independently implemented direct truth; inherit all geometry, instrument, known source parameters, pressure/dynamics limitations and numerical thresholds. No source or force inference.",
+  "noise": {"rho": 0.75, "sigma_flux": 0.00012, "channel_modulation": 0.15, "pixel_x_modulation": 0.1, "law": "K[c,d]=sigma_c*sigma_d*rho^abs(c-d); sigma_c=sigma_flux*(1+channel_modulation*cos(2*pi*c/nchannel)); s_p=1+pixel_x_modulation*x/(npix-1); C[(c,p),(d,q)]=K[c,d]*s_p^2*delta[p,q]. Added after the instrument. Independent spatial pixels and realizations.", "generation": "Stationary Gaussian AR(1) innovations: z0=e0, zc=rho*z(c-1)+sqrt(1-rho^2)*ec; noise[c,p]=sigma_c*s_p*z[c,p]. Dense Cholesky is only an independent generator/control."},
+  "masks": {"measurement": "All channels at spatial pixels where (x+3*y)%11 != 0; zero-based indices, fixed independent of source and noise. Removed cells are unobserved and marginalized, never set to zero as data.", "fold_ids": [0, 1], "training": "Measured pixels with (x+2*y)%3 != fold, channels c%3 != fold.", "heldout_channels": "Training pixels, channels c%3 == fold.", "heldout_pixels": "Measured pixels with (x+2*y)%3 == fold, training channels.", "heldout_joint": "Held-out pixels and held-out channels.", "fold_dependence": "Two overlapping partitions of each realization; average their metrics within a realization before summary. They are sensitivity partitions, not two independent experiments."},
+  "study": {
+    "seed": 2026090602,
+    "realizations_per_case": 4,
+    "fresh_replicates_per_realization": 2,
+    "seed_mapping": "NumPy PCG64 default_rng(SeedSequence([seed, case_index, realization_index, draw_index])); draw_index=0 for training/same-noise cube, 1 and 2 for independent fresh-noise cubes. Reuse each noise cube across methods and both folds for paired comparisons.",
+    "cases": [
+      {"name": "amplitude_zero", "overrides": {}},
+      {"name": "radial_only", "overrides": {"radial_km_s": 25.0}},
+      {"name": "combined", "overrides": {"warp_inclination_deg": 8.0, "warp_position_angle_deg": 16.0, "radial_km_s": 22.0, "asymmetry": 0.3}}
+    ],
+    "methods": ["circular_correct", "expanded_correct", "circular_diagonal", "expanded_diagonal"],
+    "fit": {"quadrature": [48, 144], "truth_quadrature": [96, 288], "starts": "The two starts and all parameter bounds from the frozen prior motion config; no truth-seeded or warm-start fitting.", "max_nfev": 100, "ftol": 1e-7, "xtol": 1e-7, "gtol": 1e-7, "objective": "Training marginal Gaussian likelihood only, using K_TT. Never subset a full precision matrix or whiten with held-out residuals. Diagonal approximation keeps exactly the true marginal variances and discards correlations. Select start by training objective only."},
+    "comparisons": {
+      "signal": "Noiseless fitted mean error under the common true held-out marginal covariance; independent fresh data scored with the same marginal covariance and NO same-realization noise correction.",
+      "same_realization": "Report both marginal plug-in mean score and conditional forecast m_H + C_HT C_TT^-1(y_T-m_T) with Schur covariance C_HH-C_HT C_TT^-1 C_TH. Use each method's assumed covariance for its forecast log density including log determinant. Also report point forecast errors with common true metrics.",
+      "noise_interpolation_negative_control": "Apply the old training-noise correction to independent fresh data and to noiseless truth as an explicitly inappropriate transfer diagnostic. Score with true marginal covariance, because cross-realization covariance is zero; never use the same-noise Schur covariance for fresh data.",
+      "oracle": "Known true mean plus true covariance: noise-only marginal and conditional forecasts, and independent fresh replicates, to expose the benefit of interpolation separately from physical fitting.",
+      "predictive_pass": "Descriptive only: for each held-out subset, fresh q/N averaged over its two independent replicates <=1.25 AND noiseless mean error q/N under true marginal covariance <=0.25. All subsets must pass. Conditional same-noise scores do not count toward this criterion.",
+      "parameter_pass": "All nine absolute parameter errors within the prior motion config tolerances; this is not posterior coverage or unique identifiability.",
+      "uncertainty": "Retain all 4 realizations, 2 overlapping folds, both optimizer starts and failures. Report paired differences, means, sample SD and min/max over four realization-level fold averages. No detection significance, population claim or Monte Carlo coverage claim. Plug-in forecast covariances exclude fitted-parameter uncertainty."
+    }
+  },
+  "controls": {
+    "seed": 602060920,
+    "relative_matrix_tolerance": 1e-10,
+    "relative_quadratic_tolerance": 1e-10,
+    "log_likelihood_absolute_tolerance": 1e-9,
+    "positive_eigenvalue_required": true,
+    "diagonal_limit_tolerance": 1e-12,
+    "heldout_fit_change_tolerance": 0.0,
+    "oracle_monte_carlo_draws": 8192,
+    "oracle_whitened_mean_absolute_max": 0.06,
+    "oracle_whitened_covariance_absolute_max": 0.08,
+    "oracle_q_per_dimension_error_max": 0.06,
+    "definitions": ["Symmetry/positive-definiteness and invalid-input rejection without jitter", "AR innovations covariance equals analytic K", "Block whitening/logpdf vs dense inverse, determinant and SciPy Gaussian", "Marginal training precision equals inverse of K_TT, not subset of full inverse", "Schur conditional mean/covariance vs dense joint precision", "Joint logpdf equals train marginal plus held-out conditional", "Irregular fixed spatial mask and independent held-out pixels", "Diagonal limit exactly removes conditioning and matches diagonal likelihood", "Conditional covariance independent of response values", "Fresh realization covariance is marginal with zero cross-realization gain", "Oracle conditional whitened moments with frozen Monte Carlo draws", "Held-out response perturbation cannot change either correct or diagonal fit", "Previously frozen 25 forward-law controls replay through import"]
+  },
+  "access_accounting": {"observed_source_files": 0, "observed_response_files": 0, "device": "CPU", "new_packages": 0, "freeze": "Freeze config, preflight and immutable prior dependencies before implementation and synthetic response generation. Numerical/statistical controls must pass before study responses."}
+}

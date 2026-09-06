@@ -1,13 +1,13 @@
 # Active goal: gravity pattern system and MOND observation atlas
 
 The user requested tasks and execution on 2026-09-06. The goal is active and
-unfinished. Read work/gravity-first-principles/mond-atlas-execution-016/README.md
+unfinished. Read work/gravity-first-principles/mond-atlas-execution-015/README.md
 and execution-status.json, then docs/GRAVITY_PATTERN_SYSTEM_TASKS.md.
-Prior handoff/task documents are preserved byte-for-byte in execution-016.
+Prior handoff/task documents are preserved byte-for-byte in execution-015.
 
 Filesystem/network/Git access works. The latest previously published milestone
-is 0d3aace45309ffa2792c2d78953a624b3fb5c4d5 (execution-015). Execution-016 is the
-next source-closure/correlated-noise package; inspect Git to confirm publication.
+is 25045db1463ded44e641fa0e7756dbeb04ba1a8a (execution-014). Execution-015 is the
+next NGC2976 source package; inspect Git to confirm its publication.
 Do not repeat obsolete permission blockers. Coordinator owns publication;
 fetch/integrate concurrent changes and push ordinary fast-forward milestones
 to main. Keep all raw arrays/private data outside Git.
@@ -29,7 +29,7 @@ manifest entries and 787 unique input/artifact files rehashed. Raw files remain
 required for reproduction. verify_mond_atlas_execution014.py is the entry point;
 it requires a fresh report output and checks archived prior mutable context.
 
-COMPLETED TASK MILESTONES (all app tasks idle; T6 follow-up now completed below):
+COMPLETED FIRST TASK MILESTONES (T6 has a new active follow-up, described below):
 
 T2: Recover independent baryonic mass inputs
   Thread 01a077c5-6c38-7831-9701-c97dafed68b3, baryon-recovery-001.
@@ -73,13 +73,14 @@ private sample overwrite; all ten previous sample packets remain unchanged.
 
 NEXT WORK:
 
-1. NGC2976 source maps and twelve common-basis height fits now exist. Investigate
-   source resolution, beam and signed-data noise before a physical height or
-   gravity claim. Use registered-source and registered-projection adapters;
-   retain the earlier geometry/mass alternatives. No new field/observed score.
-2. Correlated-noise motion controls now pass. Validate actual observed channel
-   and spatial covariance/selection and add pressure support before interpreting
-   speeds as gravitational force. Known synthetic covariance is not observed truth.
+1. NGC2976 generic registered source maps now exist in generic-source-001/run-002,
+   report findings-002. Extend them through common-basis source reprojection over
+   plausible vertical profiles, retaining beam/calibration/depth alternatives.
+   Use build_mond_atlas_registered_source.py; do not reuse the old hardcoded
+   NGC2903 adapter. No new field or observed-motion score exists yet.
+2. Extend motion controls to correlated channel noise and selection, and add
+   pressure-support closure before interpreting speeds as gravitational force.
+   Native noise/selection checks remain conditional, not observed truth.
 3. Validate the lensing instrument/foreground model and explicit relativistic
    light closure. Inferred total/lens/halo masses are not baryonic truth labels.
 4. Expand eligible resolved systems and run galaxy/group/survey transfer tests
@@ -112,28 +113,12 @@ code snapshots. Corrected report legend is findings-002; both numeric reports ag
 There are now two galaxies with conditional source-grid work, still only one
 with the 29 old conditional fields; ZERO admitted observed full-field likelihoods.
 
-T6 correlated-noise follow-up COMPLETE: thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef,
-turn 01a077e1-2fe4-7fe2-8a22-03aac0682bda completed; authoritative app status idle.
-No live job remains. Package motion-covariance-001/run-001, 96 fits/192 starts,
-30 statistical +25 mechanics controls, 18 new tests. All 36 noise draws and
-96 predictions replay exactly. Three injection classes, four independent noise
-realizations each, two overlapping folds. Correct covariance and deliberate
-diagonal approximation, circular and expanded mean models. Combined circular
-conditional q/N 1.084 looks close to noise but fresh q/N 1.517; expanded fresh 1.013.
-Zero-extra-amplitude models slightly worsen with added motion freedom. All
-separate marginal/conditional/fresh/noiseless metrics retained. Fixed masks and
-known AR(1) channel noise with independent spatial pixels remain synthetic.
-No pressure, observed covariance, source uncertainty or gravity admission.
-
-EXECUTION-016 UPDATE: 179 tests pass. NGC2976 common-basis vertical projection
-in mond-atlas-ngc2976-projection-001/run-001 and findings-001 executes 12 fits,
-all converge, ten above the 5% descriptive flag. HI thin/.1kpc RMS .13/1.50%; stars
-thin 5.23%. CO negative measurements impose a 9.23% nonnegative-prediction RMS floor;
-the thin fit has 9.85%, so 5% is not a physical rejection threshold. All negative values
-are retained. Heights 0/0.1/0.2/0.4 kpc are model alternatives, not measured/posterior
-heights. Zero height is a sheet limit, not a finite-volume field input. Existing
-nodal operator unchanged; five independent controls replay. Next needs signed
-source likelihood, finer source/beam checks and additional galaxies before
-new observed-gravity scoring. Total source-image fits now 34 (prior 22 + new 12),
-conditionalfields still 29 for one galaxy, conditional source work for two galaxies.
-ZERO admitted observed full-field cube or lensing likelihoods. Goal remains active.
+T6 follow-up ACTIVE: same thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef, new turn
+01a077e1-2fe4-7fe2-8a22-03aac0682bda, last confirmed live via wait_threads.
+Owns only new motion_covariance scripts/config/tests and
+mond-atlas-motion-covariance-001 public/private paths. Known correlated channel
+noise, proper marginal/conditional covariance, fresh-noise and truth controls.
+30 statistical and 25 imported numerical controls pass; zero-amplitude cases
+complete, remaining study active at handoff. Do not publish before delivery/review.
+No source data/observed covariance admission or pressure closure supplied by this
+THEORY_BENCHMARK_ONLY follow-up. Parent owns Git. Preserve its concurrent files.

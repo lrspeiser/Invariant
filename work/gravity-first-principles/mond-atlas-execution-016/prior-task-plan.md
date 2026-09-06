@@ -13,7 +13,7 @@ outside Git. Independent tasks own separate files in the shared checkout.
 | T3: Native gas selection and noise | Execute a native-geometry selection/injection pilot; distinguish conditional tests from validated observed covariance | None | First conditional injection milestone complete; exact mask/covariance remains. Task: Validate native gas cube selection, thread 01a077c5-6e58-7a21-8e3b-185a99065e49 |
 | T4: Observable pattern learning | Reusable nested galaxy holdouts, simple/nonlinear comparison, shuffled-feature controls, all outcomes retained | T1; existing radial data supports exploratory development now | First GPU milestone complete on 126 galaxies; resolved extension awaits T2/T3/T6 |
 | T5: Lensing pilot | Ingest measured images/redshifts/dispersion for 1–3 systems; identify PSF/noise/mass-calibration gaps and required light-propagation model | None for ingestion; gravity scoring requires a validated relativistic closure | Ingest/replay milestone complete for three SLACS systems, with native HST SCI/ERR/DQ. PSF, image likelihood, mass calibration and light model remain. Completed task: Acquire a direct-observable lensing pilot, thread 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e |
-| T6: Resolved matter and motion | Plausible 3D ensembles; independently checked full-field gravity; rotation/warp/streaming/pressure and instrument cube controls; observed prediction uncertainties | T2/T3; existing source/field work is development foundation | Synthetic mechanics and correlated-noise milestones complete: six first injections plus 96 correlated-noise fits. Pressure, observed covariance/selection and additional source pilots remain. Completed task: Build resolved galaxy motion controls, thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef |
+| T6: Resolved matter and motion | Plausible 3D ensembles; independently checked full-field gravity; rotation/warp/streaming/pressure and instrument cube controls; observed prediction uncertainties | T2/T3; existing source/field work is development foundation | Synthetic mechanics milestone complete: 25 numerical controls and six injections. Pressure, observed covariance/selection and additional source pilots remain. Completed task: Build resolved galaxy motion controls, thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef |
 | T7: Transfer and formula tests | Add eligible galaxies and physical group/survey holdouts; test structure additions; convert reproducible effects into dimensionally consistent formulas and test fixed predictions | T4/T6, with T5 adding a separate light-deflection test | Queued; no verified new gravity law claimed |
 
 Execution sequence:
@@ -90,12 +90,6 @@ public directory for later transfers; original frozen run packets are immutable.
   161 integration tests pass. Source covariance, physical depth and observed
   gravity/motion admission remain incomplete. Next is common-basis vertical
   reprojection, retaining the measured images as constraints.
-- T6 correlated-noise follow-up completed in the existing motion-controls task
-  01a077cf-96a5-75c3-b0e3-db86f91e6eef and is reviewed in execution-016. All app
-  tasks are idle with their assigned increments complete.
-
-- Execution-016: 179 tests pass; 96 correlated-noise motion fits and twelve
-  NGC2976 source-height fits executed. Noise interpolation can conceal motion
-  errors; fresh-noise/noiseless metrics distinguish signal recovery. Negative
-  CO data impose a 9.23% floor above the 5% source diagnostic. Retain those failures
-  and validate source noise/resolution before physical height or gravity claims.
+- T6 correlated-noise follow-up is ACTIVE in the existing motion-controls task
+  01a077cf-96a5-75c3-b0e3-db86f91e6eef. Its new files are not part of execution-015;
+  review its complete multi-realization results before publication.

@@ -1,0 +1,104 @@
+{
+  "status": "SOURCE_CLOSURE_AND_CORRELATED_NOISE_MILESTONES_REVIEWED",
+  "goal_complete": false,
+  "goal_remains_active": true,
+  "publication_status": "VALIDATED_PUBLICATION_PACKAGE_SEE_GIT_HISTORY",
+  "published_prior_commit": "0d3aace45309ffa2792c2d78953a624b3fb5c4d5",
+  "counts": {
+    "identity_groups": 13525,
+    "certified_distinct": false,
+    "radial_baseline_galaxies": 175,
+    "learning_galaxies": 126,
+    "resolved_seed_galaxies": 12,
+    "source_image_fits": 34,
+    "conditional_field_runs": 29,
+    "conditional_field_galaxies": 1,
+    "admitted_full_field_cube_predictions": 0,
+    "new_gpu_nested_oof_predictions": 3024,
+    "learning_comparisons": 8,
+    "whole_galaxy_fold_seeds": 3,
+    "structure_shuffles": 16,
+    "publication_subset_unit_tests_passed": 179,
+    "recovered_original_geometry_tables": 2,
+    "seeds_with_recovered_geometry": 9,
+    "missing_s4g_geometry_seeds": 3,
+    "uncertain_s4g_orientations": 6,
+    "real_background_injection_trials": 864,
+    "native_conditional_synthetic_injection_trials": 2304,
+    "stellar_relative_transfer_galaxies": 5,
+    "stellar_relative_and_prior_absolute_pass": 4,
+    "lensing_development_systems_ingested": 3,
+    "lensing_native_images": 3,
+    "lensing_admitted_likelihoods": 0,
+    "synthetic_motion_cases": 6,
+    "synthetic_motion_numerical_controls": 25,
+    "conditional_source_grid_galaxies": 2,
+    "ngc2976_source_nuisance_cases": 12,
+    "ngc2976_tracer_component_grids": 36,
+    "ngc2976_conditional_mass_combinations": 72,
+    "ngc2976_source_height_fits": 12,
+    "ngc2976_source_height_descriptive_flags": 10,
+    "correlated_motion_fits": 96,
+    "correlated_motion_noise_realizations": 12,
+    "correlated_motion_fresh_noise_cubes": 24,
+    "correlated_motion_statistical_controls": 30
+  },
+  "no_stable_new_structure_correction": true,
+  "source_and_3d_admission_incomplete": true,
+  "tasks": [
+    {
+      "id": "T1",
+      "name": "Compute and numerical controls",
+      "status": "FIRST_MILESTONE_COMPLETE"
+    },
+    {
+      "id": "T2",
+      "name": "Recover independent baryonic mass inputs",
+      "status": "GENERIC_REGISTERED_SOURCE_PILOT_COMPLETE_ABSOLUTE_MASS_AND_DEPTH_REMAIN",
+      "thread_id": "01a077c5-6c38-7831-9701-c97dafed68b3"
+    },
+    {
+      "id": "T3",
+      "name": "Validate native gas cube selection",
+      "status": "CONDITIONAL_NATIVE_INJECTION_MILESTONE_COMPLETE_COVARIANCE_REMAINS",
+      "thread_id": "01a077c5-6e58-7a21-8e3b-185a99065e49"
+    },
+    {
+      "id": "T4",
+      "name": "Observable pattern learning",
+      "status": "FIRST_RADIAL_GPU_MILESTONE_COMPLETE_RESOLVED_EXTENSION_PENDING"
+    },
+    {
+      "id": "T5",
+      "name": "Acquire a direct-observable lensing pilot",
+      "status": "INGEST_AND_OFFLINE_REPLAY_COMPLETE_IMAGE_LIKELIHOOD_AND_LIGHT_MODEL_PENDING",
+      "thread_id": "01a077c5-7055-7f80-a7d1-7ddbbe69cb4e"
+    },
+    {
+      "id": "T6",
+      "name": "Resolved matter and motion",
+      "status": "CORRELATED_NOISE_AND_SECOND_SOURCE_PROJECTION_MILESTONES_COMPLETE_OBSERVED_VALIDATION_PENDING",
+      "depends_on": [
+        "T2",
+        "T3"
+      ],
+      "thread_id": "01a077cf-96a5-75c3-b0e3-db86f91e6eef"
+    },
+    {
+      "id": "T7",
+      "name": "Transfer and formula tests",
+      "status": "QUEUED",
+      "depends_on": [
+        "T4",
+        "T6",
+        "T5"
+      ]
+    }
+  ],
+  "runtime": "Python313 + CuPy13.5.1 executes CUDA on RTX5090. Torch2.7.1 in this environment is CPU-only.",
+  "exposure": "SPARC data previously development-exposed. Primary SLACS sources exposed legacy reserved rows; do not certify those confirmations unseen. No new gravity score.",
+  "all_four_app_task_first_milestones_completed": true,
+  "source_transfer_limitations": "NGC4214 still lacks absolute registration support and has local residual mismatch. Four other seeds pass relative transfer plus prior finite-footprint absolute test, not mass calibration.",
+  "next_executable_increment": "Validate signed source noise and source/beam resolution; pressure support and observed motion covariance/selection. Expand eligible galaxies and group/survey holdouts before promoting structural gravity corrections.",
+  "all_app_tasks_idle": true
+}
