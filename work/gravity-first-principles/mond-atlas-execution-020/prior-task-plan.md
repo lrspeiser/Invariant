@@ -9,7 +9,7 @@ Raw data stay outside Git and independently running tasks own separate files.
 |---|---|---|---|
 | T1: Compute and numerical controls | Actual CUDA fits agree with independent CPU/reference calculations; allocations bounded | None | Complete initial milestone; CuPy RTX 5090 learning and 36 new source refinements |
 | T2: Independent baryonic inputs | Original metadata, registered tracer maps and explicit conversion/geometry uncertainties | None | Metadata and two conditional source pilots complete; NGC3198 source pilot executed; review/correction interrupted by usage limit; calibration, missing phases and source noise remain |
-| T3: Gas selection and noise | Native injection pilot, then validated mask and observed channel/spatial noise | None | Conditional native injections complete; native background covariance reviewed and aperture transfer executed; large-aperture covariance fails; observed likelihood not admitted |
+| T3: Gas selection and noise | Native injection pilot, then validated mask and observed channel/spatial noise | None | Conditional native injections complete; empirical background covariance run saved; final review interrupted by usage limit; observed likelihood not admitted |
 | T4: Pattern learning | Nested whole-galaxy validation, simple/nonlinear baselines and shuffled controls | T1; radial data already usable for development | GPU baseline and sparse-formula experiments complete on 126 galaxies; no stable structural correction |
 | T5: Lensing | Measured images/redshifts plus independent mass inputs, instrument model and explicit light closure | Ingest independent; scoring requires all source/theory gates | Three-system ingest and light-propagation theory controls complete; observed source/instrument closure remains |
 | T6: Resolved gravity and motion | Source alternatives; force solver; warp/streaming/pressure/instrument and uncertainty controls | T2/T3 | Mechanics, correlated-noise, fixed-image refinement and pressure theory controls complete; observed likelihood remains |
@@ -30,7 +30,7 @@ Existing separately created app tasks:
 - Recover independent baryonic mass inputs: 01a077c5-6c38-7831-9701-c97dafed68b3,
   metadata complete; NGC3198 follow-up turn 01a07800-bcf4-7132-b9d6-be1212b9020b stopped at usage limit; results saved.
 - Validate native gas cube selection: 01a077c5-6e58-7a21-8e3b-185a99065e49,
-  native injection complete; covariance turn stopped at usage limit; coordinator review and aperture follow-up complete in execution-020.
+  native injection complete; covariance turn 01a07804-0d7d-74f0-97d3-f5c7a828be03 stopped at usage limit; results saved.
 - Acquire a direct-observable lensing pilot: 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e,
   ingest and light follow-up turn 01a077f6-c6ab-7cb0-8dc8-add09ac5d379 complete; task idle.
 - Build resolved galaxy motion controls: 01a077cf-96a5-75c3-b0e3-db86f91e6eef,
@@ -87,9 +87,3 @@ impossible equilibria are retained. The overall goal remains active.
 Published a runnable greedy expression-search loop on the RTX 5090, with training-only transforms, nested whole-galaxy complexity selection, exact formula replay and shuffled controls. On 126 previously exposed galaxies, additions from 30 candidate expressions made outer MSE worse by 3.62%, 4.55% and 0.90% across three splits. Seven of fifteen fits selected no additional term. No expression advances as a validated gravity law. Five pre-access tests and all 110 saved formula replays passed; full first-seed CPU selection matches GPU. See `work/gravity-first-principles/mond-atlas-formula-search-001/README.md`.
 
 This milestone adds no admitted observed full-field or lensing likelihood. The separate 16 NGC2976 conditional field calculations are saved locally, but grid refinement failed accuracy gates and their review is not included here. NGC3198 and native covariance supporting tasks stopped at usage limits; intermediate outputs remain available. Overall research goal is unfinished.
-
-## Execution-020: measured background uncertainty transfer
-
-Completed review of the interrupted native covariance run and executed a new spatial-aperture test on its 29 western and 27 eastern NGC2976 background cores. Seventeen pre-access tests pass. Western channel models and ranking replay; independent aperture aggregation and inverse scoring reproduce six covariances and all 324 core scores. Independent-pixel variance underpredicts eastern 4x4-pixel fluctuation power by 8.13x. A western aperture model predicts eastern total power within 3.1% at all six sizes, but its full channel q/N gate fails at sides 12 and 24. Failures retained; no shrinkage retuning, source-region admission or new gravity score. See `work/gravity-first-principles/mond-atlas-aperture-noise-001/README.md`.
-
-T3 now has reviewed native covariance and spatial-aggregation diagnostics. Its historical task stopped at a usage limit; the coordinator completed this review locally. Source-region selection/noise and a coherent joint spatial likelihood remain unresolved. NGC3198 correction and NGC2976 field-grid convergence remain separate unfinished work. Overall research goal is unfinished.

@@ -1,0 +1,75 @@
+{
+  "status": "EXECUTED_CONDITIONAL_BACKGROUND_COVARIANCE_TRANSFER",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "galaxy": "NGC2976",
+  "training_blocks": 29,
+  "validation_blocks": 27,
+  "vectors_per_block": 576,
+  "channels": 42,
+  "candidates": 8,
+  "training_inner_folds": 3,
+  "selected_model_id": "channel_constant__full_shrink_010",
+  "selected_east_mean_q_over_n": 1.012204576281344,
+  "selected_east_all_descriptive_checks_pass": true,
+  "selected_east_descriptive_checks": {
+    "q_mean_in_range": true,
+    "mean_residual_small": true,
+    "absolute_3sigma_tails_bounded": true,
+    "signed_3sigma_asymmetry_bounded": true,
+    "north_south_q_in_range": true
+  },
+  "alternatives_passing_all_descriptive_checks": [
+    "channel_constant__diagonal",
+    "channel_constant__full_shrink_010",
+    "channel_constant__full_shrink_050",
+    "channel_constant__bartlett3_shrink_010"
+  ],
+  "unit_tests_run": 12,
+  "independent_benchmarks_passed": true,
+  "prospective_bindings_verified": 12,
+  "training_selection_unchanged_after_east_access": true,
+  "background_extraction_bytes": 10838016,
+  "new_download_bytes": 0,
+  "numerical_cpu_threads": 1,
+  "gpu_used": false,
+  "observed_gravity_motion_scores": 0,
+  "admitted_observed_cube_likelihoods": 0,
+  "runtime": {
+    "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\henry\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "numpy": "2.2.6",
+    "scipy": "1.16.1",
+    "astropy": "7.1.1",
+    "threadpools": [
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "filepath": "C:\\Users\\henry\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\numpy.libs\\libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+        "version": "0.3.29",
+        "threading_layer": "pthreads",
+        "architecture": "Haswell"
+      },
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "filepath": "C:\\Users\\henry\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy.libs\\libscipy_openblas-6b2103f2ae4d8547998b5d188e9801fb.dll",
+        "version": "0.3.28",
+        "threading_layer": "pthreads",
+        "architecture": "Haswell"
+      }
+    ]
+  },
+  "limitations": [
+    "Development-exposed NGC2976/background; new folds are not pristine confirmation.",
+    "MOM0 screening reuses the observation; pure noise, no foreground emission and independent source selection are unestablished.",
+    "Channel covariance is fitted to background residuals after explicit mean models; mean errors or foreground structure may remain.",
+    "Spectral Gaussian scores are conditional on estimated parameters and are averaged by block; they are not a joint spatial cube likelihood.",
+    "Guarded disjoint blocks are descriptive units; spatial independence and effective replication count are not certified.",
+    "Conditional even-channel forecasts reuse odd channels at the same pixel, not a fresh-noise realization.",
+    "Source/beam/selection/covariance uncertainty, exact spectral response and foreground contamination still block observed cube admission."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "mond-atlas-aperture-noise-v1",
+  "disposition": "SOURCE_BLOCKED",
+  "scope": "External-background spatial aggregation transfer, not a source or gravity likelihood.",
+  "input": "work/private/mond-atlas-native-covariance-001/run-001/background-blocks.npz",
+  "input_sha256": "107b6fee219d4aaa7cb0f6575d23d30264c90341ee242be79d6f5e5e40c39fb4",
+  "source_paper": "https://arxiv.org/abs/0810.2125",
+  "source_cube": "https://things.www3.mpia.de/Data_files/NGC_2976_NA_CUBE_THINGS.FITS",
+  "sides_native_pixels": [1, 2, 4, 8, 12, 24],
+  "mean": "One channel-wise constant estimated from all western pixels; no eastern or local mean subtraction.",
+  "covariance": "For each side, tile each fixed 24x24 core into aligned disjoint squares, average residuals, and take western second moment. Fixed 10% diagonal shrinkage. No model selection or threshold tuning.",
+  "baseline": "The western 1-pixel covariance divided by side squared: assumes spatially independent pixels but retains channel covariance.",
+  "metric": "Equal-core mean of spectral quadratic form per 42 channels, marginal log density, and trace second moment. Report all 27 eastern cores and each of six scales.",
+  "descriptive_q_range": [0.8, 1.2],
+  "controls": "Explicit loop versus reshape aggregation; analytic independent and common-mode aperture covariance; inverse Gaussian quadratic/logdet reference; no validation data enter fitting; finite/rank-deficient covariance and invalid shapes.",
+  "limitations": ["Both sides previously exposed; this is development transfer, not new confirmation.", "Within-core tiles, neighboring cores, and nested scales are not independent replications.", "Large scales have only 29 training cores for 42 channels; fixed shrinkage is not a sample-size cure.", "Second moments retain background mean/foreground errors; these are not certified pure instrument noise.", "This defines marginal uncertainty for each aperture separately, not a coherent joint spatial cube covariance.", "No stellar/gas mass, rotation or lensing score is generated."]
+}

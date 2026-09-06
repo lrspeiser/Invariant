@@ -1,0 +1,73 @@
+{
+  "id": "mond-atlas-native-covariance-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "One CPU-only NGC2976 empirical external-background covariance transfer experiment; no source reconstruction, motion or gravity score.",
+  "cube_path": "work/private/things-observable-12gal-003/NGC_2976_NA_CUBE_THINGS.FITS",
+  "cube_sha256": "e8ce711a354fcf9c76e7ba9afd9e55fa97df6169863d5473140f20f9c8250169",
+  "cube_url": "https://things.www3.mpia.de/Data_files/NGC_2976_NA_CUBE_THINGS.FITS",
+  "paper_url": "https://arxiv.org/html/0810.2125",
+  "prior_protocol": "configs/mond_atlas_native_selection_v1.json",
+  "prior_summary": "work/gravity-first-principles/mond-atlas-native-selection-001/run-001/summary.json",
+  "support_path": "work/private/mond-atlas-native-selection-001/run-001/selection-and-support.npz",
+  "support_sha256": "1d2478be850c60bc84498a30a1744ba57b97cb36ee45e06d53560c28b9957a45",
+  "support_keys_read": ["calibration", "validation"],
+  "regions": {
+    "training": "Exactly the prior calibration boolean support: western 550-680 arcsec annulus, east coordinate <-90 arcsec, positive MOM0 support excluded within 120 arcsec, 42 native pixels excluded at image edges.",
+    "validation": "Exactly the prior validation boolean support: eastern half with east coordinate >90 arcsec; otherwise identical prior exclusions.",
+    "geometry": "Signed native FITS SIN projection-plane coordinates; never sample source/inner-galaxy pixels. Read cube values only in the declared qualifying block cores.",
+    "block_lattice_step_native_pixels": 48,
+    "block_lattice_center_origin_native_pixels": 24,
+    "block_core_side_native_pixels": 24,
+    "block_core_rule": "For each center (24+48j,24+48i), use the half-open native core [center-12,center+12) on both axes only when every pixel lies in one named support. No partial blocks or adaptive rebalancing. Consecutive core edges have a 24-pixel (36 arcsec) gap.",
+    "inner_training_folds": 3,
+    "inner_fold_rule": "(lattice_row+2*lattice_column) modulo 3, assigned by geometry before cube values. All held-out eastern blocks stay unopened until ranking and final fits are saved.",
+    "minimum_training_blocks": 12,
+    "minimum_validation_blocks": 12,
+    "minimum_inner_fit_blocks": 6,
+    "minimum_inner_validation_blocks": 3
+  },
+  "data_units": "mJy per native restoring beam, using the fixed factor 1000 from FITS Jy/beam. No new convolution or channel averaging. All 42 stored channels are retained.",
+  "mean_models": ["channel_constant", "channel_affine_sky"],
+  "mean_contract": "Fit separate channel means by least squares on training blocks only: either an intercept, or intercept+east/600 arcsec+north/600 arcsec. Equal-sized cores give equal block weights. Save mean/trend coefficients and their predicted block means separately from residual covariance; do not refit or subtract a validation-region mean before scoring. Affine transfer to the eastern half is spatial extrapolation, not a measured foreground map. Fitted-parameter uncertainty is not integrated, so scores are conditional descriptive scores.",
+  "covariance_models": [
+    {"id": "diagonal", "kind": "diagonal", "shrinkage": 1.0},
+    {"id": "full_shrink_010", "kind": "full", "shrinkage": 0.1},
+    {"id": "full_shrink_050", "kind": "full", "shrinkage": 0.5},
+    {"id": "bartlett3_shrink_010", "kind": "bartlett", "max_lag": 3, "shrinkage": 0.1}
+  ],
+  "covariance_contract": "Unclipped residual second moment about the fitted training mean, with ML normalization and equal block weighting. Positive diagonal floors: max(1e-12 mJy^2,1e-8 times median residual channel variance). Full candidates shrink toward their own diagonal. Banded candidate uses the positive-semidefinite Bartlett taper max(1-|lag|/4,0), then the declared shrinkage. Never zero arbitrary covariance bands without a PD construction. Require Cholesky success, retaining any failure receipt.",
+  "selection": "Eight fixed mean/covariance combinations. Rank using equal-block mean Gaussian marginal log density per channel on three internal western training folds, averaged over all withheld western blocks. Larger is better; exact ties use declared mean order then covariance order. No eastern values are used in mean fitting, covariance fitting or model selection. Refit each alternative on all western blocks, save all alternatives and rank before eastern extraction, then report every eastern outcome without reselection.",
+  "validation": {
+    "marginal": "All 42-channel residual vectors, or the even-channel principal covariance for the separately reported unconditional subset.",
+    "conditional": "Predict native even stored indices 0,2,...,40 given odd indices 1,3,...,41 from the same held-out pixel. Use conditional mean C_even,odd C_odd,odd^-1 r_odd and Schur covariance C_even,even-C_even,odd C_odd,odd^-1 C_odd,even. This is same-observation conditional prediction, not fresh-noise transfer.",
+    "scores": ["block mean q/N", "block mean Gaussian log density per scalar in fixed mJy units", "block score spread and extrema", "per-channel raw and standardized residual mean", "Cholesky-whitened residual means, variance, skewness and 1/50/99 percentiles", "whitened signed 3-sigma and absolute 5-sigma tails", "north/south block q/N ratio", "block means and within-block residual variance separated"],
+    "spatial_lags_native_pixels": [1, 2, 4, 8, 12],
+    "cross_block_lattice_lags": [1, 2],
+    "spatial_contract": "Measure horizontal/vertical products and Pearson correlations of model-whitened residuals, both without local demeaning and after subtracting each block's channel means. Cross-block pairs use matching within-core coordinates at lattice separations 48 and 96 native pixels. Retain pair counts and raw/centered distinctions. No restoring-beam covariance is assumed; no unique correlator response is inferred from spectral lags.",
+    "replication_contract": "One row per disjoint guarded spatial block; equal block averaging. Pixels and channel vectors are not independent replications. Report descriptive block distributions and pair dependence, without pixel-based standard errors, p-values, iid chi-square cutoffs or claims that blocks are certified independent.",
+    "descriptive_transfer_flags": {
+      "mean_q_over_n_range": [0.8, 1.2],
+      "whitened_channel_mean_rms_max": 0.1,
+      "absolute_whitened_3sigma_tail_fraction_max": 0.01,
+      "signed_3sigma_tail_fraction_difference_abs_max": 0.005,
+      "north_south_block_q_ratio_range": [0.8, 1.25],
+      "cross_block_uncentered_product_abs_warning": 0.1
+    },
+    "flag_meaning": "Frozen descriptive falsification flags only; passing does not admit a cube likelihood. Spatial dependence, mean/foreground uncertainty, source screening and exact response remain separate limitations."
+  },
+  "benchmarks": {
+    "seed": 9062181,
+    "linear_algebra_absolute_tolerance": 1e-10,
+    "manufactured_covariance_draws": 20000,
+    "manufactured_whitening_covariance_relative_error_max": 0.035,
+    "manufactured_q_mean_absolute_error_max": 0.025,
+    "manufactured_mean_max_absolute_error": 1e-10,
+    "manufactured_logscore_gain_min": 0.05,
+    "mandatory": ["whitening/quadratic form versus explicit inverse", "log determinant versus slogdet and diagonal analytic limit", "joint=marginal+conditional log-density and quadratic-form identities", "Schur covariance differs from unconditional principal covariance", "PD regularization for rank-deficient covariance", "affine manufactured mean and coordinate reparameterization", "known correlated Gaussian whitening and log-score discrimination", "geometry-only block masks and untouched validation in training selection"]
+  },
+  "resource_limits": {"numerical_cpu_threads": 1, "gpu": false, "new_download_bytes": 0, "maximum_extracted_background_bytes": 134217728},
+  "previous_exposure": "NGC2976 and both background halves are development-exposed by earlier milestones. New folds are a controlled incremental test, not pristine confirmation. MOM0 screening uses the same observation and does not certify pure noise or empty space.",
+  "admitted_observed_cube_likelihoods": 0,
+  "gravity_motion_scores_permitted": false,
+  "publication_owner": "coordinating task"
+}
