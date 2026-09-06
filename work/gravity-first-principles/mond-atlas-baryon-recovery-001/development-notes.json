@@ -1,0 +1,20 @@
+{
+  "purpose": "Retain implementation and source counterexamples; no erased frozen outputs",
+  "resolved_development_failures": [
+    "Passing a multiline string to the Astropy CDS reader with a separate ReadMe caused it to interpret the text as a filename. Retried using immutable decoded files with the exact catalog table names.",
+    "The local Astropy ascii.read wrapper supplied fill defaults incompatible with CDS blank numeric fields. The independent ascii.Cds reader correctly preserves the catalog null masks.",
+    "An initial parser rejected missing trailing columns and the P4 PGC052336 name-only row. The final parser accepts omitted null tails only for hash-verified released rows; independent CDS parsing matches every checked field.",
+    "An initial comparison treated a blank Astropy string flag differently from null. Both readers now retain this source absence as null.",
+    "An initial test asserted an unjustified absolute 0.01 agreement with the published stellar coefficient. The final test uses the already-declared config relative tolerance 0.001. The actual 0.0343195 percent difference is explicitly retained; no experiment gate was changed."
+  ],
+  "retained_scientific_limitations": [
+    "Published stellar coefficient and the coefficient independently computed from printed input constants differ slightly.",
+    "The recovered 2009 HERACLES HTML R21 scaling direction conflicts with the stated line-ratio definition; only independently checked algebra and fixed reference normalization are used.",
+    "Catalog means/SDs and P4 flags do not constitute independently measured 3D geometry.",
+    "Seventeen FITS headers carry inherited MJy/sr labels for colors, masks or coverage; semantics require the publisher documentation."
+  ],
+  "access_note": "Required full catalog and publication bytes include incidental systemic-velocity or spectral-header fields. The recovery never reads a rotation-curve dataset, motion residual or field array and uses no such values for fitting or scoring. Source FITS payloads were hashed as bytes; only headers were interpreted.",
+  "sings_pdf_review": "The web screenshot endpoint failed to recognize the PDF content type. The exact downloaded PDF was rendered locally with PyMuPDF and pages 5 and 8 visually inspected. Private PNGs were not published.",
+  "prior_work_preserved": true,
+  "publication_by_this_task": false
+}

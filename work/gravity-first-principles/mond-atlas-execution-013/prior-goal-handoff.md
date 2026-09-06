@@ -1,9 +1,9 @@
 # Active goal: gravity pattern system and MOND observation atlas
 
 The user explicitly requested tasks and execution on 2026-09-06. The goal is
-active and unfinished. Read work/gravity-first-principles/mond-atlas-execution-013/
+active and unfinished. Read work/gravity-first-principles/mond-atlas-execution-012/
 README.md and execution-status.json, then docs/GRAVITY_PATTERN_SYSTEM_TASKS.md.
-The previous detailed handoff is archived in execution-013/prior-goal-handoff.md.
+The previous detailed handoff is archived in execution-012/prior-goal-handoff.md.
 
 NEW: permissions now allow filesystem and network access. Git fetch/push work.
 Prior validated atlas milestone is on main at 34b156ac95e9b03a8fc27a82bb99e3727331a756.
@@ -22,25 +22,18 @@ First learning run: mond-atlas-pattern-learning-001, report pattern-findings-001
 squared-error gain, with -5.33% to +10.29% across split seeds and uncertainty
 including zero. No stable structural correction. Gas alone does not help here.
 All results retained; no causal, unique-3D or independently confirmed law claim.
-Published subset tests: 112 pass after source/native integration. More tests may exist from concurrent tasks.
+Published subset tests: 89 pass. More tests may exist from concurrent tasks.
 
-TASK STATUS:
-T2 metadata recovery complete: 01a077c5-6c38-7831-9701-c97dafed68b3
-  mond-atlas-baryon-recovery-001. Both originals recovered and verified; nine
-  source geometries, six uncertain orientations, three missing. Current fixed
-  M/L=.6 fields unaffected by historical cleaned/global-color applicability bug.
-T3 conditional native injections complete: 01a077c5-6e58-7a21-8e3b-185a99065e49
-  mond-atlas-native-selection-001/run-001. 864 actual-background and 2304
-  simulated injections; mask is not certified publisher mask, covariance and
-  online spectral response remain unresolved. Source packages reviewed in013.
-T5 lensing pilot ACTIVE: 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e
-T6 synthetic motion controls ACTIVE: 01a077cf-96a5-75c3-b0e3-db86f91e6eef
-  T6 is THEORY_BENCHMARK_ONLY or SOURCE_BLOCKED; no actual galaxy scoring.
-
-Each active task owns separate new paths and does not write Git/common modules.
+ACTIVE APP TASKS (inspect status/results and review before integrating):
+T2 baryonic input recovery: 01a077c5-6c38-7831-9701-c97dafed68b3
+T3 native gas selection: 01a077c5-6e58-7a21-8e3b-185a99065e49
+T5 direct lensing pilot: 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e
+Each owns new matching scripts/config/tests plus private and report directories.
+They must not edit common modules or Git. Source tables reportedly recovered
+with old hashes; await executed reconciliation. A historical stellar-color
+relation applicability mismatch is under audit. Do not mutate old receipts.
 Lensing task disclosed incidental exposure of some reserved SLACS table rows;
-do not claim the whole old reserved sample remains unseen. Review and publish
-its completed package and motion controls after delivery, not before.
+do not claim the whole old reserved sample remains unseen.
 
 Next: review and publish completed task milestones; advance T6 resolved source
 ensembles and motion controls using their findings; extend the actual learning

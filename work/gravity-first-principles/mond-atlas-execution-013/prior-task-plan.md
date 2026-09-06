@@ -9,11 +9,11 @@ outside Git. Independent tasks own separate files in the shared checkout.
 | Task | Deliverable and acceptance | Dependencies | Execution |
 |---|---|---|---|
 | T1: Compute and numerical controls | Run actual CUDA learning; agree with CPU and independent library; prevent held-out response leakage; limit GPU allocations | None | First milestone complete in pattern-learning-001; CuPy on RTX 5090 |
-| T2: Independent baryonic inputs | Recover original geometry, reconcile units and identities, document mass-conversion assumptions without fitting velocities | None | First metadata milestone complete; calibration/uncertainty remains. Task: Recover independent baryonic mass inputs, thread 01a077c5-6c38-7831-9701-c97dafed68b3 |
-| T3: Native gas selection and noise | Execute a native-geometry selection/injection pilot; distinguish conditional tests from validated observed covariance | None | First conditional injection milestone complete; exact mask/covariance remains. Task: Validate native gas cube selection, thread 01a077c5-6e58-7a21-8e3b-185a99065e49 |
+| T2: Independent baryonic inputs | Recover original geometry, reconcile units and identities, document mass-conversion assumptions without fitting velocities | None | Running: Recover independent baryonic mass inputs, thread 01a077c5-6c38-7831-9701-c97dafed68b3 |
+| T3: Native gas selection and noise | Execute a native-geometry selection/injection pilot; distinguish conditional tests from validated observed covariance | None | Running: Validate native gas cube selection, thread 01a077c5-6e58-7a21-8e3b-185a99065e49 |
 | T4: Observable pattern learning | Reusable nested galaxy holdouts, simple/nonlinear comparison, shuffled-feature controls, all outcomes retained | T1; existing radial data supports exploratory development now | First GPU milestone complete on 126 galaxies; resolved extension awaits T2/T3/T6 |
 | T5: Lensing pilot | Ingest measured images/redshifts/dispersion for 1–3 systems; identify PSF/noise/mass-calibration gaps and required light-propagation model | None for ingestion; gravity scoring requires a validated relativistic closure | Running: Acquire a direct-observable lensing pilot, thread 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e |
-| T6: Resolved matter and motion | Plausible 3D ensembles; independently checked full-field gravity; rotation/warp/streaming/pressure and instrument cube controls; observed prediction uncertainties | T2/T3; existing source/field work is development foundation | Synthetic mechanics controls running: Build resolved galaxy motion controls, thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef; observed scoring still awaits source/instrument validation |
+| T6: Resolved matter and motion | Plausible 3D ensembles; independently checked full-field gravity; rotation/warp/streaming/pressure and instrument cube controls; observed prediction uncertainties | T2/T3; existing source/field work is development foundation | Queued for implementation after source/instrument milestone review; not an admitted likelihood |
 | T7: Transfer and formula tests | Add eligible galaxies and physical group/survey holdouts; test structure additions; convert reproducible effects into dimensionally consistent formulas and test fixed predictions | T4/T6, with T5 adding a separate light-deflection test | Queued; no verified new gravity law claimed |
 
 Execution sequence:
@@ -59,5 +59,3 @@ uncertainty, never by an invented observed 3D truth.
 The old filesystem/network restrictions no longer apply in this session.
 PyTorch in Python313 is CPU-only, but CuPy 13.5.1 works on the 5090. No existing
 environment or other process was replaced or stopped.
-
-- Source/native milestone: execution-013; 112 publication-subset tests pass. Two original geometry tables recovered; 864 actual-background injections executed. Details and unresolved observational admission are retained in each package.

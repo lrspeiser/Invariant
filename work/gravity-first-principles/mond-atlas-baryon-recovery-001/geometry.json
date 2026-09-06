@@ -1,0 +1,536 @@
+{
+  "sources": [
+    {
+      "source_id": "s4g_catalog",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/PASP/122/1397/s4g.dat.gz",
+      "raw_bytes": 133104,
+      "raw_sha256": "ffbbcdcd91f947e0599232264bd40d46cbefa6051fdfb8bdbfc69d2d52fc0d12",
+      "decoded_bytes": 368614,
+      "decoded_sha256": "bc872c485e47bef0976a8e47c5c7b7cef0fa34c5bca2ba7687ee332c550fe0c9",
+      "raw_matches_prior": true,
+      "decoded_matches_prior": true,
+      "records": 2352,
+      "independent_field_comparisons": 16464,
+      "parser_warnings": [
+        "'--' did not parse as cds unit: Syntax error parsing unit '--' If this is meant to be a custom unit, define it with 'u.def_unit'. To have it recognized inside a file reader or other code, enable it with 'u.add_enabled_units'. For details, see https://docs.astropy.org/en/latest/units/combining_and_defining.html"
+      ]
+    },
+    {
+      "source_id": "s4g_pipeline4",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJS/219/4/table1.dat",
+      "raw_bytes": 214082,
+      "raw_sha256": "c1d90e8824afbe4dd261ceaa663b6dc484f1cd90751f89dc0db140a5418638ea",
+      "decoded_bytes": 214082,
+      "decoded_sha256": "c1d90e8824afbe4dd261ceaa663b6dc484f1cd90751f89dc0db140a5418638ea",
+      "raw_matches_prior": true,
+      "decoded_matches_prior": true,
+      "records": 2352,
+      "independent_field_comparisons": 21168,
+      "parser_warnings": []
+    }
+  ],
+  "schema": [
+    {
+      "source_id": "s4g_catalog",
+      "field": "ra_deg",
+      "cds_label": "RAdeg",
+      "first_byte": 14,
+      "last_byte": 22,
+      "unit": "deg",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_catalog",
+      "field": "dec_deg",
+      "cds_label": "DEdeg",
+      "first_byte": 24,
+      "last_byte": 32,
+      "unit": "deg",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_catalog",
+      "field": "semi_major_25p5_arcsec",
+      "cds_label": "amaj",
+      "first_byte": 35,
+      "last_byte": 39,
+      "unit": "arcsec",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_catalog",
+      "field": "catalog_position_angle_deg",
+      "cds_label": "PA",
+      "first_byte": 41,
+      "last_byte": 46,
+      "unit": "deg",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_catalog",
+      "field": "catalog_ellipticity",
+      "cds_label": "ell",
+      "first_byte": 48,
+      "last_byte": 52,
+      "unit": null,
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_catalog",
+      "field": "distance_mpc",
+      "cds_label": "Dmean",
+      "first_byte": 120,
+      "last_byte": 126,
+      "unit": "Mpc",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_catalog",
+      "field": "distance_standard_deviation_mpc",
+      "cds_label": "e_Dmean",
+      "first_byte": 129,
+      "last_byte": 134,
+      "unit": "Mpc",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_pipeline4",
+      "field": "pipeline4_center_x_pixel",
+      "cds_label": "xc",
+      "first_byte": 12,
+      "last_byte": 18,
+      "unit": "pix",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_pipeline4",
+      "field": "pipeline4_center_y_pixel",
+      "cds_label": "yc",
+      "first_byte": 20,
+      "last_byte": 26,
+      "unit": "pix",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_pipeline4",
+      "field": "outer_position_angle_deg",
+      "cds_label": "PA",
+      "first_byte": 28,
+      "last_byte": 32,
+      "unit": "deg",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_pipeline4",
+      "field": "outer_position_angle_sd_deg",
+      "cds_label": "e_PA",
+      "first_byte": 34,
+      "last_byte": 37,
+      "unit": "deg",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_pipeline4",
+      "field": "outer_ellipticity",
+      "cds_label": "Ell",
+      "first_byte": 39,
+      "last_byte": 43,
+      "unit": null,
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_pipeline4",
+      "field": "outer_ellipticity_sd",
+      "cds_label": "e_Ell",
+      "first_byte": 45,
+      "last_byte": 49,
+      "unit": null,
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_pipeline4",
+      "field": "outer_isophote_rmin_arcsec",
+      "cds_label": "Rmin",
+      "first_byte": 51,
+      "last_byte": 54,
+      "unit": "arcsec",
+      "nullable": true,
+      "independent_unit_check": true
+    },
+    {
+      "source_id": "s4g_pipeline4",
+      "field": "outer_isophote_rmax_arcsec",
+      "cds_label": "Rmax",
+      "first_byte": 56,
+      "last_byte": 59,
+      "unit": "arcsec",
+      "nullable": true,
+      "independent_unit_check": true
+    }
+  ],
+  "objects": [
+    {
+      "object_id": "DDO154",
+      "catalog_name": null,
+      "pipeline4_name": null,
+      "catalog": null,
+      "pipeline4": null,
+      "disposition": "ABSENT_FROM_RECOVERED_S4G_TABLES"
+    },
+    {
+      "object_id": "IC2574",
+      "catalog_name": "IC2574",
+      "pipeline4_name": "IC2574",
+      "catalog": {
+        "object_id": "IC2574",
+        "ra_deg": 157.09833,
+        "dec_deg": 68.41214,
+        "semi_major_25p5_arcsec": 429.9,
+        "catalog_position_angle_deg": 48.3,
+        "catalog_ellipticity": 0.633,
+        "distance_mpc": 3.827,
+        "distance_standard_deviation_mpc": 0.624
+      },
+      "pipeline4": {
+        "object_id": "IC2574",
+        "pipeline4_center_x_pixel": 1282.34,
+        "pipeline4_center_y_pixel": 950.79,
+        "outer_position_angle_deg": 44.6,
+        "outer_position_angle_sd_deg": 2.1,
+        "outer_ellipticity": 0.75,
+        "outer_ellipticity_sd": 0.037,
+        "outer_isophote_rmin_arcsec": 300.0,
+        "outer_isophote_rmax_arcsec": 375.0,
+        "orientation_flag": "u"
+      },
+      "disposition": "SOURCE_GEOMETRY_RECOVERED",
+      "distance_sd_fraction": 0.16305199895479489,
+      "pa_axial_difference_deg": 3.6999999999999886,
+      "ellipticity_difference": 0.11699999999999999,
+      "geometry_unique_or_fitted_to_motion": false
+    },
+    {
+      "object_id": "NGC2841",
+      "catalog_name": "NGC2841",
+      "pipeline4_name": "NGC2841",
+      "catalog": {
+        "object_id": "NGC2841",
+        "ra_deg": 140.51122,
+        "dec_deg": 50.97659,
+        "semi_major_25p5_arcsec": 314.4,
+        "catalog_position_angle_deg": -29.9,
+        "catalog_ellipticity": 0.487,
+        "distance_mpc": 16.778,
+        "distance_standard_deviation_mpc": 5.279
+      },
+      "pipeline4": {
+        "object_id": "NGC2841",
+        "pipeline4_center_x_pixel": 507.46,
+        "pipeline4_center_y_pixel": 1062.88,
+        "outer_position_angle_deg": 149.5,
+        "outer_position_angle_sd_deg": 0.2,
+        "outer_ellipticity": 0.543,
+        "outer_ellipticity_sd": 0.008,
+        "outer_isophote_rmin_arcsec": 187.0,
+        "outer_isophote_rmax_arcsec": 225.0,
+        "orientation_flag": "u"
+      },
+      "disposition": "SOURCE_GEOMETRY_RECOVERED",
+      "distance_sd_fraction": 0.3146382167123614,
+      "pa_axial_difference_deg": 0.5999999999999943,
+      "ellipticity_difference": 0.05600000000000005,
+      "geometry_unique_or_fitted_to_motion": false
+    },
+    {
+      "object_id": "NGC2903",
+      "catalog_name": "NGC2903",
+      "pipeline4_name": "NGC2903",
+      "catalog": {
+        "object_id": "NGC2903",
+        "ra_deg": 143.0424,
+        "dec_deg": 21.50183,
+        "semi_major_25p5_arcsec": 365.5,
+        "catalog_position_angle_deg": 19.4,
+        "catalog_ellipticity": 0.508,
+        "distance_mpc": 9.058,
+        "distance_standard_deviation_mpc": 1.584
+      },
+      "pipeline4": {
+        "object_id": "NGC2903",
+        "pipeline4_center_x_pixel": 1159.04,
+        "pipeline4_center_y_pixel": 750.04,
+        "outer_position_angle_deg": 19.6,
+        "outer_position_angle_sd_deg": 0.2,
+        "outer_ellipticity": 0.513,
+        "outer_ellipticity_sd": 0.01,
+        "outer_isophote_rmin_arcsec": 337.0,
+        "outer_isophote_rmax_arcsec": 375.0,
+        "orientation_flag": "ok"
+      },
+      "disposition": "SOURCE_GEOMETRY_RECOVERED",
+      "distance_sd_fraction": 0.17487304040627072,
+      "pa_axial_difference_deg": 0.20000000000000284,
+      "ellipticity_difference": 0.0050000000000000044,
+      "geometry_unique_or_fitted_to_motion": false
+    },
+    {
+      "object_id": "NGC2976",
+      "catalog_name": "NGC2976",
+      "pipeline4_name": "NGC2976",
+      "catalog": {
+        "object_id": "NGC2976",
+        "ra_deg": 146.81366,
+        "dec_deg": 67.91671,
+        "semi_major_25p5_arcsec": 215.7,
+        "catalog_position_angle_deg": -35.9,
+        "catalog_ellipticity": 0.393,
+        "distance_mpc": 3.611,
+        "distance_standard_deviation_mpc": 0.707
+      },
+      "pipeline4": {
+        "object_id": "NGC2976",
+        "pipeline4_center_x_pixel": 807.8,
+        "pipeline4_center_y_pixel": 495.77,
+        "outer_position_angle_deg": 144.0,
+        "outer_position_angle_sd_deg": 0.9,
+        "outer_ellipticity": 0.401,
+        "outer_ellipticity_sd": 0.013,
+        "outer_isophote_rmin_arcsec": 187.0,
+        "outer_isophote_rmax_arcsec": 225.0,
+        "orientation_flag": "ok"
+      },
+      "disposition": "SOURCE_GEOMETRY_RECOVERED",
+      "distance_sd_fraction": 0.19579063971199112,
+      "pa_axial_difference_deg": 0.09999999999999432,
+      "ellipticity_difference": 0.008000000000000007,
+      "geometry_unique_or_fitted_to_motion": false
+    },
+    {
+      "object_id": "NGC3198",
+      "catalog_name": "NGC3198",
+      "pipeline4_name": "NGC3198",
+      "catalog": {
+        "object_id": "NGC3198",
+        "ra_deg": 154.97921,
+        "dec_deg": 45.54977,
+        "semi_major_25p5_arcsec": 226.6,
+        "catalog_position_angle_deg": 34.4,
+        "catalog_ellipticity": 0.578,
+        "distance_mpc": 13.987,
+        "distance_standard_deviation_mpc": 1.632
+      },
+      "pipeline4": {
+        "object_id": "NGC3198",
+        "pipeline4_center_x_pixel": 483.11,
+        "pipeline4_center_y_pixel": 1050.26,
+        "outer_position_angle_deg": 33.6,
+        "outer_position_angle_sd_deg": 0.9,
+        "outer_ellipticity": 0.666,
+        "outer_ellipticity_sd": 0.01,
+        "outer_isophote_rmin_arcsec": 337.0,
+        "outer_isophote_rmax_arcsec": 375.0,
+        "orientation_flag": "ok"
+      },
+      "disposition": "SOURCE_GEOMETRY_RECOVERED",
+      "distance_sd_fraction": 0.11667977407592764,
+      "pa_axial_difference_deg": 0.7999999999999972,
+      "ellipticity_difference": 0.08800000000000008,
+      "geometry_unique_or_fitted_to_motion": false
+    },
+    {
+      "object_id": "NGC3521",
+      "catalog_name": "NGC3521",
+      "pipeline4_name": "NGC3521",
+      "catalog": {
+        "object_id": "NGC3521",
+        "ra_deg": 166.45241,
+        "dec_deg": -0.03594,
+        "semi_major_25p5_arcsec": 411.3,
+        "catalog_position_angle_deg": -18.5,
+        "catalog_ellipticity": 0.434,
+        "distance_mpc": 12.078,
+        "distance_standard_deviation_mpc": 2.835
+      },
+      "pipeline4": {
+        "object_id": "NGC3521",
+        "pipeline4_center_x_pixel": 640.54,
+        "pipeline4_center_y_pixel": 1116.39,
+        "outer_position_angle_deg": 162.3,
+        "outer_position_angle_sd_deg": 0.5,
+        "outer_ellipticity": 0.547,
+        "outer_ellipticity_sd": 0.005,
+        "outer_isophote_rmin_arcsec": 93.0,
+        "outer_isophote_rmax_arcsec": 108.0,
+        "orientation_flag": "u"
+      },
+      "disposition": "SOURCE_GEOMETRY_RECOVERED",
+      "distance_sd_fraction": 0.2347242921013413,
+      "pa_axial_difference_deg": 0.8000000000000114,
+      "ellipticity_difference": 0.11300000000000004,
+      "geometry_unique_or_fitted_to_motion": false
+    },
+    {
+      "object_id": "NGC4214",
+      "catalog_name": "NGC4214",
+      "pipeline4_name": "NGC4214",
+      "catalog": {
+        "object_id": "NGC4214",
+        "ra_deg": 183.91305,
+        "dec_deg": 36.328,
+        "semi_major_25p5_arcsec": 227.2,
+        "catalog_position_angle_deg": -35.5,
+        "catalog_ellipticity": 0.011,
+        "distance_mpc": 3.401,
+        "distance_standard_deviation_mpc": 1.007
+      },
+      "pipeline4": {
+        "object_id": "NGC4214",
+        "pipeline4_center_x_pixel": 347.62,
+        "pipeline4_center_y_pixel": 705.78,
+        "outer_position_angle_deg": 132.6,
+        "outer_position_angle_sd_deg": 7.6,
+        "outer_ellipticity": 0.077,
+        "outer_ellipticity_sd": 0.034,
+        "outer_isophote_rmin_arcsec": 187.0,
+        "outer_isophote_rmax_arcsec": 202.0,
+        "orientation_flag": "u"
+      },
+      "disposition": "SOURCE_GEOMETRY_RECOVERED",
+      "distance_sd_fraction": 0.2960893854748603,
+      "pa_axial_difference_deg": 11.900000000000006,
+      "ellipticity_difference": 0.066,
+      "geometry_unique_or_fitted_to_motion": false
+    },
+    {
+      "object_id": "NGC5055",
+      "catalog_name": "NGC5055",
+      "pipeline4_name": "NGC5055",
+      "catalog": {
+        "object_id": "NGC5055",
+        "ra_deg": 198.95528,
+        "dec_deg": 42.02935,
+        "semi_major_25p5_arcsec": 517.9,
+        "catalog_position_angle_deg": -73.0,
+        "catalog_ellipticity": 0.393,
+        "distance_mpc": 8.333,
+        "distance_standard_deviation_mpc": 1.867
+      },
+      "pipeline4": {
+        "object_id": "NGC5055",
+        "pipeline4_center_x_pixel": 1132.69,
+        "pipeline4_center_y_pixel": 1204.29,
+        "outer_position_angle_deg": 101.4,
+        "outer_position_angle_sd_deg": 0.4,
+        "outer_ellipticity": 0.444,
+        "outer_ellipticity_sd": 0.006,
+        "outer_isophote_rmin_arcsec": 262.0,
+        "outer_isophote_rmax_arcsec": 300.0,
+        "orientation_flag": "u"
+      },
+      "disposition": "SOURCE_GEOMETRY_RECOVERED",
+      "distance_sd_fraction": 0.22404896195847834,
+      "pa_axial_difference_deg": 5.599999999999994,
+      "ellipticity_difference": 0.05099999999999999,
+      "geometry_unique_or_fitted_to_motion": false
+    },
+    {
+      "object_id": "NGC6946",
+      "catalog_name": null,
+      "pipeline4_name": null,
+      "catalog": null,
+      "pipeline4": null,
+      "disposition": "ABSENT_FROM_RECOVERED_S4G_TABLES"
+    },
+    {
+      "object_id": "NGC7331",
+      "catalog_name": null,
+      "pipeline4_name": null,
+      "catalog": null,
+      "pipeline4": null,
+      "disposition": "ABSENT_FROM_RECOVERED_S4G_TABLES"
+    },
+    {
+      "object_id": "UGC04305",
+      "catalog_name": "UGC04305",
+      "pipeline4_name": "UGC04305",
+      "catalog": {
+        "object_id": "UGC04305",
+        "ra_deg": 124.77008,
+        "dec_deg": 70.72019,
+        "semi_major_25p5_arcsec": 160.1,
+        "catalog_position_angle_deg": 16.6,
+        "catalog_ellipticity": 0.16,
+        "distance_mpc": 3.34,
+        "distance_standard_deviation_mpc": 0.9
+      },
+      "pipeline4": {
+        "object_id": "UGC04305",
+        "pipeline4_center_x_pixel": 874.97,
+        "pipeline4_center_y_pixel": 632.08,
+        "outer_position_angle_deg": 30.5,
+        "outer_position_angle_sd_deg": 3.2,
+        "outer_ellipticity": 0.239,
+        "outer_ellipticity_sd": 0.039,
+        "outer_isophote_rmin_arcsec": 90.0,
+        "outer_isophote_rmax_arcsec": 112.0,
+        "orientation_flag": "u"
+      },
+      "disposition": "SOURCE_GEOMETRY_RECOVERED",
+      "distance_sd_fraction": 0.2694610778443114,
+      "pa_axial_difference_deg": 13.900000000000006,
+      "ellipticity_difference": 0.07899999999999999,
+      "geometry_unique_or_fitted_to_motion": false
+    }
+  ],
+  "prior_reconciliation": [
+    {
+      "object_id": "NGC2903",
+      "compared_fields": 13,
+      "mismatches": [],
+      "exact_match": true
+    },
+    {
+      "object_id": "NGC2976",
+      "compared_fields": 13,
+      "mismatches": [],
+      "exact_match": true
+    },
+    {
+      "object_id": "NGC3198",
+      "compared_fields": 13,
+      "mismatches": [],
+      "exact_match": true
+    },
+    {
+      "object_id": "NGC3521",
+      "compared_fields": 13,
+      "mismatches": [],
+      "exact_match": true
+    },
+    {
+      "object_id": "NGC4214",
+      "compared_fields": 13,
+      "mismatches": [],
+      "exact_match": true
+    }
+  ],
+  "missing_source_rows": [
+    "DDO154",
+    "NGC6946",
+    "NGC7331"
+  ],
+  "uncertainty_note": "Dmean is a mean redshift-independent distance; e_Dmean is its standard deviation, not a certified posterior or error on the mean. P4 center pixels belong to its source image, not P5 cutouts."
+}

@@ -1,0 +1,237 @@
+{
+  "admission_disposition": "SOURCE_BLOCKED",
+  "config": {
+    "id": "mond-atlas-baryon-recovery-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Recover and validate source metadata only. No response access, mass fitting, source-image fitting, scoring, GPU use or unique 3D inference.",
+    "private_directory": "work/private/mond-atlas-baryon-recovery-001",
+    "output_directory": "work/gravity-first-principles/mond-atlas-baryon-recovery-001",
+    "max_download_bytes": 1000000000,
+    "max_file_bytes": 100000000,
+    "prior_geometry": "configs/open_gravity_rg_s4g_geometry_source_v1.json",
+    "prior_stellar_conversion": "configs/open_gravity_rg_sings_stellar_conversion_contract_v1.json",
+    "asset_receipt": "work/gravity-first-principles/stellar-co-acquisition-001/receipt.json",
+    "irac2_inventory": "work/rg-sings-irac2-source-download-inventory-v1.json",
+    "prior_five_object_builder": "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json",
+    "prior_atlas_field": "configs/mond_atlas_ngc2903_field_v1.json",
+    "seeds": [
+      "DDO154",
+      "IC2574",
+      "NGC2841",
+      "NGC2903",
+      "NGC2976",
+      "NGC3198",
+      "NGC3521",
+      "NGC4214",
+      "NGC5055",
+      "NGC6946",
+      "NGC7331",
+      "UGC04305"
+    ],
+    "aliases": {
+      "DDO154": [
+        "DDO154",
+        "UGC08024"
+      ],
+      "UGC04305": [
+        "UGC04305",
+        "UGC4305",
+        "HolmbergII",
+        "HoII"
+      ]
+    },
+    "gates": {
+      "expected_table_rows": 2352,
+      "require_unique_source_names": true,
+      "derived_geometry_absolute_tolerance": 0.0,
+      "stellar_coefficient_relative_tolerance": 0.001,
+      "co_coefficient_relative_tolerance": 0.02,
+      "float_benchmark_relative_tolerance": 1e-12,
+      "require_source_hash_match_before_geometry_revalidation": true,
+      "missing_rows_are_missing_metadata": true,
+      "allow_response_access": false
+    },
+    "sources": [
+      {
+        "id": "s4g_catalog",
+        "filename": "s4g.dat.gz",
+        "url": "https://cdsarc.cds.unistra.fr/ftp/J/PASP/122/1397/s4g.dat.gz",
+        "expected_raw_sha256": "ffbbcdcd91f947e0599232264bd40d46cbefa6051fdfb8bdbfc69d2d52fc0d12",
+        "expected_decoded_sha256": "bc872c485e47bef0976a8e47c5c7b7cef0fa34c5bca2ba7687ee332c550fe0c9",
+        "paper": "https://arxiv.org/abs/1010.1592"
+      },
+      {
+        "id": "s4g_pipeline4",
+        "filename": "pipeline4-table1.dat",
+        "url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJS/219/4/table1.dat",
+        "expected_raw_sha256": "c1d90e8824afbe4dd261ceaa663b6dc484f1cd90751f89dc0db140a5418638ea",
+        "expected_decoded_sha256": "c1d90e8824afbe4dd261ceaa663b6dc484f1cd90751f89dc0db140a5418638ea",
+        "paper": "https://arxiv.org/abs/1503.06550"
+      },
+      {
+        "id": "s4g_catalog_readme",
+        "filename": "catalog-ReadMe.txt",
+        "url": "https://cdsarc.cds.unistra.fr/ftp/J/PASP/122/1397/ReadMe"
+      },
+      {
+        "id": "s4g_pipeline4_readme",
+        "filename": "pipeline4-ReadMe.txt",
+        "url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJS/219/4/ReadMe"
+      },
+      {
+        "id": "s4g_p5_readme",
+        "filename": "P5_README.html",
+        "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/docs/P5_README.html",
+        "paper": "https://arxiv.org/abs/1410.0009"
+      },
+      {
+        "id": "s4g_p5_table",
+        "filename": "P5_table.txt",
+        "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/docs/P5_table.txt",
+        "paper": "https://arxiv.org/abs/1410.0009"
+      },
+      {
+        "id": "heracles_readme",
+        "filename": "HERACLES_README.txt",
+        "url": "https://www.iram.fr/ILPA/LP001/README",
+        "paper": "https://arxiv.org/abs/0905.4742"
+      },
+      {
+        "id": "s4g_sheth_paper",
+        "filename": "sheth2010-abstract.html",
+        "url": "https://arxiv.org/abs/1010.1592"
+      },
+      {
+        "id": "s4g_salo_paper",
+        "filename": "salo2015-abstract.html",
+        "url": "https://arxiv.org/abs/1503.06550"
+      },
+      {
+        "id": "s4g_querejeta_paper",
+        "filename": "querejeta2015-abstract.html",
+        "url": "https://arxiv.org/abs/1410.0009"
+      },
+      {
+        "id": "s4g_meidt_paper",
+        "filename": "meidt2014-abstract.html",
+        "url": "https://arxiv.org/abs/1402.5210"
+      },
+      {
+        "id": "heracles_paper",
+        "filename": "leroy2009-abstract.html",
+        "url": "https://arxiv.org/abs/0905.4742"
+      },
+      {
+        "id": "sings_paper",
+        "filename": "kennicutt2003-abstract.html",
+        "url": "https://arxiv.org/abs/astro-ph/0305437"
+      },
+      {
+        "id": "mcgaugh_paper",
+        "filename": "mcgaugh2014-abstract.html",
+        "url": "https://arxiv.org/abs/1407.1839"
+      },
+      {
+        "id": "querejeta_fulltext",
+        "filename": "querejeta2015.html",
+        "url": "https://arxiv.org/html/1410.0009"
+      },
+      {
+        "id": "meidt_fulltext",
+        "filename": "meidt2014.html",
+        "url": "https://arxiv.org/html/1402.5210"
+      },
+      {
+        "id": "heracles_fulltext",
+        "filename": "leroy2009.html",
+        "url": "https://arxiv.org/html/0905.4742"
+      },
+      {
+        "id": "salo_fulltext",
+        "filename": "salo2015.html",
+        "url": "https://arxiv.org/html/1503.06550"
+      },
+      {
+        "id": "leroy2008_fulltext",
+        "filename": "leroy2008.html",
+        "url": "https://arxiv.org/html/0810.2556"
+      },
+      {
+        "id": "leroy2022_fulltext",
+        "filename": "leroy2022.html",
+        "url": "https://arxiv.org/html/2109.11583"
+      },
+      {
+        "id": "sings_dr5",
+        "filename": "sings_fifth_delivery_v2.pdf",
+        "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/doc/sings_fifth_delivery_v2.pdf"
+      },
+      {
+        "id": "sings_readme",
+        "filename": "sings_ascii_info.html",
+        "url": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/doc/sings_ascii_info.html"
+      }
+    ],
+    "benchmarks": [
+      "Recovered raw and decompressed SHA256 compared with independently frozen prior source receipt.",
+      "CDS byte descriptions and independent Astropy CDS parser compared with all selected fixed-width records.",
+      "Stellar surface luminosity from photometric definition versus historical 704.04 coefficient; projected-area and inclination cancellation.",
+      "CO column-density conversion from atomic mass, parsec and solar mass versus published rounded coefficient; R21 and helium appear exactly once."
+    ],
+    "limitations": [
+      "All 12 seeds are development-exposed. This source-only recovery is not preregistration of earlier analyses.",
+      "Table hashes establish provenance, not accurate distances or unique 3D geometry.",
+      "Cleaned P5 stellar flux is not independently measured mass.",
+      "Constant M/L, X_CO and R21 remain conditional population and gas assumptions.",
+      "No new motion residuals or velocity data may be accessed."
+    ]
+  },
+  "created_utc": "2026-09-06T17:39:16.560631+00:00",
+  "bindings": [
+    {
+      "path": "configs/mond_atlas_baryon_recovery_v1.json",
+      "sha256": "8d8aa11e9447bd22ba9c5aba3415b70884cbb286f3f490586f2b28d92f63ba25"
+    },
+    {
+      "path": "scripts/mond_atlas_baryon_recovery.py",
+      "sha256": "e0e6e4fb7c4772bcf23d75577c99b5e1f14d7247be517e24a0c97cf821f31a0d"
+    },
+    {
+      "path": "scripts/run_mond_atlas_baryon_recovery.py",
+      "sha256": "57ec0c99bf6f9f1a808ab5a5e99a86c9857b03b51c1c975cb58622767209deb1"
+    },
+    {
+      "path": "tests/test_mond_atlas_baryon_recovery.py",
+      "sha256": "15097220c39bb02cd976cfac790575bc3b65eec5865c97db3b3ce19f55142e07"
+    },
+    {
+      "path": "docs/OPEN_GRAVITY_BUILDER_SOLVER_ADMISSION_POLICY_V1.md",
+      "sha256": "f567ee797df6816072d9566c69bc6129bfa101fd66f957a582a808838d507e1a"
+    },
+    {
+      "path": "configs/open_gravity_rg_s4g_geometry_source_v1.json",
+      "sha256": "6a4998ee1fb21f2d391ef2ea0f72a7bb1e8703b3db60c25d9639e5ad48befe6c"
+    },
+    {
+      "path": "configs/open_gravity_rg_sings_stellar_conversion_contract_v1.json",
+      "sha256": "b9426c82f09006bddf7502970b599cdf407821d1225cb53da35e41c3960fe668"
+    },
+    {
+      "path": "work/gravity-first-principles/stellar-co-acquisition-001/receipt.json",
+      "sha256": "d2e32b05e56117a09f535e7dfd00d8fa55db5ca77ec4575eff4a60a0789d2c6e"
+    },
+    {
+      "path": "work/rg-sings-irac2-source-download-inventory-v1.json",
+      "sha256": "307f384509c76683e74ec20ab4b3ab20bbb0bc18b5eae8c7926cd160949cd970"
+    },
+    {
+      "path": "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json",
+      "sha256": "69679616855c38631561ed5d9c241e68b489c5fafbcc0f7cf695e12aad3c5cd2"
+    },
+    {
+      "path": "configs/mond_atlas_ngc2903_field_v1.json",
+      "sha256": "893b068b7642eddbf0effbc23a1bc1cf300d8557e5843a83c216805e61c48dfc"
+    }
+  ],
+  "response_access_authorized": false
+}

@@ -1,0 +1,93 @@
+{
+  "status": "SOURCE_METADATA_ONLY_CONVERSIONS_REMAIN_CONDITIONAL",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "stellar": {
+    "cleaned_flux": {
+      "source": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/docs/P5_README.html",
+      "paper": "https://arxiv.org/html/1410.0009#S5.SS1",
+      "observable": "P5 stellar.fits contains cleaned old-stellar flux, MJy/sr",
+      "published_luminosity_conversion": "Sigma_L_projected = 704.04 I36 Lsun/pc^2",
+      "conditional_mass_conversion": "Sigma_star_projected = Upsilon36 Sigma_L_projected; face-on disk Sigma = projected Sigma cos(i)",
+      "fixed_ml": 0.6,
+      "imf": "Chabrier",
+      "old_population_ml_uncertainty_dex_approx": 0.1,
+      "limitations": "Not independent mass. Absolute calibration, ICA residuals and population assumptions remain. Catalog quality and bootstrap colors do not replace a pixel covariance model."
+    },
+    "cleaned_color": {
+      "paper": "https://arxiv.org/html/1402.5210#S4.SS3",
+      "citation": "Meidt et al. 2014, ApJ 788, 144; arXiv:1402.5210",
+      "equation": "log10(Upsilon36) = 3.98 ([3.6]-[4.5]) + 0.13",
+      "input": "Vega color of old stellar light after removal of nonstellar emission",
+      "slope_uncertainty": 0.98,
+      "intercept_uncertainty": 0.08,
+      "applicability_note": "Stellar-population/IMF-dependent. No per-pixel masses or replacement old runs computed."
+    },
+    "global_uncleaned_color": {
+      "paper": "https://arxiv.org/html/1410.0009#S7.SS3",
+      "equation": "log10(Upsilon36_effective) = -0.339 ([3.6]-[4.5]) - 0.336",
+      "input": "Original integrated 3.6/4.5 micron fluxes in matched apertures, including nonstellar emission",
+      "vega_color_formula": "-2.5 log10((F36/F45)*(179.7/280.9))",
+      "calibration_color_open_interval_mag": [-0.1, 0.15],
+      "recommended_uncertainty_dex_approx": 0.2,
+      "local_spatial_cleaning_validated": false,
+      "use_on_p5_cleaned_colors_supported": false
+    },
+    "sings_calibration": {
+      "source": "https://irsa.ipac.caltech.edu/data/SPITZER/SINGS/doc/sings_fifth_delivery_v2.pdf",
+      "sections": ["3.2", "3.6"],
+      "pages_inspected_one_based": [5, 8],
+      "pixel_scale_arcsec": 0.75,
+      "science_unit": "MJy/sr",
+      "weight_semantics": "ten times the number of contributing frames, not inverse variance",
+      "aperture_corrections_applied_to_delivery": false,
+      "calibration_basis": "12 arcsec radius stellar aperture; extended-source and aperture photometry require additional calibration",
+      "background": "A constant was subtracted; spatial background structure can remain, with NGC6946 explicitly mentioned in the guide",
+      "corrections_applied_by_this_audit": false
+    }
+  },
+  "molecular_gas": {
+    "release": "https://www.iram.fr/ILPA/LP001/README",
+    "source_unit": "CO(2-1) Tmb integrated intensity in K km/s",
+    "moment_error_semantics": "emom0 is expected one-sigma RMS over the same integration window; not a complete spatial covariance",
+    "efficiency_already_applied": true,
+    "selection": "Release moment-0 integrates the union of a local-HI-window mask and a bright-emission mask; finite values can be nondetections",
+    "source_selection_independent_of_hi_motion": false,
+    "formula": "Sigma_molecular_including_He_projected = alpha_CO10_including_He * I21 / R21; R21 = I21/I10",
+    "face_on_formula": "Sigma_faceon = Sigma_projected cos(i), conditional flat-disk geometry",
+    "helium_must_not_be_applied_twice": true,
+    "reference_2008": "https://arxiv.org/html/0810.2556#A1.SS2",
+    "reference_2008_equations": "A2-A3: alpha10=4.4, R21=0.8, alpha21=5.5 (including helium)",
+    "reference_2009": "https://arxiv.org/html/0905.4742#S4.SS3",
+    "retained_primary_equation_inconsistency": "The recovered 2009 HTML equations 3-4 display R21/0.8, although R21 is defined as I21/I10. This ratio direction contradicts direct substitution; use of that printed general scaling is unsupported. The independent 2008 A2-A3 normalization and column-density algebra are the implemented controls. No claim about author intent or an erratum is made.",
+    "reference_2022": "https://arxiv.org/html/2109.11583#S4.SS1",
+    "reference_2022_population_r21": 0.65,
+    "reference_2022_population_range16to84": [0.5, 0.83],
+    "reference_2022_scope": "Mean across mapping measurements; high-mass nearby star-forming galaxies dominate. Not a universal or per-pixel seed measurement; repeats and population scatter matter.",
+    "calibration_epoch_limit": "The 2022 paper notes earlier HERACLES R21=0.8 was revised downward with updated beam efficiency. The 2011 cached maps contain applied-efficiency history; no cross-release recalibration was validated here. Do not infer that the 21.68 percent coefficient difference is a measured gas-mass correction.",
+    "atlas_constants": {"alpha10_including_helium": 4.35, "r21": 0.65, "alpha21": 6.692307692307692},
+    "three_seed_nondetections_in_2009": ["DDO154", "IC2574", "UGC04305"],
+    "nondetections_or_coverage_gaps_converted_to_zero_mass": false,
+    "unresolved": ["metallicity-dependent X_CO", "CO-dark molecular gas", "spatially varying excitation and R21", "calibration epoch", "selection/covariance", "ionized/hot gas and other missing baryons"]
+  },
+  "historical_findings": [
+    {
+      "file": "configs/open_gravity_rg_sings_stellar_conversion_contract_v1.json",
+      "finding": "Citation says McGaugh & Schombert for arXiv:1402.5210; actual paper is Meidt et al. 2014.",
+      "correct_mcgaugh_schombert_paper": "https://arxiv.org/abs/1407.1839"
+    },
+    {
+      "file": "configs/open_gravity_rg_things_heracles_s4g_model_lifted_3d_source_builder_v1.json",
+      "finding": "The cleaned-P5 COLOR_PUBLISHED_WITH_FALLBACK branch declares the global-uncleaned Querejeta formula with a different color window (-0.15,-0.02). Its applicability is not supported by that calibration. Actual historical per-pixel impact was not recomputed.",
+      "disposition": "UNSUPPORTED_CONVERSION_CONTEXT; preserve frozen branch pending integration review"
+    }
+  ],
+  "current_atlas_common_basis_and_mixed_fields": {
+    "stellar_ml": 0.6,
+    "uses_erroneous_color_branch": false,
+    "evidence_file": "field-provenance.json",
+    "recorded_bindings_verified": 13,
+    "scope": "Read-only provenance trace, no new source fit or field/motion computation"
+  },
+  "general_3d_source_built": false,
+  "response_scores_computed": 0
+}
