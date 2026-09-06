@@ -1,0 +1,331 @@
+{
+  "sources": [
+    {
+      "path": "runs\\gravity\\roadmap\\item-12-manga-dynamical-age-v1-source\\extraction-summary.json",
+      "sha256": "5ef5d88224edf2c9d2435edbbe33a67f9c976c70da72c8653e8266eb5e85ad12",
+      "original_LF_sha256": "8f260d3dec69d0e1e28b7febea6ee166628d1e4323861b8991ccdc60f9ea7645"
+    },
+    {
+      "path": "runs\\gravity\\roadmap\\item-13-manga-relaxation-mergers-v1-source\\extraction-summary.json",
+      "sha256": "1c2899bc4733e9c24fdc830456f0a1069b7a9e8e562d3e46be2048637becaa17",
+      "original_LF_sha256": "f9a68be6dcad33e8189be9916633eff11adece7691339e808241380402280024"
+    }
+  ],
+  "features": {
+    "base": [
+      "log_half_light_radius",
+      "axis_ratio",
+      "sersic_index",
+      "redshift",
+      "log_surface_brightness",
+      "log_snr"
+    ],
+    "additions": {
+      "color": [
+        "g_minus_r_color"
+      ],
+      "color_and_spectrum": [
+        "g_minus_r_color",
+        "dn4000",
+        "d4000",
+        "hdelta_a",
+        "hgamma_a",
+        "hbeta",
+        "signed_log_halpha"
+      ]
+    }
+  },
+  "cross_validation": {
+    "ridge": {
+      "summary": [
+        {
+          "group": "color",
+          "model": "ridge",
+          "galaxies": 585,
+          "mse_gain_percent": 22.822248813641156,
+          "baseline_rmse_dex": 0.11063195807610618,
+          "full_rmse_dex": 0.09719113614965742,
+          "galaxies_improving": 377,
+          "gain_bootstrap95": [
+            0.0019461831557061834,
+            0.003657855364016831
+          ]
+        },
+        {
+          "group": "color_and_spectrum",
+          "model": "ridge",
+          "galaxies": 585,
+          "mse_gain_percent": 42.353822683595574,
+          "baseline_rmse_dex": 0.11063195807610618,
+          "full_rmse_dex": 0.08399740237347424,
+          "galaxies_improving": 384,
+          "gain_bootstrap95": [
+            0.003588225715110578,
+            0.006623296587842817
+          ]
+        }
+      ],
+      "selections": [
+        {
+          "group": "baseline",
+          "outer_fold": 0,
+          "value": 0.3
+        },
+        {
+          "group": "baseline",
+          "outer_fold": 1,
+          "value": 3.0
+        },
+        {
+          "group": "baseline",
+          "outer_fold": 2,
+          "value": 3.0
+        },
+        {
+          "group": "baseline",
+          "outer_fold": 3,
+          "value": 3.0
+        },
+        {
+          "group": "baseline",
+          "outer_fold": 4,
+          "value": 3.0
+        },
+        {
+          "group": "color",
+          "outer_fold": 0,
+          "value": 0.3
+        },
+        {
+          "group": "color",
+          "outer_fold": 1,
+          "value": 3.0
+        },
+        {
+          "group": "color",
+          "outer_fold": 2,
+          "value": 3.0
+        },
+        {
+          "group": "color",
+          "outer_fold": 3,
+          "value": 0.3
+        },
+        {
+          "group": "color",
+          "outer_fold": 4,
+          "value": 0.03
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 0,
+          "value": 3.0
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 1,
+          "value": 3.0
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 2,
+          "value": 3.0
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 3,
+          "value": 0.3
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 4,
+          "value": 0.3
+        }
+      ]
+    },
+    "trees": {
+      "summary": [
+        {
+          "group": "color",
+          "model": "trees",
+          "galaxies": 585,
+          "mse_gain_percent": 15.015166394311773,
+          "baseline_rmse_dex": 0.1218595361026198,
+          "full_rmse_dex": 0.11233891750929158,
+          "galaxies_improving": 353,
+          "gain_bootstrap95": [
+            0.0013977206968056634,
+            0.0030697903413583576
+          ]
+        },
+        {
+          "group": "color_and_spectrum",
+          "model": "trees",
+          "galaxies": 585,
+          "mse_gain_percent": 27.120721955795624,
+          "baseline_rmse_dex": 0.1218595361026198,
+          "full_rmse_dex": 0.10403070733741845,
+          "galaxies_improving": 352,
+          "gain_bootstrap95": [
+            0.0023007953265191615,
+            0.0057298842590962525
+          ]
+        }
+      ],
+      "selections": [
+        {
+          "group": "baseline",
+          "outer_fold": 0,
+          "value": 5
+        },
+        {
+          "group": "baseline",
+          "outer_fold": 1,
+          "value": 5
+        },
+        {
+          "group": "baseline",
+          "outer_fold": 2,
+          "value": 5
+        },
+        {
+          "group": "baseline",
+          "outer_fold": 3,
+          "value": 5
+        },
+        {
+          "group": "baseline",
+          "outer_fold": 4,
+          "value": 5
+        },
+        {
+          "group": "color",
+          "outer_fold": 0,
+          "value": 5
+        },
+        {
+          "group": "color",
+          "outer_fold": 1,
+          "value": 5
+        },
+        {
+          "group": "color",
+          "outer_fold": 2,
+          "value": 5
+        },
+        {
+          "group": "color",
+          "outer_fold": 3,
+          "value": 5
+        },
+        {
+          "group": "color",
+          "outer_fold": 4,
+          "value": 5
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 0,
+          "value": 5
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 1,
+          "value": 5
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 2,
+          "value": 5
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 3,
+          "value": 5
+        },
+        {
+          "group": "color_and_spectrum",
+          "outer_fold": 4,
+          "value": 5
+        }
+      ]
+    }
+  },
+  "transport": {
+    "ridge": {
+      "summary": [
+        {
+          "group": "color",
+          "train_galaxies": 585,
+          "test_galaxies": 243,
+          "mse_gain_percent": 24.743636389475686,
+          "baseline_rmse_dex": 0.11176650777455546,
+          "full_rmse_dex": 0.0969579212968266,
+          "paired_mse_gain_bootstrap95": [
+            0.001533055072346373,
+            0.004588354669976443
+          ]
+        },
+        {
+          "group": "color_and_spectrum",
+          "train_galaxies": 585,
+          "test_galaxies": 243,
+          "mse_gain_percent": 45.742873534872345,
+          "baseline_rmse_dex": 0.11176650777455546,
+          "full_rmse_dex": 0.08232658028537092,
+          "paired_mse_gain_bootstrap95": [
+            0.0037925178927152824,
+            0.007776927927877816
+          ]
+        }
+      ],
+      "selected_on_training": {
+        "baseline": 3.0,
+        "color": 3.0,
+        "color_and_spectrum": 3.0
+      }
+    },
+    "trees": {
+      "summary": [
+        {
+          "group": "color",
+          "train_galaxies": 585,
+          "test_galaxies": 243,
+          "mse_gain_percent": 21.936752448392106,
+          "baseline_rmse_dex": 0.11348378964115165,
+          "full_rmse_dex": 0.10026679599627131,
+          "paired_mse_gain_bootstrap95": [
+            0.001577597267320656,
+            0.003993389291379725
+          ]
+        },
+        {
+          "group": "color_and_spectrum",
+          "train_galaxies": 585,
+          "test_galaxies": 243,
+          "mse_gain_percent": 24.875115550364335,
+          "baseline_rmse_dex": 0.11348378964115165,
+          "full_rmse_dex": 0.09836163487555434,
+          "paired_mse_gain_bootstrap95": [
+            0.0009331545934140766,
+            0.005466556356731292
+          ]
+        }
+      ],
+      "selected_on_training": {
+        "baseline": 5,
+        "color": 5,
+        "color_and_spectrum": 5
+      }
+    }
+  },
+  "mass_derived_predictors_used": false,
+  "target": "Stellar velocity dispersion, not individual stellar mass or circular speed",
+  "pristine_confirmation": false,
+  "limitations": [
+    "Both development samples were historically examined.",
+    "Catalog g-r uses absolute photometric magnitudes and corrections; these are not all raw photometric bands.",
+    "Original sample admission used catalog mass validity. This test removes mass from model inputs, not from historical sample selection.",
+    "Measured spectral summaries and velocity dispersion share spectra and pipeline fitting. Predictive gains are not independent mass determinations."
+  ]
+}

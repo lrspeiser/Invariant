@@ -1,0 +1,55 @@
+{
+  "version": "1.0",
+  "status_at_creation": "Protocol fixed after source inspection and before computing new scores; development reanalysis, not a pristine confirmation",
+  "question": "With the dark-matter contribution fixed at zero, do measured light and independently calibrated stellar-mass corrections account for the observed motions?",
+  "gravity": "Newtonian throughout the physical mass audit; no fitted halo, RAR interpolation, modified-force correction, or invisible residual component",
+  "binary_optical_infrared": {
+    "source": "Benedict et al. 2016, arXiv:1608.04775, active table tbl-MMVMK",
+    "primary": "HST/FGS sample only; require both component V and K absolute magnitudes; retain both stars in the same validation group",
+    "target": "log10 individual orbital mass in solar units",
+    "models": ["V polynomial", "K polynomial", "V polynomial plus V-K color", "K polynomial plus V-K color"],
+    "degree_candidates": [2, 3],
+    "ridge_candidates": [0.01, 0.1, 1.0],
+    "validation": "Leave one entire binary out; select degree and penalty in three grouped inner folds",
+    "supplementary": "The mixed other-mass table is inventoried but not added to the primary calibration because distance provenance is heterogeneous"
+  },
+  "binary_mass_anchor": {
+    "source": "Mann et al. 2019, CDS J/ApJ/871/63 table1 and table5; external individual masses from article table tab:ind",
+    "training_target": "Measured total mass of a binary; never infer component labels using the same mass-luminosity relation",
+    "formula": "log10 component mass = degree-5 polynomial in (absolute Ks magnitude - 7.5)/2.5; sum the two predicted component masses for the training comparison",
+    "extra_feature": "Shared system metallicity as one additive log-mass coefficient",
+    "fit": "Equal-system log-mass squared errors with a linear monotonicity constraint on an 801-point absolute-magnitude grid from 3.5 to 11.5; no claim of reproducing the source's full posterior analysis",
+    "validation": "Five deterministic folds of entire systems; then fit the fixed model to all calibration binaries and evaluate nonoverlapping external eclipsing-binary systems",
+    "uncertainty": "Bootstrap systems; shared-parallax sensitivity moves absolute magnitudes and orbital mass coherently; external EB mass is distance independent but photometric component separation uses spectral templates",
+    "sensitivities": ["fractional total-mass error <= 5 percent", "published degree-5 relation as an external-benchmark reproduction"]
+  },
+  "sparc_mass_only": {
+    "source": "Existing exploration-only profiles and matched-concentration quality selection; reserved confirmation remains unused",
+    "prediction": "V_N^2 = gas_scale * Vgas * abs(Vgas) + alpha * (0.5 * Vdisk^2 + 0.7 * Vbulge^2)",
+    "alpha_bounds": [0.05, 40.0],
+    "models": ["fixed alpha=1", "one global alpha with five held-galaxy folds", "one alpha per galaxy fitted to inner half and tested on outer half", "one alpha per galaxy fitted to all radii, explicitly in-sample diagnostic", "independent disk and bulge scales, explicitly in-sample diagnostic"],
+    "scores": "Equal-galaxy mean squared log-speed errors, absolute fractional speed errors, invalid circular-force counts; formal velocity errors are not the full covariance",
+    "radial_diagnostic": "Required alpha at each radius is the multiplier of the whole fixed stellar template that would match that radius; it is not an independently measured local mass profile",
+    "sensitivities": ["quality Q=1", "inclination 40 to 75 degrees", "gas mass factors 0.5 and 2"],
+    "transfer_boundary": "A Ks relation for individual nearby dwarfs does not calibrate the integrated 3.6-micron M/L of a galaxy. No numerical transfer between those quantities is assumed."
+  },
+  "manga_light_only": {
+    "samples": "Existing 585-galaxy development sample and disjoint 243-galaxy transport sample; both historically inspected",
+    "target": "log10 stellar velocity dispersion, not circular speed, individual star mass, or excess gravity",
+    "baseline": ["log_half_light_radius", "axis_ratio", "sersic_index", "redshift", "log_surface_brightness", "log_snr"],
+    "additions": ["g-r color", "g-r plus measured spectral indices and H-alpha equivalent width"],
+    "excluded_predictors": ["catalog stellar mass", "mass surface density", "inferred age", "specific star-formation rate", "mass-size crossing proxy", "velocity measurements"],
+    "validation": "Existing whole-galaxy outer folds, training-only hyperparameter selection, ridge and ExtraTrees with the prior equal model budgets; 243-galaxy transfer untuned on its targets",
+    "limitations": "Catalog photometric and spectral summaries, not all raw bands. Original sample selection used catalog mass validity. Spectral indices and dispersion share the spectroscopic pipeline."
+  },
+  "implementation_amendment": "The first run stopped at a monotonicity assertion in the binary quality sensitivity, after completing only the optical/infrared stage. Replaced a soft penalty with a hard linear constraint; scientific inputs, model degree, comparisons, and validation sets unchanged. Original attempt retained in stellar-mass-audit-001. Completed run uses stellar-mass-audit-002.",
+  "controls": ["frozen protocol hash", "source hashes and parser counts", "whole-system train/test identity disjointness", "held-target mutation leaves predictions unchanged", "known mass-scale and binary-relation injections", "shared distance-error sensitivity", "analytic zero-dark-matter force replay"],
+  "claim_boundaries": {
+    "dark_matter_existence_decided": false,
+    "all_stellar_populations_calibrated": false,
+    "full_galaxy_IMF_or_faint_star_census_measured": false,
+    "all_baryonic_phases_measured": false,
+    "all_light_and_colors_available": false,
+    "new_gravity_law_admitted": false
+  }
+}

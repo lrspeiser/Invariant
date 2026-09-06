@@ -1,0 +1,434 @@
+{
+  "stars": 28,
+  "binaries": 14,
+  "mass_range": [
+    0.076,
+    0.405
+  ],
+  "validation": "Leave entire binary out; nested training-only choice",
+  "metrics": {
+    "V": {
+      "objects": 28,
+      "systems": 14,
+      "log_rmse": 0.10297443105546635,
+      "rms_fractional_error_percent": 37.027926550576154,
+      "median_absolute_fractional_error_percent": 11.719011994431911,
+      "mean_predicted_minus_actual_percent": 7.046362495161416,
+      "mean_bias_bootstrap95_percent": [
+        -4.665000453505219,
+        23.17389387306307
+      ],
+      "within10percent": 13,
+      "actual_exceeds_prediction_by_factor2": 0
+    },
+    "K": {
+      "objects": 28,
+      "systems": 14,
+      "log_rmse": 0.05418242791978546,
+      "rms_fractional_error_percent": 14.284737066517147,
+      "median_absolute_fractional_error_percent": 4.848636385707394,
+      "mean_predicted_minus_actual_percent": 2.5599092440491105,
+      "mean_bias_bootstrap95_percent": [
+        -2.9016172379773635,
+        8.775883148125557
+      ],
+      "within10percent": 22,
+      "actual_exceeds_prediction_by_factor2": 0
+    },
+    "V_color": {
+      "objects": 28,
+      "systems": 14,
+      "log_rmse": 0.04448348775836018,
+      "rms_fractional_error_percent": 10.39203521341981,
+      "median_absolute_fractional_error_percent": 6.5674250215354,
+      "mean_predicted_minus_actual_percent": 1.5891355036431127,
+      "mean_bias_bootstrap95_percent": [
+        -3.097901911187285,
+        6.273948380788156
+      ],
+      "within10percent": 21,
+      "actual_exceeds_prediction_by_factor2": 0
+    },
+    "K_color": {
+      "objects": 28,
+      "systems": 14,
+      "log_rmse": 0.05831956055763551,
+      "rms_fractional_error_percent": 15.06296723521283,
+      "median_absolute_fractional_error_percent": 6.67030430962075,
+      "mean_predicted_minus_actual_percent": 2.527068846198211,
+      "mean_bias_bootstrap95_percent": [
+        -3.554791984998991,
+        9.08616449848781
+      ],
+      "within10percent": 19,
+      "actual_exceeds_prediction_by_factor2": 0
+    }
+  },
+  "comparisons": {
+    "V_to_K": {
+      "mse_gain_percent": 72.31413342485189,
+      "paired_log_mse_gain_bootstrap95": [
+        0.001026827266824205,
+        0.019486212348978217
+      ]
+    },
+    "V_to_V_color": {
+      "mse_gain_percent": 81.33883040105269,
+      "paired_log_mse_gain_bootstrap95": [
+        0.0005436647204488837,
+        0.02321305637608488
+      ]
+    },
+    "K_to_K_color": {
+      "mse_gain_percent": -15.854141120712262,
+      "paired_log_mse_gain_bootstrap95": [
+        -0.0007242601558595347,
+        -0.00022962100745293037
+      ]
+    }
+  },
+  "held_target_invariance": true,
+  "selections": [
+    {
+      "held": "G193-027",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "G193-027",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "G193-027",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "G193-027",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "G250-029",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "G250-029",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "G250-029",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "G250-029",
+      "model": "K_color",
+      "degree": 2,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ1005",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ1005",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ1005",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ1005",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ1081",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ1081",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ1081",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ1081",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ1245",
+      "model": "V",
+      "degree": 3,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ1245",
+      "model": "K",
+      "degree": 3,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ1245",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ1245",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ22",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ22",
+      "model": "K",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ22",
+      "model": "V_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ22",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ234",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ234",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ234",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ234",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ469",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ469",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ469",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ469",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ473",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ473",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ473",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ473",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ623",
+      "model": "V",
+      "degree": 2,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ623",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ623",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ623",
+      "model": "K_color",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ65",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ65",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ65",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ65",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ748",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ748",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ748",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ748",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ791.2",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ791.2",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ791.2",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ791.2",
+      "model": "K_color",
+      "degree": 2,
+      "penalty": 1.0
+    },
+    {
+      "held": "GJ831",
+      "model": "V",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ831",
+      "model": "K",
+      "degree": 2,
+      "penalty": 0.01
+    },
+    {
+      "held": "GJ831",
+      "model": "V_color",
+      "degree": 2,
+      "penalty": 0.1
+    },
+    {
+      "held": "GJ831",
+      "model": "K_color",
+      "degree": 3,
+      "penalty": 1.0
+    }
+  ],
+  "limitations": [
+    "Only two measured bands and 14 nearby HST binaries; not all stellar populations.",
+    "Common parallax affects dynamical mass and absolute magnitudes; grouped folds do not remove shared calibration systematics.",
+    "Reported prediction errors include observational uncertainty and do not measure an intrinsic universal scatter."
+  ]
+}

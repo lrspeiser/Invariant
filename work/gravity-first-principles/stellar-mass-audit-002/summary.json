@@ -1,0 +1,729 @@
+{
+  "status": "COMPLETED_SCOPED_ZERO_DARK_MATTER_STELLAR_MASS_AUDIT",
+  "dark_matter_contribution": 0,
+  "protocol_sha256": "4385a4dd0774d6c069be19a192a2d42ed41fb36717284b6e0b7a71dfba282900",
+  "elapsed_seconds": 13.959036588668823,
+  "binary_optical": {
+    "stars": 28,
+    "binaries": 14,
+    "mass_range": [
+      0.076,
+      0.405
+    ],
+    "validation": "Leave entire binary out; nested training-only choice",
+    "metrics": {
+      "V": {
+        "objects": 28,
+        "systems": 14,
+        "log_rmse": 0.10297443105546635,
+        "rms_fractional_error_percent": 37.027926550576154,
+        "median_absolute_fractional_error_percent": 11.719011994431911,
+        "mean_predicted_minus_actual_percent": 7.046362495161416,
+        "mean_bias_bootstrap95_percent": [
+          -4.665000453505219,
+          23.17389387306307
+        ],
+        "within10percent": 13,
+        "actual_exceeds_prediction_by_factor2": 0
+      },
+      "K": {
+        "objects": 28,
+        "systems": 14,
+        "log_rmse": 0.05418242791978546,
+        "rms_fractional_error_percent": 14.284737066517147,
+        "median_absolute_fractional_error_percent": 4.848636385707394,
+        "mean_predicted_minus_actual_percent": 2.5599092440491105,
+        "mean_bias_bootstrap95_percent": [
+          -2.9016172379773635,
+          8.775883148125557
+        ],
+        "within10percent": 22,
+        "actual_exceeds_prediction_by_factor2": 0
+      },
+      "V_color": {
+        "objects": 28,
+        "systems": 14,
+        "log_rmse": 0.04448348775836018,
+        "rms_fractional_error_percent": 10.39203521341981,
+        "median_absolute_fractional_error_percent": 6.5674250215354,
+        "mean_predicted_minus_actual_percent": 1.5891355036431127,
+        "mean_bias_bootstrap95_percent": [
+          -3.097901911187285,
+          6.273948380788156
+        ],
+        "within10percent": 21,
+        "actual_exceeds_prediction_by_factor2": 0
+      },
+      "K_color": {
+        "objects": 28,
+        "systems": 14,
+        "log_rmse": 0.05831956055763551,
+        "rms_fractional_error_percent": 15.06296723521283,
+        "median_absolute_fractional_error_percent": 6.67030430962075,
+        "mean_predicted_minus_actual_percent": 2.527068846198211,
+        "mean_bias_bootstrap95_percent": [
+          -3.554791984998991,
+          9.08616449848781
+        ],
+        "within10percent": 19,
+        "actual_exceeds_prediction_by_factor2": 0
+      }
+    },
+    "comparisons": {
+      "V_to_K": {
+        "mse_gain_percent": 72.31413342485189,
+        "paired_log_mse_gain_bootstrap95": [
+          0.001026827266824205,
+          0.019486212348978217
+        ]
+      },
+      "V_to_V_color": {
+        "mse_gain_percent": 81.33883040105269,
+        "paired_log_mse_gain_bootstrap95": [
+          0.0005436647204488837,
+          0.02321305637608488
+        ]
+      },
+      "K_to_K_color": {
+        "mse_gain_percent": -15.854141120712262,
+        "paired_log_mse_gain_bootstrap95": [
+          -0.0007242601558595347,
+          -0.00022962100745293037
+        ]
+      }
+    },
+    "held_target_invariance": true,
+    "limitations": [
+      "Only two measured bands and 14 nearby HST binaries; not all stellar populations.",
+      "Common parallax affects dynamical mass and absolute magnitudes; grouped folds do not remove shared calibration systematics.",
+      "Reported prediction errors include observational uncertainty and do not measure an intrinsic universal scatter."
+    ]
+  },
+  "binary_anchor": {
+    "calibration_systems": 62,
+    "external_EB_stars": 22,
+    "external_EB_systems": 11,
+    "calibration_metrics": {
+      "objects": 62,
+      "systems": 62,
+      "log_rmse": 0.026748415509241102,
+      "rms_fractional_error_percent": 6.201123680618918,
+      "median_absolute_fractional_error_percent": 3.03040002162816,
+      "mean_predicted_minus_actual_percent": 0.11016191422989431,
+      "mean_bias_bootstrap95_percent": [
+        -1.4019172617759736,
+        1.6572566307169805
+      ],
+      "within10percent": 54,
+      "actual_exceeds_prediction_by_factor2": 0
+    },
+    "metallicity_metrics": {
+      "objects": 62,
+      "systems": 62,
+      "log_rmse": 0.027626280539950022,
+      "rms_fractional_error_percent": 6.3899833318438475,
+      "median_absolute_fractional_error_percent": 3.2983322663669656,
+      "mean_predicted_minus_actual_percent": 0.06760926782099623,
+      "mean_bias_bootstrap95_percent": [
+        -1.4998679026667394,
+        1.6827725746619238
+      ],
+      "within10percent": 53,
+      "actual_exceeds_prediction_by_factor2": 0
+    },
+    "metallicity_comparison": {
+      "mse_gain_percent": -6.671576495688658,
+      "paired_log_mse_gain_bootstrap95": [
+        -0.00010568315964835409,
+        4.591405103727213e-06
+      ]
+    },
+    "metallicity_log_mass_coefficients": [
+      0.0264268593757934,
+      0.005404386054560513,
+      0.02129576184802836,
+      -0.0042179622441230165,
+      0.02972232492185955
+    ],
+    "external_metrics": {
+      "objects": 22,
+      "systems": 11,
+      "log_rmse": 0.015497879827492537,
+      "rms_fractional_error_percent": 3.496864355152872,
+      "median_absolute_fractional_error_percent": 3.0194092824183394,
+      "mean_predicted_minus_actual_percent": -1.8250240290496287,
+      "mean_bias_bootstrap95_percent": [
+        -3.153166722027523,
+        -0.5786200304646077
+      ],
+      "within10percent": 22,
+      "actual_exceeds_prediction_by_factor2": 0
+    },
+    "published_external_reproduction": {
+      "objects": 22,
+      "systems": 11,
+      "log_rmse": 0.01758485451747807,
+      "rms_fractional_error_percent": 3.9580006402910026,
+      "median_absolute_fractional_error_percent": 2.97486638651292,
+      "mean_predicted_minus_actual_percent": -2.243059531460241,
+      "mean_bias_bootstrap95_percent": [
+        -3.600450358921581,
+        -0.9541084859279456
+      ],
+      "within10percent": 22,
+      "actual_exceeds_prediction_by_factor2": 0
+    },
+    "coefficients": [
+      -0.6438238197052175,
+      -0.5405944382262654,
+      -0.010619059210250376,
+      0.1437645680679617,
+      0.012303600974947006,
+      -0.026583655809440956
+    ],
+    "definition": "log10(M/Msun)=sum(c_i*((M_Ks-7.5)/2.5)^i); calibration uses sums of component predictions",
+    "quality_sensitivity": {
+      "systems": 28,
+      "baseline": {
+        "objects": 28,
+        "systems": 28,
+        "log_rmse": 0.014943264522335513,
+        "rms_fractional_error_percent": 3.5030886104343613,
+        "median_absolute_fractional_error_percent": 2.274518051321184,
+        "mean_predicted_minus_actual_percent": 0.7628211094373826,
+        "mean_bias_bootstrap95_percent": [
+          -0.4583939107071315,
+          2.008807140395147
+        ],
+        "within10percent": 28,
+        "actual_exceeds_prediction_by_factor2": 0
+      },
+      "metallicity": {
+        "objects": 28,
+        "systems": 28,
+        "log_rmse": 0.015102294987053639,
+        "rms_fractional_error_percent": 3.536213992007178,
+        "median_absolute_fractional_error_percent": 2.2055318940322923,
+        "mean_predicted_minus_actual_percent": 0.756273448566649,
+        "mean_bias_bootstrap95_percent": [
+          -0.4970545575918127,
+          2.0067358820733956
+        ],
+        "within10percent": 28,
+        "actual_exceeds_prediction_by_factor2": 0
+      },
+      "comparison": {
+        "mse_gain_percent": -2.1397826179561097,
+        "paired_log_mse_gain_bootstrap95": [
+          -1.5253168791226726e-05,
+          4.1530999287230975e-06
+        ]
+      }
+    },
+    "parallax_stresses": [
+      {
+        "sign": -1,
+        "external_metrics": {
+          "objects": 22,
+          "systems": 11,
+          "log_rmse": 0.01848619618452002,
+          "rms_fractional_error_percent": 4.374075721078065,
+          "median_absolute_fractional_error_percent": 3.094198018140487,
+          "mean_predicted_minus_actual_percent": 2.411910693430066,
+          "mean_bias_bootstrap95_percent": [
+            0.45155934592254077,
+            4.30853817710719
+          ],
+          "within10percent": 22,
+          "actual_exceeds_prediction_by_factor2": 0
+        },
+        "median_prediction_change_percent": 4.356932949198478
+      },
+      {
+        "sign": 1,
+        "external_metrics": {
+          "objects": 22,
+          "systems": 11,
+          "log_rmse": 0.0308482524500135,
+          "rms_fractional_error_percent": 6.802699246156285,
+          "median_absolute_fractional_error_percent": 6.137211008882948,
+          "mean_predicted_minus_actual_percent": -5.86486402569592,
+          "mean_bias_bootstrap95_percent": [
+            -7.229545019679762,
+            -4.4488956331259395
+          ],
+          "within10percent": 20,
+          "actual_exceeds_prediction_by_factor2": 0
+        },
+        "median_prediction_change_percent": -4.407033342864314
+      }
+    ],
+    "orbital_replay": {
+      "systems": 55,
+      "max_fractional_difference": 0.012910972749463956,
+      "median_fractional_difference": 0.0004923888500023565,
+      "note": "Rounded marginal central orbital values and mass may differ; this is an audit, not a refit of the astrometry"
+    },
+    "controls": {
+      "held_target_invariance": true,
+      "known_50percent_mass_scale_recovered_max_error": 9.066625454856592e-07
+    },
+    "limitations": [
+      "Our fit uses central measurements and equal system weights, not the original joint likelihood/posterior.",
+      "External EB masses are independent of this fit; their separated Ks light uses spectral-template conversion of eclipse contrasts.",
+      "Original authors already analyzed these validation stars; this is a reproducible reanalysis, not new pristine confirmation.",
+      "Nearby low-mass stars do not determine galaxy-wide faint-star counts, remnant fractions, or integrated 3.6-micron mass-to-light ratios."
+    ]
+  },
+  "galaxies": {
+    "galaxies": 86,
+    "positions": 1684,
+    "dark_matter_term": 0,
+    "gas_scale": 1.0,
+    "global_alpha_by_fold": [
+      2.9736044103122374,
+      3.332644224503818,
+      3.45554603343968,
+      3.305702294214709,
+      3.3824174463318037
+    ],
+    "fixed": {
+      "objects": 1684,
+      "systems": 86,
+      "log_rmse": 0.2690631868471282,
+      "rms_fractional_error_percent": 43.13046677151634,
+      "median_absolute_fractional_error_percent": 35.35142183451379,
+      "mean_predicted_minus_actual_percent": -38.72753733078602,
+      "mean_bias_bootstrap95_percent": [
+        -42.20823728736971,
+        -35.26893135673125
+      ],
+      "within10percent": 188,
+      "actual_exceeds_prediction_by_factor2": 396
+    },
+    "global_held_galaxy": {
+      "objects": 1684,
+      "systems": 86,
+      "log_rmse": 0.17318878140236346,
+      "rms_fractional_error_percent": 40.02739704085666,
+      "median_absolute_fractional_error_percent": 30.988934684813678,
+      "mean_predicted_minus_actual_percent": 2.2966915709491276,
+      "mean_bias_bootstrap95_percent": [
+        -5.1014780537636275,
+        9.651619034585766
+      ],
+      "within10percent": 246,
+      "actual_exceeds_prediction_by_factor2": 59
+    },
+    "all_radii_per_galaxy_fit_diagnostic": {
+      "objects": 1684,
+      "systems": 86,
+      "log_rmse": 0.07999930656092613,
+      "rms_fractional_error_percent": 18.944400391015485,
+      "median_absolute_fractional_error_percent": 12.314831919454061,
+      "mean_predicted_minus_actual_percent": 0.7643891547329912,
+      "mean_bias_bootstrap95_percent": [
+        0.5341626631431671,
+        1.0069760363834181
+      ],
+      "within10percent": 728,
+      "actual_exceeds_prediction_by_factor2": 4
+    },
+    "all_radii_two_component_fit_diagnostic": {
+      "objects": 1684,
+      "systems": 86,
+      "log_rmse": 0.07362998281957055,
+      "rms_fractional_error_percent": 17.451995071686387,
+      "median_absolute_fractional_error_percent": 10.705544725564097,
+      "mean_predicted_minus_actual_percent": 0.6027895967634137,
+      "mean_bias_bootstrap95_percent": [
+        0.40409328910945475,
+        0.808437601715083
+      ],
+      "within10percent": 807,
+      "actual_exceeds_prediction_by_factor2": 1
+    },
+    "outer_fixed": {
+      "objects": 821,
+      "systems": 86,
+      "log_rmse": 0.2879186993294992,
+      "rms_fractional_error_percent": 46.27327438390077,
+      "median_absolute_fractional_error_percent": 43.55777945054159,
+      "mean_predicted_minus_actual_percent": -43.88811302735329,
+      "mean_bias_bootstrap95_percent": [
+        -46.805551166948774,
+        -40.8412663142806
+      ],
+      "within10percent": 15,
+      "actual_exceeds_prediction_by_factor2": 264
+    },
+    "outer_global": {
+      "objects": 821,
+      "systems": 86,
+      "log_rmse": 0.17266463467420146,
+      "rms_fractional_error_percent": 34.064965802195275,
+      "median_absolute_fractional_error_percent": 26.27916642654684,
+      "mean_predicted_minus_actual_percent": -10.092797113794655,
+      "mean_bias_bootstrap95_percent": [
+        -16.418022200126767,
+        -3.150274387003258
+      ],
+      "within10percent": 160,
+      "actual_exceeds_prediction_by_factor2": 41
+    },
+    "outer_after_inner_calibration": {
+      "objects": 821,
+      "systems": 86,
+      "log_rmse": 0.13004465545195523,
+      "rms_fractional_error_percent": 24.380307026610243,
+      "median_absolute_fractional_error_percent": 22.992249657962528,
+      "mean_predicted_minus_actual_percent": -20.292093292162022,
+      "mean_bias_bootstrap95_percent": [
+        -22.729423228883945,
+        -17.71337292754705
+      ],
+      "within10percent": 152,
+      "actual_exceeds_prediction_by_factor2": 24
+    },
+    "inner_to_outer_ratio": {
+      "galaxies": 86,
+      "median": 1.9549218607701309,
+      "above_two": 41,
+      "above_one": 81
+    },
+    "median_best_fit_stellar_multiplier": 3.505945619665207,
+    "per_galaxy_fit_at_upper_bound": 0,
+    "per_galaxy_90percent_radii_within10percent_speed": 11,
+    "required_alpha_negative_or_zero_positions": 0,
+    "invalid_fixed_force": 0,
+    "invalid_inner_force_outer": 0,
+    "required_mass_by_acceleration": [
+      {
+        "log_gbar_low": -20,
+        "log_gbar_high": -11,
+        "galaxies": 57,
+        "positions": 411,
+        "median_required_stellar_multiplier": 7.552536359583138
+      },
+      {
+        "log_gbar_low": -11,
+        "log_gbar_high": -10,
+        "galaxies": 65,
+        "positions": 760,
+        "median_required_stellar_multiplier": 2.8891965343761834
+      },
+      {
+        "log_gbar_low": -10,
+        "log_gbar_high": -9,
+        "galaxies": 34,
+        "positions": 452,
+        "median_required_stellar_multiplier": 1.3562228761571027
+      },
+      {
+        "log_gbar_low": -9,
+        "log_gbar_high": 0,
+        "galaxies": 9,
+        "positions": 61,
+        "median_required_stellar_multiplier": 0.9596064489077933
+      }
+    ]
+  },
+  "manga": {
+    "cross_validation": {
+      "ridge": {
+        "summary": [
+          {
+            "group": "color",
+            "model": "ridge",
+            "galaxies": 585,
+            "mse_gain_percent": 22.822248813641156,
+            "baseline_rmse_dex": 0.11063195807610618,
+            "full_rmse_dex": 0.09719113614965742,
+            "galaxies_improving": 377,
+            "gain_bootstrap95": [
+              0.0019461831557061834,
+              0.003657855364016831
+            ]
+          },
+          {
+            "group": "color_and_spectrum",
+            "model": "ridge",
+            "galaxies": 585,
+            "mse_gain_percent": 42.353822683595574,
+            "baseline_rmse_dex": 0.11063195807610618,
+            "full_rmse_dex": 0.08399740237347424,
+            "galaxies_improving": 384,
+            "gain_bootstrap95": [
+              0.003588225715110578,
+              0.006623296587842817
+            ]
+          }
+        ],
+        "selections": [
+          {
+            "group": "baseline",
+            "outer_fold": 0,
+            "value": 0.3
+          },
+          {
+            "group": "baseline",
+            "outer_fold": 1,
+            "value": 3.0
+          },
+          {
+            "group": "baseline",
+            "outer_fold": 2,
+            "value": 3.0
+          },
+          {
+            "group": "baseline",
+            "outer_fold": 3,
+            "value": 3.0
+          },
+          {
+            "group": "baseline",
+            "outer_fold": 4,
+            "value": 3.0
+          },
+          {
+            "group": "color",
+            "outer_fold": 0,
+            "value": 0.3
+          },
+          {
+            "group": "color",
+            "outer_fold": 1,
+            "value": 3.0
+          },
+          {
+            "group": "color",
+            "outer_fold": 2,
+            "value": 3.0
+          },
+          {
+            "group": "color",
+            "outer_fold": 3,
+            "value": 0.3
+          },
+          {
+            "group": "color",
+            "outer_fold": 4,
+            "value": 0.03
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 0,
+            "value": 3.0
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 1,
+            "value": 3.0
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 2,
+            "value": 3.0
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 3,
+            "value": 0.3
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 4,
+            "value": 0.3
+          }
+        ]
+      },
+      "trees": {
+        "summary": [
+          {
+            "group": "color",
+            "model": "trees",
+            "galaxies": 585,
+            "mse_gain_percent": 15.015166394311773,
+            "baseline_rmse_dex": 0.1218595361026198,
+            "full_rmse_dex": 0.11233891750929158,
+            "galaxies_improving": 353,
+            "gain_bootstrap95": [
+              0.0013977206968056634,
+              0.0030697903413583576
+            ]
+          },
+          {
+            "group": "color_and_spectrum",
+            "model": "trees",
+            "galaxies": 585,
+            "mse_gain_percent": 27.120721955795624,
+            "baseline_rmse_dex": 0.1218595361026198,
+            "full_rmse_dex": 0.10403070733741845,
+            "galaxies_improving": 352,
+            "gain_bootstrap95": [
+              0.0023007953265191615,
+              0.0057298842590962525
+            ]
+          }
+        ],
+        "selections": [
+          {
+            "group": "baseline",
+            "outer_fold": 0,
+            "value": 5
+          },
+          {
+            "group": "baseline",
+            "outer_fold": 1,
+            "value": 5
+          },
+          {
+            "group": "baseline",
+            "outer_fold": 2,
+            "value": 5
+          },
+          {
+            "group": "baseline",
+            "outer_fold": 3,
+            "value": 5
+          },
+          {
+            "group": "baseline",
+            "outer_fold": 4,
+            "value": 5
+          },
+          {
+            "group": "color",
+            "outer_fold": 0,
+            "value": 5
+          },
+          {
+            "group": "color",
+            "outer_fold": 1,
+            "value": 5
+          },
+          {
+            "group": "color",
+            "outer_fold": 2,
+            "value": 5
+          },
+          {
+            "group": "color",
+            "outer_fold": 3,
+            "value": 5
+          },
+          {
+            "group": "color",
+            "outer_fold": 4,
+            "value": 5
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 0,
+            "value": 5
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 1,
+            "value": 5
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 2,
+            "value": 5
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 3,
+            "value": 5
+          },
+          {
+            "group": "color_and_spectrum",
+            "outer_fold": 4,
+            "value": 5
+          }
+        ]
+      }
+    },
+    "transport": {
+      "ridge": {
+        "summary": [
+          {
+            "group": "color",
+            "train_galaxies": 585,
+            "test_galaxies": 243,
+            "mse_gain_percent": 24.743636389475686,
+            "baseline_rmse_dex": 0.11176650777455546,
+            "full_rmse_dex": 0.0969579212968266,
+            "paired_mse_gain_bootstrap95": [
+              0.001533055072346373,
+              0.004588354669976443
+            ]
+          },
+          {
+            "group": "color_and_spectrum",
+            "train_galaxies": 585,
+            "test_galaxies": 243,
+            "mse_gain_percent": 45.742873534872345,
+            "baseline_rmse_dex": 0.11176650777455546,
+            "full_rmse_dex": 0.08232658028537092,
+            "paired_mse_gain_bootstrap95": [
+              0.0037925178927152824,
+              0.007776927927877816
+            ]
+          }
+        ],
+        "selected_on_training": {
+          "baseline": 3.0,
+          "color": 3.0,
+          "color_and_spectrum": 3.0
+        }
+      },
+      "trees": {
+        "summary": [
+          {
+            "group": "color",
+            "train_galaxies": 585,
+            "test_galaxies": 243,
+            "mse_gain_percent": 21.936752448392106,
+            "baseline_rmse_dex": 0.11348378964115165,
+            "full_rmse_dex": 0.10026679599627131,
+            "paired_mse_gain_bootstrap95": [
+              0.001577597267320656,
+              0.003993389291379725
+            ]
+          },
+          {
+            "group": "color_and_spectrum",
+            "train_galaxies": 585,
+            "test_galaxies": 243,
+            "mse_gain_percent": 24.875115550364335,
+            "baseline_rmse_dex": 0.11348378964115165,
+            "full_rmse_dex": 0.09836163487555434,
+            "paired_mse_gain_bootstrap95": [
+              0.0009331545934140766,
+              0.005466556356731292
+            ]
+          }
+        ],
+        "selected_on_training": {
+          "baseline": 5,
+          "color": 5,
+          "color_and_spectrum": 5
+        }
+      }
+    },
+    "mass_derived_predictors_used": false,
+    "target": "Stellar velocity dispersion, not individual stellar mass or circular speed",
+    "pristine_confirmation": false,
+    "limitations": [
+      "Both development samples were historically examined.",
+      "Catalog g-r uses absolute photometric magnitudes and corrections; these are not all raw photometric bands.",
+      "Original sample admission used catalog mass validity. This test removes mass from model inputs, not from historical sample selection.",
+      "Measured spectral summaries and velocity dispersion share spectra and pipeline fitting. Predictive gains are not independent mass determinations."
+    ]
+  },
+  "all_baryonic_mass_alternatives_resolved": false,
+  "independent_galaxy_population_mass_calibration_completed": false,
+  "admitted_gravity_laws": 0
+}
