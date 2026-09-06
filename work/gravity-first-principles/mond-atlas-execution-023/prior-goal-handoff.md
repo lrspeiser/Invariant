@@ -174,22 +174,3 @@ Next priority: a conservative distributed response with ordinary-matter rules
 for strength, scale and finite extent, then real-source and held-galaxy tests.
 No new observed full-field, cluster, Solar System or lensing score is admitted.
 The existing data/noise and field-convergence blockers remain. Goal unfinished.
-
-## Execution-023: real radial clock/relay formula comparisons
-
-Ran the frozen 713-candidate comparison on the RTX 5090 using 102 eligible
-galaxies and 2212 radii from the 139 historically exposed identities. Reserved
-archive members were not parsed by the fit runners. Independent replay checks
-all 180 selections and 79,632 initial held-family predictions. Global parameters
-are selected with training velocities; only predictor inputs are source-only.
-Adjusted algebraic MOND wins every initial training selection; absorption selects
-zero opacity. Original clock potential has excessive inner attraction. Separate,
-explicitly post-hoc mass-scale and central-core repairs are recorded with frozen
-grids and no claims of fresh confirmation. See the complete results and limits:
-`work/gravity-first-principles/mond-atlas-clock-relay-001/README.md`.
-
-These are source-backed radial empirical tests, not an observed 3D operator or
-evidence that time supplies energy. Energy exchange, source histories, actual
-distributed 3D source fields, cluster/Solar System transfer and lensing remain
-unresolved. No parameter is inferred independently of training responses merely
-because its formula uses photometry. Overall research goal remains unfinished.

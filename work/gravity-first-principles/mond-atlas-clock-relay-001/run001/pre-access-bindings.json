@@ -1,0 +1,116 @@
+{
+  "disposition": "DATA_AND_PAPER_ADMITTED",
+  "scope": "RADIAL_EMPIRICAL_ONLY",
+  "config": {
+    "id": "clock-relay-radial-v1",
+    "disposition": "DATA_AND_PAPER_ADMITTED_FOR_RADIAL_EMPIRICAL_COMPARISON_ONLY",
+    "source_paper": "https://arxiv.org/abs/1606.09251",
+    "source_archive_url": "https://astroweb.cwru.edu/SPARC/Rotmod_LTG.zip",
+    "source_metadata_url": "https://astroweb.cwru.edu/SPARC/SPARC_Lelli2016c.mrt",
+    "registered_development_names": "work/gravity-first-principles/sparc-pattern-analysis-001/registration.json",
+    "source_archive": "work/private/matched-concentration-001/Rotmod_LTG.zip",
+    "source_metadata": "work/gravity-first-principles/map-response-metadata-001/SPARC_Lelli2016c.mrt",
+    "cohort": "Only the 139 historically registered development identities. Never open other archive member bodies. Quality<=2, inclination30..80, positive Rd and luminosity, nonnegative HI mass, at least5 eligible radii. All rows retained in exclusion counts. Valid radius,Vobs,error>0, finite8columns, positive inward baryon force for every declared mass factor. This is historical development data, not pristine confirmation.",
+    "source_definitions": "Vgas*abs(Vgas)+mf*(0.5*Vdisk^2+0.7*Vbul^2). Mproxy=mf*0.5*L3.6+1.33*MHI; does not separate bulge luminosity and is not total baryon truth. Sigma_star=mf*0.5*max(SBdisk,0), face-on stellar surface density proxy, not intervening gas column or 3D density. Positions, distances, inclinations fixed at published nominal values.",
+    "mass_factors": [
+      0.8,
+      1.0,
+      1.2
+    ],
+    "strengths": [
+      0.0,
+      0.3,
+      1.0,
+      3.0,
+      10.0,
+      30.0
+    ],
+    "length_factors": [
+      0.5,
+      1.0,
+      2.0,
+      4.0,
+      8.0
+    ],
+    "clock_factors": [
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "surface_scales_msun_pc2": [
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+    ],
+    "opacities_per_100_msun_pc2": [
+      0.0,
+      0.1,
+      0.3,
+      1.0,
+      3.0
+    ],
+    "core_mixture_weights": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "a0_factors": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "a0_m_s2": 1.2e-10,
+    "kernel_cutoff_over_L": 10.0,
+    "families": [
+      "newton_fixed",
+      "mond_fixed",
+      "newton_ml",
+      "mond_adjusted",
+      "absorption_proxy",
+      "surface_relay",
+      "clock_potential",
+      "kernel_point",
+      "finite_p2",
+      "finite_p3",
+      "finite_mixture"
+    ],
+    "fold_seeds": [
+      9062301,
+      9062302,
+      9062303
+    ],
+    "fold_count": 5,
+    "primary_loss": "Mean across galaxies of each galaxy mean squared log10(Vpred/Vobs). All galaxies equal weight, radii equal within galaxy. No diagonal chi-square significance; radial covariance absent.",
+    "selection": "All candidate formula grids frozen before evaluating responses. For each family, each outer fold selects candidate using other galaxies only. Overall selector also picks among all candidates using training loss only. Tie uses first grid order. Save every training loss/choice and every held prediction. Report bounds and all families, not just apparent winner.",
+    "bootstrap_replicates": 2000,
+    "bootstrap_seed": 9062391,
+    "controls": {
+      "cpu_gpu_atol": 1e-10,
+      "potential_gradient_rtol": 1e-06,
+      "independent_formula_rtol": 1e-10,
+      "leakage_selection_invariant": true
+    },
+    "blocked_branches": [
+      "Actual 3D distributed convolution: source reconstruction/admission unresolved; point approximation is explicitly distinct.",
+      "Memory or recursive delay parameters: no source history/time-series; static response cannot identify tau.",
+      "Physical time-energy transfer: Q, stress energy and coupling not specified; lapse potential fits do not prove conservation.",
+      "Shell reflection and gas opacity: no measured gravitational reflecting medium or intervening 3D opacity. Stellar surface proxy is exploratory.",
+      "Solar System, clusters and lensing: not scored by SPARC radial velocities."
+    ]
+  },
+  "bindings": {
+    "configs/mond_atlas_clock_relay_v1.json": "765a69b6897c04705f6bc9b4575ab08fc75710fe8dd05995c0e2c688a995957d",
+    "scripts/run_mond_atlas_clock_relay.py": "eb8f4ce8aeab17aacf89ac217abf58902748c08a4153b081d18da162b70c5ff1",
+    "scripts/mond_atlas_clock_relay.py": "2bed8e7c61ce7650ce0b4813f31694800a0b3514248a7ea6db867ca1200e7747",
+    "tests/test_mond_atlas_clock_relay.py": "297d05e00bb27dbebc0a80e1b10e1c103d5ea63c146c20a8ac55c85fc37745dd",
+    "scripts/mond_atlas_pattern_learning.py": "e6f54547c73aa600053e513ad0b2c0c6f43601d1c18f88c35947095e8dafe3a8",
+    "scripts/mond_atlas_common.py": "61b01982d6d1846fe46920863c2436c756324665232d1dbad6d2171391409145",
+    "work/gravity-first-principles/mond-atlas-clock-relay-001/PREFLIGHT.md": "ba84330839a87a322eb183c16219fa8441acc64a285e616a0b9eba9c90930b07",
+    "work/private/matched-concentration-001/Rotmod_LTG.zip": "0a80cc90714828cc28b7dd57923576714d209f2490328c087c4a4ad607faf588",
+    "work/gravity-first-principles/map-response-metadata-001/SPARC_Lelli2016c.mrt": "5aa0501f6b0d881fa579030e315e7b5b6ef561a5bd3a07472f9929c7e5728243",
+    "work/gravity-first-principles/sparc-pattern-analysis-001/registration.json": "5e9b9677ed937fb75ce29ea5760f89490af3f564b43d93c80536cad08afe4290"
+  },
+  "historically_exposed": true
+}
