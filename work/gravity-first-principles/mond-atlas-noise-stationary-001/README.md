@@ -1,0 +1,15 @@
+# Stationary spatial kernel: better aperture transfer, joint failure remains
+
+Completed the frozen nine-candidate stationary covariance comparison on 29 western/27 eastern NGC2976 background cores. A positive mixture of Gaussian spatial kernels plus a white floor replaces the earlier arbitrary 576x576 spatial covariance. The model is phenomenological, not a fitted instrument beam. It retains a single channel covariance and therefore still assumes spatial/channel separability.
+
+Western-only three-fold selection chooses lag cap4 and white floor1e-6. The fitted spatial coefficients at Gaussian widths [.5,1,2,4,8] pixels are [0,0.4032,0.5327,0,0.0535]; white amplitude is 9.60e-7. Zero coefficients and the minimum declared floor are retained boundaries, not reasons to expand the model after seeing eastern scores.
+
+All six aperture q/N values pass the fixed [0.8,1.2] range: **0.994,1.033,1.042,1.051,1.008,0.925** for sides1,2,4,8,12,24. Eastern/predicted trace ratios are **1.017,1.057,1.068,1.075,1.040,0.993**. Large-aperture power transfers better than under the earlier unstructured joint model, which underestimated the side24 trace by about26%.
+
+However, **full joint q/N=0.4008 fails**. Joint log density improves from the earlier model's0.5724 to0.9297 per voxel, but a likelihood improvement is not the same as calibrated residuals. Both results are retained. No eastern value entered the lag fit or western selection, and no parameter was expanded or retuned afterward. Both sides have historical development exposure.
+
+A descriptive spatial-mode breakdown helps locate the remaining discrepancy. Sorting modes by the model's spatial eigenvalue, the four quartiles have mean normalized residual powers **0.0058,0.0410,0.5048,1.0515**. Thus the high-variance modes are roughly calibrated, while the lower-variance modes contain far less observed fluctuation than this Gaussian-mixture model assigns. A single variance rescaling cannot repair these differences. These eigenmodes are mathematical combinations of pixels, not identified physical noise sources; this does not by itself establish beam band limitation, separability failure or any gravity effect.
+
+Three pre-access tests passed: positive definiteness/stationarity/scaling, explicit Kronecker inverse/log determinant, explicit lag indexing and planted coefficient recovery. Independent review reconstructs channel covariance, fits the selected moment model using a different bounded least-squares solver, replays every selected eastern core through explicit inverse identities, reconstructs all aperture covariances by direct block sums, and checks the western choice. Maximum discrepancy is1.56e-15. The diagnostic did not change the fitted model.
+
+All candidate coefficients, western moments/scores, eastern core scores and aperture scores are saved; no large dense covariance artifacts are needed. No new raw bytes, source-region pixels, velocities or gravitational fields were opened. The covariance describes within-core background data only: source/emission likelihood admission, cross-core effects, nonstationarity and a complete calibrated joint cube remain unresolved.
