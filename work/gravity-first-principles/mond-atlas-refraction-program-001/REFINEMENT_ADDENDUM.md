@@ -1,0 +1,7 @@
+# One finer numerical grid, after retained initial failure
+
+The original base-to-fine vector check failed (Newton12.56%, refraction16.45%). Keep it frozen. This follow-up changes only resolution: same f4-stars-h0p4 conditional source, same epsilon law, domain half-widths(8,8,4), boundary, source integration, sampling and tolerances; use spacing(.0625,.0625,.03125),257³ nodes. Compare both Newton and refraction with the previous fine grid, not only their ratio. No response data or model parameter changes.
+
+Use one CPU thread: approximately several GB RAM is available (over70GB free at planning), no GPU implementation change required. Bound combined source/solve sampling time at180seconds using a deadline checked during iterative solves. Save sampled vectors and residual/mass/convergence diagnostics only; no large new fields. If deadline/solver/convergence fails, retain failure without changing physics or tolerances.
+
+Before real sources, check same solver/sampler on an analytic Plummer Newton potential and density at two mesh sizes; compare force with GM r/(r²+a²)^(3/2), exact Dirichlet boundary. This is an independent manufactured Newton reference, not direct quadrature of the actual galaxy. Require fine force relative RMS below1% and improvement with refinement. Existing uniform/variable epsilon controls remain bound. All actual-source convergence thresholds remain5% overall,8% each height group. No source-cell, field or model is retuned against observations.

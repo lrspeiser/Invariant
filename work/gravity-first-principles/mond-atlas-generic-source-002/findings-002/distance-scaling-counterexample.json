@@ -1,0 +1,65 @@
+{
+  "status": "BENCHMARK_FAILED",
+  "gate": "actual annular-fill distance scaling",
+  "threshold": 1e-10,
+  "maximum_total_mass_relative_error": 0.0003583645075379005,
+  "cases": [
+    {
+      "case": "distance_low",
+      "component": "stellar_luminosity",
+      "ring_labels_changed_inside_cutoff": 248,
+      "changed_labels_max_distance_to_integer": 0.0,
+      "maximum_coverage_difference": 6.661338147750939e-16,
+      "trusted_mask_changed_inside_cutoff": 0,
+      "observed_relative_l1": 1.355825464379578e-16
+    },
+    {
+      "case": "distance_low",
+      "component": "atomic_helium",
+      "ring_labels_changed_inside_cutoff": 248,
+      "changed_labels_max_distance_to_integer": 0.0,
+      "maximum_coverage_difference": 6.661338147750939e-16,
+      "trusted_mask_changed_inside_cutoff": 0,
+      "observed_relative_l1": 1.0536864375425283e-16
+    },
+    {
+      "case": "distance_low",
+      "component": "co21",
+      "ring_labels_changed_inside_cutoff": 248,
+      "changed_labels_max_distance_to_integer": 0.0,
+      "maximum_coverage_difference": 6.661338147750939e-16,
+      "trusted_mask_changed_inside_cutoff": 0,
+      "observed_relative_l1": 9.525129975371369e-17
+    },
+    {
+      "case": "distance_high",
+      "component": "stellar_luminosity",
+      "ring_labels_changed_inside_cutoff": 304,
+      "changed_labels_max_distance_to_integer": 0.0,
+      "maximum_coverage_difference": 8.881784197001252e-16,
+      "trusted_mask_changed_inside_cutoff": 0,
+      "observed_relative_l1": 1.5159520335716774e-16
+    },
+    {
+      "case": "distance_high",
+      "component": "atomic_helium",
+      "ring_labels_changed_inside_cutoff": 304,
+      "changed_labels_max_distance_to_integer": 0.0,
+      "maximum_coverage_difference": 8.881784197001252e-16,
+      "trusted_mask_changed_inside_cutoff": 0,
+      "observed_relative_l1": 1.2399162259655078e-16
+    },
+    {
+      "case": "distance_high",
+      "component": "co21",
+      "ring_labels_changed_inside_cutoff": 304,
+      "changed_labels_max_distance_to_integer": 0.0,
+      "maximum_coverage_difference": 6.661338147750939e-16,
+      "trusted_mask_changed_inside_cutoff": 0,
+      "observed_relative_l1": 1.1953327087766337e-16
+    }
+  ],
+  "diagnosis": "Dimensionful floor(radius/annulus_width) changes exact ring-boundary cells under floating point distance rescaling. Saved observed maps and coverage agree at roundoff; trusted masks do not change. Annular fill depends on changed ring membership.",
+  "failed_original_report": "findings-001/failure.json",
+  "builder_or_threshold_changed": false
+}

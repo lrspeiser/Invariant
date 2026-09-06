@@ -1,0 +1,9 @@
+# Recovery of the frozen NGC3198 source discretization correction
+
+This executes the already frozen `mond-atlas-generic-source-002/correction-preflight-001/PROTOCOL.md`, preserving every original file and failed packet. Scope remains SOURCE_BLOCKED for physical three-dimensional/response use; permitted work is actual stellar, HI and CO source-only packet construction and numerical validation. No observed motion or lensing arrays are opened. No new downloads.
+
+Only integer annulus/cutoff/taper classification changes, using the exact dimensionless layout in the frozen v2 config. Copy the legacy rebin implementation into a separately named v2 module; retain all deposition, source registration, masks, conversions, fill and aperture policies. Process-local substitution lets the unchanged legacy runner execute the v2 callable in a fresh output path. All original freeze and correction bindings must verify first.
+
+Before source reconstruction, rerun the original nine source tests, new integer-boundary and signed-hole distance controls, and actual-header WCS/area/registration checks. After construction independently verify all twelve packets,72 mass records, preserved measured arrays and distance D² invariance at1e-10, conservative sums at1e-12, and retain pixel-refinement flags rather than declaring them passed. Raw/private new storage limited to2GB, require at least8GB remaining. One numerical CPU thread, no GPU needed for this bounded projection.
+
+Original source papers, URLs, immutable hashes and measurement caveats stay bound through the frozen config. Blank HI and stellar masks are missing information, signed CO remains diagnostic before nonnegative conditional fills, and inherited beams stay present. No unique depth, deconvolution, complete matter budget or observed gravity validation is claimed.
