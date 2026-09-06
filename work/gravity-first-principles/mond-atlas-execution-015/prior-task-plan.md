@@ -83,13 +83,3 @@ The four separately created app tasks have completed their bounded first
 milestones. The parent continues the remaining system work under the active
 goal. Use `run_mond_atlas_stellar_transfer_checked.py` with a fresh private and
 public directory for later transfers; original frozen run packets are immutable.
-
-
-- Execution-015: second conditional source-grid galaxy NGC2976 constructed by a
-  generic registered adapter. Twelve source cases and 72 conditional mass rows;
-  161 integration tests pass. Source covariance, physical depth and observed
-  gravity/motion admission remain incomplete. Next is common-basis vertical
-  reprojection, retaining the measured images as constraints.
-- T6 correlated-noise follow-up is ACTIVE in the existing motion-controls task
-  01a077cf-96a5-75c3-b0e3-db86f91e6eef. Its new files are not part of execution-015;
-  review its complete multi-realization results before publication.

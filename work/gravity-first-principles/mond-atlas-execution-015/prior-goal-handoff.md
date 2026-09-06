@@ -1,13 +1,13 @@
 # Active goal: gravity pattern system and MOND observation atlas
 
 The user requested tasks and execution on 2026-09-06. The goal is active and
-unfinished. Read work/gravity-first-principles/mond-atlas-execution-015/README.md
+unfinished. Read work/gravity-first-principles/mond-atlas-execution-014/README.md
 and execution-status.json, then docs/GRAVITY_PATTERN_SYSTEM_TASKS.md.
-Prior handoff/task documents are preserved byte-for-byte in execution-015.
+Prior handoff/task documents are preserved byte-for-byte in execution-014.
 
 Filesystem/network/Git access works. The latest previously published milestone
-is 25045db1463ded44e641fa0e7756dbeb04ba1a8a (execution-014). Execution-015 is the
-next NGC2976 source package; inspect Git to confirm its publication.
+is 5b1ef68807417c344df8a923471124b83baa8194 (execution-013). Execution-014 is the
+next source/motion/lensing package; inspect Git to confirm its publication.
 Do not repeat obsolete permission blockers. Coordinator owns publication;
 fetch/integrate concurrent changes and push ordinary fast-forward milestones
 to main. Keep all raw arrays/private data outside Git.
@@ -29,7 +29,7 @@ manifest entries and 787 unique input/artifact files rehashed. Raw files remain
 required for reproduction. verify_mond_atlas_execution014.py is the entry point;
 it requires a fresh report output and checks archived prior mutable context.
 
-COMPLETED FIRST TASK MILESTONES (T6 has a new active follow-up, described below):
+COMPLETED FIRST TASK MILESTONES (no app task remains running):
 
 T2: Recover independent baryonic mass inputs
   Thread 01a077c5-6c38-7831-9701-c97dafed68b3, baryon-recovery-001.
@@ -73,11 +73,10 @@ private sample overwrite; all ten previous sample packets remain unchanged.
 
 NEXT WORK:
 
-1. NGC2976 generic registered source maps now exist in generic-source-001/run-002,
-   report findings-002. Extend them through common-basis source reprojection over
-   plausible vertical profiles, retaining beam/calibration/depth alternatives.
-   Use build_mond_atlas_registered_source.py; do not reuse the old hardcoded
-   NGC2903 adapter. No new field or observed-motion score exists yet.
+1. Advance the second conditional source pilot, NGC2976, through a generic typed
+   adapter using recovered geometry and measured stellar transfer. Do not reuse
+   build_mond_atlas_ngc2903_source.py blindly: it hardcodes an old (-3,-1) shift.
+   Include stellar/CO/HI calibration, masks and credible depth/mass alternatives.
 2. Extend motion controls to correlated channel noise and selection, and add
    pressure-support closure before interpreting speeds as gravitational force.
    Native noise/selection checks remain conditional, not observed truth.
@@ -98,27 +97,3 @@ admission remains SOURCE_BLOCKED. Preserve failed/prior controls and uncertainty
 HI is not total ordinary matter. Unknown depth must be represented by constrained
 alternatives, never invented observed 3D truth. A nonrelativistic acceleration
 formula alone does not specify light bending. The overall goal remains active.
-
-EXECUTION-015 UPDATE:
-NGC2976 generic source: 12 cases, 36 tracer grids, 72 conditional mass rows;
-161 publication-subset tests pass. Stellar/HI/CO coverage inside nominal 6 kpc
-is 99.53/78.50/37.54 percent. Nominal conditional mass 2.394e9 Msun; conversion
-alternatives 1.619–3.243e9; distance-scatter alternatives 1.549–3.424e9. These
-are not confidence intervals or directly measured total masses. Orientation
-changes redistribute tracer coordinates while total mass changes less than
-0.6 percent. All missing phases/source likelihood/3D admission remain open.
-Nine new tests and independent real-header Jacobian/translation checks pass.
-Initial cropped-test assumption and FITS-header failure preserved with original
-code snapshots. Corrected report legend is findings-002; both numeric reports agree.
-There are now two galaxies with conditional source-grid work, still only one
-with the 29 old conditional fields; ZERO admitted observed full-field likelihoods.
-
-T6 follow-up ACTIVE: same thread 01a077cf-96a5-75c3-b0e3-db86f91e6eef, new turn
-01a077e1-2fe4-7fe2-8a22-03aac0682bda, last confirmed live via wait_threads.
-Owns only new motion_covariance scripts/config/tests and
-mond-atlas-motion-covariance-001 public/private paths. Known correlated channel
-noise, proper marginal/conditional covariance, fresh-noise and truth controls.
-30 statistical and 25 imported numerical controls pass; zero-amplitude cases
-complete, remaining study active at handoff. Do not publish before delivery/review.
-No source data/observed covariance admission or pressure closure supplied by this
-THEORY_BENCHMARK_ONLY follow-up. Parent owns Git. Preserve its concurrent files.
