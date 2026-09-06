@@ -1,0 +1,22 @@
+{
+  "id": "mond-atlas-halo-return-v1",
+  "disposition": "THEORY_BENCHMARK_ONLY",
+  "scope": "Replicate published parametric halo fields as effective return-field targets; these are inferred fits, not independently observed 3D gravity or independent baryonic labels.",
+  "source_receipts": "work/gravity-first-principles/mond-atlas-halo-return-001/source-receipts.json",
+  "catalog_models": ["NFW-Flat", "NFW-LCDM", "Burkert-Flat"],
+  "pilots": ["MilkyWay", "NGC2976", "NGC3198"],
+  "halo_law": "NFW rho=rho_s/[x(1+x)^2]; Burkert rho=rho_s/[(1+x)(1+x^2)]; x=r/rs. All spherical, untruncated mathematical profiles. M(<r)=4pi*rho_s*rs^3*m(x); g=4pi*G*rho_s*rs*m(x)/x^2.",
+  "exact_return": "Define H(r)=r^2*g_extra and vector g_return=-H(r)*r_vector/r^3. H'=4pi*G*rho_halo*r^2 reproduces the target. This is an inverse effective-source representation, not a physical derivation or conserved energy budget.",
+  "approximate_returns": ["a/x: inverse-radius return", "a/(1+x/L)^2: bounded quadratic cumulative response", "a*(x/L)/(1+x/L)^3: bounded cubic cumulative response"],
+  "training_x": [0.03,0.06,0.1,0.2,0.4,0.7,1.0,1.5,2.0],
+  "interpolation_x": [0.045,0.08,0.15,0.3,0.55,0.85,1.25,1.75],
+  "extrapolation_x": [3.0,5.0,8.0,12.0],
+  "fitting": "Fit dimensionless shape once for NFW and once for Burkert, using equal log-acceleration squared error on training_x. a>0 and L>0 via logs, bounds a[1e-6,1e6], L[1e-4,1e4]; deterministic starts (.1,.1),(.5,1),(1,10); select training loss only. Report all starts and all interpolation/extrapolation errors. Scaling repeats are not independent galaxies validating physics.",
+  "field_R_kpc": [0.5,1,2,4,8,16,32,64],
+  "field_z_kpc": [0,0.5,2,8,32,-0.5,-2,-8,-32],
+  "G_kpc_kms2_per_msun": 4.30091727003628e-6,
+  "geometry_control": "Manufactured Miyamoto-Nagai disk M=6e10 Msun,a=3 kpc,b=.3 kpc; not a fitted Milky Way baryonic model. At each point project a unit center-directed halo acceleration onto disk acceleration. Report irreducible vector error for any scalar reinforcement, plus nonzero curl of a midplane-matched position-dependent scalar boost. This isolates geometry, not an observed discrepancy.",
+  "benchmarks": {"mass_quad_rtol": 1e-9, "galpy_force_rtol": 1e-8, "finite_difference_gradient_rtol": 1e-6, "rotation_atol": 1e-10, "density_poisson_rtol": 1e-5},
+  "limits": "NFW g tends to constant at origin, Burkert g tends to zero linearly. Both profiles have logarithmically divergent enclosed mass without truncation; force decays. No claim that arbitrarily distant shells pull interior points: spherical exterior shells add zero Newtonian force.",
+  "limitations": ["Published point fits have parameter, prior and baryon degeneracies; uncertainties retained, not propagated as independent Gaussians.", "Individual galaxies have different fitted stellar M/L, distances and inclinations; halo curves must not be combined with mismatched baryonic fits.", "No fresh observed velocities, 3D halo measurements or lensing response is used.", "No action, causal transport, energy conservation, stability or photon metric has been derived for the proposed return response.", "Exact matching reuses the halo function and its fitted parameters; it cannot establish a mass-free explanation.", "Field points outside measured rotation curves are profile extrapolations, not additional observations."]
+}

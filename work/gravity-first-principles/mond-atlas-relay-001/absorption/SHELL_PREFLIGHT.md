@@ -1,0 +1,5 @@
+# Spherical secondary-source control: frozen supplement
+
+THEORY_BENCHMARK_ONLY. No observed response access. This is a separate exact Newtonian control, not a proof about all transport laws. A uniform spherical layer of secondary attractive sources, if each obeys the Newtonian inverse-square law, produces zero net force inside. Traveling toward the center is a propagation direction; the force on a body still requires an interaction law. A non-Newtonian or directional transport medium need not obey this shell result.
+
+Manufactured unit total source strength, G=1, shell radius=5. Evaluate radial field at r=0,1,3,4,6,10 with independently integrated rings: g_r=(1/2) integral_-1^1 (R*mu-r)/(R^2+r^2-2*R*r*mu)^(3/2) dmu. Gauss-Legendre orders 16,32,64,128. Exact reference: zero for r<R, -1/r^2 for r>R. Exclude the shell itself. Maximum absolute error at order 128 <=1e-10; maximum error must decrease from order16 to32 to64 (machine-precision saturation thereafter allowed). Record all rows and failures. This tests the operator only, not halo physics or fitted observations. Dimensions are GM/R^2; azimuthal cancellation follows axial symmetry.

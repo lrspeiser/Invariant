@@ -97,23 +97,3 @@ T3 now has reviewed native covariance and spatial-aggregation diagnostics. Its h
 ## Execution-021: fixed CMB axes and sky-position tests
 
 Tested two published Planck SMICA KQ-corrected CMB axes, their bisector and Galactic/ecliptic/equatorial directions on 86 directly matched PROBES/SPARC development galaxies. Forty lack a direct coordinate/metadata match. Axial partial correlations are -0.042 and -0.020; adding the CMB direction terms worsens all random-galaxy and Galactic-octant prediction comparisons. Equatorial declination has the largest adjusted association (-0.276); all-sky terms offer small exploratory improvements, without a causal interpretation. Coverage is strongly uneven (45 of 86 galaxies in one octant). Four pre-access tests pass; independent sklearn replay verifies 132 nested choices and 2064 predictions. Reports, every galaxy-axis angle, exclusions and reviewed sky map are in `work/gravity-first-principles/mond-atlas-sky-alignment-001/`. This is line-of-sight analysis, not disk-spin alignment or a new gravity law. Next: coordinate completion and actual observing-reference/instrument controls. Goal unfinished.
-
-## Execution-022: parallel relay and published halo tests
-
-Completed three parallel agent investigations plus coordinator halo and geometry
-tests: absorption/redirection, distributed secondary sources, finite memory and
-feedback, and cumulative return shapes. Twenty tests pass. All 525 selected fit
-rows from 175 SPARC galaxies match source tables; 504 pilot vectors independently
-match galpy within 1.69e-12. This is fitted-halo calibration, not observational
-validation. A manufactured distributed disk becomes nearly spherical far out,
-but its inner strength differs from the point-calibrated halo. Absorption alone
-weakens the tested attraction; strong feedback lengthens memory and can become
-unstable. Scalar disk boosts fail off-plane vector geometry. Two finite-return
-shapes interpolate NFW/Burkert well but degrade in outer extrapolation. All
-failures and scope limits are retained. See
-`work/gravity-first-principles/mond-atlas-relay-001/README.md`.
-
-Next priority: a conservative distributed response with ordinary-matter rules
-for strength, scale and finite extent, then real-source and held-galaxy tests.
-No new observed full-field, cluster, Solar System or lensing score is admitted.
-The existing data/noise and field-convergence blockers remain. Goal unfinished.
