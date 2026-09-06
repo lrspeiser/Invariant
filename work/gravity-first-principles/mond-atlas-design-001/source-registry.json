@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-05",
+  "status": "DESIGN_SOURCE_REGISTRY_NOT_AN_INGESTED_GALAXY_CATALOG",
+  "counting_rule": "Counts describe different survey products, overlap, and must not be summed. No count is a number of validated spatial-3D total-baryon reconstructions.",
+  "sources": [
+    {
+      "id": "sparc",
+      "name": "SPARC",
+      "published_count": 175,
+      "count_unit": "galaxies",
+      "availability": "public_tables",
+      "role": "Baseline rotation curves and baryonic force templates; development exposure must be recorded.",
+      "sources": [
+        "https://astroweb.case.edu/SPARC/",
+        "https://arxiv.org/abs/1606.09251"
+      ],
+      "limitations": [
+        "Derived radial profiles, not spatial 3D maps.",
+        "Distance, inclination and stellar mass-to-light assumptions remain."
+      ]
+    },
+    {
+      "id": "things",
+      "name": "THINGS",
+      "published_count": 34,
+      "count_unit": "survey_galaxies",
+      "availability": "public_cubes_and_maps",
+      "role": "Resolved atomic-gas morphology and line profiles; local pilot seed.",
+      "sources": [
+        "https://arxiv.org/abs/0810.2125"
+      ],
+      "limitations": [
+        "HI is not total baryonic density.",
+        "Typical physical resolution about 100-500 pc; spectral coordinate is not depth."
+      ]
+    },
+    {
+      "id": "little_things",
+      "name": "LITTLE THINGS",
+      "published_count": 41,
+      "count_unit": "survey_galaxies",
+      "availability": "public_cubes_and_multiband_data",
+      "role": "Dwarf and irregular coverage.",
+      "sources": [
+        "https://arxiv.org/abs/1208.5834",
+        "https://science.nrao.edu/science/surveys/littlethings"
+      ],
+      "limitations": [
+        "Molecular-gas limits and pressure support are especially consequential.",
+        "Survey overlap must be deduplicated."
+      ]
+    },
+    {
+      "id": "wallaby_pilot_1",
+      "name": "WALLABY Pilot Phase 1",
+      "published_count": 109,
+      "count_unit": "released_kinematic_models",
+      "availability": "public",
+      "role": "Resolved expansion sample.",
+      "sources": [
+        "https://wallaby-survey.org/data/data-pilot-survey-dr1/",
+        "https://arxiv.org/abs/2211.07094"
+      ],
+      "limitations": [
+        "Nearly 600 detections are not 600 resolved gravity tests.",
+        "Its source catalog is also included in DR2."
+      ]
+    },
+    {
+      "id": "wallaby_pilot_2",
+      "name": "WALLABY Pilot Phase 2",
+      "published_count": 126,
+      "count_unit": "released_kinematic_models",
+      "additional_counts": {
+        "phase_2_hi_detections": 1760,
+        "high_resolution_detections": 80
+      },
+      "availability": "public",
+      "role": "Scalable source cubelets, masks, beams and rotation-model checks.",
+      "sources": [
+        "https://wallaby-survey.org/data/data-pilot-survey-dr2/",
+        "https://arxiv.org/abs/2409.13130"
+      ],
+      "limitations": [
+        "High-resolution objects overlap the other catalogs.",
+        "Marginal resolution and low inclination need injection-based quality tests.",
+        "Prefer source cubelets; full footprint cubes are about 0.5 TB each."
+      ]
+    },
+    {
+      "id": "apertif_dr1",
+      "name": "Apertif DR1",
+      "published_count": 160,
+      "count_unit": "independent_target_fields_not_galaxies",
+      "additional_counts": {
+        "observations": 221,
+        "released_beams": 3374
+      },
+      "availability": "public_cube_archive",
+      "role": "Additional HI search volume for source discovery and reprocessing.",
+      "sources": [
+        "https://arxiv.org/abs/2208.05348",
+        "https://vo.astron.nl/apertif_dr1/q/apertif_dr1_spectral_cubes/form"
+      ],
+      "limitations": [
+        "Released line cubes are uncleaned and not primary-beam corrected; required response products are supplied.",
+        "The 249672-entry continuum catalog is not an HI galaxy kinematic catalog.",
+        "Unique eligible galaxy count requires source finding and quality validation."
+      ]
+    },
+    {
+      "id": "phangs_alma",
+      "name": "PHANGS-ALMA",
+      "published_count": 90,
+      "count_unit": "survey_galaxies",
+      "additional_counts": {
+        "galaxies_in_documented_initial_archive_delivery": 74
+      },
+      "availability": "public_archive_products",
+      "role": "CO molecular-gas structure and spectra at roughly cloud scales.",
+      "sources": [
+        "https://almascience.nrao.edu/alma-data/lp/PHANGS/",
+        "https://arxiv.org/abs/2104.07739"
+      ],
+      "limitations": [
+        "Survey membership does not guarantee identical delivered products for every object.",
+        "CO-to-H2 conversion, CO-dark gas and total-power recovery require explicit treatment.",
+        "Approximately 100 pc resolution does not resolve individual stars or unique spatial depth."
+      ]
+    },
+    {
+      "id": "phangs_muse",
+      "name": "PHANGS-MUSE",
+      "published_count": 19,
+      "count_unit": "galaxies_in_nebular_catalog_release",
+      "additional_counts": {
+        "nebular_catalog_entries": 31399
+      },
+      "availability": "public_cubes_and_catalog",
+      "role": "Ionized-gas and stellar spectroscopy for independent-tracer comparisons and gas-state constraints.",
+      "sources": [
+        "https://arxiv.org/abs/2110.03708",
+        "https://www.eso.org/sci/publications/announcements/sciann17705.html"
+      ],
+      "limitations": [
+        "Nebulae are not independent galaxies.",
+        "Ionized line luminosity is not a direct total gas mass measurement."
+      ]
+    },
+    {
+      "id": "s4g",
+      "name": "S4G and early-type extension",
+      "published_count": 2817,
+      "count_unit": "galaxies",
+      "additional_counts": {
+        "original_sample": 2352,
+        "early_type_extension": 465
+      },
+      "availability": "public_images_and_catalogs",
+      "role": "Stellar light distribution and masks.",
+      "sources": [
+        "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/overview.html",
+        "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/docs/P5_README.html"
+      ],
+      "limitations": [
+        "Stellar/nonstellar ICA products are available only for qualifying objects.",
+        "Projected light requires uncertain stellar-mass conversion and vertical deprojection."
+      ]
+    },
+    {
+      "id": "manga_dr17",
+      "name": "MaNGA DR17",
+      "published_count": 10010,
+      "count_unit": "unique_galaxies_in_high_quality_sample",
+      "additional_counts": {
+        "all_released_cubes": 11273
+      },
+      "availability": "public",
+      "role": "Large population and inner stellar/ionized-gas kinematic comparisons, including pressure-supported systems.",
+      "sources": [
+        "https://www.sdss4.org/dr17/manga/"
+      ],
+      "limitations": [
+        "Not 10010 outer-HI rotation curves or spatial-3D mass maps.",
+        "Radial coverage, PSF, orbital anisotropy and population modeling differ from HI disk tests."
+      ]
+    },
+    {
+      "id": "hi_manga_dr3",
+      "name": "HI-MaNGA DR3",
+      "published_count": 6358,
+      "count_unit": "unique_manga_ids_with_hi_observations",
+      "additional_counts": {
+        "hi_observations": 6632
+      },
+      "availability": "public_catalog",
+      "role": "Integrated atomic-gas detections or limits for population models.",
+      "sources": [
+        "https://www.sdss.org/dr20/data_access/value-added-catalogs/?vac_id=90",
+        "https://www.sdss4.org/dr17/manga/hi-manga/"
+      ],
+      "limitations": [
+        "Includes nondetections and repeated observations.",
+        "Single-dish/integrated HI information does not provide a resolved gas mass map."
+      ]
+    },
+    {
+      "id": "mightee_laduma_2026",
+      "name": "MIGHTEE-HI / LADUMA 130-galaxy study",
+      "published_count": 130,
+      "count_unit": "galaxies_in_published_study",
+      "availability": "mixed_public_inputs_and_request_only_derived_products",
+      "role": "External survey comparison with resolved HI and baryonic profiles.",
+      "sources": [
+        "https://arxiv.org/abs/2608.03576",
+        "https://arxiv.org/html/2608.03576v1",
+        "https://doi.org/10.48479/jkc0-g916"
+      ],
+      "limitations": [
+        "Paper states MIGHTEE cubes and optical/IR inputs are public, while other underlying data are on author request.",
+        "Complete access to all 130 derived profiles and LADUMA inputs was not established here.",
+        "No author contact was made; paper results have now been seen and exposure must be logged."
+      ]
+    },
+    {
+      "id": "big_sparc",
+      "name": "BIG-SPARC",
+      "published_count": 4000,
+      "count_unit": "approximate_project_target_not_verified_public_release",
+      "availability": "project_description_verified_full_catalog_release_not_verified",
+      "role": "Potential major expansion or reuse of homogenized archive processing.",
+      "sources": [
+        "https://arxiv.org/abs/2411.13329"
+      ],
+      "limitations": [
+        "The checked description announces work in progress; it does not establish a downloadable completed 4000-object release.",
+        "Underlying archives overlap other sources in this registry."
+      ]
+    }
+  ]
+}
