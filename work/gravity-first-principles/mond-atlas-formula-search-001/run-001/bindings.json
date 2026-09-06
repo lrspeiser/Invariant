@@ -1,0 +1,61 @@
+{
+  "bindings": {
+    "configs/mond_atlas_formula_search_v1.json": "fa51d6643c721a8c4c495a227d6b3de0af87f16a605dbfc51fd316a8b1c88160",
+    "work/gravity-first-principles/mond-atlas-pattern-learning-001/sample.csv": "5a9924776b91c7a8ba41966f8ea22dd73626a0bd27d1d8410537eb61e6b85315",
+    "scripts/run_mond_atlas_formula_search.py": "ce752397b7556e4786e28bdf7c379d3f4a04f31a720b270e00af78b91064a32a",
+    "scripts/mond_atlas_formula_search.py": "e593fd1c931c51880039f5d2481578f46166f9d0755e6efea6366ee1fdbfa540",
+    "scripts/mond_atlas_pattern_learning.py": "e6f54547c73aa600053e513ad0b2c0c6f43601d1c18f88c35947095e8dafe3a8",
+    "scripts/mond_atlas_common.py": "61b01982d6d1846fe46920863c2436c756324665232d1dbad6d2171391409145",
+    "tests/test_mond_atlas_formula_search.py": "fecff31d493f7cb5e23ea93f69e7caa168bed6338d3f1f2e115fad9a814a2811",
+    "work/gravity-first-principles/mond-atlas-formula-search-001/PREFLIGHT.md": "c6ca85fe58393f4318c10a9165720d6c07a777a91f8d617b71d830fdf4f3be4c"
+  },
+  "config": {
+    "id": "mond-atlas-formula-search-v1",
+    "scope": "Exploratory sparse empirical residual formulas on previously exposed radial data; not a gravity operator or reinforcement-learning agent.",
+    "features": [
+      "median_log10_gbar",
+      "spread_log10_gbar",
+      "quality",
+      "inclination_deg",
+      "log10_effective_stellar_surface_brightness",
+      "log10_disk_scale_length",
+      "hubble_type",
+      "gas_mass_fraction_proxy"
+    ],
+    "target": "target",
+    "fold_seeds": [
+      9060601,
+      9060602,
+      9060603
+    ],
+    "fold_count": 5,
+    "ridge_penalties": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "maximum_added_terms": 3,
+    "library": "Four structural variables, their four squares, six pair products, and sixteen products with the four baseline variables: 30 candidates. Standardize raw inputs and each expression using fitting rows only.",
+    "selection": "Greedy forward ridge penalized training objective constructs each path. Inner whole-galaxy validation chooses penalty and depth 0..3 by MSE; ties choose shallower depth then larger penalty. Outer labels never enter choice. Separate baseline selects penalty on identical inner folds.",
+    "null_replicates": 8,
+    "null_seed": 9060691,
+    "null": "Jointly shuffle four structure columns within four acceleration rank bins, first seed, repeat full nested search. Diagnostic only, not calibrated significance.",
+    "bootstrap_replicates": 4000,
+    "controls": {
+      "cpu_gpu_atol": 1e-08,
+      "independent_ridge_atol": 1e-08,
+      "planted_rmse_ratio_max": 0.35
+    },
+    "source_paper": "https://arxiv.org/abs/1606.09251",
+    "limitations": [
+      "Historical development exposure persists; no pristine confirmation.",
+      "No physical group or survey holdout available.",
+      "Stellar and gas inputs are proxies with fixed mass conversion assumptions, not observed 3D density.",
+      "Predicts residuals of an existing algebraic MOND approximation, not a new force law.",
+      "No numerical field output, inferred dark mass, lens-model mass or held-out velocity enters candidate features.",
+      "No Solar System, cluster or lensing validation is supplied by this search."
+    ]
+  },
+  "development_exposed": true,
+  "new_field_access": false
+}

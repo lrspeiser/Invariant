@@ -138,9 +138,3 @@ Inferred lens/halo/dynamical masses are not independent baryonic labels.
 Nonrelativistic MOND or a new acceleration formula alone does not define photons.
 The system currently supports exploratory diagnostics and theory controls; a
 new first-principles gravity formula has not been established.
-
-## Execution-019: adaptive sparse formula search
-
-Published a runnable greedy expression-search loop on the RTX 5090, with training-only transforms, nested whole-galaxy complexity selection, exact formula replay and shuffled controls. On 126 previously exposed galaxies, additions from 30 candidate expressions made outer MSE worse by 3.62%, 4.55% and 0.90% across three splits. Seven of fifteen fits selected no additional term. No expression advances as a validated gravity law. Five pre-access tests and all 110 saved formula replays passed; full first-seed CPU selection matches GPU. See `work/gravity-first-principles/mond-atlas-formula-search-001/README.md`.
-
-This milestone adds no admitted observed full-field or lensing likelihood. The separate 16 NGC2976 conditional field calculations are saved locally, but grid refinement failed accuracy gates and their review is not included here. NGC3198 and native covariance supporting tasks stopped at usage limits; intermediate outputs remain available. Overall research goal is unfinished.

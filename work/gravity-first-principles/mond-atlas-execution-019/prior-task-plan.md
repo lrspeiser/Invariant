@@ -8,9 +8,9 @@ Raw data stay outside Git and independently running tasks own separate files.
 | Task | Deliverable and acceptance | Dependencies | Current state |
 |---|---|---|---|
 | T1: Compute and numerical controls | Actual CUDA fits agree with independent CPU/reference calculations; allocations bounded | None | Complete initial milestone; CuPy RTX 5090 learning and 36 new source refinements |
-| T2: Independent baryonic inputs | Original metadata, registered tracer maps and explicit conversion/geometry uncertainties | None | Metadata and two conditional source pilots complete; NGC3198 source pilot executed; review/correction interrupted by usage limit; calibration, missing phases and source noise remain |
-| T3: Gas selection and noise | Native injection pilot, then validated mask and observed channel/spatial noise | None | Conditional native injections complete; empirical background covariance run saved; final review interrupted by usage limit; observed likelihood not admitted |
-| T4: Pattern learning | Nested whole-galaxy validation, simple/nonlinear baselines and shuffled controls | T1; radial data already usable for development | GPU baseline and sparse-formula experiments complete on 126 galaxies; no stable structural correction |
+| T2: Independent baryonic inputs | Original metadata, registered tracer maps and explicit conversion/geometry uncertainties | None | Metadata and two conditional source pilots complete; NGC3198 source pilot running; calibration, missing phases and source noise remain |
+| T3: Gas selection and noise | Native injection pilot, then validated mask and observed channel/spatial noise | None | Conditional native injections complete; empirical background covariance task running; observed likelihood not admitted |
+| T4: Pattern learning | Nested whole-galaxy validation, simple/nonlinear baselines and shuffled controls | T1; radial data already usable for development | First 126-galaxy experiment complete; no stable structural correction |
 | T5: Lensing | Measured images/redshifts plus independent mass inputs, instrument model and explicit light closure | Ingest independent; scoring requires all source/theory gates | Three-system ingest and light-propagation theory controls complete; observed source/instrument closure remains |
 | T6: Resolved gravity and motion | Source alternatives; force solver; warp/streaming/pressure/instrument and uncertainty controls | T2/T3 | Mechanics, correlated-noise, fixed-image refinement and pressure theory controls complete; observed likelihood remains |
 | T7: Transfer and formulas | Expand eligible systems; group/survey holdouts; derive and test fixed physical predictions | T4/T6, with T5 supplying separate light test | Pending eligible observed likelihoods; no verified new gravity law |
@@ -28,16 +28,16 @@ flowchart LR
 Existing separately created app tasks:
 
 - Recover independent baryonic mass inputs: 01a077c5-6c38-7831-9701-c97dafed68b3,
-  metadata complete; NGC3198 follow-up turn 01a07800-bcf4-7132-b9d6-be1212b9020b stopped at usage limit; results saved.
+  metadata complete; NGC3198 follow-up turn 01a07800-bcf4-7132-b9d6-be1212b9020b running.
 - Validate native gas cube selection: 01a077c5-6e58-7a21-8e3b-185a99065e49,
-  native injection complete; covariance turn 01a07804-0d7d-74f0-97d3-f5c7a828be03 stopped at usage limit; results saved.
+  native injection complete; covariance turn 01a07804-0d7d-74f0-97d3-f5c7a828be03 running.
 - Acquire a direct-observable lensing pilot: 01a077c5-7055-7f80-a7d1-7ddbbe69cb4e,
   ingest and light follow-up turn 01a077f6-c6ab-7cb0-8dc8-add09ac5d379 complete; task idle.
 - Build resolved galaxy motion controls: 01a077cf-96a5-75c3-b0e3-db86f91e6eef,
   mechanics/noise and pressure turn 01a077f6-c647-79f1-875b-0f1d950e6c66 complete; task idle.
 
 Pressure and light packages remain THEORY_BENCHMARK_ONLY and are published in
-execution-018 after parent review. The unfinished source/covariance review remains
+execution-018 after parent review. The running source/covariance work remains
 SOURCE_BLOCKED and is excluded from this publication. The parent owns integration
 and publication. Query task handles before changing status.
 
@@ -54,7 +54,7 @@ measurement diagnostics. They do not measure 3D depth or validate gravity.
 
 Next dependency steps:
 
-1. Finish reviewing NGC3198 source and NGC2976 covariance increments saved before usage-limit interruptions.
+1. Review/publish the running NGC3198 source and NGC2976 covariance increments.
 2. Validate signed source/beam models and actual native mask/noise behavior.
 3. Add eligible registered-source pilots and checked finite-volume force inputs.
 4. Test structural corrections on whole galaxies and physical groups/surveys
@@ -81,9 +81,3 @@ underestimate force by 36% if pressure is omitted. The separate light operator
 passes analytic/asymmetric/geometry/convergence tests but supplies no candidate
 relativistic closure or observed lensing likelihood. Coarse failures and
 impossible equilibria are retained. The overall goal remains active.
-
-## Execution-019: adaptive sparse formula search
-
-Published a runnable greedy expression-search loop on the RTX 5090, with training-only transforms, nested whole-galaxy complexity selection, exact formula replay and shuffled controls. On 126 previously exposed galaxies, additions from 30 candidate expressions made outer MSE worse by 3.62%, 4.55% and 0.90% across three splits. Seven of fifteen fits selected no additional term. No expression advances as a validated gravity law. Five pre-access tests and all 110 saved formula replays passed; full first-seed CPU selection matches GPU. See `work/gravity-first-principles/mond-atlas-formula-search-001/README.md`.
-
-This milestone adds no admitted observed full-field or lensing likelihood. The separate 16 NGC2976 conditional field calculations are saved locally, but grid refinement failed accuracy gates and their review is not included here. NGC3198 and native covariance supporting tasks stopped at usage limits; intermediate outputs remain available. Overall research goal is unfinished.
