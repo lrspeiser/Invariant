@@ -1,0 +1,21 @@
+{
+  "id": "mond-atlas-noise-robustness-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "Repeat the existing source-free background covariance diagnostic across geometry-only splits. No galaxy emission, gravity prediction or target motion residual is scored.",
+  "trigger": "The original checkerboard and balanced splits assigned a residual channel-correlation failure to different galaxies. A single selected split cannot establish covariance robustness.",
+  "parent_protocol": "configs/mond_atlas_noise_v2.json",
+  "parent_summary": "work/gravity-first-principles/mond-atlas-noise-002/summary.json",
+  "split_seeds": [9062028, 9062029, 9062030, 9062031, 9062032, 9062033, 9062034, 9062035],
+  "calibration_validation_directions": ["forward", "reverse"],
+  "reverse_definition": "Swap complete guarded block interiors between calibration and validation; then apply the original stride only to validation. Keep the original annulus and every numerical gate.",
+  "replicate_identity": "Hash both actual calibration and validation masks; duplicated partitions are flagged and counted only once in per-galaxy robustness summaries.",
+  "summary_rule": "Report the range of every metric and failed gates across all unique declared partitions. A split-stable pass requires all those partitions to pass; this is a descriptive robustness flag, not a calibrated statistical test or an exclusion based on gravity performance.",
+  "best_split_selection_permitted": false,
+  "threshold_adjustment_permitted": false,
+  "limitations": [
+    "These partitions reuse the same background realization and are correlated; failure fractions are not independent probabilities or p-values.",
+    "The conditional six-lag channel and Gaussian spatial covariance forms are unchanged; a failure may reflect form, stationarity, residual emission or finite sample uncertainty.",
+    "No exact Gaussianity, separability, inner-galaxy noise transfer or valid galaxy selection mask is established.",
+    "The full cube packet is read for its background values; galaxy-region values are zeroed before the diagnostic and no fitted velocity or source amplitude fields are loaded."
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "status": "LOCAL_SOURCE_FIELD_AND_NOISE_VALIDATION_MILESTONE",
+  "goal_complete": false,
+  "goal_remains_active": true,
+  "source_admission_disposition": "SOURCE_BLOCKED",
+  "publication_status": "LOCAL_ONLY_GITHUB_WRITE_APPROVAL_UNAVAILABLE",
+  "counts": {
+    "object_identity_groups": 13525,
+    "certified_distinct_galaxies": false,
+    "radial_baseline_galaxies": 175,
+    "radial_descriptive_cut_galaxies": 126,
+    "resolved_seed_galaxies": 12,
+    "raw_seed_assets": 137,
+    "source_image_fits_total": 22,
+    "conditional_field_runs_total": 29,
+    "conditional_field_galaxies": 1,
+    "new_field_runs": 10,
+    "background_partition_evaluations": 192,
+    "background_split_stable_galaxies": 9,
+    "joint_raw_image_and_background_prerequisites": 8,
+    "admitted_full_field_cube_predictions": 0,
+    "unit_tests_passed": 57
+  },
+  "previous_mixed_source_refinement_pass": true,
+  "common_basis_midplane_numerical_gates_pass": true,
+  "common_basis_offplane_full_vector_gates_pass": true,
+  "background_split_failures": [
+    "NGC2841",
+    "NGC2903",
+    "NGC3198"
+  ],
+  "required_remaining": [
+    "Resolve the source covariance, native pixel/beam forward projection, absolute flux, geometry provenance, mass conversions and missing components before admitting motion scores.",
+    "Repair and independently test background covariance where split changes expose failures; do not select a favorable partition.",
+    "Treat 3D sources as constrained ensembles; quantify external fields and refine numerical failures without changing gates.",
+    "Complete distinct AQUAL controls and a validated warped/streaming/pressure-supported cube likelihood.",
+    "Validate additional pilot source maps, then execute the 10-20 pilots and expand eligible resolved objects with galaxy/group/survey holdouts.",
+    "Publish the verified manifest when Git or connector writes are permitted, checking remote ancestry and preserving concurrent changes. Both current routes are blocked."
+  ]
+}

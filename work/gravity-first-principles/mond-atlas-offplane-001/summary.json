@@ -1,0 +1,265 @@
+{
+  "status": "OFFPLANE_THREE_COMPONENT_NUMERICAL_AUDIT",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "config": {
+    "id": "mond-atlas-offplane-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Target-free three-component force sampling and convergence above the disk for the common-basis source fields. No observed motion or inferred vertical gravity is opened.",
+    "field_protocol": "configs/mond_atlas_common_basis_fields_v1.json",
+    "field_directory": "work/gravity-first-principles/mond-atlas-field-006",
+    "radii_kpc": [
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0,
+      7.0,
+      8.0,
+      9.0,
+      10.0,
+      11.0,
+      12.0,
+      13.0,
+      14.0,
+      15.0
+    ],
+    "heights_kpc": [
+      0.25,
+      0.5,
+      1.0
+    ],
+    "azimuth_count": 72,
+    "sampling": "Centered finite-difference gradients at grid nodes, followed by trilinear interpolation. Only strictly interior stencils are permitted.",
+    "benchmarks": {
+      "quadratic_potential_linear_force_absolute_error_max": 1e-10,
+      "independent_affine_potential_force_absolute_error_max": 1e-11,
+      "aggregate_three_component_force_relative_rms_max": 0.03,
+      "maximum_radius_height_group_force_relative_rms_max": 0.05,
+      "z_reflection_relative_rms_max": 1e-10
+    },
+    "vertical_component_diagnostic": "Report vertical-force differences separately with their own denominator; no standalone vertical-component acceptance threshold is asserted by a full-vector pass.",
+    "limitations": [
+      "These checks extend numerical coverage to the explicitly sampled heights. They do not validate every location or the continuum limit.",
+      "One-at-a-time vertical, lateral and box perturbations do not bound joint-refinement cross terms.",
+      "Conditional force differences are not measurements of gas thickness or stellar vertical motions.",
+      "The same source, geometry, environment and likelihood admission gaps remain."
+    ]
+  },
+  "bindings": {
+    "configs\\mond_atlas_offplane_v1.json": "355cb1434a77a73c6f8117c24ddef8dca6fd5e514b25cdbf8d0b52bf3484e367",
+    "scripts\\run_mond_atlas_offplane.py": "f462d447138fba8a603da8bb8dda778ba3f7c3adefc9949d1b6aec1c81e5dfd8",
+    "scripts\\mond_atlas_force_sampling.py": "a18b389e2b0d04deccb07d57100c97c10b05cfa7e4b120e1289739d2c5fbb734",
+    "tests\\test_mond_atlas_force_sampling.py": "6b33f1a3ac8e6a6cd8c08d7c842316da2c0f330652294d589748843a5466c5e5",
+    "work\\gravity-first-principles\\mond-atlas-field-006\\summary.json": "3448959beac5c8df2f0c1c31a3e98c35476eabdc8c681a98cff798956575eed8",
+    "configs\\mond_atlas_common_basis_fields_v1.json": "1132b3472394a5e554a8e5ab00f3a1359b0066da09a37f1e3a57e980e01e20ba",
+    "work\\gravity-first-principles\\mond-atlas-field-006\\common_thin_base-result.json": "7047f51a1e74e0a2984bb5fd99acde93b3db1d3a77165a0054101e0022d01ee9",
+    "work\\gravity-first-principles\\mond-atlas-field-006\\common_thin_lateral-result.json": "c33f7943da8e00c48ab6846fbea8009f60331acd9b71dbe5d77e973ca5e88d33",
+    "work\\gravity-first-principles\\mond-atlas-field-006\\common_thin_vertical-result.json": "7aa88be651403502a27a3880e351e5729994286e644ab5d07fdd93529f61a368",
+    "work\\gravity-first-principles\\mond-atlas-field-006\\common_thin_box-result.json": "ba4cff1b32432b2575208d6f06d3a9ad115f8bfb43b66cc4c027d46c4ce69223",
+    "work\\gravity-first-principles\\mond-atlas-field-006\\common_mixed_base-result.json": "dfa12b0718b361440724ae1dd05511744f832ee06a833f104dac548b3145beb3",
+    "work\\gravity-first-principles\\mond-atlas-field-006\\common_mixed_lateral-result.json": "8c39d840f1c82959c7860a084e42b717ccfb5b88522e8ed82a6ad6d1dea29609",
+    "work\\gravity-first-principles\\mond-atlas-field-006\\common_mixed_vertical-result.json": "33155f5c8421b2b101b42f5e4722ce2368fc0ae8834d8f36be9e7ad35b9141bf",
+    "work\\gravity-first-principles\\mond-atlas-field-006\\common_mixed_box-result.json": "696e6bf2f9d58ab819b7d2b8a8411ea2120574b50b6078dfedfaa91a84f0653e"
+  },
+  "verified_potential_assets": [
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_thin_base\\newton-potential.npy",
+      "bytes": 456533128,
+      "sha256": "c8427ddc463e10f0c38e721c96c70230df570a7797d1e7a31c8a74fb7fe90c65"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_thin_base\\mond-potential.npy",
+      "bytes": 456533128,
+      "sha256": "b5170b7b2d0f3de503280bf6681a0a55b7288446641fae7a892a1ea92927046f"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_thin_lateral\\newton-potential.npy",
+      "bytes": 1821392008,
+      "sha256": "74a79c9a394790d1659d3895765a29847c55fbc1acc5453fc3632c277df99852"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_thin_lateral\\mond-potential.npy",
+      "bytes": 1821392008,
+      "sha256": "118ddcbd68a34c80403cdee6aa74ac0ab45aee5b9d2424e17d119ba9b43e06a8"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_thin_vertical\\newton-potential.npy",
+      "bytes": 911880328,
+      "sha256": "84d30c30524bbe76d3eec8601585ec4fee5d70fa81c7c6c05893d017fa749715"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_thin_vertical\\mond-potential.npy",
+      "bytes": 911880328,
+      "sha256": "675e9c5180873e53f6ad8db9cb22add27be81ace5bd1cb4a6278475ba7674892"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_thin_box\\newton-potential.npy",
+      "bytes": 1080045704,
+      "sha256": "aba3180f884d2ac9263bd1b2ce84d5893ec170ff70c47046ac2436bd4ba2e8c2"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_thin_box\\mond-potential.npy",
+      "bytes": 1080045704,
+      "sha256": "4e7fa3ae1a2c75fb487af02fc012e46589c3d87a47809472147ad9393652ca36"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_mixed_base\\newton-potential.npy",
+      "bytes": 456533128,
+      "sha256": "2bd63e3d7994dc06dd9b9b58a676eb5cdb657fe62e1e682288d0688c63683bcf"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_mixed_base\\mond-potential.npy",
+      "bytes": 456533128,
+      "sha256": "b2cf82da766d49f733dcb1037a35ca433fb828283a065dc6bb7ad1762d2f91a3"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_mixed_lateral\\newton-potential.npy",
+      "bytes": 1821392008,
+      "sha256": "c6435ad59465ff09b6825c8ce8411b34f63be105d2deb456e2a36120a0c80a0b"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_mixed_lateral\\mond-potential.npy",
+      "bytes": 1821392008,
+      "sha256": "379e795f3633d12780a4ec76f947284e64ccff478ef704454d34cd66514bb36e"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_mixed_vertical\\newton-potential.npy",
+      "bytes": 911880328,
+      "sha256": "3c582d63347d98891604f3b278a406784502285cb46f5e7438ac96ac43e6a97f"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_mixed_vertical\\mond-potential.npy",
+      "bytes": 911880328,
+      "sha256": "d45785b89c1d0d65fdc14e83bc128b88d7343495585f4d8b223ddd2b09146d78"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_mixed_box\\newton-potential.npy",
+      "bytes": 1080045704,
+      "sha256": "ccb344f105a33040fb998bfb25adabf6709ee6e9904e5e99da85eb1e30e39a3f"
+    },
+    {
+      "path": "work\\private\\mond-atlas-field-006\\common_mixed_box\\mond-potential.npy",
+      "bytes": 1080045704,
+      "sha256": "402adaa64d3d8ca4afb50bd8ce34507523476f9a44015f243258a68d8f1a40f3"
+    }
+  ],
+  "full_field_runs_sampled": 8,
+  "force_sampling_points_per_field": 3024,
+  "unit_tests_passed": 2,
+  "checks": [
+    {
+      "case": "common_thin",
+      "perturbation": "lateral",
+      "theory": "newton",
+      "vector_relative_rms": 0.0021156824629116363,
+      "maximum_group_relative_rms": 0.004384042187443167,
+      "vertical_component_relative_rms": 0.0019053025850274497,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_thin",
+      "perturbation": "lateral",
+      "theory": "mond",
+      "vector_relative_rms": 0.0018879872913143022,
+      "maximum_group_relative_rms": 0.004093568951348844,
+      "vertical_component_relative_rms": 0.0017502130249985345,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_thin",
+      "perturbation": "vertical",
+      "theory": "newton",
+      "vector_relative_rms": 0.0059370116625391215,
+      "maximum_group_relative_rms": 0.011122557394358884,
+      "vertical_component_relative_rms": 0.008325146757284057,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_thin",
+      "perturbation": "vertical",
+      "theory": "mond",
+      "vector_relative_rms": 0.005086510245192189,
+      "maximum_group_relative_rms": 0.010083636642579809,
+      "vertical_component_relative_rms": 0.007477959953021038,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_thin",
+      "perturbation": "box",
+      "theory": "newton",
+      "vector_relative_rms": 3.710778183814426e-05,
+      "maximum_group_relative_rms": 0.00045496573478119573,
+      "vertical_component_relative_rms": 8.90594665148961e-06,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_thin",
+      "perturbation": "box",
+      "theory": "mond",
+      "vector_relative_rms": 0.0016171148719558313,
+      "maximum_group_relative_rms": 0.008038964445528667,
+      "vertical_component_relative_rms": 0.00033017501720830297,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_mixed",
+      "perturbation": "lateral",
+      "theory": "newton",
+      "vector_relative_rms": 0.0038846718559588404,
+      "maximum_group_relative_rms": 0.007378546200285795,
+      "vertical_component_relative_rms": 0.0022101951645139067,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_mixed",
+      "perturbation": "lateral",
+      "theory": "mond",
+      "vector_relative_rms": 0.003438705889666223,
+      "maximum_group_relative_rms": 0.00718915720318418,
+      "vertical_component_relative_rms": 0.002016217942125643,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_mixed",
+      "perturbation": "vertical",
+      "theory": "newton",
+      "vector_relative_rms": 0.004159643673178035,
+      "maximum_group_relative_rms": 0.008187822425754152,
+      "vertical_component_relative_rms": 0.006580198797545535,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_mixed",
+      "perturbation": "vertical",
+      "theory": "mond",
+      "vector_relative_rms": 0.0037488854801873265,
+      "maximum_group_relative_rms": 0.007961562649811503,
+      "vertical_component_relative_rms": 0.006217961395934941,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_mixed",
+      "perturbation": "box",
+      "theory": "newton",
+      "vector_relative_rms": 3.6616258518358985e-05,
+      "maximum_group_relative_rms": 0.00041535531619145557,
+      "vertical_component_relative_rms": 1.038692067003293e-05,
+      "full_vector_gates_pass": true
+    },
+    {
+      "case": "common_mixed",
+      "perturbation": "box",
+      "theory": "mond",
+      "vector_relative_rms": 0.0016794119682157693,
+      "maximum_group_relative_rms": 0.007733568986650854,
+      "vertical_component_relative_rms": 0.0003890336407847193,
+      "full_vector_gates_pass": true
+    }
+  ],
+  "offplane_full_vector_gates_pass": true,
+  "maximum_vertical_component_relative_difference": 0.008325146757284057,
+  "reflection_gates_pass": true,
+  "kinematic_response_scores_computed": 0,
+  "admitted_galaxy_cube_predictions": 0,
+  "goal_complete": false
+}

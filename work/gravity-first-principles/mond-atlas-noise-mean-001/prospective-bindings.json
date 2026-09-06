@@ -1,0 +1,60 @@
+{
+  "config": {
+    "id": "mond-atlas-noise-mean-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Background measurement-covariance audit only. No galaxy motion, gravity residual or source mass is fitted or scored.",
+    "trigger": "The current estimator subtracts an arithmetic calibration-region mean per channel but treats that estimate as exact in held-region covariance. Its calibration sample variance is also reduced by mean estimation under spatial correlation.",
+    "parent_protocol": "configs/mond_atlas_noise_v2.json",
+    "partition_protocol": "configs/mond_atlas_noise_robustness_v1.json",
+    "partition_result": "work/gravity-first-principles/mond-atlas-noise-robustness-001/summary.json",
+    "source_dataset": "The 12 local THINGS coarse cube packets bound by the parent noise results; only the existing guarded background annulus is consumed.",
+    "source_paper": "https://arxiv.org/abs/0810.2125",
+    "branches": [
+      "previous_fixed_mean",
+      "mean_propagated",
+      "mean_and_variance_corrected"
+    ],
+    "equations": {
+      "mean_weights": "w_i=1/n for the same calibration pixels as the previous estimator.",
+      "alpha": "w^T K_cc w, for the frozen estimated spatial correlation K.",
+      "residual_spatial_covariance": "S=K_tt + alpha 11^T - (K_tc w)1^T - 1(K_tc w)^T.",
+      "variance_correction": "E[n^-1 sum_i (epsilon_i-mean(epsilon))^2] = C_jj (1-alpha), since K has unit diagonal. Third branch divides the previously estimated channel covariance by 1-alpha.",
+      "interpretation": "Exact marginal covariance of the declared linear mean subtraction when the covariance parameters are known; a plug-in diagnostic when estimated. This is not the full conditional Gaussian-process predictor or a marginalized hyperparameter likelihood."
+    },
+    "unchanged": [
+      "All 16 declared partitions and original guards",
+      "Original spatial Gaussian precision estimator and nugget",
+      "Original six-lag Bartlett channel correlation",
+      "Every original diagnostic threshold",
+      "All original failures remain retained"
+    ],
+    "independent_benchmarks": {
+      "full_joint_linear_transform_absolute_error_max": 1e-12,
+      "independent_white_noise_limit_absolute_error_max": 1e-12,
+      "known_covariance_simulated_whitened_mean_square_absolute_error_max": 0.025,
+      "mean_subtraction_variance_expectation_relative_error_max": 0.025,
+      "held_region_mutation_must_leave_calibration_and_covariance_unchanged": true,
+      "galaxy_region_mutation_must_leave_every_result_unchanged": true
+    },
+    "inference_limits": [
+      "All real partitions were already opened in development; none is an untouched confirmation set.",
+      "The empirical spatial kernel and channel correlations remain estimates from the same calibration pixels. This correction does not integrate their uncertainty or remove spatial-fit bias.",
+      "A passing background diagnostic does not validate transfer to the galaxy, emission masking, Gaussianity, separability, or exact score significance.",
+      "No winning partition, covariance branch or galaxy is selected using gravity agreement."
+    ]
+  },
+  "bindings": {
+    "configs\\mond_atlas_noise_mean_v1.json": "2a9f475df7a71cc1f389a290893b1caf01d07ec0d4ffbf360692a273e60de2c2",
+    "configs\\mond_atlas_noise_v2.json": "83584d4ce523bb005c1c00b75ad710b73fa4c4fe4fc3b8838d72c34779f5f206",
+    "configs\\mond_atlas_noise_robustness_v1.json": "881fc6a0b5e80e14408b49fbca71dbfb9ee8fd83698e6e3edffa689dcb6a440d",
+    "work\\gravity-first-principles\\mond-atlas-noise-robustness-001\\summary.json": "dd22b08f044a9653404c75a8fd86fa62427ebb4bd36dc0c4e89ee1f72b3d6892",
+    "scripts\\run_mond_atlas_noise_mean.py": "1c1bfffbb398dc707a5d6b5027c92a35f117768c59c6bac513b5863bdb9ce192",
+    "scripts\\mond_atlas_noise_mean.py": "842703645b6bd3e6c4fde91e31d1dfcbc1ce9ffb57708eaa384dd01cad90579b",
+    "tests\\test_mond_atlas_noise_mean.py": "594cfb01345badb0fc4150006c0dc8395afb7066077a9077ddb8b0df5b14bf2e",
+    "scripts\\run_mond_atlas_noise.py": "9ca2bec69770a806f49cde6e4ec984572fe96ef122ca863ccf0b3db9d6175b7e",
+    "scripts\\run_mond_atlas_noise_robustness.py": "1d289d15a58c0ce24084d17a707e4daf7a203dda9dff51948bd9c82080c88a2c",
+    "scripts\\mond_atlas_cube.py": "b9f15de69bfff55f363da3eebb0b51f6085091d8bedece8a6009cc99e353f6a1"
+  },
+  "previous_partition_exposure": "All 192 original background partitions are development-exposed.",
+  "new_galaxy_motion_scores": 0
+}

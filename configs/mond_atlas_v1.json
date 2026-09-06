@@ -1,0 +1,48 @@
+{
+  "schema": "invariant-mond-atlas-protocol-1",
+  "status": "EXECUTION_PROTOCOL",
+  "design": "work/gravity-first-principles/mond-atlas-design-001/README.md",
+  "physics": {
+    "dark_halo_terms": false,
+    "a0_m_s2": 1.2e-10,
+    "nu": "simple: 0.5 + sqrt(0.25 + 1/y)",
+    "stellar_disk_ml": 0.5,
+    "stellar_bulge_ml": 0.7,
+    "per_galaxy_gravity_parameter_fitting": false,
+    "radial_baseline": "algebraic MOND approximation on published SPARC baryonic force templates; not a full-field disk solution",
+    "three_dimensional_primary": "QUMOND",
+    "formulation_control": "AQUAL is distinct and requires separate validation"
+  },
+  "radial_selection": {
+    "quality_max": 2,
+    "inclination_deg": [30, 80],
+    "minimum_valid_radii": 5,
+    "rule": "Retain all source rows; score only finite positive radius, observed speed, error and total inward baryonic force. Apply galaxy quality/inclination cuts without consulting residuals. No cut on observed fractional velocity error.",
+    "mass_sensitivity_factors": [0.8, 1.0, 1.2],
+    "distance_and_inclination_sensitivity": "nominal and reported plus/minus one-error corners; sensitivity envelope, not a confidence interval",
+    "covariance": "published per-radius errors available, full radial covariance absent: descriptive errors only, no chi-square significance"
+  },
+  "catalog": {
+    "identity_rule": "Normalize only recognized NGC/IC/UGC/DDO numeric names and explicit aliases. Strong catalog IDs merge exactly. Proximity creates review candidates, never automatic identity merges.",
+    "explicit_aliases": {"HOII": "UGC4305", "HOLMBERGII": "UGC4305", "HO_II": "UGC4305"},
+    "position_review_arcsec": 30,
+    "missing_data": "Unknown, absent local asset, published nondetection, invalid profile and measured zero are distinct statuses.",
+    "population_coverage_is_not_resolved_prediction": true,
+    "old_holdouts": "Preserve documented WALLABY reserved identities; do not read their velocities for this milestone. Prior exposure elsewhere remains unknown unless audited.",
+    "manga_predictors": "Allowlisted photometry, structure and observed HI only; no imported halo masses, dynamical masses or environment acceleration proxies."
+  },
+  "pattern_analysis": {
+    "scope": "exploratory development reanalysis",
+    "split": "5 whole-galaxy folds fixed by sha256 identity; not pristine confirmation",
+    "candidates": ["gas_mass_fraction", "effective_stellar_surface_brightness", "disk_scale_length", "hubble_type"],
+    "target": "median log10(observed speed / fixed algebraic MOND predicted speed) per galaxy",
+    "control": "Nested training-only ridge choice; compare acceleration-only predictors with acceleration plus one descriptor. Permute descriptor labels and repeat entire outer-validation pipeline. No density-causation claim.",
+    "permutations": 199,
+    "random_seed": 9062026
+  },
+  "completion": {
+    "catalog_only_completes_goal": false,
+    "radial_baseline_only_completes_goal": false,
+    "required_remaining": ["full-field numerical validation", "observationally constrained 3D source ensembles", "instrument and correlated-noise motion likelihood", "independent motion predictions", "survey and galaxy transfer checks", "coverage and identifiability accounting", "publish validated milestones"]
+  }
+}

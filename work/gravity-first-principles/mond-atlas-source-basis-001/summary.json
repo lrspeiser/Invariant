@@ -1,0 +1,126 @@
+{
+  "status": "COMMON_IMAGE_AND_FIELD_SOURCE_BASIS_DIAGNOSTIC",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "config": {
+    "id": "mond-atlas-source-basis-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Source representation audit and correction only; no motion scoring.",
+    "trigger": "The source image inverse treats surface pixels as constant cells, while the field loader linearly interpolates node values. Audit that basis change against the measured projected image.",
+    "previous_source_protocol": "configs/mond_atlas_source_projection_v1.json",
+    "single_projection_run": "work/gravity-first-principles/mond-atlas-projection-001/summary.json",
+    "mixed_projection_run": "work/gravity-first-principles/mond-atlas-projection-002/summary.json",
+    "representation": "Nonnegative bilinear planar node values times the declared continuous vertical exponential mixture. Finite image cells integrate the projection of that same bilinear basis.",
+    "thin_image_matrix": "Center weight 3/4 and nearest-neighbor weights 1/8, without renormalizing boundary flux loss.",
+    "vertical_projected_matrix": "Convolution of the vertical Laplace kernel, the triangular linear-node basis and the finite image top-hat; exact central/neighbor coefficients and exponential tail.",
+    "cases": [
+      {
+        "id": "stars_thin",
+        "component": "stellar_luminosity",
+        "previous_source": "work/private/mond-atlas-projection-001/stellar_luminosity-h0p1.npz",
+        "vertical_layers": [
+          [
+            1.0,
+            0.1
+          ]
+        ]
+      },
+      {
+        "id": "stars_mixed",
+        "component": "stellar_luminosity",
+        "previous_source": "work/private/mond-atlas-projection-002/thin-fraction-0p25.npz",
+        "vertical_layers": [
+          [
+            0.25,
+            0.1
+          ],
+          [
+            0.75,
+            0.4
+          ]
+        ]
+      },
+      {
+        "id": "atomic",
+        "component": "atomic_helium",
+        "previous_source": "work/private/mond-atlas-projection-001/atomic_helium-h0p2.npz",
+        "vertical_layers": [
+          [
+            1.0,
+            0.2
+          ]
+        ]
+      },
+      {
+        "id": "co21",
+        "component": "co21",
+        "previous_source": "work/private/mond-atlas-projection-001/co21-h0p2.npz",
+        "vertical_layers": [
+          [
+            1.0,
+            0.2
+          ]
+        ]
+      }
+    ],
+    "source_weights_support_regularization": "Inherited unchanged from previous_source_protocol. Source fitting is permitted; response data remain unopened by this package.",
+    "benchmarks": {
+      "direct_physical_line_integral_relative_rms_max": 0.003,
+      "thin_pixel_integral_absolute_error_max": 1e-12,
+      "flux_centroid_error_max": 1e-09,
+      "adjoint_gradient_error_max": 1e-07,
+      "omitted_target_mutation_must_leave_fit_unchanged": true
+    },
+    "nonclaims": [
+      "No source covariance likelihood",
+      "No independently measured heights",
+      "No absolute flux calibration supplied",
+      "No new galaxy motion score"
+    ]
+  },
+  "config_sha256": "ffda78ca9337049b8f03cb2728e68d0b3cda1c00675bc6db33e8e376c4b194af",
+  "source_cases_executed": 4,
+  "all_optimizers_converged": true,
+  "products": [
+    {
+      "path": "work\\private\\mond-atlas-source-basis-001\\stars_thin.npz",
+      "sha256": "0756f2c596806efb13bc31980ff95f82886d9f2db6de70f5c01f3cd254408e24",
+      "id": "stars_thin"
+    },
+    {
+      "path": "work\\private\\mond-atlas-source-basis-001\\stars_mixed.npz",
+      "sha256": "3f831acee5534d1c9a88648c62a6c404abf79060cec10ae49daa45b7fdd39c9c",
+      "id": "stars_mixed"
+    },
+    {
+      "path": "work\\private\\mond-atlas-source-basis-001\\atomic.npz",
+      "sha256": "b3b9a86a92eff5815249e879cd8ce66a9ac0a87ee4cfa69ffbbca275208c388f",
+      "id": "atomic"
+    },
+    {
+      "path": "work\\private\\mond-atlas-source-basis-001\\co21.npz",
+      "sha256": "53c3ca0b48097ec60226978d8adc735abafd69903efad200df91c77731ef8a11",
+      "id": "co21"
+    }
+  ],
+  "code_hashes": {
+    "scripts\\run_mond_atlas_source_basis.py": "0a2131fe8b18491b9a8d3892917fb2f79d49daf648d7419da301979b983311cf",
+    "scripts\\mond_atlas_nodal_projection.py": "dc3e17c6c00ab996b5081db26136b1e211cfafdd4e2f03595b4a5da18ba8aaaa",
+    "tests\\test_mond_atlas_nodal.py": "166523967f766863d021be401f4607c6bb12f2bb0875c214f49ddbec00208ffd"
+  },
+  "source_bindings": {
+    "configs\\mond_atlas_source_projection_v1.json": "82cdb8b01a55bac9e0677af186c2b7dd8ff464342fb798385e8932bf506fed65",
+    "work\\gravity-first-principles\\mond-atlas-source-001\\source-audit.json": "dbc7cee4918e7eb52eba302d4eaa5b4e6a396976d1f682c8f47180c198df6376",
+    "work\\gravity-first-principles\\mond-atlas-projection-001\\summary.json": "b93b1c873cbcc9be56de138479fd439649aec1328c3491e0ff0f467b9b6ac8c0",
+    "work\\gravity-first-principles\\mond-atlas-projection-002\\summary.json": "fefa32de0fb0fe8ff3dd69e1ca56705f52f49d066bd5fe2412fc0f024461e69b"
+  },
+  "independent_benchmark_tests": 5,
+  "response_files_opened": [],
+  "kinematic_response_scores_computed": 0,
+  "goal_complete": false,
+  "limitations": [
+    "The new inverse and field interpolation share the same bilinear continuum basis. Field grid convergence is still needed for these newly fitted source coefficients.",
+    "Original images were rebinned by native pixel-center area assignment; exact native-pixel footprints and spatially varying masks/beams remain an approximation.",
+    "Coverage-weighted image RMS is not a source noise likelihood or a confidence interval for heights.",
+    "Absolute photometry, source covariance, missing components and physical exterior fields are not supplied by this correction."
+  ]
+}

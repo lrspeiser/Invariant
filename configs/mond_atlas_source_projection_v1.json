@@ -1,0 +1,53 @@
+{
+  "id": "mond-atlas-source-projection-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "permitted_scope": "Source-image construction, analytic benchmarks and reprojection diagnostics only. No new kinematic response scoring.",
+  "reason": "The available maps support a restricted flat separable disk experiment. Absolute photometry, source noise likelihood, vertical structure and all baryon phases are not fully validated.",
+  "source_audit": "work/gravity-first-principles/mond-atlas-source-001/source-audit.json",
+  "object_id": "NGC2903",
+  "spatial_family": "rho(X,Y,z) = Sigma(X,Y) exp(-abs(z)/h)/(2h); fixed flat orientation; no bulge, flare or warp inferred",
+  "forward_equation": "J(X,Y) = cos(i) I_sky(X,Y cos(i)) = integral Sigma(X,Y-z tan(i)) exp(-abs(z)/h)/(2h) dz",
+  "projected_kernel": "two-sided exponential in disk-plane minor coordinate with scale h tan(i)",
+  "finite_cell_kernel": "A0=1-lambda/d*(1-exp(-d/lambda)); Ak=lambda/(2d)*(1-exp(-d/lambda))^2*exp(-(abs(k)-1)*d/lambda), abs(k)>=1; identity at lambda=0",
+  "native_beam_scope": "Infer only an effective beam-blurred planar source. For a fixed linear beam and flat geometry, spatial convolution commutes with the vertical projection. No instrumental deconvolution is claimed.",
+  "height_grid_kpc": [0.0, 0.1, 0.2, 0.4, 0.8],
+  "source_fit": {
+    "objective": "0.5*sum(coverage_weight*(A*Sigma-J)^2) + 0.5*regularization*sum(neighbor_differences^2)",
+    "regularization": 0.0001,
+    "weights": "clipped area coverage, not inverse measurement covariance",
+    "minimum_cell_coverage": 0.5,
+    "fitted_radius_kpc": 18.0,
+    "reported_radius_kpc": 15.0,
+    "source_support_radius_kpc": 20.0,
+    "max_iterations": 4000,
+    "projected_gradient_relative_rms_tolerance": 0.000001,
+    "nonnegative_intrinsic_source": true,
+    "height_selection_from_best_fit": false
+  },
+  "benchmarks": {
+    "direct_line_of_sight_quadrature_relative_rms_max": 0.003,
+    "adjoint_relative_error_max": 1e-12,
+    "flux_and_centroid_error_max": 1e-8,
+    "positive_synthetic_reprojection_relative_rms_max": 0.01,
+    "thin_and_thick_synthetic_degeneracy_required": true,
+    "gross_source_image_mismatch_relative_rms_threshold": 0.05,
+    "threshold_scope": "5 percent flags a construction mismatch for follow-up; it is not a noise-calibrated likelihood acceptance criterion."
+  },
+  "source_response_classification": {
+    "source": "S4G P5 cleaned stellar image/ICA mask, THINGS released HI moment zero, HERACLES signed CO/error maps; restricted source-001 pixel packet",
+    "kinematic_response": "Not opened by this package",
+    "prior_exposure": "NGC2903 is already development-exposed in earlier work; no pristine holdout claim."
+  },
+  "primary_papers": [
+    {"role": "stellar source and dust separation", "url": "https://arxiv.org/abs/1410.0009"},
+    {"role": "stellar light-to-mass conversion", "url": "https://arxiv.org/abs/1402.5210"},
+    {"role": "atomic gas measurement", "url": "https://arxiv.org/abs/0810.2125"},
+    {"role": "molecular tracer measurement", "url": "https://arxiv.org/abs/0905.4742"}
+  ],
+  "remaining_admission_gates": [
+    "Absolute and spatial photometric calibration, independently propagated source covariance, and recovered raw geometry source files.",
+    "Pixel-footprint and source-beam convergence beyond the restricted effective-resolution model.",
+    "Missing gas phases, conversion uncertainties and physically allowed thickness/warp/bulge/exterior-field ensembles.",
+    "Prospective complete builder/solver admission before any further motion comparison."
+  ]
+}

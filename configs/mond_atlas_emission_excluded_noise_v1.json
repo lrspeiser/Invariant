@@ -1,0 +1,15 @@
+{
+  "id": "mond-atlas-emission-excluded-noise-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "A fixed observational exclusion control for background covariance. It neither selects galaxies by gravity residuals nor admits a galaxy motion likelihood.",
+  "trigger": "Released positive HI support overlaps at least one old background partition in 11/12 galaxies, including strong overlap in two galaxies that passed all old moment checks.",
+  "support_protocol": "configs/mond_atlas_background_emission_v1.json",
+  "support_summary": "work/gravity-first-principles/mond-atlas-background-support-001/summary.json",
+  "mean_protocol": "configs/mond_atlas_noise_mean_v1.json",
+  "mask_rule": "Intersect each original calibration/validation mask with the complement of the previously declared four-sigma-smoothing-plus-two-cell expanded HI support. Preserve all 16 original splits, guards, strides, thresholds and channel/spatial estimators. Do not rebalance or search for a favorable split.",
+  "covariance_branch": "mean_and_variance_corrected",
+  "support_gate": "Require the original 150 calibration and 25 validation pixels and at least four validation pixels in each sky quadrant before fitting covariance. Retain insufficient-support cases as coverage failures, not failed gravity predictions.",
+  "nondetection_caveat": "This exclusion uses a released moment product derived from the same observation. Undetected emission, continuum residuals and selection effects can remain. Passing is not proof of pure noise, Gaussianity, independent selection or inner-galaxy noise transfer.",
+  "independent_benchmarks": ["Excluded support cannot enter either mask", "No added pixels, no broken guards and no split rebalancing", "Noise values cannot affect mask construction"],
+  "new_gravity_response_scoring_permitted": false
+}

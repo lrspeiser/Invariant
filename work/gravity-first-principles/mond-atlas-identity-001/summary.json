@@ -1,0 +1,23 @@
+{
+  "status": "EXACT_IDENTITY_GROUPING_OVERLAY",
+  "source_identity_rows": 13530,
+  "object_groups": 13525,
+  "exact_catalog_id_merges": 5,
+  "unresolved_proximity_pairs": 90,
+  "certified_distinct_physical_galaxy_count": false,
+  "original_rows_deleted": 0,
+  "motion_or_gravity_values_used": false,
+  "code_sha256": "659d915e04ef83b75e078dedc618b6f07161846206bbf88016a65013b7e4b2ae",
+  "source_hashes": {
+    "work/wellnet-2026-09/env-data/clean/manga_env_master.csv": "2b0d634bfd5d20f973b8b8479c79cdba53a23b6af1739a53452658c6ce21298a",
+    "work/gravity-first-principles/mond-atlas-catalog-004/galaxies.csv": "70ed276106c88125688f577bdbd12d9fbbcc419986d5915598c4c964e7c8ee9c",
+    "work/gravity-first-principles/mond-atlas-catalog-004/identity-review.csv": "6ce702e7617c103d633dc67bce34730a7b7bff5910283709417cbb8d7bb4c722"
+  },
+  "rule": "Same positive NSA ID in same local MaNGA release, same NSA IAU name, and separation below one arcsecond. All other proximity pairs remain unmerged.",
+  "holdouts": "Future galaxy/group splits must use object_group_id, with exposure inherited from every source identity.",
+  "limitations": [
+    "The 90 remaining proximity pairs need independent identity evidence.",
+    "58 source identities still lack coordinates in the base catalog.",
+    "This overlay does not silently combine discrepant photometry or count repeated observations as independent galaxies."
+  ]
+}

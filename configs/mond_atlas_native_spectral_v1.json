@@ -1,0 +1,32 @@
+{
+  "id": "mond-atlas-native-spectral-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "Recover native spectral processing provenance, quantify retained historical continuum-fit channels and execute a conditional continuum-subtraction covariance benchmark. No galaxy gravity or motion fit.",
+  "cube_receipt": "work/gravity-first-principles/things-cube-acquisition-001/receipt.json",
+  "cached_cube_audit": "work/gravity-first-principles/conditional-cube-pilot-001/data-audit.json",
+  "source_paper": "https://arxiv.org/abs/0810.2125",
+  "imaging_documentation": "https://www.aips.nrao.edu/CookHTML/CookBookse50.html",
+  "continuum_documentation": "https://www.aips.nrao.edu/CookHTML/CookBookse49.html",
+  "history_contract": "Retain each complete UVLIN history group, IF/channel weights and polynomial order, the IMAGR channel range/averaging/increment, source identifiers, subsequent processing task names and exact source-card indexes. Bind the complete header and raw cube hashes.",
+  "direct_channel_mapping_contract": "Map output channel j (zero-based stored FITS order) to BCHAN+j only if there is exactly one UVLIN group and one IMAGR group; UVLIN output name/class/sequence equals IMAGR input; NCHAV=CHINC=1; ECHAN-BCHAN+1=NAXIS3; a complete single-IF weight vector covers the output range; no post-UVLIN spectral-combination or regridding task is recorded. MOVE/RENAM/TVFLG/UVFLG/IMAGR/AIPS are allowed but flags remain a covariance limitation. Otherwise retain unresolved provenance without guessing a mapping.",
+  "continuum_operator": "For explicitly mapped simple cases only, A=S-X_out (X_cal^T W X_cal)^-1 X_cal^T W P_cal. Compute A C A^T. This exact linear-algebra identity is only a conditional image-domain surrogate for visibility-domain subtraction, not a replay of per-visibility flagging, imaging weights or nonlinear CLEAN.",
+  "toy_input_channel_covariances": ["independent unit variance", "independent unit variance convolved spectrally with [0.25,0.5,0.25], normalized to unit variance away from boundaries"],
+  "independent_benchmarks": {
+    "polynomial_annihilation_absolute_error_max": 1e-12,
+    "weighted_fit_separate_implementation_absolute_error_max": 1e-12,
+    "known_constant_subtraction_covariance_absolute_error_max": 1e-12,
+    "monte_carlo_covariance_relative_rms_max": 0.025,
+    "monte_carlo_draws": 60000
+  },
+  "native_spatial_transfer_diagnostic": {
+    "selection": "Only the mapped historical continuum-fit channels, without choosing channels by the current image values. They are candidates defined by provenance, not certified line-free measurements.",
+    "sample_native_pixel_stride": 4,
+    "pixel_border": 32,
+    "inner_radius_arcsec": [0, 300],
+    "outer_radius_arcsec": [550, 680],
+    "center": "Native spatial FITS reference pixel; this diagnostic needs no galaxy velocity or fitted geometry.",
+    "statistics": ["Per-channel median and Gaussian-scaled MAD in each region", "Inner/outer robust scale ratios and signed tail asymmetry", "Adjacent-channel residual products only within contiguous mapped intervals"],
+    "galaxy_likelihood_admission_from_this_diagnostic": false
+  },
+  "nonclaims": ["Historical continuum channels are not independent observing epochs", "A missing retained continuum channel does not establish that all output channels contain emission", "AIPS metadata alone does not recover unrecorded online spectral response or per-visibility flags", "A Gaussian restoring beam alone is not the interferometric noise covariance", "No new mask, source mass, 3D depth or gravity residual is fitted"]
+}

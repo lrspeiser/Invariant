@@ -1,0 +1,20 @@
+{
+  "id": "mond-atlas-mixed-source-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "Source-image follow-up only; no kinematic response scoring, no new gravity fit.",
+  "trigger": "Single fixed 0.4 kpc exponential stellar height retained an 8.4 percent source-image mismatch after nonnegative inversion. Test a broader vertical family without using any motion residual.",
+  "prior_projection_protocol": "configs/mond_atlas_source_projection_v1.json",
+  "prior_projection_run": "work/gravity-first-principles/mond-atlas-projection-001/summary.json",
+  "source_component": "stellar_luminosity",
+  "vertical_components_kpc": [0.1, 0.4],
+  "thin_light_fraction_cases": [0.25, 0.5, 0.75],
+  "spatial_family": "rho_L = Sigma_L(X,Y) [f exp(-abs(z)/0.1)/0.2 + (1-f) exp(-abs(z)/0.4)/0.8]; shared planar light distribution and one global f per case",
+  "operator": "A_mix = f A_0.1 + (1-f) A_0.4",
+  "assumptions": [
+    "Fractions are fixed illustrative light fractions, not measured mass fractions or stellar ages.",
+    "No case is selected as the preferred physical model based on minimum residual.",
+    "All source weights, support, regularization, stopping rules and diagnostic thresholds are inherited unchanged.",
+    "The model remains at native effective beam resolution; mass-to-light differences between vertical populations are unresolved.",
+    "A close source-image fit does not identify depth or admit a motion prediction."
+  ]
+}

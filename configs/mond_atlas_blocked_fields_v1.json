@@ -1,0 +1,32 @@
+{
+  "id": "mond-atlas-blocked-fields-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "Numerical field implementation and conditional source refinement only. No kinematic response scoring or source posterior admission.",
+  "source_reason": "Mass/depth/source-covariance and exterior-field constraints remain incomplete; this implementation cannot admit new motion comparisons.",
+  "equations": "The same anisotropic seven-point Poisson stencil and face-centered QUMOND flux as mond_atlas_rectangular_fields.py; only storage and transform chunking change.",
+  "transform": "DST-I is separable. Apply full-length one-dimensional transforms to bounded groups of independent pencils; divide the complete spectral eigenvalue sum in blocks.",
+  "qumond": "Compute the existing face-flux stencil on overlapping physical-space slabs; discard halo outputs and keep each global interior cell exactly once.",
+  "storage": "NumPy .npy memory maps for Newtonian potential, QUMOND source, MOND potential and reusable spectral work. OS page caching is not a strict resident-memory guarantee.",
+  "maximum_transform_block_elements": 1500000,
+  "physical_slab_rows": 3,
+  "workspace_disk_reserve_bytes": 4294967296,
+  "benchmarks": {
+    "independent_anisotropic_quadratic_absolute_error_max": 1e-10,
+    "existing_dense_solver_relative_potential_error_max": 1e-11,
+    "halo_stencil_relative_error_max": 1e-12,
+    "source_mass_moment_relative_error_max": 1e-11,
+    "source_replay_relative_force_error_max": 1e-10,
+    "mixed_refinement_vector_relative_rms_max": 0.03,
+    "mixed_refinement_maximum_ring_relative_rms_max": 0.05
+  },
+  "real_source_validation_replay": {
+    "parent_config": "configs/mond_atlas_reprojected_fields_v1.json",
+    "source_case": "refitted_mixed",
+    "existing_result": "work/gravity-first-principles/mond-atlas-field-004/mixed_lateral_refined-result.json",
+    "half_width_kpc": 24.0,
+    "spacing_kpc": [0.125, 0.125, 0.125]
+  },
+  "required_refinement": {"half_width_kpc": 24.0, "spacing_kpc": [0.0625, 0.0625, 0.125]},
+  "primary_references": ["https://arxiv.org/abs/0911.5464", "https://numpy.org/doc/stable/reference/generated/numpy.lib.format.open_memmap.html"],
+  "nonclaims": ["No AQUAL implementation in this package", "No measured exterior field", "No new galaxy likelihood", "No fitted gravity parameter", "No relaxed numerical gate"]
+}

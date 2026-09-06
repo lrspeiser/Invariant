@@ -1,0 +1,208 @@
+{
+  "status": "COMMON_BASIS_FIELDS_NUMERICAL_DIAGNOSTIC",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "config": {
+    "id": "mond-atlas-common-basis-fields-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Conditional numerical fields for the newly refitted bilinear source coefficients. No observed motion data are opened or scored.",
+    "source_reason": "Image and field representations now agree, but source covariance, native pixel/beam treatment, absolute photometry, independent depth constraints, missing phases and physical exterior fields remain incomplete.",
+    "source_summary": "work/gravity-first-principles/mond-atlas-source-basis-001/summary.json",
+    "solver_summary": "work/gravity-first-principles/mond-atlas-field-005/summary.json",
+    "storage_protocol": "configs/mond_atlas_blocked_fields_v1.json",
+    "gravity_protocol": "configs/mond_atlas_ngc2903_field_v1.json",
+    "stellar_cases": [
+      {
+        "id": "common_thin",
+        "source": "work/private/mond-atlas-source-basis-001/stars_thin.npz",
+        "vertical_components": [
+          [
+            1.0,
+            0.1
+          ]
+        ]
+      },
+      {
+        "id": "common_mixed",
+        "source": "work/private/mond-atlas-source-basis-001/stars_mixed.npz",
+        "vertical_components": [
+          [
+            0.25,
+            0.1
+          ],
+          [
+            0.75,
+            0.4
+          ]
+        ]
+      }
+    ],
+    "gas_cases": {
+      "atomic_helium": "work/private/mond-atlas-source-basis-001/atomic.npz",
+      "co21": "work/private/mond-atlas-source-basis-001/co21.npz",
+      "height_kpc": 0.2
+    },
+    "grids": [
+      {
+        "id": "base",
+        "half_width_kpc": 24.0,
+        "spacing_kpc": [
+          0.125,
+          0.125,
+          0.125
+        ]
+      },
+      {
+        "id": "lateral",
+        "half_width_kpc": 24.0,
+        "spacing_kpc": [
+          0.0625,
+          0.0625,
+          0.125
+        ]
+      },
+      {
+        "id": "vertical",
+        "half_width_kpc": 24.0,
+        "spacing_kpc": [
+          0.125,
+          0.125,
+          0.0625
+        ]
+      },
+      {
+        "id": "box",
+        "half_width_kpc": 32.0,
+        "spacing_kpc": [
+          0.125,
+          0.125,
+          0.125
+        ]
+      }
+    ],
+    "vector_relative_rms_gate": 0.03,
+    "maximum_ring_vector_rms_gate": 0.05,
+    "relative_pde_residual_gate": 1e-10,
+    "source_integral_relative_error_gate": 1e-10,
+    "workspace_disk_reserve_bytes": 8589934592,
+    "source_discretization": "The exact same nonnegative bilinear planar nodes used in the image projection, times the declared continuous exponential layers. Integer-factor planar interpolation preserves node-basis integrals; vertical cells use exact exponential cell averages without tail renormalization.",
+    "independent_benchmarks": [
+      "Analytic anisotropic quadratic Poisson solution",
+      "Dense full-volume versus disk-backed Poisson and QUMOND face-flux reference",
+      "Independent physical line-of-sight integration of the bilinear source basis",
+      "Thin-limit finite-cell integration, flux/centroid, projection adjoint, and held-source mutation controls",
+      "Existing Plummer, external-field and cube/covariance analytic controls"
+    ],
+    "primary_references": [
+      "https://arxiv.org/abs/0911.5464",
+      "https://arxiv.org/abs/1410.0009",
+      "https://arxiv.org/abs/1402.5210",
+      "https://arxiv.org/abs/0810.2125",
+      "https://arxiv.org/abs/0905.4742"
+    ],
+    "limitations": [
+      "The two stellar models differ in recovered planar structure as well as depth. Their difference is joint deprojection sensitivity, not a pure height effect.",
+      "Each resolution and box perturbation is compared with the same base grid. Joint-refinement cross terms are not bounded by these one-at-a-time checks.",
+      "Changing the box checks the numerical use of the conditional isolated boundary; it does not measure the environment or validate isolation.",
+      "The earlier coefficient set's convergence cannot be inherited. Both new cases must pass their own tests.",
+      "Force-equivalent speeds are field diagnostics, not actual orbit solutions in a barred potential."
+    ]
+  },
+  "config_sha256": "1132b3472394a5e554a8e5ab00f3a1359b0066da09a37f1e3a57e980e01e20ba",
+  "bindings": {
+    "scripts\\run_mond_atlas_source_basis.py": "0a2131fe8b18491b9a8d3892917fb2f79d49daf648d7419da301979b983311cf",
+    "scripts\\mond_atlas_nodal_projection.py": "dc3e17c6c00ab996b5081db26136b1e211cfafdd4e2f03595b4a5da18ba8aaaa",
+    "tests\\test_mond_atlas_nodal.py": "166523967f766863d021be401f4607c6bb12f2bb0875c214f49ddbec00208ffd",
+    "configs\\mond_atlas_source_projection_v1.json": "82cdb8b01a55bac9e0677af186c2b7dd8ff464342fb798385e8932bf506fed65",
+    "work\\gravity-first-principles\\mond-atlas-source-001\\source-audit.json": "dbc7cee4918e7eb52eba302d4eaa5b4e6a396976d1f682c8f47180c198df6376",
+    "work\\gravity-first-principles\\mond-atlas-projection-001\\summary.json": "b93b1c873cbcc9be56de138479fd439649aec1328c3491e0ff0f467b9b6ac8c0",
+    "work\\gravity-first-principles\\mond-atlas-projection-002\\summary.json": "fefa32de0fb0fe8ff3dd69e1ca56705f52f49d066bd5fe2412fc0f024461e69b",
+    "work\\private\\mond-atlas-source-basis-001\\stars_thin.npz": "0756f2c596806efb13bc31980ff95f82886d9f2db6de70f5c01f3cd254408e24",
+    "work\\private\\mond-atlas-source-basis-001\\stars_mixed.npz": "3f831acee5534d1c9a88648c62a6c404abf79060cec10ae49daa45b7fdd39c9c",
+    "work\\private\\mond-atlas-source-basis-001\\atomic.npz": "b3b9a86a92eff5815249e879cd8ce66a9ac0a87ee4cfa69ffbbca275208c388f",
+    "work\\private\\mond-atlas-source-basis-001\\co21.npz": "53c3ca0b48097ec60226978d8adc735abafd69903efad200df91c77731ef8a11",
+    "scripts\\run_mond_atlas_blocked_refinement.py": "4e2e19425bc68ca575bfa1c45d4c5239cb5755850ffd5ddecdaa526703002529",
+    "scripts\\mond_atlas_blocked_fields.py": "a0b59eff2d1810890037e326f2216946a5747dcc1b12c3f13d2ec259bd2a145a",
+    "scripts\\mond_atlas_rectangular_fields.py": "06c30c090520a823d85dac5120d9dd869a5fb54eb08751875f0f316e5c5afa69",
+    "scripts\\run_mond_atlas_reprojected_fields.py": "046a22a874fafde1e49be2620548cfc0cbcc6dc3089f8bfb2034107447e42d2f",
+    "tests\\test_mond_atlas_blocked.py": "a06702bfebd6eb6391482403fcd2a222dec6be38bb718eb22ec105bd5ebcc24d",
+    "configs\\mond_atlas_reprojected_fields_v1.json": "21c7e6b4860961cb06cfc5355c969ca070183c520c8d2bc4a369a87f50ba37a4",
+    "configs\\mond_atlas_ngc2903_field_v1.json": "893b068b7642eddbf0effbc23a1bc1cf300d8557e5843a83c216805e61c48dfc",
+    "work\\gravity-first-principles\\mond-atlas-field-004\\mixed_lateral_refined-result.json": "7ce44d64218e6a52d44942299d17730bf58f7fadaad07b12ff09e8fa5764d7e2",
+    "configs\\mond_atlas_common_basis_fields_v1.json": "1132b3472394a5e554a8e5ab00f3a1359b0066da09a37f1e3a57e980e01e20ba",
+    "work\\gravity-first-principles\\mond-atlas-source-basis-001\\summary.json": "1c6fbdfe9f2f5d2ff3315a35c43a42cb07f81d2e51a0b57f8b78841be613c36b",
+    "work\\gravity-first-principles\\mond-atlas-field-005\\summary.json": "f61e5c2914885145294f083128fabc5ed8adb92ac8d0cfea354abff2d09cbfca",
+    "configs\\mond_atlas_blocked_fields_v1.json": "b91b681d203c68b5fa4f043cd7d265f6c6878fcfc115760100825cd5877ed3e5",
+    "scripts\\run_mond_atlas_common_basis_fields.py": "1241ad795b399c70e27023bb1f8ff85506261c6f1219b9dc32d6c7089bfe74d8",
+    "scripts\\run_mond_atlas_ngc2903_fields.py": "e6d6ab7f6dfdd69842486ed73700168e4eeb064f1691a71f5abceeb3f1ee5473",
+    "scripts\\mond_atlas_fields.py": "331213aa8ef1b68de36e72288b1dc0577ee09aafb1af2282b1ad3d41bf6fd2ff",
+    "scripts\\check_mond_atlas_field_pattern.py": "5f7314fb263f01fbc554c67702d512a7a138d87d75c83829abc3d64c9a1648b8"
+  },
+  "source_cases": 2,
+  "new_full_field_runs": 8,
+  "numerical_benchmark_tests": 52,
+  "checks": [
+    {
+      "case": "common_thin",
+      "perturbation": "lateral",
+      "newton_vector_relative_rms": 0.01377537751958592,
+      "newton_maximum_ring_relative_rms": 0.017415360920352865,
+      "mond_vector_relative_rms": 0.012453699857306266,
+      "mond_maximum_ring_relative_rms": 0.01793611297104681,
+      "gates_pass": true
+    },
+    {
+      "case": "common_thin",
+      "perturbation": "vertical",
+      "newton_vector_relative_rms": 0.0021610903948478524,
+      "newton_maximum_ring_relative_rms": 0.0029976361725267795,
+      "mond_vector_relative_rms": 0.0022793074848084633,
+      "mond_maximum_ring_relative_rms": 0.0033776159010837437,
+      "gates_pass": true
+    },
+    {
+      "case": "common_thin",
+      "perturbation": "box",
+      "newton_vector_relative_rms": 4.354890402107425e-05,
+      "newton_maximum_ring_relative_rms": 0.0004434434053145819,
+      "mond_vector_relative_rms": 0.001915231015478966,
+      "mond_maximum_ring_relative_rms": 0.007903338281240001,
+      "gates_pass": true
+    },
+    {
+      "case": "common_mixed",
+      "perturbation": "lateral",
+      "newton_vector_relative_rms": 0.013659779465490868,
+      "newton_maximum_ring_relative_rms": 0.01873542023426793,
+      "mond_vector_relative_rms": 0.0122130012055874,
+      "mond_maximum_ring_relative_rms": 0.018815749772487712,
+      "gates_pass": true
+    },
+    {
+      "case": "common_mixed",
+      "perturbation": "vertical",
+      "newton_vector_relative_rms": 0.0012356383344266542,
+      "newton_maximum_ring_relative_rms": 0.0017150298766308999,
+      "mond_vector_relative_rms": 0.001352484252761961,
+      "mond_maximum_ring_relative_rms": 0.00217204046646897,
+      "gates_pass": true
+    },
+    {
+      "case": "common_mixed",
+      "perturbation": "box",
+      "newton_vector_relative_rms": 4.006156153742718e-05,
+      "newton_maximum_ring_relative_rms": 0.0004062327197222671,
+      "mond_vector_relative_rms": 0.0018744856165518917,
+      "mond_maximum_ring_relative_rms": 0.0076277681109868,
+      "gates_pass": true
+    }
+  ],
+  "numerical_gates_pass": true,
+  "case_numerical_gates_pass": {
+    "common_thin": true,
+    "common_mixed": true
+  },
+  "response_files_opened": [],
+  "kinematic_response_scores_computed": 0,
+  "admitted_galaxy_cube_predictions": 0,
+  "goal_complete": false
+}

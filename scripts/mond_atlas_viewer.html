@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOND atlas — radial comparison</title>
+<style>
+body{font:17px/1.5 system-ui,sans-serif;background:#f5f7fb;color:#182c3a;margin:0 auto;padding:32px;max-width:1120px}
+h1{font-size:32px;line-height:1.15;margin-bottom:12px}p{max-width:940px}.tag{font-size:13px;letter-spacing:.08em;color:#526375;text-transform:uppercase}
+label,select,input{font:inherit}select,input{padding:8px;border:1px solid #aab8c2;border-radius:5px;margin:5px 12px 5px 0;max-width:90%}
+.box{background:white;padding:22px;border:1px solid #d2dce3;border-radius:10px;margin:20px 0}
+svg{width:100%;height:auto;background:white}.legend{display:flex;gap:20px;flex-wrap:wrap}.legend span{border-left:16px solid;padding-left:8px;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{border-bottom:1px solid #d2dce3;padding:8px;text-align:left}
+details{margin:18px 0}a{color:#155c96}.muted{font-size:14px;color:#526375}.warn{background:#fff6db;padding:12px;border-left:4px solid #bf9222}
+</style>
+<div class="tag">Invariant · executed development baseline</div>
+<h1>What does visible matter predict?</h1>
+<p>Explore published speeds and fixed Newtonian/MOND radial predictions for 175 SPARC galaxies. These curves use published baryonic force templates. They are not full 3D field or spectral-cube predictions.</p>
+<p class="warn">The full 3D atlas is unfinished. The shaded envelope shows assumption sensitivity, not a confidence interval. No dark-halo term or per-galaxy gravity fit is used.</p>
+<div class="box"><label for="filter">Find galaxy</label> <input id="filter" placeholder="e.g. NGC3198" autocomplete="off">
+<label for="galaxy">Choose</label> <select id="galaxy" aria-label="Galaxy"></select>
+<p id="description"></p><div class="legend"><span style="border-color:#202e40">Observed speed</span><span style="border-color:#ca7133">Baryon-only Newtonian</span><span style="border-color:#087f85">MOND radial approximation</span><span style="border-color:#cce6e6">Sensitivity range</span></div>
+<svg id="chart" viewBox="0 0 1000 520" role="img" aria-label="Speed versus galactic radius"></svg>
+<svg id="residual" viewBox="0 0 1000 250" role="img" aria-label="Observed minus MOND predicted speed"></svg>
+<p class="muted">Error bars are published per-radius errors. Neighboring radii can be correlated. No chi-square significance is implied.</p></div>
+<details><summary>Show numerical values</summary><div style="overflow:auto"><table><thead><tr><th>Radius (kpc)</th><th>Observed (km/s)</th><th>Error</th><th>Newtonian</th><th>MOND approximation</th></tr></thead><tbody id="values"></tbody></table></div></details>
+<p><a href="README.md">Read the results and remaining work</a> · <a href="pilot-readiness.csv">12-galaxy readiness table</a></p>
+<script type="application/json" id="data">__ATLAS_DATA__</script>
+<script>
+const D=JSON.parse(document.getElementById('data').textContent), names=Object.keys(D.curves).sort();
+const selector=document.getElementById('galaxy'), input=document.getElementById('filter'), NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent,text){const n=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));if(text!==undefined)n.textContent=text;parent.append(n);return n;}
+function axes(svg,H,xmax,ymin,ymax,ylabel){svg.replaceChildren();const L=85,R=970,T=26,B=H-60;
+ const X=x=>L+x/xmax*(R-L),Y=y=>B-(y-ymin)/(ymax-ymin)*(B-T);
+ for(let i=0;i<=5;i++){let x=xmax*i/5,y=ymin+(ymax-ymin)*i/5;el('line',{x1:X(x),x2:X(x),y1:T,y2:B,stroke:'#e0e6eb'},svg);el('text',{x:X(x),y:B+27,'text-anchor':'middle',fill:'#526375','font-size':14},svg,x.toFixed(1));el('line',{x1:L,x2:R,y1:Y(y),y2:Y(y),stroke:'#e0e6eb'},svg);el('text',{x:L-12,y:Y(y)+5,'text-anchor':'end',fill:'#526375','font-size':14},svg,y.toFixed(0));}
+ el('text',{x:500,y:H-12,'text-anchor':'middle','font-size':15},svg,'Radius (kpc)');el('text',{x:18,y:(T+B)/2,transform:`rotate(-90 18 ${(T+B)/2})`,'text-anchor':'middle','font-size':15},svg,ylabel);return{X,Y,L,R,T,B};}
+function path(p,key,X,Y){let s='',active=false;for(const r of p){const v=r[key];if(v===null){active=false;continue;}s+=(active?'L':'M')+X(r.radius_kpc)+','+Y(v)+' ';active=true;}return s;}
+function draw(){let name=selector.value;if(!name)return;const p=D.curves[name],m=D.info[name];
+ document.getElementById('description').textContent=`${name} · ${m.published_radii} published radii · ${m.selected==='True'?'Included in the 126-galaxy descriptive comparison':'Excluded from the comparison: '+m.exclusion} · Inclination ${Number(m.inclination_deg).toFixed(1)}°`;
+ const xmax=Math.max(...p.map(r=>r.radius_kpc))*1.04,ymax=Math.max(...p.flatMap(r=>[r.observed_speed_km_s+r.published_error_km_s,r.algebraic_mond_speed_km_s,r.newton_speed_km_s,r.sensitivity_max_km_s].filter(x=>x!==null)))*1.07;
+ const svg=document.getElementById('chart'),{X,Y}=axes(svg,520,xmax,0,ymax,'Speed (km/s)');
+ // Draw separate contiguous valid envelope segments; never bridge missing source forces.
+ let segments=[],seg=[];for(const r of p){if(r.sensitivity_min_km_s===null||r.sensitivity_max_km_s===null){if(seg.length)segments.push(seg);seg=[];}else seg.push(r);}if(seg.length)segments.push(seg);
+ for(const part of segments){const pts=part.map(r=>`${X(r.radius_kpc)},${Y(r.sensitivity_max_km_s)}`).concat([...part].reverse().map(r=>`${X(r.radius_kpc)},${Y(r.sensitivity_min_km_s)}`));el('polygon',{points:pts.join(' '),fill:'#cce6e6',opacity:.65},svg);}
+ for(const [key,color] of [['newton_speed_km_s','#ca7133'],['algebraic_mond_speed_km_s','#087f85']])el('path',{d:path(p,key,X,Y),fill:'none',stroke:color,'stroke-width':3},svg);
+ for(const r of p){let x=X(r.radius_kpc);el('line',{x1:x,x2:x,y1:Y(r.observed_speed_km_s-r.published_error_km_s),y2:Y(r.observed_speed_km_s+r.published_error_km_s),stroke:'#202e40'},svg);const dot=el('circle',{cx:x,cy:Y(r.observed_speed_km_s),r:3.5,fill:'#202e40'},svg);el('title',{},dot,`${r.radius_kpc} kpc: ${r.observed_speed_km_s} ± ${r.published_error_km_s} km/s`);}
+ const rp=p.filter(r=>r.algebraic_mond_speed_km_s!==null),lim=Math.max(10,...rp.map(r=>Math.abs(r.observed_speed_km_s-r.algebraic_mond_speed_km_s)+r.published_error_km_s))*1.1;
+ const rs=document.getElementById('residual'),a=axes(rs,250,xmax,-lim,lim,'Observed − MOND (km/s)');el('line',{x1:a.L,x2:a.R,y1:a.Y(0),y2:a.Y(0),stroke:'#526375','stroke-dasharray':'4 4'},rs);
+ for(const r of rp){let v=r.observed_speed_km_s-r.algebraic_mond_speed_km_s,x=a.X(r.radius_kpc);el('line',{x1:x,x2:x,y1:a.Y(v-r.published_error_km_s),y2:a.Y(v+r.published_error_km_s),stroke:'#087f85'},rs);el('circle',{cx:x,cy:a.Y(v),r:3,fill:'#087f85'},rs);}
+ const body=document.getElementById('values');body.replaceChildren();for(const r of p){let tr=document.createElement('tr');for(const key of ['radius_kpc','observed_speed_km_s','published_error_km_s','newton_speed_km_s','algebraic_mond_speed_km_s']){let td=document.createElement('td');td.textContent=r[key]===null?'Unavailable':r[key].toFixed(2);tr.append(td);}body.append(tr);}}
+function fill(){let old=selector.value;selector.replaceChildren();for(const n of names.filter(n=>n.toLowerCase().includes(input.value.toLowerCase()))){let o=document.createElement('option');o.value=n;o.textContent=n;selector.append(o);}if([...selector.options].some(o=>o.value===old))selector.value=old;if(selector.options.length)draw();else{document.getElementById('description').textContent='No matching galaxy.';for(const id of ['chart','residual','values'])document.getElementById(id).replaceChildren();}}
+selector.addEventListener('change',draw);input.addEventListener('input',fill);fill();selector.value='NGC3198';draw();
+</script></html>

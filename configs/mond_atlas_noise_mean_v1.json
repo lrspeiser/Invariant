@@ -1,0 +1,34 @@
+{
+  "id": "mond-atlas-noise-mean-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "Background measurement-covariance audit only. No galaxy motion, gravity residual or source mass is fitted or scored.",
+  "trigger": "The current estimator subtracts an arithmetic calibration-region mean per channel but treats that estimate as exact in held-region covariance. Its calibration sample variance is also reduced by mean estimation under spatial correlation.",
+  "parent_protocol": "configs/mond_atlas_noise_v2.json",
+  "partition_protocol": "configs/mond_atlas_noise_robustness_v1.json",
+  "partition_result": "work/gravity-first-principles/mond-atlas-noise-robustness-001/summary.json",
+  "source_dataset": "The 12 local THINGS coarse cube packets bound by the parent noise results; only the existing guarded background annulus is consumed.",
+  "source_paper": "https://arxiv.org/abs/0810.2125",
+  "branches": ["previous_fixed_mean", "mean_propagated", "mean_and_variance_corrected"],
+  "equations": {
+    "mean_weights": "w_i=1/n for the same calibration pixels as the previous estimator.",
+    "alpha": "w^T K_cc w, for the frozen estimated spatial correlation K.",
+    "residual_spatial_covariance": "S=K_tt + alpha 11^T - (K_tc w)1^T - 1(K_tc w)^T.",
+    "variance_correction": "E[n^-1 sum_i (epsilon_i-mean(epsilon))^2] = C_jj (1-alpha), since K has unit diagonal. Third branch divides the previously estimated channel covariance by 1-alpha.",
+    "interpretation": "Exact marginal covariance of the declared linear mean subtraction when the covariance parameters are known; a plug-in diagnostic when estimated. This is not the full conditional Gaussian-process predictor or a marginalized hyperparameter likelihood."
+  },
+  "unchanged": ["All 16 declared partitions and original guards", "Original spatial Gaussian precision estimator and nugget", "Original six-lag Bartlett channel correlation", "Every original diagnostic threshold", "All original failures remain retained"],
+  "independent_benchmarks": {
+    "full_joint_linear_transform_absolute_error_max": 1e-12,
+    "independent_white_noise_limit_absolute_error_max": 1e-12,
+    "known_covariance_simulated_whitened_mean_square_absolute_error_max": 0.025,
+    "mean_subtraction_variance_expectation_relative_error_max": 0.025,
+    "held_region_mutation_must_leave_calibration_and_covariance_unchanged": true,
+    "galaxy_region_mutation_must_leave_every_result_unchanged": true
+  },
+  "inference_limits": [
+    "All real partitions were already opened in development; none is an untouched confirmation set.",
+    "The empirical spatial kernel and channel correlations remain estimates from the same calibration pixels. This correction does not integrate their uncertainty or remove spatial-fit bias.",
+    "A passing background diagnostic does not validate transfer to the galaxy, emission masking, Gaussianity, separability, or exact score significance.",
+    "No winning partition, covariance branch or galaxy is selected using gravity agreement."
+  ]
+}

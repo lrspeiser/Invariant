@@ -1,0 +1,90 @@
+{
+  "config": {
+    "id": "mond-atlas-mask-injection-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Validate the three-consecutive-channel detection operator and measure its selection bias in controlled cubes. This is a synthetic instrument/source control linked to the THINGS detection prescription, not a reconstructed publisher mask or admitted real-galaxy selection function.",
+    "source_paper": "https://arxiv.org/abs/0810.2125",
+    "detection": {
+      "threshold_sigma": 2.0,
+      "consecutive_channels": 3,
+      "rule": "Mark the union of all voxels in qualifying triples at the same sky pixel; do not join separate channel intervals.",
+      "noise_scale": "Oracle known marginal sigma=1. This isolates selection bias even when the noise amplitude is correctly known."
+    },
+    "instrument": {
+      "channels": 48,
+      "spatial_shape": [
+        96,
+        96
+      ],
+      "pixel_arcsec": 6.0,
+      "native_circular_fwhm_arcsec": 12.0,
+      "detection_circular_fwhm_arcsec": 30.0,
+      "spatial_kernel_truncate_sigma": 4.0,
+      "spectral_branches": [
+        "independent_channels",
+        "hanning_channels",
+        "decimated_hanning_channels"
+      ],
+      "hanning_kernel": [
+        0.25,
+        0.5,
+        0.25
+      ]
+    },
+    "simulation": {
+      "noise_realizations_per_branch": 128,
+      "seed": 9062041,
+      "spatial_noise": "Independent native pixels filtered by the nominal circular native restoring-beam surrogate and the additional detection Gaussian. Pad the white-noise field by the full kernel support and crop to avoid artificial boundary variance loss. Normalize the exact convolution-kernel variance to one.",
+      "spectral_noise": "Full Hanning uses an extended independent sequence with a three-tap filter. Decimated Hanning retains every second filtered sample (lag-one correlation 1/6); full Hanning has lag-one 2/3. Normalize all marginal variances to one. These are declared alternatives, not measured THINGS responses."
+    },
+    "sources": {
+      "intrinsic_spatial_gaussian_fwhm_arcsec": [
+        30.0,
+        90.0,
+        180.0
+      ],
+      "intrinsic_spectral_gaussian_fwhm_channels": [
+        1.0,
+        3.0,
+        6.0
+      ],
+      "observed_peak_snr": [
+        1.0,
+        2.0,
+        3.0,
+        5.0
+      ],
+      "placement": "Centered at spatial and spectral array centers. Apply the same spatial and spectral response to signal, then normalize its observed peak to the declared SNR.",
+      "scope": "Known finite sampled positive Gaussian scenes; no deprojection, mass conversion, physical orbit or gravity model enters.",
+      "spectral_width_units": "Intrinsic FWHM in units of retained output channel spacing; generate the decimated branch on a half-spacing parent grid, filter, then retain alternate samples."
+    },
+    "statistics": [
+      "Fraction of pure-noise voxels admitted by the mask",
+      "Probability the known source peak is included",
+      "Fraction of known noiseless source flux inside the selected mask",
+      "Selected measured flux divided by known input source flux, including selected-noise bias"
+    ],
+    "threshold_fitting_permitted": false,
+    "independent_benchmarks": [
+      "Three-channel mask against explicit interval examples including separated pairs and boundary triples",
+      "Cube filtering against per-plane direct convolution",
+      "Filtered white-noise covariance and variance against convolution-kernel moments",
+      "Noiseless narrow-line counterexample retained"
+    ],
+    "nonclaims": [
+      "Successful recovery of these templates does not establish completeness for real asymmetric or streaming gas",
+      "Oracle noise amplitude is not a fitted or independently validated actual noise model",
+      "Shared noise draws across injection strengths give paired controls, not independent experiments",
+      "No mask parameter is selected to improve MOND or Newtonian residuals"
+    ]
+  },
+  "bindings": {
+    "configs\\mond_atlas_mask_injection_v1.json": "90aae8391bd8f58cc5afa71605dd9afc3b4e79f9bafdf757801e6421f11aaba1",
+    "scripts\\run_mond_atlas_mask_injection.py": "af17807f4f955abe8c64a97b903e73194076d0b689c5cc35748ee5dd1261d758",
+    "scripts\\mond_atlas_mask_injection.py": "061dfd2aac1727b0d913d86bd914eb871f38745eae6e96cfca8101dd66b1879f",
+    "scripts\\mond_atlas_smoothing_null.py": "f364f400ab3a3d6ac254beff2b249596d95210daa5e8b7b6f0373a00ac1a426b",
+    "scripts\\mond_atlas_preprocessing.py": "d3e3108699e7ac84eea560b756264ef2f75866f47bdea8e7f10195ab089d1bf3",
+    "tests\\test_mond_atlas_mask_injection.py": "e67a4459cb9110c355d6f79d90b8cfc88b3dc261b67469c8d9ba0e18b53d8dde"
+  },
+  "real_galaxy_motion_values_used": false
+}

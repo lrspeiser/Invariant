@@ -1,0 +1,34 @@
+{
+  "id": "mond-atlas-ngc2903-conditional-field-v1",
+  "object_id": "NGC2903",
+  "status": "DEVELOPMENT_SOURCE_SENSITIVITY_NOT_POSTERIOR",
+  "geometry": {"ra_deg": 143.0424, "dec_deg": 21.50183, "distance_mpc": 9.058, "pa_deg": 19.6, "inclination_deg": 61.74834885857858},
+  "geometry_source": "configs/open_gravity_rg_s4g_geometry_source_v1.json",
+  "p5_crpix_add": [3.0, 1.0],
+  "p5_transfer_receipt": "work/gravity-first-principles/ngc2903-matter-002/p1-p5-registration.json",
+  "source_grid": {"half_width_kpc": 24.0, "spacing_kpc": 0.25, "taper_start_kpc": 18.0, "cutoff_kpc": 20.0, "annulus_width_kpc": 0.5, "minimum_cell_coverage": 0.5, "minimum_annulus_coverage": 0.2},
+  "conversions": {"stellar_lsun_pc2_per_mjy_sr": 704.04, "nominal_stellar_ml": 0.6, "alpha_co10_including_helium": 4.35, "co21_to_co10": 0.65, "helium_factor_hi": 1.36},
+  "gravity": {"G_kpc_kms2_per_msun": 4.30091727003628e-6, "a0_kms2_per_kpc": 3702.8130977896406, "nu": "0.5 + sqrt(0.25 + 1/y)", "external_field": "conditional isolation, not observationally constrained"},
+  "numerics": {"base_spacing_kpc": [0.5, 0.5, 0.125], "base_half_width_kpc": 24.0, "larger_half_width_kpc": 32.0, "force_radius_min_kpc": 2.0, "force_radius_max_kpc": 15.0, "convergence_relative_rms_gate": 0.03},
+  "cases": [
+    {"id": "nominal", "ml": 0.6, "alpha_co10": 4.35, "r21": 0.65, "star_height_kpc": 0.4, "gas_height_kpc": 0.2, "fill": "annular"},
+    {"id": "uncovered_zero", "ml": 0.6, "alpha_co10": 4.35, "r21": 0.65, "star_height_kpc": 0.4, "gas_height_kpc": 0.2, "fill": "zero"},
+    {"id": "low_conversion", "ml": 0.4, "alpha_co10": 2.0, "r21": 1.0, "star_height_kpc": 0.4, "gas_height_kpc": 0.2, "fill": "annular"},
+    {"id": "high_conversion", "ml": 0.8, "alpha_co10": 8.0, "r21": 0.5, "star_height_kpc": 0.4, "gas_height_kpc": 0.2, "fill": "annular"},
+    {"id": "thicker", "ml": 0.6, "alpha_co10": 4.35, "r21": 0.65, "star_height_kpc": 0.8, "gas_height_kpc": 0.4, "fill": "annular"},
+    {"id": "axisymmetrized", "ml": 0.6, "alpha_co10": 4.35, "r21": 0.65, "star_height_kpc": 0.4, "gas_height_kpc": 0.2, "fill": "annular", "axisymmetrize": true}
+  ],
+  "source_policy": [
+    "No target velocity, fitted rotation, dark halo, or dynamical mass is read by the source builder.",
+    "P5 nonzero ICA labels are missing. HI released moment-map zeros are blanked or nondetected, never measured empty space. CO signed values and error maps are retained.",
+    "Cell means use signed flux before nonnegative physical-density projection. Clipped-negative flux is reported. This is a sensitivity construction, not an unbiased likelihood inversion.",
+    "Uncovered-zero and annular-fill cases are conditional alternatives, neither a measured total density nor confidence bounds. Within-cell missing-at-random extrapolation is explicit in annular case.",
+    "Native instrumental blurring remains in source maps. No deconvolution, warp, bulge decomposition, or observed vertical-height claim is made.",
+    "Exponential vertical profiles are discretely mass-normalized; heights are illustrative, not independently measured posterior draws.",
+    "The 18-20 kpc taper excludes unmeasured outer mass conditionally. Hot/ionized gas, CO-dark gas and a central compact component remain unaccounted for.",
+    "Gravity is solved from the combined three-dimensional baryons; component-by-component MOND boosts are forbidden.",
+    "Newtonian boundary uses source monopole, dipole and quadrupole. MOND boundary uses the spherical simple-nu monopole; omitted nonspherical exterior terms require box convergence.",
+    "Radial force-equivalent speed is a diagnostic, not a self-consistent circular orbit in a barred potential or an admitted motion likelihood."
+  ],
+  "references": ["https://arxiv.org/abs/0911.5464", "https://arxiv.org/abs/astro-ph/0207413", "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/docs/P5_README.html"]
+}

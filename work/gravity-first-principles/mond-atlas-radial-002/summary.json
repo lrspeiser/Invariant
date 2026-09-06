@@ -1,0 +1,96 @@
+{
+  "status": "EXECUTED_FIXED_RADIAL_BASELINE_NOT_FULL_3D_ATLAS",
+  "generated_utc": "2026-09-06T14:53:20.670701+00:00",
+  "protocol_sha256": "4392f9bc1e77663927b731b21d7dc5bf20af851ed14e70a4171b45b20b413aa0",
+  "input_hashes": {
+    "configs/sparc_rotation_curves_full_v1.json": "dde80c7fc72974358b1370e1978726b87fe1a4048f0880ae79cf513e260a7cf1",
+    "work/private/matched-concentration-001/Rotmod_LTG.zip": "0a80cc90714828cc28b7dd57923576714d209f2490328c087c4a4ad607faf588",
+    "work/gravity-first-principles/map-response-metadata-001/SPARC_Lelli2016c.mrt": "5aa0501f6b0d881fa579030e315e7b5b6ef561a5bd3a07472f9929c7e5728243"
+  },
+  "code_hashes": {
+    "run_mond_atlas_radial.py": "8040cf4e590d6e6fed162b4ec2fd9ca1677aea2654e5f2253d0308483ba78abe",
+    "mond_atlas_common.py": "61b01982d6d1846fe46920863c2436c756324665232d1dbad6d2171391409145"
+  },
+  "published_galaxies": 175,
+  "published_radii": 3391,
+  "selected_galaxies": 126,
+  "selected_radii": 2694,
+  "galaxy_weighted_newton_rms_fractional_error_percent": 45.28468214460153,
+  "galaxy_weighted_mond_rms_fractional_error_percent": 36.477345774810765,
+  "median_galaxy_newton_rms_fractional_error_percent": 41.972465420098665,
+  "median_galaxy_mond_rms_fractional_error_percent": 15.570829138513286,
+  "galaxies_mond_lower_fractional_error_than_newton": 107,
+  "fixed_a0_m_s2": 1.2e-10,
+  "fitted_gravity_parameters": 0,
+  "dark_halo_terms": 0,
+  "full_field_mond_galaxies": 0,
+  "validated_independent_cube_predictions": 0,
+  "patterns": [
+    {
+      "feature": "gas_mass_fraction",
+      "galaxy_count": 126,
+      "baseline_rmse_dex": 0.08009205514896017,
+      "extended_rmse_dex": 0.08028587007277532,
+      "mse_gain_percent": -0.48456599100715747,
+      "paired_mse_gain_bootstrap95": [
+        -0.0001033954345196149,
+        2.9884338918771808e-05
+      ],
+      "permutation_p": 0.51,
+      "bonferroni_p": 1.0,
+      "test_status": "exploratory_whole_galaxy_cv_not_causal_or_survey_confirmation"
+    },
+    {
+      "feature": "effective_stellar_surface_brightness",
+      "galaxy_count": 126,
+      "baseline_rmse_dex": 0.08009205514896017,
+      "extended_rmse_dex": 0.0785940434554315,
+      "mse_gain_percent": 3.7057422660866806,
+      "paired_mse_gain_bootstrap95": [
+        -0.0002354733701597609,
+        0.0007894516768100663
+      ],
+      "permutation_p": 0.015,
+      "bonferroni_p": 0.06,
+      "test_status": "exploratory_whole_galaxy_cv_not_causal_or_survey_confirmation"
+    },
+    {
+      "feature": "disk_scale_length",
+      "galaxy_count": 126,
+      "baseline_rmse_dex": 0.08009205514896017,
+      "extended_rmse_dex": 0.08019339459567146,
+      "mse_gain_percent": -0.25321752144230825,
+      "paired_mse_gain_bootstrap95": [
+        -0.00013797401807083028,
+        9.807586618440765e-05
+      ],
+      "permutation_p": 0.455,
+      "bonferroni_p": 1.0,
+      "test_status": "exploratory_whole_galaxy_cv_not_causal_or_survey_confirmation"
+    },
+    {
+      "feature": "hubble_type",
+      "galaxy_count": 126,
+      "baseline_rmse_dex": 0.08009205514896017,
+      "extended_rmse_dex": 0.0805323555953679,
+      "mse_gain_percent": -1.1025081226152833,
+      "paired_mse_gain_bootstrap95": [
+        -0.0004850535133043353,
+        0.00027959424842018956
+      ],
+      "permutation_p": 0.76,
+      "bonferroni_p": 1.0,
+      "test_status": "exploratory_whole_galaxy_cv_not_causal_or_survey_confirmation"
+    }
+  ],
+  "limitations": [
+    "Algebraic MOND is a radial approximation; these are not full QUMOND/AQUAL disk solutions.",
+    "SPARC force templates omit independently mapped molecular/hot/ionized corrections and have geometric assumptions.",
+    "The 27-corner envelope is sensitivity only, not a posterior or confidence region; inclination changes only velocity projection, not source geometry.",
+    "Errors are descriptive; correlated radius errors and distance/inclination systematics preclude chi-square significance.",
+    "Galaxies were used previously in theory development. Cross-validation is not pristine confirmation and does not hold out physical groups or surveys.",
+    "Gas fraction is a total-HI plus uniform stellar-M/L proxy, not an independently measured total baryon fraction or spatial density.",
+    "Permutation shuffles are an exploratory exchangeability diagnostic; they do not establish causality or control every morphology/distance confounder.",
+    "No universal density/coherence correction is selected or tuned by this run."
+  ]
+}

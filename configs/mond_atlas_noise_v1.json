@@ -1,0 +1,31 @@
+{
+  "schema": "invariant-mond-atlas-joint-noise-audit-1",
+  "scope": "Real background-noise development audit on the existing 12 coarse THINGS cubes; no galaxy motion or gravity fit.",
+  "source_packets": "work/private/conditional-cube-pilot-001",
+  "source_audit": "work/gravity-first-principles/conditional-cube-pilot-001/data-audit.json",
+  "sky_annulus_arcsec": [550,680],
+  "block_side_pixels": 16,
+  "block_interior": [4,12],
+  "calibration_parity": 0,
+  "validation_parity": 1,
+  "validation_stride_pixels": 3,
+  "minimum_calibration_pixels": 150,
+  "minimum_validation_pixels": 25,
+  "channel_model": "Calibration-only per-channel mean/variance and six-lag Bartlett-tapered Toeplitz correlation, minimum correlation eigenvalue 0.05 before normalization.",
+  "spatial_model": "Calibration-only Gaussian correlation precision from symmetric lags |dx|,|dy|<=4: least squares to -2*log(correlation), weighted by pair count, using 0.15<correlation<0.98. Fixed 0.01 diagonal nugget for numerical regularization; this is an approximation, not measured white-noise power.",
+  "minimum_lag_pairs": 30,
+  "spatial_nugget": 0.01,
+  "diagnostic_gates": {
+    "held_whitened_mean_square": [0.5,2.0],
+    "absolute_held_channel_lag1": 0.15,
+    "held_quadrant_mean_square": [0.5,2.0],
+    "minimum_quadrant_pixels": 4
+  },
+  "claim_limits": [
+    "The annulus may contain emission or nonstationary instrumental noise; a failed diagnostic is retained.",
+    "Passing heuristic moment gates does not establish exact Gaussian likelihood, separability, mask validity within the galaxy or calibrated chi-square significance.",
+    "The cached cube has approximate native-beam treatment; instrument reconstruction remains incomplete.",
+    "No velocities, fitted rotation, gas context or source amplitudes enter this noise fit.",
+    "All galaxies were used previously. These are guarded spatial validation patches, not independent observing epochs."
+  ]
+}

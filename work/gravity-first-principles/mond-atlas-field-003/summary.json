@@ -1,0 +1,134 @@
+{
+  "status": "CONDITIONAL_IMAGE_CONSISTENT_FORCE_DIAGNOSTIC_NOT_ADMITTED_FOR_MOTION",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "config": {
+    "id": "mond-atlas-reprojected-fields-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Conditional force sensitivity only. No motion data or response scoring. Compare two different depth structures that reproduce the source image within the predeclared gross 5 percent diagnostic.",
+    "gravity_protocol": "configs/mond_atlas_ngc2903_field_v1.json",
+    "projection_run": "work/gravity-first-principles/mond-atlas-projection-001/summary.json",
+    "mixed_projection_run": "work/gravity-first-principles/mond-atlas-projection-002/summary.json",
+    "stellar_cases": [
+      {
+        "id": "refitted_thin",
+        "source": "work/private/mond-atlas-projection-001/stellar_luminosity-h0p1.npz",
+        "vertical_components": [
+          [
+            1.0,
+            0.1
+          ]
+        ]
+      },
+      {
+        "id": "refitted_mixed",
+        "source": "work/private/mond-atlas-projection-002/thin-fraction-0p25.npz",
+        "vertical_components": [
+          [
+            0.25,
+            0.1
+          ],
+          [
+            0.75,
+            0.4
+          ]
+        ]
+      }
+    ],
+    "gas_cases": {
+      "atomic_helium": "work/private/mond-atlas-projection-001/atomic_helium-h0p2.npz",
+      "co21": "work/private/mond-atlas-projection-001/co21-h0p2.npz",
+      "height_kpc": 0.2
+    },
+    "base_grid_spacing_kpc": [
+      0.25,
+      0.25,
+      0.125
+    ],
+    "half_width_kpc": 24.0,
+    "numerical_followups": [
+      {
+        "id": "thin_vertical_refined",
+        "case_id": "refitted_thin",
+        "spacing_kpc": [
+          0.25,
+          0.25,
+          0.0625
+        ],
+        "half_width_kpc": 24.0
+      },
+      {
+        "id": "thin_lateral_refined",
+        "case_id": "refitted_thin",
+        "spacing_kpc": [
+          0.125,
+          0.125,
+          0.125
+        ],
+        "half_width_kpc": 24.0
+      },
+      {
+        "id": "thin_larger_box",
+        "case_id": "refitted_thin",
+        "spacing_kpc": [
+          0.25,
+          0.25,
+          0.125
+        ],
+        "half_width_kpc": 32.0
+      }
+    ],
+    "vector_relative_rms_gate": 0.03,
+    "maximum_ring_vector_rms_gate": 0.05,
+    "source_discretization": "Bilinear planar interpolation with each component's source integral preserved. Vertical exponentials use exact cell-integrated weights, without renormalizing a truncated tail.",
+    "limitations": [
+      "The two models have different recovered planar distributions as well as different heights; this is joint deprojection sensitivity, not a pure height perturbation.",
+      "A 5 percent source-image diagnostic does not imply observational posterior admission. Source covariance, absolute calibration, missing phases and external fields remain unresolved.",
+      "A constant stellar mass-to-light ratio is assumed for both vertical populations. Light fractions are therefore conditional mass fractions here.",
+      "Native source instrumental blurring remains; the true small-scale baryon distribution has not been recovered.",
+      "Numerical followups initially cover the thin case. The mixed case must not inherit a convergence certificate it has not been tested for."
+    ]
+  },
+  "config_sha256": "21c7e6b4860961cb06cfc5355c969ca070183c520c8d2bc4a369a87f50ba37a4",
+  "source_models": 2,
+  "full_field_runs": 5,
+  "thin_model_numerical_checks": {
+    "thin_vertical_refined": {
+      "newton_vector_relative_rms": 0.00201859351016706,
+      "newton_maximum_ring_relative_rms": 0.0027997139781887497,
+      "mond_vector_relative_rms": 0.0021093108811520815,
+      "mond_maximum_ring_relative_rms": 0.0031556938548541443
+    },
+    "thin_lateral_refined": {
+      "newton_vector_relative_rms": 0.02842955190736201,
+      "newton_maximum_ring_relative_rms": 0.03973924769638349,
+      "mond_vector_relative_rms": 0.02547818466626123,
+      "mond_maximum_ring_relative_rms": 0.03992430444644689
+    },
+    "thin_larger_box": {
+      "newton_vector_relative_rms": 4.463392507621431e-05,
+      "newton_maximum_ring_relative_rms": 0.00044074720262915387,
+      "mond_vector_relative_rms": 0.0019611089095454308,
+      "mond_maximum_ring_relative_rms": 0.008005714839745525
+    }
+  },
+  "thin_model_numerical_gates_pass": true,
+  "mixed_model_convergence_validated": false,
+  "code_hashes": {
+    "scripts\\run_mond_atlas_reprojected_fields.py": "046a22a874fafde1e49be2620548cfc0cbcc6dc3089f8bfb2034107447e42d2f",
+    "scripts\\mond_atlas_rectangular_fields.py": "06c30c090520a823d85dac5120d9dd869a5fb54eb08751875f0f316e5c5afa69",
+    "scripts\\run_mond_atlas_ngc2903_fields.py": "e6d6ab7f6dfdd69842486ed73700168e4eeb064f1691a71f5abceeb3f1ee5473",
+    "scripts\\check_mond_atlas_field_pattern.py": "5f7314fb263f01fbc554c67702d512a7a138d87d75c83829abc3d64c9a1648b8"
+  },
+  "source_bindings": {
+    "work/private/mond-atlas-projection-001/stellar_luminosity-h0p1.npz": "d41b44013d496b3c7630cf1157892b253c446e9b1a3395e4715fd22703a9e0a2",
+    "work/private/mond-atlas-projection-002/thin-fraction-0p25.npz": "7046e39afd34abb36104982582b58af5a65df2cb05262379ad36e386f4e6c1bf",
+    "work/private/mond-atlas-projection-001/atomic_helium-h0p2.npz": "526e27328e7e2370a53c5fd011c8f83f8891a99d4dba6f52856f1b21abfe4fd0",
+    "work/private/mond-atlas-projection-001/co21-h0p2.npz": "8f7e95b2c8f64d609df8216dd014b6aff7d05bccd29b3102d6526149b1b05fe7",
+    "configs/mond_atlas_ngc2903_field_v1.json": "893b068b7642eddbf0effbc23a1bc1cf300d8557e5843a83c216805e61c48dfc",
+    "work/gravity-first-principles/mond-atlas-projection-001/summary.json": "b93b1c873cbcc9be56de138479fd439649aec1328c3491e0ff0f467b9b6ac8c0",
+    "work/gravity-first-principles/mond-atlas-projection-002/summary.json": "fefa32de0fb0fe8ff3dd69e1ca56705f52f49d066bd5fe2412fc0f024461e69b"
+  },
+  "response_files_opened": [],
+  "kinematic_response_scores_computed": 0,
+  "goal_complete": false
+}

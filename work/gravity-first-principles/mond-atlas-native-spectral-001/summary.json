@@ -1,0 +1,111 @@
+{
+  "status": "NATIVE_SPECTRAL_PROVENANCE_AND_CONDITIONAL_COVARIANCE_EXECUTED",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "config": {
+    "id": "mond-atlas-native-spectral-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Recover native spectral processing provenance, quantify retained historical continuum-fit channels and execute a conditional continuum-subtraction covariance benchmark. No galaxy gravity or motion fit.",
+    "cube_receipt": "work/gravity-first-principles/things-cube-acquisition-001/receipt.json",
+    "cached_cube_audit": "work/gravity-first-principles/conditional-cube-pilot-001/data-audit.json",
+    "source_paper": "https://arxiv.org/abs/0810.2125",
+    "imaging_documentation": "https://www.aips.nrao.edu/CookHTML/CookBookse50.html",
+    "continuum_documentation": "https://www.aips.nrao.edu/CookHTML/CookBookse49.html",
+    "history_contract": "Retain each complete UVLIN history group, IF/channel weights and polynomial order, the IMAGR channel range/averaging/increment, source identifiers, subsequent processing task names and exact source-card indexes. Bind the complete header and raw cube hashes.",
+    "direct_channel_mapping_contract": "Map output channel j (zero-based stored FITS order) to BCHAN+j only if there is exactly one UVLIN group and one IMAGR group; UVLIN output name/class/sequence equals IMAGR input; NCHAV=CHINC=1; ECHAN-BCHAN+1=NAXIS3; a complete single-IF weight vector covers the output range; no post-UVLIN spectral-combination or regridding task is recorded. MOVE/RENAM/TVFLG/UVFLG/IMAGR/AIPS are allowed but flags remain a covariance limitation. Otherwise retain unresolved provenance without guessing a mapping.",
+    "continuum_operator": "For explicitly mapped simple cases only, A=S-X_out (X_cal^T W X_cal)^-1 X_cal^T W P_cal. Compute A C A^T. This exact linear-algebra identity is only a conditional image-domain surrogate for visibility-domain subtraction, not a replay of per-visibility flagging, imaging weights or nonlinear CLEAN.",
+    "toy_input_channel_covariances": [
+      "independent unit variance",
+      "independent unit variance convolved spectrally with [0.25,0.5,0.25], normalized to unit variance away from boundaries"
+    ],
+    "independent_benchmarks": {
+      "polynomial_annihilation_absolute_error_max": 1e-12,
+      "weighted_fit_separate_implementation_absolute_error_max": 1e-12,
+      "known_constant_subtraction_covariance_absolute_error_max": 1e-12,
+      "monte_carlo_covariance_relative_rms_max": 0.025,
+      "monte_carlo_draws": 60000
+    },
+    "native_spatial_transfer_diagnostic": {
+      "selection": "Only the mapped historical continuum-fit channels, without choosing channels by the current image values. They are candidates defined by provenance, not certified line-free measurements.",
+      "sample_native_pixel_stride": 4,
+      "pixel_border": 32,
+      "inner_radius_arcsec": [
+        0,
+        300
+      ],
+      "outer_radius_arcsec": [
+        550,
+        680
+      ],
+      "center": "Native spatial FITS reference pixel; this diagnostic needs no galaxy velocity or fitted geometry.",
+      "statistics": [
+        "Per-channel median and Gaussian-scaled MAD in each region",
+        "Inner/outer robust scale ratios and signed tail asymmetry",
+        "Adjacent-channel residual products only within contiguous mapped intervals"
+      ],
+      "galaxy_likelihood_admission_from_this_diagnostic": false
+    },
+    "nonclaims": [
+      "Historical continuum channels are not independent observing epochs",
+      "A missing retained continuum channel does not establish that all output channels contain emission",
+      "AIPS metadata alone does not recover unrecorded online spectral response or per-visibility flags",
+      "A Gaussian restoring beam alone is not the interferometric noise covariance",
+      "No new mask, source mass, 3D depth or gravity residual is fitted"
+    ]
+  },
+  "bindings": {
+    "configs\\mond_atlas_native_spectral_v1.json": "5f8f2ce526385ba694ff24d7661129e134ba9a2ec7d409a327d4d0e371e59919",
+    "work\\gravity-first-principles\\things-cube-acquisition-001\\receipt.json": "a6934d07e998896cebf900fe05b78bba5e4fd9eea2982d1251ee8ddced5e2680",
+    "work\\gravity-first-principles\\conditional-cube-pilot-001\\data-audit.json": "231c027818aa1dbd7d1266a541098d53fdfbfaa473c4d4d607964fcf1c7387e3",
+    "scripts\\run_mond_atlas_native_spectral.py": "786338ae0d26c091a086e6f81030e009659496e6bd7d624c3ecf36e97c3bab56",
+    "scripts\\mond_atlas_native_spectral.py": "0f6c3280ea2f7db3979faaaf99e5c27c4ebcbd60fd3b1b4f36a32b03b5dcf4b6",
+    "scripts\\mond_atlas_common.py": "61b01982d6d1846fe46920863c2436c756324665232d1dbad6d2171391409145",
+    "tests\\test_mond_atlas_native_spectral.py": "489acb7c1d2b91dbd758bd6841b61e3737fe6e9b474d8a14a79fbabb57006e2a"
+  },
+  "source_bindings": {
+    "work\\private\\things-observable-12gal-003\\DDO154_NA_CUBE_THINGS.FITS": "cad83d02a09134ec668adb8d84092282ecbcea26fc9a29288367b35cd4c1662f",
+    "work\\private\\things-observable-12gal-003\\IC_2574_NA_CUBE_THINGS.FITS": "a9779550b152833627399454a834854d4cb54b6e1a17f8e280144120f16f4a47",
+    "work\\private\\things-observable-12gal-003\\NGC_2841_NA_CUBE_THINGS.FITS": "80e80d80e3f16e7d85eca6f977c4d31a9c63b99753b42f69eff16a6fd4b94b49",
+    "work\\private\\things-observable-12gal-003\\NGC_2903_NA_CUBE_THINGS.FITS": "21c6b5f155cb56ccb7e60208a5fd98cd3835d948ce98a296fe25012002b546a8",
+    "work\\private\\things-observable-12gal-003\\NGC_2976_NA_CUBE_THINGS.FITS": "e8ce711a354fcf9c76e7ba9afd9e55fa97df6169863d5473140f20f9c8250169",
+    "work\\private\\things-observable-12gal-003\\NGC_3198_NA_CUBE_THINGS.FITS": "c047779288e354a06c664b144eff069b665b70a0730fe7d55513be79ca444168",
+    "work\\private\\things-observable-12gal-003\\NGC_3521_NA_CUBE_THINGS.FITS": "da758b45e79f97e162e34ef2e0e2e6bde6646b17e9d7fb771f1e38fe1d8bc6db",
+    "work\\private\\things-observable-12gal-003\\NGC_4214_NA_CUBE_THINGS.FITS": "09b5a041ff8e73a9e01534739558b032ca6623859ba18ac0e5b6a6c6f783cd5c",
+    "work\\private\\things-observable-12gal-003\\NGC_5055_NA_CUBE_THINGS.FITS": "43f9b440fbf1443ed1436bc700c89b0894028e0c97785a6f9d891ceae8aa92cd",
+    "work\\private\\things-observable-12gal-003\\NGC_6946_NA_CUBE_THINGS.FITS": "e8479696dcba7b55a7ef1bf3c9180948da01daeb95e0c993d00dc7e9b216e3de",
+    "work\\private\\things-observable-12gal-003\\NGC_7331_NA_CUBE_THINGS.FITS": "4adbedc2fd6fd50de2888a0f4699b5cb3953f17e45072944cd97728cc5530b80",
+    "work\\private\\things-observable-12gal-003\\HO_II_NA_CUBE_THINGS.FITS": "53e4b5f4c7e22237d7fdee010269348d4b8cad162d8e074180dd685d435a7971"
+  },
+  "galaxies": 12,
+  "direct_history_mapping_galaxies": [
+    "DDO154",
+    "IC2574",
+    "NGC2903",
+    "NGC2976",
+    "NGC3198",
+    "NGC4214",
+    "NGC5055",
+    "NGC6946",
+    "UGC04305"
+  ],
+  "unresolved_history_mapping_galaxies": [
+    "NGC2841",
+    "NGC3521",
+    "NGC7331"
+  ],
+  "retained_historical_continuum_candidate_channels": 29,
+  "native_spatial_diagnostic_galaxies": [
+    "IC2574",
+    "NGC2903",
+    "NGC2976",
+    "NGC3198",
+    "NGC4214",
+    "NGC5055",
+    "NGC6946",
+    "UGC04305"
+  ],
+  "conditional_continuum_covariance_cases": 18,
+  "independent_unit_tests": 6,
+  "certified_line_free_channels": 0,
+  "admitted_galaxy_cube_predictions": 0,
+  "goal_complete": false
+}

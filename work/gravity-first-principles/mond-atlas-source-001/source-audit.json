@@ -1,0 +1,262 @@
+{
+  "status": "CONDITIONAL_SOURCE_MAPS_NOT_OBSERVED_3D",
+  "object_id": "NGC2903",
+  "components": {
+    "stellar_luminosity": {
+      "observed_area_fraction_inside_cutoff": 0.8997667905301346,
+      "cells_with_half_coverage": 18843,
+      "cells_inside_cutoff": 20069,
+      "signed_measured_integral": 66757148565.19698,
+      "negative_projection_added_integral": 8003078.183828626,
+      "conditional_zero_integral": 66765151643.3808,
+      "conditional_annular_integral": 69864426283.36082,
+      "supported_annuli": 68,
+      "extrapolated_outside_last_supported_annulus": false,
+      "missing_flux_is_measured_zero": false,
+      "maximum_area_coverage": 1.0633519468496206
+    },
+    "atomic_helium": {
+      "observed_area_fraction_inside_cutoff": 0.953466926336398,
+      "cells_with_half_coverage": 20069,
+      "cells_inside_cutoff": 20069,
+      "signed_measured_integral": 4755113549.538882,
+      "negative_projection_added_integral": 0.0,
+      "conditional_zero_integral": 4755113549.538882,
+      "conditional_annular_integral": 4755269406.747875,
+      "supported_annuli": 68,
+      "extrapolated_outside_last_supported_annulus": false,
+      "missing_flux_is_measured_zero": false,
+      "maximum_area_coverage": 1.1733590572298258
+    },
+    "co21": {
+      "observed_area_fraction_inside_cutoff": 0.5971541680061021,
+      "cells_with_half_coverage": 12827,
+      "cells_inside_cutoff": 20069,
+      "signed_measured_integral": 493273969.5699879,
+      "negative_projection_added_integral": 33966131.00390516,
+      "conditional_zero_integral": 527240100.5738932,
+      "conditional_annular_integral": 528090706.17600024,
+      "supported_annuli": 36,
+      "extrapolated_outside_last_supported_annulus": false,
+      "missing_flux_is_measured_zero": false,
+      "maximum_area_coverage": 1.3037286116500646
+    }
+  },
+  "protocol": {
+    "id": "mond-atlas-ngc2903-conditional-field-v1",
+    "object_id": "NGC2903",
+    "status": "DEVELOPMENT_SOURCE_SENSITIVITY_NOT_POSTERIOR",
+    "geometry": {
+      "ra_deg": 143.0424,
+      "dec_deg": 21.50183,
+      "distance_mpc": 9.058,
+      "pa_deg": 19.6,
+      "inclination_deg": 61.74834885857858
+    },
+    "geometry_source": "configs/open_gravity_rg_s4g_geometry_source_v1.json",
+    "p5_crpix_add": [
+      3.0,
+      1.0
+    ],
+    "p5_transfer_receipt": "work/gravity-first-principles/ngc2903-matter-002/p1-p5-registration.json",
+    "source_grid": {
+      "half_width_kpc": 24.0,
+      "spacing_kpc": 0.25,
+      "taper_start_kpc": 18.0,
+      "cutoff_kpc": 20.0,
+      "annulus_width_kpc": 0.5,
+      "minimum_cell_coverage": 0.5,
+      "minimum_annulus_coverage": 0.2
+    },
+    "conversions": {
+      "stellar_lsun_pc2_per_mjy_sr": 704.04,
+      "nominal_stellar_ml": 0.6,
+      "alpha_co10_including_helium": 4.35,
+      "co21_to_co10": 0.65,
+      "helium_factor_hi": 1.36
+    },
+    "gravity": {
+      "G_kpc_kms2_per_msun": 4.30091727003628e-06,
+      "a0_kms2_per_kpc": 3702.813097789641,
+      "nu": "0.5 + sqrt(0.25 + 1/y)",
+      "external_field": "conditional isolation, not observationally constrained"
+    },
+    "numerics": {
+      "base_spacing_kpc": [
+        0.5,
+        0.5,
+        0.125
+      ],
+      "base_half_width_kpc": 24.0,
+      "larger_half_width_kpc": 32.0,
+      "force_radius_min_kpc": 2.0,
+      "force_radius_max_kpc": 15.0,
+      "convergence_relative_rms_gate": 0.03
+    },
+    "cases": [
+      {
+        "id": "nominal",
+        "ml": 0.6,
+        "alpha_co10": 4.35,
+        "r21": 0.65,
+        "star_height_kpc": 0.4,
+        "gas_height_kpc": 0.2,
+        "fill": "annular"
+      },
+      {
+        "id": "uncovered_zero",
+        "ml": 0.6,
+        "alpha_co10": 4.35,
+        "r21": 0.65,
+        "star_height_kpc": 0.4,
+        "gas_height_kpc": 0.2,
+        "fill": "zero"
+      },
+      {
+        "id": "low_conversion",
+        "ml": 0.4,
+        "alpha_co10": 2.0,
+        "r21": 1.0,
+        "star_height_kpc": 0.4,
+        "gas_height_kpc": 0.2,
+        "fill": "annular"
+      },
+      {
+        "id": "high_conversion",
+        "ml": 0.8,
+        "alpha_co10": 8.0,
+        "r21": 0.5,
+        "star_height_kpc": 0.4,
+        "gas_height_kpc": 0.2,
+        "fill": "annular"
+      },
+      {
+        "id": "thicker",
+        "ml": 0.6,
+        "alpha_co10": 4.35,
+        "r21": 0.65,
+        "star_height_kpc": 0.8,
+        "gas_height_kpc": 0.4,
+        "fill": "annular"
+      },
+      {
+        "id": "axisymmetrized",
+        "ml": 0.6,
+        "alpha_co10": 4.35,
+        "r21": 0.65,
+        "star_height_kpc": 0.4,
+        "gas_height_kpc": 0.2,
+        "fill": "annular",
+        "axisymmetrize": true
+      }
+    ],
+    "source_policy": [
+      "No target velocity, fitted rotation, dark halo, or dynamical mass is read by the source builder.",
+      "P5 nonzero ICA labels are missing. HI released moment-map zeros are blanked or nondetected, never measured empty space. CO signed values and error maps are retained.",
+      "Cell means use signed flux before nonnegative physical-density projection. Clipped-negative flux is reported. This is a sensitivity construction, not an unbiased likelihood inversion.",
+      "Uncovered-zero and annular-fill cases are conditional alternatives, neither a measured total density nor confidence bounds. Within-cell missing-at-random extrapolation is explicit in annular case.",
+      "Native instrumental blurring remains in source maps. No deconvolution, warp, bulge decomposition, or observed vertical-height claim is made.",
+      "Exponential vertical profiles are discretely mass-normalized; heights are illustrative, not independently measured posterior draws.",
+      "The 18-20 kpc taper excludes unmeasured outer mass conditionally. Hot/ionized gas, CO-dark gas and a central compact component remain unaccounted for.",
+      "Gravity is solved from the combined three-dimensional baryons; component-by-component MOND boosts are forbidden.",
+      "Newtonian boundary uses source monopole, dipole and quadrupole. MOND boundary uses the spherical simple-nu monopole; omitted nonspherical exterior terms require box convergence.",
+      "Radial force-equivalent speed is a diagnostic, not a self-consistent circular orbit in a barred potential or an admitted motion likelihood."
+    ],
+    "references": [
+      "https://arxiv.org/abs/0911.5464",
+      "https://arxiv.org/abs/astro-ph/0207413",
+      "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/docs/P5_README.html"
+    ]
+  },
+  "protocol_sha256": "893b068b7642eddbf0effbc23a1bc1cf300d8557e5843a83c216805e61c48dfc",
+  "source_assets": [
+    {
+      "name": "NGC2903",
+      "role": "STELLAR_MASS_MAP",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2903/P5/NGC2903.stellar.fits",
+      "bytes": 5811840,
+      "file": "work\\private\\stellar-co-12gal-001\\NGC2903__STELLAR_MASS_MAP.fits",
+      "sha256": "f2cf075245610e2acb9aca2f631a35510c7f71e32115066521fe40449d2dc417",
+      "actual_bytes": 5811840,
+      "bunit": "MJy/sr"
+    },
+    {
+      "name": "NGC2903",
+      "role": "STELLAR_ICA_MASK",
+      "url": "https://irsa.ipac.caltech.edu/data/SPITZER/S4G/galaxies/NGC2903/P5/NGC2903.ICAmask.fits",
+      "bytes": 5811840,
+      "file": "work\\private\\stellar-co-12gal-001\\NGC2903__STELLAR_ICA_MASK.fits",
+      "sha256": "dae6f0899f79f8084afdaedaa0ede22bf595e2552d3f421a1c2e473e9eaf030e",
+      "actual_bytes": 5811840,
+      "bunit": "MJy/sr"
+    },
+    {
+      "name": "NGC2903",
+      "role": "CO21_MOM0",
+      "url": "https://www.iram.fr/ILPA/LP001/ngc2903_heracles_mom0.fits.gz",
+      "bytes": 187506,
+      "file": "work\\private\\stellar-co-12gal-001\\NGC2903__CO21_MOM0.fits.gz",
+      "sha256": "c863297e845a999acc0a5d258f94dc45b22d4fd9d35629b55fc95d61cb9ac82a",
+      "actual_bytes": 187506,
+      "bunit": "K KM/S"
+    },
+    {
+      "name": "NGC2903",
+      "role": "CO21_EMOM0",
+      "url": "https://www.iram.fr/ILPA/LP001/ngc2903_heracles_emom0.fits.gz",
+      "bytes": 146800,
+      "file": "work\\private\\stellar-co-12gal-001\\NGC2903__CO21_EMOM0.fits.gz",
+      "sha256": "e60999c5e11779f9ef148f3d39b605e2d94afbe8c1e72babe6ce448e5aa54419",
+      "actual_bytes": 146800,
+      "bunit": "K KM/S"
+    },
+    {
+      "name": "NGC2903",
+      "resolution": "NA",
+      "moment": 0,
+      "url": "https://things.www3.mpia.de/Data_files/NGC_2903_NA_MOM0_THINGS.FITS",
+      "current_index_link": true,
+      "file": "work\\private\\things-observable-12gal-003\\NGC_2903_NA_MOM0_THINGS.FITS",
+      "bytes": 4253760,
+      "sha256": "dcbc9e3e7a6ed194d8065d636e62e99ae24b769b9bfe8dfe04e2365920f942de",
+      "shape": [
+        1024,
+        1024
+      ],
+      "bunit": "JY/B*M/S",
+      "finite_fraction": 1.0,
+      "zero_fraction": 0.6555442810058594,
+      "beam_and_blanking_history": [
+        "REMAG  /PIXVAL =  0.000E+00     / substituted value",
+        "REMAG  /NBLANK =      687388    / number pixels changed",
+        "AIPS   CLEAN BMAJ=  4.2417E-03 BMIN=  3.6996E-03 BPA= -51.34"
+      ]
+    }
+  ],
+  "source_packet": "work\\private\\mond-atlas-source-001\\source-maps.npz",
+  "source_packet_sha256": "52e3df5e93667f83ac908560d4d2146d3e5a887fe8210329bc3a21757869cdcc",
+  "bindings": [
+    {
+      "path": "scripts\\build_mond_atlas_ngc2903_source.py",
+      "sha256": "5adf67b536f4e02e0f3b05a37d00edbcf84d87142bb62feb68c15a957dd53fef"
+    },
+    {
+      "path": "scripts\\mond_atlas_image_io.py",
+      "sha256": "9a56e2212a3d2b471c47e8844ffe76fad361c419c1d4fdb9e80a9607684c08e5"
+    },
+    {
+      "path": "scripts\\mond_atlas_common.py",
+      "sha256": "61b01982d6d1846fe46920863c2436c756324665232d1dbad6d2171391409145"
+    },
+    {
+      "path": "configs\\open_gravity_rg_s4g_geometry_source_v1.json",
+      "sha256": "6a4998ee1fb21f2d391ef2ea0f72a7bb1e8703b3db60c25d9639e5ad48befe6c"
+    },
+    {
+      "path": "work\\gravity-first-principles\\ngc2903-matter-002\\p1-p5-registration.json",
+      "sha256": "4a3138f6c1026d6207a51975cf956a81c9074708b373356d5a241251a8df62cf"
+    }
+  ],
+  "kinematic_inputs_consumed": [],
+  "source_uncertainty_likelihood_complete": false
+}

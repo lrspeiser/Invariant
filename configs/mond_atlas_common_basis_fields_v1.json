@@ -1,0 +1,46 @@
+{
+  "id": "mond-atlas-common-basis-fields-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "Conditional numerical fields for the newly refitted bilinear source coefficients. No observed motion data are opened or scored.",
+  "source_reason": "Image and field representations now agree, but source covariance, native pixel/beam treatment, absolute photometry, independent depth constraints, missing phases and physical exterior fields remain incomplete.",
+  "source_summary": "work/gravity-first-principles/mond-atlas-source-basis-001/summary.json",
+  "solver_summary": "work/gravity-first-principles/mond-atlas-field-005/summary.json",
+  "storage_protocol": "configs/mond_atlas_blocked_fields_v1.json",
+  "gravity_protocol": "configs/mond_atlas_ngc2903_field_v1.json",
+  "stellar_cases": [
+    {"id": "common_thin", "source": "work/private/mond-atlas-source-basis-001/stars_thin.npz", "vertical_components": [[1.0, 0.1]]},
+    {"id": "common_mixed", "source": "work/private/mond-atlas-source-basis-001/stars_mixed.npz", "vertical_components": [[0.25, 0.1], [0.75, 0.4]]}
+  ],
+  "gas_cases": {
+    "atomic_helium": "work/private/mond-atlas-source-basis-001/atomic.npz",
+    "co21": "work/private/mond-atlas-source-basis-001/co21.npz",
+    "height_kpc": 0.2
+  },
+  "grids": [
+    {"id": "base", "half_width_kpc": 24.0, "spacing_kpc": [0.125, 0.125, 0.125]},
+    {"id": "lateral", "half_width_kpc": 24.0, "spacing_kpc": [0.0625, 0.0625, 0.125]},
+    {"id": "vertical", "half_width_kpc": 24.0, "spacing_kpc": [0.125, 0.125, 0.0625]},
+    {"id": "box", "half_width_kpc": 32.0, "spacing_kpc": [0.125, 0.125, 0.125]}
+  ],
+  "vector_relative_rms_gate": 0.03,
+  "maximum_ring_vector_rms_gate": 0.05,
+  "relative_pde_residual_gate": 1e-10,
+  "source_integral_relative_error_gate": 1e-10,
+  "workspace_disk_reserve_bytes": 8589934592,
+  "source_discretization": "The exact same nonnegative bilinear planar nodes used in the image projection, times the declared continuous exponential layers. Integer-factor planar interpolation preserves node-basis integrals; vertical cells use exact exponential cell averages without tail renormalization.",
+  "independent_benchmarks": [
+    "Analytic anisotropic quadratic Poisson solution",
+    "Dense full-volume versus disk-backed Poisson and QUMOND face-flux reference",
+    "Independent physical line-of-sight integration of the bilinear source basis",
+    "Thin-limit finite-cell integration, flux/centroid, projection adjoint, and held-source mutation controls",
+    "Existing Plummer, external-field and cube/covariance analytic controls"
+  ],
+  "primary_references": ["https://arxiv.org/abs/0911.5464", "https://arxiv.org/abs/1410.0009", "https://arxiv.org/abs/1402.5210", "https://arxiv.org/abs/0810.2125", "https://arxiv.org/abs/0905.4742"],
+  "limitations": [
+    "The two stellar models differ in recovered planar structure as well as depth. Their difference is joint deprojection sensitivity, not a pure height effect.",
+    "Each resolution and box perturbation is compared with the same base grid. Joint-refinement cross terms are not bounded by these one-at-a-time checks.",
+    "Changing the box checks the numerical use of the conditional isolated boundary; it does not measure the environment or validate isolation.",
+    "The earlier coefficient set's convergence cannot be inherited. Both new cases must pass their own tests.",
+    "Force-equivalent speeds are field diagnostics, not actual orbit solutions in a barred potential."
+  ]
+}

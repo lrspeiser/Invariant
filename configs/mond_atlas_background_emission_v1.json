@@ -1,0 +1,33 @@
+{
+  "id": "mond-atlas-background-emission-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "Audit possible signal contamination of the existing background annulus, without selecting a new mask or scoring galaxy motions.",
+  "trigger": "Accounting for the estimated background mean does not remove the same three split-sensitive failures. Their smoothed-cube channel correlations are stronger than an earlier native-cube noise audit using a different support definition.",
+  "parent_noise_protocol": "configs/mond_atlas_noise_v2.json",
+  "partition_protocol": "configs/mond_atlas_noise_robustness_v1.json",
+  "partition_results": "work/gravity-first-principles/mond-atlas-noise-robustness-001/summary.json",
+  "native_moment_receipt": "work/gravity-first-principles/things-observable-acquisition-003/receipt.json",
+  "cube_audit": "work/gravity-first-principles/conditional-cube-pilot-001/data-audit.json",
+  "source_paper": "https://arxiv.org/abs/0810.2125",
+  "block_factor": 8,
+  "native_support": "Finite positive pixels in the released natural-weighted HI MOM0. Zero/blank is unmeasured or nondetected, not observed absence of hydrogen.",
+  "expanded_support": "A conservative coarse-grid dilation: radius=ceil(4*extra_smoothing_sigma_arcsec/coarse_pixel_arcsec)+2 cells. This includes the applied smoothing range plus cell extents. It is a geometric contamination warning, not a recovered publisher mask or a flux prediction.",
+  "spectral_partitions": {
+    "outer_band_fraction_per_end": 0.15,
+    "inner_band_fraction": 0.7,
+    "lags": [1, 2, 3, 6],
+    "lag_rule": "Pairs must stay within the same contiguous end or central segment. Never create adjacent pairs by joining the two disjoint ends.",
+    "meaning": "The fixed band ends are only an edge-channel diagnostic. They are not certified line-free channels."
+  },
+  "fixed_spatial_seed": 9062028,
+  "spectral_directions": ["forward", "reverse"],
+  "native_cube_receipt": "work/gravity-first-principles/things-cube-acquisition-001/receipt.json",
+  "diagnostics": ["Direct and expanded HI support overlap with every declared calibration/validation partition", "Untapered normalized per-channel residual products on fixed band ends versus band center", "Median-centered tail asymmetry in the same regions"],
+  "independent_benchmarks": {
+    "dilation_against_direct_integer_distance": true,
+    "block_support_conservation_absolute_error_max": 1e-12,
+    "gapped_spectral_segments_do_not_create_cross_gap_pairs": true,
+    "excluded_galaxy_values_cannot_change_diagnostic": true
+  },
+  "nonclaims": ["No background mask is selected by these results", "No nondetection is called empty space", "No exact line-free set is identified", "No galaxy is excluded because a gravity law fits poorly", "No new gravity or observed 3D-density claim"]
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "invariant-mond-atlas-astrometry-footprint-audit-1",
+  "scope": "Re-evaluate the existing Gaia registration evidence using actual finite image footprints; no motion or gravity targets.",
+  "source": "work/gravity-first-principles/stellar-gaia-alignment-001/result.json",
+  "preserve_prior_calibration_validation_split": true,
+  "wcs": "Explicit undistorted RA---TAN/DEC--TAN with complete 2x2 CD matrix; reject other projections and nondefault pole conventions. SIP is not applied, and this choice is inherited from the previous calibration-only selection.",
+  "epoch_year": 2005.0,
+  "epoch_bracket_year": [2000, 2010],
+  "maximum_proper_motion_mas_year": 50,
+  "footprint": "All pixels in the 7x7 patch around the rounded Gaia position must be finite. A finite zero is not missing exposure. This tests finite footprint only, not a calibrated exposure-weight mask.",
+  "original_strict_gate": {"minimum_calibration": 4, "minimum_validation": 4, "median_arcsec_less_than": 1, "p90_arcsec_less_than": 2},
+  "detection_replay": "Exactly replay previous image-only high-pass sigma=3 pixel, truncate=4, reflect boundary; 5x5 local maxima above 8 robust global sigma; positive 3x3 weighted centroid, four-pixel border exclusion.",
+  "association_diagnostic": {"radius_arcsec": 1.5, "null_shifts": 199, "shift_radius_arcsec": [20,60], "seed": 9062027, "independent_gate": false, "purpose": "Measure matched-star fraction and chance association rate, without labeling a truncated residual distribution a full registration validation."},
+  "no_coordinate_offset_fitted": true,
+  "original_distance_replay_tolerance_arcsec": 0.002,
+  "claim_limits": ["Footprint adjustment is a development repair, not fresh confirmation.", "Undetected optical Gaia stars are not automatically astrometric failures in an infrared image.", "P1/IRAC flux-map astrometry does not validate transfer to cleaned P5 stellar maps.", "No full 3D mass model or gravity score follows from this audit alone."]
+}

@@ -1,0 +1,203 @@
+{
+  "status": "SOURCE_IMAGE_DIAGNOSTIC_NOT_ADMITTED_FOR_MOTION",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "previous_goal_turn_classification": "progress",
+  "source_cases_executed": 15,
+  "independent_benchmark_tests": 6,
+  "all_optimizers_converged": true,
+  "protocol_sha256": "82cdb8b01a55bac9e0677af186c2b7dd8ff464342fb798385e8932bf506fed65",
+  "protocol": {
+    "id": "mond-atlas-source-projection-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "permitted_scope": "Source-image construction, analytic benchmarks and reprojection diagnostics only. No new kinematic response scoring.",
+    "reason": "The available maps support a restricted flat separable disk experiment. Absolute photometry, source noise likelihood, vertical structure and all baryon phases are not fully validated.",
+    "source_audit": "work/gravity-first-principles/mond-atlas-source-001/source-audit.json",
+    "object_id": "NGC2903",
+    "spatial_family": "rho(X,Y,z) = Sigma(X,Y) exp(-abs(z)/h)/(2h); fixed flat orientation; no bulge, flare or warp inferred",
+    "forward_equation": "J(X,Y) = cos(i) I_sky(X,Y cos(i)) = integral Sigma(X,Y-z tan(i)) exp(-abs(z)/h)/(2h) dz",
+    "projected_kernel": "two-sided exponential in disk-plane minor coordinate with scale h tan(i)",
+    "finite_cell_kernel": "A0=1-lambda/d*(1-exp(-d/lambda)); Ak=lambda/(2d)*(1-exp(-d/lambda))^2*exp(-(abs(k)-1)*d/lambda), abs(k)>=1; identity at lambda=0",
+    "native_beam_scope": "Infer only an effective beam-blurred planar source. For a fixed linear beam and flat geometry, spatial convolution commutes with the vertical projection. No instrumental deconvolution is claimed.",
+    "height_grid_kpc": [
+      0.0,
+      0.1,
+      0.2,
+      0.4,
+      0.8
+    ],
+    "source_fit": {
+      "objective": "0.5*sum(coverage_weight*(A*Sigma-J)^2) + 0.5*regularization*sum(neighbor_differences^2)",
+      "regularization": 0.0001,
+      "weights": "clipped area coverage, not inverse measurement covariance",
+      "minimum_cell_coverage": 0.5,
+      "fitted_radius_kpc": 18.0,
+      "reported_radius_kpc": 15.0,
+      "source_support_radius_kpc": 20.0,
+      "max_iterations": 4000,
+      "projected_gradient_relative_rms_tolerance": 1e-06,
+      "nonnegative_intrinsic_source": true,
+      "height_selection_from_best_fit": false
+    },
+    "benchmarks": {
+      "direct_line_of_sight_quadrature_relative_rms_max": 0.003,
+      "adjoint_relative_error_max": 1e-12,
+      "flux_and_centroid_error_max": 1e-08,
+      "positive_synthetic_reprojection_relative_rms_max": 0.01,
+      "thin_and_thick_synthetic_degeneracy_required": true,
+      "gross_source_image_mismatch_relative_rms_threshold": 0.05,
+      "threshold_scope": "5 percent flags a construction mismatch for follow-up; it is not a noise-calibrated likelihood acceptance criterion."
+    },
+    "source_response_classification": {
+      "source": "S4G P5 cleaned stellar image/ICA mask, THINGS released HI moment zero, HERACLES signed CO/error maps; restricted source-001 pixel packet",
+      "kinematic_response": "Not opened by this package",
+      "prior_exposure": "NGC2903 is already development-exposed in earlier work; no pristine holdout claim."
+    },
+    "primary_papers": [
+      {
+        "role": "stellar source and dust separation",
+        "url": "https://arxiv.org/abs/1410.0009"
+      },
+      {
+        "role": "stellar light-to-mass conversion",
+        "url": "https://arxiv.org/abs/1402.5210"
+      },
+      {
+        "role": "atomic gas measurement",
+        "url": "https://arxiv.org/abs/0810.2125"
+      },
+      {
+        "role": "molecular tracer measurement",
+        "url": "https://arxiv.org/abs/0905.4742"
+      }
+    ],
+    "remaining_admission_gates": [
+      "Absolute and spatial photometric calibration, independently propagated source covariance, and recovered raw geometry source files.",
+      "Pixel-footprint and source-beam convergence beyond the restricted effective-resolution model.",
+      "Missing gas phases, conversion uncertainties and physically allowed thickness/warp/bulge/exterior-field ensembles.",
+      "Prospective complete builder/solver admission before any further motion comparison."
+    ]
+  },
+  "source_audit_sha256": "dbc7cee4918e7eb52eba302d4eaa5b4e6a396976d1f682c8f47180c198df6376",
+  "code_hashes": {
+    "scripts\\run_mond_atlas_source_projection.py": "7c4ae743735f4a93274a3275fbab884c06c944b7eae1a4b8e373280b9af8199e",
+    "scripts\\mond_atlas_source_projection.py": "e44cfa2306be54607ac5d594020c6a9f495bad9d8685846b1a39b11aaff5d5ea",
+    "tests\\test_mond_atlas_projection.py": "c44ab07264a306fe76d64196e10fa649f57a917d0a5dc4d5be35069eed3cd617"
+  },
+  "products": [
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\stellar_luminosity-h0p0.npz",
+      "sha256": "35d13f2bae5011b9d2cf3184c7d44a8b7491bf7d594525587c507dcfd04b6da0",
+      "component": "stellar_luminosity",
+      "height_kpc": 0.0
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\stellar_luminosity-h0p1.npz",
+      "sha256": "d41b44013d496b3c7630cf1157892b253c446e9b1a3395e4715fd22703a9e0a2",
+      "component": "stellar_luminosity",
+      "height_kpc": 0.1
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\stellar_luminosity-h0p2.npz",
+      "sha256": "f5a01fe7b1e137676c9ab518d4535c3624db4f388988463f7844fb71a67f41cf",
+      "component": "stellar_luminosity",
+      "height_kpc": 0.2
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\stellar_luminosity-h0p4.npz",
+      "sha256": "46c4c46013577bea78413bb24f47be163a5cd8b7d850596b3d8be263995c295e",
+      "component": "stellar_luminosity",
+      "height_kpc": 0.4
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\stellar_luminosity-h0p8.npz",
+      "sha256": "43ffdd21c5e0734511949f94746d5403757edf11e017c8da7053ec770423b5ce",
+      "component": "stellar_luminosity",
+      "height_kpc": 0.8
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\atomic_helium-h0p0.npz",
+      "sha256": "ac57dfaa5f7e9205cb9e1f8aed4fcc38eb716fd92e5bd5bfb22995ffe03316f7",
+      "component": "atomic_helium",
+      "height_kpc": 0.0
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\atomic_helium-h0p1.npz",
+      "sha256": "5df0d214b8fc965c18e9fbfb1e94393b1b1e7b86709f89ca944058486f14fe2d",
+      "component": "atomic_helium",
+      "height_kpc": 0.1
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\atomic_helium-h0p2.npz",
+      "sha256": "526e27328e7e2370a53c5fd011c8f83f8891a99d4dba6f52856f1b21abfe4fd0",
+      "component": "atomic_helium",
+      "height_kpc": 0.2
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\atomic_helium-h0p4.npz",
+      "sha256": "74333a6f26a1aa1cfa35f9230148222d24f645ad934a175a9a9179c9b3cde388",
+      "component": "atomic_helium",
+      "height_kpc": 0.4
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\atomic_helium-h0p8.npz",
+      "sha256": "6bd62e369fd66482e0999d5cfbb3adf0ac521737e5191ccc9b569c6f468d6697",
+      "component": "atomic_helium",
+      "height_kpc": 0.8
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\co21-h0p0.npz",
+      "sha256": "7576aa13d5fc40583cc7644cd113cb6b42b3b2e996bac47998cae97afd2a5715",
+      "component": "co21",
+      "height_kpc": 0.0
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\co21-h0p1.npz",
+      "sha256": "65d291d25d3896a70a39fc88846e9ae5dbc3749bef579bf8d85d7dbe8c2368a7",
+      "component": "co21",
+      "height_kpc": 0.1
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\co21-h0p2.npz",
+      "sha256": "8f7e95b2c8f64d609df8216dd014b6aff7d05bccd29b3102d6526149b1b05fe7",
+      "component": "co21",
+      "height_kpc": 0.2
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\co21-h0p4.npz",
+      "sha256": "1363b00eb2a97d82e0bdce2297869287472a12c384667a1db1f4c54ef40c25b7",
+      "component": "co21",
+      "height_kpc": 0.4
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-001\\co21-h0p8.npz",
+      "sha256": "acb0b6015d51e0b7921ff2e6e69ec1bb6de553de23ecc17ff135122d8e4597ff",
+      "component": "co21",
+      "height_kpc": 0.8
+    }
+  ],
+  "geometry_raw_source_availability": [
+    {
+      "path": "work/private/open-gravity-rg-s4g-geometry-metadata-source-only-v1/s4g.dat.gz",
+      "present": false,
+      "recorded_sha256": "ffbbcdcd91f947e0599232264bd40d46cbefa6051fdfb8bdbfc69d2d52fc0d12"
+    },
+    {
+      "path": "work/private/open-gravity-rg-s4g-geometry-metadata-source-only-v1/pipeline4-table1.dat",
+      "present": false,
+      "recorded_sha256": "c1d90e8824afbe4dd261ceaa663b6dc484f1cd90751f89dc0db140a5418638ea"
+    }
+  ],
+  "response_files_opened": [],
+  "kinematic_response_scores_computed": 0,
+  "admitted_galaxy_cube_predictions": 0,
+  "goal_complete": false,
+  "scientific_limits": [
+    "A source fit can restore projected light while leaving multiple heights possible. It does not identify true depth.",
+    "The initial inverse implementation used excluded pixels in its starting point. A held-pixel mutation test caught this before real-source application; the starting point was corrected and all six controls passed.",
+    "RMS uses coverage weights, not measured source covariance; 5 percent is a construction diagnostic, not posterior acceptance.",
+    "Reconstruction uses the full available source image. No independent held-source-image predictive score is claimed.",
+    "Native pixel-center binning and instrumental blurring remain; these effective-resolution sources are not deconvolved intrinsic mass maps.",
+    "Original raw S4G geometry tables referenced by the stored configuration are absent from this workspace and the checked original checkout. The stored derived record remains available, but fresh raw-record verification is incomplete.",
+    "No new field force or motion prediction is admitted by this source-only experiment."
+  ]
+}

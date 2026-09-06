@@ -1,0 +1,25 @@
+{
+  "id": "mond-atlas-offplane-v1",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "scope": "Target-free three-component force sampling and convergence above the disk for the common-basis source fields. No observed motion or inferred vertical gravity is opened.",
+  "field_protocol": "configs/mond_atlas_common_basis_fields_v1.json",
+  "field_directory": "work/gravity-first-principles/mond-atlas-field-006",
+  "radii_kpc": [2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0],
+  "heights_kpc": [0.25, 0.5, 1.0],
+  "azimuth_count": 72,
+  "sampling": "Centered finite-difference gradients at grid nodes, followed by trilinear interpolation. Only strictly interior stencils are permitted.",
+  "benchmarks": {
+    "quadratic_potential_linear_force_absolute_error_max": 1e-10,
+    "independent_affine_potential_force_absolute_error_max": 1e-11,
+    "aggregate_three_component_force_relative_rms_max": 0.03,
+    "maximum_radius_height_group_force_relative_rms_max": 0.05,
+    "z_reflection_relative_rms_max": 1e-10
+  },
+  "vertical_component_diagnostic": "Report vertical-force differences separately with their own denominator; no standalone vertical-component acceptance threshold is asserted by a full-vector pass.",
+  "limitations": [
+    "These checks extend numerical coverage to the explicitly sampled heights. They do not validate every location or the continuum limit.",
+    "One-at-a-time vertical, lateral and box perturbations do not bound joint-refinement cross terms.",
+    "Conditional force differences are not measurements of gas thickness or stellar vertical motions.",
+    "The same source, geometry, environment and likelihood admission gaps remain."
+  ]
+}

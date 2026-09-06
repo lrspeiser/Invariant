@@ -1,0 +1,60 @@
+{
+  "status": "SOURCE_ONLY_MIXED_HEIGHT_DIAGNOSTIC",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "config": {
+    "id": "mond-atlas-mixed-source-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Source-image follow-up only; no kinematic response scoring, no new gravity fit.",
+    "trigger": "Single fixed 0.4 kpc exponential stellar height retained an 8.4 percent source-image mismatch after nonnegative inversion. Test a broader vertical family without using any motion residual.",
+    "prior_projection_protocol": "configs/mond_atlas_source_projection_v1.json",
+    "prior_projection_run": "work/gravity-first-principles/mond-atlas-projection-001/summary.json",
+    "source_component": "stellar_luminosity",
+    "vertical_components_kpc": [
+      0.1,
+      0.4
+    ],
+    "thin_light_fraction_cases": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "spatial_family": "rho_L = Sigma_L(X,Y) [f exp(-abs(z)/0.1)/0.2 + (1-f) exp(-abs(z)/0.4)/0.8]; shared planar light distribution and one global f per case",
+    "operator": "A_mix = f A_0.1 + (1-f) A_0.4",
+    "assumptions": [
+      "Fractions are fixed illustrative light fractions, not measured mass fractions or stellar ages.",
+      "No case is selected as the preferred physical model based on minimum residual.",
+      "All source weights, support, regularization, stopping rules and diagnostic thresholds are inherited unchanged.",
+      "The model remains at native effective beam resolution; mass-to-light differences between vertical populations are unresolved.",
+      "A close source-image fit does not identify depth or admit a motion prediction."
+    ]
+  },
+  "config_sha256": "b016b572454b4a1c9355689439e06ce123b379c7ef593c11f8fc1ec98c5a3f35",
+  "source_cases_executed": 3,
+  "all_optimizers_converged": true,
+  "products": [
+    {
+      "path": "work\\private\\mond-atlas-projection-002\\thin-fraction-0p25.npz",
+      "sha256": "7046e39afd34abb36104982582b58af5a65df2cb05262379ad36e386f4e6c1bf"
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-002\\thin-fraction-0p5.npz",
+      "sha256": "a65be2fbb2e437a54dd9559dbf6ad0f16e2d64a578dac276ee8513de5463db47"
+    },
+    {
+      "path": "work\\private\\mond-atlas-projection-002\\thin-fraction-0p75.npz",
+      "sha256": "4c0d5cd29e26fb0a9d0c7f4ef079b7371d162e13b743941df3726b3e6eeee896"
+    }
+  ],
+  "source_bindings": {
+    "configs\\mond_atlas_source_projection_v1.json": "82cdb8b01a55bac9e0677af186c2b7dd8ff464342fb798385e8932bf506fed65",
+    "work\\gravity-first-principles\\mond-atlas-projection-001\\summary.json": "b93b1c873cbcc9be56de138479fd439649aec1328c3491e0ff0f467b9b6ac8c0",
+    "work\\gravity-first-principles\\mond-atlas-source-001\\source-audit.json": "dbc7cee4918e7eb52eba302d4eaa5b4e6a396976d1f682c8f47180c198df6376"
+  },
+  "code_hashes": {
+    "scripts\\run_mond_atlas_mixed_source.py": "ba442a43be1bd2c6dc67f8bebb6a94dac78fa85f472aedf44720553dcf70b8e0",
+    "scripts\\mond_atlas_source_projection.py": "e44cfa2306be54607ac5d594020c6a9f495bad9d8685846b1a39b11aaff5d5ea"
+  },
+  "response_files_opened": [],
+  "kinematic_response_scores_computed": 0,
+  "goal_complete": false
+}

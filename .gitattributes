@@ -1287,3 +1287,11 @@ scripts/run_gravity_population_patterns.py text eol=lf
 scripts/check_gravity_composition_mass_calibration.py text eol=lf
 scripts/verify_gravity_broad_patterns.py text eol=lf
 scripts/report_gravity_broad_patterns.py text eol=lf
+
+# Preserve byte-bound MOND atlas code, protocols and receipts across platforms.
+scripts/*mond_atlas* -text whitespace=cr-at-eol
+configs/mond_atlas* -text whitespace=cr-at-eol
+tests/test_mond_atlas* -text whitespace=cr-at-eol
+docs/MOND_OBSERVATION_ATLAS_GOAL.md -text whitespace=cr-at-eol
+work/gravity-first-principles/mond-atlas-*/** -text whitespace=cr-at-eol
+work/gravity-first-principles/mond-atlas-native-spectral-*/*-header.txt whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol

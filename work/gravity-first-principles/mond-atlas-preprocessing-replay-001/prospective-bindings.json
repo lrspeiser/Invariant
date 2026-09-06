@@ -1,0 +1,67 @@
+{
+  "config": {
+    "id": "mond-atlas-preprocessing-replay-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Replay the old spatial preprocessing on all 29 retained historical continuum-fit candidate channels, then compare spatial scale diagnostics. No channel selection from current intensities or gravity scoring.",
+    "native_protocol": "configs/mond_atlas_native_spectral_v1.json",
+    "native_summary": "work/gravity-first-principles/mond-atlas-native-spectral-001/summary.json",
+    "cached_packets": "work/private/conditional-cube-pilot-001",
+    "cached_packet_bindings": "work/gravity-first-principles/mond-atlas-noise-mean-001/summary.json",
+    "source_paper": "https://arxiv.org/abs/0810.2125",
+    "reference_preprocessing": "scripts/run_gravity_cube_pilot.py: prepare, recorded additional circular Gaussian smoothing, scipy default truncate=4, zero extension, float32 intermediate planes, 8x8 arithmetic block mean, original full-annulus parity-zero per-channel offset subtraction.",
+    "operation": {
+      "gaussian_truncate_sigma": 4.0,
+      "block_factor": 8,
+      "intermediate_dtype": "float32",
+      "spectral_order_contract": "Require native FELO-HEL with negative CDELT3 and the cache audit VOPT-F2W. Only reverse stored channel indexes; no velocity or spectral response fit is performed.",
+      "offset_background_annulus_arcsec": [
+        550,
+        680
+      ],
+      "offset_block_side_coarse_pixels": 16,
+      "offset_calibration_parity": 0,
+      "offset_border_test": "xx>6, yy>6, xx<nx-7, yy<ny-7, matching the original prepare routine"
+    },
+    "replay_gates": {
+      "maximum_absolute_error_jy_per_native_beam": 2e-09,
+      "relative_image_rms_error_max": 2e-05
+    },
+    "independent_benchmarks": [
+      "FFT finite convolution versus direct summation with zero extension",
+      "Gaussian impulse flux and centroid conservation away from boundaries",
+      "Block averaging preserves integrated pixel sum after multiplying by block area",
+      "Recorded per-channel offset replay reproduces each cached selected plane"
+    ],
+    "spatial_diagnostic": {
+      "inner_projection_plane_radius_arcsec": [
+        0,
+        300
+      ],
+      "outer_projection_plane_radius_arcsec": [
+        550,
+        680
+      ],
+      "center": "Native FITS reference pixel, evaluated at each 8x8 coarse-cell center",
+      "method": "Per-channel Gaussian-scaled MAD, medians and tails in both regions, without fitting a covariance law to force agreement. No statistical pass threshold is selected for these descriptive ratios."
+    },
+    "nonclaims": [
+      "Replay success validates this preprocessing implementation, not the physical accuracy of the old beam model",
+      "The extra circular smoothing does not make the full native elliptical beam exactly circular",
+      "The resulting intensity units remain Jy per native beam, not Jy per 48-arcsec beam",
+      "Historical continuum-fit candidates can retain faint line emission or instrumental structure",
+      "Median scale agreement does not establish a full covariance, selection function or galaxy likelihood"
+    ]
+  },
+  "bindings": {
+    "configs\\mond_atlas_preprocessing_replay_v1.json": "7eda399281d70d556032a53bc269ec6755395f548b2d3e89a314b38b2da4db7c",
+    "configs\\mond_atlas_native_spectral_v1.json": "5f8f2ce526385ba694ff24d7661129e134ba9a2ec7d409a327d4d0e371e59919",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\summary.json": "792d184135f0df64f5026ccf5a49ea2968da01cdacaed905bfea7661cc4ccbbe",
+    "work\\gravity-first-principles\\mond-atlas-noise-mean-001\\summary.json": "92c8908430c77b1928ddb78cc5a118e98e1b8056ae229730b48fe882b18b2611",
+    "scripts\\run_mond_atlas_preprocessing_replay.py": "e30c9e9ddfc3b0a08c6f09031e83c792e79199c8f5b10f8b75880f4cb965c425",
+    "scripts\\mond_atlas_native_spectral.py": "0f6c3280ea2f7db3979faaaf99e5c27c4ebcbd60fd3b1b4f36a32b03b5dcf4b6",
+    "scripts\\mond_atlas_preprocessing.py": "d3e3108699e7ac84eea560b756264ef2f75866f47bdea8e7f10195ab089d1bf3",
+    "tests\\test_mond_atlas_preprocessing.py": "170b19dfc265484470d2ebd8861a0a220c78073ec8a1ab20f12665bd5c6d34ce",
+    "scripts\\run_gravity_cube_pilot.py": "826c796f1bac0b40e28ae0b31b6b1e9fe1485395825ee038b585e94befcdd40a"
+  },
+  "new_motion_fits": 0
+}

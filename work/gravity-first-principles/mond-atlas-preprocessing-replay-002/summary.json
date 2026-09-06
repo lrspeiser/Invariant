@@ -1,0 +1,112 @@
+{
+  "status": "PREPROCESSING_REPLAY_PASS",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "config": {
+    "id": "mond-atlas-preprocessing-replay-v2",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Replay the old spatial preprocessing on all 29 retained historical continuum-fit candidate channels, then compare spatial scale diagnostics. No channel selection from current intensities or gravity scoring.",
+    "native_protocol": "configs/mond_atlas_native_spectral_v1.json",
+    "native_summary": "work/gravity-first-principles/mond-atlas-native-spectral-001/summary.json",
+    "cached_packets": "work/private/conditional-cube-pilot-001",
+    "cached_packet_bindings": "work/gravity-first-principles/mond-atlas-noise-mean-001/summary.json",
+    "source_paper": "https://arxiv.org/abs/0810.2125",
+    "reference_preprocessing": "scripts/run_gravity_cube_pilot.py: prepare, recorded additional circular Gaussian smoothing, scipy default truncate=4, zero extension, float32 intermediate planes, 8x8 arithmetic block mean, original full-annulus parity-zero per-channel offset subtraction.",
+    "operation": {
+      "gaussian_truncate_sigma": 4.0,
+      "block_factor": 8,
+      "intermediate_dtype": "float32",
+      "spectral_order_contract": "Require one of: FELO-HEL with cache VOPT-F2W, VELO-HEL with VELREF>256 and cache VRAD, or FREQ with cache FREQ. Optical and radio velocity increase in the same direction; optical velocity decreases with positive frequency. Use only this monotonic channel ordering, not a fitted or generalized WCS transform.",
+      "offset_background_annulus_arcsec": [
+        550,
+        680
+      ],
+      "offset_block_side_coarse_pixels": 16,
+      "offset_calibration_parity": 0,
+      "offset_border_test": "xx>6, yy>6, xx<nx-7, yy<ny-7, matching the original prepare routine"
+    },
+    "replay_gates": {
+      "maximum_absolute_error_jy_per_native_beam": 2e-09,
+      "relative_image_rms_error_max": 2e-05
+    },
+    "independent_benchmarks": [
+      "FFT finite convolution versus direct summation with zero extension",
+      "Gaussian impulse flux and centroid conservation away from boundaries",
+      "Block averaging preserves integrated pixel sum after multiplying by block area",
+      "Recorded per-channel offset replay reproduces each cached selected plane"
+    ],
+    "spatial_diagnostic": {
+      "inner_projection_plane_radius_arcsec": [
+        0,
+        300
+      ],
+      "outer_projection_plane_radius_arcsec": [
+        550,
+        680
+      ],
+      "center": "Native FITS reference pixel, evaluated at each 8x8 coarse-cell center",
+      "method": "Per-channel Gaussian-scaled MAD, medians and tails in both regions, without fitting a covariance law to force agreement. No statistical pass threshold is selected for these descriptive ratios."
+    },
+    "nonclaims": [
+      "Replay success validates this preprocessing implementation, not the physical accuracy of the old beam model",
+      "The extra circular smoothing does not make the full native elliptical beam exactly circular",
+      "The resulting intensity units remain Jy per native beam, not Jy per 48-arcsec beam",
+      "Historical continuum-fit candidates can retain faint line emission or instrumental structure",
+      "Median scale agreement does not establish a full covariance, selection function or galaxy likelihood"
+    ],
+    "predecessor": "configs/mond_atlas_preprocessing_replay_v1.json",
+    "repair": "The first runner correctly reproduced eight candidate planes but stopped at the legacy radio-velocity header; add the already observed radio and frequency axis types without changing smoothing, source channels or numerical gates.",
+    "spectral_reference": "https://arxiv.org/abs/astro-ph/0507293"
+  },
+  "bindings": {
+    "configs\\mond_atlas_preprocessing_replay_v2.json": "04f105882eeccd148639a3c99f50b83f15e421735c387662e1f7124acfab9739",
+    "configs\\mond_atlas_native_spectral_v1.json": "5f8f2ce526385ba694ff24d7661129e134ba9a2ec7d409a327d4d0e371e59919",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\summary.json": "792d184135f0df64f5026ccf5a49ea2968da01cdacaed905bfea7661cc4ccbbe",
+    "work\\gravity-first-principles\\mond-atlas-noise-mean-001\\summary.json": "92c8908430c77b1928ddb78cc5a118e98e1b8056ae229730b48fe882b18b2611",
+    "scripts\\run_mond_atlas_preprocessing_replay_v2.py": "98aa901a8a7b3292f1d63fa475453241fc1e6de16e22bb98f5da26aca27706ae",
+    "scripts\\mond_atlas_native_spectral.py": "0f6c3280ea2f7db3979faaaf99e5c27c4ebcbd60fd3b1b4f36a32b03b5dcf4b6",
+    "scripts\\mond_atlas_preprocessing.py": "d3e3108699e7ac84eea560b756264ef2f75866f47bdea8e7f10195ab089d1bf3",
+    "tests\\test_mond_atlas_preprocessing.py": "170b19dfc265484470d2ebd8861a0a220c78073ec8a1ab20f12665bd5c6d34ce",
+    "scripts\\mond_atlas_channel_order.py": "a54c2f280bc8e205ccb189c133e84e4bbe1c900ae129ec8ac634f393a653519e",
+    "tests\\test_mond_atlas_channel_order.py": "00272f4d9eacd96ba9134a18d112eb1d2117e30d56f5b486efea62aa94c2532c",
+    "scripts\\run_gravity_cube_pilot.py": "826c796f1bac0b40e28ae0b31b6b1e9fe1485395825ee038b585e94befcdd40a"
+  },
+  "source_bindings": {
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\DDO154.json": "633117f9d9f3945fdee3678d9c7a1e4c436aeaa0bebf2e5963056d450dab4ab3",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\IC2574.json": "44b71fa82a41ff0c385dd95c60613e9371888f59941ee999a0046ef8fc62dd63",
+    "work\\private\\things-observable-12gal-003\\IC_2574_NA_CUBE_THINGS.FITS": "a9779550b152833627399454a834854d4cb54b6e1a17f8e280144120f16f4a47",
+    "work\\private\\conditional-cube-pilot-001\\IC2574.npz": "ee638fd3c1732a36ebc6dab4090bc74fa9ae4084571dc80551ec55527779bb21",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC2841.json": "a9ce9bec12691549083d9e13d396cfa5013582620ae63103a2d949a08cb73d13",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC2903.json": "f3a43c28fa0ce816ea444badd0a17990cb1006d68c56982102414aac110aa64f",
+    "work\\private\\things-observable-12gal-003\\NGC_2903_NA_CUBE_THINGS.FITS": "21c6b5f155cb56ccb7e60208a5fd98cd3835d948ce98a296fe25012002b546a8",
+    "work\\private\\conditional-cube-pilot-001\\NGC2903.npz": "37b9f6aa70c45edf88d3e1fa2d3988a2b43828941e8ca7f0b929104274116da0",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC2976.json": "5126c35b518c5dee79b3cb3f31f7f935b33892e4e87faeec7895df329be7f2dd",
+    "work\\private\\things-observable-12gal-003\\NGC_2976_NA_CUBE_THINGS.FITS": "e8ce711a354fcf9c76e7ba9afd9e55fa97df6169863d5473140f20f9c8250169",
+    "work\\private\\conditional-cube-pilot-001\\NGC2976.npz": "f7c55d69b4ec875257ed12565908ca7825a5c3bc51b57e951d7bbebdcdd13bff",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC3198.json": "adf658574873109514494ee6d0fe5f7aa4687cfcef23a3fed359a68ace509ebe",
+    "work\\private\\things-observable-12gal-003\\NGC_3198_NA_CUBE_THINGS.FITS": "c047779288e354a06c664b144eff069b665b70a0730fe7d55513be79ca444168",
+    "work\\private\\conditional-cube-pilot-001\\NGC3198.npz": "5aec3f25cebccb853a79141b1e0e9357badc0e7c6addb9f391a4abbc908c3cbb",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC3521.json": "1f5b77f634272719e3948130bacc4af8df864c9419926baa1f4bc2564436f557",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC4214.json": "75dfa7a99bf1418ee77a242591671279bb30e39098727b04fbdf60c58a5a1aef",
+    "work\\private\\things-observable-12gal-003\\NGC_4214_NA_CUBE_THINGS.FITS": "09b5a041ff8e73a9e01534739558b032ca6623859ba18ac0e5b6a6c6f783cd5c",
+    "work\\private\\conditional-cube-pilot-001\\NGC4214.npz": "817434f14feb96bc25d27d93dd774c468e422505c5cdbfdc7f85a5c31953ebe9",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC5055.json": "17b6fd7825e8cf0bbb9349a5fe92b27ac5decb44a4535f7f467d3db0bc52adeb",
+    "work\\private\\things-observable-12gal-003\\NGC_5055_NA_CUBE_THINGS.FITS": "43f9b440fbf1443ed1436bc700c89b0894028e0c97785a6f9d891ceae8aa92cd",
+    "work\\private\\conditional-cube-pilot-001\\NGC5055.npz": "14d2fcb32a0d36c440326cf38b8f6616f84a51c77ec4eed76e14861ab1da2b42",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC6946.json": "30e74107e22b3b097c48cf3bf4bfa04e8432fc6ce55ceaa7b7dd76fe56f64d58",
+    "work\\private\\things-observable-12gal-003\\NGC_6946_NA_CUBE_THINGS.FITS": "e8479696dcba7b55a7ef1bf3c9180948da01daeb95e0c993d00dc7e9b216e3de",
+    "work\\private\\conditional-cube-pilot-001\\NGC6946.npz": "a84114b53301d2fe58f21e72a171f158a4a356f4cf663b362754d8c8287defdb",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC7331.json": "ef990c4fed6aaaa21b70cd0b6fc22934c70054ccfe99bfab57b118dd0c04317f",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\UGC04305.json": "d81518518faeebf39718bee20eb8ff0b4e626c8a1cef249436140a670812b7e8",
+    "work\\private\\things-observable-12gal-003\\HO_II_NA_CUBE_THINGS.FITS": "53e4b5f4c7e22237d7fdee010269348d4b8cad162d8e074180dd685d435a7971",
+    "work\\private\\conditional-cube-pilot-001\\UGC04305.npz": "31f9266a8bf7118c096b8ae759b1bb9c4bdea5d18ba3db507acd0aa7743aa7e9"
+  },
+  "source_galaxies": 12,
+  "replayed_galaxies": 8,
+  "replayed_channels": 29,
+  "all_declared_candidates_replayed": true,
+  "all_replay_gates_pass": true,
+  "independent_unit_tests": 5,
+  "physically_complete_instrument_response_validated": false,
+  "admitted_galaxy_cube_predictions": 0,
+  "goal_complete": false
+}

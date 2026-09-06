@@ -1,0 +1,196 @@
+{
+  "status": "CONDITIONAL_STATIONARY_SMOOTHING_NULL_EXECUTED",
+  "admission_disposition": "SOURCE_BLOCKED",
+  "config": {
+    "id": "mond-atlas-smoothing-null-v1",
+    "admission_disposition": "SOURCE_BLOCKED",
+    "scope": "Conditional stationary-Gaussian reference distributions for the already observed center/outer MAD ratios; no new galaxy motion or gravity score.",
+    "native_summary": "work/gravity-first-principles/mond-atlas-native-spectral-001/summary.json",
+    "preprocessing_protocol": "configs/mond_atlas_preprocessing_replay_v2.json",
+    "preprocessing_summary": "work/gravity-first-principles/mond-atlas-preprocessing-replay-002/summary.json",
+    "replicates_per_case": 256,
+    "batch_replicates": 8,
+    "seed": 9062040,
+    "spatial_surrogates": [
+      "independent_native_pixels",
+      "circular_native_major_beam_filter"
+    ],
+    "spatial_contract": "Use the actual native dimensions and pixel size. Apply the previously replayed extra Gaussian and 8x8 block average as a finite linear operator. The second surrogate first filters independent native pixels with a circular Gaussian whose FWHM is the recorded native major beam. This is a sensitivity model, not a measured interferometer covariance or a recovered dirty beam.",
+    "spectral_surrogates": [
+      "independent_parent_channels",
+      "hanning_parent_channels"
+    ],
+    "spectral_contract": "Propagate each surrogate parent spectral covariance through the recovered polynomial continuum-subtraction operator A C A^T, then restrict to the same retained historical continuum-fit candidate channels. Normalize marginal channel variances because each channel MAD ratio is invariant to scale. No actual visibility covariance is claimed.",
+    "sampler": "Sample the separable Gaussian directly on the coarse grid using exact finite-operator spatial covariance and selected-channel covariance. Verify against the native linear transformation on small grids and bound float32-rounding differences. This avoids generating discarded native pixels for every replicate.",
+    "statistics": [
+      "Per-galaxy median of channel center/outer MAD ratios",
+      "Mean log of those galaxy-level ratios across all eight galaxies"
+    ],
+    "interval_quantiles": [
+      0.025,
+      0.5,
+      0.975
+    ],
+    "tail_summary": "Report (1 + number of reference draws at least as large as the observed statistic)/(replicates+1). This is an exploratory conditional reference fraction, not a calibrated observational or gravity p-value. Preserve all four surrogate branches.",
+    "benchmarks": {
+      "finite_operator_direct_relative_rms_max": 1e-06,
+      "separable_covariance_dense_relative_error_max": 1e-12,
+      "sample_covariance_relative_rms_max": 0.04,
+      "sample_covariance_draws": 30000
+    },
+    "exposure": "All observed ratios were examined before this protocol. This diagnoses a development-data issue and is not independent confirmation.",
+    "nonclaims": [
+      "Gaussian stationary surrogates do not reconstruct the actual visibility sampling or nonstationary noise",
+      "A tail discrepancy does not identify faint gas, continuum residuals or other instrumental structure as its cause",
+      "Spatial-surrogate variation is not an observational uncertainty posterior",
+      "No selection mask or full cube likelihood is admitted by this experiment"
+    ]
+  },
+  "bindings": {
+    "configs\\mond_atlas_smoothing_null_v1.json": "b489c929e5d89fa1ffb261c8ea9e6257932ff4f5d0a63029db3c174d026ce7a2",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\summary.json": "792d184135f0df64f5026ccf5a49ea2968da01cdacaed905bfea7661cc4ccbbe",
+    "work\\gravity-first-principles\\mond-atlas-preprocessing-replay-002\\summary.json": "a0070cdb433a822d8620185cec44fd07a733cdfdd92550440e1aa6ecbdc6ac56",
+    "configs\\mond_atlas_preprocessing_replay_v2.json": "04f105882eeccd148639a3c99f50b83f15e421735c387662e1f7124acfab9739",
+    "scripts\\run_mond_atlas_smoothing_null.py": "47e07b1860f4446d43d8ec1e9641f1b167ce63ae16bf37b2a3c2b893b4d40432",
+    "scripts\\mond_atlas_smoothing_null.py": "f364f400ab3a3d6ac254beff2b249596d95210daa5e8b7b6f0373a00ac1a426b",
+    "scripts\\mond_atlas_preprocessing.py": "d3e3108699e7ac84eea560b756264ef2f75866f47bdea8e7f10195ab089d1bf3",
+    "scripts\\mond_atlas_native_spectral.py": "0f6c3280ea2f7db3979faaaf99e5c27c4ebcbd60fd3b1b4f36a32b03b5dcf4b6",
+    "tests\\test_mond_atlas_smoothing_null.py": "d5bad83c3118f9c7690d978b4fda8176e6995b7be6c91106cbfce9e9f79406ca"
+  },
+  "source_bindings": {
+    "work\\gravity-first-principles\\conditional-cube-pilot-001\\data-audit.json": "231c027818aa1dbd7d1266a541098d53fdfbfaa473c4d4d607964fcf1c7387e3",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\IC2574.json": "44b71fa82a41ff0c385dd95c60613e9371888f59941ee999a0046ef8fc62dd63",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC2903.json": "f3a43c28fa0ce816ea444badd0a17990cb1006d68c56982102414aac110aa64f",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC2976.json": "5126c35b518c5dee79b3cb3f31f7f935b33892e4e87faeec7895df329be7f2dd",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC3198.json": "adf658574873109514494ee6d0fe5f7aa4687cfcef23a3fed359a68ace509ebe",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC4214.json": "75dfa7a99bf1418ee77a242591671279bb30e39098727b04fbdf60c58a5a1aef",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC5055.json": "17b6fd7825e8cf0bbb9349a5fe92b27ac5decb44a4535f7f467d3db0bc52adeb",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\NGC6946.json": "30e74107e22b3b097c48cf3bf4bfa04e8432fc6ce55ceaa7b7dd76fe56f64d58",
+    "work\\gravity-first-principles\\mond-atlas-native-spectral-001\\UGC04305.json": "d81518518faeebf39718bee20eb8ff0b4e626c8a1cef249436140a670812b7e8"
+  },
+  "galaxies": 8,
+  "surrogate_cases": 32,
+  "galaxy_statistic_replicates": 8192,
+  "conditional_ensemble_cases": [
+    {
+      "spatial_surrogate": "independent_native_pixels",
+      "spectral_surrogate": "independent_parent_channels",
+      "galaxies": 8,
+      "replicates": 256,
+      "observed_mean_log_galaxy_ratio": 0.0818878412213398,
+      "reference_q025": -0.045100670543197684,
+      "reference_median": -0.003682134580035506,
+      "reference_q975": 0.03762129691146441,
+      "upper_tail_reference_count": 0,
+      "upper_tail_reference_fraction": 0.0038910505836575876,
+      "observational_p_value": false
+    },
+    {
+      "spatial_surrogate": "independent_native_pixels",
+      "spectral_surrogate": "hanning_parent_channels",
+      "galaxies": 8,
+      "replicates": 256,
+      "observed_mean_log_galaxy_ratio": 0.0818878412213398,
+      "reference_q025": -0.05050747568149245,
+      "reference_median": -0.0009742607245788262,
+      "reference_q975": 0.04049186247796189,
+      "upper_tail_reference_count": 1,
+      "upper_tail_reference_fraction": 0.007782101167315175,
+      "observational_p_value": false
+    },
+    {
+      "spatial_surrogate": "circular_native_major_beam_filter",
+      "spectral_surrogate": "independent_parent_channels",
+      "galaxies": 8,
+      "replicates": 256,
+      "observed_mean_log_galaxy_ratio": 0.0818878412213398,
+      "reference_q025": -0.05122299346019329,
+      "reference_median": -0.005632711432012938,
+      "reference_q975": 0.04200766504250729,
+      "upper_tail_reference_count": 0,
+      "upper_tail_reference_fraction": 0.0038910505836575876,
+      "observational_p_value": false
+    },
+    {
+      "spatial_surrogate": "circular_native_major_beam_filter",
+      "spectral_surrogate": "hanning_parent_channels",
+      "galaxies": 8,
+      "replicates": 256,
+      "observed_mean_log_galaxy_ratio": 0.0818878412213398,
+      "reference_q025": -0.0527850178251696,
+      "reference_median": -0.009434627170510444,
+      "reference_q975": 0.037852208821046576,
+      "upper_tail_reference_count": 0,
+      "upper_tail_reference_fraction": 0.0038910505836575876,
+      "observational_p_value": false
+    }
+  ],
+  "independent_unit_tests": 4,
+  "observed_ratios_outside_reference_interval": [
+    {
+      "galaxy": "NGC2903",
+      "spatial": "independent_native_pixels",
+      "spectral": "independent_parent_channels"
+    },
+    {
+      "galaxy": "NGC2903",
+      "spatial": "independent_native_pixels",
+      "spectral": "hanning_parent_channels"
+    },
+    {
+      "galaxy": "NGC2903",
+      "spatial": "circular_native_major_beam_filter",
+      "spectral": "independent_parent_channels"
+    },
+    {
+      "galaxy": "NGC2903",
+      "spatial": "circular_native_major_beam_filter",
+      "spectral": "hanning_parent_channels"
+    },
+    {
+      "galaxy": "NGC3198",
+      "spatial": "independent_native_pixels",
+      "spectral": "independent_parent_channels"
+    },
+    {
+      "galaxy": "NGC3198",
+      "spatial": "independent_native_pixels",
+      "spectral": "hanning_parent_channels"
+    },
+    {
+      "galaxy": "NGC3198",
+      "spatial": "circular_native_major_beam_filter",
+      "spectral": "independent_parent_channels"
+    },
+    {
+      "galaxy": "NGC3198",
+      "spatial": "circular_native_major_beam_filter",
+      "spectral": "hanning_parent_channels"
+    },
+    {
+      "galaxy": "NGC4214",
+      "spatial": "independent_native_pixels",
+      "spectral": "independent_parent_channels"
+    },
+    {
+      "galaxy": "NGC4214",
+      "spatial": "independent_native_pixels",
+      "spectral": "hanning_parent_channels"
+    },
+    {
+      "galaxy": "NGC4214",
+      "spatial": "circular_native_major_beam_filter",
+      "spectral": "independent_parent_channels"
+    },
+    {
+      "galaxy": "NGC4214",
+      "spatial": "circular_native_major_beam_filter",
+      "spectral": "hanning_parent_channels"
+    }
+  ],
+  "actual_instrument_covariance_validated": false,
+  "selection_mask_validated": false,
+  "new_motion_fits": 0,
+  "admitted_galaxy_cube_predictions": 0,
+  "goal_complete": false
+}
