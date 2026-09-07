@@ -1,0 +1,185 @@
+{
+ "generated_by": "failures/build.py",
+ "counts": {
+  "artefacts": 9,
+  "archive_traps": 5,
+  "eliminated": 11
+ },
+ "artefacts": [
+  {
+   "n": 1,
+   "id": "01-label-control",
+   "title": "The label control killed seven variables at once",
+   "run": "the first environmental variable search",
+   "number": "1.1% gain on the real data",
+   "null": "6.1% gain on data containing only survey structure and no physics",
+   "control": "Run the identical search on data that cannot contain the answer."
+  },
+  {
+   "n": 2,
+   "id": "02-retracted-correlation",
+   "title": "A correlation whose sign belonged to the estimator",
+   "run": "Run K.2 (retraction)",
+   "number": "-0.304",
+   "null": "the sign did not survive re-derivation",
+   "control": "Re-derive the estimator independently before quoting its sign."
+  },
+  {
+   "n": 3,
+   "id": "03-voidfinder-bias",
+   "title": "38 sigma from data containing no effect",
+   "run": "Run Q",
+   "number": "30-38 sigma",
+   "null": "the same significance on data constructed with no path effect at all",
+   "control": "Simulate the null separately for each algorithm and subtract it. A transverse decomposition orthogonal to distance cut the bias 60x for VoidFinder and 24x for REVOLVER, and still did not reach zero."
+  },
+  {
+   "n": 4,
+   "id": "04-shared-shape-factor",
+   "title": "Both axes contained the same term",
+   "run": "Run Z.4",
+   "number": "a confident correlation of plausible size",
+   "null": "the correlation is a restatement of the shared term",
+   "control": "Write down the construction expression for each axis and look for common factors, before quoting any correlation."
+  },
+  {
+   "n": 5,
+   "id": "05-fit-noise-with-a-sign",
+   "title": "Published fit noise with a preferred sign",
+   "run": "the potential-depth lane",
+   "number": "-6.6 sigma",
+   "null": "-0.0666 +- 0.0101 with the true effect set to zero",
+   "control": "Set the true effect to zero, redraw the catalogue inputs at their published uncertainties, and push them through the actual estimator."
+  },
+  {
+   "n": 6,
+   "id": "06-fit-noise-on-an-amplitude",
+   "title": "The same noise biased an amplitude low by a factor of 2.2",
+   "run": "the slip lane",
+   "number": "factor 2.2 low, at 17 sigma",
+   "null": "-0.026 dex at error scale 0.25, -0.125 at 0.50, -0.336 at 1.00 -- monotonic in the input error",
+   "control": "Scale the input errors up and down and watch the estimator move. A real amplitude does not track the error scale of its inputs."
+  },
+  {
+   "n": 7,
+   "id": "07-axis-from-shot-noise",
+   "title": "A cosmic axis made entirely of shot noise",
+   "run": "Run AP",
+   "number": "growth anisotropy 12.4 at 100 wells",
+   "null": "1.10 at 100,000 wells -- the amplitude is set by particle count",
+   "control": "Vary the sample size and watch the amplitude."
+  },
+  {
+   "n": 8,
+   "id": "08-r500-is-r",
+   "title": "A trend against r/R500 was a trend against r",
+   "run": "Run AT",
+   "number": "the trend itself survived",
+   "null": "the normalisation carries no information the raw radius does not",
+   "control": "Check whether the normalising quantity is independent of the quantity being normalised."
+  },
+  {
+   "n": 9,
+   "id": "09-undersized-null",
+   "title": "A permutation null too small to show its own width",
+   "run": "Run BS, 2026-09-07",
+   "number": "+2.67 sigma, p = 0.000, at 40 permutations",
+   "null": "+1.64 sigma, p = 0.055, at 200 permutations on identical data",
+   "control": "Increase the permutation count until the null's standard deviation stops moving. Plot sd against draw count."
+  }
+ ],
+ "archive_traps": [
+  {
+   "id": "vizier-fuzzy-fallback",
+   "service": "VizieR asu-tsv",
+   "asked": "a specific catalogue identifier",
+   "detector": "Three detectors, ALL required, none sufficient alone. D1: the #Name: line must echo the EXACT identifier requested. D2: refuse any payload containing CatalogsExamined. D3: #Title: must match the expected author and year.",
+   "code": "work/wellnet-2026-09/goldcluster/archives.py"
+  },
+  {
+   "id": "chandra-ocat-ignores-position",
+   "service": "Chandra ocatList.do",
+   "asked": "observations near a sky position (ra, dec, radius parameters)",
+   "detector": "Resolve targets by NAME, then reject any returned observation whose own RA/Dec lies more than a set tolerance from the target. The position is the detector, never the query parameter.",
+   "code": "work/wellnet-2026-09/clusterxray/search.py"
+  },
+  {
+   "id": "tap-error-as-http-200",
+   "service": "IVOA TAP endpoints (NOIRLab Astro Data Lab)",
+   "asked": "an ADQL query",
+   "detector": "Test for a leading <?xml envelope before parsing anything as data.",
+   "code": "work/wellnet-2026-09/goldcluster/archives.py"
+  },
+  {
+   "id": "acis-vignetting-mimics-a-cool-core",
+   "service": "Chandra ACIS event lists",
+   "asked": "a gas temperature map",
+   "detector": "Two clusters of different dynamical state cannot share a thermal profile. When they appear to, the profile belongs to the instrument. The cause is energy-dependent vignetting: soft photons lose more effective area off-axis, so the band ratio hardens outward whatever the gas is doing.",
+   "code": "work/wellnet-2026-09/clusterxray/maps.py"
+  },
+  {
+   "id": "binning-artefact-resembles-the-signal",
+   "service": "the correction itself",
+   "asked": "remove the radial gradient above",
+   "detector": "Build the radial profile in fine bins, smooth it, then interpolate, rather than subtracting bin by bin.",
+   "code": "work/wellnet-2026-09/clusterxray/maps.py"
+  }
+ ],
+ "eliminated": [
+  {
+   "id": "new-gravity-law",
+   "title": "A new law of gravity",
+   "status": "NOT FOUND"
+  },
+  {
+   "id": "every-candidate-family-round-2",
+   "title": "Every candidate family, round 2",
+   "status": "ELIMINATED"
+  },
+  {
+   "id": "seven-modified-gravity-universes-are-one-class",
+   "title": "Seven modified-gravity universes are observationally identical",
+   "status": "INDISTINGUISHABLE"
+  },
+  {
+   "id": "bounded-response",
+   "title": "Any bounded response",
+   "status": "NO-GO"
+  },
+  {
+   "id": "speed-only-modification",
+   "title": "Changing propagation speed alone",
+   "status": "NO-GO"
+  },
+  {
+   "id": "redshift-families-e4-e5",
+   "title": "Redshift families E4 and E5",
+   "status": "KILLED"
+  },
+  {
+   "id": "density-contrast-law",
+   "title": "The density-contrast law",
+   "status": "DEAD"
+  },
+  {
+   "id": "nonlocal-kernel",
+   "title": "The nonlocal kernel",
+   "status": "DEAD"
+  },
+  {
+   "id": "geometric-redshift-class",
+   "title": "The geometric redshift class",
+   "status": "EXCLUDED"
+  },
+  {
+   "id": "cluster-asymmetry-signal",
+   "title": "Baryon asymmetry predicting lensing asymmetry",
+   "status": "NULL"
+  },
+  {
+   "id": "million-law-search",
+   "title": "A 679,120-model law search on cluster lensing",
+   "status": "NO NEW LAW"
+  }
+ ]
+}
