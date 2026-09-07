@@ -126,3 +126,75 @@ where the measurement is not — the identity that killed "organised by r/R500"
 quantities and the deprojected profile are admissible.
 
 Sealed half never queried: 304 sealed, 0 tokens spent.
+
+---
+
+# Run BU — what the factor of two is a function of
+
+`extend_gas.py` turned the ACCEPT profiles into beta-model densities reaching
+0.94–4.6 Mpc, anchored to ACCEPT where the two overlap (0.04–0.19 dex agreement,
+21–59 anchor bins each). One cluster was **rejected**: the optimiser found a
+corner with `Rc = 0 kpc` and `n0 = 1.4e5 cm⁻³`, five orders of magnitude above
+any cluster core — a fit that reproduces the surface brightness and is
+physically impossible. Ten survive.
+
+That took the test from 15 usable points to **65 rows over 10 clusters**, and
+the residual sharpened:
+
+| | median predicted/observed | scatter |
+|---|---|---|
+| plain RAR, Run BT (15 pts) | 0.456 | 0.65 dex |
+| plain RAR, extended gas (55 pts) | **0.620** | **0.52 dex** |
+
+## The families, and the discriminator
+
+Each family multiplies the RAR prediction and carries one free parameter. The
+question is not whether it can fix the median — anything with an amplitude can —
+but whether it **reduces the scatter**, which is what a real dependence does.
+
+| family | best p | median | scatter | verdict |
+|---|---|---|---|---|
+| plain RAR | — | 0.620 | **0.52** | the residual |
+| slip (constant) | 1.59 | 0.985 | 0.52 | rescales only |
+| a0 to f*a0 | x2.98 | 1.006 | 0.52 | rescales only |
+| density^p | 0.30 | 0.976 | 0.53 | rescales only |
+| temperature^p | 2.40 | 0.924 | 0.54 | rescales only |
+| radius^p | 0.60 | 0.883 | 0.57 | no gain beyond null |
+| redshift (1+z)^p | 2.10 | 0.995 | 0.53 | rescales only |
+| gas mass^p | 0.20 | 1.037 | 0.55 | rescales only |
+
+**Not one family reduces the scatter below 0.52 dex.** Every one drives the
+median to within a few percent of unity and leaves the spread exactly where it
+was, or makes it worse. Each was refitted 300 times with its variable permuted
+across clusters; none beats its own null.
+
+## What that means
+
+**The cluster residual is an amplitude, not a dependence.**
+
+Whatever is missing does not track the local gas density, the temperature, the
+position in the cluster, the redshift, or how much gas there is. Those were the
+axes this programme has spent eighteen months exploring, and each can absorb the
+factor into its normalisation — which is exactly what a variable that carries no
+information looks like when you give it a free exponent.
+
+Two of the seven are honest about being amplitudes by construction: a constant
+slip of 1.59, and an acceleration scale about 3x larger in clusters than in
+galaxies. Both fit perfectly and neither explains anything, because a single
+number fitted to a single number always will.
+
+That is consistent with a roughly universal missing-mass fraction — which is
+what dark matter with a near-constant baryon fraction looks like — and it is
+inconsistent with any of the environmental modifications tested here.
+
+## The limit that now binds
+
+Scatter, 0.52 dex, a factor of 3.3. With 55 points a one-parameter family can
+only move the mean, and a dependence would have to be strong to show through
+that spread. The scatter is dominated by shape noise: these clusters carry
+6,974–25,199 background sources each, split across ten radial bins.
+
+The vignetting model is the other systematic. Without CIAO exposure maps an
+analytic ACIS approximation is used, and it biases the outer surface brightness,
+hence beta, hence the outer density. It is stated in `extend_gas.py` rather than
+hidden, and it is the first thing to fix if this is pursued.
