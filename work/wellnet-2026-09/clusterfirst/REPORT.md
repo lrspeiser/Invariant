@@ -285,3 +285,93 @@ direction.
 not unphysical, it is a measurement of a small positive quantity by an
 instrument with noise. The right move is to keep every point, weight by inverse
 variance, and work in linear space where the estimator is unbiased.
+
+---
+
+# Run BW — is the residual one number? and a second broken null
+
+## The null that was wrong
+
+`stacked.py` reported every variable "flat", three at **p = 1.00** — the real
+binning more consistent than all 2000 permutations. That is not a result, it is
+a broken null. It permuted **points** across clusters. Real bins hold several
+correlated points from one cluster; permuted bins mix clusters and scatter more,
+inflating the null χ² and making real data look falsely flat. The null must
+permute **cluster labels**, keeping each cluster's points together.
+
+## The question Milgrom's method actually asks
+
+Not "what modification closes the gap". MOND was derived by requiring one change
+to produce flat rotation curves **and** Tully-Fisher simultaneously: if
+`a = √(a_N a₀)` at low acceleration then `v⁴ = G M a₀` falls out, with one
+universal constant and **zero free parameters per galaxy**. Dark halos permit
+both regularities and predict neither, needing three numbers per galaxy that the
+data turned out not to need.
+
+The decisive property was universality. So for clusters:
+
+> **Is the residual one number across clusters?**
+
+## Per-cluster residuals
+
+| cluster | observed / RAR-predicted | z | bins |
+|---|---|---|---|
+| 1eRASS J052042.5−132848 | 1.87 ± 0.51 | 0.320 | 7 |
+| 1eRASS J063846.8−535831 | 1.79 ± 0.39 | 0.226 | 8 |
+| 1eRASS J045410.6−030056 | 1.75 ± 0.86 | 0.540 | 7 |
+| 1eRASS J140102.0+025240 | 1.58 ± 0.29 | 0.253 | 7 |
+| 1eRASS J111320.3+173542 | 1.35 ± 0.47 | 0.171 | 7 |
+| 1eRASS J043900.7+071603 | 1.03 ± 0.82 | 0.254 | 6 |
+| 1eRASS J123625.2+163246 | 0.99 ± 1.18 | 0.069 | 4 |
+| 1eRASS J065829.9−555637 | 0.53 ± 0.33 | 0.297 | 6 |
+| 1eRASS J044309.7+021017 | 0.52 ± 0.73 | 0.200 | 6 |
+| 1eRASS J134730.8−114510 | 0.04 ± 0.35 | 0.450 | 7 |
+
+Grand mean **1.09**.
+
+## And then the error budget, which is the point
+
+| error budget | χ² / 9 | p(one universal value) |
+|---|---|---|
+| shear shape noise only | 22.0 | **0.009** |
+| + the gas model's own anchor scatter | 17.4 | 0.043 |
+| + anchor scatter and a 15% vignetting term | 15.2 | **0.086** |
+
+The first row is what a careless write-up would have reported: a 2.6σ detection
+that the cluster residual is **not** universal, which would have been a genuine
+result and the first crack in the amplitude picture.
+
+It does not survive. **None of the gas-model uncertainty was in those error
+bars.** `ds_err` is pure shear shape noise; the prediction also depends on a
+β-model fit whose normalisation agrees with ACCEPT only to 0.04–0.19 dex — that
+is a 10–56% uncertainty on `g_bar`, comparable to or larger than the shear
+errors. Adding it, and a conservative 15% for the vignetting that sets the outer
+slope, takes p to 0.086.
+
+**Verdict: the residual is consistent with a single universal value. The
+apparent cluster-to-cluster variation is not established, and most of it is my
+own gas model.**
+
+## One control that did pass
+
+Correlating the residual against the number of background sources per cluster —
+a pure noise proxy carrying no physics — gives r = +0.07, p = 0.89. If the
+variation were driven by clusters with poor lensing, that correlation would be
+there. It is not. So the variation, such as it is, is not simply the noisiest
+clusters scattering furthest.
+
+No physical variable tracks the residual either: redshift gives r = −0.52 at
+p = 0.155, and with ten clusters a correlation needs |r| > 0.63 to clear p<0.05.
+Temperature could not be tested at all — only four of the ten have a measured kT.
+
+## What now binds, precisely
+
+The vignetting model. It is the largest term in the error budget above, it sets
+the outer slope β, β sets the enclosed gas mass, and the gas mass is the entire
+prediction. Everything downstream — the universality test, any search for a
+cluster-specific variable — is limited by it before it is limited by the data.
+
+Fixing it means CIAO exposure maps, which is an install and a re-reduction, not
+an analysis. Until then this dataset cannot distinguish a universal amplitude
+from a varying one, and no cluster-unique thermodynamic variable can be tested
+against a residual whose error is dominated by the model that produced it.
