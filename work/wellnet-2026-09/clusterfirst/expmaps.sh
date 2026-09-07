@@ -46,18 +46,27 @@ echo "CIAO: $(punlearn dmlist 2>/dev/null; ciaover 2>/dev/null | head -2)"
 echo "CALDB: ${CALDB:-unset}"
 echo
 
-# The eleven clusters that carry gas + shear. Only their observations are
-# processed; the other 41 overlap clusters are not needed for this test.
-CLUSTERS=$(python3 - <<'PY'
+# Which clusters to process. The default is every cluster with Chandra
+# events staged (52), not only the eleven that also have an ACCEPT gas
+# model. The within-cluster radial slope test needs just the beta-model
+# SHAPE from the surface brightness: a normalisation error scales g_bar and
+# Delta_Sigma_bar together, which shifts a cluster's level without changing
+# its own radial slope. So ACCEPT is not required to add these clusters.
+#   ALL=0  -> only the ACCEPT-matched eleven (the original behaviour)
+LANE_PY="$WIN_LANE"
+CLUSTERS=$(ALL="${ALL:-1}" LANE="$LANE_PY" python3 -c '
 import json, io, os
-p = "/mnt/c/Users/henry/Documents/Codex/2026-09-04/pu-2/work/Invariant/work/wellnet-2026-09/clusterfirst/accept_overlap.json"
-c = "/mnt/c/Users/henry/Documents/Codex/2026-09-04/pu-2/work/Invariant/work/wellnet-2026-09/clusterxray/overlap_centres.json"
-match = json.load(io.open(p))
-centres = json.load(io.open(c))
-key = {v[6]: k for k, v in centres.items()}
-print(" ".join(key[m["erass"]] for m in match if m["erass"] in key))
-PY
-)
+base = os.environ["LANE"]
+centres = json.load(io.open(os.path.join(base, "clusterxray", "overlap_centres.json")))
+if os.environ.get("ALL", "1") == "1":
+    print(" ".join(sorted(centres)))
+else:
+    match = json.load(io.open(os.path.join(base, "clusterfirst", "accept_overlap.json")))
+    key = {v[6]: k for k, v in centres.items()}
+    print(" ".join(key[m["erass"]] for m in match if m["erass"] in key))
+')
+echo "processing $(echo $CLUSTERS | wc -w) clusters"
+echo
 
 n_ok=0; n_fail=0
 for CL in $CLUSTERS; do
@@ -85,6 +94,19 @@ for CL in $CLUSTERS; do
         *"$(printf '%05d' "$OBSID")"*|*"$OBSID"*) cp -f "$A" "$WORK/$ORIG" 2>/dev/null ;;
       esac
     done
+    # Only the eleven ACCEPT-matched clusters had their aspect solutions
+    # downloaded with the events. The other 41 do not, and fluximage stops
+    # with ERROR ASOLFILE=pcadf....asol1.fits not found -- 73 of 91
+    # observations failed that way on the first full run. Fetch what is
+    # missing from the public archive, which is where the events came from.
+    PAD=$(printf '%05d' "$OBSID")
+    if ! ls "$WORK"/pcadf*"$PAD"*asol1.fits* >/dev/null 2>&1; then
+      ( cd "$WORK" && download_chandra_obsid "$OBSID" asol > /dev/null 2>&1
+        cp -f "$OBSID"/primary/pcadf*asol1.fits* . 2>/dev/null
+        cp -f "$OBSID"/secondary/pcadf*asol1.fits* . 2>/dev/null
+        rm -rf "$OBSID" ) || true
+    fi
+
     # CIAO reads gzipped FITS transparently, but the header names the file
     # without .gz; provide both spellings.
     ( cd "$WORK" && for G in pcadf*asol1.fits.gz; do
