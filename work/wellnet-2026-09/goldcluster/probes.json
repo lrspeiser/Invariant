@@ -1,0 +1,265 @@
+{
+ "lane": "goldcluster",
+ "purpose": "live probe of every route to the six BE.7 channels",
+ "generated_utc": "2026-09-07T06:17:32Z",
+ "inventory_only": true,
+ "routes": [
+  {
+   "channel": "C0",
+   "route": "eRASS1 primary cluster catalogue (Bulbul+2024)",
+   "vizier": "J/A+A/685/A106/emain",
+   "validated_v3": true,
+   "detectors": {
+    "no_vizier_error": true,
+    "D1_name_echo": true,
+    "D2_no_catalogs_examined": true,
+    "D3_title_match": true
+   },
+   "verdict": "AVAILABLE",
+   "clean_observables": [
+    "CR300kpc",
+    "CR500",
+    "CTS300kpc",
+    "CTS500",
+    "F300kpc",
+    "F500",
+    "KT"
+   ],
+   "limitation": "M500, R500, Mgas500 and Fgas500 are scaling-relation products and are inadmissible as a quantity to score a gravity law against; the count rates, counts, fluxes and kT are direct observables and are admissible. eRASS1 calibrates its masses on weak lensing, so using its M500 in a lensing test would be circular."
+  },
+  {
+   "channel": "C4",
+   "route": "DECADE metacal shear (DELVE DR3, Astro Data Lab TAP)",
+   "endpoint": "https://datalab.noirlab.edu/tap/sync",
+   "table": "delve_dr3.decade_shear",
+   "reachable": true,
+   "probe_count_efeds_1deg": 101304,
+   "authentication": "none required",
+   "verdict": "AVAILABLE",
+   "limitation": "archival DECam, so the footprint is PATCHY at the degree scale -- coverage must be checked per cluster, never assumed from a survey boundary"
+  },
+  {
+   "archive": "http",
+   "url": "https://desdr-server.ncsa.illinois.edu/despublic/y3a2_files/y3kp_cats/DESY3_metacal_v03-004.h5",
+   "retrieved_utc": "2026-09-07T06:17:03Z",
+   "bytes": 312037859376,
+   "accept_ranges": true,
+   "magic_ok": true,
+   "magic_seen": "894844460d0a1a0a",
+   "validated": true,
+   "channel": "C4",
+   "route": "DES Y3 metacalibration shape catalogue",
+   "authentication": "none required",
+   "verdict": "AVAILABLE",
+   "structure_confirmed": [
+    "catalog/unsheared",
+    "catalog/sheared_1p",
+    "catalog/sheared_1m",
+    "catalog/sheared_2p",
+    "catalog/sheared_2m"
+   ],
+   "remote_random_access": "IMPRACTICAL",
+   "limitation": "312 GB in ONE HDF5, stored in coadd_object_id order, NOT sky order. Accept-Ranges is present, the HDF5 magic verifies, and h5py DOES open it remotely over range requests in about one second -- the five metacalibration groups above were read that way. But going deeper is impractically slow: listing one group's datasets, and even opening a single named dataset, did not return within 10 minutes, because the B-tree metadata is scattered through 312 GB and each seek is a fresh HTTP round trip. MEASURED, not assumed. So this catalogue is a bulk-download route (312 GB) or a server-side-service route, NOT a remote-subset route."
+  },
+  {
+   "channel": "C4",
+   "route": "BUFFALO HLSP lensing DR1 (STScI)",
+   "url": "https://archive.stsci.edu/hlsps/buffalo/",
+   "directories": {
+    "abell2744": [
+     "catalogs",
+     "images"
+    ],
+    "abell370": [
+     "catalogs",
+     "images",
+     "lens-models"
+    ],
+    "abells1063": [
+     "catalogs",
+     "images"
+    ],
+    "macs0416": [
+     "catalogs",
+     "images"
+    ],
+    "macs0717": [
+     "catalogs",
+     "images"
+    ],
+    "macs1149": [
+     "catalogs",
+     "images"
+    ]
+   },
+   "clusters_with_a_lensing_directory": [
+    "abell370"
+   ],
+   "verdict": "PARTIAL",
+   "limitation": "arXiv:2602.06904 states the six-cluster pyRRG catalogues 'will be made available upon acceptance' at this HLSP. Re-checked live: the directory tree is unchanged since 2023-07 and only abell370 carries a lensing directory. Still not public."
+  },
+  {
+   "channel": "C3",
+   "route": "DESI DR1 redshift catalogue (Astro Data Lab)",
+   "table": "desi_dr1.zpix",
+   "reachable": true,
+   "probe_count_1deg": 12581,
+   "sky_columns": [
+    "mean_fiber_ra",
+    "mean_fiber_dec"
+   ],
+   "redshift_column": "z",
+   "verdict": "AVAILABLE",
+   "authentication": "none required",
+   "limitation": "DESI's footprint is northern-hemisphere-weighted and its cluster-member completeness is set by fibre assignment, not by radius -- radial completeness must be measured per cluster before any sigma(R) is built from it."
+  }
+ ],
+ "never_opened": [
+  {
+   "channel": "C4",
+   "route": "KiDS weak lensing catalogue",
+   "status": "PERMANENTLY_SEALED",
+   "why": "KiDS is a permanent sealed holdout under the programme brief. It was scored in round 1, so it is validation, not confirmation."
+  },
+  {
+   "channel": "C4",
+   "route": "SPT cluster lensing / SPTcl",
+   "status": "CONFIRMATION_RESERVE",
+   "why": "reserved; recorded by identity, never opened"
+  },
+  {
+   "channel": "C1/C2",
+   "route": "MUSE / Granata 2026 member dispersions",
+   "status": "CONFIRMATION_RESERVE",
+   "why": "the only published RESOLVED member kinematics for HFF clusters. Reserved deliberately: it is the scarcest channel and therefore the most valuable thing left to seal."
+  },
+  {
+   "channel": "C3",
+   "route": "Gaia DR dynamical products",
+   "status": "CONFIRMATION_RESERVE",
+   "why": "reserved"
+  },
+  {
+   "channel": "C4",
+   "route": "X-GAP, CLoGS",
+   "status": "CONFIRMATION_RESERVE",
+   "why": "reserved"
+  }
+ ],
+ "guard": {
+  "armed": true,
+  "lane": "goldcluster",
+  "lane_root": "c:/users/henry/documents/codex/2026-09-04/pu-2/work/invariant/work/wellnet-2026-09/goldcluster",
+  "n_read_paths_total": 1,
+  "n_read_paths_library": 0,
+  "n_read_paths_non_library": 1,
+  "non_library_reads": [],
+  "foreign_reads": [],
+  "sealed_tokens_guarded": [
+   "kids",
+   "kids-1000",
+   "kids1000",
+   "kv450",
+   "kids_dr4",
+   "kids_dr5",
+   "wide_binar",
+   "wide-binar",
+   "widebinar",
+   "gaia_wb",
+   "wb_catalog",
+   "hernandez_wb",
+   "banik_wb",
+   "chae_wb",
+   "spt_",
+   "spt-",
+   "sptcl",
+   "south_pole",
+   "southpole",
+   "x-gap",
+   "xgap",
+   "x_gap",
+   "clogs",
+   "granata",
+   "muse_",
+   "muse-",
+   "gaia_dr",
+   "gaiadr",
+   "gaia_edr"
+  ],
+  "real_data_tokens_guarded": [
+   "sparc",
+   "xcop",
+   "x-cop",
+   "efeds",
+   "locuss",
+   "clash",
+   "frontier",
+   "pantheon",
+   "desi",
+   "des_y",
+   "act_dr",
+   "planck",
+   "sami",
+   "diskmass",
+   "herbonnet",
+   "mulroy",
+   "xxl"
+  ],
+  "any_real_observational_file_opened": false,
+  "assertion": "No path outside the lane root was read; no sealed token matched; no real-observation token matched.",
+  "reserve_tokens_guarded": [
+   "spt_",
+   "spt-",
+   "sptcl",
+   "south_pole",
+   "southpole",
+   "x-gap",
+   "xgap",
+   "x_gap",
+   "clogs",
+   "granata",
+   "muse_",
+   "muse-",
+   "gaia_dr",
+   "gaiadr",
+   "gaia_edr"
+  ],
+  "forbidden_projection_columns": [
+   "mcal_g_",
+   "mcal_t",
+   "mcal_s2n",
+   "mcal_flux",
+   "e1",
+   "e2",
+   "g_1",
+   "g_2",
+   "ellip",
+   "shear",
+   "gamma",
+   "kappa",
+   "sigma_crit",
+   "var_e"
+  ],
+  "forbidden_statistics": [
+   "g_t",
+   "gt",
+   "gx",
+   "g_x",
+   "delta_sigma",
+   "deltasigma",
+   "sigma_crit",
+   "kappa",
+   "shear_profile",
+   "mass",
+   "m200",
+   "m500",
+   "c200",
+   "nfw",
+   "gbar",
+   "gobs",
+   "rar",
+   "boost",
+   "residual"
+  ]
+ }
+}
