@@ -328,6 +328,26 @@
    "note": "Chandra ACIS level-2 EVENT LISTS for the six HFF/A2029 clusters, and 2D brightness and hardness maps built from them. Motivation: every thermal profile the programme held for these clusters (cluster-data/gas/accept_*) is a SPHERICAL DEPROJECTION, so the asymmetry is assumed away before any number reaches the table. Event lists are upstream of that. 27 observations, 3.3M photons after filtering, validated by three detectors (bytes vs Content-Length; EVENTS extension with X/Y/ENERGY; header OBS_ID and INSTRUME). Two traps recorded: the Ocat search endpoint silently IGNORES ra/dec/radius and returns HTTP 200 with unrelated engineering pointings, so targets are resolved by name and then rejected on position; and the raw hardness gradient (+0.124 centre to 8 arcmin, in EVERY cluster regardless of dynamical state) is ACIS vignetting, not thermal structure, and is divided out. Hardness is a temperature PROXY, not a temperature: no CIAO/CALDB, so no spectral fit. No gravity law is scored.",
    "invalidated_by": null,
    "output_state": "SCIENTIFICALLY_ADMISSIBLE"
+  },
+  {
+   "run_id": "BS-clusterjoint",
+   "lane": "clusterjoint",
+   "commit": "8b4514ce",
+   "registered_utc": "2026-09-07T18:27:47Z",
+   "depends_on": {
+    "holdout_seal": 2,
+    "confirmation_status": 2,
+    "catalogue_validation": 3
+   },
+   "outputs": [
+    "work/wellnet-2026-09/clusterjoint/table.csv",
+    "work/wellnet-2026-09/clusterjoint/learn.json",
+    "work/wellnet-2026-09/clusterjoint/REPORT.md"
+   ],
+   "status": "VALID",
+   "note": "Baryons and gravity on the SAME radial x azimuthal cells for 52 clusters of the OPEN half: DECADE per-source shear one side, Chandra ACIS photons the other, nothing azimuthally averaged. 2080 rows, 1201 usable. Asks whether baryon ASYMMETRY predicts lensing beyond radius. Answer at this depth: NO -- gain +0.0146 against an azimuthal-permutation null of -0.0091 +- 0.0144, z=+1.64, p=0.055. NINTH ARTEFACT CAUGHT AND IT WAS OURS: at 40 permutations the same data gave z=+2.67, p=0.000 and a 'detection'; at 200 the null widened from sd 0.0095 to 0.0144 and the signal vanished. Undersized null, nothing else. Two controls passed: n_phot alone carries nothing (z=+0.63) so the gain is not a brightness proxy, and the g_x parity-odd target is null (z=-0.28) so it is not cell geometry or a shear systematic. Limiting factor measured: median S/N per cell 0.78. Sealed half never queried.",
+   "invalidated_by": null,
+   "output_state": "SCIENTIFICALLY_ADMISSIBLE"
   }
  ],
  "rules": {

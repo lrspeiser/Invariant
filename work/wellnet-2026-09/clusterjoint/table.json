@@ -1,0 +1,89 @@
+{
+ "rows": 2080,
+ "usable": 1201,
+ "usable_with_hardness": 1174,
+ "clusters": 52,
+ "nrad": 5,
+ "naz": 8,
+ "columns": [
+  {
+   "name": "cluster",
+   "meaning": "eRASS1 designation"
+  },
+  {
+   "name": "i_rad",
+   "meaning": "radial bin index, 0 innermost of 5 over 0.2-3.5 h^-1 Mpc"
+  },
+  {
+   "name": "j_az",
+   "meaning": "azimuthal sector index, 0-7, position angle east of north"
+  },
+  {
+   "name": "z",
+   "meaning": "cluster redshift"
+  },
+  {
+   "name": "kT",
+   "meaning": "eRASS1 X-ray temperature, keV, blank where unmeasured"
+  },
+  {
+   "name": "R_mpc",
+   "meaning": "weighted mean physical radius of the lensing sources in the cell"
+  },
+  {
+   "name": "pa_deg",
+   "meaning": "weighted mean position angle of those sources"
+  },
+  {
+   "name": "n_src",
+   "meaning": "background sources in the cell"
+  },
+  {
+   "name": "g_t",
+   "meaning": "tangential reduced shear, metacalibration response applied"
+  },
+  {
+   "name": "g_x",
+   "meaning": "cross component -- must be consistent with zero; a null, not a feature"
+  },
+  {
+   "name": "g_err",
+   "meaning": "shape-noise error on g_t"
+  },
+  {
+   "name": "n_phot",
+   "meaning": "Chandra photons in the cell, 0.5-7 keV, good grades"
+  },
+  {
+   "name": "sb",
+   "meaning": "photons per square arcmin. NOT exposure corrected"
+  },
+  {
+   "name": "hardness",
+   "meaning": "H/(S+H) temperature proxy, blank below 25 photons"
+  },
+  {
+   "name": "hardness_asym",
+   "meaning": "hardness minus this cluster's radial median -- vignetting-free"
+  },
+  {
+   "name": "sb_asym",
+   "meaning": "log10 sb minus this cluster's radial median -- the asymmetry"
+  },
+  {
+   "name": "xray_covered",
+   "meaning": "1 if Chandra observed this cell's radius at all"
+  }
+ ],
+ "target": "g_t, weighted by 1/g_err**2",
+ "nulls": [
+  "g_x must be consistent with zero on any subset used",
+  "permute cluster labels to destroy the baryon-gravity association",
+  "permute j_az within a cluster to destroy the ASYMMETRY while leaving every radial quantity intact -- the null that matters here, because a purely radial model survives it"
+ ],
+ "caveats": [
+  "sb is not exposure corrected: vignetting and chip gaps are in it. Use sb_asym, which has the radial part removed, for anything that must not depend on the instrument.",
+  "hardness is a proxy, not a temperature, and is not comparable between clusters at different redshift or epoch.",
+  "outer cells often fall outside the Chandra field; xray_covered flags that and unflagged rows must be dropped, not imputed."
+ ]
+}

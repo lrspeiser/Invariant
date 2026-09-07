@@ -47,14 +47,14 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RAW = os.path.join(HERE, "raw")
-OBS = os.path.join(HERE, "observations.json")
+OBS = os.path.join(HERE, os.environ.get("OBS_FILE", "observations.json"))
 UA = "gravity-clusterxray/1.0 (research)"
 CDA = "https://cxc.cfa.harvard.edu/cdaftp/byobsid"
 
 #: deepest N observations per cluster -- enough for a hardness map, and it keeps
 #: the download to a few hundred MB rather than the 5.4 Ms that exist
-PER_CLUSTER = 5
-MIN_KS = 15.0
+PER_CLUSTER = int(os.environ.get("PER_CLUSTER", "5"))
+MIN_KS = float(os.environ.get("MIN_KS", "15.0"))
 
 FITS_MAGIC = b"SIMPLE  ="
 GZ_MAGIC = b"\x1f\x8b"
@@ -146,7 +146,7 @@ def sha256(path):
 def main():
     obs = json.load(io.open(OBS, encoding="utf-8"))
     os.makedirs(RAW, exist_ok=True)
-    manifest_path = os.path.join(HERE, "raw_manifest.json")
+    manifest_path = os.path.join(HERE, os.environ.get("MANIFEST_FILE", "raw_manifest.json"))
     manifest = {}
     if os.path.exists(manifest_path):
         manifest = json.load(io.open(manifest_path, encoding="utf-8"))
