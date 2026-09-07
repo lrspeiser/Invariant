@@ -1,0 +1,50 @@
+# Exact route to the first conditional observed-motion comparison
+
+**The data files are present. The missing work is five adapter/control products, not another large data collection.** No observed-motion comparison is admitted yet. This audit freezes an executable NGC2976 aperture-spectrum protocol and identifies exactly which existing components can be joined. It does not require a perfect likelihood or a unique three-dimensional galaxy reconstruction to report an explicitly conditional prediction discrepancy.
+
+[Dependency graph](dependency-graph.json) contains14 nodes and their evidence paths. [First-score protocol v2](first-score-protocol.json) fixes the comparison, fitting/evaluation split, nuisance parameters, sensitivities and numerical gates. [Executed integrity results](run004/integrity.json) and [metadata/design checks](metadata-and-design-checks.json) supply actual availability evidence.
+
+## What was checked now
+
+- All23 expected file hashes match, including both native cubes, bound stellar/HI/CO source assets and eight distinct NGC2976 source packets. No new downloads or private arrays were written.
+- The eight latent source surfaces are finite, nonnegative and have zero boundary nodes. Their source axes and shapes match. Intentionally masked `source_mean` NaNs are kept separate from the finite integrated source coefficients; they are not silently filled with observed zero.
+- Native cube shapes match their receipts: NGC2976 is42x1024x1024; NGC3198 is72x1024x1024. Only headers and byte hashes were read from these cubes; no source-region spectra were materialized.
+- Both existing noise models have four positive covariance matrices, covering42 or72 channels and576 spatial modes. Their means are in **mJy per native restoring beam**, covariances in its square. Native cubes are **Jy per beam**. The conversion is1000, or10^6 for covariance.
+- Native spectral WCS is not interchangeable between galaxies. NGC2976 is radio velocity in m/s; NGC3198 is frequency in Hz. After an explicit rest-frequency radio conversion, **both velocity grids decrease**: approximately106.05 to-105.21km/s and866.29 to500.43km/s respectively. Independent conversion arithmetic agrees within4.38e-11km/s. The stored barycentric frame is retained.
+- Neither primary cube header supplies simple BMAJ/BMIN keywords. The unique AIPS CLEAN HISTORY beams are7.407x6.42384arcsec, PA71.79deg for NGC2976, and11.43108x9.36252arcsec, PA-80.43deg for NGC3198. The measured restoring beam is available; the full dirty/CLEAN response is not.
+
+Metadata-only support construction selected15 fixed12x12-pixel apertures between deprojected0.75 and2.5kpc:10 training and5 evaluation. They use all42 stored channels and no intensity threshold. The originally frozen minimum6 per subset failed and remains recorded. Six was a planning minimum, not a scientific impossibility threshold. Prospective v2 retains exactly the same apertures, replaces that arbitrary count with an explicit three-parameter identifiability gate, and does not expand the region to find a better outcome. A manufactured50km/s spectrum model on the ten training positions has rank3 and scaled singular-value ratio0.455. Actual training-model rank/SNR still must be checked before evaluation access.
+
+All these regions were exposed during earlier development. The new partition is not a fresh holdout. HI moment-map selection and the HERACLES HI-derived velocity window also create source/response processing dependence. A source-conditioned comparison is possible; calling it an independent discovery would be incorrect.
+
+## The five missing products
+
+| Product to implement | Existing parts to reuse | Exact remaining check |
+|---|---|---|
+| Converged source force at emitting positions | `mond_atlas_source_cells.py`, `mond_atlas_log_source.py` | Same stellar+HI+CO source in Newton and log; resolve the retained Newton quadrature failure; provide density-weighted column forces or validated interpolation, not sparse point samples passed off as a full field. |
+| Actual HI column/pressure/emission input packet | Eight validated source packets; `mond_atlas_pressure_support.py::surface_balance` | Build positive HI-phase column and source-only derivative, vertical weights and emission positions; preserve impossible signed rotation squared; independently check gradient and radial/vertical weighting. |
+| Native source-to-spectrum renderer | `mond_atlas_motion_controls.py`, `mond_atlas_cube.py`, `mond_atlas_native_selection.py`, saved `linear-operators.json` | Replace prescribed tanh rotation by supplied velocities; handle elliptical HISTORY beam, parent channels and continuum operator, finite-channel widths, native units and aperture integration; independently replay flux, centroid and refinement. |
+| Exact working covariance for these apertures | Frozen NGC2976 western DCT model; `mond_atlas_noise_mode_power.py` | Export the central12x12-in24x24 aperture covariance, verify dense A*C*A^T and units, preserve western mean and covariance sensitivity. Do not claim independent patches or calibrated joint likelihood. |
+| Training-only observed comparison runner | Existing synthetic motion/covariance fitting patterns | Fit only systemic velocity, intrinsic line width and global emission multiplier on ten apertures; retain three starts and all failures; freeze fits before reading five evaluation spectra; report paired losses and all declared variants. |
+
+The parent's next synthetic force-to-ring adapter can complete part of the third row, using the existing pressure closure. It does not itself create real column-weighted force arrays, a native instrument adapter or an observed scorer.
+
+## What the first score would mean
+
+The fixed physical comparison is Newton against Newton plus the softened logarithmic pair potential with extra-mass ratio eta=1, L=4kpc and b=.05kpc. These are the parent's prospective physical choices for the distributed-source branch, not a calibration inferred from the earlier dimensionless oscillator. Gravity strength is not fitted. Source M/L, HI/CO scaling, height, fill and beam-resolution sensitivities are explicit conditional alternatives, not confidence bounds.
+
+The pressure closure is steady, axisymmetric, isotropic and has zero mean radial/vertical flow. It uses `vphi^2=R*gbar+R*dPi/dR/Sigma_HI`, with HI-density-weighted inward force. Stars and molecular gas still contribute to gravity; their densities are not substituted for the HI tracer's pressure column. Supporting dispersions5/10/15km/s are fixed sensitivity branches, separate from the fitted spectral width. Instrumental broadening and beam mixing do not support the gas. No negative result is clipped into a circular orbit. The existing pressure benchmark already demonstrates an exact force-pressure degeneracy, so this restriction matters.
+
+The first metric is the average of five individual aperture residual quadratic forms under a fixed working covariance, alongside raw spectral RMSE and every channel residual. It is an approximate weighted prediction discrepancy. It is not a likelihood-ratio significance test, population confidence interval or independent five-galaxy result. Unknown cross-aperture correlations need not prevent that descriptive calculation; they do prevent interpreting the five patches as independent replications. No conditional noise forecast from fitted residuals is used to imitate signal recovery.
+
+Fixed geometric support removes the need to reproduce a threshold-selected source mask for this narrow comparison. The previously poor threshold recovery remains a real warning for MOM0/source products; it has not been repaired or reclassified. All three unresolved spectral-response branches remain visible. The standard CLEAN cube and flux-rescaled moment maps are different products, so the emission/flux-transfer assumption needs a bounded injection and numerical check. An exact dirty-beam or visibility model is not demanded for a declared approximate comparison; any resulting preference must remain conditional on that response approximation.
+
+Warp, streaming and asymmetric emission controls must run through the same native adapter. Their role is to show whether simpler steady rotation is adequate, not to label an arbitrary kinematic streaming term a consistent fluid solution. Annular force averaging also cannot establish full nonaxisymmetric motions. If geometry, pressure or instrument branches reverse the preference, the result is unresolved; it is not evidence for the new mechanism. No Galactic-foreground channel exclusion is justified by the current metadata hypothesis.
+
+## Preserved failures and evidence limits
+
+Run001 incorrectly assumed every native spectral coordinate decreases. NGC3198 frequency increases, though its converted radio velocity decreases. Runs002 and003 exposed Astropy frame-attribute incompatibility in the first offset implementation. Run004 uses an explicit catalog-origin SkyOffsetFrame. Original scripts and failure notes remain intact; no observed responses were used to repair them. The first-score v1 count failure is likewise preserved. V2 was declared after source/header metadata, before any new observed scoring.
+
+Relevant primary measurements are [THINGS/Walter et al.2008](https://arxiv.org/abs/0810.2125), [S4G/Querejeta et al.2015](https://arxiv.org/abs/1410.0009), and [HERACLES/Leroy et al.2009](https://arxiv.org/abs/0905.4742); the [HERACLES release guide](https://www.iram.fr/ILPA/LP001/README) documents the shared HI velocity-window dependency. The existing pressure package binds the Euler formulation to [Wang et al.2010](https://arxiv.org/abs/1004.5593) and [Iorio et al.2017](https://arxiv.org/abs/1611.03865). No observations from those pressure papers were used here.
+
+The graph is a point-in-time audit; the parent's numerical field repair remains pending in that snapshot. Previously frozen packages remain unchanged. Current disposition is **SOURCE_BLOCKED pending the finite adapter list**, with zero new observed scores, zero reserved-response access and zero claim that the complete observational system is finished.

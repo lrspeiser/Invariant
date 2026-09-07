@@ -1,0 +1,430 @@
+{
+  "id": "observation-admission-dependency-graph-v1",
+  "snapshot": "execution030, parent matchedfield repair in progress",
+  "nodes": [
+    {
+      "id": "native_cube",
+      "status": "INPUT_AVAILABLE_HEADER_HASH_VERIFIED",
+      "role": "measurement response",
+      "requires": [],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "work/gravity-first-principles/mond-atlas-native-spectral-001/NGC2976.json",
+          "exists": true,
+          "sha256": "5126c35b518c5dee79b3cb3f31f7f935b33892e4e87faeec7895df329be7f2dd"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-native-spectral-001/NGC3198.json",
+          "exists": true,
+          "sha256": "adf658574873109514494ee6d0fe5f7aa4687cfcef23a3fed359a68ace509ebe"
+        },
+        {
+          "path": "work\\gravity-first-principles\\mond-atlas-observation-admission-001\\run004\\integrity.json",
+          "exists": true,
+          "sha256": "2e90ab0bd9c8c05844bcb1e3b1b02afe0d5300ce26e3691f883b5a1e1140f17b"
+        }
+      ],
+      "necessary_change": "",
+      "limitation": "No source-region cube values opened. Complete actual NGC2976 finite-array validation exists in native selection; no new check here."
+    },
+    {
+      "id": "registered_sources",
+      "status": "CONDITIONAL_INPUTS_AVAILABLE",
+      "role": "source: cleaned stellar light,HI+He,CO emission",
+      "requires": [],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "work/gravity-first-principles/mond-atlas-generic-source-001/run-002/summary.json",
+          "exists": true,
+          "sha256": "bee2ed639223c4984e6f4dcc6a89f923b51ddc0d2cbee800f558334ed130f697"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-source-resolution-001/run-001/summary.json",
+          "exists": true,
+          "sha256": "ba07e8265d0fbdfa64774ec549d0bbc3918bbbed23e07cbda6ebbf261e52089b"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-spatial-program-001/source-bindings.json",
+          "exists": true,
+          "sha256": "b049cb90b448c8e2486f3ccc550ece38597e219db9ff428f5129202b26083341"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-ngc3198-recovery-001/README.md",
+          "exists": true,
+          "sha256": "69699a68ca17a8a6178a53973362eaa61c6af55f4cd25d75f5358940fe0e4107"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-co-photometry-001/README.md",
+          "exists": true,
+          "sha256": "fd4dfa8d97a02887d99a80e41899b91f79d59362ab914c9e9791a0056b70325e"
+        },
+        {
+          "path": "work\\gravity-first-principles\\mond-atlas-observation-admission-001\\metadata-and-design-checks.json",
+          "exists": true,
+          "sha256": "2ef85c409a516651f0c1d8d6ba57a234e53f3f50e4b61364838d09ef41cbdece"
+        }
+      ],
+      "necessary_change": "",
+      "limitation": "Beams embedded; nonunique vertical inverse; source_mean masked NaNs are not invalid latent coefficients. HI blanking/CO velocity window depends on same cube. Native signedCO retained; positive massmodels need source uncertainty."
+    },
+    {
+      "id": "source_cells",
+      "status": "NUMERICAL_BUILDING_BLOCK_AVAILABLE",
+      "role": "source mass quadrature",
+      "requires": [
+        "registered_sources"
+      ],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "scripts/mond_atlas_source_cells.py",
+          "exists": true,
+          "sha256": "50c92e927a1379e083283ac0c2477044d924ba0e688d725c11e6bf435dcdcbfb"
+        },
+        {
+          "path": "scripts/mond_atlas_source_resolution.py",
+          "exists": true,
+          "sha256": "e6cf37044d08236066ff8ae2c8342b192ad0e5442ad9e09037a0fe9e62acb439"
+        },
+        {
+          "path": "scripts/run_mond_atlas_reprojected_fields.py",
+          "exists": true,
+          "sha256": "046a22a874fafde1e49be2620548cfc0cbcc6dc3089f8bfb2034107447e42d2f"
+        }
+      ],
+      "necessary_change": "",
+      "limitation": "Finite-height source projection not complete observed3Dtruth; no velocity dimension treated as depth."
+    },
+    {
+      "id": "matched_fields",
+      "status": "PENDING_PARENT_NUMERICAL_ADMISSION",
+      "role": "same-source Newton/log acceleration",
+      "requires": [
+        "source_cells"
+      ],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "work/gravity-first-principles/mond-atlas-log-source-001/PREFLIGHT.md",
+          "exists": true,
+          "sha256": "5d8b843f55173ae0509600318bc769e0349c5886a1f3fc785c975c5837c8eb4c"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-log-source-001/REPORT.md",
+          "exists": true,
+          "sha256": "43f4854a2612b4d3b3e235adb68f798db3314ade61689c79df5f7b872b5aabd6"
+        },
+        {
+          "path": "scripts/mond_atlas_log_source.py",
+          "exists": true,
+          "sha256": "c9c78bf325bf86e30ac6695ba157c072a4feb50dceae899613782df9f756cc6b"
+        }
+      ],
+      "necessary_change": "Publish converged same-source force evaluator/arrays at all actual emitting nodes or admitted interpolation; density-weight force throughHI height, angular-average and preserve tangential/angular spread. Parent reports original Newton point quadrature failed; Fourier repair must pass before ratios.",
+      "limitation": ""
+    },
+    {
+      "id": "pressure_mechanics",
+      "status": "THEORY_CONTROLS_AVAILABLE",
+      "role": "radial equilibrium closure",
+      "requires": [],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "scripts/mond_atlas_pressure_support.py",
+          "exists": true,
+          "sha256": "40b144f040664541993eae4645e847693a7f63482eeefdff76fed440a5e343de"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-pressure-support-001/README.md",
+          "exists": true,
+          "sha256": "e438a847aa28581a8904bb20710774fec2afff856a2434108430ff5017d9c269"
+        }
+      ],
+      "necessary_change": "Reuse surface_balance(SurfaceColumn(...), ...) with proper sign and density-weighted force; no additional pressure solver required.",
+      "limitation": "Known exact force-pressure degeneracy; fitted line width is not all supporting pressure. Nonzero flows rejected."
+    },
+    {
+      "id": "source_to_motion_adapter",
+      "status": "MISSING_COMPILED_INPUT_AND_REPLAY",
+      "role": "actual-source radial column/pressure/emission geometry",
+      "requires": [
+        "registered_sources",
+        "matched_fields",
+        "pressure_mechanics"
+      ],
+      "required_for_restricted_score": true,
+      "evidence": [],
+      "necessary_change": "Create source-motion-inputs.npz plus source-motion-controls.json: source-onlySigma_HI, derivative,HIverticalweights,all emittingnodes/LOSpositions and parent-fieldvalues; fixed support dispersion5/10/15km/s. Check pressure derivatives/refinement, signednegativevphi\u00b2, constant-unit rescaling and limitingzero-pressure case. Do not derive totalmass fromHI alone.",
+      "limitation": ""
+    },
+    {
+      "id": "native_instrument",
+      "status": "CONDITIONAL_LINEAR_OPERATORS_AVAILABLE",
+      "role": "measurement transfer",
+      "requires": [],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "scripts/mond_atlas_native_selection.py",
+          "exists": true,
+          "sha256": "5a0be50d7f20cc7051901f71e82fa7e204c5bff258791a9ec3dd8e40fdc2cffa"
+        },
+        {
+          "path": "scripts/mond_atlas_native_spectral.py",
+          "exists": true,
+          "sha256": "0f6c3280ea2f7db3979faaaf99e5c27c4ebcbd60fd3b1b4f36a32b03b5dcf4b6"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-selection-ablation-001/run001/linear-operators.json",
+          "exists": true,
+          "sha256": "de71e34cf8c3efeaec9ea85c45954b7d77e362d1f04102036481f3567f1ee75d"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-native-selection-001/source-evidence.json",
+          "exists": true,
+          "sha256": "c5083b80c34bdfc0f194d29cf6bafa24dab5b6b3bb8a77979e1ff2ff959e9b60"
+        },
+        {
+          "path": "work\\gravity-first-principles\\mond-atlas-observation-admission-001\\metadata-and-design-checks.json",
+          "exists": true,
+          "sha256": "2ef85c409a516651f0c1d8d6ba57a234e53f3f50e4b61364838d09ef41cbdece"
+        }
+      ],
+      "necessary_change": "",
+      "limitation": "Unique online spectralbranch,dirtybeam,flags andCLEAN nonlinearity missing. Allthreebranches can be retained in an approximate response comparison; exactinstrument reconstruction not demanded."
+    },
+    {
+      "id": "native_spectrum_adapter",
+      "status": "MISSING_NEW_JOIN_OF_TESTED_PARTS",
+      "role": "source/emission-to-nativeaperture spectra",
+      "requires": [
+        "source_to_motion_adapter",
+        "native_instrument"
+      ],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "scripts/mond_atlas_cube.py",
+          "exists": true,
+          "sha256": "b9f15de69bfff55f363da3eebb0b51f6085091d8bedece8a6009cc99e353f6a1"
+        },
+        {
+          "path": "scripts/mond_atlas_motion_controls.py",
+          "exists": true,
+          "sha256": "8c45fa156f573621d6cd11d373a32bbb99765d1a4ddd36c011688deef2a0342c"
+        }
+      ],
+      "necessary_change": "Create native-prediction-controls.json and adapter using suppliedsourcepositions/LOSfields, nativeellipticalbeam, fullparentchannelrange andA@H, finitechannelwidths, cropandapertureoperators andJy/beam conversion. Existing Instrument assumes squarecircularbeam/equalascendingchannels; it is not a nativeWCS adapter. Validateflux/centroid/refinement versus separatequadrature. BoundstandardCLEAN-cube/sourceMOM0 flux mismatch, never reapplyA toalreadyprocesseddata.",
+      "limitation": ""
+    },
+    {
+      "id": "selection",
+      "status": "V2_FIXED_GEOMETRY_READY_V1_FAILURE_RETAINED",
+      "role": "selection independent of spectral values",
+      "requires": [],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "work\\gravity-first-principles\\mond-atlas-observation-admission-001\\PREFLIGHT.md",
+          "exists": true,
+          "sha256": "448f5ffff9db7080921b000951a154725a5d8f92d862223df352017a8b3f6660"
+        },
+        {
+          "path": "work\\gravity-first-principles\\mond-atlas-observation-admission-001\\first-score-protocol.json",
+          "exists": true,
+          "sha256": "7d3574870395008a0a1e9c8cbaab82cb3450c94a3d338f31fd2670b0b4b5301f"
+        },
+        {
+          "path": "work\\gravity-first-principles\\mond-atlas-observation-admission-001\\run004\\frozen-geometric-apertures.csv",
+          "exists": true,
+          "sha256": "ac811aad8e4cab9c186be0c3a649de0756fa97070d9b4058925b5b6a96b2a075"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-selection-transfer-001/README.md",
+          "exists": true,
+          "sha256": "d154207823c421962c316c76772c64bc09a07590cd8985bdf7f3251bab5ead6c"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-selection-ablation-001/README.md",
+          "exists": true,
+          "sha256": "4cef643a7a7fa2d7a5ae6094edd01366899a535e74c0e74a70d2de0dc5681cdb"
+        }
+      ],
+      "necessary_change": "",
+      "limitation": "15 apertures fixed by geometry;10training5evaluation. No thresholdmask thus missingpublishermask not blocker for thisrestrictedscore. Existing fluxrecovery failures remain relevant to maps andthresholdedproducts."
+    },
+    {
+      "id": "background_covariance",
+      "status": "POSITIVE_WORKING_MATRICES_AVAILABLE",
+      "role": "weighting approximation",
+      "requires": [],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "work/gravity-first-principles/mond-atlas-noise-dc-regularization-001/run001/models-before-east.json",
+          "exists": true,
+          "sha256": "2833a97ba3e5ef2d4193ec449b621cb6668d4d74fa4f1c18387919256dcbefd0"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-noise-transfer-001/run001/model-before-east.json",
+          "exists": true,
+          "sha256": "4e68ca4637ea8ce5c63ca78e565d85dcdbed6c283c33097ceb775349aec79269"
+        },
+        {
+          "path": "scripts/mond_atlas_noise_mode_power.py",
+          "exists": true,
+          "sha256": "2ca9b3e351b3a8c75435a08e51e991e7b215bc204d87764f0eaa9f713c9a13f0"
+        },
+        {
+          "path": "work\\gravity-first-principles\\mond-atlas-observation-admission-001\\run004\\integrity.json",
+          "exists": true,
+          "sha256": "2e90ab0bd9c8c05844bcb1e3b1b02afe0d5300ce26e3691f883b5a1e1140f17b"
+        }
+      ],
+      "necessary_change": "",
+      "limitation": "42/72channel matrices in mJy\u00b2,576spatialmodes; jointmode/core independence unproven; approximateweights may still define adescriptivepairedloss."
+    },
+    {
+      "id": "aperture_weight_adapter",
+      "status": "MISSING_EXACT_APERTURE_EXPORT",
+      "role": "measurement uncertainty propagation",
+      "requires": [
+        "background_covariance",
+        "selection"
+      ],
+      "required_for_restricted_score": true,
+      "evidence": [],
+      "necessary_change": "Create aperture-working-covariance.npz and controls.json for center12x12 in24x24 DCT embedding; independentlydense-checkA C A^T andconversion1000. Freezeoldselectedrecipe; westernleave-one-core refits assessworkingweight sensitivity; no neweasternselection. Meanuncertainty notintegrated out andnojointlikelihoodclaim.",
+      "limitation": ""
+    },
+    {
+      "id": "kinematic_controls",
+      "status": "SYNTHETIC_CAPABILITY_AVAILABLE_NATIVE_JOIN_MISSING",
+      "role": "rotation/warp/streaming/asymmetry adequacy",
+      "requires": [
+        "native_spectrum_adapter"
+      ],
+      "required_for_restricted_score": true,
+      "evidence": [
+        {
+          "path": "work/gravity-first-principles/mond-atlas-motion-controls-001/run-002/summary.json",
+          "exists": true,
+          "sha256": "aa8f7edd1863d9e798f6b6e2649dbfb2e4d0cac0373811dc4eb0422cbfb0eba7"
+        },
+        {
+          "path": "work/gravity-first-principles/mond-atlas-motion-covariance-001/run-001/summary.json",
+          "exists": true,
+          "sha256": "d95b5f8d9b196c72cf993b630db96c53724d5451d699aea733cba5332f637da0"
+        },
+        {
+          "path": "scripts/mond_atlas_motion_controls.py",
+          "exists": true,
+          "sha256": "8c45fa156f573621d6cd11d373a32bbb99765d1a4ddd36c011688deef2a0342c"
+        }
+      ],
+      "necessary_change": "Replayfrozen warp/streaming/asymmetry injections through nativeadapter. Prescribedrotation expanded control fits trainingonly; cannot turnnonzeroflowprojection intoa steadyforce solution.",
+      "limitation": "Face-on/unresolveddegeneracies andnoiseinterpolation counterexamples retained. No globalclaim everymotion identifiable."
+    },
+    {
+      "id": "restricted_scorer",
+      "status": "MISSING_RUNNER",
+      "role": "first observational comparison",
+      "requires": [
+        "native_cube",
+        "native_spectrum_adapter",
+        "aperture_weight_adapter",
+        "selection",
+        "kinematic_controls"
+      ],
+      "required_for_restricted_score": true,
+      "evidence": [],
+      "necessary_change": "Implement3nuisanceparametertrainingonlymultistarts plus separateevaluation reader; freezeallfits first. Record5 pairedpatchlosses,means,channelresiduals andallfixedsource/pressure/responsebranches. No lawstrength fit. RequiretrainingJacobianrank3. Expectedartifact training-fit-freeze.json before evaluation-score.json; neverrelabelevaluation as freshholdout.",
+      "limitation": ""
+    },
+    {
+      "id": "general_gravity_inference",
+      "status": "NOT_ADMITTED_NOT_REQUIRED_FOR_DESCRIPTIVE_SCORE",
+      "role": "stronger scientific claim",
+      "requires": [],
+      "required_for_restricted_score": false,
+      "evidence": [
+        {
+          "path": "work/gravity-first-principles/mond-atlas-foreground-metadata-001/README.md",
+          "exists": true,
+          "sha256": "c898a802f61a6f9732d9c588914e09a4539a1bf70fa36638be73d87740f05ed4"
+        }
+      ],
+      "necessary_change": "",
+      "limitation": "Unique3Dmass/noisefreehistory,exactCLEAN,invariantphysicalscale,source/pressure/geometry posterior,independentnewgalaxies,relativisticlensing andexternalmatter remain beyondscope. Foregroundchannelmasknotjustified. No need to solve allthese to compute clearlyconditionalprediction discrepancies."
+    }
+  ],
+  "edges": [
+    {
+      "node": "source_cells",
+      "dependency": "registered_sources"
+    },
+    {
+      "node": "matched_fields",
+      "dependency": "source_cells"
+    },
+    {
+      "node": "source_to_motion_adapter",
+      "dependency": "registered_sources"
+    },
+    {
+      "node": "source_to_motion_adapter",
+      "dependency": "matched_fields"
+    },
+    {
+      "node": "source_to_motion_adapter",
+      "dependency": "pressure_mechanics"
+    },
+    {
+      "node": "native_spectrum_adapter",
+      "dependency": "source_to_motion_adapter"
+    },
+    {
+      "node": "native_spectrum_adapter",
+      "dependency": "native_instrument"
+    },
+    {
+      "node": "aperture_weight_adapter",
+      "dependency": "background_covariance"
+    },
+    {
+      "node": "aperture_weight_adapter",
+      "dependency": "selection"
+    },
+    {
+      "node": "kinematic_controls",
+      "dependency": "native_spectrum_adapter"
+    },
+    {
+      "node": "restricted_scorer",
+      "dependency": "native_cube"
+    },
+    {
+      "node": "restricted_scorer",
+      "dependency": "native_spectrum_adapter"
+    },
+    {
+      "node": "restricted_scorer",
+      "dependency": "aperture_weight_adapter"
+    },
+    {
+      "node": "restricted_scorer",
+      "dependency": "selection"
+    },
+    {
+      "node": "restricted_scorer",
+      "dependency": "kinematic_controls"
+    }
+  ],
+  "current_admission": "SOURCE_BLOCKED_PENDING_FINITE_ADAPTERS",
+  "missing_new_downloads_for_restricted_score": 0,
+  "mechanism_inference_admitted": false,
+  "observed_scores": 0
+}

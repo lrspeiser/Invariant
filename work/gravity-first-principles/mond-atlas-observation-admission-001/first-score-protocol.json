@@ -1,0 +1,151 @@
+{
+  "id": "restricted-ngc2976-first-score-v2",
+  "status": "SOURCE_BLOCKED_PENDING_ENUMERATED_ADAPTERS",
+  "scope": "Source-conditioned developmental aperture-spectrum comparison; not a validated joint likelihood, independent discovery, or oscillator history test",
+  "v1_failure": "Six evaluation apertures was an arbitrary planning minimum; actual metadata yields five. V1 failure retained, no response-based region expansion. V2 uses identical15 apertures and design-identifiability gates.",
+  "support": {
+    "file": "run004/frozen-geometric-apertures.csv",
+    "training": 10,
+    "evaluation": 5,
+    "pixels_per_aperture": 144,
+    "all_stored_channels": 42,
+    "mask": "Fixed geometric squares, no signal/emission threshold, all finite native voxels; any missing voxel fails adapter, never becomes zero",
+    "history": "All regions historically exposed in earlier projects. These are algorithmic fitting/evaluation subsets only. Existing HI/CO maps contain same-observation velocity-selection dependence; no new independent holdout claim."
+  },
+  "gravity": {
+    "models": [
+      "Newton",
+      "Newton plus softened logarithmic pair potential"
+    ],
+    "log_eta": 1.0,
+    "L_kpc": 4.0,
+    "b_kpc": 0.05,
+    "C": "G*eta/L",
+    "origin": "Parent execution030 pre-response physical choice, not dimensionless oscillator calibration",
+    "strength_fitted": false,
+    "source": "Same registered stellar+HI+CO density in each model; require converged Newton and log fields at emitting quadrature nodes, not interpolate sparse72field samples without validation",
+    "spherical_or_point_substitution": false
+  },
+  "source": {
+    "primary": "NGC2976 f4 stars h=.1kpc, HI/CO h=.2kpc from spatial source bindings",
+    "fixed_sensitivities": [
+      "stars h=.4kpc f4",
+      "stellar M/L .4 and .8 versus .6",
+      "HI mass factors .8 and1.2",
+      "CO mass factors .5 and2"
+    ],
+    "one_at_a_time": true,
+    "confidence_interval": false,
+    "missing_source_regions": "Frozen annular fill and zero-fill comparison; neither missing nor clipped values count as observed zero",
+    "beams": "Native source beams remain embedded; require common30arcsec-source smoothing sensitivity propagated to predicted spectra; this is source-resolution sensitivity, not deconvolution or unique3D recovery",
+    "source_radius": "Use full frozen mass support to6kpc plus tails audit, evaluate apertures only0.75..2.5kpc"
+  },
+  "pressure": {
+    "adapter": "scripts/mond_atlas_pressure_support.py::surface_balance",
+    "equation": "vphi^2=R*gbar+R*dPi/dR/Sigma_HI",
+    "force": "HI-density-weighted azimuthal radial force integrated through z, not total-matter weighted or unqualified midplane force",
+    "support_sigma_km_s": [
+      5.0,
+      10.0,
+      15.0
+    ],
+    "Pi": "Sigma_HI*sigma_support^2",
+    "gradient": "Positive HI column from source only; Gaussian physical smoothing.25kpc before derivative, compare derivative numerical spacing halved; support/tails retained",
+    "negative_vphi2": "Keep signed result and report no steady circular solution, no clamping or dropping those apertures",
+    "restrictions": [
+      "steady",
+      "axisymmetric",
+      "isotropic supporting stress",
+      "zero mean radial and vertical flow",
+      "HI phase treated separately from molecular gas",
+      "prescribed vertical source; no general vertical equilibrium proven"
+    ],
+    "line_width": "Supporting dispersion is a fixed sensitivity, not identified with fitted spectral width; no instrument/beam broadening counted as pressure"
+  },
+  "fit": {
+    "parameters": [
+      "systemic_km_s",
+      "intrinsic_HI_line_sigma_km_s",
+      "global_emission_multiplier"
+    ],
+    "bounds": [
+      [
+        -30,
+        30
+      ],
+      [
+        3,
+        20
+      ],
+      [
+        0.5,
+        2
+      ]
+    ],
+    "starts": [
+      [
+        0,
+        6,
+        1
+      ],
+      [
+        0,
+        10,
+        1
+      ],
+      [
+        0,
+        16,
+        1
+      ]
+    ],
+    "optimizer": "float64 least_squares; only converged starts, minimum training mean patch loss; all starts and bound contacts retained",
+    "objective": "mean over10 training apertures of r^T C_ap^-1 r/42",
+    "training_design": "Before any evaluation response access: finite-difference Jacobian in scaled parameters must have rank3, smallest/largest singular ratio>1e-6; unsupported parameters fail, no posthoc fixing from evaluation. Analytic synthetic manufactured profiles pass parameter/forecast recovery controls first.",
+    "line_prediction": "Finite native-channel integral and per-channel width, not point sampling. Stellar/CO maps supply force, HI source supplies emission. NativeJy/beam to mJy/beam exact1000 conversion.",
+    "all_source_inversions": "source-image arrays may use all fixed projected map pixels; this conditions on the same-observation source and does not establish independent motion prediction",
+    "optimizer_options": {
+      "ftol": 1e-08,
+      "xtol": 1e-08,
+      "gtol": 1e-08,
+      "max_nfev": 300
+    }
+  },
+  "instrument": {
+    "native_beam": "Read unique IMAGR HISTORY AIPS CLEAN beam, not absent BMAJ keywords. Elliptical restoring beam, signed axes, finite halo/convolution before aperture averaging.",
+    "spectral": "Use saved A and three H branches; source line extends across parent64channels including continuum-fit channels before crop to42. Native delivered data already processed: never apply continuum/spectral operator to it again.",
+    "branches": [
+      "boxcar_independent",
+      "boxcar_hanning_full",
+      "boxcar_hanning_decimated"
+    ],
+    "ordering": "NGC2976 radio velocities decrease. Sort only with matching row/column/data permutation and reverse output exactly. NGC3198 has FREQ Hz; separate rest-frequency radio conversion required.",
+    "flux": "Standard CLEAN cube is not moment-map flux-rescaled cube. Need a bounded source-to-standard-cube amplitude transfer test; global scale does not certify spatially varying dirty/CLEAN residual response.",
+    "foreground": "No Galactic velocity channel exclusion. Existing metadata supports only hypothesis, not diagnosed mask; retain every channel and report channel-resolved discrepancies."
+  },
+  "noise": {
+    "model": "mond-atlas-noise-dc-regularization-001/run001/models-before-east.json selected DC+three frozen bands",
+    "aperture": "C_ap=sum_b sum_k (A U_k)^2 p_k C_b, native12x12 aperture embedded centrally in24x24 DCT support; mJy units",
+    "mean": "Western per-channel mean only, not local/evaluation residual subtraction",
+    "uncertainty": "Fixed working covariance plus western-core leave-one-core refit sensitivity with frozen recipe; no eastern selection. No assumption of independence among5evaluation apertures.",
+    "score": "Unconditioned marginal residual prediction: no held-channel noise interpolation from training residuals. Report all5paired losses and arithmetic mean difference; raw RMSE and channel spectra alongside covariance weighted losses.",
+    "inference": "No chi-square or binomial significance, p-values, confidence interval or sum-logpdf claimed as a calibrated joint galaxy likelihood. Descriptive result remains valid as conditional discrepancy with approximate weights."
+  },
+  "controls": {
+    "numerical": "Independent source-to-spectra quadrature/beam/spectral replay; profile L1 refinement<1%, centroid difference<.5km/s, mass closure<1e-8; force own convergence gate must pass first",
+    "noise_transfer": "Existing outer-background validation supplies working weights; need pre-response injection adapter replay through exact aperture shape and all three response branches, actual background and manufactured covariance. No perfectlikelihood demand.",
+    "kinematic_adequacy": "Run separate fixed synthetic warp(+10deg inclination,+20deg PA), radialstream20km/s and asymmetricemission.4 controls with the same native adapter. On training data compare prescribed-rotation expanded kinematic model, retaining all training residual diagnostics. It is an adequacy check only, not a force-equilibrium model.",
+    "attribution": "If source/pressure/instrument branches reverse model preference or expanded motions are needed, report unresolved conditional comparison, not evidence for gravity. Nonaxisymmetric source force is measured and reported; do not pretend annular-average closure predicts full vector response.",
+    "synthetic_noise_seeds": [
+      9063001,
+      9063002,
+      9063003,
+      9063004,
+      9063005,
+      9063006,
+      9063007,
+      9063008
+    ]
+  },
+  "access": "Freeze compiled model predictions, source case hashes, optimizer controls and training-fit receipts before evaluation spectra are materialized. Independent evaluator prohibits any evaluation-dependent source, nuisance, channel, mask or branch change; future changes get a new developmental protocol, never a fresh-holdout label."
+}
