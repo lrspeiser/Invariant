@@ -287,6 +287,27 @@
    "note": "Gold-cluster holdout seal. Splits Run BO's 605 clusters with a public raw weak-lensing channel into 304 SEALED and 301 OPEN, stratified by terciles of z x CTS500 x shear depth, assigned by keyed sha256 with no random state, and committed by digest. Made BEFORE any shape, response or per-source redshift was read from any cluster in the pool, which is what makes the sealed half a CONFIRMATION set rather than validation. Enforcement is by IDENTITY at loader.py, not by path token: the sealed half is rows in a shared public archive, so provenance.py's filename matching cannot see it. Public catalogue metadata stays readable for sealed clusters; the OUTCOME needs a one-shot token whose reason is recorded before use. CI gate: .github/workflows/holdout-seal.yml runs test_seal.py on every PR and fails if a token has been spent. Opens no data and computes no statistic.",
    "invalidated_by": null,
    "output_state": "SCIENTIFICALLY_ADMISSIBLE"
+  },
+  {
+   "run_id": "BQ-clustershear",
+   "lane": "clustershear",
+   "commit": "7890fb40",
+   "registered_utc": "2026-09-07T16:23:52Z",
+   "depends_on": {
+    "holdout_seal": 2,
+    "confirmation_status": 2,
+    "catalogue_validation": 3
+   },
+   "outputs": [
+    "work/wellnet-2026-09/clustershear/profiles.jsonl",
+    "work/wellnet-2026-09/clustershear/analysis.json",
+    "work/wellnet-2026-09/clustershear/controls.json",
+    "work/wellnet-2026-09/clustershear/REPORT.md"
+   ],
+   "status": "VALID",
+   "note": "Raw weak-lensing profiles for the OPEN half of the gold-cluster pool (301 clusters; the 304 sealed are never queried, enforced by guard.check_target against holdout/loader before every archive call). Estimator reused unchanged from efeds-hsc/acquire_decade.py so the two lanes are comparable, including its MEASURED sign convention. Output is the profile, not the sources. Both nulls pass: cross component chi2/dof 13.6/10, random pointings 13.9/10. Stacked S/N 31.8 over 301 clusters. NO gravity law is scored and no mass is fitted; eRASS1 M500/R500/Mgas500 excluded as weak-lensing-calibrated and therefore circular. Every surviving trend has a conventional explanation this lane cannot exclude -- see controls.json.",
+   "invalidated_by": null,
+   "output_state": "SCIENTIFICALLY_ADMISSIBLE"
   }
  ],
  "rules": {
