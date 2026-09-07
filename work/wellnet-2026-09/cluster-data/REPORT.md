@@ -377,11 +377,28 @@ caught.**
   for a nonexistent `-source=`, VizieR returned HTTP 200 echoing
   `#Name: J/MNRAS/430/1125` (Cooper et al. 2013, an RMS near-infrared YSO
   survey) -- a completely unrelated real catalogue served silently in place of
-  the request, and URL-encoding the `+` does not help. **The only detector that
-  works across all three variants is to check that the response echoes back the
-  exact identifier requested.** Twelve identifiers were rejected this way in the
-  velocity lane and three more in the strong-lensing lane, five of them supplied
-  by the task brief itself. Nothing was substituted in any case.
+  the request, and URL-encoding the `+` does not help. **No single detector
+  catches all three variants**, which is why registry rule
+  `catalogue_validation` v3 requires all of: the `#Name:` echo, the absence of
+  `CatalogsExamined=`, and a `#Title:` author match. Twelve entries (thirteen
+  identifiers) were rejected in the velocity lane and three more in the
+  strong-lensing lane, five of them supplied by the task brief itself. Nothing
+  was substituted in any case.
+- *That velocity-lane rejection set was re-validated on 2026-09-06, and the
+  client that produced it was rewritten.* `scripts/vizier.py` claimed the
+  identifier-echo check in its docstring but never performed it -- the echo was
+  computed into two unused locals and the verdict was `nrows > 0 and
+  bool(tables or titles)`, i.e. rule v2, which the registry records as BROKEN.
+  Every contactable identifier was re-probed under v3 and **no verdict
+  changed**: eight are genuine absences (five Cooper+2013 fallbacks, three
+  explicit `Table or Catalog not found`), and four -- `J/ApJ/767/15`,
+  `J/ApJ/819/63`, `J/ApJS/240/39`, `J/A+A/633/A139` -- are real catalogues that
+  pass all three detectors and were rejected on content, each content claim
+  re-derived from the live table and upheld. `J/A+A/709/A254` was not contacted:
+  it matches the confirmation-reserve token `granata`. Per-detector evidence is
+  in `velocities/REVALIDATION_v3.json`; note that `velocities/raw/` is
+  gitignored, so the round-1 claim that raw probe payloads were preserved there
+  is not backed by anything committed.
 - *A merged-table trap, new to this programme*: VizieR fuses Braglia et al.
   2009's two separate published tables -- A2744 (395 rows) and A2537 (809 rows) --
   into a single 1204-row table distinguished only by an `A` column. Ingested

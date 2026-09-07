@@ -353,14 +353,56 @@ the ingest, **not** a reproduction of the published member lists.
 - CLASH-VLT applied a colour preselection (R ≲ 24), so radial completeness for
   MACS J0416 and AS1063 is not uniform even though N and reach are good.
 
-**A third VizieR trap variant, caught here.** For a nonexistent `-source=`,
-VizieR does not always emit `#INFO Error=Table or Catalog not found`. In this
-lane it sometimes returned HTTP 200 with a *completely unrelated catalogue*,
-echoing `#Name: J/MNRAS/430/1125` (Cooper et al. 2013, an RMS near-infrared YSO
-survey), and URL-encoding the `+` does not help. The only reliable detector is to
-check that the response echoes the **exact identifier requested**. Twelve
-identifiers were probed and rejected this way; raw evidence for each is preserved
-in `velocities/raw/probe_*.tsv`.
+**A third VizieR trap variant, caught here — and re-validated 2026-09-06.**
+For a nonexistent `-source=`, VizieR does not always emit `#INFO Error=Table or
+Catalog not found`. In this lane it instead returned HTTP 200 carrying a
+*completely unrelated catalogue*, echoing `#Name: J/MNRAS/430/1125` (Cooper et
+al. 2013, an RMS near-infrared YSO survey), and URL-encoding the `+` does not
+help. Twelve entries, covering thirteen identifiers, were rejected. Every one
+that may be contacted has now been re-probed under registry rule
+`catalogue_validation` **v3** — all three detectors required: `#Name:` echo of
+the exact request, absence of `CatalogsExamined=`, and a `#Title:` author match.
+**No verdict changed.** Per-detector evidence, with byte counts and SHA-256s, is
+in `velocities/REVALIDATION_v3.json`.
+
+Three things about the round-1 record were wrong and are corrected here.
+
+- *The client never ran the check this paragraph credited it with.*
+  `scripts/vizier.py` stated in its docstring that it verified "that the echoed
+  table identifier matches the one we asked for". It did not: it computed the
+  echo into two local variables and then used neither, and its verdict was
+  `nrows > 0 and bool(tables or titles)`. D1 was dead code, D2 was never looked
+  for, and D3 was captured but only printed. Every round-1 verdict was therefore
+  taken at rule v2, which the registry records as BROKEN. The client was
+  rewritten to v3 on 2026-09-06.
+- *"Twelve identifiers rejected this way" ran two different rejections
+  together.* Eight are genuine absences: five returned the Cooper+2013 fallback
+  (`J/A+A/656/A147`, `J/A+A/574/A11`, `J/A+A/599/A28`, `J/A+A/587/A80`,
+  `J/A+A/588/A99`) and three returned an explicit `Table or Catalog not found`
+  (`J/ApJ/781/L40`, `J/ApJ/693/L56`, `J/ApJ/684/160`). Four others —
+  `J/ApJ/767/15`, `J/ApJ/819/63`, `J/ApJS/240/39`, `J/A+A/633/A139` — are real
+  catalogues that pass all three detectors and were rejected on their CONTENT,
+  not their absence. Those content claims rested on the same broken client, so
+  each was re-derived from the live table: Ciocan+2020 `tablea1` does carry no
+  RA, no Dec and no redshift (emission-line fluxes and abundances only);
+  Golovich+2019 `table1` does give `Ng=0` for both Abell 2744 and MACS J1149;
+  HeCS spans z = 0.1023–0.2894 and HeCS-SZ cz = 4070–91344 km/s (z ≈
+  0.014–0.305), and no target cluster appears in either. All four upheld.
+- *The raw evidence was not preserved.* `velocities/raw/` is matched by
+  `cluster-data/.gitignore` (`raw/`), so nothing beneath it is committed, and six
+  of the thirteen identifiers have no archived payload under any checkout —
+  including `probe_J_A+A_656_A147.tsv`, which `_PRODUCT7_INDEX.json` cites by
+  name as the evidence for its first entry. The committed evidence is now the
+  detector record in `REVALIDATION_v3.json`.
+
+Two further notes. The round-1 sentence "the only reliable detector is the
+identifier echo" is not right as a general rule: on re-probe these wrong-catalogue
+serves also carried `#INFO CatalogsExamined=10213`, so D2 fires on them too,
+while Run AZ recorded a 45.9 kB wrong-catalogue serve on which `CatalogsExamined`
+did *not* fire. That is precisely why v3 requires all three detectors rather than
+any one of them. And `J/A+A/709/A254` (Granata et al. 2026) was **not**
+re-probed: it matches the confirmation-reserve token `granata`, is recorded by
+identity only, and its round-1 verdict is carried forward unvalidated.
 
 **A whitespace-parsing trap that silently loses a row.** The CLASH-VLT AS1063
 catalogue has exactly one line with a space inside its object ID
