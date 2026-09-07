@@ -1,0 +1,178 @@
+{
+ "lane": "work/wellnet-2026-09/bridge",
+ "generated_utc": "2026-09-07T04:22:32Z",
+ "n_tests": 16,
+ "n_passed": 15,
+ "n_failed": 1,
+ "failures": [
+  [
+   "test_T13_two_body_probe_is_consulted_only_when_declared",
+   "AttributeError: module 'compiler' has no attribute 'GATE1_BRIDGE_PROBE'"
+  ]
+ ],
+ "wall_seconds": 19.094396999999844,
+ "results": {
+  "T10_qumond": {
+   "max_rel_vs_spherical_reference": 1.3269859515308552e-06,
+   "all_finite": true,
+   "saddle_value": 1.0006175159964915e-24
+  },
+  "T11_members": {
+   "k_per_eps_20kpc": 20.827288879111865,
+   "factor_eps0p3": 7.248186663733559,
+   "BL": 7.6
+  },
+  "T12_guard": {
+   "sealed": true,
+   "reserve": true,
+   "reserve2": true,
+   "foreign": true
+  },
+  "T14_baseline": {
+   "n_compared": 29,
+   "n_changed": 0,
+   "controls": "12/12"
+  },
+  "T15_projection": {
+   "abel_rel_err": 0.0011176428561799983
+  },
+  "T16_certificate": {
+   "skipped": "run certify.py"
+  },
+  "T1_column": {
+   "max_rel_err_vs_quadrature": 2.024964706079907e-08,
+   "max_rel_err_vs_BL": 4.3972405585706837e-16,
+   "far_tail_rel_err": 6.832500997607369e-05
+  },
+  "T2_P_midpoint": {
+   "P": 0.13160289555945295,
+   "BL": 0.1316029,
+   "rel": 3.374201511657093e-08
+  },
+  "T3_ndir": {
+   "max_rel_2000_vs_8000": 5.372869916581251e-05
+  },
+  "T4_bilinear": {
+   "max_rel": 2.553244109996987e-16
+  },
+  "T5_compensation": {
+   "net_over_abs": -0.0033752957843618332,
+   "abs_Msun": 317189695287405.94,
+   "newton_specific_max": 0.0
+  },
+  "T6_floor": {
+   "S_core": -1.4672597547600201e-05,
+   "S_wing": -6.911311440011512e-07,
+   "S_bcore": -7.383033441188573e-06,
+   "S_bwing": -5.353220120925524e-07,
+   "Q": -1.398146640359905e-05,
+   "N_kappa_m2": -2.5790213291780974e+39,
+   "DQ": -7.133754974503029e-06
+  },
+  "T7_shear": {
+   "fft_vs_analytic_gt": 0.00015826795637093472,
+   "KS_round_trip": 0.006604495677590706,
+   "analytic_map_vs_fft": 0.0005638381999198572,
+   "cross_shear_max": 8.117924267624435e-06
+  },
+  "T8_linearity": {
+   "max_rel_identity": 1.0039621240779256e-12,
+   "max_rel_homogeneity": 1.2805414521474942e-13
+  },
+  "T9_tensor_l2": {
+   "net_over_abs": -0.004167370824696113,
+   "abs_Msun": 88369912057860.64,
+   "centre_cell": 0.0
+  }
+ },
+ "bugs_caught": [
+  "B1 estimator floor (FFT endpoints, 1/r tail)",
+  "B2 QUMOND saddle NaN poisoning every map",
+  "B3 tensor l=2 boundary-node spike (1e17 Msun in one cell)",
+  "B4 members.py inward/outward sign convention"
+ ],
+ "provenance": {
+  "lane_root": "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/bridge",
+  "n_read_paths_total": 2,
+  "n_read_paths_library": 0,
+  "n_read_paths_non_library": 2,
+  "non_library_reads": [
+   "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/bridge/results/baseline_compare.json"
+  ],
+  "foreign_reads": [
+   "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/synthesis/path_results.json"
+  ],
+  "sealed_tokens_guarded": [
+   "kids",
+   "kids-1000",
+   "kids1000",
+   "kv450",
+   "kids_dr4",
+   "kids_dr5",
+   "wide_binar",
+   "wide-binar",
+   "widebinar",
+   "gaia_wb",
+   "wb_catalog",
+   "hernandez_wb",
+   "banik_wb",
+   "chae_wb",
+   "spt_",
+   "spt-",
+   "sptcl",
+   "south_pole",
+   "southpole",
+   "x-gap",
+   "xgap",
+   "x_gap",
+   "clogs",
+   "granata",
+   "muse_",
+   "muse-",
+   "gaia_dr",
+   "gaiadr",
+   "gaia_edr"
+  ],
+  "real_data_tokens_guarded": [
+   "sparc",
+   "xcop",
+   "x-cop",
+   "efeds",
+   "locuss",
+   "clash",
+   "frontier",
+   "pantheon",
+   "desi",
+   "des_y",
+   "act_dr",
+   "planck",
+   "sami",
+   "diskmass",
+   "herbonnet",
+   "mulroy",
+   "xxl"
+  ],
+  "any_real_observational_file_opened": false,
+  "assertion": "No path outside the lane root was read; no sealed token matched; no real-observation token matched.",
+  "armed": true,
+  "lane": "bridge",
+  "reserve_tokens_guarded": [
+   "spt_",
+   "spt-",
+   "sptcl",
+   "south_pole",
+   "southpole",
+   "x-gap",
+   "xgap",
+   "x_gap",
+   "clogs",
+   "granata",
+   "muse_",
+   "muse-",
+   "gaia_dr",
+   "gaiadr",
+   "gaia_edr"
+  ],
+  "any_reserve_token_in_reads": false
+ }
+}

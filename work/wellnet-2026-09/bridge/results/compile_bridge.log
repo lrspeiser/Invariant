@@ -1,0 +1,31 @@
+force-factor tables rho_*=1e-24: 161s
+  1e-24    eps=0.3    BL      ADMIT    admissible                       escapes=['a_spatial_variation', 'c_probe_disagreement'] single=0.2954 joint=0.2413 bridge=None
+  1e-24    eps=0.3    bridge  ADMIT    admissible                       escapes=['a_spatial_variation', 'c_probe_disagreement', 'd_two_body_probe'] single=0.2954 joint=0.2601 bridge=0.4247825827183912
+  1e-24    eps=0.03   BL      ADMIT    admissible                       escapes=['a_spatial_variation', 'c_probe_disagreement'] single=0.0791 joint=0.0646 bridge=None
+  1e-24    eps=0.03   bridge  ADMIT    admissible                       escapes=['a_spatial_variation', 'c_probe_disagreement', 'd_two_body_probe'] single=0.0791 joint=0.0745 bridge=0.14869814450838403
+  1e-24    eps=0.003  BL      REJECT   non_identifiable_on_this_bench   escapes=[] single=0.0101 joint=0.0082 bridge=None
+  1e-24    eps=0.003  bridge  ADMIT    admissible                       escapes=['d_two_body_probe'] single=0.0101 joint=0.0170 bridge=0.05434890646466407
+    scan eps=0.3     bridge 0.4248 dex single 0.2954 joint 0.2601 -> ['a_spatial_variation', 'c_probe_disagreement', 'd_two_body_probe']
+    scan eps=0.1     bridge 0.2770 dex single 0.1774 joint 0.1590 -> ['a_spatial_variation', 'c_probe_disagreement', 'd_two_body_probe']
+    scan eps=0.03    bridge 0.1487 dex single 0.0791 joint 0.0745 -> ['a_spatial_variation', 'c_probe_disagreement', 'd_two_body_probe']
+    scan eps=0.01    bridge 0.1309 dex single 0.0312 joint 0.0438 -> ['c_probe_disagreement', 'd_two_body_probe']
+    scan eps=0.003   bridge 0.0543 dex single 0.0101 joint 0.0170 -> ['d_two_body_probe']
+    scan eps=0.001   bridge 0.0154 dex single 0.0034 joint 0.0050 -> []
+    scan eps=0.0003  bridge 0.0044 dex single 0.0010 joint 0.0015 -> []
+    scan eps=0.0001  bridge 0.0015 dex single 0.0003 joint 0.0005 -> []
+force-factor tables rho_*=rho_mean: 157s
+  rho_mean eps=0.3    BL      REJECT   non_identifiable_on_this_bench   escapes=[] single=0.0093 joint=0.0076 bridge=None
+  rho_mean eps=0.3    bridge  ADMIT    admissible                       escapes=['c_probe_disagreement', 'd_two_body_probe'] single=0.0093 joint=0.1482 bridge=0.5335641994264989
+  rho_mean eps=0.03   BL      REJECT   non_identifiable_on_this_bench   escapes=[] single=0.0010 joint=0.0008 bridge=None
+  rho_mean eps=0.03   bridge  ADMIT    admissible                       escapes=['c_probe_disagreement', 'd_two_body_probe'] single=0.0010 joint=0.0740 bridge=0.26693928737800227
+  rho_mean eps=0.003  BL      REJECT   non_identifiable_on_this_bench   escapes=[] single=0.0001 joint=0.0001 bridge=None
+  rho_mean eps=0.003  bridge  ADMIT    admissible                       escapes=['d_two_body_probe'] single=0.0001 joint=0.0239 bridge=0.08632294495028023
+    scan eps=0.3     bridge 0.5336 dex single 0.0093 joint 0.1482 -> ['c_probe_disagreement', 'd_two_body_probe']
+    scan eps=0.1     bridge 0.3381 dex single 0.0032 joint 0.0938 -> ['c_probe_disagreement', 'd_two_body_probe']
+    scan eps=0.03    bridge 0.2669 dex single 0.0010 joint 0.0740 -> ['c_probe_disagreement', 'd_two_body_probe']
+    scan eps=0.01    bridge 0.0535 dex single 0.0003 joint 0.0148 -> ['d_two_body_probe']
+    scan eps=0.003   bridge 0.0863 dex single 0.0001 joint 0.0239 -> ['d_two_body_probe']
+    scan eps=0.001   bridge 0.0223 dex single 0.0000 joint 0.0062 -> []
+    scan eps=0.0003  bridge 0.0063 dex single 0.0000 joint 0.0017 -> []
+    scan eps=0.0001  bridge 0.0021 dex single 0.0000 joint 0.0006 -> []
+wrote compile_bridge.json in 434s; provenance: No path outside the lane root was read; no sealed token matched; no real-observation token matched.

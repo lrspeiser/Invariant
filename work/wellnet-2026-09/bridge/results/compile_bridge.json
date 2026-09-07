@@ -1,0 +1,1598 @@
+{
+ "generated_utc": "2026-09-04T23:44:45Z",
+ "compiler": "work/wellnet-2026-09/compiler/compiler.py (v2 + BL elements + Run BM two-body probe `bridge_pair`)",
+ "probe": {
+  "points_Mpc": [
+   [
+    -1.5,
+    0.0,
+    0.0
+   ],
+   [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   [
+    -0.5,
+    0.0,
+    0.0
+   ],
+   [
+    0.5,
+    0.0,
+    0.0
+   ],
+   [
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    1.5,
+    0.0,
+    0.0
+   ],
+   [
+    -1.0,
+    0.5,
+    0.0
+   ],
+   [
+    0.0,
+    0.5,
+    0.0
+   ],
+   [
+    1.0,
+    0.5,
+    0.0
+   ],
+   [
+    -1.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    1.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.25,
+    0.0
+   ],
+   [
+    0.0,
+    1.5,
+    0.0
+   ],
+   [
+    0.0,
+    2.0,
+    0.0
+   ]
+  ],
+  "M_Msun": 300000000000000.0,
+  "a_kpc": 400.0,
+  "D_Mpc": 4.0,
+  "gN_over_a0": [
+   0.6358959704749138,
+   0.2412531296823491,
+   0.08604569644000198,
+   0.08604569644000198,
+   0.2412531296823491,
+   0.6358959704749138,
+   0.20418580356245844,
+   0.03763436141507803,
+   0.20418580356245844,
+   0.1433161109093828,
+   0.05946999181008384,
+   0.1433161109093828,
+   0.020084357928217857,
+   0.064428296094017,
+   0.05980908917737576
+  ]
+ },
+ "settings": {
+  "1e-24|eps=0.3|BL": {
+   "eps": 0.3,
+   "rho_star": 1e-24,
+   "declared": "BL",
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.29541689636530183,
+    "joint_resid_dex": 0.24131840681491823,
+    "two_body_probe_consulted": false,
+    "two_body_probe_resid_dex": null,
+    "per_probe": {
+     "galaxy_field": 0.29541689636530183,
+     "cluster_shell": 0.012705710796965456,
+     "galaxy_member": 0.29541689636530183
+    },
+    "reason": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.2954 dex, joint (one global stretch, per-object mass) 0.2413 dex, axis provenance 'none' misaligned by up to 0.0 deg"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 3.10e-18 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "1e-24|eps=0.3|bridge": {
+   "eps": 0.3,
+   "rho_star": 1e-24,
+   "declared": "bridge",
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement",
+     "d_two_body_probe"
+    ],
+    "max_single_probe_resid_dex": 0.29541689636530183,
+    "joint_resid_dex": 0.26006731734941707,
+    "two_body_probe_consulted": true,
+    "two_body_probe_resid_dex": 0.4247825827183912,
+    "per_probe": {
+     "galaxy_field": 0.29541689636530183,
+     "cluster_shell": 0.012705710796965456,
+     "galaxy_member": 0.29541689636530183,
+     "bridge_pair": 0.4247825827183912
+    },
+    "reason": "escapes a_spatial_variation, c_probe_disagreement, d_two_body_probe; max single-probe stretch residual 0.2954 dex, joint (one global stretch, per-object mass) 0.2601 dex, axis provenance 'none' misaligned by up to 0.0 deg; two-body probe stretch residual 0.4248 dex"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 3.10e-18 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "1e-24|eps=0.03|BL": {
+   "eps": 0.03,
+   "rho_star": 1e-24,
+   "declared": "BL",
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement"
+    ],
+    "max_single_probe_resid_dex": 0.07909516806621332,
+    "joint_resid_dex": 0.06458458201991632,
+    "two_body_probe_consulted": false,
+    "two_body_probe_resid_dex": null,
+    "per_probe": {
+     "galaxy_field": 0.07909516806621325,
+     "cluster_shell": 0.0011888991617602454,
+     "galaxy_member": 0.07909516806621332
+    },
+    "reason": "escapes a_spatial_variation, c_probe_disagreement; max single-probe stretch residual 0.0791 dex, joint (one global stretch, per-object mass) 0.0646 dex, axis provenance 'none' misaligned by up to 0.0 deg"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "1e-24|eps=0.03|bridge": {
+   "eps": 0.03,
+   "rho_star": 1e-24,
+   "declared": "bridge",
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "a_spatial_variation",
+     "c_probe_disagreement",
+     "d_two_body_probe"
+    ],
+    "max_single_probe_resid_dex": 0.07909516806621332,
+    "joint_resid_dex": 0.07450614687934447,
+    "two_body_probe_consulted": true,
+    "two_body_probe_resid_dex": 0.14869814450838403,
+    "per_probe": {
+     "galaxy_field": 0.07909516806621325,
+     "cluster_shell": 0.0011888991617602454,
+     "galaxy_member": 0.07909516806621332,
+     "bridge_pair": 0.14869814450838403
+    },
+    "reason": "escapes a_spatial_variation, c_probe_disagreement, d_two_body_probe; max single-probe stretch residual 0.0791 dex, joint (one global stretch, per-object mass) 0.0745 dex, axis provenance 'none' misaligned by up to 0.0 deg; two-body probe stretch residual 0.1487 dex"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "1e-24|eps=0.003|BL": {
+   "eps": 0.003,
+   "rho_star": 1e-24,
+   "declared": "BL",
+   "verdict": "REJECT",
+   "failed": [
+    "gate1_constant_K"
+   ],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "non_identifiable_on_this_bench",
+   "defects": [
+    "degenerate_with_a_coordinate_stretch"
+   ],
+   "gate1": {
+    "passed": false,
+    "escapes": [],
+    "max_single_probe_resid_dex": 0.010060988087671975,
+    "joint_resid_dex": 0.008215045522588425,
+    "two_body_probe_consulted": false,
+    "two_body_probe_resid_dex": null,
+    "per_probe": {
+     "galaxy_field": 0.010060988087671974,
+     "cluster_shell": 0.00011813642133214784,
+     "galaxy_member": 0.010060988087671975
+    },
+    "reason": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 1.01e-02 dex (single probe) and 8.22e-03 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'none' (a reciprocal two-point kernel gated on the matter/vacuum state of the connecting segment; no preferred axis), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection. (No two-body probe was consulted: the candidate declares no `bridge_field`.)"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "1e-24|eps=0.003|bridge": {
+   "eps": 0.003,
+   "rho_star": 1e-24,
+   "declared": "bridge",
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "d_two_body_probe"
+    ],
+    "max_single_probe_resid_dex": 0.010060988087671975,
+    "joint_resid_dex": 0.017015032514635195,
+    "two_body_probe_consulted": true,
+    "two_body_probe_resid_dex": 0.05434890646466407,
+    "per_probe": {
+     "galaxy_field": 0.010060988087671974,
+     "cluster_shell": 0.00011813642133214784,
+     "galaxy_member": 0.010060988087671975,
+     "bridge_pair": 0.05434890646466407
+    },
+    "reason": "escapes d_two_body_probe; max single-probe stretch residual 0.0101 dex, joint (one global stretch, per-object mass) 0.0170 dex, axis provenance 'none' misaligned by up to 0.0 deg; two-body probe stretch residual 0.0543 dex"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "rho_mean|eps=0.3|BL": {
+   "eps": 0.3,
+   "rho_star": 2.8992599999999997e-27,
+   "declared": "BL",
+   "verdict": "REJECT",
+   "failed": [
+    "gate1_constant_K"
+   ],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "non_identifiable_on_this_bench",
+   "defects": [
+    "degenerate_with_a_coordinate_stretch"
+   ],
+   "gate1": {
+    "passed": false,
+    "escapes": [],
+    "max_single_probe_resid_dex": 0.009293388514702083,
+    "joint_resid_dex": 0.007588659255019305,
+    "two_body_probe_consulted": false,
+    "two_body_probe_resid_dex": null,
+    "per_probe": {
+     "galaxy_field": 0.009293388514702083,
+     "cluster_shell": 0.0001706097769067248,
+     "galaxy_member": 0.009293388514702058
+    },
+    "reason": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 9.29e-03 dex (single probe) and 7.59e-03 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'none' (a reciprocal two-point kernel gated on the matter/vacuum state of the connecting segment; no preferred axis), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection. (No two-body probe was consulted: the candidate declares no `bridge_field`.)"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 1.43e-18 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "rho_mean|eps=0.3|bridge": {
+   "eps": 0.3,
+   "rho_star": 2.8992599999999997e-27,
+   "declared": "bridge",
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "c_probe_disagreement",
+     "d_two_body_probe"
+    ],
+    "max_single_probe_resid_dex": 0.009293388514702083,
+    "joint_resid_dex": 0.1481635810907105,
+    "two_body_probe_consulted": true,
+    "two_body_probe_resid_dex": 0.5335641994264989,
+    "per_probe": {
+     "galaxy_field": 0.009293388514702083,
+     "cluster_shell": 0.0001706097769067248,
+     "galaxy_member": 0.009293388514702058,
+     "bridge_pair": 0.5335641994264989
+    },
+    "reason": "escapes c_probe_disagreement, d_two_body_probe; max single-probe stretch residual 0.0093 dex, joint (one global stretch, per-object mass) 0.1482 dex, axis provenance 'none' misaligned by up to 0.0 deg; two-body probe stretch residual 0.5336 dex"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 1.43e-18 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "rho_mean|eps=0.03|BL": {
+   "eps": 0.03,
+   "rho_star": 2.8992599999999997e-27,
+   "declared": "BL",
+   "verdict": "REJECT",
+   "failed": [
+    "gate1_constant_K"
+   ],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "non_identifiable_on_this_bench",
+   "defects": [
+    "degenerate_with_a_coordinate_stretch"
+   ],
+   "gate1": {
+    "passed": false,
+    "escapes": [],
+    "max_single_probe_resid_dex": 0.0009530113423957132,
+    "joint_resid_dex": 0.000778192883243759,
+    "two_body_probe_consulted": false,
+    "two_body_probe_resid_dex": null,
+    "per_probe": {
+     "galaxy_field": 0.0009530113423956433,
+     "cluster_shell": 1.7066139695420252e-05,
+     "galaxy_member": 0.0009530113423957132
+    },
+    "reason": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 9.53e-04 dex (single probe) and 7.78e-04 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'none' (a reciprocal two-point kernel gated on the matter/vacuum state of the connecting segment; no preferred axis), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection. (No two-body probe was consulted: the candidate declares no `bridge_field`.)"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "rho_mean|eps=0.03|bridge": {
+   "eps": 0.03,
+   "rho_star": 2.8992599999999997e-27,
+   "declared": "bridge",
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "c_probe_disagreement",
+     "d_two_body_probe"
+    ],
+    "max_single_probe_resid_dex": 0.0009530113423957132,
+    "joint_resid_dex": 0.07403941266225819,
+    "two_body_probe_consulted": true,
+    "two_body_probe_resid_dex": 0.26693928737800227,
+    "per_probe": {
+     "galaxy_field": 0.0009530113423956433,
+     "cluster_shell": 1.7066139695420252e-05,
+     "galaxy_member": 0.0009530113423957132,
+     "bridge_pair": 0.26693928737800227
+    },
+    "reason": "escapes c_probe_disagreement, d_two_body_probe; max single-probe stretch residual 0.0010 dex, joint (one global stretch, per-object mass) 0.0740 dex, axis provenance 'none' misaligned by up to 0.0 deg; two-body probe stretch residual 0.2669 dex"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "rho_mean|eps=0.003|BL": {
+   "eps": 0.003,
+   "rho_star": 2.8992599999999997e-27,
+   "declared": "BL",
+   "verdict": "REJECT",
+   "failed": [
+    "gate1_constant_K"
+   ],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "non_identifiable_on_this_bench",
+   "defects": [
+    "degenerate_with_a_coordinate_stretch"
+   ],
+   "gate1": {
+    "passed": false,
+    "escapes": [],
+    "max_single_probe_resid_dex": 9.554692417755918e-05,
+    "joint_resid_dex": 7.801995929910651e-05,
+    "two_body_probe_consulted": false,
+    "two_body_probe_resid_dex": null,
+    "per_probe": {
+     "galaxy_field": 9.554692417738674e-05,
+     "cluster_shell": 1.706665621779725e-06,
+     "galaxy_member": 9.554692417755918e-05
+    },
+    "reason": "NO escape: the prediction on every probe is reproduced by an undistorted law acting on a stretched source to 9.55e-05 dex (single probe) and 7.80e-05 dex (one global stretch across probes), both below the 0.04 dex tolerance; axis provenance 'none' (a reciprocal two-point kernel gated on the matter/vacuum state of the connecting segment; no preferred axis), misalignment 0.0 deg. Degenerate with source ellipticity, inclination, line-of-sight depth, distance and baryonic deprojection. (No two-body probe was consulted: the candidate declares no `bridge_field`.)"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  },
+  "rho_mean|eps=0.003|bridge": {
+   "eps": 0.003,
+   "rho_star": 2.8992599999999997e-27,
+   "declared": "bridge",
+   "verdict": "ADMIT",
+   "failed": [],
+   "labels": [],
+   "flags": [
+    "momentum carrier declared but not verified"
+   ],
+   "primary_bin": "admissible",
+   "defects": [],
+   "gate1": {
+    "passed": true,
+    "escapes": [
+     "d_two_body_probe"
+    ],
+    "max_single_probe_resid_dex": 9.554692417755918e-05,
+    "joint_resid_dex": 0.02394179459608994,
+    "two_body_probe_consulted": true,
+    "two_body_probe_resid_dex": 0.08632294495028023,
+    "per_probe": {
+     "galaxy_field": 9.554692417738674e-05,
+     "cluster_shell": 1.706665621779725e-06,
+     "galaxy_member": 9.554692417755918e-05,
+     "bridge_pair": 0.08632294495028023
+    },
+    "reason": "escapes d_two_body_probe; max single-probe stretch residual 0.0001 dex, joint (one global stretch, per-object mass) 0.0239 dex, axis provenance 'none' misaligned by up to 0.0 deg; two-body probe stretch residual 0.0863 dex"
+   },
+   "gate4": {
+    "passed": true,
+    "reciprocity": {
+     "applicable": true,
+     "max_relative_asymmetry": 0.0,
+     "reciprocal": true,
+     "note": "reciprocity of the kernel is NOT the third law: a symmetric interaction still leaks momentum when the coupling depends on a field that differs across the configuration -- Run Y measured reciprocity at 4.1e-16 with an 11% momentum leak"
+    },
+    "reason": "the response reads only 'symmetric two-point kernel' / 'none', so K(u)u is a gradient in u = grad Phi_N and the law is AQUAL/QUMOND with a redefined interpolating function; the functional Jacobian delta Phi(x)/delta rho(y) is symmetric to 0.00e+00 (round-off floor 1e-09), confirming it. This does NO"
+   }
+  }
+ },
+ "fields": {
+  "1e-24|eps=0.3": {
+   "eps": 0.3,
+   "rho_star": 1e-24,
+   "log10_g_over_gN": [
+    0.024773005656152855,
+    0.42066249227551317,
+    0.4224179982545522,
+    0.4224179982545522,
+    0.42066249227551317,
+    0.024773005656152855,
+    -0.06374277055017008,
+    0.63282400045907,
+    -0.06374276227343469,
+    -0.05916632010394555,
+    -0.06155149998890583,
+    -0.059166345680777485,
+    1.5816450517182308,
+    0.03773104719256346,
+    0.05645355756020319
+   ],
+   "g3_over_gN": [
+    0.11142984137424299,
+    1.753016141309122,
+    1.6996275856177485,
+    1.6996275856177485,
+    1.753016141309122,
+    0.11142984137424299,
+    0.5466270528054991,
+    5.376581805715758,
+    0.5466271174487736,
+    0.10900920951894759,
+    0.23572666859544136,
+    0.10900925887861597,
+    39.24240262298747,
+    0.03532042935101862,
+    0.010047964190002751
+   ],
+   "gdir_over_gN": [
+    0.052729615677122525,
+    0.11873275874389502,
+    0.05467434749479359,
+    0.05467434749479359,
+    0.11873275874389502,
+    0.052729615677122525,
+    0.10069428810456107,
+    0.08295789860347344,
+    0.10069428810455235,
+    0.04950612857022795,
+    0.10358432652840173,
+    0.049506128570235994,
+    0.07917903859582694,
+    0.12608506053736332,
+    0.14886395722472429
+   ],
+   "gN": [
+    7.63079616821687e-11,
+    2.8952219106713455e-11,
+    1.0325969646369323e-11,
+    1.0325969646369323e-11,
+    2.8952219106713455e-11,
+    7.63079616821687e-11,
+    2.450215833444069e-11,
+    4.515984276813781e-12,
+    2.450215833444069e-11,
+    1.719761637289671e-11,
+    7.136258571955044e-12,
+    1.719761637289671e-11,
+    2.4100394487181582e-12,
+    7.73132045250492e-12,
+    7.1770665563383355e-12
+   ]
+  },
+  "1e-24|eps=0.03": {
+   "eps": 0.03,
+   "rho_star": 1e-24,
+   "log10_g_over_gN": [
+    0.0025418652839204036,
+    0.06573963792947868,
+    0.06613774890341319,
+    0.06613774890341319,
+    0.06573963792947868,
+    0.0025418652839204036,
+    -0.01205893671618399,
+    -0.3273133707129374,
+    -0.01205893754108174,
+    -0.005567128619515679,
+    -0.005777123756648789,
+    -0.005567130879587896,
+    0.46483552744891793,
+    0.0039240762986566735,
+    0.005987241218761188
+   ],
+   "g3_over_gN": [
+    0.011142984137424294,
+    0.17530161413091255,
+    0.16996275856177628,
+    0.16996275856177628,
+    0.17530161413091255,
+    0.011142984137424294,
+    0.05466270528054988,
+    0.5376581805715758,
+    0.05466271174487749,
+    0.010900920951894821,
+    0.023572666859544136,
+    0.010900925887861623,
+    3.924240262298745,
+    0.00353204293510185,
+    0.0010047964190002773
+   ],
+   "gdir_over_gN": [
+    0.005272961567709063,
+    0.011873275874373465,
+    0.005467434749478851,
+    0.005467434749478851,
+    0.011873275874373465,
+    0.005272961567709063,
+    0.010069428810482136,
+    0.00829578986043492,
+    0.01006942881045747,
+    0.004950612857047964,
+    0.010358432652945457,
+    0.00495061285705664,
+    0.007917903859843598,
+    0.01260850605372606,
+    0.014886395722461422
+   ],
+   "gN": [
+    7.63079616821687e-11,
+    2.8952219106713455e-11,
+    1.0325969646369323e-11,
+    1.0325969646369323e-11,
+    2.8952219106713455e-11,
+    7.63079616821687e-11,
+    2.450215833444069e-11,
+    4.515984276813781e-12,
+    2.450215833444069e-11,
+    1.719761637289671e-11,
+    7.136258571955044e-12,
+    1.719761637289671e-11,
+    2.4100394487181582e-12,
+    7.73132045250492e-12,
+    7.1770665563383355e-12
+   ]
+  },
+  "1e-24|eps=0.003": {
+   "eps": 0.003,
+   "rho_star": 1e-24,
+   "log10_g_over_gN": [
+    0.00025485704745675786,
+    0.00704022932852528,
+    0.007085820403626267,
+    0.007085820403626267,
+    0.00704022932852528,
+    0.00025485704745675786,
+    -0.0012386101366411782,
+    -0.023620781200020508,
+    -0.0012386102291716964,
+    -0.0005535150608061536,
+    -0.0005742664080095499,
+    -0.0005535152842158363,
+    -0.2158338061576548,
+    0.00039400700228756997,
+    0.0006024521444397377
+   ],
+   "g3_over_gN": [
+    0.0011142984137424306,
+    0.017530161413091223,
+    0.01699627585617745,
+    0.01699627585617745,
+    0.017530161413091223,
+    0.0011142984137424306,
+    0.005466270528055003,
+    0.05376581805715758,
+    0.005466271174487748,
+    0.0010900920951894813,
+    0.002357266685954408,
+    0.00109009258878616,
+    0.392424026229875,
+    0.0003532042935101856,
+    0.00010047964190002831
+   ],
+   "gdir_over_gN": [
+    0.0005272961567792406,
+    0.001187327587439949,
+    0.0005467434749591261,
+    0.0005467434749591261,
+    0.001187327587439949,
+    0.0005272961567792406,
+    0.0010069428810466346,
+    0.000829578986209977,
+    0.0010069428810333418,
+    0.0004950612857203366,
+    0.0010358432652945854,
+    0.000495061285723387,
+    0.0007917903858207758,
+    0.0012608506053495784,
+    0.0014886395721883585
+   ],
+   "gN": [
+    7.63079616821687e-11,
+    2.8952219106713455e-11,
+    1.0325969646369323e-11,
+    1.0325969646369323e-11,
+    2.8952219106713455e-11,
+    7.63079616821687e-11,
+    2.450215833444069e-11,
+    4.515984276813781e-12,
+    2.450215833444069e-11,
+    1.719761637289671e-11,
+    7.136258571955044e-12,
+    1.719761637289671e-11,
+    2.4100394487181582e-12,
+    7.73132045250492e-12,
+    7.1770665563383355e-12
+   ]
+  },
+  "rho_mean|eps=0.3": {
+   "eps": 0.3,
+   "rho_star": 2.8992599999999997e-27,
+   "log10_g_over_gN": [
+    -0.00016380744664410348,
+    0.04815230838301905,
+    0.8888859172228417,
+    0.8888859172228417,
+    0.04815230838301905,
+    -0.00016380744664410348,
+    0.009293822795909632,
+    0.857798503160669,
+    0.009293821736034314,
+    0.004793336557296702,
+    -0.29033394639939897,
+    0.00479333186539237,
+    1.7267730726670496,
+    -0.054846063640151425,
+    -0.04032087684960764
+   ],
+   "g3_over_gN": [
+    0.0005296930922102489,
+    0.12131563903378442,
+    6.757938081706174,
+    6.757938081706174,
+    0.12131563903378442,
+    0.0005296930922102489,
+    0.03844979635314737,
+    8.188589231843181,
+    0.0384497963788083,
+    0.031012433784551853,
+    0.4593940228266425,
+    0.031012426541369934,
+    54.28697310610081,
+    0.07729079048397054,
+    0.029450921787540753
+   ],
+   "gdir_over_gN": [
+    0.0009068025532571153,
+    0.0040606352550386585,
+    0.015354233813683638,
+    0.015354233813683638,
+    0.0040606352550386585,
+    0.0009068025532571153,
+    0.00583092066113502,
+    0.019140659647946492,
+    0.005830920661111346,
+    0.012808278754348042,
+    0.028138801234577116,
+    0.012808278754354207,
+    0.018655934149936684,
+    0.04134799200306038,
+    0.05921182594759518
+   ],
+   "gN": [
+    7.63079616821687e-11,
+    2.8952219106713455e-11,
+    1.0325969646369323e-11,
+    1.0325969646369323e-11,
+    2.8952219106713455e-11,
+    7.63079616821687e-11,
+    2.450215833444069e-11,
+    4.515984276813781e-12,
+    2.450215833444069e-11,
+    1.719761637289671e-11,
+    7.136258571955044e-12,
+    1.719761637289671e-11,
+    2.4100394487181582e-12,
+    7.73132045250492e-12,
+    7.1770665563383355e-12
+   ]
+  },
+  "rho_mean|eps=0.03": {
+   "eps": 0.03,
+   "rho_star": 2.8992599999999997e-27,
+   "log10_g_over_gN": [
+    -1.6377964624460203e-05,
+    0.005062696454143988,
+    0.223822482587161,
+    0.223822482587161,
+    0.005062696454143988,
+    -1.6377964624460203e-05,
+    0.0009249696875562872,
+    -0.7465965383151714,
+    0.0009249695768601199,
+    0.00047585293337998693,
+    -0.02170682881097068,
+    0.00047585245837378996,
+    0.6464589069412268,
+    -0.005183224589018027,
+    -0.0038677459010701496
+   ],
+   "g3_over_gN": [
+    5.296930922102487e-05,
+    0.01213156390337846,
+    0.6757938081706172,
+    0.6757938081706172,
+    0.01213156390337846,
+    5.296930922102487e-05,
+    0.003844979635314734,
+    0.8188589231843179,
+    0.0038449796378808286,
+    0.0031012433784551765,
+    0.045939402282664334,
+    0.003101242654136991,
+    5.428697310610089,
+    0.0077290790483970345,
+    0.0029450921787540748
+   ],
+   "gdir_over_gN": [
+    9.068025533704273e-05,
+    0.000406063525516226,
+    0.0015354233813833214,
+    0.0015354233813833214,
+    0.000406063525516226,
+    9.068025533704273e-05,
+    0.0005830920661050099,
+    0.0019140659648345024,
+    0.0005830920661189652,
+    0.0012808278754476159,
+    0.0028138801235297185,
+    0.0012808278754482874,
+    0.0018655934147559596,
+    0.004134799200283134,
+    0.00592118259477604
+   ],
+   "gN": [
+    7.63079616821687e-11,
+    2.8952219106713455e-11,
+    1.0325969646369323e-11,
+    1.0325969646369323e-11,
+    2.8952219106713455e-11,
+    7.63079616821687e-11,
+    2.450215833444069e-11,
+    4.515984276813781e-12,
+    2.450215833444069e-11,
+    1.719761637289671e-11,
+    7.136258571955044e-12,
+    1.719761637289671e-11,
+    2.4100394487181582e-12,
+    7.73132045250492e-12,
+    7.1770665563383355e-12
+   ]
+  },
+  "rho_mean|eps=0.003": {
+   "eps": 0.003,
+   "rho_star": 2.8992599999999997e-27,
+   "log10_g_over_gN": [
+    -1.6377686671427182e-06,
+    0.0005089336943206918,
+    0.02833771127720036,
+    0.02833771127720036,
+    0.0005089336943206918,
+    -1.6377686671427182e-06,
+    9.244841661221653e-05,
+    -0.03719388950211019,
+    9.24484054979121e-05,
+    4.7549378551873606e-05,
+    -0.0021225063242931077,
+    4.7549330999149735e-05,
+    -0.3401372969035884,
+    -0.0005155475659191948,
+    -0.00038522822242044013
+   ],
+   "g3_over_gN": [
+    5.296930922102489e-06,
+    0.0012131563903378443,
+    0.06757938081706166,
+    0.06757938081706166,
+    0.0012131563903378443,
+    5.296930922102489e-06,
+    0.0003844979635314732,
+    0.0818858923184318,
+    0.00038449796378808306,
+    0.0003101243378455184,
+    0.0045939402282664495,
+    0.00031012426541369905,
+    0.5428697310610088,
+    0.0007729079048397034,
+    0.00029450921787540477
+   ],
+   "gdir_over_gN": [
+    9.068025529588452e-06,
+    4.0606352552960015e-05,
+    0.00015354233810754302,
+    0.00015354233810754302,
+    4.0606352552960015e-05,
+    9.068025529588452e-06,
+    5.8309206603920434e-05,
+    0.00019140659651855656,
+    5.8309206598086797e-05,
+    0.0001280827875139016,
+    0.0002813880123751083,
+    0.00012808278749920792,
+    0.0001865593413936448,
+    0.00041347992003606607,
+    0.0005921182595051481
+   ],
+   "gN": [
+    7.63079616821687e-11,
+    2.8952219106713455e-11,
+    1.0325969646369323e-11,
+    1.0325969646369323e-11,
+    2.8952219106713455e-11,
+    7.63079616821687e-11,
+    2.450215833444069e-11,
+    4.515984276813781e-12,
+    2.450215833444069e-11,
+    1.719761637289671e-11,
+    7.136258571955044e-12,
+    1.719761637289671e-11,
+    2.4100394487181582e-12,
+    7.73132045250492e-12,
+    7.1770665563383355e-12
+   ]
+  }
+ },
+ "threshold_scan": {
+  "1e-24": {
+   "rows": {
+    "0.3": {
+     "escapes": [
+      "a_spatial_variation",
+      "c_probe_disagreement",
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.4247825827183912,
+     "max_single": 0.29541689636530183,
+     "joint": 0.26006731734941707,
+     "passed": true
+    },
+    "0.1": {
+     "escapes": [
+      "a_spatial_variation",
+      "c_probe_disagreement",
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.27699463467283764,
+     "max_single": 0.1774236198744178,
+     "joint": 0.15899301188430756,
+     "passed": true
+    },
+    "0.03": {
+     "escapes": [
+      "a_spatial_variation",
+      "c_probe_disagreement",
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.14869814450838403,
+     "max_single": 0.07909516806621332,
+     "joint": 0.07450614687934447,
+     "passed": true
+    },
+    "0.01": {
+     "escapes": [
+      "c_probe_disagreement",
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.13086590731095565,
+     "max_single": 0.031238267625756228,
+     "joint": 0.043794224179218695,
+     "passed": true
+    },
+    "0.003": {
+     "escapes": [
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.05434890646466407,
+     "max_single": 0.010060988087671975,
+     "joint": 0.017015032514635195,
+     "passed": true
+    },
+    "0.001": {
+     "escapes": [],
+     "bridge_resid_dex": 0.015356147554106626,
+     "max_single": 0.003427453610394324,
+     "joint": 0.005036764610654343,
+     "passed": false
+    },
+    "0.0003": {
+     "escapes": [],
+     "bridge_resid_dex": 0.004395426296959687,
+     "max_single": 0.0010362790511231363,
+     "joint": 0.0014652729871286413,
+     "passed": false
+    },
+    "0.0001": {
+     "escapes": [],
+     "bridge_resid_dex": 0.001450423323073248,
+     "max_single": 0.00034620214286356493,
+     "joint": 0.0004853735396753061,
+     "passed": false
+    }
+   },
+   "smallest_identifiable_eps": 0.003,
+   "tol_dex": 0.04,
+   "note": "GATE 1 alone; escapes (a)-(d); the bench's identifiability threshold for the path family with the two-body probe present"
+  },
+  "rho_mean": {
+   "rows": {
+    "0.3": {
+     "escapes": [
+      "c_probe_disagreement",
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.5335641994264989,
+     "max_single": 0.009293388514702083,
+     "joint": 0.1481635810907105,
+     "passed": true
+    },
+    "0.1": {
+     "escapes": [
+      "c_probe_disagreement",
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.3380581254269144,
+     "max_single": 0.0031557266795289893,
+     "joint": 0.09379313489586408,
+     "passed": true
+    },
+    "0.03": {
+     "escapes": [
+      "c_probe_disagreement",
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.26693928737800227,
+     "max_single": 0.0009530113423957132,
+     "joint": 0.07403941266225819,
+     "passed": true
+    },
+    "0.01": {
+     "escapes": [
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.05352148234304069,
+     "max_single": 0.0003182767860586789,
+     "joint": 0.014846288328033653,
+     "passed": true
+    },
+    "0.003": {
+     "escapes": [
+      "d_two_body_probe"
+     ],
+     "bridge_resid_dex": 0.08632294495028023,
+     "max_single": 9.554692417755918e-05,
+     "joint": 0.02394179459608994,
+     "passed": true
+    },
+    "0.001": {
+     "escapes": [],
+     "bridge_resid_dex": 0.022256900018711723,
+     "max_single": 3.18550664352955e-05,
+     "joint": 0.006173003991945855,
+     "passed": false
+    },
+    "0.0003": {
+     "escapes": [],
+     "bridge_resid_dex": 0.006252266653003089,
+     "max_single": 9.557159784206616e-06,
+     "joint": 0.0017340829793646702,
+     "passed": false
+    },
+    "0.0001": {
+     "escapes": [],
+     "bridge_resid_dex": 0.0020521792854450967,
+     "max_single": 3.1857808735255717e-06,
+     "joint": 0.0005691776136303599,
+     "passed": false
+    }
+   },
+   "smallest_identifiable_eps": 0.003,
+   "tol_dex": 0.04,
+   "note": "GATE 1 alone; escapes (a)-(d); the bench's identifiability threshold for the path family with the two-body probe present"
+  }
+ },
+ "force_factor_tables": {
+  "1.000e-24": {
+   "galaxy_field": {
+    "r_kpc": [
+     4.999999999999999,
+     5.5704583075976135,
+     6.2060011513366655,
+     6.914054134084749,
+     7.702890058078417,
+     8.581725583306811,
+     9.560828913810898,
+     10.651639770091496,
+     11.866903049368682,
+     13.220817735362271,
+     14.729202797436553,
+     16.40968201745412,
+     18.28188990383253,
+     20.367701098677973,
+     22.69148595835919,
+     25.280395293695356,
+     28.164677596623434,
+     31.378032459783935,
+     34.95800431833426,
+     38.94642111441974,
+     43.38988300960298,
+     48.34030685530639,
+     53.85553278279196,
+     60.00000000000001
+    ],
+    "factor": [
+     1.0000456684509527,
+     1.0000682935704739,
+     1.0001295537016945,
+     1.0002313236558493,
+     1.0003967830718796,
+     1.0006569699250112,
+     1.001042248155533,
+     1.0015465786584963,
+     1.0020201045564268,
+     1.0019024962442287,
+     0.9996935223189508,
+     0.9922994302431624,
+     0.9752462179868853,
+     0.9456008395260264,
+     0.9074665554280876,
+     0.8738838401631033,
+     0.8591095306015044,
+     0.8681586196162309,
+     0.8959109281957608,
+     0.9270636320520607,
+     0.9561754646508714,
+     0.9916731031898293,
+     1.027299288172806,
+     1.0437520779837093
+    ]
+   },
+   "cluster_shell": {
+    "r_kpc": [
+     150.0,
+     170.42877310611226,
+     193.63977801636648,
+     220.0119319457954,
+     249.97575753485157,
+     284.0204110862387,
+     322.70166799014515,
+     366.6509956990433,
+     416.5858623674832,
+     473.3214494442838,
+     537.7839594239744,
+     611.0257360051738,
+     694.2424434908078,
+     788.7925858821932,
+     896.2196843140003,
+     1018.2774748745585,
+     1156.9585381630752,
+     1314.5268279584957,
+     1493.5546300269207,
+     1696.9645544162788,
+     1928.0772467581974,
+     2190.6655974587393,
+     2489.0163337377667,
+     2828.0000000000005
+    ],
+    "factor": [
+     0.8622614230127907,
+     0.8633650883845454,
+     0.8744763738148921,
+     0.8967892638615098,
+     0.9200930397824889,
+     0.939434030202928,
+     0.9527667262168809,
+     0.9599075340687729,
+     0.9615201662131937,
+     0.957825449403618,
+     0.9494170204077638,
+     0.9367323938865163,
+     0.9206112754292872,
+     0.9041821214618462,
+     0.8922762077657933,
+     0.8916202822365631,
+     0.9082085718268094,
+     0.9423956725226954,
+     0.9889972173731431,
+     1.0395759523291555,
+     1.0864513283318986,
+     1.1260850714158803,
+     1.1577815660679271,
+     1.1721823275670886
+    ]
+   },
+   "galaxy_member": {
+    "r_kpc": [
+     4.999999999999987,
+     5.5704583075976135,
+     6.2060011513366655,
+     6.914054134084749,
+     7.702890058078417,
+     8.581725583306811,
+     9.560828913810898,
+     10.651639770091496,
+     11.866903049368682,
+     13.220817735362271,
+     14.729202797436553,
+     16.40968201745412,
+     18.28188990383253,
+     20.367701098677973,
+     22.69148595835919,
+     25.280395293695356,
+     28.164677596623434,
+     31.378032459783935,
+     34.95800431833426,
+     38.94642111441974,
+     43.38988300960298,
+     48.34030685530639,
+     53.85553278279196,
+     60.00000000000011
+    ],
+    "factor": [
+     1.001162767453575,
+     1.0017791282268393,
+     1.0037730582905244,
+     1.0082541712764448,
+     1.0185464415100676,
+     1.0425181634990386,
+     1.098506640831301,
+     1.2275044176872345,
+     1.5136327150437463,
+     2.1031825563862716,
+     3.176024327793079,
+     4.785037789377614,
+     6.5813422016239285,
+     7.764368909975091,
+     7.60349359675176,
+     6.094685731452731,
+     3.9276287385858355,
+     1.867523990078368,
+     0.3214154216451208,
+     -0.6554572936234369,
+     -1.1778997790147914,
+     -1.3920145251406781,
+     -1.415371818764299,
+     -1.3886852477751517
+    ]
+   }
+  },
+  "2.899e-27": {
+   "galaxy_field": {
+    "r_kpc": [
+     4.999999999999999,
+     5.5704583075976135,
+     6.2060011513366655,
+     6.914054134084749,
+     7.702890058078417,
+     8.581725583306811,
+     9.560828913810898,
+     10.651639770091496,
+     11.866903049368682,
+     13.220817735362271,
+     14.729202797436553,
+     16.40968201745412,
+     18.28188990383253,
+     20.367701098677973,
+     22.69148595835919,
+     25.280395293695356,
+     28.164677596623434,
+     31.378032459783935,
+     34.95800431833426,
+     38.94642111441974,
+     43.38988300960298,
+     48.34030685530639,
+     53.85553278279196,
+     60.00000000000001
+    ],
+    "factor": [
+     0.9999998897627665,
+     0.9999999225579844,
+     1.0000000249217855,
+     1.0000002288738048,
+     1.0000006145771712,
+     1.0000013219164852,
+     1.0000025930020608,
+     1.0000048446388325,
+     1.0000087938999511,
+     1.0000156748571465,
+     1.0000275909357388,
+     1.0000481074977778,
+     1.00008334933045,
+     1.0001437248945086,
+     1.000246973979657,
+     1.0004263754728793,
+     1.0007649279673034,
+     1.0015622044924455,
+     1.0042642433440416,
+     1.0070378572943661,
+     1.001789917394545,
+     0.9953241151152804,
+     0.9917688817087726,
+     0.9878884759480042
+    ]
+   },
+   "cluster_shell": {
+    "r_kpc": [
+     150.0,
+     170.42877310611226,
+     193.63977801636648,
+     220.0119319457954,
+     249.97575753485157,
+     284.0204110862387,
+     322.70166799014515,
+     366.6509956990433,
+     416.5858623674832,
+     473.3214494442838,
+     537.7839594239744,
+     611.0257360051738,
+     694.2424434908078,
+     788.7925858821932,
+     896.2196843140003,
+     1018.2774748745585,
+     1156.9585381630752,
+     1314.5268279584957,
+     1493.5546300269207,
+     1696.9645544162788,
+     1928.0772467581974,
+     2190.6655974587393,
+     2489.0163337377667,
+     2828.0000000000005
+    ],
+    "factor": [
+     0.9995153182161179,
+     0.9994879608334282,
+     0.999483667160151,
+     0.999549955948957,
+     0.9996364868314815,
+     0.9997174457057608,
+     0.9997820467664261,
+     0.999829297970972,
+     0.9998632123226776,
+     0.999887274134514,
+     0.9999072667215276,
+     0.9999280902875644,
+     0.9999541555927646,
+     0.9999950727776127,
+     1.0000606041569478,
+     1.000168087787774,
+     1.0003461599616825,
+     1.0006238664502318,
+     1.001028380558891,
+     1.0015057399608163,
+     1.0016976342354509,
+     1.0004196993230263,
+     0.9946215547960692,
+     0.9897437952830822
+    ]
+   },
+   "galaxy_member": {
+    "r_kpc": [
+     4.999999999999987,
+     5.5704583075976135,
+     6.2060011513366655,
+     6.914054134084749,
+     7.702890058078417,
+     8.581725583306811,
+     9.560828913810898,
+     10.651639770091496,
+     11.866903049368682,
+     13.220817735362271,
+     14.729202797436553,
+     16.40968201745412,
+     18.28188990383253,
+     20.367701098677973,
+     22.69148595835919,
+     25.280395293695356,
+     28.164677596623434,
+     31.378032459783935,
+     34.95800431833426,
+     38.94642111441974,
+     43.38988300960298,
+     48.34030685530639,
+     53.85553278279196,
+     60.00000000000011
+    ],
+    "factor": [
+     1.0000033627705345,
+     1.0000051622205175,
+     1.000011003389049,
+     1.0000242168471285,
+     1.0000548670563336,
+     1.000127373595304,
+     1.0003009924653437,
+     1.0007173377820948,
+     1.0017015309129342,
+     1.0039412308094215,
+     1.008679789224513,
+     1.0175536300606425,
+     1.031319619389585,
+     1.0474409915273741,
+     1.0592705563933031,
+     1.0601357326438732,
+     1.0491857363267827,
+     1.0317588460922547,
+     1.0143861370132685,
+     1.0008570669684216,
+     0.9919673397330285,
+     0.98695638154185,
+     0.9847176917594842,
+     0.984152866197668
+    ]
+   }
+  }
+ },
+ "provenance": {
+  "lane_root": "c:/users/henry/documents/codex/2026-08-21/invariant-main-integration/work/wellnet-2026-09/bridge",
+  "n_read_paths_total": 0,
+  "n_read_paths_library": 0,
+  "n_read_paths_non_library": 0,
+  "non_library_reads": [],
+  "foreign_reads": [],
+  "sealed_tokens_guarded": [
+   "kids",
+   "kids-1000",
+   "kids1000",
+   "kv450",
+   "kids_dr4",
+   "kids_dr5",
+   "wide_binar",
+   "wide-binar",
+   "widebinar",
+   "gaia_wb",
+   "wb_catalog",
+   "hernandez_wb",
+   "banik_wb",
+   "chae_wb",
+   "spt_",
+   "spt-",
+   "sptcl",
+   "south_pole",
+   "southpole",
+   "x-gap",
+   "xgap",
+   "x_gap",
+   "clogs",
+   "granata",
+   "muse_",
+   "muse-",
+   "gaia_dr",
+   "gaiadr",
+   "gaia_edr"
+  ],
+  "real_data_tokens_guarded": [
+   "sparc",
+   "xcop",
+   "x-cop",
+   "efeds",
+   "locuss",
+   "clash",
+   "frontier",
+   "pantheon",
+   "desi",
+   "des_y",
+   "act_dr",
+   "planck",
+   "sami",
+   "diskmass",
+   "herbonnet",
+   "mulroy",
+   "xxl"
+  ],
+  "any_real_observational_file_opened": false,
+  "assertion": "No path outside the lane root was read; no sealed token matched; no real-observation token matched.",
+  "armed": true,
+  "lane": "bridge",
+  "reserve_tokens_guarded": [
+   "spt_",
+   "spt-",
+   "sptcl",
+   "south_pole",
+   "southpole",
+   "x-gap",
+   "xgap",
+   "x_gap",
+   "clogs",
+   "granata",
+   "muse_",
+   "muse-",
+   "gaia_dr",
+   "gaiadr",
+   "gaia_edr"
+  ],
+  "any_reserve_token_in_reads": false
+ },
+ "wall_seconds": 434.33397519999926
+}
