@@ -86,15 +86,29 @@ def build_rows():
             continue
         z, beta, rc, n0 = g["z"], g["beta"], g["rc_mpc"] * C.MPC, g["n0"]
         reach = g["reach_mpc"] * C.MPC
+        # Optional outer break (gas_truncated.json). A beta-model has no outer
+        # truncation -- rho ~ r^-1.8 gives M(r) ~ r^1.2, which diverges -- while
+        # real cluster gas steepens beyond R500. gas_truncated.py fits
+        #     n_e = n0 (1+(r/rc)^2)^(-3 beta/2) (1+(r/rs)^3)^(-eps/6)
+        # to the same Chandra surface brightness. The X-ray data does not
+        # REQUIRE the break (rescaled dchi2 0.0-2.4 for two parameters, 0 of 10
+        # clusters at p<0.05) but it PERMITS one that removes 43% of the gas
+        # mass inside 4.6 Mpc. Running with and without it brackets how much of
+        # any radial trend the gas model alone can account for.
+        rs = g.get("rs_mpc")
+        eps = g.get("eps", 0.0)
+        rs = rs * C.MPC if (rs and eps > 0) else None
         kt = match[name].get("kt")
         try:
             kt = float(kt)
         except (TypeError, ValueError):
             kt = None
 
-        def rho_of(x):
+        def rho_of(x, _rs=rs, _eps=eps):
             x = np.atleast_1d(np.asarray(x, dtype=float))
             ne = n0 * (1.0 + (x / rc) ** 2) ** (-1.5 * beta)    # cm^-3
+            if _rs:
+                ne = ne * (1.0 + (x / _rs) ** 3) ** (-_eps / 6.0)
             return FP.MU_E * FP.M_P * ne * 1e6                  # kg/m^3
 
         rr = np.geomspace(1e-3 * C.MPC, reach * 1.02, 700)

@@ -1,0 +1,44 @@
+{
+ "lane": "clusterfirst",
+ "stage": "injection-null",
+ "gas_file": "gas_extended_expcorr.json",
+ "n_points": 67,
+ "n_realisations": 400,
+ "C_real": -11.983901248658103,
+ "C_real_err": 3.0251054077691433,
+ "C_manufactured": -0.18774887087372985,
+ "C_corrected": -11.796152377784374,
+ "sigma_corrected": -3.8994186276911975,
+ "laws": [
+  {
+   "law": "exact RAR",
+   "C_mean": -0.18774887087372985,
+   "C_sd": 2.8820313536211906,
+   "C_expected": 0.0,
+   "verdict": "clean"
+  },
+  {
+   "law": "Newtonian (boost = 1)",
+   "C_mean": 0.5023408420081925,
+   "C_sd": 3.0230908613792176,
+   "C_expected": 0.0,
+   "verdict": "MANUFACTURES +0.50"
+  },
+  {
+   "law": "RAR x (r/Mpc)^-0.5",
+   "C_mean": -4.267107416888508,
+   "C_sd": 3.1211197993948634,
+   "C_expected": -4.20421040240689,
+   "verdict": "recovered"
+  },
+  {
+   "law": "RAR x (r/Mpc)^-1.0",
+   "C_mean": -8.70549555676065,
+   "C_sd": 3.128568319040549,
+   "C_expected": -8.533867739138492,
+   "verdict": "recovered"
+  }
+ ],
+ "note": "observations replaced by a known law on the real gas models, radii and error bars; whatever comes back on RAR-generated data is manufactured by geometry",
+ "sealed_untouched": 304
+}
