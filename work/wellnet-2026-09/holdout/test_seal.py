@@ -12,6 +12,7 @@ would be a very expensive joke.
 """
 from __future__ import annotations
 
+import contextlib
 import io
 import json
 import os
@@ -23,6 +24,37 @@ import loader
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 _results = []
+
+
+@contextlib.contextmanager
+def _fixture():
+    """Point the loader at a throwaway split, so no test writes to the real seal.
+
+    Yields the temp directory. Restores the module's real paths and cache on the
+    way out, including on failure.
+    """
+    tmp = tempfile.mkdtemp(prefix="sealtest-")
+    saved = (loader.SPLIT, loader.LEDGER, loader.TOKENS, loader._SPLIT_CACHE)
+    try:
+        names_s = ["FAKE-S-%03d" % i for i in range(4)]
+        names_o = ["FAKE-O-%03d" % i for i in range(4)]
+        fake = dict(rule="holdout_seal v2", created_utc="1970-01-01T00:00:00Z",
+                    n_pool=8, n_sealed=4, n_open=4,
+                    sealed=names_s, open=names_o,
+                    sealed_digest=loader._digest(names_s),
+                    open_digest=loader._digest(names_o),
+                    pool_digest=loader._digest(names_s + names_o),
+                    open_fields=["name"], balance={})
+        loader.SPLIT = os.path.join(tmp, "split.json")
+        loader.LEDGER = os.path.join(tmp, "ledger.jsonl")
+        loader.TOKENS = os.path.join(tmp, "tokens.jsonl")
+        io.open(loader.SPLIT, "w", newline="\n", encoding="utf-8").write(
+            json.dumps(fake))
+        loader._SPLIT_CACHE = None
+        yield tmp
+    finally:
+        loader.SPLIT, loader.LEDGER, loader.TOKENS, loader._SPLIT_CACHE = saved
+        shutil.rmtree(tmp, ignore_errors=True)
 
 
 def check(name, fn):
@@ -140,42 +172,32 @@ def t10():
 
 
 def t11():
-    """An unknown token must be refused."""
-    try:
-        loader.open_sealed("deadbeef" * 4)
-    except loader.TokenInvalid:
-        return "unknown token refused"
+    """An unknown token must be refused -- on the FIXTURE, not the real ledger.
+
+    open_sealed() ledgers a rejection before it raises, which is right in
+    production and wrong in a test: run against the real paths, every CI run
+    would append a token_rejected line to the programme's provenance ledger,
+    dirty the working tree, and bury a genuine rejection in test noise.
+    """
+    with _fixture() as tmp:
+        try:
+            loader.open_sealed("deadbeef" * 4)
+        except loader.TokenInvalid:
+            n = sum(1 for _ in io.open(loader.LEDGER, encoding="utf-8")) \
+                if os.path.exists(loader.LEDGER) else 0
+            assert n == 1, "expected exactly one ledgered rejection, got %d" % n
+            del tmp
+            return "unknown token refused, and the rejection went to the fixture"
     raise AssertionError("an unknown token opened the seal")
 
 
 def t12():
     """One-shot really is one shot -- exercised on a FIXTURE, not the real seal."""
-    tmp = tempfile.mkdtemp(prefix="sealtest-")
-    saved = (loader.SPLIT, loader.LEDGER, loader.TOKENS, loader._SPLIT_CACHE)
-    try:
-        # a miniature split whose digests are internally consistent
-        names_s = ["FAKE-S-%03d" % i for i in range(4)]
-        names_o = ["FAKE-O-%03d" % i for i in range(4)]
-        fake = dict(rule="holdout_seal v2", created_utc="1970-01-01T00:00:00Z",
-                    n_pool=8, n_sealed=4, n_open=4,
-                    sealed=names_s, open=names_o,
-                    sealed_digest=loader._digest(names_s),
-                    open_digest=loader._digest(names_o),
-                    pool_digest=loader._digest(names_s + names_o),
-                    open_fields=["name"], balance={})
-        loader.SPLIT = os.path.join(tmp, "split.json")
-        loader.LEDGER = os.path.join(tmp, "ledger.jsonl")
-        loader.TOKENS = os.path.join(tmp, "tokens.jsonl")
-        io.open(loader.SPLIT, "w", newline="\n", encoding="utf-8").write(
-            json.dumps(fake))
-        loader._SPLIT_CACHE = None
+    with _fixture():
         loader.verify()
-
         tok = loader.request_token(
             "fixture test of the one-shot property, exercising mint then "
             "double-open against a temporary split", requester="test_seal")
-        # first open would need the real ranking.json; patch it out by asserting
-        # the token bookkeeping directly
         toks = loader._tokens()
         assert len(toks) == 1 and not toks[0]["spent"], "token not recorded unspent"
         # mark spent the way open_sealed does, then confirm reuse is refused
@@ -187,10 +209,7 @@ def t12():
             loader.open_sealed(tok)
         except loader.TokenInvalid:
             return "a spent token is refused on reuse"
-        raise AssertionError("a spent token opened the seal a second time")
-    finally:
-        loader.SPLIT, loader.LEDGER, loader.TOKENS, loader._SPLIT_CACHE = saved
-        shutil.rmtree(tmp, ignore_errors=True)
+    raise AssertionError("a spent token opened the seal a second time")
 
 
 def t13():
