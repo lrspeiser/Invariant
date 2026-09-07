@@ -1,0 +1,1 @@
+Run001 stopped before any trajectory integration: numpy.bool_ passed gate could not be serialized by stdlib JSON. Original script, bindings, controls and partial JSON retained. Run002 changes serialization to unwrap numpy scalars and changes output directory only. Equations, gates and parameters unchanged.

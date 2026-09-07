@@ -1,0 +1,3 @@
+# Independent reduced-coordinate replay
+
+Review all eight fine two-body trajectories using relative radial motion and a conserved specific angular momentum, rather than the production Cartesian pair solver. Use Radau instead of DOP853, relative/absolute tolerances1e-10/1e-12 and maxstep0.05; reconstruct total energy from the radial solution. Compare401stored radii, q and signed internal energies per case, absolute differences<1e-7; require energy drift<1e-7. These are independent numerical checks of the same manufactured initial conditions, not observational tests or fresh parameter selection. Production outputs remain untouched.
