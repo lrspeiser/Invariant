@@ -64,7 +64,11 @@ MG_REF = 1e13 * 1.989e30 # kg
 
 def build_rows():
     """One row per (cluster, lensing bin) with g_bar from the EXTENDED gas."""
-    ext = json.load(io.open(os.path.join(HERE, "gas_extended.json"), encoding="utf-8"))
+    # GAS_FILE selects the gas model: the default is the analytic-vignetting
+    # version, gas_extended_expcorr.json is the one built on real CIAO
+    # exposure maps. Both are kept so the difference is attributable.
+    ext = json.load(io.open(os.path.join(HERE, os.environ.get(
+        "GAS_FILE", "gas_extended.json")), encoding="utf-8"))
     match = {m["erass"]: m for m in json.load(
         io.open(os.path.join(HERE, "accept_overlap.json"), encoding="utf-8"))}
     prof = {}
@@ -102,6 +106,27 @@ def build_rows():
         obs = FP.observed(rec)
         R = np.array([o[0] for o in obs])
         inside = R <= reach
+
+        # MATCHED PHYSICAL WINDOW. The shear aperture and the Chandra field are
+        # both ANGULAR, so the physical radius they correspond to is set by the
+        # cluster's distance. Measured on the rows this function returns, the
+        # inverse-variance-weighted radius runs from 0.62 Mpc for the z = 0.069
+        # cluster to 3.42 Mpc for the z = 0.540 one -- a factor of 5.5 -- and
+        #
+        #     corr(redshift, weighted-mean radius) = +0.98
+        #
+        # At that collinearity redshift and radius are not two variables, they
+        # are one. Any "the residual tracks redshift" is equally "the residual
+        # tracks radius", and the ten per-cluster residuals are not comparable
+        # to each other because each is measured somewhere else.
+        #
+        # R_WINDOW_MPC="lo,hi" restricts every cluster to the same physical
+        # annulus, which costs bins and signal-to-noise and buys a test whose
+        # ten numbers mean the same thing. Unset, the behaviour is as before.
+        win = os.environ.get("R_WINDOW_MPC", "").strip()
+        if win:
+            lo, hi = (float(x) for x in win.split(","))
+            inside = inside & (R >= lo * C.MPC) & (R <= hi * C.MPC)
         if inside.sum() < 2:
             continue
         ds_bar = FP.delta_sigma_bar(rho_of, R, reach)

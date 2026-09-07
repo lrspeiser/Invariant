@@ -63,6 +63,25 @@ sys.path.insert(0, WELLNET)
 import modifications as MOD                                    # noqa: E402
 
 OUT = os.path.join(HERE, "universality.json")
+
+# MEASURED, not guessed. Run BW put a conservative 15% systematic on the
+# analytic ACIS vignetting curve because there was nothing to compare it to, and
+# that guess alone moved this test from p = 0.009 to p = 0.086. There is now a
+# comparison: the identical pipeline with the curve replaced by CIAO exposure
+# maps (`vignetting_systematic.py`). Across the nine clusters common to both,
+# the residual shifts by +0.066 on average -- a COHERENT offset, which moves the
+# grand mean and not the scatter -- with 0.082 of differential spread. A scatter
+# test feels only the differential part, so 0.082 in absolute residual units is
+# the systematic, against per-cluster statistical errors of 0.29 to 1.25.
+VIG_SYS = 0.082
+
+# The gas model's own systematic is the anchor scatter: how well a beta-model
+# describes ACCEPT's measured n_e where the two overlap. The error on the
+# extrapolated normalisation lies between the full point-to-point scatter (every
+# bin an independent draw -- too pessimistic, a density profile is smooth) and
+# scatter/sqrt(N_bins) (too optimistic, for the same reason). Rather than pick
+# one, the test is reported at three settings and the verdict must survive all.
+N_EFF = 4.0
 N_PERM = 20000
 SEED = 20260907
 
@@ -115,24 +134,73 @@ def main():
     res = per_cluster(rows)
     loader.assert_not_sealed(list(res), "universality test")
 
-    ext = json.load(io.open(os.path.join(HERE, "gas_extended.json"), encoding="utf-8"))
+    # GAS_FILE selects the gas model: the default is the analytic-vignetting
+    # version; gas_extended_expcorr.json is built on real CIAO exposure maps.
+    # Both are kept so the difference between them is attributable.
+    ext = json.load(io.open(os.path.join(HERE, os.environ.get(
+        "GAS_FILE", "gas_extended.json")), encoding="utf-8"))
     match = {m["erass"]: m for m in json.load(
         io.open(os.path.join(HERE, "accept_overlap.json"), encoding="utf-8"))}
 
     names = sorted(res, key=lambda c: -res[c][0])
     val = np.array([res[c][0] for c in names])
-    err = np.array([res[c][1] for c in names])
-    w = 1.0 / err ** 2
-    grand = float(np.sum(w * val) / np.sum(w))
-    chi2 = float(np.sum(((val - grand) / err) ** 2))
-    dof = len(names) - 1
-
-    # permutation p for "one universal value": scatter the residuals at their
-    # own errors about the grand mean and see how often chi2 is exceeded
+    err_stat = np.array([res[c][1] for c in names])
+    dexes = np.array([ext[c].get("anchor_scatter_dex", 0.0) for c in names])
     rng = np.random.default_rng(SEED)
-    sim = ((rng.normal(grand, err[None, :], size=(N_PERM, len(err))) - grand)
-           / err[None, :]) ** 2
-    p_uni = float((sim.sum(axis=1) >= chi2).mean())
+
+    def budget(mode):
+        """Total per-cluster error under one assumption about the gas model."""
+        if mode == "stat":
+            return err_stat.copy()
+        f = math.log(10.0) * dexes
+        if mode == "neff":
+            f = f / math.sqrt(N_EFF)
+        return np.sqrt(err_stat ** 2 + (f * val) ** 2 + VIG_SYS ** 2)
+
+    def test(v, e):
+        """Grand mean, chi2 about it, and p for 'these are one number'."""
+        ww = 1.0 / e ** 2
+        g = float(np.sum(ww * v) / np.sum(ww))
+        c2 = float(np.sum(((v - g) / e) ** 2))
+        sm = ((rng.normal(g, e[None, :], size=(N_PERM, len(e))) - g) / e[None, :]) ** 2
+        return g, c2, len(v) - 1, float((sm.sum(axis=1) >= c2).mean())
+
+    MODES = [("shear noise only (NOT the answer -- carries no systematics)", "stat"),
+             ("+ gas anchor / sqrt(N_eff=4) + vignetting 0.082", "neff"),
+             ("+ FULL gas anchor scatter + vignetting (most conservative)", "full")]
+    budgets = {}
+    print("")
+    print("error budget -- the verdict has to survive every row")
+    print("")
+    print("  %-58s %-6s %-5s %s" % ("assumption", "chi2", "dof", "p(one number)"))
+    for label, mode in MODES:
+        e = budget(mode)
+        g, c2, d, p = test(val, e)
+        budgets[mode] = dict(label=label, grand_mean=g, chi2=c2, dof=d, p=p)
+        print("  %-58s %-6.1f %-5d %.4f" % (label, c2, d, p))
+
+    err = budget("neff")
+    w = 1.0 / err ** 2
+    grand, chi2, dof, p_uni = test(val, err)
+
+    # LEAVE-ONE-OUT, on the middle row. One cluster sits several sigma below the
+    # rest; if it alone carries the chi-square then this is one odd object, not
+    # a variation across the sample. Every cluster is dropped in turn.
+    print("")
+    print("  leave-one-out (middle row of the budget)")
+    jack = []
+    for i, c in enumerate(names):
+        k = np.ones(len(names), bool)
+        k[i] = False
+        g2, c2, d2, p2 = test(val[k], err[k])
+        jack.append(dict(dropped=c, chi2=c2, dof=d2, p=p2, grand_mean=g2))
+        print("     drop %-24s chi2 %5.1f / %d   p = %.4f%s"
+              % (c, c2, d2, p2, "   <- KILLS IT" if p2 >= 0.05 else ""))
+    worst = max(jack, key=lambda j: j["p"])
+    print("")
+    print("  worst case: dropping %s gives p = %.4f"
+          % (worst["dropped"], worst["p"]))
+    print("")
 
     print("residual per cluster (observed / RAR-predicted)\n")
     print("  %-24s %-14s %-6s %-7s %s" % ("cluster", "residual", "kT", "z", "bins"))
@@ -184,6 +252,13 @@ def main():
     out = dict(lane="clusterfirst", stage="universality",
                n_clusters=len(names), grand_mean=grand, chi2=chi2, dof=dof,
                p_one_universal_value=p_uni, clusters=table, correlations=corr,
+               gas_file=os.environ.get("GAS_FILE", "gas_extended.json"),
+               error_budget=budgets, vignetting_systematic=VIG_SYS,
+               vignetting_note=("measured by rerunning the identical pipeline "
+                                "with the analytic curve and with CIAO exposure "
+                                "maps; Run BW's 15% was a guess"),
+               leave_one_out=jack, worst_case_p=worst["p"],
+               worst_case_dropped=worst["dropped"],
                null_note=("stacked.py's flatness null permuted POINTS across "
                           "clusters, breaking within-cluster correlation and "
                           "inflating the null chi2 -- three variables came back "
