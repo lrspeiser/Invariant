@@ -1,0 +1,9 @@
+# Corrected sampled-pixel renderer, separate implementation
+
+V1's continuous aperture integral adds a pixel top-hat that is not established for CLEAN images. Preserve its code and run001; use a new sampled-pixel API. For each supplied point emitter, evaluate the finite normalized elliptical Gaussian at the exact144 integer native pixel centers and average. This implements a sampled restored image. Quantify the former integrated-pixel convention difference but do not select between them using observed data.
+
+Native sampled weights are mean exp(-d^T C^-1 d/2)/Z for |dx|,|dy|<=6*sigma_max, where Z is the finite Gaussian probability normalization. Test scalar independent loops, aperture tiling, full sampled image flux closure after dividing by Gaussian beam area, signed-axis rotation and point-source fractional offsets. No spatial numerical integration is needed for native pixel means. Keep6/7-sigma sensitivity.
+
+V1 source-quadrature refinement failed15/180 final profiles (max3.36%); preserve this. New fixed node levels128x256,256x512,512x1024 address emitter sampling, with the identical synthetic profiles/cutoff and unchanged1%/.5km/s gates. No observational values or target-fitting involved. Final256x512→512x1024 must pass; retain lower-resolution failures. This tests the numerical adapter, not actual source quadrature sufficiency.
+
+For physical HI vertical emitter nodes sharing identical supplied LOS velocity and line sigma within each planar group, sum W_ap,node*flux_node into aperture×group integrated flux before applying spectral CDF. This is exact linear regrouping, not collapsing emission geometrically to a midplane. Validate against full expanded-node rendering and reject invalid group indices; caller must verify group velocity/sigma equality. Fixed zero spatial weights can be omitted from spectral evaluation because the declared finite halo gives exactly zero contribution. No observed mask or source selection enters that omission.

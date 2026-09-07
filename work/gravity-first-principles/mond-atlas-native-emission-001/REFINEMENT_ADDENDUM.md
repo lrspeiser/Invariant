@@ -1,0 +1,3 @@
+# Target-free refinement sequence, frozen before calculation
+
+Include a third fixed emitter quadrature128 radial by256 azimuth nodes after32x64 and64x128. Retain both consecutive comparisons. This separates coarse quadrature failure from actual converged rendering. No observed values have been accessed. Admission of the highest-resolution synthetic adapter requires final64x128 to128x256 profile L1<1% and centroid<.5km/s for all15 apertures and all twelve model/response combinations; earlier failures remain explicit. Beam integration compares24/48 points and6/7-sigma halo independently of source-node refinement. Actual supplied-emitter quadrature must later pass its own refinement.

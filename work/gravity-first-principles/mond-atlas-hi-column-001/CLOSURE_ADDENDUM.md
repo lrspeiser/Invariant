@@ -1,0 +1,5 @@
+# Explicit pressure closure and force-domain audit
+
+Before any force balance or response access: keep original run001 untouched. Define Pi(R)=sigma_reference² Sigma_smoothed(R), but Euler denominator is RAW azimuthalHIcolumnSigma_raw(R), matching distributedrawHIangular-weightedforce. Thus localpressurevariance Pi/Sigma_raw varies withR;5/10/15km/s are normalization labels, not measuredorconstantlocaldispersion. DifferentiateactualPi. Zero rawcolumn makesclosureundefined evenwhenGaussianpressurepositive; neverinventdensityorforce. Saveanewexplicitly namedclosurepacket, gradientsandlocalvariance; retainoriginalambiguouscolumnlabel asoldartifact.
+
+For existingprojectedemitters outsideforceR[.05,6], computeexactnative sampledat144pixels6sigma truncatedGaussianweights usingclock's separatelyvalidated sampledoperator. Saveallunsupportedmass/flux andperapertureweightedflux; novelocityassignment, noobservedscore. Nonzero influence is notdiscarded. This boundsmissinginputsupport and mayrequireemitterquadrature/node orforce-domain refinement, not gravityretuning. Freezeprotocol/script hashes beforecalculation.
