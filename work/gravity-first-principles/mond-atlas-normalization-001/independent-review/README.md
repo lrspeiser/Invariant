@@ -1,0 +1,11 @@
+# Independent normalization review
+
+The 36 constant-medium ratios and both isolated Gaussian-source bounds pass independent arithmetic and potential-derivative checks. The review does not import the parent implementation. Separate one-dimensional Gaussian integration verifies the three-dimensional normalization at tighter integration tolerances. The original radial quadrature's approximately 5e-9 error estimate exceeds its comparison tolerance, but its actual result agrees with exact normalization; the independent calculation resolves this numerical concern without altering run001.
+
+For a locally constant, fixed coefficient, the test-source equation is epsilon_lab times Laplacian(Phi)=4*pi*G_bare*rho. Therefore G_measured=G_bare/epsilon_lab, and a spherical constant environment produces an enhancement epsilon_lab/epsilon_environment relative to that measured Newtonian constant. Equal laboratory and environmental coefficients cancel. These identities require negligible response of epsilon to the test mass and separate treatment of external fields. In a variable medium, gradients, density response in a background gravitational field, and boundary conditions require the full field equation; the ratio is not a general pointwise force law. Rescaling a prescribed external boundary field is not automatically justified.
+
+For a one-solar-mass point source, normalized Gaussian smoothing gives peak density M/[(2*pi)^(3/2)*ell^3]. With the specified density threshold, the peaks and maximum epsilon increments match the saved numbers and exhibit the expected factor-eight peak change on doubling ell. For nonnegative background b and source increment d, the exact epsilon increment is 0.8*d/[(1+b)*(1+b+d)], largest at b=0. This is a coefficient bound, not a general bound on force changes in a variable-coefficient boundary-value problem.
+
+The actual Solar and laboratory smoothed environments remain unknown. The tested rational, Gaussian-smoothed law is custom. These theory controls neither establish observational agreement nor establish failure of published refracted gravity. No velocity, lensing, or new observational arrays were accessed. Existing outputs remain unchanged.
+
+Reproduce: `python work/gravity-first-principles/mond-atlas-normalization-001/independent-review/review.py`.
