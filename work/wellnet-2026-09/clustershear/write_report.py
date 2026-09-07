@@ -83,6 +83,66 @@ def main():
     add("")
     add(K["interpretation"])
     add("")
+    sp = os.path.join(HERE, "search.json")
+    if os.path.exists(sp):
+        S = json.load(io.open(sp, encoding="utf-8"))
+        add("## The law search -- %s model forms, and why the top 25 is not the answer"
+            % format(S["n_model_forms"], ","))
+        add("")
+        add("%s model forms (every subset of size 1-%d over %d atoms in radius,"
+            % (format(S["n_model_forms"], ","), S["kmax"], S["n_atoms"]))
+        add("redshift and X-ray temperature), each fitted EXACTLY by weighted least")
+        add("squares rather than sampled, at %s forms per second over %d points."
+            % (format(S["forms_per_second"], ","), S["n_points"]))
+        add("")
+        add("All 25 of the top 25 beat all three null twins. **That headline is")
+        add("misleading and here is why.** Every one of them sits at k=%d, the"
+            % S["kmax"])
+        add("maximum complexity, because nothing in the ranking penalises")
+        add("parameters; and %d of the %d share the same redshift core, so this is"
+            % (S["top_sharing_one_redshift_core"], len(S["top"])))
+        add("one model wearing %d hats, not %d discoveries."
+            % (S["top_sharing_one_redshift_core"], len(S["top"])))
+        add("")
+        add("**The informative table is the complexity trade-off.**")
+        add("")
+        add("| k | gain | null A randoms | null B property scramble | null C radial scramble | best form |")
+        add("|---|---|---|---|---|---|")
+        for p in S["best_per_k"]:
+            add("| %d | %.4f | %.4f | %.4f | %.4f | `%s` |"
+                % (p["k"], p["gain_real"], p["gain_null_random"],
+                   p["gain_null_property"], p["gain_null_radial"],
+                   " + ".join(p["terms"])))
+        add("")
+        k1 = S["best_per_k"][0]
+        kmax = S["best_per_k"][-1]
+        add("Read it from the top row. **A single atom, `%s`, reaches %.4f of the"
+            % (" + ".join(k1["terms"]), k1["gain_real"]))
+        add("%.4f that four free parameters reach -- %.0f%% of everything %s forms"
+            % (kmax["gain_real"], 100 * k1["gain_real"] / kmax["gain_real"],
+               format(S["n_model_forms"], ",")))
+        add("buy.** The other three parameters purchase %.4f more gain while the"
+            % (kmax["gain_real"] - k1["gain_real"]))
+        add("property-scramble null climbs from %.4f to %.4f. That is the shape of"
+            % (k1["gain_null_property"], kmax["gain_null_property"]))
+        add("overfitting, not of a law.")
+        add("")
+        add("The k=1 form survives its nulls properly: the random pointings give")
+        add("%.4f and the RADIAL scramble gives %.4f -- negative, i.e. worse than a"
+            % (k1["gain_null_random"], k1["gain_null_radial"]))
+        add("constant once the radial ordering is destroyed. So **the radial")
+        add("structure is real.** But the property-scramble null still reaches")
+        add("%.4f, about a third of the gain, because scrambling (z, kT) across"
+            % k1["gain_null_property"])
+        add("clusters leaves each profile's own radii intact -- null B cannot test a")
+        add("purely radial term, which is exactly why null C was added.")
+        add("")
+        add("None of this is a gravity law. `DeltaSigma ~ T^0.5 / R` is close to what")
+        add("an isothermal sphere gives you for free, and the search had no baryon")
+        add("model to work against, so it cannot distinguish a modified force from")
+        add("ordinary cluster structure. What it does establish is that the")
+        add("admissible variable set here is small enough that one term exhausts it.")
+        add("")
     add("## What was not done")
     add("")
     add("- No mass was fitted; no gravity law was scored.")
