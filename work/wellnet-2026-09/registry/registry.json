@@ -308,6 +308,26 @@
    "note": "Raw weak-lensing profiles for the OPEN half of the gold-cluster pool (301 clusters; the 304 sealed are never queried, enforced by guard.check_target against holdout/loader before every archive call). Estimator reused unchanged from efeds-hsc/acquire_decade.py so the two lanes are comparable, including its MEASURED sign convention. Output is the profile, not the sources. Both nulls pass: cross component chi2/dof 13.6/10, random pointings 13.9/10. Stacked S/N 31.8 over 301 clusters. NO gravity law is scored and no mass is fitted; eRASS1 M500/R500/Mgas500 excluded as weak-lensing-calibrated and therefore circular. Every surviving trend has a conventional explanation this lane cannot exclude -- see controls.json.",
    "invalidated_by": null,
    "output_state": "SCIENTIFICALLY_ADMISSIBLE"
+  },
+  {
+   "run_id": "BR-clusterxray",
+   "lane": "clusterxray",
+   "commit": "9af7d775",
+   "registered_utc": "2026-09-07T18:02:42Z",
+   "depends_on": {
+    "catalogue_validation": 3,
+    "temperature_support": 2
+   },
+   "outputs": [
+    "work/wellnet-2026-09/clusterxray/raw_manifest.json",
+    "work/wellnet-2026-09/clusterxray/maps.json",
+    "work/wellnet-2026-09/clusterxray/cluster_xray_maps.png",
+    "work/wellnet-2026-09/clusterxray/REPORT.md"
+   ],
+   "status": "VALID",
+   "note": "Chandra ACIS level-2 EVENT LISTS for the six HFF/A2029 clusters, and 2D brightness and hardness maps built from them. Motivation: every thermal profile the programme held for these clusters (cluster-data/gas/accept_*) is a SPHERICAL DEPROJECTION, so the asymmetry is assumed away before any number reaches the table. Event lists are upstream of that. 27 observations, 3.3M photons after filtering, validated by three detectors (bytes vs Content-Length; EVENTS extension with X/Y/ENERGY; header OBS_ID and INSTRUME). Two traps recorded: the Ocat search endpoint silently IGNORES ra/dec/radius and returns HTTP 200 with unrelated engineering pointings, so targets are resolved by name and then rejected on position; and the raw hardness gradient (+0.124 centre to 8 arcmin, in EVERY cluster regardless of dynamical state) is ACIS vignetting, not thermal structure, and is divided out. Hardness is a temperature PROXY, not a temperature: no CIAO/CALDB, so no spectral fit. No gravity law is scored.",
+   "invalidated_by": null,
+   "output_state": "SCIENTIFICALLY_ADMISSIBLE"
   }
  ],
  "rules": {
