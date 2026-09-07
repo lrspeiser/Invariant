@@ -198,3 +198,90 @@ The vignetting model is the other systematic. Without CIAO exposure maps an
 analytic ACIS approximation is used, and it biases the outer surface brightness,
 hence beta, hence the outer density. It is stated in `extend_gas.py` rather than
 hidden, and it is the first thing to fix if this is pursued.
+
+---
+
+# Run BV — RETRACTION: the factor of two was substantially my own estimator
+
+Runs BT and BU reported that the RAR under-predicts cluster lensing by 1.6–2.2×.
+**That number was wrong, and the error was in the estimator, not the data.**
+
+## Two compounding mistakes
+
+**1. Selection on the noisy quantity.** Both runs filtered `ds_obs > 0` before
+taking the ratio. Ten of the 65 rows have a negative observed lensing signal —
+mean −0.53σ, i.e. ordinary downward noise fluctuations on a positive quantity
+measured at low signal-to-noise. Dropping them removes *only* downward
+fluctuations and keeps every upward one, which inflates the apparent observed
+lensing and therefore inflates the apparent missing gravity.
+
+**2. Median of a ratio with a noisy denominator.** With 45 of 55 points carrying
+more than 50% fractional error, the median of `pred/obs` is not an estimate of
+the ratio of the truths.
+
+| estimator | residual (pred/obs) |
+|---|---|
+| median, with `ds_obs > 0` filter (Runs BT, BU) | **0.620** |
+| inverse-variance weighted mean, no filter | **0.914 ± 0.142** |
+
+Stated the other way: **observed / RAR-predicted = 1.09 ± 0.14.**
+
+## What Run BU's conclusion was actually worth
+
+Nothing. Decomposing its 0.523 dex scatter:
+
+| | |
+|---|---|
+| observed scatter | 0.523 dex |
+| median per-point measurement error | 0.365 dex |
+| points above 50% fractional error | 45 of 55 |
+| points below 20% | **0** |
+| **intrinsic scatter** | **0.000 dex** |
+
+The spread was entirely measurement error. No modification could have reduced
+it, whatever the physics. "No family reduces the scatter" was guaranteed before
+any physics entered — a **vacuous control**, in the same class as Run AY's
+"baryon-only control was VACUOUS, not passed".
+
+## The stacked test, which does have power
+
+Binning 65 points into four bins per variable drops the per-bin error to
+0.2–0.5 and lets the residual be asked whether it *moves*:
+
+| binned by | residual across bins | verdict |
+|---|---|---|
+| gas density | 0.6, 1.0, 1.9, 1.5 | flat |
+| temperature kT | 0.5, 1.3, 1.6, 1.8 | flat, p=0.76 |
+| radius | 1.6, 1.7, 1.4, 0.6 | flat |
+| redshift | 1.1, 1.6, 0.9, 0.4 | flat, p=0.68 |
+| enclosed gas mass | 1.4, 2.6, 1.0, 0.8 | flat |
+| baryonic acceleration g_bar | 1.7, 1.2, 0.5, 1.5 | flat |
+
+No variable moves the residual. But the per-bin errors are 20–50%, so this
+excludes only a *strong* dependence, not a weak one.
+
+## What this does and does not say
+
+It does **not** say the RAR works on clusters. The literature result — MOND
+missing clusters by roughly two — rests on far better data than this, and the
+discrepancy is strongest in the core and the far outskirts, neither of which
+this radial range covers well.
+
+It says **this dataset cannot see a factor of two**, and that the factor of two
+it appeared to see was an artefact of the estimator.
+
+One systematic remains uncontrolled and it acts in the relevant direction: the
+outer slope β of the extended gas model is set by the surface brightness at
+large off-axis angle, which is exactly where the analytic ACIS vignetting
+approximation is least reliable. Too shallow a β overestimates the outer gas
+mass, inflates `g_bar`, and shrinks the residual. Fixing that needs CIAO
+exposure maps, and until it is fixed no claim should be made in either
+direction.
+
+## The correction that generalises
+
+**Never filter on the quantity whose noise you are trying to average.** Selecting
+`ds_obs > 0` looks like removing unphysical values; a negative lensing signal is
+not unphysical, it is a measurement of a small positive quantity by an
+instrument with noise. The right move is to keep every point, weight by inverse
+variance, and work in linear space where the estimator is unbiased.

@@ -6,8 +6,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "registry"))
 import registry  # noqa: E402
 
-RUN_ID = "BU-modifications"
+RUN_ID = "BV-retraction"
 NOTE = (
+    "RETRACTS Runs BT and BU. Their factor-of-two cluster residual was substantially an ESTIMATOR ARTEFACT: both filtered ds_obs > 0 before taking the ratio, dropping 10 of 65 rows whose observed lensing was negative (mean -0.53 sigma, ordinary downward noise on a small positive quantity), which removes only downward fluctuations and inflates the apparent missing gravity; and both took a MEDIAN of a ratio whose denominator carried >50%% error on 45 of 55 points. Corrected estimator -- every point kept, inverse-variance weighted, linear space -- gives observed/RAR-predicted = 1.09 +- 0.14, i.e. pred/obs 0.914, consistent with 1. Run BU was additionally VACUOUS: intrinsic scatter 0.000 dex, all 0.523 measurement error, so no modification could have reduced it whatever the physics. Redone as a STACKED test with power: binning 65 points four ways per variable gives per-bin errors of 0.2-0.5, and the residual is flat against gas density, kT, radius, redshift, gas mass and g_bar -- excluding a strong dependence, not a weak one. DOES NOT claim the RAR works on clusters: the literature result rests on far better data, the radial range misses core and far outskirts, and the outer beta of the extended gas model is set by surface brightness where the analytic ACIS vignetting stand-in is least reliable, biasing g_bar high and the residual low. Filed as failures/artefacts/10. Original note follows. "
     "Extended the gas density from the Chandra events already on disk out to "
     "0.94-4.6 Mpc: beta-model fits to the 0.5-2 keV surface brightness, anchored "
     "to ACCEPT where the two overlap (0.04-0.19 dex, 21-59 anchor bins each). One "

@@ -3,7 +3,7 @@
 Everything this programme got wrong, and everything it looked for and did not find.
 
 Kept because the successes in this repository are three data-free theorems and a
-working audit method, while the failures are nine worked examples of how a
+working audit method, while the failures are ten worked examples of how a
 careful analysis manufactures a signal. The second set is more useful to anyone
 else, and it is the set nobody publishes.
 
@@ -11,7 +11,7 @@ else, and it is the set nobody publishes.
 
 | folder | what it holds | count |
 |---|---|---|
-| [`artefacts/`](artefacts/) | confident, plausible, wrong results — with the mechanism and the control that killed each | 9 |
+| [`artefacts/`](artefacts/) | confident, plausible, wrong results — with the mechanism and the control that killed each | 10 |
 | [`archive-traps/`](archive-traps/) | public archives returning something other than what was asked, under a success code | 5 |
 | [`eliminated/`](eliminated/) | candidate laws and whole families that were refuted, blocked, or came back null | 11 |
 | [`index.json`](index.json) | the same catalogue, machine-readable | — |
@@ -44,13 +44,20 @@ All four produce the same symptom: **a confident number of plausible size, with
 no exception raised anywhere.** And because a striking result is what one was
 hoping for, it is the least likely thing to be interrogated.
 
-The ninth was found while writing up the other eight. A permutation test read
+The ninth was found while writing up the other eight: a permutation test read
 2.7σ at 40 draws and 1.6σ at 200, on identical data. An undersized null is not a
 conservative control — it manufactures detections, quietly.
 
+The tenth was found the day after that, in a factor-of-two discrepancy this
+programme had just reported. The analysis had filtered out the negative lensing
+measurements before taking a ratio. A negative lensing signal is not an
+unphysical value to clean away — it is a measurement of a small positive
+quantity by a noisy instrument, and removing it deletes only the downward
+fluctuations. The factor of two went to 0.914 ± 0.142 when the filter came out.
+
 ## On the count
 
-Nine is not a boast. It is the number of times a control was run and returned a
+Ten is not a boast. It is the number of times a control was run and returned a
 verdict the analysis did not want, in a programme that ran roughly five control
 modules for every search module.
 
