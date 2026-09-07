@@ -1,0 +1,30 @@
+name: Gold-cluster holdout seal
+# Deliberately NOT path-filtered. The point of this gate is to notice when the
+# sealed half of the gold-cluster pool is opened, and that can be done from any
+# lane in the repository, so the check has to run on every pull request.
+# It is pure stdlib and takes a few seconds.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  seal-intact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: The split has not drifted and the holdout is still blind
+        # T1 recomputes the committed digests; T2 fails if any one-shot token
+        # has been spent. A red build here is the alarm, not a nuisance: it
+        # means the programme's only confirmation set has been opened, and the
+        # pre-registration for that test must be committed alongside it.
+        working-directory: work/wellnet-2026-09/holdout
+        run: python test_seal.py

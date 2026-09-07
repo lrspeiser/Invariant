@@ -266,6 +266,27 @@
    "note": "Gold Cluster Acquisition Specification (BE.7 instruction). INVENTORY ONLY: opens no pixel, shear, spectral or kinematic data and computes no gravity-relevant statistic on any cluster -- asserted mechanically by guard.py. Archive contact limited to VizieR -meta.all / METAcat metadata under the three-detector rule and HLSP directory listings. KiDS and the wide binaries sealed; SPT, X-GAP, CLoGS, Gaia dynamical products and MUSE/Granata dispersions recorded by identity only, never opened. Global parameters only; no theory tested. Record letter provisional.",
    "invalidated_by": null,
    "output_state": "SCIENTIFICALLY_ADMISSIBLE"
+  },
+  {
+   "run_id": "BP-holdout-seal",
+   "lane": "holdout",
+   "commit": "5703535b",
+   "registered_utc": "2026-09-07T15:28:12Z",
+   "depends_on": {
+    "holdout_seal": 2,
+    "confirmation_status": 2,
+    "catalogue_validation": 3
+   },
+   "outputs": [
+    "work/wellnet-2026-09/holdout/holdout_split.json",
+    "work/wellnet-2026-09/holdout/SEAL.md",
+    "work/wellnet-2026-09/holdout/loader.py",
+    "work/wellnet-2026-09/holdout/tests.json"
+   ],
+   "status": "VALID",
+   "note": "Gold-cluster holdout seal. Splits Run BO's 605 clusters with a public raw weak-lensing channel into 304 SEALED and 301 OPEN, stratified by terciles of z x CTS500 x shear depth, assigned by keyed sha256 with no random state, and committed by digest. Made BEFORE any shape, response or per-source redshift was read from any cluster in the pool, which is what makes the sealed half a CONFIRMATION set rather than validation. Enforcement is by IDENTITY at loader.py, not by path token: the sealed half is rows in a shared public archive, so provenance.py's filename matching cannot see it. Public catalogue metadata stays readable for sealed clusters; the OUTCOME needs a one-shot token whose reason is recorded before use. CI gate: .github/workflows/holdout-seal.yml runs test_seal.py on every PR and fails if a token has been spent. Opens no data and computes no statistic.",
+   "invalidated_by": null,
+   "output_state": "SCIENTIFICALLY_ADMISSIBLE"
   }
  ],
  "rules": {
