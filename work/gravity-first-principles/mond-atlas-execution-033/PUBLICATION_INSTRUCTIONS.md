@@ -1,0 +1,13 @@
+# Execution033 publication helper
+
+Prepared only. The source-audit agent has not invoked preparation, staged or committed, or appended handoff documents. Final read-only check verified2233 prior entries,141 completion/review bindings and10new scripts with available direct imports. The completed covariance summary reports1392fits and the nested independent review covers4176start records.
+
+1. Confirm all agent writes have ended; review README.md and handoff-addendum.md; ensure the index is empty. Run `python work/gravity-first-principles/mond-atlas-execution-033/prepare_publication.py`.
+2. The helper verifies prior hashes and exact handoff snapshots, new completion and nested review hashes, the1392fit/29variant completion, script syntax/imports, and the three existing derived gzip artifacts. Only after those checks does it append the handoff addendum, freeze checks/manifest and write `work/private/mond-atlas-execution-033/paths.nul`. It never stages, commits or pushes. Do not overwrite or rerun a completed freeze.
+3. Stage only that NUL-delimited pathspec: `git add -f --pathspec-from-file=work/private/mond-atlas-execution-033/paths.nul --pathspec-file-nul`. The explicit scope is important because unrelated untracked work exists.
+4. Run the helper with `--verify-index`. It verifies every manifest index blob, rejects unrelated staged paths, and validates the three existing Git LFS pointers against content oid/size and local LFS objects. It uses the corrected **git-common-dir/lfs/objects** resolver for this worktree. Output is printed; save it privately if desired, without altering the frozen public manifest. Run `git diff --cached --check` and review the staged summary.
+5. Parent follows AGENTS.md: fetch origin/main, preserve concurrent changes, ordinary commit and fast-forward push, then verify the remote commit. No force push.
+
+Only these new script families and matching packages are added: alternative_hi, alternative_spectra, centroid_diagnostic, covariance_transfer, pressure_estimator, plus execution033. Nested independent review files and retained centroid run001 failure/snapshot are included. All2233 prior entries are preserved through their historical manifest; the only intended existing-file edits are the two append-only handoff updates. No new raw FITS/NPZ or private source data enter Git. The three prior derived CSV gzip files remain permitted and their existing LFS rules are unchanged.
+
+The helper preserves failures and does not infer scientific admission from publication. No observed gravity scores or parent-admission file are created. The broader research goal remains incomplete.

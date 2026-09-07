@@ -1,0 +1,9 @@
+# Independent pressure-estimator review
+
+No substantive equation or implementation bug found. The code uses identical source packets and raw radial profiles for both estimators, Pi=100*Sigma_smoothed and the same **raw** Sigma denominator. The factor100 is the squared10km/s pressure normalization, yielding (km/s)^2/kpc. It reads source-map arrays but no observed source-region spectra; `source_region_reads=0` must be understood in that narrower sense.
+
+Separate four-corner bilinear interpolation, explicit Gaussian convolution, explicit finite-difference stencils and explicit Simpson quadrature reproduced all2871 exported rows. Maximum pressure-acceleration replay errors were2.23e-8 for the finite-difference method and5.83e-11 for integrated Gaussian differentiation. An independent Gaussian analytic derivative control passed before source arrays. The original code/helper were not imported by the replay.
+
+The maximum69.86(km/s)^2/kpc difference occurs atR=.05kpc in zero/annular cases, where raw HI is only.0006378Msun/pc²: the small raw denominator amplifies small derivative differences. The prescribed.75–2.5kpc aperture interval differs by at most.00505 for common30 and.01322 for zero/annular. These are estimator comparisons, not changes selected by observed residuals.
+
+Two qualifications: `full` means all957 positive **exported target radii**, not every point of the internal0–12kpc quadrature array. The comparison changes the smoothing quadrature as well as the derivative computation (normalized sampled Gaussian+finite difference versus integrated even Gaussian kernel derivative); it should not be labeled pure finite-difference truncation error. Both retain the same.25kpc width and reflection atR=0, and neither establishes the physical pressure closure from observations. No estimator was replaced and no new scientific pass threshold was chosen.

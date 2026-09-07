@@ -1,0 +1,11 @@
+# Matched alternative HI emission packets
+
+Six actual-source planar packets pass construction and conservation checks: common30, missing_zero and missing_annular, each at .0625 and .03125 kpc cell spacing. Mass centroids integrate the same positive bilinear source used by the alternative force/pressure calculations. Maximum mass closure error is 4.44e-16. Independent cell quadrature, native sky projection and exponential vertical moments pass. A separate replay checks serialized mass, global first moments, flux conversion and both vertical quadratures.
+
+The existing `mond_atlas_hi_refinement.iter_native_batches` accepts these packets directly. Each provides signed exponential vertical nodes at orders24/48 per side, height .2 kpc, and mass/flux/position arrays with the original schema. Common30 is shared by both stellar-height cases. Atomic-plus-helium surface density is divided by1.36 before converting HI mass to flux at3.611Mpc; gravity continues using the source contract's helium-inclusive gas density.
+
+The common30 packet now has central and outer emission beyond the existing force table: fine centroids span .02205–11.28425kpc. About .1744% of total flux lies beyond R6; .094108Jy km/s lies outside the table's [.05,6.025] interval, combining inner and outer contributions. All emission is retained. These centroid-assigned amounts are quadrature diagnostics, not exact circular integrals or bounds on any delivered aperture. The native beam/aperture pipeline must derive its own unknown-emission envelope rather than inherit the baseline bound.
+
+Both missing-region alternatives remain within the force interval: fine centroid radii .073657–6.013485kpc. Their R6 tail fractions are .000455% and .000814% respectively. The alternative pressure, force and emission remain separate matched source assumptions; none is a measurement of unobserved gas.
+
+Construction took1.76seconds. Six private compressed packets total19,577,414bytes; paths/hashes and all checks are in run001/summary.json. Only native FITS header information was read, not source-region spectral values. Full source-spectrum propagation, its convergence and unknown-flux aperture bounds are downstream work; this package makes no observational gravity comparison or spectral convergence claim. No execution032 files were changed.

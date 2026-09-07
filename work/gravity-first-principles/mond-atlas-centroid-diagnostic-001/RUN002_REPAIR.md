@@ -1,0 +1,1 @@
+Operational repair only: fix dependency-path construction R[path] to R/path. Run001 failure and exact script snapshot retained. Same equations, sources,42 failed comparisons and gates. Run002 is the first source-array diagnostic execution. No response access or numerical retuning.

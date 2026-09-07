@@ -407,3 +407,13 @@ See `work/gravity-first-principles/mond-atlas-execution-032/README.md` and bound
 Next: propagate alternative source emission and tail bounds, verify fitted-nuisance convergence and retained failures, complete required source/covariance uncertainties, then execute all admitted frozen observational cases. Broader distributed/refraction/arrangement/current/time mechanisms, cross-galaxy transfer, lensing, clusters and Solar-System validation remain open. Goal remains active; numerical and injection progress does not complete it.
 
 Additional fitted-injection verification: all51 fitted parameter vectors pass3825 source-refinement checks, max0.280% profile difference and0.015km/s centroid difference. Future actual-observation fits still require their own numerical verification.
+
+## Execution033 — alternative-source spectra and noise sensitivity
+
+Completed six alternative HI packets and16 spectral caches;144 physical cases pass all21600 prescribed spectral-refinement checks. Common30 smoothing changes median predicted profiles22.74–25.24%; missingzero/annular changes0.0689%/0.0127%. These combine emission/field/pressure differences, not observed goodness of fit. New unsupported central source emission gives conservative envelope up to0.04728mJy/beam at amplitude2; retain it, including separate inner/outer classification. All288 envelopes independently replayed.
+
+Diagnosed the prior42 signed-centroid failures as cancellation after continuum subtraction. Prospective all192-case positive-centroid check passes all14400 comparisons (max0.01807km/s), but measures captured-window emission and preserves old failure records. Pressure estimator comparison on identical raw profiles gives aperture differences0.00254–0.00475% relativeL2; larger small-denominator discrepancy atR=.05 retained.
+
+All1392 refits across29 western covariance variants and48 noisy trials are identifiable. Maximum velocity/width shifts about0.02km/s and amplitude0.234percentagepoints; these are correlated conditional sensitivity trials, not discovery significance. See execution033 README and package receipts.
+
+Next: admit and run a fully declared conditional observed-spectrum comparison, carrying source/material/geometry/instrumental uncertainty and unknown-emission bounds; verify actual fitted-point numerical convergence. Do not defer the observation indefinitely merely because a signed centroid is inappropriate, or mistake a descriptive regional comparison for full-cube mechanism validation. Refraction/current/time/memory, cross-galaxy transfer, lensing, clusters and Solar-System work remain incomplete. The broad goal remains active. No observed source-region spectra were scored in033.
