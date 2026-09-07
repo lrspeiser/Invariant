@@ -1,0 +1,21 @@
+# Actual NGC2976 conditional spectra: execution032
+
+The adapter now generates native 15-aperture, 42-channel predictions from the actual supplied HI spatial source and validated column-force table. It does not read observed source spectra or score gravity. The primary Newton, stellar-height .1 kpc, pressure-reference10 km/s, positive-spin branch passes all 1,350 prescribed refinement comparisons: largest L1 difference0.4181%, centroid difference0.18815 km/s. This supports the separately frozen primary injection experiment at these tested points; it does not establish uniform convergence throughout the nuisance box.
+
+The full program computed72 physical cases,192 nuisance cases, four source quadratures and11,520 aperture profiles. Every profile-L1 comparison is below0.483%;42 of14,400 frozen combined comparisons fail the signed-centroid0.5km/s gate. Largest centroid difference3.57484km/s. These failures occur at broad20km/s lines and systemic-edge cases, apertures0,2,13. Signed post-continuum profile sums are only7.86–22.05% of absolute sums there, so the centroid is sensitive to cancellation. The original gate remains failed; no waiver, source retuning or replacement metric was used. See failed-centroid-diagnostic.json and run002/refinement.csv.
+
+All288 case/source combinations contain outer source groups with invalid steady rotation squared. They remain unknown emission, never assigned imaginary or artificial zero velocities. Their maximum absolute contribution envelope is9.26253e-6 mJy/beam at allowed emission multiplier2. The 288 masks and bounds were independently reconstructed. Thus these are regional conditional predictions plus an unknown contribution envelope, not valid global steady disks.
+
+Four source quadratures cross planar .0625/.03125kpc and vertical Laguerre24/48 per side. Exact sampled native beam responses are summed over every projected vertical emitter into planar velocity groups. HI integrated flux43.6126468 Jy km/s closes to floating precision. Rawsource heights/deprojection, optically thin conversion, constant-column velocity with height, instrument branches and source geometry remain assumptions. Stellar-height alternatives change force; HI emission height remains .2kpc.
+
+## Verification and preserved failures
+
+Independent review rebuilt all14,400 numerical metrics (maximum arithmetic difference2.28e-13), then used separate erf bin integrals, explicit channel kernels, independently fitted OLS continuum and explicit v-squared source formula for six actual-source predictions (maximum1.69e-14 mJy/beam). It inherits verified sampled source caches; it is not an independent reconstruction of the original maps. Independent bounds agree for all288 cases. An initial bound-review label parser failed on newton_plus_log; retained original script/failure receipt and corrected v2 are separate.
+
+CPU run001 was intentionally interrupted after28 physical cases for the independently verified equivalent float64 GPU operator. Its preflight/bindings/interruption receipt remain; no numeric packet was completed. GPU run002 completed in53.4seconds. Additional CPU/GPU comparisons on all72 physical cases pass1e-10 mJy/beam. The separately retained CPU factorization test was valid but not used to replace frozen callbacks.
+
+## Callback
+
+`ActualSpectrumModel(cache_path, height='h0p1', model='newton', pressure_reference=10, spin=1, branch='boxcar_independent', material='baseline')` from scripts/mond_atlas_actual_spectra.py. `.predict([systemic,sigma,multiplier])` returns15x42 mean mJy/native beam; `.unknown_envelope(parameters)` returns the corresponding absolute envelope. Bounds are systemic[-30,30], sigma[3,20]km/s, multiplier[.5,2]. Fixed material sensitivities are exposed, not evaluated or admitted by this baseline experiment. Fitted nuisance points need their own refinement check before evaluation.
+
+Finest cache: work/private/mond-atlas-actual-spectra-001/cache001/p0p03125_z48.npz. Raw/derived arrays remain private, bound by hashes; public CSV and receipts reproduce checks. Primary data/paper and instrument provenance are inherited and bound in PREFLIGHT, cache001, source-refinement and native-emission packages. No fresh holdout, general 3D mass measurement, source-mask admission, likelihood calibration or empirical theory preference is claimed.

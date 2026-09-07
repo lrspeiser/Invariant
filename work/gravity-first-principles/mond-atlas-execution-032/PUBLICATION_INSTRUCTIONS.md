@@ -1,0 +1,15 @@
+# Execution032 publication helper
+
+Prepared only; not executed, staged or committed by the source-audit agent. Read-only audit verified all2067 preceding manifest entries and76 completion bindings at preparation time. Parent must wait for the independent injection review and all final receipts before invoking.
+
+1. Ensure no agent is still writing. Confirm the current index is empty and review execution032 README and handoff-addendum. The helper requires `fit001/interruption.json` (or another explicit error/failure receipt), complete fit002 summary and `independent-fit-review/receipt.json`.
+2. Run `python work/gravity-first-principles/mond-atlas-execution-032/prepare_publication.py`. It verifies the2067 prior hashes, exact handoff snapshots, direct script imports, new completion bindings and both derived gzip CSV contents. It then appends the addendum to both handoff docs, writes checks/manifest, and writes a private NUL-delimited pathspec. It does not stage, commit or push. Do not rerun a completed freeze or overwrite previous output.
+3. Review the manifest and stage explicitly using `git add --pathspec-from-file=work/private/mond-atlas-execution-032/paths.nul --pathspec-file-nul`. Existing ignored research paths may require the repository's established `git add -f` scoped workflow; never use an unscoped add.
+4. Run `python work/gravity-first-principles/mond-atlas-execution-032/prepare_publication.py --verify-index`. It reads every manifest blob from the index, refuses unrelated staged files, verifies normal content hashes and accepts derived-gzip Git LFS pointers only when oid/size match content and the local LFS object verifies. It prints a verification JSON without changing public files or the manifest. Save that output outside the frozen public manifest if desired. Check `git diff --cached --check` and the staged summary.
+5. Parent follows AGENTS.md: fetch origin/main, preserve concurrent work, ordinary commit and fast-forward push. Never force-push. Verify remote commit after success.
+
+Scope: only the five new script prefixes `mond_atlas_actual_spectra*`, `mond_atlas_aperture_injection*`, `mond_atlas_hi_refinement*`, `mond_atlas_observed_driver*`, `mond_atlas_source_sensitivity*`; their matching five packages; execution032; the previous publication manifest; and the preserved earlier research paths. The independent injection replay within its package is included recursively. Unrelated untracked source-cell/old cube work is excluded.
+
+Permitted binary artifacts are the previous derived column-force CSV gzip and two explicitly receipted source-sensitivity derived CSV gzip files. Native FITS/maps/caches and other private inputs are excluded. The LFS pointer is not a scientific content mismatch: the index stores the pointer while the manifest binds the derived content. The helper does not change attributes or stage LFS objects itself.
+
+Execution032 still does not contain observed gravity scores or an admission receipt. Numerical failures, the interrupted fit001 and its completed fit002 replacement remain visible. Publication does not mark the larger research goal complete.

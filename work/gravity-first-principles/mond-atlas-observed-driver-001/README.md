@@ -1,0 +1,13 @@
+# Executable observation phase driver
+
+Implementation and manufactured controls completed; actual response scoring remains SOURCE_BLOCKED pending parent-reviewed admission. No real source-region spectrum was opened. The fixed15 metadata apertures and western42-channel covariance are available and checked.
+
+`scripts/mond_atlas_observed_driver.py fit --out <new-directory>` validates externally bound evidence before reading only the10 training apertures. The existing three-nuisance scorer fits all declared physical cases and both spin branches independently. Each identifiable case writes five numeric predictions and absolute unknown-emission envelopes. The final `freeze-complete.json` seals the manifest only after every fit receipt and prediction has been written.
+
+`... evaluate --out <same-directory>` first revalidates admission, code/source/cache/noise bindings and frozen files. It then reads only the five evaluation spectra, calls the numeric scorer without any optimizer/model, and writes all case results without selecting a law or spin. Unknown-emission bounds become conservative lower/upper discrepancy intervals using the inverse covariance Cholesky triangle inequality; these are deterministic envelopes, not statistical confidence intervals.
+
+The admission path defaults to this package's `parent-admission.json`, deliberately absent. See ADMISSION_SCHEMA.md for the complete externally authored contract and exhaustive-case review responsibility. There is no training-only gate bypass. One cache per run; new source alternatives need their own predeclared runs and admission coverage.
+
+Final controls are manufactured-controls-v3.json; earlier controls are retained. Exact144-pixel scalar means agree to2.22e-16 mJy/beam, both fits/predictions remain identical after held spectra become NaN, and the known synthetic nuisance vector is recovered to2.22e-16. Independent inverse-covariance quadratic evaluation agrees to1.43e-14. Missing admission, missing completion, changed prediction and changed manifest are rejected. Both spins remain saved. Native means are raw Jy/beam times1000, never response-selected masks or noise-subtracted pixels.
+
+This is a usable IO and phase-boundary implementation, not observational validation of Newton or the log kernel. Scientific completeness of required evidence rows, source cases and approximation budgets must be independently reviewed; hashes are integrity checks, not tamper-proof signatures. Outputs retain failed fit starts/rank cases, historical exposure and source-conditioned interpretation. Real access is still blocked until all declared source-spectrum, source-assumption and background-injection requirements pass.

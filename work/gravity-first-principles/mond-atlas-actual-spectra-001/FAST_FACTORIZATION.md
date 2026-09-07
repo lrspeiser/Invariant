@@ -1,0 +1,3 @@
+# Exact operator factorization control
+
+The original exhaustive renderer is slow because it applies H and A to every emitter spectrum before spatial aggregation. For fixed spatial weights/emission and linear spectral operators, W F (A H B)^T = (W F B^T) H^T A^T. The accelerated callback therefore aggregates the pre-grid line densities into15 aperture spectra first and applies the same H/A afterward. No model, source, force, threshold or nuisance changes. The original callback remains untouched. An actual-source comparison at fixed nuisance points and all three spectral branches must agree below1e-9mJy/beam before the accelerated callback is used. This is a computational rearrangement, not a changed scientific model.

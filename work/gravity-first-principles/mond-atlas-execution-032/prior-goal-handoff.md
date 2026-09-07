@@ -399,11 +399,3 @@ global steady-edge failure become an indefinite perfect-model prerequisite for
 a bounded regional discrepancy, and do not call that regional result full
 mechanism validation. Other time/current/refraction/external-field branches,
 clusters, lensing and Solar-System requirements remain explicitly unfinished.
-
-## Execution032 — actual-source refinement and fitting transfer
-
-See `work/gravity-first-principles/mond-atlas-execution-032/README.md` and bound packages. Completed four source quadratures/72 physical cases/14400 refinement rows, verified GPU arithmetic,51 actual-template injection fits, source-alternative fields/pressure, and manufactured observed-driver isolation controls. Primary injection numerics and all three noiseless recoveries pass. Retain42 centroid failures in wider program, global outer steady-gas invalidity and explicit unknown-emission bounds. Common30 changes inner Newton force9–12%; real background raises median mock amplitude error to1.57% vs0.714% Gaussian. No actual source-region scores or mechanism winner.
-
-Next: propagate alternative source emission and tail bounds, verify fitted-nuisance convergence and retained failures, complete required source/covariance uncertainties, then execute all admitted frozen observational cases. Broader distributed/refraction/arrangement/current/time mechanisms, cross-galaxy transfer, lensing, clusters and Solar-System validation remain open. Goal remains active; numerical and injection progress does not complete it.
-
-Additional fitted-injection verification: all51 fitted parameter vectors pass3825 source-refinement checks, max0.280% profile difference and0.015km/s centroid difference. Future actual-observation fits still require their own numerical verification.

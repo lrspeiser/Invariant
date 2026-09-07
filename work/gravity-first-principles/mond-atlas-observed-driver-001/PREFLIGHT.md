@@ -1,0 +1,11 @@
+# Frozen phase-driver protocol
+
+Status SOURCE_BLOCKED for observed response access. Manufactured IO/phase tests only.
+
+Fit reads precisely the frozen ten training apertures, all 42 channels, 144 native pixels per aperture; output is raw mean times 1000 mJy/native beam. No selection mask, background subtraction or held response is used in fitting. Western mean/covariance are applied by the existing scorer. Both spin branches are fitted and frozen separately, with no evaluation-based selection. Each identifiable fit freezes five predictions and the unknown-emitter absolute envelope before evaluation opens those five apertures. Nonidentifiable fits retain all starts and do not evaluate.
+
+The real CLI requires a separately authored parent-admission.json, absent until reviewed: exact case list, cube/header/aperture/cache/C/code/source hashes and evidence categories spectral_convergence, source_assumptions, background_injection. Each evidence document must supply explicit checked rows and numerical/boolean assertions, bound by hash; case coverage must equal the declared case IDs. Evidence failures forbid cube-value access. Evaluation verifies the original admission and frozen file hashes again before opening response slices. Evaluation never calls a model or optimizer. Fresh directories prevent accidental overwriting. Byte hashes may read whole FITS bytes, but never interpret held pixel values.
+
+Manufactured controls: exactly144-pixel scalar-loop mean parity; sentinel/NaN evaluation apertures cannot affect training values or fit; two spin branches saved; rank/fitting and serialized prediction checks; evaluation forbidden before completion manifest and after tampering; held changes affect evaluation only. Synthetic fixtures do not create real admission receipts. No actual observations are read in this implementation milestone.
+
+Scores remain descriptive conditional discrepancies for historically exposed data, not fresh-holdout significance. Original density/source/motion assumptions and unknown-emission bounds remain required. Physical alternatives and all three instrumental branches may not be selected using evaluation outcomes. Runtime bindings use local import closure plus externally bound source files. Parent is responsible for approving exhaustive declared cases and evidence, never the driver.
